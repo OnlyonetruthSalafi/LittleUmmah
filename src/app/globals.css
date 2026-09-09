@@ -70,3 +70,125 @@
     }
   }
 }
+
+/*
+  ── ฉากท้องฟ้าของหน้าแรก ──
+  mockup ไล่สีจากฟ้าเข้มด้านบน ผ่านฟ้าสว่าง ไปจบที่เมฆขาวอมม่วงด้านล่าง
+  ถ้าใช้สีพื้นเรียบสีเดียวทั้งหน้าจะเสียความลึกซึ่งเป็นหัวใจของภาพ
+
+  ใช้ gradient คงที่ล้วน ไม่ animate ไม่ใช้ filter: blur() และไม่ทำ parallax
+  เพราะกลุ่มผู้ใช้จริงคือเด็กบนแท็บเล็ตราคาประหยัด
+
+  ขนาดเมฆทุกก้อนเป็นเปอร์เซ็นต์ ไม่ใช่ px จึงย่อขยายตามจอเอง
+  ถ้าใช้ px ก้อนเมฆจะทับกันเป็นแผ่นขาวบนมือถือ และห่างกันเกินไปบนจอกว้าง
+*/
+@layer components {
+  .sky-backdrop {
+    background:
+      radial-gradient(
+        ellipse 72% 46% at 50% 46%,
+        #f6fcff 0%,
+        #f6fcff 18%,
+        rgb(240 250 255 / 82%) 34%,
+        rgb(240 250 255 / 0%) 62%
+      ),
+      linear-gradient(
+        180deg,
+        #087acb 0%,
+        #24a7ec 20%,
+        #80d5fa 43%,
+        #d3f0ff 65%,
+        #f4faff 83%,
+        var(--color-sky-pale) 100%
+      );
+  }
+
+  /*
+    แถบเมฆด้านหน้าที่ฐานฉาก ใช้วงรีซ้อนกันแทนการเบลอ
+    ช่วงจาง 46% -> 78% กว้างพอให้ขอบก้อนเมฆไม่คมเป็นวงรีชัดๆ
+    ชั้นบนสุดคือแถบล้างสีให้จบที่ sky-pale พอดี กันรอยต่อเป็นเส้นกับพื้นหลังที่ต่อจากฉาก
+  */
+  .cloud-bank-front {
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 58%,
+        rgb(234 246 255 / 70%) 84%,
+        var(--color-sky-pale) 100%
+      ),
+      radial-gradient(
+        ellipse 38% 62% at 6% 80%,
+        #fff 0% 46%,
+        transparent 78%
+      ),
+      radial-gradient(
+        ellipse 46% 74% at 31% 94%,
+        #f8fbff 0% 46%,
+        transparent 78%
+      ),
+      radial-gradient(
+        ellipse 34% 58% at 50% 78%,
+        #fff 0% 44%,
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 42% 68% at 68% 92%,
+        #fff 0% 46%,
+        transparent 78%
+      ),
+      radial-gradient(
+        ellipse 48% 76% at 96% 94%,
+        #f2f6ff 0% 46%,
+        transparent 78%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 45%,
+        #f2f7ff 86%,
+        var(--color-sky-pale) 100%
+      );
+  }
+
+  /* ชั้นไกล เตี้ยกว่าและจางกว่า อยู่หลังเนื้อหาเพื่อสร้างระยะ */
+  .cloud-bank-far {
+    opacity: 0.55;
+    background:
+      radial-gradient(
+        ellipse 30% 58% at 16% 74%,
+        #fff 0% 42%,
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 38% 70% at 47% 88%,
+        #f4faff 0% 42%,
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 33% 62% at 82% 76%,
+        #fff 0% 42%,
+        transparent 76%
+      );
+  }
+
+  /*
+    หัวเรื่องทรง "สติกเกอร์" ตาม mockup: ขอบขาวรอบตัวอักษรและเงาสั้นด้านล่าง
+    paint-order วาดขอบก่อนแล้วทับด้วยเนื้อตัวอักษร น้ำหนักฟอนต์จึงไม่บางลง
+
+    ขอบเริ่มที่ 1px เท่านั้น เพราะฟอนต์ไทยมีหัวมีสระบนและวรรณยุกต์อยู่ชิดตัวอักษรมาก
+    ค่าที่หนากว่านี้ทำให้ขอบขาวของสระกับวรรณยุกต์เชื่อมติดกันจนอ่านยาก
+    ขยับขึ้นเป็น 1.5px เฉพาะจอใหญ่ที่ตัวอักษรโตพอจะรับได้
+  */
+  .title-sticker {
+    paint-order: stroke fill;
+    -webkit-text-stroke: 1px #fff;
+    text-shadow:
+      0 3px 0 rgb(193 217 239 / 55%),
+      0 6px 10px rgb(18 53 107 / 15%);
+  }
+
+  @media (width >= 40rem) {
+    .title-sticker {
+      -webkit-text-stroke: 1.5px #fff;
+    }
+  }
+}

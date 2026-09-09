@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/Button";
 export function Hero() {
   return (
     <section className="mx-auto w-full max-w-3xl px-4 pt-6 pb-10 text-center sm:px-6 sm:pt-10 sm:pb-14">
-      <h1 className="font-display text-3xl leading-[1.5] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+      <h1 className="title-sticker font-display text-3xl leading-[1.5] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
         <span className="text-brand-blue">เรียนรู้</span>{" "}
         <span className="text-brand-amber">เล่นสนุก</span>{" "}
         <span className="text-brand-green">เติบโต</span>
