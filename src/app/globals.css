@@ -94,11 +94,12 @@
       ),
       linear-gradient(
         180deg,
-        #087acb 0%,
-        #24a7ec 20%,
-        #80d5fa 43%,
-        #d3f0ff 65%,
-        #f4faff 83%,
+        #0785df 0%,
+        #2ea3ea 22%,
+        #49b8f0 42%,
+        #86d3f7 58%,
+        #bde7fd 72%,
+        #ddf4ff 86%,
         var(--color-sky-pale) 100%
       );
   }
@@ -179,16 +180,21 @@
     ขยับขึ้นเป็น 1.5px เฉพาะจอใหญ่ที่ตัวอักษรโตพอจะรับได้
   */
   .title-sticker {
-    paint-order: stroke fill;
-    -webkit-text-stroke: 1px #fff;
-    text-shadow:
-      0 3px 0 rgb(193 217 239 / 55%),
-      0 6px 10px rgb(18 53 107 / 15%);
+    /*
+      บนจอเล็กใช้สีทึบกับเงานุ่มชั้นเดียว ไม่ใส่ขอบ
+      ที่ 320-390px ขอบขาวรอบสระและวรรณยุกต์ทำให้ตัวอักษรไทยดูแตกและอ่านสะดุด
+      ขอบจะกลับมาเฉพาะจอใหญ่ที่ตัวอักษรโตพอจะรับได้
+    */
+    text-shadow: 0 4px 10px rgb(18 53 107 / 18%);
   }
 
   @media (width >= 40rem) {
     .title-sticker {
+      paint-order: stroke fill;
       -webkit-text-stroke: 1.5px #fff;
+      text-shadow:
+        0 3px 0 rgb(193 217 239 / 55%),
+        0 6px 10px rgb(18 53 107 / 15%);
     }
   }
 }
