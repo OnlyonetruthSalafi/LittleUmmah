@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design tokens — Little Ummah
+  อ่านค่าจาก design/mockup-home.png แล้วปรับเฉพาะสีที่ contrast ไม่ผ่าน WCAG AA
+  (ค่า contrast ที่กำกับไว้คืออัตราส่วนกับพื้นหลังที่ตั้งใจใช้จริง)
+*/
+@theme {
+  /* ── ท้องฟ้า / พื้นหลัง ── */
+  --color-sky-deep: #4fa8e8;
+  --color-sky: #a8d8f5;
+  --color-sky-pale: #eaf6ff;
+  --color-cloud: #ffffff;
+
+  /* ── ตัวอักษร ── */
+  --color-ink: #1f2937; /* 12.6:1 บนขาว, 11.4:1 บน sky-pale */
+  --color-ink-soft: #4b5563; /* 6.9:1 บน sky-pale */
+
+  /*
+    ── สีแบรนด์ ใช้กับตัวอักษรได้ ──
+    ตัวเลข contrast ด้านล่างวัดกับพื้นหลัง sky-pale (#eaf6ff) เท่านั้น
+    ถ้าเอาไปวางบนพื้นสีอื่น ต้องวัดใหม่ก่อนใช้ อย่าถือว่าผ่านโดยอัตโนมัติ
+  */
+  --color-brand-blue: #1e5fbf; /* 5.6:1 บน sky-pale */
+  --color-brand-amber: #b45309; /* 4.6:1 บน sky-pale */
+  --color-brand-green: #15803d; /* 4.6:1 บน sky-pale */
+
+  /* ── สีตกแต่ง ใช้เป็นพื้นเท่านั้น ห้ามใช้เป็นสีตัวอักษร ── */
+  --color-sun: #f5a623;
+  --color-sun-deep: #e08c0b;
+  --color-sun-ink: #4a2600; /* ตัวอักษรบนพื้น sun = 6.6:1 */
+
+  /* ── ความมนของขอบ ── */
+  --radius-card: 1.75rem; /* 28px — การ์ดหลัก */
+  --radius-card-sm: 1.25rem; /* 20px — การ์ดเล็ก */
+
+  /* ── เงา: ฟุ้งกว้าง โทนฟ้า ไม่ใช่สีดำ ตามอารมณ์ของ mockup ── */
+  --shadow-soft: 0 12px 32px -8px rgb(30 95 191 / 0.28);
+  --shadow-float: 0 20px 45px -12px rgb(30 95 191 / 0.35);
 }
 
+/* ฟอนต์มาจาก next/font ใน layout.tsx — inline เพื่อให้ utility อ้าง var ได้ตรง */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ละตินใช้ Baloo 2 ก่อน แล้วตกไปฟอนต์ไทยอัตโนมัติเมื่อเจอตัวอักษรไทย */
+  --font-display: var(--font-baloo), var(--font-thai), "Trebuchet MS", ui-rounded, sans-serif;
+  --font-body: var(--font-thai), "Segoe UI", system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background-color: var(--color-sky-pale);
+    color: var(--color-ink);
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* focus state ที่มองเห็นชัด — เด็กใช้คีย์บอร์ด/สวิตช์ก็ต้องเห็นว่าอยู่ตรงไหน */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-blue);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
