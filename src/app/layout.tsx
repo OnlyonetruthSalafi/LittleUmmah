@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Baloo_2, Noto_Sans_Thai_Looped } from "next/font/google";
+import { SoundProvider } from "@/components/sound/SoundProvider";
 import "./globals.css";
 
 /*
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${baloo.variable} ${thai.variable} h-full antialiased`}
     >
       <body className="font-body bg-sky-pale text-ink flex min-h-full flex-col">
-        {children}
+        <SoundProvider>{children}</SoundProvider>
       </body>
     </html>
   );
