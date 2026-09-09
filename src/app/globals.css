@@ -83,6 +83,81 @@
   ถ้าใช้ px ก้อนเมฆจะทับกันเป็นแผ่นขาวบนมือถือ และห่างกันเกินไปบนจอกว้าง
 */
 @layer components {
+  /* BG is 1672 × 941, object-cover, anchored top-left. Match its rendered
+     width so the logo stays on the same cloud even when the image is cropped.
+     Logo occupies source x ≈ 134–502, inside the cloud at x ≈ 80–525. */
+  .sky-scene {
+    --scene-art-height: 30rem;
+    --scene-art-width: max(100vw, calc(var(--scene-art-height) * 1672 / 941));
+  }
+
+  .brand-header {
+    padding-left: calc(var(--scene-art-width) * 0.08);
+  }
+
+  .cloud-logo {
+    width: calc(var(--scene-art-width) * 0.22);
+  }
+
+  .cloud-logo-tagline {
+    margin-top: -0.25rem;
+    font-size: clamp(0.6875rem, calc(var(--scene-art-width) * 0.009), 1rem);
+  }
+
+  @media (width >= 40rem) {
+    .sky-scene {
+      --scene-art-height: 44rem;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .sky-scene {
+      --scene-art-height: 52rem;
+    }
+  }
+
+  /* Natural layout offsets reserve space and keep focus outlines unobstructed. */
+  .island-caption {
+    /* Keep the halo close to each glyph, leaving the scenery between words
+       visible. No text stroke: Thai vowel marks must retain their shape. */
+    text-shadow:
+      -1px -1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px 1px 0 #fff,
+      0 0 4px #fff;
+  }
+
+  .island-arc li:nth-child(even) {
+    margin-top: 1.5rem;
+  }
+
+  @media (width >= 40rem) {
+    .island-arc li:nth-child(n) {
+      margin-top: 2rem;
+    }
+
+    .island-arc li:nth-child(3n + 2) {
+      margin-top: 0;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .island-arc li:nth-child(n) {
+      margin-top: 0;
+    }
+
+    .island-arc li:nth-child(2),
+    .island-arc li:nth-child(5) {
+      margin-top: clamp(2rem, 4vw, 4rem);
+    }
+
+    .island-arc li:first-child,
+    .island-arc li:last-child {
+      margin-top: clamp(5rem, 9vw, 9rem);
+    }
+  }
+
   .sky-backdrop {
     background:
       radial-gradient(
@@ -196,5 +271,25 @@
         0 3px 0 rgb(193 217 239 / 55%),
         0 6px 10px rgb(18 53 107 / 15%);
     }
+  }
+}
+
+/*
+  แสงนวลหลังหัวเรื่อง
+
+  พื้นหลังเป็นภาพวาดที่มีฟ้าสีเข้มและรายละเอียดเยอะ
+  ตัวอักษรสีน้ำเงินของแบรนด์วางทับตรงๆ แล้ว contrast ตก และอ่านยากเพราะฉากหลังรก
+  แผ่นแสงนี้ทำหน้าที่เป็นพื้นรองข้อความ ให้ค่าคอนทราสต์กลับมาคุมได้
+  ซึ่งตรงกับ mockup ที่มีแสงสว่างอยู่กลางภาพหลังหัวเรื่องอยู่แล้ว
+*/
+@layer components {
+  .hero-glow {
+    background: radial-gradient(
+      ellipse 58% 52% at 50% 48%,
+      rgb(255 255 255 / 0.94) 0%,
+      rgb(255 255 255 / 0.86) 38%,
+      rgb(255 255 255 / 0.5) 62%,
+      rgb(255 255 255 / 0) 78%
+    );
   }
 }

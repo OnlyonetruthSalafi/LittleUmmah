@@ -1,24 +1,35 @@
-import { MosqueIcon } from "@/components/icons/MosqueIcon";
+import { BrandMarkIcon } from "@/components/icons/BrandMarkIcon";
+import { useId } from "react";
 
 /*
-  บนจอแคบเหลือเฉพาะตราสัญลักษณ์ เพราะแถบหัวเว็บต้องแบ่งที่ให้ปุ่มเสียง
-  และปุ่มผู้ปกครองด้วย ชื่อเต็มจะโผล่ตั้งแต่ 640px ขึ้นไป
-  ตัวลิงก์มี aria-label กำกับอยู่แล้ว ชื่อที่ screen reader อ่านจึงไม่หายไปด้วย
+  โลโก้โปร่งใสวางบนเมฆของฉาก ชื่อและคำโปรยแสดงครบทั้งมือถือและจอใหญ่
+  บนจอแคบปุ่มควบคุมย้ายลงอีกแถวเพื่อให้ชื่อแบรนด์ยังอ่านได้ชัด
 */
 export function Logo() {
+  const arcId = useId();
+
   return (
-    <span className="flex items-center gap-2 sm:gap-3">
-      <span className="bg-sky-pale flex size-11 shrink-0 items-center justify-center rounded-full">
-        <MosqueIcon className="text-brand-blue size-7" />
+    <span className="cloud-logo flex max-w-full flex-col items-center">
+      <span className="flex w-full items-center justify-center gap-[2%]">
+        <BrandMarkIcon className="aspect-square w-[19%] shrink-0" />
+        <span lang="en" className="font-display text-brand-blue block w-[79%] font-extrabold">
+          <span className="sr-only">Little Ummah</span>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 300 76" className="block aspect-[300/76] w-full">
+            <defs>
+              <path id={arcId} d="M 8 63 Q 150 13 292 63" />
+            </defs>
+            <text fill="currentColor" fontSize="47">
+              <textPath href={`#${arcId}`} startOffset="50%" textAnchor="middle" textLength="278" lengthAdjust="spacingAndGlyphs">
+                Little Ummah
+              </textPath>
+            </text>
+          </svg>
+        </span>
       </span>
 
-      <span className="hidden flex-col leading-tight sm:flex">
-        <span className="font-display text-brand-blue text-xl font-extrabold tracking-tight whitespace-nowrap">
-          Little Ummah
-        </span>
-        <span className="text-ink-soft text-[11px] leading-tight whitespace-nowrap">
-          หัวใจสดใส วันพรุ่งนี้ที่สดใสกว่า
-        </span>
+      <span className="cloud-logo-tagline text-ink text-center leading-tight font-semibold">
+        <span className="inline-block">อุมมะตัวน้อยในวันนี้</span>{" "}
+        <span className="inline-block">คือ ผู้ใหญ่ในวันหน้า</span>
       </span>
     </span>
   );

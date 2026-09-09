@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ภาพเกาะต้นฉบับ ใช้ scripts/optimize-images.mjs แปลงเป็น .webp ที่ commit จริง
+/public/islands/*.png
+/public/BG/*.png
