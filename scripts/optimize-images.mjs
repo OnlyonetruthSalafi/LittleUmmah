@@ -13,9 +13,11 @@ import path from "node:path";
 import sharp from "sharp";
 
 /* เกาะแสดงกว้างสุดราว 230px จึงพอที่ 900px สำหรับจอ 3x
-   ส่วนพื้นหลังกินเต็มความกว้างจอ จึงต้องใหญ่กว่า */
+   ส่วนพื้นหลังกินเต็มความกว้างจอ จึงต้องใหญ่กว่า
+   หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
 const JOBS = [
   { dir: "public/islands", width: 900, quality: 86 },
+  { dir: "public/Character", width: 400, quality: 86 },
   { dir: "public/BG", width: 1920, quality: 80 },
 ];
 

@@ -19,14 +19,16 @@ export type Category = {
   ก่อนหน้านี้ชี้ไป /kids/<slug> ทั้งหมด ซึ่งแปลว่าเด็ก 7 ปีขึ้นไปที่กดจากหน้าแรก
   จะถูกพาเข้าเนื้อหาของวัย 3-6 โดยไม่ได้เลือกเอง
   หน้า /learn/<slug> จะเป็นตัวส่งต่อไปยัง track ตามวัยที่ผู้ใช้เลือกไว้
+
+  ลำดับตามที่เจ้าของโปรเจกต์กำหนด: มารยาท -> เรื่องเล่า -> อัลกุรอาน แล้วจึงหมวดที่เหลือ
 */
 export const CATEGORIES: Category[] = [
   {
-    slug: "games",
-    nameTh: "เกม",
-    nameEn: "Games",
-    href: "/learn/games",
-    image: "/islands/games.webp",
+    slug: "moral",
+    nameTh: "มารยาทและศีลธรรม",
+    nameEn: "Manners & Morals",
+    href: "/learn/moral",
+    image: "/islands/moral.webp",
   },
   {
     slug: "stories",
@@ -50,17 +52,17 @@ export const CATEGORIES: Category[] = [
     image: "/islands/explore.webp",
   },
   {
+    slug: "games",
+    nameTh: "เกม",
+    nameEn: "Games",
+    href: "/learn/games",
+    image: "/islands/games.webp",
+  },
+  {
     slug: "art",
     nameTh: "ศิลปะ",
     nameEn: "Art",
     href: "/learn/art",
     image: "/islands/art.webp",
-  },
-  {
-    slug: "moral",
-    nameTh: "มารยาทและศีลธรรม",
-    nameEn: "Manners & Morals",
-    href: "/learn/moral",
-    image: "/islands/moral.webp",
   },
 ];
