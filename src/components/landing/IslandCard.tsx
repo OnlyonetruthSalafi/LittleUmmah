@@ -13,7 +13,7 @@ import type { Category } from "@/lib/categories";
   เงาขาวชิดตัวอักษรช่วยแยกข้อความจากรายละเอียดของฉาก
 
   motion ตามมาตรฐานข้อ 2.1: ขยับเฉพาะกรอบภาพ ป้ายชื่ออยู่นิ่ง
-  ตัดส่วนล้นที่กรอบภาพเท่านั้น ไม่ตัดที่ตัวลิงก์ ไม่งั้นจะบังกรอบโฟกัส
+  กรอบภาพไม่ตัดส่วนล้น เพื่อให้แสงสีทองฟุ้งออกนอกกรอบได้ (ดู .island-aura ใน globals.css)
 
   ภาพเกาะตั้ง alt="" เพราะชื่อหมวดเป็นข้อความจริงอยู่ใต้ภาพแล้ว
   ถ้าใส่ alt ซ้ำ screen reader จะอ่านชื่อหมวดสองรอบ
@@ -39,9 +39,12 @@ export function IslandCard({ category }: { category: Category }) {
         onClick={() => speak(category.nameTh, `cat-${category.slug}`)}
         className="group flex w-full flex-col items-center"
       >
-        <span className="relative isolate block aspect-square w-full overflow-hidden">
-          <span aria-hidden="true" className="island-aura pointer-events-none absolute inset-0 -z-10" />
-          <span className="drop-shadow-island group-hover:drop-shadow-island-hover group-focus-visible:drop-shadow-island-hover block size-full transition-[transform,filter] duration-200 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.03] motion-safe:group-active:scale-[0.98] motion-safe:group-active:duration-75">
+        {/* ไม่ใส่ overflow-hidden ที่กรอบนี้ ไม่งั้นแสงฟุ้งรอบเกาะจะถูกตัดเป็นขอบสี่เหลี่ยม
+            ไม่ใส่ isolate ด้วย: แสง -z-10 ของทุกเกาะจึงอยู่ใน stacking context เดียวกัน
+            (ของ SkyScene) และอยู่หลังภาพเกาะทุกใบ แสงของใบถัดไปจะไม่ทับขอบเกาะใบก่อนหน้า */}
+        <span className="relative block aspect-square w-full">
+          <span aria-hidden="true" className="island-aura pointer-events-none absolute -z-10" />
+          <span className="island-glow block size-full transition-[transform,filter] duration-200 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.03] motion-safe:group-active:scale-[0.98] motion-safe:group-active:duration-75">
             <Image
               src={category.image}
               alt=""
