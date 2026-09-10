@@ -14,7 +14,7 @@ import type { ReactNode } from "react";
 */
 export function SkyScene({ children }: { children: ReactNode }) {
   return (
-    <div className="sky-scene relative isolate flex min-h-[34rem] flex-col sm:min-h-[40rem]">
+    <div className="sky-scene relative isolate flex overflow-x-clip min-h-[34rem] flex-col sm:min-h-[40rem]">
       {/*
         พื้นรองเป็นสีเรียบสีเดียวกับปลายทางของภาพ ไม่ใช่ gradient
         ตอนใช้ gradient รองไว้ สีตรงรอยต่อไม่ตรงกับขอบล่างของภาพ จึงเห็นเป็นเส้นคาดขวางจอ

@@ -39,12 +39,9 @@ export function AgeGroupSelector() {
   return (
     <section
       id="choose-age"
+      aria-label="เลือกช่วงวัย"
       className="mx-auto w-full max-w-3xl px-4 pb-10 sm:px-6 sm:pb-12"
     >
-      <h2 className="font-display text-ink mb-4 text-center text-xl font-extrabold sm:text-2xl">
-        หนูอายุเท่าไหร่จ๊ะ
-      </h2>
-
       <ul className="grid gap-3 sm:grid-cols-2 sm:gap-5">
         {GROUPS.map((group) => (
           <li key={group.href} className="flex">

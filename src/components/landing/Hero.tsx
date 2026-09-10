@@ -9,6 +9,7 @@ import { useId } from "react";
 */
 export function Hero() {
   const titleArcId = useId();
+  const bottomArcId = useId();
 
   return (
     <section className="relative mx-auto w-full max-w-3xl px-4 pt-4 pb-6 text-center sm:px-6 sm:pt-8 sm:pb-8">
@@ -55,11 +56,49 @@ export function Hero() {
         เรียนรู้ เล่นสนุก เติบโต
       </p>
 
-      <p className="text-ink mt-3 text-lg font-semibold sm:mt-4 sm:text-xl">
-        โลกที่สดใสกว่า เพื่อเด็กรุ่นใหม่ที่สดใส
+      {/* ภาษาไทยไม่มีช่องว่างระหว่างคำ เบราว์เซอร์จึงตัดกลางคำได้ ("คุณพ่อคุณ / แม่")
+          ห่อแต่ละวลีด้วย whitespace-nowrap ให้ขึ้นบรรทัดใหม่เฉพาะช่องว่างระหว่างวลี */}
+      <p className="text-ink mx-auto mt-3 max-w-xl text-lg font-semibold text-balance sm:mt-4 sm:text-xl">
+        <span className="whitespace-nowrap">รู้จักความรัก</span>{" "}
+        <span className="whitespace-nowrap">เชื่อฟัง</span>{" "}
+        <span className="whitespace-nowrap">ไว้วางใจ</span>{" "}
+        <span className="whitespace-nowrap">คุณพ่อคุณแม่</span>{" "}
+        <span className="whitespace-nowrap">และเปี่ยมไปด้วยศรัทธา</span>{" "}
+        <span className="whitespace-nowrap">ด้วยอิสลาม</span>
       </p>
-      <p className="text-ink-soft mx-auto mt-2 max-w-xl text-base sm:text-lg">
-        รู้จักอิสลาม สร้างมารยาทที่ดี และทำให้พรุ่งนี้ใจดีขึ้นกว่าเดิม
+
+      {/* The lower arc cups the original copy between the two curved lines. */}
+      <p lang="en" className="font-display mt-5 font-extrabold sm:mt-7">
+        <span className="sr-only">Obey Trust Faithful</span>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 760 180"
+          className="block aspect-[760/180] w-full overflow-visible"
+        >
+          <defs>
+            <path id={bottomArcId} d="M 20 40 Q 380 192 740 40" />
+          </defs>
+          <text
+            fontSize="72"
+            stroke="white"
+            strokeWidth="3"
+            strokeLinejoin="round"
+            className="[paint-order:stroke_fill]"
+          >
+            <textPath
+              href={`#${bottomArcId}`}
+              startOffset="50%"
+              textAnchor="middle"
+              textLength="680"
+              lengthAdjust="spacingAndGlyphs"
+            >
+              <tspan className="fill-brand-blue">Obey </tspan>
+              <tspan className="fill-brand-amber">Trust </tspan>
+              <tspan className="fill-brand-green">Faithful</tspan>
+            </textPath>
+          </text>
+        </svg>
       </p>
     </section>
   );

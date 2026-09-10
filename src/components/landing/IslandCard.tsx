@@ -39,8 +39,9 @@ export function IslandCard({ category }: { category: Category }) {
         onClick={() => speak(category.nameTh, `cat-${category.slug}`)}
         className="group flex w-full flex-col items-center"
       >
-        <span className="block aspect-square w-full overflow-hidden">
-          <span className="block size-full drop-shadow-[0_2px_3px_rgb(30_95_191/0.15)] transition-[transform,filter] duration-200 ease-out group-hover:drop-shadow-[0_5px_7px_rgb(30_95_191/0.35)] motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.03] motion-safe:group-active:scale-[0.98] motion-safe:group-active:duration-75">
+        <span className="relative isolate block aspect-square w-full overflow-hidden">
+          <span aria-hidden="true" className="island-aura pointer-events-none absolute inset-0 -z-10" />
+          <span className="drop-shadow-island group-hover:drop-shadow-island-hover group-focus-visible:drop-shadow-island-hover block size-full transition-[transform,filter] duration-200 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.03] motion-safe:group-active:scale-[0.98] motion-safe:group-active:duration-75">
             <Image
               src={category.image}
               alt=""
