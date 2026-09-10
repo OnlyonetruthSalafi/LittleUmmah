@@ -11,5 +11,6 @@
   "public/Character/Glad.png": "2d97e40db129ba3e3d5d4ec7925936faf994a9baaf53cfb5ad4145847bc628a3",
   "public/Character/Read.png": "6d393238c319c99f22987d01374c6ec4d27c0d300ef03415fadc95c65dfba303",
   "public/Character/welcome.png": "f64244ee457bbf373b2538399b9f70279a93718ecce85fcac291dfa76b5cd432",
-  "public/BG/BG.png": "661ac3751c360cdcce2080a4a2e9853a019a3d907a8ba4ef06db993fafde8764"
+  "public/BG/BG.png": "661ac3751c360cdcce2080a4a2e9853a019a3d907a8ba4ef06db993fafde8764",
+  "public/BG/BGLower.png": "ff0c6ddbd035aa66b036fe4d5ed3b993bac5676c779ab4fcbcafc13ff2b19358"
 }

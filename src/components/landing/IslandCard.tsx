@@ -22,7 +22,7 @@ export function IslandCard({ category }: { category: Category }) {
   const { speak } = useSound();
 
   return (
-    <li className="flex">
+    <li className="flex" data-slug={category.slug}>
       <Link
         href={category.href}
         onPointerEnter={(event) => {

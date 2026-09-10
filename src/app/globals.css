@@ -193,32 +193,94 @@
       0 0 4px #fff;
   }
 
-  .island-arc li:nth-child(even) {
+  /*
+    ตำแหน่งเกาะ — อัลกุรอานอยู่บนสุดเสมอ (ดู CategoryGrid.tsx)
+    อ้างด้วย data-slug ไม่ใช่ nth-child เพราะลำดับใน DOM ต่างจากลำดับที่เห็นบน PC
+
+    มือถือ (2 คอลัมน์):  [ อัลกุรอาน ]  /  มารยาท เรื่องเล่า  /  สำรวจโลก เกม  /  [ ศิลปะ ]
+  */
+  .island-arc li[data-slug="quran"] {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 60%;
+  }
+
+  .island-arc li[data-slug="art"] {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 50%;
+  }
+
+  .island-arc li[data-slug="stories"],
+  .island-arc li[data-slug="games"] {
     margin-top: 1.5rem;
   }
 
+  /* แท็บเล็ต (กริด 6 ช่อง ใบละ 2 ช่อง):  [อัลกุรอาน] / มารยาท เรื่องเล่า สำรวจโลก / เกม ศิลปะ (จัดกลาง) */
   @media (width >= 40rem) {
-    .island-arc li:nth-child(n) {
-      margin-top: 2rem;
+    .island-arc li[data-slug] {
+      grid-column: span 2;
+      justify-self: stretch;
+      width: auto;
+      margin-top: 0;
     }
 
-    .island-arc li:nth-child(3n + 2) {
-      margin-top: 0;
+    .island-arc li[data-slug="quran"] {
+      grid-column: 3 / 5;
+    }
+
+    /* ระบุคอลัมน์ให้มารยาท ไม่งั้น grid เติมมันลงช่องว่าง 5-6 ข้างอัลกุรอานในแถวแรก
+       คอลัมน์ที่ระบุอยู่ก่อนตำแหน่งปัจจุบันของ auto-placement จึงถูกดันลงแถวใหม่ */
+    .island-arc li[data-slug="moral"] {
+      grid-column: 1 / 3;
+    }
+
+    .island-arc li[data-slug="games"] {
+      grid-column: 2 / 4;
+    }
+
+    .island-arc li[data-slug="moral"],
+    .island-arc li[data-slug="explore"] {
+      margin-top: 2rem;
     }
   }
 
+  /*
+    PC (แถวเดียว 6 ช่อง) ซ้าย→ขวา: มารยาท เรื่องเล่า อัลกุรอาน สำรวจโลก เกม ศิลปะ
+    อัลกุรอานเป็นยอดโค้งจุดเดียว ใบอื่นลดระดับตามระยะห่างจากอัลกุรอาน
+  */
   @media (width >= 64rem) {
-    .island-arc li:nth-child(n) {
+    .island-arc li[data-slug] {
+      grid-row: 1;
       margin-top: 0;
     }
 
-    .island-arc li:nth-child(2),
-    .island-arc li:nth-child(5) {
-      margin-top: clamp(2rem, 4vw, 4rem);
+    .island-arc li[data-slug="moral"] {
+      grid-column: 1;
+      margin-top: clamp(3.5rem, 6vw, 6.5rem);
     }
 
-    .island-arc li:first-child,
-    .island-arc li:last-child {
+    .island-arc li[data-slug="stories"] {
+      grid-column: 2;
+      margin-top: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .island-arc li[data-slug="quran"] {
+      grid-column: 3;
+    }
+
+    .island-arc li[data-slug="explore"] {
+      grid-column: 4;
+      margin-top: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .island-arc li[data-slug="games"] {
+      grid-column: 5;
+      margin-top: clamp(3.5rem, 6vw, 6.5rem);
+    }
+
+    .island-arc li[data-slug="art"] {
+      grid-column: 6;
       margin-top: clamp(5rem, 9vw, 9rem);
     }
   }
