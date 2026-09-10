@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { useId } from "react";
 
 import { SparkleIcon } from "@/components/icons/SparkleIcon";
+import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
 
 /*
   เจ้าของโปรเจกต์เลือกหัวเรื่องอังกฤษโค้งตาม mockup และคำแปลไทยเล็กลงด้านล่าง
@@ -11,7 +11,6 @@ import { SparkleIcon } from "@/components/icons/SparkleIcon";
   ปุ่มนั้นกลายเป็นขั้นตอนซ้ำที่ทำให้เด็กต้องกดสองทีกว่าจะถึงเนื้อหา
 */
 export function Hero() {
-  const titleArcId = useId();
 
   /* ไม่มี padding ล่าง: ระยะก่อนคำโค้ง "Obey" ย้ายไปอยู่ที่ ObeyArc (pt-5 / sm:pt-7) ช่องไฟจึงเท่าเดิม */
   return (
@@ -22,35 +21,11 @@ export function Hero() {
       />
       <h1 lang="en" className="font-display font-extrabold">
         <span className="sr-only">Learn, Play, Grow</span>
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          viewBox="0 0 760 180"
-          className="block aspect-[760/180] w-full overflow-visible"
-        >
-          <defs>
-            <path id={titleArcId} d="M 20 140 Q 380 -12 740 140" />
-          </defs>
-          <text
-            fontSize="86"
-            stroke="white"
-            strokeWidth="3"
-            strokeLinejoin="round"
-            className="[paint-order:stroke_fill]"
-          >
-            <textPath
-              href={`#${titleArcId}`}
-              startOffset="50%"
-              textAnchor="middle"
-              textLength="680"
-              lengthAdjust="spacingAndGlyphs"
-            >
-              <tspan className="fill-brand-blue">Learn, </tspan>
-              <tspan className="fill-brand-amber">Play, </tspan>
-              <tspan className="fill-brand-green">Grow</tspan>
-            </textPath>
-          </text>
-        </svg>
+        <StickerArcTitle
+          words={["Learn,", "Play,", "Grow"]}
+          arc="M 30 150 Q 380 20 730 150"
+          fontSize={92}
+        />
       </h1>
 
       {/*
