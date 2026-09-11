@@ -275,7 +275,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
   },
   {
     slug: "explore",
-    robot: "/Character/glad.webp",
+    robot: "/Character/idea.webp",
     introTh: "มองไปรอบตัว ทุกอย่างที่เราเห็นคือสิ่งที่อัลลอฮ์ทรงสร้าง",
     introEn: "Look around — everything we see was created by Allah.",
     kids: [

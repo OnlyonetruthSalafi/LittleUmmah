@@ -108,7 +108,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         </button>
       </div>}
       {won ? <div className="mx-auto max-w-lg rounded-card bg-sky-pale p-6 text-center">
-        <Image src="/Character/glad.webp" alt="" width={200} height={200} sizes="200px" className="logo-mark-glow mx-auto size-40 object-contain sm:size-48" />
+        <Image src="/Character/fighting.webp" alt="" width={200} height={200} sizes="200px" className="logo-mark-glow mx-auto size-40 object-contain sm:size-48" />
         <h2 ref={winHeading} tabIndex={-1} className="mt-2 font-display text-3xl font-extrabold">
           เก่งมาก!<span lang="en" className="block text-2xl">Well done!</span>
         </h2>

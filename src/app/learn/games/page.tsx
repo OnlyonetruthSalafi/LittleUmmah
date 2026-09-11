@@ -22,7 +22,7 @@ export default function GamesPage() {
       <div className="bg-cloud shadow-soft rounded-card mt-6 flex items-center justify-center gap-2 px-4 py-6 sm:gap-6">
         {/* หุ่นยนต์นำทาง (ข้อ 1.2) ภาพตกแต่ง ชื่อหน้าเป็นข้อความอยู่ข้างๆ แล้ว */}
         <Image
-          src="/Character/cute.webp"
+          src="/Character/play.webp"
           alt=""
           width={144}
           height={144}

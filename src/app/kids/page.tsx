@@ -8,7 +8,7 @@ export default function KidsPage() {
   return (
     <AgeHome
       anchor="kids"
-      robot="/Character/glad.webp"
+      robot="/Character/play.webp"
       titleTh="วัย 3-6 ปี"
       titleEn="Ages 3–6"
       hintTh="เรียนรู้ผ่านการเล่น แตะเกาะที่อยากไปได้เลย"
