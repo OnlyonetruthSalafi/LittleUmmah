@@ -20,7 +20,7 @@ export type Category = {
   จะถูกพาเข้าเนื้อหาของวัย 3-6 โดยไม่ได้เลือกเอง
   หน้า /learn/<slug> จะเป็นตัวส่งต่อไปยัง track ตามวัยที่ผู้ใช้เลือกไว้
 
-  ลำดับตามที่เจ้าของโปรเจกต์กำหนด: มารยาท -> เรื่องเล่า -> อัลกุรอาน แล้วจึงหมวดที่เหลือ
+  ลำดับตามที่เจ้าของโปรเจกต์กำหนด: มารยาท -> เรื่องเล่า -> ภาษาอาหรับ แล้วจึงหมวดที่เหลือ
 */
 export const CATEGORIES: Category[] = [
   {
@@ -38,10 +38,14 @@ export const CATEGORIES: Category[] = [
     image: "/islands/stories.webp",
   },
   {
-    slug: "quran",
-    nameTh: "อัลกุรอาน",
-    nameEn: "Quran",
-    href: "/learn/quran",
+    /*
+      เดิมเป็นเกาะ "อัลกุรอาน" เจ้าของโปรเจกต์เปลี่ยนเป็นภาษาอาหรับเบื้องต้น
+      ภาพยังใช้ไฟล์เดิม (มุศฮัฟ) ชั่วคราว รอภาพเกาะใหม่ — ดู public/islands/README.md
+    */
+    slug: "arabic",
+    nameTh: "ภาษาอาหรับเบื้องต้น",
+    nameEn: "Basic Arabic",
+    href: "/learn/arabic",
     image: "/islands/quran.webp",
   },
   {

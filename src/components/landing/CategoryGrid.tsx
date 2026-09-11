@@ -2,16 +2,16 @@ import { IslandCard } from "@/components/landing/IslandCard";
 import { CATEGORIES } from "@/lib/categories";
 
 /*
-  เกาะอัลกุรอานต้องอยู่บนสุดเสมอทุกขนาดจอ (เจ้าของโปรเจกต์กำหนด)
-  - ใน DOM ให้อัลกุรอานมาก่อน screen reader และคีย์บอร์ดจึงเจออัลกุรอานเป็นเกาะแรก
-    และบนมือถือ/แท็บเล็ตอัลกุรอานได้แถวแรกตามธรรมชาติ
+  เกาะภาษาอาหรับเบื้องต้นต้องอยู่บนสุดเสมอทุกขนาดจอ (เดิมตำแหน่งนี้เป็นเกาะอัลกุรอาน เจ้าของโปรเจกต์เปลี่ยนเป็นภาษาอาหรับ)
+  - ใน DOM ให้ภาษาอาหรับมาก่อน screen reader และคีย์บอร์ดจึงเจอภาษาอาหรับเป็นเกาะแรก
+    และบนมือถือ/แท็บเล็ตภาษาอาหรับได้แถวแรกตามธรรมชาติ
   - บน PC วางตำแหน่งซ้าย→ขวาตาม CATEGORIES ด้วย grid-column ใน globals.css (.island-arc)
-    อัลกุรอานเป็นยอดโค้งจุดเดียว
+    ภาษาอาหรับเป็นยอดโค้งจุดเดียว
   เรียงใหม่เฉพาะที่นี่ ไม่แก้ CATEGORIES แถบป้ายเกาะด้านล่าง (ValueBar) จึงเรียงเหมือนเดิม
 */
 const ISLANDS = [
-  ...CATEGORIES.filter((c) => c.slug === "quran"),
-  ...CATEGORIES.filter((c) => c.slug !== "quran"),
+  ...CATEGORIES.filter((c) => c.slug === "arabic"),
+  ...CATEGORIES.filter((c) => c.slug !== "arabic"),
 ];
 
 export function CategoryGrid() {
