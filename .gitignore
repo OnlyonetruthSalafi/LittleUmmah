@@ -52,3 +52,8 @@ next-env.d.ts
 /public/games/shapegame/*.png
 /audio-src/
 /public/games/shape match/
+
+# unlicensed sounds (D:\Effectsound) and drafts - do not commit
+/public/audio/sfx/IMPACTS/
+/public/Character/run/CarRunBrake.mp3
+/output/

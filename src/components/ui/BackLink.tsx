@@ -24,7 +24,7 @@ export function BackLink({
     <Link
       href={href}
       onClick={() => speak(labelTh)}
-      className="bg-cloud text-ink shadow-soft hover:shadow-float inline-flex min-h-16 min-w-16 items-center justify-center gap-2 rounded-full px-6 py-3 font-bold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75"
+      className="scene-copy text-ink shadow-soft hover:shadow-float inline-flex min-h-16 min-w-16 items-center justify-center gap-2 rounded-full px-6 py-3 font-bold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75"
     >
       <GameIcon name="back" className="size-6" />
       <span>

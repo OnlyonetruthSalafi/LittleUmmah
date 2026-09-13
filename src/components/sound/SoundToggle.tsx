@@ -33,7 +33,7 @@ export function SoundToggle() {
           ? "อุปกรณ์นี้ยังไม่มีเสียงอ่านภาษาไทยติดตั้งไว้"
           : "เสียงอ่าน"
       }
-      className="bg-cloud shadow-soft relative flex min-h-16 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-[transform,box-shadow] duration-200 ease-out hover:shadow-float motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] sm:px-5 sm:text-base"
+      className="scene-copy shadow-soft relative flex min-h-16 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-[transform,box-shadow] duration-200 ease-out hover:shadow-float motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] sm:px-5 sm:text-base"
     >
       <SpeakerIcon
         on={enabled}

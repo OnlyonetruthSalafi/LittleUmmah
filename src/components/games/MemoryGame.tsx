@@ -78,7 +78,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
 
   return <>
     <GameNavigation />
-    <section className="mt-6 rounded-card bg-cloud p-4 shadow-soft sm:p-8" aria-labelledby="memory-title">
+    <section className="mt-6 rounded-card scene-copy p-4 shadow-soft sm:p-8" aria-labelledby="memory-title">
       <div className="text-center">
         <h1 id="memory-title" className="font-display text-3xl font-extrabold sm:text-4xl">
           จับคู่ภาพ
@@ -90,11 +90,11 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         <p lang="en" className="text-sm">Turn over two cards. Find the matching pictures.</p>
       </div>
       <div className="my-5 flex flex-wrap justify-center gap-3 text-center">
-        <p className="rounded-card-sm bg-sky-pale px-5 py-3 font-bold">
+        <p className="rounded-card-sm scene-copy px-5 py-3 font-bold">
           จับคู่ได้ {matched.length} / {group.pairs}
           <span lang="en" className="block text-xs font-normal">Pairs found</span>
         </p>
-        <p className="rounded-card-sm bg-sky-pale px-5 py-3 font-bold">
+        <p className="rounded-card-sm scene-copy px-5 py-3 font-bold">
           เปิดแล้ว {moves} ครั้ง
           <span lang="en" className="block text-xs font-normal">Moves</span>
         </p>
@@ -107,7 +107,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
           เริ่มเล่น<span lang="en" className="text-sm font-normal">Start</span>
         </button>
       </div>}
-      {won ? <div className="mx-auto max-w-lg rounded-card bg-sky-pale p-6 text-center">
+      {won ? <div className="mx-auto max-w-lg rounded-card scene-copy p-6 text-center">
         <Image src="/Character/fighting.webp" alt="" width={200} height={200} sizes="200px" className="logo-mark-glow mx-auto size-40 object-contain sm:size-48" />
         <h2 ref={winHeading} tabIndex={-1} className="mt-2 font-display text-3xl font-extrabold">
           เก่งมาก!<span lang="en" className="block text-2xl">Well done!</span>

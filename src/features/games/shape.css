@@ -157,6 +157,19 @@
 /* บล็อกที่หยอดไปแล้วหายจากผิวเกาะไปเลย ไม่ต้องเหลือช่องว่างหรือเครื่องหมายถูกค้างไว้ */
 .gc-focus[data-game='shape-match'] .gc-tray-slot:has(.gc-done-mark) { display: none; }
 
+/* Keep the tray, its overlap and the island on the same desktop scale.
+   Otherwise the island stops growing with viewport height while the pieces
+   and the negative tray margin keep growing with the full workbench width. */
+@media (min-width: 640px) {
+  .shp-scene {
+    width: min(100%, calc(100dvh - 400px));
+    margin-inline: auto;
+  }
+}
+@media (min-width: 640px) and (max-height: 520px) and (orientation: landscape) {
+  .shp-scene { width: min(100%, 62vh); }
+}
+
 @media (max-width: 639px) {
   .isl-board.shp-island { width: auto; margin-inline: -12px; }
   /* แถบบนบนมือถือเตี้ยกว่าเดสก์ท็อป จึงเหลือที่ให้เกาะมากขึ้น */

@@ -1,0 +1,78 @@
+/* Text sits directly on the 2.5D scene. Keep Thai glyphs intact: no text stroke.
+   Dark navy keeps body copy readable on sky backgrounds as well as the glyph halo. */
+:root {
+  --scene-ink: #103366;
+  --scene-halo: -1px -1px 0 #fff, 1px -1px 0 #fff,
+    -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 5px #fff;
+  --scene-title-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff,
+    -2px 2px 0 #fff, 2px 2px 0 #fff, -2px 0 0 #fff,
+    2px 0 0 #fff, 0 -2px 0 #fff, 0 2px 0 #fff,
+    0 3px 0 #b8d8eb, 0 6px 8px #123a7233;
+}
+.scene-copy.scene-copy {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--scene-ink);
+  text-shadow: var(--scene-halo);
+}
+.scene-copy :is(h1, h2, h3),
+:is(h1, h2, h3).scene-copy {
+  color: var(--scene-ink);
+  font-family: var(--font-display);
+  text-shadow: var(--scene-title-shadow);
+}
+.scene-copy :is(p, li) { line-height: 1.8; }
+:is(a, button).scene-copy { font-weight: 700; }
+@media (hover: hover) {
+  :is(a, button).scene-copy:hover {
+    text-shadow: var(--scene-halo), 0 4px 6px #123a7255;
+    box-shadow: none;
+  }
+}
+:is(a, button).scene-copy:active { text-shadow: var(--scene-halo), 0 2px 3px #123a7255; }
+
+/* Explicit text containers only: game objects, matching slots and card faces
+   retain their own visual surfaces and selected states. Specificity keeps this
+   consistent when game styles load after the root stylesheet. */
+body .gc-world.gc-world :is(
+  .gc-button, .gc-game-header h1, .gc-adventure-sign, .gc-adventure-menu,
+  .gc-instruction, .gc-progress-row, .gc-feedback, .gc-workbench-title,
+  .gc-item-label, .gc-placed-count, .gc-slot-number, .mem-stats,
+  .gc-star-counter, .gc-hero-tags span, .gc-result, .gc-intro,
+  .gc-level-number
+) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--scene-ink);
+  text-shadow: var(--scene-halo);
+}
+body .gc-world.gc-world :is(h1, h2, .gc-workbench-title, .gc-adventure-sign) {
+  color: var(--scene-ink);
+  font-family: var(--font-display);
+  text-shadow: var(--scene-title-shadow);
+}
+body .gc-world.gc-world .gc-button {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+body .gc-world.gc-world .gc-button:focus-visible {
+  outline: 3px solid var(--scene-ink);
+  outline-offset: 4px;
+}
+body .gc-world.gc-world .gc-button[aria-pressed='true'] {
+  border-color: var(--scene-ink);
+  border-bottom-width: 4px;
+}
+@media (hover: hover) {
+  body .gc-world.gc-world .gc-button:hover {
+    box-shadow: none;
+    text-shadow: var(--scene-halo), 0 4px 6px #123a7255;
+  }
+}
+body .gc-world.gc-world .gc-button:active {
+  text-shadow: var(--scene-halo), 0 2px 3px #123a7255;
+}
+
+.scene-copy :is(.text-ink, .text-ink-soft) { color: var(--scene-ink); }

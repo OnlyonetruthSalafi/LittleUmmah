@@ -38,7 +38,7 @@ export default async function IslandPage({ params }: PageProps<"/learn/[slug]">)
     <>
       <BackLink />
 
-      <div className="bg-cloud shadow-soft rounded-card mt-6 flex items-center justify-center gap-3 px-4 py-6 sm:gap-6">
+      <div className="scene-copy shadow-soft rounded-card mt-6 flex items-center justify-center gap-3 px-4 py-6 sm:gap-6">
         {/* หุ่นยนต์นำทาง (ข้อ 1.2) ภาพตกแต่ง ชื่อเกาะเป็นข้อความอยู่ข้างๆ แล้ว */}
         <Image
           src={island.robot}
@@ -71,7 +71,7 @@ export default async function IslandPage({ params }: PageProps<"/learn/[slug]">)
         >
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             {/* ป้ายพื้นขาว เพราะหัวข้อวัยแรกวางทับภาพพื้นหลังที่รายละเอียดเยอะ contrast คุมไม่ได้ถ้าไม่มีพื้นรอง */}
-            <h2 id={`age-${group.id}`} className="font-display bg-cloud shadow-soft text-ink rounded-full px-6 py-2 text-2xl font-bold sm:text-3xl">
+            <h2 id={`age-${group.id}`} className="font-display scene-copy shadow-soft text-ink rounded-full px-6 py-2 text-2xl font-bold sm:text-3xl">
               {group.nameTh}
               <span lang="en" className="block text-sm font-normal">
                 {group.nameEn}

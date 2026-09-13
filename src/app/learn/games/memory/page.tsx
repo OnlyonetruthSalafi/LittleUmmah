@@ -14,7 +14,7 @@ export default function MemoryPage() {
   return (
     <>
       <GameNavigation />
-      <section className="bg-cloud shadow-soft rounded-card mx-auto mt-6 max-w-2xl p-6">
+      <section className="scene-copy shadow-soft rounded-card mx-auto mt-6 max-w-2xl p-6">
         <h1 className="font-display text-3xl font-bold">
           จับคู่ภาพ
           <span lang="en" className="block text-xl">

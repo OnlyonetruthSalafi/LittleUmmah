@@ -200,5 +200,11 @@
   "public/games/shape/plate-11111.webp": {
     "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_12_01 PM (6).png",
     "sha256": "a71846570c6690bd749dd788b8a397c825e6b67555894559de9488157a4cd7b9"
-  }
+  },
+  "public/Character/run/run-01.png": "9afb151be6dec2ed6fd58747ceccb7f6925a04954e4f9c6aa2aa8b5e2df5a2f8",
+  "public/Character/run/run-02.png": "b617e8dd235bbc131bbe0156b7d36f6d60f9204c97aa292002922cfb8fb2c053",
+  "public/Character/run/run-03.png": "9bc3a550cbadb168a6b57a768f47b95d146c5d945ee1eb645ee900d50af5e100",
+  "public/Character/run/run-04.png": "b19b3c5df1630d18d2b82ce673d3d9615e699da278eed33ab8db7f299063bdf2",
+  "public/Character/run/run-05.png": "a74ac643365961695d8b8dd94726be97d986f1f7f5b6dacacf9fbff9ca7773f5",
+  "public/Character/run/run-06.png": "def444456f6d58f9b760d6d4b00e9f49c1a1f1d50609a8b31de31ad2c676d236"
 }

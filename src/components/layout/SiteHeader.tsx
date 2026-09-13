@@ -36,7 +36,7 @@ export function SiteHeader() {
           <Link
             href="/parents"
             onClick={() => speak("สำหรับผู้ปกครอง", "for-parents")}
-            className="bg-cloud shadow-soft text-ink flex min-h-16 shrink-0 items-center gap-1.5 rounded-full px-3 text-sm font-semibold whitespace-nowrap transition-[transform,box-shadow] duration-200 ease-out hover:shadow-float motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] sm:gap-2 sm:px-5 sm:text-base"
+            className="scene-copy shadow-soft text-ink flex min-h-16 shrink-0 items-center gap-1.5 rounded-full px-3 text-sm font-semibold whitespace-nowrap transition-[transform,box-shadow] duration-200 ease-out hover:shadow-float motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] sm:gap-2 sm:px-5 sm:text-base"
           >
             <ShieldHeartIcon className="text-brand-green size-5 shrink-0 sm:size-6" />
             <span className="sm:hidden">ผู้ปกครอง</span>

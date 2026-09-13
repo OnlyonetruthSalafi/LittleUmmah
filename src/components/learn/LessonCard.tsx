@@ -20,7 +20,7 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
   const script = [lesson.titleTh, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   return (
-    <li className="bg-cloud shadow-soft rounded-card flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
+    <li className="scene-copy shadow-soft rounded-card flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
       {/* ไม่ซ่อนกรอบนี้จาก screen reader: ตัวอักษรอาหรับคือสิ่งที่กำลังสอน ส่วนไอคอน SVG ซ่อนตัวเองอยู่แล้ว */}
       <span
         className={`${TINTS[index % TINTS.length]} rounded-card-sm flex size-24 shrink-0 items-center justify-center self-center sm:self-start`}
@@ -44,7 +44,7 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
         <p className="mt-2 leading-relaxed">{lesson.body}</p>
 
         {lesson.arabic && (
-          <div className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3">
+          <div className="scene-copy rounded-card-sm mt-3 px-4 py-3">
             <p lang="ar" dir="rtl" className="text-ink text-2xl leading-loose font-semibold sm:text-3xl">
               {lesson.arabic}
             </p>

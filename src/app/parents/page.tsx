@@ -50,13 +50,13 @@ const SECTIONS = [
 ];
 
 const PARENT_LINK =
-  "bg-cloud text-ink shadow-soft hover:shadow-float inline-flex min-h-12 items-center rounded-full px-5 font-semibold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75";
+  "scene-copy text-ink shadow-soft hover:shadow-float inline-flex min-h-12 items-center rounded-full px-5 font-semibold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75";
 
 export default function ParentsPage() {
   return (
     <PageShell>
       <BackLink />
-      <article className="bg-cloud shadow-soft rounded-card mx-auto mt-6 max-w-3xl p-6 sm:p-10">
+      <article className="scene-copy shadow-soft rounded-card mx-auto mt-6 max-w-3xl p-6 sm:p-10">
         <h1 className="font-display text-3xl font-extrabold sm:text-4xl">
           สำหรับผู้ปกครอง
           <span lang="en" className="text-ink-soft block text-lg font-semibold">

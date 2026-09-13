@@ -48,7 +48,7 @@ export function AgeGroupSelector() {
             <Link
               href={group.href}
               onClick={() => speak(group.label, group.speakKey)}
-              className="bg-cloud shadow-soft hover:shadow-float rounded-card group flex min-h-24 w-full items-center gap-4 px-5 py-4 transition-shadow duration-200 ease-out"
+              className="scene-copy shadow-soft hover:shadow-float rounded-card group flex min-h-24 w-full items-center gap-4 px-5 py-4 transition-shadow duration-200 ease-out"
             >
               {/*
                 นี่คือการ์ด ไม่ใช่ปุ่ม จึงขยับเฉพาะกรอบหุ่นยนต์ ข้อความอยู่นิ่ง

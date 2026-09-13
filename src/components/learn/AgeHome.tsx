@@ -27,7 +27,7 @@ export function AgeHome({
   return (
     <PageShell>
       <BackLink />
-      <div className="bg-cloud shadow-soft rounded-card mt-6 mb-8 flex items-center justify-center gap-3 px-4 py-6 sm:gap-6">
+      <div className="scene-copy shadow-soft rounded-card mt-6 mb-8 flex items-center justify-center gap-3 px-4 py-6 sm:gap-6">
         <Image
           src={robot}
           alt=""

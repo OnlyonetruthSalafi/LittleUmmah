@@ -20,6 +20,7 @@ import {
   subscribeSpeechBroken,
   warmUpVoices,
 } from "@/lib/speech";
+import { unlockRunAudio } from '@/lib/runAudio';
 import {
   getSoundServerSnapshot,
   getSoundSnapshot,
@@ -53,6 +54,13 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     warmUpVoices();
+    // Capture before a link navigates or a control stops event propagation.
+    // Touch browsers may grant audio activation on pointerup/click only.
+    const gestures = ['pointerdown', 'pointerup', 'click', 'keydown'] as const;
+    for (const event of gestures) document.addEventListener(event, unlockRunAudio, true);
+    return () => {
+      for (const event of gestures) document.removeEventListener(event, unlockRunAudio, true);
+    };
   }, []);
 
   const toggle = useCallback(() => {

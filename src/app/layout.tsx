@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Baloo_2, Noto_Sans_Thai_Looped } from "next/font/google";
 import { SoundProvider } from "@/components/sound/SoundProvider";
 import "./globals.css";
+import "./scene-type.css";
 
 /*
   ฟอนต์ display ฝั่งละติน — Baloo 2 ตัวอ้วนมน ตรงกับอารมณ์ของ mockup

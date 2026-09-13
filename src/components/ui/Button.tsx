@@ -29,7 +29,7 @@ const BASE =
 const VARIANTS = {
   // เงาต้องเพิ่มขึ้นตอน hover ไม่ใช่ลดลง และเป็น fallback ให้คนที่ปิดการเคลื่อนไหว
   primary: "bg-sun text-sun-ink shadow-soft hover:bg-sun-deep hover:shadow-float",
-  soft: "bg-cloud text-ink shadow-soft hover:shadow-float",
+  soft: "scene-copy text-ink shadow-soft hover:shadow-float",
 } as const;
 
 export function Button({

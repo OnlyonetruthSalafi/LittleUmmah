@@ -18,6 +18,7 @@ import sharp from "sharp";
 const JOBS = [
   { dir: "public/islands", width: 900, quality: 86 },
   { dir: "public/Character", width: 400, quality: 86 },
+  { dir: "public/Character/run", width: 640, quality: 86, trim: true },
   { dir: "public/BG", width: 1920, quality: 80 },
   { dir: "public/games/puzzle", width: 900, quality: 86 },
   { dir: "public/games/hub", width: 640, quality: 85 },
@@ -75,12 +76,13 @@ const REVIEWED_FACELESS_BG = new Set([
   ต้นฉบับ .png ไม่ได้อยู่ใน git เพราะใหญ่มาก คนที่ clone ไปทำต่อจึงต้องขอไฟล์จากเจ้าของ
   manifest นี้ทำให้ตรวจได้ว่าไฟล์ที่ได้มาเป็นชุดเดียวกับที่ใช้สร้าง .webp ที่อยู่ใน repo หรือไม่
 */
-const manifest = {};
+const manifest = JSON.parse(await readFile('scripts/source-images.json', 'utf8'));
 
 let before = 0;
 let after = 0;
 
 for (const job of JOBS) {
+  if (process.argv[2] && job.dir !== process.argv[2]) continue;
   let files;
   try {
     files = (await readdir(job.dir)).filter((f) => /\.png$/i.test(f));
@@ -102,6 +104,7 @@ for (const job of JOBS) {
     manifest[src.replaceAll("\\", "/")] = digest;
 
     let pipeline = sharp(bytes);
+    if (job.trim) pipeline = pipeline.trim({ threshold: 10 });
     const isBackgroundDir = job.dir === "public/BG";
     const isPatchTarget = digest === CAT_FACE_PATCH.sha256;
 
