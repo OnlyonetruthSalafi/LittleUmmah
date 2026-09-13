@@ -66,8 +66,16 @@
    (เป็นกล่องที่ตั้งอยู่บนเกาะ ไม่ใช่ของแบนที่นอนอยู่ในกรอบ) */
 .shp-scene .isl-surface { display: flex; align-items: flex-end; justify-content: center; }
 /* ความสูงของเกาะถูกจำกัดด้วยพื้นที่ที่เหลือบนหน้าจอ ไม่ใช่ความกว้างอย่างเดียว
-   ตัวเลขคือความสูงรวมของแถบอื่นๆ ทั้งหมด (หัวเกม แถบความคืบหน้า คำสั่ง ผลตอบรับ ปุ่มล่าง) */
-.shp-scene .isl-board { --shp-chrome: 400px; max-width: min(100%, calc(100dvh - var(--shp-chrome))); }
+   ตัวเลขคือความสูงรวมของแถบอื่นๆ ทั้งหมด (หัวเกม แถบความคืบหน้า คำสั่ง ผลตอบรับ ปุ่มล่าง)
+   จำกัดที่ .shp-scene ทั้งก้อน (ทุกขนาดจอ) ไม่ใช่ที่เกาะอย่างเดียว เกาะกับแถวบล็อกจึงกว้างเท่ากันและอยู่กลางเสมอ
+   เคยจำกัดเฉพาะเกาะ + จำกัด scene แค่จอ >= 640px: จอกว้าง 520–639px ที่เตี้ย (เช่นหน้าต่างเบราว์เซอร์ที่เปิดแถบข้าง)
+   เกาะเล็กลงแล้วชิดซ้าย ส่วนบล็อกยังยืดเต็มจอ ดูเพี้ยนทั้ง Firefox และ Chrome */
+.shp-scene {
+  --shp-chrome: 400px;
+  width: min(100%, calc(100dvh - var(--shp-chrome)));
+  margin-inline: auto;
+}
+.shp-scene .isl-board { max-width: min(100%, calc(100dvh - var(--shp-chrome))); }
 
 .shp-plate {
   position: relative; flex: 0 0 auto;
@@ -137,7 +145,9 @@
   margin: 0; padding: 0; background: none; border: 0; box-shadow: none;
 }
 /* ห้าชิ้นต้องอยู่แถวเดียวเสมอ จึงวัดขนาดจากความกว้างที่มี ไม่ใช่ px ตายตัว */
-.gc-focus[data-game='shape-match'] .gc-tray-slot { flex: 0 0 auto; width: 16%; min-width: 0; min-height: 0; }
+/* ชิ้นบล็อกเป็นปุ่มที่เด็กกด ต้องไม่เล็กกว่า 64px (ข้อยกเว้นใน AGENTS.md ครอบคลุมแค่หลุมบนแผ่นฐาน ไม่ใช่ถาดบล็อก)
+   หน้าต่างเตี้ยที่ scene ถูกบีบแคบ แถวบล็อกจึงกว้างเกิน scene ได้ flex จัดกลางให้ล้นซ้ายขวาเท่ากัน */
+.gc-focus[data-game='shape-match'] .gc-tray-slot { flex: 0 0 auto; width: max(16%, 64px); min-width: 0; min-height: 0; }
 .gc-focus[data-game='shape-match'] .gc-drag {
   min-width: 0; min-height: 0; padding: 2px 0 0;
   background: none; border: 0; box-shadow: none; border-radius: 20px;
@@ -157,23 +167,13 @@
 /* บล็อกที่หยอดไปแล้วหายจากผิวเกาะไปเลย ไม่ต้องเหลือช่องว่างหรือเครื่องหมายถูกค้างไว้ */
 .gc-focus[data-game='shape-match'] .gc-tray-slot:has(.gc-done-mark) { display: none; }
 
-/* Keep the tray, its overlap and the island on the same desktop scale.
-   Otherwise the island stops growing with viewport height while the pieces
-   and the negative tray margin keep growing with the full workbench width. */
-@media (min-width: 640px) {
-  .shp-scene {
-    width: min(100%, calc(100dvh - 400px));
-    margin-inline: auto;
-  }
-}
-@media (min-width: 640px) and (max-height: 520px) and (orientation: landscape) {
-  .shp-scene { width: min(100%, 62vh); }
-}
-
 @media (max-width: 639px) {
-  .isl-board.shp-island { width: auto; margin-inline: -12px; }
   /* แถบบนบนมือถือเตี้ยกว่าเดสก์ท็อป จึงเหลือที่ให้เกาะมากขึ้น */
-  .shp-scene .isl-board { --shp-chrome: 352px; }
+  .shp-scene { --shp-chrome: 352px; }
+  /* เกาะล้นขอบซ้ายขวาเท่ากันข้างละ 12px ให้เต็มจอมือถือ
+     ต้องปลด max-width ของเกาะ (scene จำกัดความกว้างให้แล้ว) ไม่งั้นความกว้างถูกตัด
+     ขอบลบฝั่งซ้ายยังอยู่ ฝั่งขวาหาย เกาะจะเยื้องไปซ้าย */
+  .isl-board.shp-island { width: auto; max-width: none; margin-inline: -12px; }
   .gc-focus[data-game='shape-match'] .gc-instruction { padding: 5px 8px 5px 50px; min-height: 52px; }
   .gc-focus[data-game='shape-match'] .gc-playing-guide { width: 46px; height: 58px; }
 }
@@ -182,5 +182,66 @@
 @media (max-height: 520px) and (orientation: landscape) {
   .gc-focus[data-game='shape-match'] .gc-instruction,
   .gc-focus[data-game='shape-match'] .gc-feedback { display: none; }
-  .shp-scene .isl-board { max-width: min(100%, 62vh); }
+  /* จำกัดทั้ง scene เกาะกับแถวบล็อกจึงย่อไปด้วยกัน
+     เกาะต้องปลดสูตร 100dvh - --shp-chrome ออก: จอสูง 390px ได้ค่าติดลบ เกาะหายเหลือกว้าง 0 */
+  .shp-scene { width: min(100%, 62vh); }
+  /* ล้างขอบลบ -12px ของกฎมือถือด้วย ไม่งั้นมือถือแนวนอนที่แคบกว่า 640px เกาะจะเยื้องซ้าย 12px */
+  .shp-scene .isl-board { max-width: 100%; margin-inline: 0; }
+}
+
+/* ── จอ PC กว้างแต่เตี้ย: สองคอลัมน์ ──────────────────────────────────
+   เช่น 1536×770 (จอ 1920×1080 ที่ Windows ขยาย 125%) แถวข้อความซ้อนกันด้านบนกินความสูงไป ~280px
+   เกาะเหลือกว้างแค่ 370px ทั้งที่ซ้ายขวาว่าง เจ้าของโปรเจกต์เลือกแบบสองคอลัมน์ (ปรึกษา Codex แล้ว)
+   ซ้าย = ความคืบหน้า คำสั่ง ผลตอบรับ ปุ่มเริ่มใหม่ / ขวา = เกาะกับบล็อกใช้ความสูงเกือบทั้งจอ
+   ใช้ grid บน .gc-play-container ไม่แตะ markup ของ GameShell (ใช้ร่วมกันแปดเกม) ลำดับ DOM/Tab จึงเหมือนเดิม
+   จำกัดเฉพาะตอนกำลังเล่น หน้าเลือกด่านกับหน้าผลลัพธ์ไม่เปลี่ยน
+   min-aspect-ratio 3/2 กันแท็บเล็ตแนวตั้งและจอทั่วไป, max-height 850 ไม่รวม 1920×1080 ที่ใหญ่พออยู่แล้ว */
+@media (min-width: 1100px) and (min-height: 600px) and (max-height: 850px) and (min-aspect-ratio: 3/2) {
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-play-container {
+    max-width: 1440px;
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "header      header"
+      "progress    board"
+      "instruction board"
+      "feedback    board"
+      ".           board"
+      "controls    board";
+    gap: 12px 32px;
+    align-items: start;
+  }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-play-container > * { min-width: 0; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-game-header { grid-area: header; margin: 0; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-progress-row {
+    grid-area: progress; width: 100%; max-width: none; margin: 0; gap: 10px;
+  }
+  /* หุ่นยนต์ + คำสั่งอยู่แถวบน ปุ่มฟังวิธีเล่นเต็มความกว้างแถวล่าง */
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction {
+    grid-area: instruction;
+    display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px;
+    width: 100%; max-width: none; margin: 0; padding: 12px;
+  }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-playing-guide { position: static; align-self: start; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction h2 { min-width: 0; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction > .gc-button { grid-column: 1 / -1; width: 100%; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-feedback { grid-area: feedback; width: 100%; margin: 0; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-bottom-controls {
+    grid-area: controls; margin: 0; gap: 12px; flex-wrap: wrap;
+  }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-bottom-controls > .gc-button { flex: 1 1 140px; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-board { grid-area: board; min-width: 0; overflow: visible; }
+  /* ความสูง scene ≈ 1.01091 × กว้าง (เกาะ 1079/1100 + ถาดบล็อก 0.16W − ส่วนซ้อน 0.13W)
+     160px คือหัวเกม + ระยะขอบหน้า ที่เหลือยกให้เกาะทั้งหมด → ที่ 1536×770 เกาะกว้างราว 600px */
+  .gc-focus[data-game='shape-match'][data-status='playing'] .shp-scene {
+    width: min(100%, 680px, calc((100dvh - 160px) / 1.01091));
+    margin-inline: auto;
+    overflow: visible;
+  }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .shp-scene .isl-board {
+    width: 100%; max-width: none; height: auto; aspect-ratio: 1100 / 1079; margin-inline: 0;
+  }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .shp-tray-dock { width: 100%; margin-top: -13%; }
+  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-audio-note { grid-column: 1 / -1; margin: 0; }
 }
