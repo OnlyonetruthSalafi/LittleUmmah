@@ -4,6 +4,8 @@ type GamePresentation = {
   world: Label;
   description: Label;
   levels: [Label, Label, Label];
+  /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
+  levelCount?: 1 | 2 | 3;
   destinations: Label;
   pieces: Label;
 };
@@ -18,7 +20,9 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
   'shape-match': {
     world: { th: 'ห้องของเล่นรูปทรง', en: 'The Shape Studio' },
     description: { th: 'ดูขอบรูป แล้วหาช่องที่พอดีกัน', en: 'Look at the outline. Find a perfect fit.' },
-    levels: [{ th: '3 รูปทรง', en: 'Three shapes' }, { th: '5 รูปทรง', en: 'Five shapes' }, { th: 'ลองด้วยตัวเอง', en: 'Try on your own' }],
+    // เกมนี้มีด่านเดียว ใช้ครบห้ารูปทรงเสมอ เพราะแผ่นฐานวาดหลุมมาครบห้าหลุม
+    levelCount: 1,
+    levels: [{ th: '5 รูปทรง', en: 'Five shapes' }, { th: '5 รูปทรง', en: 'Five shapes' }, { th: '5 รูปทรง', en: 'Five shapes' }],
     destinations: { th: 'รูปนี้ลงช่องไหนดี?', en: 'Find the matching outline' }, pieces: { th: 'ชิ้นรูปทรงของเรา', en: 'Our shape pieces' },
   },
   memory: {

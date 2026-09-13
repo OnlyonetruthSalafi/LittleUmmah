@@ -38,6 +38,9 @@
   max-width: 740px;
   margin: 0 auto;
   aspect-ratio: 1100 / 1079;
+  /* กรอบผิวเล่นของแต่ละเกาะไม่เท่ากัน เกมอื่นจึงทับค่าสี่ตัวนี้ได้ ไม่ต้องเขียน .isl-surface ใหม่
+     ค่าตั้งต้นคือผิวครีมของเกาะเกมความจำ วัดจากไฟล์จริง */
+  --surface-l: 16%; --surface-r: 16%; --surface-t: 28%; --surface-b: 38%;
 }
 .isl-art {
   position: absolute; inset: 0; width: 100%; height: 100%;
@@ -48,7 +51,7 @@
    แถบกว้างแต่เตี้ย (ราว 2.3:1) เพราะเป็นผิวที่มองจากมุมสูง — ตารางการ์ดจึงต้องกว้างตาม */
 .isl-surface {
   position: absolute;
-  left: 16%; right: 16%; top: 28%; bottom: 38%;
+  left: var(--surface-l); right: var(--surface-r); top: var(--surface-t); bottom: var(--surface-b);
   display: grid; place-items: center;
   /* เป็น container ให้ .mem-grid วัดขนาดจากกรอบนี้ได้ตรงๆ ด้วยหน่วย cqw/cqh
      การ์ดจึงถูกคำนวณให้พอดีเสมอ ไม่ล้นเกาะไม่ว่าจอกว้างเท่าไร */

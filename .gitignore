@@ -49,4 +49,6 @@ next-env.d.ts
 /public/games/common/objects/*.png
 /public/games/common/backgrounds/*.png
 /public/games/memorygame/*.png
+/public/games/shapegame/*.png
 /audio-src/
+/public/games/shape match/

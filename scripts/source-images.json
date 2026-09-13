@@ -44,5 +44,161 @@
   "public/games/memorygame/islandMain.png": "7026f519f11515faf9c89793ed0266c4b2f03c31f22331cb74bd1b0e8710673a",
   "public/games/memorygame/star.png": "bdeeb44281b221b754df9b6d1354436d9da4a91b043f8dc285906213b802f355",
   "public/games/memorygame/ChatGPT Image Sep 13, 2026, 04_07_21 PM (7).png": "95984bca21bf063326bd1cd8b0ee5af9a89dbbc0bb3d038c6d162bfa9c857cfc",
-  "public/games/memorygame/ChatGPT Image Sep 13, 2026, 04_07_22 PM (8).png": "a1a40c54569e31ddc2f64341478918d44ac8e7fe4d5c1dec73709c57f4141745"
+  "public/games/memorygame/ChatGPT Image Sep 13, 2026, 04_07_22 PM (8).png": "a1a40c54569e31ddc2f64341478918d44ac8e7fe4d5c1dec73709c57f4141745",
+  "public/games/shape/plate.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_49 PM (1).png",
+    "sha256": "399e647e9544f6963cf39bc1d864fbea8f32a76a1489bd8beecb24aea6227d26"
+  },
+  "public/games/shape/block-circle.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_51 PM (3).png",
+    "sha256": "b179b684ae295dc6ae535fb8215d11255ca68aa1746c6fe658c2d503dcb86984"
+  },
+  "public/games/shape/block-square.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_51 PM (4).png",
+    "sha256": "3e7d8b86cdb1b0a41a8b5c97a66c3322d4e7873d5440a4547bb1095a0cd5a65e"
+  },
+  "public/games/shape/block-triangle.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_52 PM (5).png",
+    "sha256": "a1c2b65714ce8d810bcc906c85968838555dce56a75dd209758108ab14653cce"
+  },
+  "public/games/shape/block-rectangle.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_53 PM (6).png",
+    "sha256": "9afdef19118fbc27cb46ac45e1b460fecd0c26712103235dfddbe9dfdadf8067"
+  },
+  "public/games/shape/block-star.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_54 PM (7).png",
+    "sha256": "05caafaae8d365202f19ab4c92ce27f4b3ca413bd5a6c5d6362a7780caac33b1"
+  },
+  "public/games/shape/island.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_50 PM (2).png",
+    "sha256": "a4d82fb6dbf865f8ff25c83e672e0f3999d574ee20befd97c1a84c965ff60835"
+  },
+  "public/games/shape/plate-00000.webp": {
+    "source": "public/games/shape match/object/ChatGPT Image Sep 13, 2026, 07_59_49 PM (1).png",
+    "sha256": "399e647e9544f6963cf39bc1d864fbea8f32a76a1489bd8beecb24aea6227d26"
+  },
+  "public/games/shape/plate-00001.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_11_59 PM (3).png",
+    "sha256": "e78a1b682cff310c6ecaa9ddfac5d7db49832cebbe2204c9a719efe48bfa33b5"
+  },
+  "public/games/shape/plate-00010.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_12_00 PM (4).png",
+    "sha256": "0c11b0216dc5b343645d268138660ba950bc70e120c693a4f337cfa8edb2bb9b"
+  },
+  "public/games/shape/plate-00011.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_41 PM (9).png",
+    "sha256": "3df39a2ab76c843c5ee71e2e65b0ba5214ad4cb379b9b4be8a83f2ca2cc2f57b"
+  },
+  "public/games/shape/plate-00100.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_11_58 PM (1).png",
+    "sha256": "598dbc710e56d33e5a5c39e1d6e015567dd190e79ac0c15528fa22bad880abd0"
+  },
+  "public/games/shape/plate-00101.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_41 PM (8).png",
+    "sha256": "31bd45d5d0134299d1fced72d1a6c14fa10d99fd41dac3c6bf45f7e90f2589d6"
+  },
+  "public/games/shape/plate-00110.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_42 PM (10).png",
+    "sha256": "336f6d38de173a60c52a47e2154d65a5dc16a56fa935aca1fd28bd5018f7fb47"
+  },
+  "public/games/shape/plate-00111.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_33 PM (10).png",
+    "sha256": "f5722b580c36978e6d6d8db28ef403ddbab70700afe986df2fe7b00bac1619da"
+  },
+  "public/games/shape/plate-01000.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_12_00 PM (5).png",
+    "sha256": "766ef1828def03d48edd8d4a1bee57936f4d695881b95be1fd2bdaae8ca148db"
+  },
+  "public/games/shape/plate-01001.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_39 PM (5).png",
+    "sha256": "f3682bb48a9622f2250f22a005742028d56e0de0db8e981950191c6a207e5cfc"
+  },
+  "public/games/shape/plate-01010.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_40 PM (7).png",
+    "sha256": "6942e0475b812d9a2efbfe55c67082fff00be5df0643067885f590a67506ec51"
+  },
+  "public/games/shape/plate-01011.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_32 PM (8).png",
+    "sha256": "2bc435e41db46df25da3fe7429af27ee8acbfee99667c1754f6ae38015428d95"
+  },
+  "public/games/shape/plate-01100.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_39 PM (6).png",
+    "sha256": "6c6741329f2906b5c7b6f148a0d4141142af6fc46232de82c191e9d4ca20db74"
+  },
+  "public/games/shape/plate-01101.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_31 PM (7).png",
+    "sha256": "fe3c3f4a4dd6bc77eb9f9ff65cfbe52d152a5a9561a1aedcd0cd56b6c9f83aa7"
+  },
+  "public/games/shape/plate-01110.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_32 PM (9).png",
+    "sha256": "8d74759892cdd7e265c33a13de1dd10377cddb0cfd2d4f0d0e3763f1d79b1042"
+  },
+  "public/games/shape/plate-01111.webp": {
+    "source": "public/games/shape match/done/4done/ChatGPT Image Sep 13, 2026, 08_53_39 PM (1).png",
+    "sha256": "a22b32bf2e087407540c2a8554f42dbbbdcfd57701613593d020cd24f0bf5afc"
+  },
+  "public/games/shape/plate-10000.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_11_59 PM (2).png",
+    "sha256": "fcfa47f8cfd2ae73dc6eabe6111c9074a29c240da6aa21946e378ff02b48687b"
+  },
+  "public/games/shape/plate-10001.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_37 PM (2).png",
+    "sha256": "111ed3320f04f46c90cda30c52d8aebb1e564f3cd0e01233f7855666e4d3a402"
+  },
+  "public/games/shape/plate-10010.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_38 PM (4).png",
+    "sha256": "8fac8c295771e5b0c5645ce69eda7a87f4c1709ca6dedd50c6054b06cbffa56d"
+  },
+  "public/games/shape/plate-10011.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_30 PM (5).png",
+    "sha256": "66dfa8832dabb3ffcad3deb4f9bed15e9f631c28c2074598d151bc9158d43e1e"
+  },
+  "public/games/shape/plate-10100.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_37 PM (3).png",
+    "sha256": "6424097d74c9b98683c80405dda082011cd79ce91a275a4075efdfbe8d92e737"
+  },
+  "public/games/shape/plate-10101.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_29 PM (4).png",
+    "sha256": "9340f132efb53ca7503d2bcaaf448d7b589edafb9c70301f27f8e415a4fff17f"
+  },
+  "public/games/shape/plate-10110.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_30 PM (6).png",
+    "sha256": "9b7f4a01ccbdb0f69f6f07fada6433921c6fa6785fcfdbf40e7f4cfffb8ea07d"
+  },
+  "public/games/shape/plate-10111.webp": {
+    "source": "public/games/shape match/done/4done/ChatGPT Image Sep 13, 2026, 08_53_39 PM (2).png",
+    "sha256": "f289d5105ca3e5783b542344744e495d9d63072abd71d4b409d960602d366622"
+  },
+  "public/games/shape/plate-11000.webp": {
+    "source": "public/games/shape match/done/2done/ChatGPT Image Sep 13, 2026, 08_45_36 PM (1).png",
+    "sha256": "5f9911e96cc0556d97bede751312e5c85ca70100c87835f0a5d0d1f50ef3c870"
+  },
+  "public/games/shape/plate-11001.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_27 PM (1).png",
+    "sha256": "2d2ea7ea3d614035bae5e08c8f919edca5a8cf80e4648232b60434d50e7a6fc2"
+  },
+  "public/games/shape/plate-11010.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_29 PM (3).png",
+    "sha256": "f3718f9ae7461abf8cd093f78d2b53f5389c079896e3653116414e0365d7faa0"
+  },
+  "public/games/shape/plate-11011.webp": {
+    "source": "public/games/shape match/done/4done/ChatGPT Image Sep 13, 2026, 08_53_41 PM (4).png",
+    "sha256": "81d72c9a673285282e471fb1c41e03fc4dbf1e7e07b0a1727230a290fd7fd846"
+  },
+  "public/games/shape/plate-11100.webp": {
+    "source": "public/games/shape match/done/3done/ChatGPT Image Sep 13, 2026, 08_50_28 PM (2).png",
+    "sha256": "4eb1930d26514cb3916dd90403139bf2f5695053791cb5125fd5bbee4f33ff93"
+  },
+  "public/games/shape/plate-11101.webp": {
+    "source": "public/games/shape match/done/4done/ChatGPT Image Sep 13, 2026, 08_53_42 PM (5).png",
+    "sha256": "7bd5888b2ad12622baad9c723111adf9fda000f13710997048bcb52d32ade4fb"
+  },
+  "public/games/shape/plate-11110.webp": {
+    "source": "public/games/shape match/done/4done/ChatGPT Image Sep 13, 2026, 08_53_41 PM (3).png",
+    "sha256": "682ff54ade514964798f7d1fbaa06444d52f471f6926031a62007bf23ef8f87a"
+  },
+  "public/games/shape/plate-11111.webp": {
+    "source": "public/games/shape match/done/ChatGPT Image Sep 13, 2026, 08_12_01 PM (6).png",
+    "sha256": "a71846570c6690bd749dd788b8a397c825e6b67555894559de9488157a4cd7b9"
+  }
 }

@@ -1,0 +1,173 @@
+/* เกมหยอดรูปทรงแบบ 2.5D — สไตล์จำกัดอยู่ใต้ [data-game='shape-match'] หรือ .shp-* เท่านั้น
+   อีกเจ็ดเกมจึงไม่ได้รับผลกระทบ
+   โครงเกาะ (.isl-board / .isl-surface / isl-drift) ใช้ร่วมกับเกมความจำใน memory.css */
+
+/* ── เอากรอบการ์ดขาวใหญ่ออก ให้เกาะเป็นตัวเอก ─────────────────────────── */
+.gc-focus[data-game='shape-match'] .gc-board,
+.gc-focus[data-game='shape-match'] .gc-panel.gc-board {
+  background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0;
+}
+.gc-focus[data-game='shape-match'] .gc-workbench-title { display: none; }
+
+/* แถบบนซ้อนหลายชั้นจะเบียดเกาะลงจนไม่เด่น จึงบีบให้เตี้ยที่สุด
+   คงช่องว่างซ้าย 88px ไว้ให้หุ่นยนต์ยืน ไม่งั้นข้อความจะทับตัวหุ่น */
+.gc-focus[data-game='shape-match'] .gc-instruction {
+  background: #ffffffe0; border-radius: 26px; min-height: 58px;
+  padding: 6px 12px 6px 72px; max-width: 640px; margin: 6px auto 4px;
+  box-shadow: 0 4px 14px #17659422;
+}
+.gc-focus[data-game='shape-match'] .gc-playing-guide { width: 58px; height: 68px; }
+.gc-focus[data-game='shape-match'] .gc-progress-row { max-width: 560px; padding: 6px 16px; }
+/* ชื่อเกมยาวจนขึ้นบรรทัดใหม่เต็มความกว้างบนมือถือ กินความสูงไป 60px โดยไม่จำเป็น */
+.gc-focus[data-game='shape-match'] .gc-game-header { margin-bottom: 8px; }
+/* กฎมือถือกลางสั่งให้ชื่อเกมขึ้นบรรทัดใหม่เต็มความกว้าง (order:3; width:100%)
+   เกมนี้ต้องการความสูงทุกพิกเซล จึงดึงกลับมาอยู่แถวเดียวกับปุ่ม */
+.gc-focus[data-game='shape-match'] .gc-game-header h1 { order: 0; width: auto; flex: 1; margin-top: 0; font-size: 19px; }
+.gc-focus[data-game='shape-match'] .gc-game-header h1 small { font-size: 12px; }
+.gc-focus[data-game='shape-match'] .gc-feedback { margin: 4px auto 0; }
+
+/* เหลือแค่ปุ่มคำใบ้ปุ่มเดียว จึงไม่ต้องกันพื้นที่เป็นแถบเต็มความกว้าง */
+.gc-focus[data-game='shape-match'] .gc-feedback { position: relative; z-index: 5; }
+/* ปุ่มคำใบ้กับป้ายชื่อชิ้นลอยทับมุมบนของฉาก ไม่กินความสูงเป็นแถวของตัวเอง
+   ความสูงที่ประหยัดได้ทั้งแถวยกให้เกาะแทน */
+.shp-scene { position: relative; }
+.shp-scene .gc-board-tools {
+  position: absolute; z-index: 5; inset: 0 0 auto; margin: 0; padding: 0;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: nowrap;
+  pointer-events: none;
+}
+.shp-scene .gc-board-tools > * { pointer-events: auto; }
+.shp-scene .gc-board-tools .gc-button { margin-left: auto; }
+.shp-picked {
+  margin: 4px 0 0; max-width: 58%; font-size: 13px; font-weight: 700; color: #123a72;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 6px #fff;
+}
+.shp-picked span { font-size: 11px; font-weight: 400; }
+.shp-scene .gc-board-tools .gc-button { padding: 5px 16px; }
+/* เก็บเศษความสูงที่เหลือ ให้ทุกอย่างจบในหน้าจอเดียวพอดี */
+.gc-focus[data-game='shape-match'] { padding-bottom: 12px; }
+.gc-focus[data-game='shape-match'] .gc-bottom-controls { margin-top: 4px; }
+.gc-focus[data-game='shape-match'] .gc-instruction h2 { font-size: 17px; }
+/* หัวข้อถาดวางบนฉากตรงๆ ไม่มีป้ายทึบ ให้กลืนกับเกาะ (เหมือนชื่อเกาะในหน้า /games) */
+.shp-scene .gc-zone-heading {
+  background: none; border: 0; box-shadow: none; padding: 0; margin: 0 auto 6px;
+  text-align: center; color: #123a72;
+  text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff,
+               -2px 0 0 #fff, 2px 0 0 #fff, 0 -2px 0 #fff, 0 2px 0 #fff, 0 0 9px #fff;
+}
+
+/* ── แผ่นฐานบนผิวเกาะ ─────────────────────────────────────────────────
+   แผ่นฐานเป็นกล่องที่ "ตั้งอยู่บน" ผิวเกาะ ไม่ใช่ของแบนที่นอนอยู่ในกรอบผิว
+   จึงคุมขนาดด้วย **ความกว้าง** ของผิวเกาะ แล้วปล่อยให้ตัวกล่องสูงพ้นขอบหลังขึ้นไปได้
+   (เหมือนภาพไอคอนเกมนี้ในหน้า /games) ถ้าคุมด้วยความสูงของแถบผิว แผ่นจะเล็กจนกดหลุมไม่ได้
+   --surface-b 38% คือระดับขอบหน้าของผิวครีม แผ่นฐานจึงวางก้นไว้ตรงนั้นพอดี */
+.shp-scene .isl-board { --surface-l: 9%; --surface-r: 9%; --surface-t: 4%; --surface-b: 40%; }
+/* แผ่นฐานนั่งก้นไว้ที่ขอบหน้าของผิวครีม ส่วนที่สูงเกินล้นพ้นขอบหลังของเกาะขึ้นไปได้
+   (เป็นกล่องที่ตั้งอยู่บนเกาะ ไม่ใช่ของแบนที่นอนอยู่ในกรอบ) */
+.shp-scene .isl-surface { display: flex; align-items: flex-end; justify-content: center; }
+/* ความสูงของเกาะถูกจำกัดด้วยพื้นที่ที่เหลือบนหน้าจอ ไม่ใช่ความกว้างอย่างเดียว
+   ตัวเลขคือความสูงรวมของแถบอื่นๆ ทั้งหมด (หัวเกม แถบความคืบหน้า คำสั่ง ผลตอบรับ ปุ่มล่าง) */
+.shp-scene .isl-board { --shp-chrome: 400px; max-width: min(100%, calc(100dvh - var(--shp-chrome))); }
+
+.shp-plate {
+  position: relative; flex: 0 0 auto;
+  width: 88cqw; aspect-ratio: 900 / 860;
+}
+.shp-plate-art {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 10px 12px #17659440);
+  transition: filter 250ms ease-out;
+}
+/* แผ่นสว่างวาบตอนหยอดถูก — เป็น filter ไม่ใช่ transform จึงยังเห็นผลแม้ผู้ใช้ปิดการเคลื่อนไหว */
+.shp-plate[data-landed] .shp-plate-art {
+  filter: drop-shadow(0 10px 12px #17659440) drop-shadow(0 0 10px #ffe9a8);
+}
+
+/* ── หลุมที่กดได้ ──────────────────────────────────────────────────────
+   เป็นกล่องใสวางทับตำแหน่งหลุมในภาพแผ่นฐาน (ตำแหน่งอยู่ใน shapeArt.ts → HOLES)
+   ไม่วาดพื้นหรือขอบ เพราะหลุมสวยอยู่ในภาพแล้ว ที่ต้องมีคือพื้นที่กดกับ focus ring */
+.shp-hole {
+  position: absolute; translate: -50% -50%;
+  padding: 0; background: none; border: 0; border-radius: 26%;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 200ms ease-out, background 200ms ease-out;
+}
+.shp-hole:disabled { cursor: default; }
+.shp-hole:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 3px; }
+@media (hover: hover) {
+  .shp-hole:not(:disabled):hover { background: #ffffff40; box-shadow: 0 0 0 4px #ffffffcc, 0 0 18px #ffffffb3; }
+}
+.shp-hole:not(:disabled):active { background: #ffffff59; box-shadow: 0 0 0 4px #ffffffe6; }
+/* คำใบ้: วงแหวนทอง ไม่ใช่แค่เปลี่ยนสี จึงยังอ่านออกถ้ามองสีไม่ชัด (ข้อ 2) */
+.shp-hole.gc-hint { box-shadow: 0 0 0 5px #f6c64d, 0 0 20px #f6c64d; }
+.shp-hole .gc-hint-arrow { top: -30px; left: 50%; translate: -50% 0; }
+
+/* ประกายตอนหยอดสำเร็จ */
+.shp-spark { position: absolute; inset: 0; pointer-events: none; }
+.shp-spark i {
+  position: absolute; top: 20%; left: 50%; width: 14px; height: 14px;
+  background: #ffd76a;
+  clip-path: polygon(50% 0, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0 50%, 39% 35%);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shp-spark i { animation: shp-spark 900ms ease-out both; }
+  .shp-spark i:nth-child(1) { --shp-x: -30px; animation-delay: 30ms; }
+  .shp-spark i:nth-child(2) { --shp-x: 2px; animation-delay: 120ms; }
+  .shp-spark i:nth-child(3) { --shp-x: 30px; animation-delay: 210ms; }
+  .shp-plate[data-landed] { animation: shp-seat 420ms ease-out; }
+}
+@keyframes shp-spark {
+  0% { opacity: 0; translate: 0 0; scale: .4; }
+  30% { opacity: 1; }
+  100% { opacity: 0; translate: var(--shp-x) -44px; scale: 1.1; }
+}
+@keyframes shp-seat { 0% { scale: 1; } 40% { scale: 1.035; } 100% { scale: 1; } }
+
+/* ── ถาดชิ้นส่วนใต้เกาะ ────────────────────────────────────────────────
+   บนมือถือผิวเกาะไม่พอวางทั้งแผ่นฐานและถาดพร้อมกันที่ tap target 64px
+   (จอ 360px ขาดไปราว 130px) จึงยกเฉพาะแผ่นฐานขึ้นเกาะ ถาดลอยอยู่ใต้เกาะเหมือนแพจอดเรือ */
+/* แถวบล็อกอยู่ใต้เกาะ ไม่มีกรอบใดๆ ทั้งรอบแถวและรอบตัวบล็อก
+   ตัวบล็อกเป็นภาพ 3D ที่มีเงาในตัวอยู่แล้ว กรอบขาวจะไปแข่งกับภาพและทำให้ดูเป็นปุ่ม UI
+   margin ลบดึงแถวขึ้นไปซ้อนกับช่วงฐานคริสตัลของภาพเกาะ ซึ่งเป็นพื้นที่ว่าง ไม่เสียความสูงเปล่า */
+.shp-tray-dock { width: 100%; margin: -13% auto 0; position: relative; z-index: 2; }
+.gc-focus[data-game='shape-match'] .gc-tray {
+  width: 100%;
+  display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-end; gap: 3%;
+  margin: 0; padding: 0; background: none; border: 0; box-shadow: none;
+}
+/* ห้าชิ้นต้องอยู่แถวเดียวเสมอ จึงวัดขนาดจากความกว้างที่มี ไม่ใช่ px ตายตัว */
+.gc-focus[data-game='shape-match'] .gc-tray-slot { flex: 0 0 auto; width: 16%; min-width: 0; min-height: 0; }
+.gc-focus[data-game='shape-match'] .gc-drag {
+  min-width: 0; min-height: 0; padding: 2px 0 0;
+  background: none; border: 0; box-shadow: none; border-radius: 20px;
+}
+/* ยังต้องมีสัญญาณว่า "เลือกอยู่" และ "โฟกัสอยู่" แม้ไม่มีกรอบ — ใช้แสงรอบชิ้นแทน */
+.gc-focus[data-game='shape-match'] .gc-drag[aria-pressed='true'] {
+  outline: 0; background: #ffffff5c; box-shadow: 0 0 0 4px #1e5fbf, 0 6px 16px #17659440;
+}
+.gc-focus[data-game='shape-match'] .gc-drag:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 2px; }
+@media (hover: hover) {
+  .gc-focus[data-game='shape-match'] .gc-drag:not([aria-pressed='true']):hover { background: #ffffff4d; box-shadow: none; }
+}
+.gc-focus[data-game='shape-match'] .gc-drag:active { box-shadow: none; }
+/* ช่องที่หยอดไปแล้ว ไม่ต้องมีกรอบประไข่ปลาเช่นกัน เหลือแค่เครื่องหมายถูก */
+.gc-focus[data-game='shape-match'] .gc-done-slot { border: 0; opacity: .55; }
+.shp-block { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
+/* บล็อกที่หยอดไปแล้วหายจากผิวเกาะไปเลย ไม่ต้องเหลือช่องว่างหรือเครื่องหมายถูกค้างไว้ */
+.gc-focus[data-game='shape-match'] .gc-tray-slot:has(.gc-done-mark) { display: none; }
+
+@media (max-width: 639px) {
+  .isl-board.shp-island { width: auto; margin-inline: -12px; }
+  /* แถบบนบนมือถือเตี้ยกว่าเดสก์ท็อป จึงเหลือที่ให้เกาะมากขึ้น */
+  .shp-scene .isl-board { --shp-chrome: 352px; }
+  .gc-focus[data-game='shape-match'] .gc-instruction { padding: 5px 8px 5px 50px; min-height: 52px; }
+  .gc-focus[data-game='shape-match'] .gc-playing-guide { width: 46px; height: 58px; }
+}
+
+/* มือถือแนวนอน — ซ่อนแถบที่ไม่จำเป็น เหลือพื้นที่ให้เกาะมากที่สุด */
+@media (max-height: 520px) and (orientation: landscape) {
+  .gc-focus[data-game='shape-match'] .gc-instruction,
+  .gc-focus[data-game='shape-match'] .gc-feedback { display: none; }
+  .shp-scene .isl-board { max-width: min(100%, 62vh); }
+}
