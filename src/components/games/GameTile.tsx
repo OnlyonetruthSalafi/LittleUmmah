@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GameIcon } from "@/components/icons/GameIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { AGE_GROUPS, type Game } from "@/lib/games";
+import { isScrollHover } from "@/lib/scrollHover";
 
 export function GameTile({ game }: { game: Game }) {
   const { speak } = useSound();
@@ -25,7 +26,8 @@ export function GameTile({ game }: { game: Game }) {
     href={game.href}
     className="group block rounded-card text-ink"
     onPointerEnter={event => {
-      if (event.pointerType === "mouse") speak(game.nameTh, game.slug);
+      // ignore pointerenter caused by scrolling under a still mouse (see lib/scrollHover)
+      if (event.pointerType === "mouse" && !isScrollHover()) speak(game.nameTh, game.slug);
     }}
     onFocus={event => {
       if (event.currentTarget.matches(":focus-visible")) speak(game.nameTh, game.slug);

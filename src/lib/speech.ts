@@ -24,7 +24,16 @@ export const RECORDED_CLIPS = new Set<string>([
   "name-arabic-match", "name-sequence", "name-find-object", "name-sort",
   // ชื่อเกาะหมวดหมู่ในหน้าแรก (IslandCard, ValueBar) ไทยอย่างเดียว
   "cat-moral", "cat-stories", "cat-arabic", "cat-explore", "cat-games", "cat-art",
+  // หัวข้อหน้าแรก อ่านเมื่อเลื่อนจอมาเจอ (HeroVoice)
+  "hero-tagline",
 ]);
+
+/** มีเสียงพูดเล่นอยู่ไหม ใช้กันเสียงอัตโนมัติไปตัดเสียงที่เด็กเพิ่งกดฟัง */
+export function isSpeaking(): boolean {
+  if (currentAudio && !currentAudio.paused && !currentAudio.ended) return true;
+  if (typeof window === "undefined" || !window.speechSynthesis) return false;
+  return window.speechSynthesis.speaking || window.speechSynthesis.pending;
+}
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
 let currentAudio: HTMLAudioElement | null = null;

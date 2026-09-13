@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useSound } from "@/components/sound/SoundProvider";
 import type { Category } from "@/lib/categories";
+import { isScrollHover } from "@/lib/scrollHover";
 
 /*
   การ์ดเกาะลอย
@@ -27,7 +28,9 @@ export function IslandCard({ category }: { category: Category }) {
         href={category.href}
         onPointerEnter={(event) => {
           // Touch reads on click, so scrolling past an island stays quiet.
-          if (event.pointerType === "mouse") {
+          // Scrolling also slides islands under a still mouse and fires pointerenter;
+          // skip those so they don't cut off other speech (see lib/scrollHover).
+          if (event.pointerType === "mouse" && !isScrollHover()) {
             speak(category.nameTh, `cat-${category.slug}`);
           }
         }}
