@@ -12,7 +12,14 @@
 */
 
 /** key ที่มีไฟล์เสียงอัดไว้แล้ว เพิ่มชื่อที่นี่เมื่อวางไฟล์ลง public/audio/th/ */
-export const RECORDED_CLIPS = new Set<string>([]);
+export const RECORDED_CLIPS = new Set<string>([
+  // เสียงหุ่นยนต์ (ElevenLabs เสียง Leo + เอฟเฟคหุ่นยนต์) พูดไทยแล้วต่อด้วยอังกฤษ
+  "hub-intro",
+  "game-color-match", "game-shape-match", "game-memory", "game-puzzle",
+  "game-arabic-match", "game-sequence", "game-find-object", "game-sort",
+  "praise-correct-1", "praise-correct-2", "praise-correct-3",
+  "praise-wrong-1", "praise-wrong-2", "praise-level-complete",
+]);
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
 let currentAudio: HTMLAudioElement | null = null;

@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getSoundSnapshot, subscribeSound } from '@/lib/soundStore';
 import { getRunAudioContext, loadRunAudio, unlockRunAudio } from '@/lib/runAudio';
 
-// Schedule the cutoff in the audio engine, not a throttled UI timer. The rest
-// of the source (including the later crash) is never scheduled for playback.
-const RUN_SECONDS = 2.2;
-// Match the 3600ms arrival in hub-guide.css: the distant part is silent,
-// then the existing clip ends as the robot reaches the foreground.
+// Schedule in the audio engine, not a throttled UI timer.
+// run-brake.mp3 = engine run-up that grows louder, then a brake that stops at STOP_SECONDS.
+// The stop is aligned to the 3600ms arrival in hub-guide.css, the moment frame 6
+// (robot closest to the screen) appears; the short settle tail plays after it.
+const STOP_SECONDS = 2.87;
 const ARRIVAL_SECONDS = 3.6;
 
 export function useRunSound() {
@@ -61,10 +61,9 @@ export function useRunSound() {
       if (elapsed >= ARRIVAL_SECONDS) return;
       const player = audio.createBufferSource();
       const gain = audio.createGain();
-      const clipLength = Math.min(RUN_SECONDS, clip.duration);
-      const delay = ARRIVAL_SECONDS - clipLength;
+      const delay = ARRIVAL_SECONDS - STOP_SECONDS;
       const offset = Math.max(0, elapsed - delay);
-      const duration = clipLength - offset;
+      const duration = clip.duration - offset;
       if (duration <= 0) return;
       const now = audio.currentTime;
       const startsAt = now + Math.max(0, delay - elapsed);

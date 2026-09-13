@@ -67,7 +67,7 @@ export function HubGuide() {
       onClick={() => void toggleVoice()} aria-controls="gc-hub-voice">
       <span>{label[0]}</span><small lang="en">{label[1]}</small>
     </button>
-    <audio id="gc-hub-voice" ref={audioRef} src="/games/voiceover/แนะนำเกม.mp3" preload="none"
+    <audio id="gc-hub-voice" ref={audioRef} src="/audio/th/hub-intro.mp3" preload="none"
       onPlay={() => setStatus('playing')}
       onPause={() => { if (!audioRef.current?.ended) setStatus('paused'); }}
       onEnded={() => setStatus('ended')} onError={() => setError(true)} />

@@ -17,7 +17,7 @@ export function unlockRunAudio() {
 }
 
 export function loadRunAudio(audio: AudioContext) {
-  clip ??= fetch('/Character/run/CarRunBrake.mp3', { signal: AbortSignal.timeout(8000) })
+  clip ??= fetch('/audio/sfx/run-brake.mp3', { signal: AbortSignal.timeout(8000) })
     .then(response => {
       if (!response.ok) throw new Error('Run sound unavailable');
       return response.arrayBuffer();
