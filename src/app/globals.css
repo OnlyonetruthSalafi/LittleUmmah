@@ -28,6 +28,10 @@
     ถ้าเอาไปวางบนพื้นสีอื่น ต้องวัดใหม่ก่อนใช้ อย่าถือว่าผ่านโดยอัตโนมัติ
   */
   --color-brand-blue: #1e5fbf; /* 5.6:1 บน sky-pale */
+  /* สีชื่อเกาะ ใช้คู่กับเงาขาวรอบตัวอักษร (.island-caption) จึงวางบนฉากได้ทุกแบบ
+     11.2:1 บนขาว และ 7.4:1 บนพื้นฟ้าเข้มสุดของฉาก จึงผ่านข้อ 2 แม้ตรงที่เงาขาวบาง */
+  --color-island-ink: #123a72;
+  --color-island-ink-soft: #154181; /* 10.0:1 บนขาว */
   --color-brand-amber: #b45309; /* 4.6:1 บน sky-pale */
   --color-brand-green: #15803d; /* 4.6:1 บน sky-pale */
 
@@ -189,14 +193,33 @@
 
   /* Natural layout offsets reserve space and keep focus outlines unobstructed. */
   .island-caption {
-    /* Keep the halo close to each glyph, leaving the scenery between words
-       visible. No text stroke: Thai vowel marks must retain their shape. */
+    /*
+      ชื่อเกาะวางบนฉากโดยตรง ไม่มีป้ายทึบรองพื้น ใช้เงาขาวรอบตัวอักษรแทน
+      แปดทิศเพื่อให้ขอบตัวอักษรปิดสนิททุกด้าน บวกแสงขาวฟุ้งและเงาน้ำเงินอ่อน
+      ให้ตัวอักษรดูลอยเหนือฉาก — ชุดเดียวกับที่ใช้ในหน้ารวมเกม
+      No text stroke: Thai vowel marks must retain their shape.
+    */
+    text-shadow:
+      -2px -2px 0 #fff,
+      2px -2px 0 #fff,
+      -2px 2px 0 #fff,
+      2px 2px 0 #fff,
+      -2px 0 0 #fff,
+      2px 0 0 #fff,
+      0 -2px 0 #fff,
+      0 2px 0 #fff,
+      0 0 9px #fff,
+      0 4px 7px rgb(23 101 148 / 25%);
+  }
+
+  /* ชื่อรองภาษาอังกฤษ ตัวเล็กกว่า จึงใช้เงาบางกว่าเพื่อไม่ให้ตัวอักษรตัน */
+  .island-caption > :last-child {
     text-shadow:
       -1px -1px 0 #fff,
       1px -1px 0 #fff,
       -1px 1px 0 #fff,
       1px 1px 0 #fff,
-      0 0 4px #fff;
+      0 0 6px #fff;
   }
 
   /*

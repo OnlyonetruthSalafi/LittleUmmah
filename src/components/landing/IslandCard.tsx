@@ -57,10 +57,10 @@ export function IslandCard({ category }: { category: Category }) {
         </span>
 
         <span className="island-caption flex max-w-full flex-col items-center px-1 pb-2 text-center">
-          <span className="font-display text-ink text-lg leading-normal font-bold text-balance decoration-1 underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-xl lg:text-lg xl:text-xl">
+          <span className="font-display text-island-ink text-xl leading-snug font-extrabold text-balance decoration-1 underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-2xl lg:text-xl xl:text-[1.375rem]">
             {category.nameTh}
           </span>
-          <span lang="en" className="font-display text-ink mt-0.5 text-xs leading-normal font-semibold tracking-wide text-balance sm:text-sm">
+          <span lang="en" className="font-display text-island-ink-soft mt-1 text-sm leading-normal font-semibold tracking-wide text-balance sm:text-base">
             {category.nameEn}
           </span>
         </span>

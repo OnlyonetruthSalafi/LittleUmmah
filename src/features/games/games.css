@@ -30,37 +30,56 @@
 .gc-world-backdrop{position:absolute;inset:0 0 auto;height:100%;max-height:1500px;z-index:-1;pointer-events:none;overflow:hidden}
 .gc-world-backdrop img{object-fit:cover;object-position:center top;mask-image:linear-gradient(#000 78%,transparent)}
 .gc-hub .gc-container{max-width:1280px;padding-top:20px}
-.gc-hub-nav>.font-display{background:#eaf6ff;padding:8px 18px;border-radius:24px;color:#1e5fbf}
+.gc-hub .gc-star-counter{background:none;border:0;padding:0;box-shadow:none;color:var(--hub-ink);font-size:clamp(24px,2.1vw,30px);text-shadow:var(--halo),0 3px 5px #17659438}
+.gc-hub .gc-star-counter small{font:600 13px var(--font-display);color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
+.gc-hub-nav>.font-display{background:none;padding:0;border-radius:0;color:var(--hub-ink);font-size:clamp(20px,2vw,27px);text-shadow:var(--halo),0 3px 5px #17659438}
 .gc-hub .gc-hero{grid-template-columns:1fr;min-height:265px;text-align:center;padding:25px 190px 12px;gap:0}
-.gc-world-title{position:relative;z-index:1;border-radius:45%;background:radial-gradient(ellipse,#eaf6ff 57%,#eaf6ff00 72%);padding:20px 12px}
-.gc-hub .gc-hero h1{font-size:clamp(38px,4.8vw,62px);color:#1e5fbf;text-shadow:0 3px 0 white}
+.gc-world-title{position:relative;z-index:1;border-radius:0;background:none;padding:14px 12px}
+.gc-hub .gc-world-title p:not(.gc-eyebrow){color:var(--hub-ink);font-weight:700;text-shadow:var(--halo),0 3px 5px #17659433}
+.gc-hub .gc-world-title .gc-secondary{color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
+.gc-hub .gc-eyebrow{color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
+.gc-hub .gc-hero h1{font-size:clamp(38px,4.8vw,62px);color:#1e5fbf;text-shadow:-3px -3px 0 #fff,3px -3px 0 #fff,-3px 3px 0 #fff,3px 3px 0 #fff,-3px 0 0 #fff,3px 0 0 #fff,0 -3px 0 #fff,0 3px 0 #fff,0 0 16px #fff,0 8px 12px #1765943d}
+.gc-hub .gc-hero h1>span{color:var(--hub-ink);text-shadow:var(--halo),0 4px 6px #1765943d}
 .gc-hub .gc-hero h1>span{font-size:clamp(16px,1.7vw,23px);margin:1px 0 10px}
 .gc-hub .gc-eyebrow{font-size:11px;margin-bottom:4px}
 .gc-hub .gc-guide-scene{position:absolute;right:28px;bottom:0;width:190px;height:240px;margin:0}
 .gc-hub .gc-hero-robot{left:0;bottom:18px;width:100%;height:100%;filter:drop-shadow(0 12px 8px #1e5fbf30)}
 .gc-guide-cloud{position:absolute;bottom:12px;left:0;width:100%;height:45px;background:#fff;border-radius:50%;box-shadow:0 10px 0 #a8d8f5,0 18px 30px #1e5fbf30}
-.gc-hub .gc-section-title{justify-content:center;text-align:center;margin:5px 0 0}
-.gc-hub .gc-section-title h2{background:#eaf6ff;border:2px solid white;border-radius:24px;padding:8px 28px;font-size:21px;box-shadow:0 4px 12px #1e5fbf12}
+/* หน้ารวมเกมไม่มีกรอบกล่องรอบข้อความเลย ตัวอักษรลอยอยู่บนท้องฟ้าโดยตรง
+   อ่านออกด้วยเงาขาวรอบตัวอักษรแทนพื้นกล่อง — ใช้ text-shadow แปดทิศ
+   ห้ามใช้ -webkit-text-stroke เพราะสระและวรรณยุกต์ไทยจะเสียรูป
+   (เหตุผลเดียวกับ .island-caption ใน globals.css) */
+.gc-hub {
+  --halo: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff,
+          -2px 0 0 #fff, 2px 0 0 #fff, 0 -2px 0 #fff, 0 2px 0 #fff, 0 0 9px #fff;
+  --halo-thin: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 6px #fff;
+  /* #123a72 = 11.2:1 บนขาว และ 7.4:1 บนพื้นฟ้าโดยตรง จึงผ่านข้อ 2 แม้ตรงที่เงาขาวบาง */
+  --hub-ink: #123a72;
+  --hub-ink-soft: #154181;
+}
+.gc-hub .gc-section-title{justify-content:center;text-align:center;margin:14px 0 0}
+.gc-hub .gc-section-title h2{background:none;border:0;border-radius:0;padding:0;box-shadow:none;font:800 clamp(26px,3.2vw,40px)/1.35 var(--font-display);color:var(--hub-ink);text-shadow:var(--halo),0 4px 7px #1765943d}
+.gc-hub .gc-section-title h2 small{font:600 clamp(14px,1.5vw,18px)/1.4 var(--font-display);color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
 .gc-hub .gc-grid{gap:18px 14px;position:relative;padding-top:10px}
 .gc-hub .gc-tile{padding:0;background:transparent;border-radius:28px;box-shadow:none}
 .gc-hub .gc-tile-art{aspect-ratio:1;background:transparent;border-radius:35%;isolation:isolate}
 .gc-diorama{position:relative;width:100%;height:100%;min-height:100px}
 .gc-diorama img{object-fit:contain;filter:drop-shadow(0 10px 7px #17659420)}
-/* ป้ายชื่อเกม = แผ่นหินอ่อนขอบทองแบบเดียวกับขอบเกาะ ไม่ใช่กล่องแบน
-   สีครีม/ทอง (#fff7d5 #f6c64d #d5b966) เป็นชุดเดียวกับที่ใช้ทั้ง game center */
-.gc-hub .gc-tile-label{position:relative;width:100%;margin:-16px auto 0;padding:9px 12px 11px;background:linear-gradient(#fffdf2 0 45%,#fff7d5);border:3px solid #f6c64d;border-radius:20px 20px 27px 27px;box-shadow:inset 0 2px 0 #fff,inset 0 -4px 0 #f2e2ad,0 6px 0 #d5b966,0 13px 18px #17659430;transition:box-shadow 200ms ease-out}
-.gc-hub .gc-tile-label>span{color:#1f2937;font-size:14px}
-.gc-hub .gc-tile h3{font-size:21px;color:#1e5fbf}
+/* ชื่อเกมไม่มีกรอบ วางบนท้องฟ้าใต้เกาะโดยตรง ตัวโตขึ้นเพื่อให้ยังเด่นเท่าเดิม */
+.gc-hub .gc-tile-label{position:relative;width:100%;margin:-6px auto 0;padding:0;background:none;border:0;border-radius:0;box-shadow:none;text-align:center}
+.gc-hub .gc-tile h3{font:800 clamp(23px,2.4vw,35px)/1.25 var(--font-display);letter-spacing:.005em;color:var(--hub-ink);text-shadow:var(--halo),0 5px 8px #17659440}
+.gc-hub .gc-tile-label>span{display:block;margin-top:3px;font:600 clamp(14px,1.25vw,19px)/1.3 var(--font-display);letter-spacing:.02em;color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
 .gc-hub .gc-play-mark{right:7%;bottom:21%;width:40px;height:40px;background:#1e5fbf;border:3px solid white;color:white;box-shadow:0 4px 0 #154181,0 7px 10px #17659440;font-size:15px}
 .gc-art-letters{position:absolute;inset:0;color:#1e5fbf;font:700 clamp(30px,4vw,55px)/1 Georgia,serif}.gc-art-letters>span{position:absolute;display:grid;place-items:center;width:18%;height:17%;top:23%;left:40%}.gc-art-letters>span:nth-child(2){top:39%;left:31%}.gc-art-letters>span:nth-child(3){top:40%;left:51%}
-.gc-hub .gc-hub-note{width:fit-content;margin:40px auto 0;background:#eaf6ff;border-radius:22px;padding:12px 24px}
+.gc-hub .gc-hub-note{width:fit-content;margin:44px auto 0;background:none;border-radius:0;padding:0;font:700 17px var(--font-display);color:var(--hub-ink);text-shadow:var(--halo),0 3px 5px #17659433}
+.gc-hub .gc-hub-note span{font:500 14px var(--font-display);color:var(--hub-ink-soft);text-shadow:var(--halo-thin)}
 .gc-intro-art{position:relative;background:transparent;width:260px;height:230px;margin-bottom:5px}
 .gc-focus{background:linear-gradient(#eaf6ffdc,#eaf6fff2),url('/games/hub/game-hub-bg.webp') center top/cover fixed}
 .gc-game-header h1{background:#eaf6ff;border-radius:22px;padding:8px 20px}
 .gc-find-scene{background:linear-gradient(#eaf6ff35,#eaf6ff55),url('/games/hub/game-hub-bg.webp') center/cover;border:3px solid #a8d8f5}
 .gc-find-object{border-radius:40%;background:#fff7d5;box-shadow:0 7px 0 #d5b966,0 12px 18px #17659435}
-@media(hover:hover){.gc-hub .gc-tile:hover{box-shadow:none}.gc-hub .gc-tile:hover .gc-tile-label{box-shadow:inset 0 2px 0 #fff,inset 0 -4px 0 #f2e2ad,0 8px 0 #d5b966,0 16px 22px #17659445,var(--shadow-float)}}
-.gc-hub .gc-tile:active{box-shadow:none}.gc-hub .gc-tile:active .gc-tile-label{box-shadow:inset 0 2px 0 #fff,inset 0 -4px 0 #f2e2ad,0 8px 0 #d5b966,0 16px 22px #17659445,var(--shadow-float)}
+@media(hover:hover){.gc-hub .gc-tile:hover{box-shadow:none}.gc-hub .gc-tile:hover .gc-diorama img{filter:drop-shadow(0 16px 11px #17659440)}.gc-hub .gc-tile:hover h3{text-shadow:var(--halo),0 5px 8px #1765944d}}
+.gc-hub .gc-tile:active{box-shadow:none}.gc-hub .gc-tile:active .gc-diorama img{filter:drop-shadow(0 16px 11px #17659440)}
 @media(min-width:1001px){.gc-hub .gc-grid>li:nth-child(4n+2),.gc-hub .gc-grid>li:nth-child(4n+3){padding-top:22px}}
 @media(min-width:640px) and (max-width:1000px){.gc-hub .gc-hero{padding-left:80px;padding-right:160px}.gc-hub .gc-guide-scene{right:0;width:155px;height:200px}.gc-hub .gc-grid>li:nth-child(3n+2){padding-top:18px}}
 @media(max-width:639px){.gc-hub .gc-container{padding:12px 12px 30px}.gc-hub .gc-hero{min-height:270px;padding:20px 0 85px}.gc-world-title{padding:10px 0}.gc-hub .gc-hero h1{font-size:39px}.gc-hub .gc-hero p:not(.gc-eyebrow){font-size:16px}.gc-hub .gc-hero .gc-secondary{font-size:12px!important}.gc-hub .gc-guide-scene{width:105px;height:120px;right:calc(50% - 52px);bottom:-10px}.gc-hub .gc-hero-robot{bottom:8px}.gc-guide-cloud{height:24px;bottom:6px}.gc-hub .gc-section-title{margin:18px 0 0}.gc-hub .gc-section-title h2{font-size:18px;padding:7px 22px}.gc-hub .gc-grid{gap:22px 8px;padding-top:10px}.gc-hub .gc-tile-art{aspect-ratio:1}.gc-hub .gc-tile-label{margin-top:-10px;padding:7px 8px 9px;border-width:2px;border-radius:16px 16px 21px 21px}.gc-hub .gc-tile h3{font-size:18px}.gc-hub .gc-tile-label>span{font-size:12px}.gc-hub .gc-play-mark{width:31px;height:31px;font-size:11px;right:3%;bottom:19%}.gc-hub .gc-hub-note{margin-top:28px;font-size:12px}.gc-intro-art{width:220px;height:190px}.gc-world-backdrop img{object-position:48% top}.gc-art-letters{font-size:24px}.gc-focus{background-attachment:scroll}}
