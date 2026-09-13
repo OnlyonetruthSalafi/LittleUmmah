@@ -22,6 +22,8 @@ export const RECORDED_CLIPS = new Set<string>([
   // ชื่อเกาะสั้นๆ ตอนชี้เมาส์ในหน้ารวมเกม (ไทยอย่างเดียว)
   "name-color-match", "name-shape-match", "name-memory", "name-puzzle",
   "name-arabic-match", "name-sequence", "name-find-object", "name-sort",
+  // ชื่อเกาะหมวดหมู่ในหน้าแรก (IslandCard, ValueBar) ไทยอย่างเดียว
+  "cat-moral", "cat-stories", "cat-arabic", "cat-explore", "cat-games", "cat-art",
 ]);
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
