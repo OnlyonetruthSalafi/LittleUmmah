@@ -19,6 +19,9 @@ export const RECORDED_CLIPS = new Set<string>([
   "game-arabic-match", "game-sequence", "game-find-object", "game-sort",
   "praise-correct-1", "praise-correct-2", "praise-correct-3",
   "praise-wrong-1", "praise-wrong-2", "praise-level-complete",
+  // ชื่อเกาะสั้นๆ ตอนชี้เมาส์ในหน้ารวมเกม (ไทยอย่างเดียว)
+  "name-color-match", "name-shape-match", "name-memory", "name-puzzle",
+  "name-arabic-match", "name-sequence", "name-find-object", "name-sort",
 ]);
 
 let cachedVoice: SpeechSynthesisVoice | null = null;

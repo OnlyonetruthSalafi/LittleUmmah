@@ -4,12 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 0 4px;
+  padding: 4px 0 0;
   text-align: center;
 }
+/* เวทีแคบลงจาก 600px ให้เกาะขยับขึ้น — ห้ามดึงขอบล่างติดลบ ปุ่มจะไปทับล้อหุ่นยนต์ (ล้อสิ้นสุดราว 92% ของเวที) */
 .gc-hub-guide-stage {
   position: relative;
-  width: min(100%, 600px);
+  width: min(100%, 540px);
   aspect-ratio: 600 / 516;
   overflow: hidden;
 }
@@ -21,20 +22,50 @@
   width: 100%; height: 100%; object-fit: contain;
   filter: drop-shadow(0 12px 10px #1e5fbf30);
 }
-.gc-hub-guide .gc-hub-guide-listen {
-  min-height: 64px;
-  max-width: 100%;
-  color: #123a72;
-  background: #fff;
+/* ปุ่มไอคอนกลม 64px (tap target เด็ก) มุมขวาบนของพื้นที่หุ่นยนต์
+   จอแคบเรียงแนวตั้งชิดขอบขวา เส้นทางวิ่งของหุ่นยนต์ไปไม่ถึง (ไกลสุดราว 64% ของความกว้าง) */
+.gc-hub-guide-controls {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.gc-hub-guide-listen:focus-visible {
+@media (min-width: 640px) {
+  .gc-hub-guide-controls { flex-direction: row; gap: 16px; }
+}
+.gc-hub-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  color: #1e5fbf;
+  background: #fff;
+  box-shadow: 0 4px 0 #d1e2ec, var(--shadow-soft);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  cursor: pointer;
+}
+/* สีฟ้าเข้มบนขาว และขาวบนฟ้าเข้ม contrast ~5.6:1 */
+.gc-hub-icon-btn-primary {
+  color: #fff;
+  background: #1e5fbf;
+  box-shadow: 0 4px 0 #154181, var(--shadow-soft);
+}
+.gc-hub-icon-btn[data-error] { border-color: #b3261e; }
+.gc-hub-icon-btn:focus-visible {
   outline: 3px solid #123a72;
   outline-offset: 5px;
 }
 @media (hover: hover) {
-  .gc-hub-guide .gc-hub-guide-listen:hover { box-shadow: 0 5px 0 #d1e2ec, var(--shadow-float); }
+  .gc-hub-icon-btn:hover { box-shadow: 0 5px 0 #d1e2ec, var(--shadow-float); }
+  .gc-hub-icon-btn-primary:hover { box-shadow: 0 5px 0 #154181, var(--shadow-float); }
 }
-.gc-hub-guide .gc-hub-guide-listen:active { box-shadow: 0 2px 0 #d1e2ec, var(--shadow-soft); }
+.gc-hub-icon-btn:active { transition-duration: 75ms; box-shadow: 0 2px 0 #d1e2ec, var(--shadow-soft); }
+.gc-hub-icon-btn-primary:active { box-shadow: 0 2px 0 #154181, var(--shadow-soft); }
 .gc-hub-guide-status {
   min-height: 48px;
   margin-top: 12px;
@@ -46,10 +77,13 @@
 .gc-hub-guide-status span { display: block; font-size: 12px; font-weight: 500; }
 .gc-run-frame { position: absolute; inset: 0; opacity: 0; }
 .gc-run-frame-6 { opacity: 1; }
-.gc-hub-guide-replay { margin-bottom: 12px; }
-.gc-hub-guide-replay:focus-visible { outline: 3px solid #123a72; outline-offset: 5px; }
-@media (hover: hover) {
-  .gc-hub-guide-replay:hover { box-shadow: 0 5px 0 #d1e2ec, var(--shadow-float); }
+/* ลูกศรชี้ลงไปที่เกาะ แทนหัวข้อ "เลือกเกมกันเลย" — นิ่ง ไม่เด้งวน (AGENTS.md ข้อ 2.1) */
+.gc-hub .gc-hub-cue {
+  width: 40px;
+  height: 40px;
+  margin: 6px auto 0;
+  color: var(--hub-ink);
+  filter: drop-shadow(0 0 3px #fff) drop-shadow(0 3px 4px #17659433);
 }
 .gc-run-dust { position: absolute; left: 5%; bottom: 12%; width: 35%; height: 20%; opacity: 0; }
 .gc-run-dust i {
