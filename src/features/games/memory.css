@@ -1,0 +1,174 @@
+/* เกมความจำแบบ 2.5D — สไตล์ทั้งหมดจำกัดอยู่ใต้ [data-game='memory'] หรือ .mem-* / .isl-*
+   อีกเจ็ดเกมจึงไม่ได้รับผลกระทบ
+   กระดานคือภาพเกาะจริงที่เจ้าของโปรเจกต์วาดมา ไม่ใช่เกาะที่วาดด้วย CSS */
+
+/* ── เอากรอบการ์ดขาวใหญ่ออก ให้เกาะเป็นตัวเอก ─────────────────────────── */
+.gc-focus[data-game='memory'] .gc-board,
+.gc-focus[data-game='memory'] .gc-panel.gc-board {
+  background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0;
+}
+.gc-focus[data-game='memory'] .gc-workbench-title { display: none; }
+
+/* แถบบนซ้อนกันหลายชั้นจะเบียดเกาะลงไปจนไม่เด่น จึงบีบระยะทุกแถบให้เตี้ยที่สุด
+   คงช่องว่างซ้าย 88px ไว้ให้หุ่นยนต์ยืน ไม่งั้นข้อความจะทับตัวหุ่น */
+.gc-focus[data-game='memory'] .gc-instruction {
+  background: #ffffffe0; border-radius: 26px; min-height: 78px;
+  padding: 8px 14px 8px 88px; max-width: 640px; margin: 10px auto 6px;
+  box-shadow: 0 4px 14px #17659422;
+}
+.gc-focus[data-game='memory'] .gc-playing-guide { width: 74px; height: 86px; }
+.gc-focus[data-game='memory'] .gc-progress-row { max-width: 560px; padding: 8px 18px; }
+.gc-focus[data-game='memory'] .gc-feedback { margin: 4px auto 0; }
+
+.mem-scene { margin-top: 2px; }
+/* จำนวนคู่ที่พบแสดงในแถบความคืบหน้าอยู่แล้ว ตรงนี้จึงบอกเฉพาะจำนวนครั้งที่เปิด */
+.mem-stats {
+  width: fit-content; margin: 0 auto; padding: 4px 18px; border-radius: 16px;
+  background: #ffffffcc; font-size: 13px; font-weight: 700; text-align: center;
+  box-shadow: 0 2px 8px #1765941c;
+}
+.mem-stats span { font-size: 11px; font-weight: 400; }
+
+/* ── กระดานเกาะ ───────────────────────────────────────────────────────
+   ผิวครีมของภาพเกาะกินพื้นที่ราว x 14–86%, y 24–70% ของภาพ (วัดจากไฟล์จริง)
+   .isl-surface จึงวางทับตรงนั้นพอดี การ์ดข้างในจึงดูวางอยู่บนผิวเกาะ */
+.isl-board {
+  position: relative;
+  width: 100%;
+  max-width: 740px;
+  margin: 0 auto;
+  aspect-ratio: 1100 / 1079;
+}
+.isl-art {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 20px #1765942e);
+}
+/* กรอบนี้คือแถบครีมจริงของภาพเกาะ วัดจากไฟล์: x 16–84%, y 28–62% ของภาพ
+   แถบกว้างแต่เตี้ย (ราว 2.3:1) เพราะเป็นผิวที่มองจากมุมสูง — ตารางการ์ดจึงต้องกว้างตาม */
+.isl-surface {
+  position: absolute;
+  left: 16%; right: 16%; top: 28%; bottom: 38%;
+  display: grid; place-items: center;
+  /* เป็น container ให้ .mem-grid วัดขนาดจากกรอบนี้ได้ตรงๆ ด้วยหน่วย cqw/cqh
+     การ์ดจึงถูกคำนวณให้พอดีเสมอ ไม่ล้นเกาะไม่ว่าจอกว้างเท่าไร */
+  container-type: size;
+}
+
+/* เกาะลอยขึ้นลงช้าๆ อย่างเดียว การ์ดอยู่นิ่ง เด็กจึงเล็งได้ */
+@media (prefers-reduced-motion: no-preference) {
+  .isl-art { animation: isl-drift 6.5s ease-in-out infinite; }
+}
+@keyframes isl-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+
+/* ── ตารางการ์ด ───────────────────────────────────────────────────────
+   ตารางกว้างเตี้ยตามรูปผิวเกาะ ไม่ใช่สี่เหลี่ยมจัตุรัส
+   --cols/--rows บอกรูปทรง ส่วน --mem-card คำนวณจากกรอบผิวเกาะทั้งสองแกน
+   แล้วเอาค่าที่เล็กกว่า การ์ดจึงอยู่ในเกาะเสมอ (1.0787 = 384/356 คือสัดส่วนการ์ด) */
+.mem-grid {
+  --cols: 3; --rows: 2; --gx: 10px; --gy: 8px;
+  --mem-card: min(
+    (100cqw - (var(--cols) - 1) * var(--gx)) / var(--cols),
+    ((100cqh - (var(--rows) - 1) * var(--gy)) / var(--rows)) * 1.0787
+  );
+  display: grid; justify-content: center; align-content: center;
+  gap: var(--gy) var(--gx);
+  grid-template-columns: repeat(var(--cols), var(--mem-card));
+}
+.mem-grid[data-count='12'] { --cols: 6; --rows: 2; }
+.mem-grid[data-count='16'] { --cols: 6; --rows: 3; }
+/* 16 ใบ = 6+6+4 เลื่อนแถวสุดท้ายให้อยู่กลาง ไม่ชิดซ้าย */
+.mem-grid[data-count='16'] > :nth-child(13) { grid-column-start: 2; }
+
+/* ── การ์ดของเล่น 3D ─────────────────────────────────────────────────── */
+.mem-card {
+  position: relative; width: var(--mem-card); aspect-ratio: 384 / 356;
+  padding: 0; border: 0; background: none; perspective: 900px; cursor: pointer;
+}
+.mem-card[aria-disabled='true'] { cursor: default; }
+.mem-card:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 4px; border-radius: 16px; }
+
+.mem-card-inner {
+  position: relative; display: block; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 460ms cubic-bezier(.3, .9, .3, 1.05);
+}
+/* หน้าไพ่ถูกเปิดด้วย data-shown จึงยังเปิดได้ตามปกติแม้ผู้ใช้ปิดการเคลื่อนไหว
+   (prefers-reduced-motion ตัดแค่ระยะเวลา ค่า rotate ยังถูกใช้) */
+.mem-card[data-shown] .mem-card-inner { transform: rotateY(180deg); }
+
+.mem-face { position: absolute; inset: 0; backface-visibility: hidden; }
+.mem-face img { width: 100%; height: 100%; object-fit: contain; transition: filter 200ms ease-out; }
+.mem-face img { filter: drop-shadow(0 6px 5px #17659440); }
+.mem-face-front { transform: rotateY(180deg); }
+
+/* ── จับคู่ได้ ────────────────────────────────────────────────────────── */
+.mem-card[data-matched] { z-index: 20; }
+/* แสงทองรอบการ์ดที่จับคู่แล้ว — ไม่ใช่ transform จึงยังทำงานเมื่อปิดการเคลื่อนไหว */
+.mem-card[data-matched] .mem-face-front img {
+  filter: drop-shadow(0 6px 5px #17659440) drop-shadow(0 0 7px #ffd76a) drop-shadow(0 0 16px #f6c64dcc);
+}
+
+.mem-spark { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+.mem-spark i {
+  position: absolute; top: 10%; left: 50%; width: 13px; height: 13px;
+  background: #f6c64d;
+  clip-path: polygon(50% 0, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0 50%, 39% 35%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mem-card[data-matched] { animation: mem-rise 520ms ease-out; }
+  .mem-spark i { animation: mem-spark 900ms ease-out both; }
+  .mem-spark i:nth-child(1) { --mem-x: -32px; animation-delay: 40ms; }
+  .mem-spark i:nth-child(2) { --mem-x: 4px; animation-delay: 130ms; }
+  .mem-spark i:nth-child(3) { --mem-x: 32px; animation-delay: 220ms; }
+  @media (hover: hover) {
+    /* การ์ดที่ยังไม่จับคู่เท่านั้นที่ลอยรับเมาส์ การ์ดที่จับคู่แล้วอยู่นิ่ง */
+    .mem-card:not([data-matched]):hover { transform: translateY(-7px) scale(1.04); }
+    .mem-card:not([data-matched]):hover .mem-face img { filter: drop-shadow(0 12px 9px #1765943d); }
+  }
+  .mem-card:not([data-matched]):active { transform: translateY(-1px) scale(0.97); transition-duration: 75ms; }
+}
+
+@keyframes mem-rise {
+  0% { translate: 0 0; } 45% { translate: 0 -13px; } 75% { translate: 0 2px; } 100% { translate: 0 0; }
+}
+@keyframes mem-spark {
+  0% { opacity: 0; translate: 0 0; scale: 0.4; }
+  30% { opacity: 1; }
+  100% { opacity: 0; translate: var(--mem-x) -46px; scale: 1.1; }
+}
+
+/* ── มือถือ ───────────────────────────────────────────────────────────
+   ผิวครีมของเกาะแคบเกินกว่าจะใส่ตาราง 4x4 ที่การ์ดใหญ่ 64px ได้ในสัดส่วนเดิม
+   จึงครอบภาพเกาะให้เต็มกล่อง (เห็นผิวครีมกับขอบทองเป็นหลัก) แล้วขยายพื้นที่วางการ์ด
+   tap target 64px สำคัญกว่าการเห็นขอบเกาะครบ (AGENTS.md ข้อ 2) */
+@media (max-width: 639px) {
+  /* ไม่ขยายกรอบผิวเกาะอีกต่อไป — การขยายคือสาเหตุที่การ์ดล้นออกนอกเกาะ
+     ใช้กรอบเดียวกับจอใหญ่ แล้วปล่อยให้การ์ดย่อตามสูตรด้านบน
+     เจ้าของโปรเจกต์อนุมัติให้การ์ดเล็กกว่า 64px บนมือถือได้ (ดูข้อยกเว้นใน AGENTS.md ข้อ 2) */
+  /* ยกเลิก padding ซ้ายขวาของ .gc-focus ให้เกาะเต็มความกว้างจอ ได้พื้นที่การ์ดคืนมา 24px
+     ต้องปลด width:100% ด้วย ไม่งั้น margin ลบจะแค่เลื่อนกล่อง ไม่ได้ขยาย */
+  .isl-board { width: auto; margin-inline: -12px; }
+  .mem-grid { --gx: 6px; --gy: 5px; }
+  /* สี่คอลัมน์อ่านง่ายกว่าบนจอแคบ และผิวเกาะยังพอ */
+  .mem-grid[data-count='12'] { --cols: 4; --rows: 3; }
+  .mem-grid[data-count='16'] { --cols: 6; --rows: 3; }
+  /* คงช่องว่างซ้ายให้หุ่นยนต์ ไม่งั้นข้อความจะทับตัวหุ่น */
+  .gc-focus[data-game='memory'] .gc-instruction { padding: 7px 9px 7px 58px; min-height: 66px; }
+  .gc-focus[data-game='memory'] .gc-playing-guide { width: 54px; height: 72px; }
+}
+
+/* จอแคบมาก — บีบระยะห่างเล็กน้อย ได้พื้นที่การ์ดคืนมาอีกนิด */
+@media (max-width: 359px) {
+  .mem-grid { --gx: 4px; --gy: 3px; }
+}
+
+/* มือถือแนวนอน — ซ่อนแถบที่ไม่จำเป็น เหลือพื้นที่ให้เกาะมากที่สุด */
+@media (max-height: 520px) and (orientation: landscape) {
+  .gc-focus[data-game='memory'] .gc-instruction,
+  .gc-focus[data-game='memory'] .gc-feedback { display: none; }
+  .isl-board { max-width: min(100%, 68vh); }
+  .mem-stats { padding: 4px 16px; font-size: 12px; }
+}

@@ -19,6 +19,10 @@ const JOBS = [
   { dir: "public/islands", width: 900, quality: 86 },
   { dir: "public/Character", width: 400, quality: 86 },
   { dir: "public/BG", width: 1920, quality: 80 },
+  { dir: "public/games/puzzle", width: 900, quality: 86 },
+  { dir: "public/games/hub", width: 640, quality: 85 },
+  { dir: "public/games/common/objects", width: 320, quality: 86 },
+  { dir: "public/games/common/backgrounds", width: 1280, quality: 83 },
 ];
 
 
@@ -133,7 +137,7 @@ for (const job of JOBS) {
     }
 
     await pipeline
-      .resize(job.width, null, { fit: "inside", withoutEnlargement: true })
+      .resize(file === 'game-hub-bg.png' ? 1536 : job.width, null, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: job.quality, effort: 6 })
       .toFile(out);
     const outSize = (await stat(out)).size;

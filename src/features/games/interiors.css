@@ -1,0 +1,212 @@
+/* Game interiors share the hub's art, while every game has a distinct play surface. */
+.gc-focus {
+  --gc-surface: #eaf6ff;
+  --gc-edge: #a8d8f5;
+  --gc-deep-edge: #629fba;
+  background: radial-gradient(ellipse at 50% 40%, #eaf6ff 5%, #eaf6ffab 56%, transparent 85%), url('/games/hub/game-hub-bg.webp') center top / cover;
+  padding-bottom: 48px;
+}
+.gc-focus[data-game='memory'] { --gc-surface: #e3d8ff; --gc-edge: #c3b1ea; --gc-deep-edge: #9484b5; }
+.gc-focus[data-game='color-match'], .gc-focus[data-game='sequence'] { --gc-surface: #fff7d5; --gc-edge: #f6c64d; --gc-deep-edge: #d5b966; }
+.gc-focus[data-game='shape-match'], .gc-focus[data-game='sort'], .gc-focus[data-game='find-object'] { --gc-surface: #c9efdb; --gc-edge: #49c3a5; --gc-deep-edge: #72ab9b; }
+.gc-play-container { max-width: 1080px; }
+.gc-game-header { margin-bottom: 18px; }
+/* ป้ายชื่อเกมด้านบน ใช้สูตรเดียวกับป้ายชื่อเกมในหน้ารวมเกม (games.css .gc-hub .gc-tile-label) */
+.gc-game-header h1 { background: linear-gradient(#fffdf2 0 45%, #fff7d5); border: 3px solid #f6c64d; box-shadow: inset 0 2px 0 #fff, inset 0 -4px 0 #f2e2ad, 0 6px 0 #d5b966, 0 13px 18px #17659430; padding: 10px 30px; border-radius: 18px 18px 28px 28px; color: #1e5fbf; }
+.gc-game-header h1 small { color: #1f2937; }
+
+/* Landing on an island: illustration first, short invitation and level stepping stones. */
+.gc-adventure-intro { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 25px; min-height: 620px; }
+.gc-adventure-scene { position: relative; min-width: 0; padding-bottom: 30px; }
+.gc-adventure-aura { position: absolute; inset: 5% -3% 0; border-radius: 50%; background: radial-gradient(ellipse, #fff7d5 10%, #fff7d590 42%, transparent 70%); pointer-events: none; }
+.gc-adventure-island { position: relative; width: 100%; aspect-ratio: 1; }
+.gc-adventure-robot { position: absolute; width: 31%; height: auto; left: -2%; bottom: 26px; filter: drop-shadow(0 12px 10px #1e5fbf30); pointer-events: none; }
+.gc-adventure-sign { position: relative; width: fit-content; max-width: 80%; margin: -15px 0 0 auto; padding: 12px 22px; text-align: center; background: #fff7d5; border: 3px solid white; border-radius: 20px; box-shadow: 0 6px 0 #d5b966, var(--shadow-soft); font: 800 22px var(--font-display); }
+.gc-adventure-sign small { display: block; font-size: 14px; }
+.gc-adventure-menu { position: relative; padding: 32px 25px 25px; border: 4px solid white; border-top: 10px solid var(--gc-edge); border-radius: 36px; background: #fff7d5; box-shadow: 0 10px 0 var(--gc-deep-edge), var(--shadow-float); text-align: center; }
+.gc-adventure-kicker { font-size: 14px; font-weight: 700; color: #1e5fbf; margin-bottom: 10px; }
+.gc-adventure-kicker span { display: block; font: 500 13px var(--font-display); }
+.gc-adventure-menu h2 { font: 800 clamp(24px, 3vw, 33px)/1.4 var(--font-display); }
+.gc-adventure-description { margin: 12px auto 0; max-width: 360px; font-size: 16px; line-height: 1.7; }
+.gc-adventure-description small { display: block; font-size: 13px; line-height: 1.5; margin-top: 5px; }
+.gc-level-path { margin: 25px 0; min-width: 0; }
+.gc-level-path legend { width: 100%; font-size: 17px; font-weight: 800; margin-bottom: 14px; }
+.gc-level-path legend small { display: block; }
+.gc-level-stones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.gc-level-stone { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; min-height: 150px; min-width: 64px; padding: 12px 5px 18px; border: 3px solid white; background: #eaf6ff; border-radius: 24px; box-shadow: 0 5px 0 #a8d8f5; cursor: pointer; transition: box-shadow 200ms ease-out, border-color 200ms ease-out; }
+.gc-level-number { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff7d5; border: 2px solid white; color: #1e5fbf; box-shadow: 0 3px 0 #d5b966; font: 800 27px var(--font-display); transition: transform 200ms ease-out; }
+.gc-level-stone strong { font-size: 14px; line-height: 1.4; }
+.gc-level-stone small { font-size: 11px; line-height: 1.4; }
+.gc-level-stone[aria-pressed='true'] { border-color: #1e5fbf; background: #fff; box-shadow: 0 5px 0 #1e5fbf, 0 8px 18px #1e5fbf25; }
+.gc-level-selected { position: absolute; bottom: 0; right: 8px; color: #1e5fbf; font-weight: 800; }
+.gc-adventure-start { width: 100%; font-size: 25px; border-radius: 24px; min-height: 78px; }
+.gc-how-to { margin-top: 20px; font-size: 13px; line-height: 1.6; }
+.gc-how-to small { display: block; font-size: 11px; }
+
+/* Active play: guide, reward track and a large toy workbench. */
+.gc-progress-row { max-width: 740px; margin: 0 auto; border: 3px solid white; background: #fff7d5; box-shadow: 0 4px 0 #d5b966; }
+.gc-progress-level { padding-right: 12px; border-right: 2px solid #d5b966; }
+.gc-progress-reward { color: #925008; font-size: 32px; }
+.gc-progress-row progress { height: 21px; border: 2px solid white; }
+.gc-progress-row progress::-moz-progress-bar { background: #1e5fbf; border-radius: 12px; }
+.gc-instruction { position: relative; max-width: 880px; margin: 20px auto 0; background: #eaf6ff; border: 3px solid white; border-radius: 28px; min-height: 95px; padding: 10px 15px 10px 92px; box-shadow: var(--shadow-soft); }
+.gc-playing-guide { position: absolute; left: 2px; bottom: 0; width: 82px; height: 102px; object-fit: contain; pointer-events: none; }
+.gc-instruction h2 { flex: 1; }
+.gc-feedback { margin: 10px auto; width: fit-content; min-height: 36px; padding: 7px 22px; background: #fff7d5; border-radius: 18px; font-size: 14px; }
+.gc-focus .gc-board { position: relative; padding: 0 26px 28px; background: var(--gc-surface); border: 5px solid white; border-bottom: 10px solid var(--gc-edge); border-radius: 40px; box-shadow: 0 10px 0 var(--gc-deep-edge), 0 22px 35px #1e5fbf25; }
+.gc-workbench-title { display: flex; gap: 20px; align-items: center; justify-content: center; width: fit-content; max-width: 100%; margin: -1px auto 20px; padding: 10px 28px 12px; background: #fff7d5; border: 3px solid white; border-top: 0; border-radius: 0 0 24px 24px; box-shadow: 0 4px 0 #d5b966; text-align: center; font-weight: 800; }
+.gc-workbench-title small { display: block; font-weight: 400; }
+.gc-workbench-title>span:first-child, .gc-workbench-title>span:last-child { color: #925008; font-size: 22px; }
+.gc-board-tools { margin-bottom: 20px; }
+.gc-board-tools p { font-size: 13px; }
+.gc-zone-heading { text-align: center; font-size: 17px; font-weight: 800; margin: 10px 0 20px; }
+.gc-zone-heading small { display: block; font-size: 11px; font-weight: 400; }
+.gc-zone-heading.gc-tray-heading { margin: 27px 0 9px; }
+.gc-focus .gc-tray { position: relative; margin-top: 0; padding: 20px 18px 24px; background: #fff7d5; border: 4px solid white; border-bottom: 7px solid #d5b966; border-radius: 25px; box-shadow: inset 0 5px 8px #92500812, 0 4px 0 var(--gc-deep-edge); }
+.gc-focus .gc-tray-slot { flex-basis: 126px; min-height: 142px; }
+.gc-focus .gc-object-button { border-color: white; box-shadow: 0 6px 0 #a8d8f5, 0 9px 14px #1e5fbf18; border-radius: 22px; padding: 8px; }
+.gc-focus .gc-object { max-width: 100px; }
+.gc-object svg { filter: drop-shadow(0 5px 3px #1e5fbf25); }
+.gc-object-raster { position: relative; }
+.gc-object-raster img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 4px #1e5fbf22); user-select: none; pointer-events: none; }
+.gc-object-arabic { position: absolute; left: 20%; top: 28%; width: 45%; text-align: center; font: 700 36px/1 Georgia, serif; color: #1e5fbf; }
+.gc-focus .gc-done-slot { background: #c9efdb; border: 3px dashed #486777; }
+.gc-focus .gc-placed-count { z-index: 1; top: 3px; right: 5px; border: 2px solid white; background: #fff7d5; color: #1e5fbf; box-shadow: 0 2px 0 #d5b966; }
+.gc-focus .gc-drop { min-height: 156px; border: 3px solid white; padding: 14px 8px; }
+.gc-focus .gc-item-label { background: #fff; color: #1f2937; padding: 3px 6px; border-radius: 10px; }
+
+/* Color / sorting: real-looking open bins, keyed by both color and shape labels. */
+.gc-focus[data-game='color-match'] .gc-targets, .gc-focus[data-game='sort'] .gc-targets { padding: 18px 12px 22px; border-radius: 25px; background: #eaf6ff; border-bottom: 8px solid #a8d8f5; }
+.gc-focus[data-game='color-match'] .gc-drop, .gc-focus[data-game='sort'] .gc-drop { background: linear-gradient(100deg, #ffffff90, transparent 35%, #16395918), var(--gc-bin-color); border: 4px solid white; border-top: 13px solid var(--gc-bin-color); border-bottom: 8px solid #ffffffa0; border-radius: 22px 22px 40px 40px; box-shadow: 0 7px 0 var(--gc-deep-edge), inset 0 8px 10px #1f293730; }
+.gc-focus[data-game='color-match'] .gc-drop .gc-object, .gc-focus[data-game='sort'] .gc-drop .gc-object { background: #fff7d5; border-radius: 50%; padding: 5px; margin-bottom: 7px; max-width: 76px; }
+.gc-focus[data-game='sort'] .gc-drop { background-image: repeating-linear-gradient(0deg, #ffffff22 0 3px, transparent 3px 14px), linear-gradient(90deg, #ffffff50, transparent 50%, #1f293715); }
+
+/* Shapes: recessed silhouettes in a thick blue inset board. */
+.gc-focus[data-game='shape-match'] .gc-targets { padding: 26px 14px; background: #a8d8f5; border: 5px solid white; border-bottom: 10px solid #629fba; border-radius: 30px; box-shadow: inset 0 5px 15px #1e5fbf20; }
+.gc-focus[data-game='shape-match'] .gc-drop { background: #eaf6ff; border: 3px solid #fff; box-shadow: inset 0 5px 8px #1e5fbf20; }
+.gc-focus[data-game='shape-match'] .gc-drop.gc-filled { background: #c9efdb; box-shadow: 0 4px 0 #72ab9b; }
+
+/* Arabic: arched letter homes, ivory blocks, actual Unicode stays crisp. */
+.gc-focus[data-game='arabic-match'] .gc-targets { padding: 20px 10px 22px; background: #a8d8f5; border-radius: 40px 40px 12px 12px; border-bottom: 10px solid #629fba; }
+.gc-focus[data-game='arabic-match'] .gc-drop { border: 5px solid white; border-top: 8px solid #f6c64d; border-radius: 55px 55px 16px 16px; background: #fff7d5; box-shadow: inset 0 6px 10px #92500815; }
+.gc-focus[data-game='arabic-match'] .gc-letter { color: #1e5fbf; text-shadow: 0 2px 0 white; }
+.gc-focus[data-game='arabic-match'] .gc-tray .gc-object-button { background: #fff7d5; border: 5px solid #f6c64d; border-radius: 16px; box-shadow: 0 7px 0 #d5b966, 5px 7px 0 #a8d8f5; }
+
+/* Sequence: a dotted trail joins numbered stepping stones without hiding their order. */
+.gc-focus[data-game='sequence'] .gc-targets { position: relative; gap: 22px; padding: 24px 12px; background: #c9efdb; border-radius: 30px; border-bottom: 8px solid #72ab9b; }
+.gc-focus[data-game='sequence'] .gc-drop { flex-basis: 105px; max-width: 134px; min-height: 130px; border: 4px solid white; border-bottom: 8px solid #d5b966; border-radius: 40%; background: #fff7d5; box-shadow: 0 6px 0 #72ab9b; }
+.gc-focus[data-game='sequence'] .gc-drop:not(:last-child)::after { content: '→'; position: absolute; right: -21px; top: 40%; font-size: 21px; color: #1f2937; }
+.gc-focus[data-game='sequence'] .gc-tray .gc-object-button { background: #eaf6ff; border: 4px solid white; border-bottom: 8px solid #a8d8f5; }
+
+/* Puzzle: a gold picture frame and a separate tray of loose pieces. */
+.gc-focus[data-game='puzzle'] .gc-puzzle-board { width: min(100%, 490px); padding: 12px; background: #fff7d5; border: 6px solid #f6c64d; border-bottom: 10px solid #d5b966; border-radius: 22px; gap: 3px; box-shadow: inset 0 0 0 3px white, 0 8px 18px #1e5fbf25; }
+.gc-focus[data-game='puzzle'] .gc-puzzle-board .gc-drop { border: 0; padding: 0; min-height: 64px; border-radius: 4px; }
+.gc-focus[data-game='puzzle'] .gc-puzzle-tray .gc-tray-slot { flex-basis: 100px; min-height: 64px; }
+.gc-focus[data-game='puzzle'] .gc-puzzle-tray .gc-object-button { padding: 0; border: 3px solid white; border-radius: 8px; }
+
+/* Memory: chunky treasure tiles with geometric backs and original 3D objects. */
+.gc-focus[data-game='memory'] .gc-memory-stats { background: #fff7d5; border: 2px solid white; border-radius: 18px; width: fit-content; padding: 8px 25px; margin: 0 auto 22px; font-weight: 700; }
+.gc-focus[data-game='memory'] .gc-memory-grid { max-width: 740px; gap: 18px; padding-bottom: 10px; }
+.gc-focus[data-game='memory'] .gc-memory-card { background: radial-gradient(circle, #62aaf2, #1e5fbf 78%); border: 5px solid #fff7d5; border-bottom-width: 8px; border-radius: 24px; box-shadow: 0 7px 0 #9484b5, 0 10px 18px #1e5fbf25; }
+.gc-focus[data-game='memory'] .gc-card-back { display: grid; place-items: center; width: 70%; height: 70%; border: 2px solid #fff7d580; border-radius: 18px; font-size: 65px; text-shadow: 0 4px 0 #154181; background: radial-gradient(circle, #ffffff20, transparent); }
+.gc-focus[data-game='memory'] .gc-memory-card.gc-face-up { background: #fff7d5; border-color: white; }
+.gc-focus[data-game='memory'] .gc-memory-card.gc-matched { background: #c9efdb; border-color: white; }
+.gc-focus[data-game='memory'] .gc-memory-card .gc-object { width: 88%; max-width: 140px; }
+
+/* Find: separate interactive treasures sit on garden plinths. No target is baked into the scene. */
+.gc-focus[data-game='find-object'] .gc-find-prompt { width: fit-content; margin: 0 auto 20px; padding: 8px 22px; background: #fff7d5; border: 3px solid white; border-radius: 24px; box-shadow: 0 5px 0 #d5b966; }
+.gc-focus[data-game='find-object'] .gc-find-prompt .gc-object { width: 80px; }
+.gc-focus[data-game='find-object'] .gc-find-scene { min-height: 420px; grid-template-columns: repeat(4, minmax(64px, 1fr)); align-items: center; gap: 28px 18px; padding: 40px 24px; background: url('/games/common/backgrounds/garden.webp') center / cover; border: 5px solid white; border-bottom: 10px solid #72ab9b; border-radius: 30px; }
+.gc-focus[data-game='find-object'] .gc-find-object { position: relative; width: 100%; max-width: 155px; min-height: 110px; padding: 7px 5px 22px; background: #eaf6ff85; border: 3px solid #fff; border-radius: 30px 30px 40% 40%; box-shadow: 0 8px 0 #d5b966, 0 12px 18px #1e5fbf25; }
+.gc-focus[data-game='find-object'] .gc-find-object .gc-object { max-width: 130px; }
+.gc-focus[data-game='find-object'] .gc-find-object.gc-found { background: #fff7d5; outline: 4px solid #1e5fbf; outline-offset: 3px; }
+.gc-result { background: radial-gradient(ellipse at 50% 0, #fff7d5, #fff 70%); border: 5px solid white; border-bottom: 10px solid #f6c64d; border-radius: 45px; box-shadow: 0 10px 0 #d5b966, var(--shadow-float); }
+.gc-result>img { height: 220px; width: 220px; filter: drop-shadow(0 9px 8px #1e5fbf20); }
+.gc-result-stars { letter-spacing: 6px; text-shadow: 0 3px 0 #f6c64d; }
+.gc-bottom-controls { margin-top: 30px; }
+
+/* Shadows are always available, including when motion is disabled. */
+@media (hover: hover) {
+  .gc-level-stone:hover { box-shadow: 0 7px 0 #a8d8f5, var(--shadow-float); }
+  .gc-focus .gc-object-button:hover, .gc-focus .gc-drop:not(:disabled):hover, .gc-focus[data-game='memory'] .gc-memory-card:hover { box-shadow: 0 9px 0 var(--gc-deep-edge), var(--shadow-float); }
+  .gc-focus[data-game='color-match'] .gc-drop:not(:disabled):hover, .gc-focus[data-game='sort'] .gc-drop:not(:disabled):hover { box-shadow: 0 10px 0 var(--gc-deep-edge), var(--shadow-float); }
+  .gc-focus[data-game='find-object'] .gc-find-object:hover { box-shadow: 0 10px 0 #d5b966, var(--shadow-float); }
+}
+.gc-level-stone:active, .gc-focus .gc-object-button:active, .gc-focus .gc-drop:not(:disabled):active { box-shadow: 0 9px 0 var(--gc-deep-edge), var(--shadow-float); }
+.gc-focus .gc-object-button[data-dragging='true'] { box-shadow: 0 18px 28px #1e5fbf50; }
+@media (prefers-reduced-motion: no-preference) {
+  .gc-level-stone:active .gc-level-number { transform: scale(.98); transition-duration: 75ms; }
+  @media (hover: hover) { .gc-level-stone:hover .gc-level-number { transform: translateY(-4px) scale(1.03); } }
+}
+@media (max-width: 850px) {
+  .gc-focus[data-game='sequence'] .gc-drop::after { display: none; }
+  .gc-adventure-intro { gap: 14px; }
+  .gc-adventure-menu { padding: 22px 14px; }
+  .gc-adventure-sign { font-size: 18px; padding: 10px 15px; }
+  .gc-level-stones { gap: 7px; }
+  .gc-level-stone strong { font-size: 12px; }
+  .gc-level-stone small { font-size: 10px; }
+}
+@media (max-width: 639px) {
+  .gc-focus { padding: 12px 12px 35px; }
+  .gc-game-header { gap: 10px; }
+  .gc-game-header h1 { font-size: 23px; padding: 8px 15px; }
+  .gc-adventure-intro { grid-template-columns: 1fr; min-height: 0; gap: 5px; }
+  .gc-adventure-scene { width: min(100%, 340px); margin: 0 auto; padding-bottom: 10px; }
+  .gc-adventure-island { width: 78%; margin: 0 auto; }
+  .gc-adventure-robot { width: 24%; left: 0; bottom: 12px; }
+  .gc-adventure-sign { margin-top: -12px; font-size: 17px; padding: 7px 14px; max-width: 78%; }
+  .gc-adventure-sign small { font-size: 11px; }
+  .gc-adventure-menu { padding: 21px 12px 16px; border-radius: 28px; border-top-width: 7px; }
+  .gc-adventure-menu h2 { font-size: 24px; }
+  .gc-adventure-description { font-size: 14px; }
+  .gc-adventure-description small { font-size: 12px; }
+  .gc-level-path { margin: 18px 0 22px; }
+  .gc-level-stone { min-height: 136px; padding: 10px 3px 16px; border-radius: 19px; }
+  .gc-level-number { width: 40px; height: 40px; font-size: 25px; }
+  .gc-adventure-start { min-height: 72px; font-size: 24px; }
+  .gc-progress-row { padding: 8px 10px; gap: 8px; }
+  .gc-progress-level { padding-right: 8px; }
+  .gc-progress-reward { font-size: 24px; }
+  .gc-instruction { padding: 10px 9px 10px 58px; gap: 8px; border-radius: 22px; }
+  .gc-instruction h2 { font-size: 17px; }
+  .gc-instruction h2 small { font-size: 10px; }
+  .gc-playing-guide { width: 54px; height: 75px; }
+  .gc-instruction .gc-button { padding: 6px 8px; font-size: 12px; }
+  .gc-feedback { padding: 6px 12px; font-size: 12px; }
+  .gc-focus .gc-board { padding: 0 8px 20px; border-width: 3px; border-bottom-width: 8px; border-radius: 26px; }
+  .gc-workbench-title { padding: 8px 14px; gap: 10px; font-size: 15px; margin-bottom: 16px; }
+  .gc-workbench-title small { font-size: 10px; }
+  .gc-board-tools p { font-size: 11px; }
+  .gc-zone-heading { font-size: 15px; margin-bottom: 16px; }
+  .gc-focus .gc-targets { gap: 12px; }
+  .gc-focus .gc-drop { flex-basis: 90px; min-height: 132px; padding: 8px 5px; }
+  .gc-focus .gc-object { max-width: 82px; }
+  .gc-focus .gc-item-label { font-size: 12px; padding: 3px 4px; }
+  .gc-focus .gc-item-label small { font-size: 10px; }
+  .gc-focus .gc-tray { padding: 14px 8px 18px; gap: 14px 10px; border-width: 3px; border-bottom-width: 6px; }
+  .gc-focus .gc-tray-slot { flex-basis: 94px; min-height: 124px; }
+  .gc-focus[data-game='color-match'] .gc-targets, .gc-focus[data-game='sort'] .gc-targets { padding: 16px 8px; }
+  .gc-focus[data-game='shape-match'] .gc-targets { padding: 20px 8px; }
+  .gc-focus[data-game='arabic-match'] .gc-drop { border-radius: 40px 40px 14px 14px; }
+  .gc-focus[data-game='sequence'] .gc-targets { gap: 21px; padding: 20px 10px; }
+  .gc-focus[data-game='sequence'] .gc-drop { flex-basis: 88px; max-width: 112px; min-height: 122px; }
+  .gc-focus[data-game='puzzle'] .gc-puzzle-board { padding: 7px; border-width: 4px; border-bottom-width: 8px; }
+  .gc-focus[data-game='puzzle'] .gc-puzzle-tray .gc-tray-slot { flex-basis: 76px; }
+  .gc-focus[data-game='memory'] .gc-memory-grid { gap: 12px 7px; }
+  .gc-focus[data-game='memory'] .gc-memory-card { border-width: 3px; border-bottom-width: 5px; border-radius: 16px; }
+  .gc-focus[data-game='memory'] .gc-card-back { font-size: 36px; border-radius: 10px; }
+  .gc-focus[data-game='memory'] .gc-memory-stats { font-size: 13px; padding: 7px 15px; }
+  .gc-focus[data-game='find-object'] .gc-find-scene { grid-template-columns: repeat(2, minmax(64px, 1fr)); padding: 22px 12px; gap: 24px 16px; min-height: 370px; border-width: 3px; border-bottom-width: 8px; }
+  .gc-focus[data-game='find-object'] .gc-find-prompt { padding: 6px 12px; gap: 10px; font-size: 17px; }
+  .gc-focus[data-game='find-object'] .gc-find-object { min-height: 100px; }
+  .gc-focus[data-game='find-object'] .gc-find-object .gc-object { max-width: 100px; }
+  .gc-object-arabic { font-size: 28px; }
+  .gc-result>img { width: 180px; height: 180px; }
+}
+@media (max-width: 359px) {
+  .gc-focus[data-game='memory'] .gc-memory-grid { gap: 11px 4px; }
+  .gc-focus[data-game='memory'] .gc-memory-card { border-width: 2px; }
+  .gc-level-stones { gap: 5px; }
+  .gc-level-stone strong { font-size: 11px; }
+}
