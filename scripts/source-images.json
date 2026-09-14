@@ -206,5 +206,20 @@
   "public/Character/run/run-03.png": "9bc3a550cbadb168a6b57a768f47b95d146c5d945ee1eb645ee900d50af5e100",
   "public/Character/run/run-04.png": "b19b3c5df1630d18d2b82ce673d3d9615e699da278eed33ab8db7f299063bdf2",
   "public/Character/run/run-05.png": "a74ac643365961695d8b8dd94726be97d986f1f7f5b6dacacf9fbff9ca7773f5",
-  "public/Character/run/run-06.png": "def444456f6d58f9b760d6d4b00e9f49c1a1f1d50609a8b31de31ad2c676d236"
+  "public/Character/run/run-06.png": "def444456f6d58f9b760d6d4b00e9f49c1a1f1d50609a8b31de31ad2c676d236",
+  "public/stories/nuh/cover.png": "be59fbde2bc25f6e3745008a41c1ec7ae88bb9eb02d94a8dbebfb787db4af44d",
+  "public/stories/nuh/p01.png": "2742dbce7e8c945b8a7adb13a467cc875997335276df2b44ebf280edba7370bd",
+  "public/stories/nuh/p02.png": "3edf1634a6b3b34b910366e13881042cc2b097fd235f21ab5678d510ca2459a2",
+  "public/stories/nuh/p03.png": "431f8c05ef77898856529dd78ffab22cbd67803f0605096e328694bf6803ad56",
+  "public/stories/nuh/p04.png": "3b9ad5237e6b20e38551e3219304e1cccb7de4ec8a66dd6aedb39360143f71e2",
+  "public/stories/nuh/p05.png": "f66f4c77a30b473f49581a329b473ddc3c7c493f9258d5591fbfcf07260d0415",
+  "public/stories/nuh/p07.png": "e88102adef05702c8943d72076ed6953301208d36fa12ff636aaa9ea237303e8",
+  "public/stories/nuh/p06.png": "e092a6dd3e87d7020068968f0a09f65d21d2f7b951e066ee1962f7b5a8db4245",
+  "public/stories/nuh/p08.png": "944faae24943aac9642accce3b0d6dd4fb641b4dc77445d1b332f846fbfd4c2e",
+  "public/stories/nuh/p09.png": "b3d2f5fdfd651efa616622a94996ab576174bfdd6ace556e23cbc4cd89433be4",
+  "public/stories/nuh/p10.png": "7dce4bfb994e13f496ebd4948d4442a93ddb17193d0560f40e9eefaec5e2a5b2",
+  "public/stories/nuh/p11.png": "810c13be05846106031583de9fb0ea1b76500d3eb1c53201fe31b775a17b7b26",
+  "public/stories/nuh/p08b.png": "a04c0bfae2935410385068d26e80ab5967d4b49c4a1d0c4c9cbcf030a90b7ede",
+  "public/stories/shelf/shelf-tall.png": "6c79d030c07dce6ec1b3f87daa2084b91b43c013101a55f2f5c24996136386f9",
+  "public/stories/shelf/shelf-wide.png": "0307dfe91a1caa97eb81bf2552570e0f17b316e7945d5c0ec075829156650979"
 }

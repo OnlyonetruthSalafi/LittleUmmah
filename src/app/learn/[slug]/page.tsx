@@ -19,7 +19,8 @@ import { ISLAND_CONTENT, getIslandContent } from "@/lib/lessons";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return ISLAND_CONTENT.map((island) => ({ slug: island.slug }));
+  // เกาะเรื่องเล่ามีหน้าตู้หนังสือของตัวเอง (learn/stories/page.tsx) เหมือนเกาะเกม
+  return ISLAND_CONTENT.filter((island) => island.slug !== "stories").map((island) => ({ slug: island.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/learn/[slug]">): Promise<Metadata> {

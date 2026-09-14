@@ -145,6 +145,48 @@ export function speakWithSynth(text: string) {
   synth.speak(utterance);
 }
 
+/*
+  เสียงพากย์นิทาน — ใช้ช่องเสียงเดียวกับเสียงพูดอื่น stopAllSpeech() (ปุ่มปิดเสียง หรือเสียงอื่นแทรก) จึงหยุดได้
+  ต่างจาก playRecordedClip ตรงที่บอกผู้เรียกได้ว่าเล่นจบ หรือถูกหยุดกลางคัน หนังสือจะได้รู้ว่าควรพลิกหน้าหรือพัก
+  คืนฟังก์ชันยกเลิก ซึ่งหยุดเสียงโดยไม่เรียก handler ใดๆ
+*/
+export function playNarration(
+  src: string,
+  handlers: { onEnded: () => void; onStopped: () => void; onFail: () => void },
+): () => void {
+  stopAllSpeech();
+  let cancelled = false;
+  const audio = new Audio(src);
+  currentAudio = audio;
+  currentClipKey = src;
+  audio.addEventListener("pause", () => {
+    // pause ก่อนจบเท่านั้นที่นับว่าถูกหยุด ตอนเล่นจบเบราว์เซอร์ก็ส่ง pause มาเหมือนกัน
+    if (!cancelled && !audio.ended) handlers.onStopped();
+  });
+  audio.addEventListener("ended", () => {
+    if (currentAudio === audio) {
+      currentAudio = null;
+      currentClipKey = null;
+    }
+    if (!cancelled) handlers.onEnded();
+  });
+  // เล่นไม่ได้ตั้งแต่ต้น (play reject) หรือพังกลางทาง (error) แจ้ง onFail ครั้งเดียว หนังสือจะได้ไม่ค้าง
+  let failed = false;
+  const fail = () => {
+    if (failed || cancelled || currentAudio !== audio) return;
+    failed = true;
+    currentAudio = null;
+    currentClipKey = null;
+    handlers.onFail();
+  };
+  audio.addEventListener("error", fail);
+  void audio.play().catch(fail);
+  return () => {
+    cancelled = true;
+    if (currentAudio === audio) stopAllSpeech();
+  };
+}
+
 /** เล่นไฟล์เสียงที่อัดไว้ ถ้าเล่นไม่ได้จึงค่อยเรียก onFail */
 export function playRecordedClip(key: string, onFail: () => void) {
   if (currentAudio && currentClipKey === key) return;

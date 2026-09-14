@@ -50,6 +50,7 @@ next-env.d.ts
 /public/games/common/backgrounds/*.png
 /public/games/memorygame/*.png
 /public/games/shapegame/*.png
+/public/stories/**/*.png
 /audio-src/
 /public/games/shape match/
 

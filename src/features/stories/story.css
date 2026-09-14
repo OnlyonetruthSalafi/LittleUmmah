@@ -1,0 +1,204 @@
+/*
+  หนังสือนิทาน 2.5D — สไตล์จำกัดใต้ .sb-*
+  หนังสือเอียงไปด้านหลังเล็กน้อย (rotateX) ให้เห็นเป็นเล่มวางบนโต๊ะ ขอบกระดาษซ้อนกันด้านข้าง
+  แผ่นที่พลิกหมุนรอบสันหนังสือด้วย rotateY มีเงาไล่ระดับบนแผ่นระหว่างพลิก
+*/
+.sb-stage {
+  perspective: 2400px;
+  perspective-origin: 50% 20%;
+  padding-block: 12px 28px;
+}
+.sb-book {
+  position: relative;
+  margin-inline: auto;
+  /* หน้าคู่ 3:2 กว้างสุด 1100px และไม่สูงเกินจอ เหลือที่ให้ข้อความกับปุ่ม */
+  width: min(100%, 1100px, max(300px, calc((100svh - 330px) * 1.5)));
+  aspect-ratio: 3 / 2;
+  transform: rotateX(8deg);
+  transform-style: preserve-3d;
+  transition: translate 1000ms cubic-bezier(0.45, 0.05, 0.2, 1);
+}
+/* ปิดเล่ม: เห็นแต่ปกด้านขวา เลื่อนเล่มมาไว้กลางจอ */
+.sb-book[data-closed] { translate: -25% 0; }
+.sb-book[data-closed] .sb-page-left,
+.sb-book[data-closed] .sb-gutter { opacity: 0; }
+.sb-book[data-closed][data-turning] .sb-page-left { opacity: 1; }
+
+/* ปกแข็งด้านหลังกระดาษ ขอบทองเล็กๆ และเงาตกบนพื้น */
+.sb-board {
+  position: absolute;
+  inset: -2.2% -1.6%;
+  border-radius: 14px;
+  background:
+    linear-gradient(#0000, #0000) padding-box,
+    linear-gradient(135deg, #f7d77c, #c8952c 45%, #f7d77c) border-box;
+  background-color: #0f6f86;
+  border: 3px solid transparent;
+  box-shadow: 0 30px 50px -18px rgb(10 50 90 / 0.55), 0 8px 0 #0a4f61;
+  transform: translateZ(-4px);
+  transition: inset 1000ms cubic-bezier(0.45, 0.05, 0.2, 1);
+}
+.sb-book[data-closed]:not([data-turning]) .sb-board { inset: -2.2% -1.6% -2.2% 48.6%; }
+
+.sb-page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  background: #fbf5e6;
+}
+.sb-page-left {
+  left: 0;
+  border-radius: 8px 2px 2px 8px;
+  /* ขอบกระดาษซ้อนกันด้านซ้าย */
+  box-shadow: -3px 0 0 #f1e7cf, -6px 1px 0 #e3d5b4, -9px 2px 0 #d6c59c;
+  transition: opacity 400ms ease-out;
+}
+.sb-page-right {
+  right: 0;
+  border-radius: 2px 8px 8px 2px;
+  box-shadow: 3px 0 0 #f1e7cf, 6px 1px 0 #e3d5b4, 9px 2px 0 #d6c59c;
+}
+
+.sb-half { position: absolute; inset: 0; overflow: hidden; }
+.sb-half-img { position: absolute; top: 0; bottom: 0; width: 200%; }
+.sb-half[data-side="left"] .sb-half-img { left: 0; }
+.sb-half[data-side="right"] .sb-half-img { left: -100%; }
+
+/* เงาสันหนังสือตรงกลาง */
+.sb-gutter {
+  position: absolute;
+  inset: 0 45%;
+  pointer-events: none;
+  background: linear-gradient(90deg, #0000 0%, rgb(40 25 5 / 0.22) 45%, rgb(40 25 5 / 0.32) 50%, rgb(40 25 5 / 0.22) 55%, #0000 100%);
+  transition: opacity 400ms ease-out;
+}
+
+/* ปกด้านใน (หลังปก) ตอนเพิ่งเปิดเล่ม: พื้นฟ้าเทอร์ควอยซ์ ลายเรขาคณิตสีทองจางๆ */
+.sb-endpaper {
+  position: absolute;
+  inset: 0;
+  background-color: #0f7c93;
+  background-image:
+    radial-gradient(circle at 50% 50%, #0000 38%, rgb(247 215 124 / 0.55) 39% 42%, #0000 43%),
+    linear-gradient(45deg, #0000 47%, rgb(247 215 124 / 0.35) 48% 52%, #0000 53%),
+    linear-gradient(-45deg, #0000 47%, rgb(247 215 124 / 0.35) 48% 52%, #0000 53%);
+  background-size: 56px 56px;
+  box-shadow: inset 0 0 0 10px #0c6a7e, inset 0 0 0 12px #e9bf55;
+}
+
+.sb-cover { position: absolute; inset: 0; }
+.sb-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* ขอบทองรอบปก และสันปกด้านซ้าย */
+  box-shadow: inset 0 0 0 6px #e9bf55, inset 0 0 0 9px #fff6d8, inset 18px 0 22px -12px rgb(0 0 0 / 0.45);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.sb-cover-title {
+  position: absolute;
+  top: 7%;
+  left: 8%;
+  right: 8%;
+  padding: 0.6em 0.8em;
+  text-align: center;
+  border-radius: 18px;
+  background: rgb(255 253 246 / 0.9);
+  box-shadow: 0 6px 0 #e3b64c, 0 12px 24px rgb(15 70 110 / 0.3);
+  color: var(--color-island-ink);
+  font-family: var(--font-display);
+  line-height: 1.25;
+}
+.sb-cover-th { display: block; font-weight: 800; font-size: clamp(14px, 2.6vw, 30px); }
+.sb-cover-en { display: block; font-weight: 600; font-size: clamp(10px, 1.4vw, 17px); color: var(--color-island-ink-soft); }
+
+/* แผ่นที่กำลังพลิก */
+.sb-leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  transform-style: preserve-3d;
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.2, 1);
+  animation-fill-mode: forwards;
+  z-index: 3;
+}
+.sb-leaf[data-dir="fwd"] { left: 50%; transform-origin: 0% 50%; animation-name: sb-flip-fwd; }
+.sb-leaf[data-dir="back"] { left: 0; transform-origin: 100% 50%; animation-name: sb-flip-back; }
+@keyframes sb-flip-fwd {
+  from { transform: rotateY(0deg); }
+  50% { transform: rotateY(-90deg) translateZ(6px); }
+  to { transform: rotateY(-180deg); }
+}
+@keyframes sb-flip-back {
+  from { transform: rotateY(0deg); }
+  50% { transform: rotateY(90deg) translateZ(6px); }
+  to { transform: rotateY(180deg); }
+}
+.sb-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #fbf5e6;
+  backface-visibility: hidden;
+}
+.sb-face-back { transform: rotateY(180deg); }
+/* แสงเงาบนแผ่น: มืดลงตอนแผ่นตั้งฉาก แล้วสว่างกลับเมื่อวางลง */
+.sb-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: sb-shade 1000ms ease-in-out;
+}
+.sb-leaf[data-dir="fwd"] .sb-face-front .sb-shade,
+.sb-leaf[data-dir="back"] .sb-face-back .sb-shade { background: linear-gradient(90deg, rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.05) 60%, rgb(255 255 255 / 0.15)); }
+.sb-leaf[data-dir="fwd"] .sb-face-back .sb-shade,
+.sb-leaf[data-dir="back"] .sb-face-front .sb-shade { background: linear-gradient(270deg, rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.05) 60%, rgb(255 255 255 / 0.15)); }
+@keyframes sb-shade {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ปิดการเคลื่อนไหว: เปลี่ยนหน้าทันที ไม่มีแผ่นพลิก (StoryBook ข้าม turn) และเล่มไม่เลื่อน */
+@media (prefers-reduced-motion: reduce) {
+  .sb-book, .sb-board { transition: none; }
+}
+
+.sb-preload { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+
+/* ปุ่มควบคุม: 64px ตามเกณฑ์เด็ก ยกทั้งปุ่มตอน hover (ข้อ 2.1) */
+.sb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  box-shadow: var(--shadow-soft);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, opacity 200ms ease-out;
+}
+.sb-btn:not(.sb-btn-main) { background: #fff; border: 2px solid var(--color-sky); }
+.sb-btn-main { min-height: 76px; min-width: 11.5rem; padding-inline: 1.4rem 1.8rem; font-size: 1.25rem; }
+.sb-btn:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) {
+  .sb-btn:not(:disabled):hover { box-shadow: var(--shadow-float); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .sb-btn:not(:disabled):hover { transform: translateY(-2px); } }
+  .sb-btn:not(:disabled):active { transform: scale(0.98); transition-duration: 75ms; }
+}
+
+@media (max-width: 639px) {
+  .sb-btn-main { min-width: 10rem; padding-inline: 1rem 1.2rem; font-size: 1.1rem; }
+  .sb-stage { perspective: 1400px; padding-block: 6px 18px; }
+  .sb-book { transform: rotateX(5deg); }
+  .sb-cover-title { border-radius: 10px; box-shadow: 0 3px 0 #e3b64c; }
+}
