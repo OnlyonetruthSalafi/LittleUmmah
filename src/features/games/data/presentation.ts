@@ -4,6 +4,13 @@ type GamePresentation = {
   world: Label;
   description: Label;
   levels: [Label, Label, Label];
+  /**
+    หน้าแนะนำเกมแบบ "หุ่นยนต์สอนด้วยเสียง" แทนการอ่านข้อความยาวๆ
+    ใส่แล้วหน้าแนะนำจะตัดคำโปรย คำอธิบาย และป้ายชื่อโลกออก เหลือคำสั่งบรรทัดเดียว
+    แล้วให้หุ่นยนต์พูดสอนวิธีเล่นจากไฟล์ /audio/th/howto-<slug>.mp3 ก่อนปุ่มเริ่มเล่นจะโผล่
+    เปิดทีละเกมโดยเจ้าของโปรเจกต์ ไม่เปิดพร้อมกันทั้งแปดเกม
+  */
+  voiceIntro?: boolean;
   /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
   levelCount?: 1 | 2 | 3;
   destinations: Label;
@@ -20,6 +27,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
   'shape-match': {
     world: { th: 'ห้องของเล่นรูปทรง', en: 'The Shape Studio' },
     description: { th: 'ดูขอบรูป แล้วหาช่องที่พอดีกัน', en: 'Look at the outline. Find a perfect fit.' },
+    voiceIntro: true,
     // เกมนี้มีด่านเดียว ใช้ครบห้ารูปทรงเสมอ เพราะแผ่นฐานวาดหลุมมาครบห้าหลุม
     levelCount: 1,
     levels: [{ th: '5 รูปทรง', en: 'Five shapes' }, { th: '5 รูปทรง', en: 'Five shapes' }, { th: '5 รูปทรง', en: 'Five shapes' }],
@@ -44,9 +52,9 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     destinations: { th: 'บ้านของอักษร', en: 'Letter homes' }, pieces: { th: 'เลือกบล็อกอักษร', en: 'Pick a letter block' },
   },
   sequence: {
-    world: { th: 'เส้นทางนักเรียง', en: 'The Stepping Stone Trail' },
-    description: { th: 'วางทีละชิ้น จากน้อยไปมาก', en: 'Follow the trail from little to large.' },
-    levels: [{ th: 'นับ 1 ถึง 4', en: 'Count 1 to 4' }, { th: 'เล็ก → ใหญ่', en: 'Small to large' }, { th: 'นับ 1 ถึง 6', en: 'Count 1 to 6' }],
+    world: { th: 'เกาะนักเรียงตัวน้อย', en: 'Little Builders Island' },
+    description: { th: 'พาบล็อกของเล่นขึ้นเกาะ เรียงขนาด จำนวน และความสูงจากน้อยไปมาก', en: 'Bring the toy blocks to the island. Order their size, number and height.' },
+    levels: [{ th: 'เล็ก → ใหญ่', en: 'Small to large' }, { th: 'น้อย → มาก', en: 'Count 1 to 4' }, { th: 'เตี้ย → สูง', en: 'Short to tall' }],
     destinations: { th: 'เรียงไปตามทาง', en: 'Follow the trail' }, pieces: { th: 'ชิ้นไหนมาก่อนนะ?', en: 'Which comes first?' },
   },
   'find-object': {

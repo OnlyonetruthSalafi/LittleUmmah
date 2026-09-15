@@ -7,4 +7,5 @@ const MatchingBoard = dynamic(() => import('../games/MatchingBoard'), { loading 
 const MemoryBoard = dynamic(() => import('../games/MemoryBoard'), { loading });
 const ShapeBoard = dynamic(() => import('../games/ShapeBoard'), { loading });
 const FindBoard = dynamic(() => import('../games/FindBoard'), { loading });
-export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'memory' ? MemoryBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : MatchingBoard} />; }
+const SequenceBoard = dynamic(() => import('../games/SequenceBoard'), { loading });
+export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'memory' ? MemoryBoard : game.slug === 'sequence' ? SequenceBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : MatchingBoard} />; }

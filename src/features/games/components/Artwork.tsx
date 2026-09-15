@@ -4,6 +4,7 @@ import { GameShape } from '@/components/icons/GameShape';
 import type { GameIconName } from '@/lib/games';
 import { gameAssets, type GameSlug } from '../data/catalog';
 import { type Visual } from '../data/content';
+import { SequenceToy } from './SequenceToy';
 
 const objectImages = new Set(['moon', 'sparkle', 'mushaf', 'lantern', 'jug', 'mat', 'letters', 'maze']);
 
@@ -17,6 +18,10 @@ export function ObjectArt({ visual, recessed = false }: { visual: Visual; recess
 }
 
 export function Thumbnail({ slug, large = false }: { slug: GameSlug; large?: boolean }) {
+  if (slug === 'sequence' && large) return <div className="gc-diorama seq-thumbnail" aria-hidden="true">
+    <Image src="/games/sequence/island.webp" alt="" fill sizes={large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, 290px'} preload={large} />
+    <div className="seq-thumbnail-toys">{[0, 1, 2].map(rank => <SequenceToy key={rank} kind="height" rank={rank} />)}</div>
+  </div>;
   return <div className="gc-diorama" aria-hidden="true">
     <Image src={`/games/hub/${slug}.webp`} alt="" fill sizes={large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, (max-width: 1000px) 31vw, 290px'} preload={large} />
     {slug === 'arabic-match' && <span className="gc-art-letters" lang="ar" dir="rtl"><span>ا</span><span>ب</span><span>ت</span></span>}

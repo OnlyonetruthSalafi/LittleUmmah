@@ -196,8 +196,90 @@ async function write(src, out, width, height, quality) {
   outBytes += buffer.length;
   console.log(`  ${out.padEnd(16)} ${(buffer.length / 1024).toFixed(0)} KB`);
 }
+/*
+  บล็อกสี่เหลี่ยมจัตุรัสในถาด: ต้นฉบับใน object/ วาดเป็น "ลูกบาศก์หันมุมเข้าหาคนดู"
+  หน้าบนจึงเป็นข้าวหลามตัด ไม่เหมือนหลุมบนแผ่นซึ่งเป็นสี่เหลี่ยมวางตรง
+  เด็กที่กำลังหัดรูปทรงจึงมองไม่ออกว่าชิ้นนี้คู่กับหลุมไหน (เจ้าของโปรเจกต์แจ้ง)
+
+  แก้โดยตัด "แผ่นสี่เหลี่ยมสีน้ำเงินที่หยอดลงหลุมแล้ว" ออกมาจากภาพแผ่นฐานของเจ้าของโปรเจกต์เอง
+  มุมมอง แสง และสัดส่วนจึงตรงกับหลุมเป๊ะ เพราะมาจากภาพเดียวกัน
+  (ไม่ได้วาดใหม่ ไม่ได้เอาของคนอื่นมา — เป็นภาพชุดเดิมของโปรเจกต์)
+
+  ถ้ามีภาพบล็อกสี่เหลี่ยมที่วาดใหม่มาแทน ให้ลบฟังก์ชันนี้แล้วใส่ square กลับเข้า BLOCKS ตามปกติ
+*/
+async function writeSquareFromPlate() {
+  const src = SINGLES.square;
+  const raw = await readFile(src);
+  const { data, info } = await sharp(raw).raw().toBuffer({ resolveWithObject: true });
+  const { width: W, height: H, channels: C } = info;
+  // น้ำเงินของแผ่นเท่านั้น — เกณฑ์นี้ไม่ติดฟ้าเทอร์ควอยซ์ของถาดและคิ้วทองรอบหลุม
+  const isBlue = (r, g, b) => b > 110 && b - r > 55 && b - g > 25;
+
+  const rows = new Array(H).fill(0), cols = new Array(W).fill(0);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = (y * W + x) * C;
+    if (isBlue(data[i], data[i + 1], data[i + 2])) { rows[y]++; cols[x]++; }
+  }
+  // ตัดพิกเซลหลงเหลือจากขอบภาพทิ้ง ด้วยการนับว่าแถว/คอลัมน์นั้นมีสีน้ำเงินมากพอจริง
+  const span = c => [c.findIndex(v => v > 8), c.length - 1 - [...c].reverse().findIndex(v => v > 8)];
+  const [y0, y1] = span(rows), [x0, x1] = span(cols);
+  const pad = 8;
+  const left = Math.max(0, x0 - pad), top = Math.max(0, y0 - pad);
+  const w = Math.min(W - left, x1 - x0 + 1 + pad * 2), h = Math.min(H - top, y1 - y0 + 1 + pad * 2);
+
+  const mask = Buffer.alloc(w * h * 4);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = ((top + y) * W + (left + x)) * C, o = (y * w + x) * 4;
+    mask[o] = mask[o + 1] = mask[o + 2] = 255;
+    mask[o + 3] = isBlue(data[i], data[i + 1], data[i + 2]) ? 255 : 0;
+  }
+  // median กินจุดหลงเดี่ยวๆ ทิ้ง แล้ว blur ทำให้ขอบไม่เป็นฟันเลื่อย
+  const maskPng = await sharp(mask, { raw: { width: w, height: h, channels: 4 } }).median(5).blur(1).png().toBuffer();
+  const cut = await sharp(raw).extract({ left, top, width: w, height: h }).ensureAlpha()
+    .composite([{ input: maskPng, blend: 'dest-in' }]).png().toBuffer();
+
+  // trim ต้องแยกไปป์ไลน์ ไม่ต่อท้าย composite ได้ เพราะ sharp ทำ trim ก่อน composite เสมอ
+  const topFace = await sharp(cut).trim({ threshold: 5 }).png().toBuffer();
+  const face = await sharp(topFace).metadata();
+
+  /*
+    แผ่นที่ตัดมาจากหลุมเป็น "หน้าบน" อย่างเดียว ไม่มีความหนา เพราะด้านข้างจมอยู่ในหลุม
+    จึงต้องปั้นความหนาขึ้นมาเอง: วางสำเนาหน้าบนซ้อนลงล่างทีละพิกเซล ไล่ให้เข้มลงเรื่อยๆ
+    ได้เป็นบล็อกทึบที่มีด้านข้างเหมือนบล็อกอีกสี่ชิ้น
+  */
+  const depth = Math.round(face.height * 0.30);
+  const offsets = Array.from({ length: depth }, (_, k) => depth - k);
+  const shades = await Promise.all(offsets.map(async dy => ({
+    input: await sharp(topFace).modulate({ brightness: 0.80 + 0.16 * (1 - dy / depth) }).png().toBuffer(),
+    left: 0, top: dy,
+  })));
+  const canvas = () => sharp({ create: { width: face.width, height: face.height + depth, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } });
+
+  /* ด้านข้างที่ได้จะมีริ้วของไฮไลต์บนหน้าบนติดมา เบลอเฉพาะ "สี" ให้เรียบ
+     แล้วเอา alpha คมๆ ของกองเดิมมาครอบกลับ ขอบบล็อกจึงไม่ฟุ้ง */
+  const white = await sharp(topFace).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  for (let i = 0; i < white.data.length; i += 4) { white.data[i] = 255; white.data[i + 1] = 255; white.data[i + 2] = 255; }
+  const whitePng = await sharp(white.data, { raw: { width: white.info.width, height: white.info.height, channels: 4 } }).png().toBuffer();
+  const silhouette = await canvas().composite(offsets.map(dy => ({ input: whitePng, left: 0, top: dy }))).png().toBuffer();
+  const smooth = await sharp(await canvas().composite(shades).png().toBuffer()).blur(5).png().toBuffer();
+  const side = await sharp(smooth).composite([{ input: silhouette, blend: 'dest-in' }]).png().toBuffer();
+  const block = await sharp(side).composite([{ input: topFace, left: 0, top: 0 }]).png().toBuffer();
+
+  const buffer = await sharp(block)
+    .resize(BLOCK - 10, BLOCK - 10, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .extend({ top: 5, bottom: 5, left: 5, right: 5, background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .webp({ quality: 90, effort: 6 }).toBuffer();
+  await writeFile(`${OUT}/block-square.webp`, buffer);
+  hashes[`${OUT}/block-square.webp`] = { source: src, sha256: createHash('sha256').update(raw).digest('hex') };
+  outBytes += buffer.length;
+  console.log(`  ${'block-square'.padEnd(16)} ${(buffer.length / 1024).toFixed(0)} KB  (ตัดจากแผ่นที่หยอดแล้ว + ปั้นความหนา)`);
+}
+
 console.log('บล็อกรูปทรง:');
-for (const [shape, stamp] of Object.entries(BLOCKS)) await write(`${SRC}/object/ChatGPT Image Sep 13, 2026, ${stamp}.png`, `block-${shape}`, BLOCK, BLOCK, 90);
+for (const [shape, stamp] of Object.entries(BLOCKS)) {
+  if (shape === 'square') { await writeSquareFromPlate(); continue; }
+  await write(`${SRC}/object/ChatGPT Image Sep 13, 2026, ${stamp}.png`, `block-${shape}`, BLOCK, BLOCK, 90);
+}
 console.log('เกาะ:');
 await write(ISLAND, 'island', ISLAND_W, ISLAND_W, 88);
 

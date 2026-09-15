@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFile } from 'node:fs/promises';
 import { shuffle, canPlace, levelComplete, createMemory, flipCard, memoryMatches, settleMemory } from '../src/features/games/engine/rules.ts';
 import { createProgressRepository } from '../src/features/games/engine/progress.ts';
 import { boardContent, arabicLetters } from '../src/features/games/data/content.ts';
@@ -102,4 +103,65 @@ test('game UI text colors meet WCAG AA on every added surface', () => {
   assert.ok(ratio('ffffff', '1e5fbf') >= 4.5);
   assert.ok(ratio('1e5fbf', 'c8edff') >= 4.5);
   assert.ok(ratio('925008', 'ffffff') >= 4.5);
+});
+
+/*
+  หน้าแนะนำเกมแบบหุ่นยนต์สอนด้วยเสียง (voiceIntro)
+  คำสั่งวางอยู่บนป้ายพื้นครีม ไม่ใช่บนภาพฉากตรงๆ ค่าคู่สีจึงวัดได้แน่นอน
+  ถ้ามีคนเปลี่ยนสีป้ายในอนาคต เทสต์นี้จะจับได้ก่อนขึ้นเว็บ
+*/
+test('ป้ายคำสั่งของหน้าแนะนำแบบเสียง ผ่านเกณฑ์ contrast', () => {
+  const luminance = hex => {
+    const c = hex.match(/[a-f\d]{2}/gi).map(v => parseInt(v, 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+    return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
+  };
+  const ratio = (a, b) => (luminance(a) + .05) / (luminance(b) + .05);
+  // #fff7d5 = พื้นป้าย, #1e5fbf = ตัวอักษรไทย, #1f2937 = บรรทัดอังกฤษ, #4a2600 = ตัวอักษรบนปุ่มเริ่มเล่น
+  assert.ok(ratio('#fff7d5', '#1e5fbf') >= 4.5);
+  assert.ok(ratio('#fff7d5', '#1f2937') >= 4.5);
+  assert.ok(ratio('#f5a623', '#4a2600') >= 4.5);
+});
+
+/*
+  บล็อกสี่เหลี่ยมจัตุรัสในถาดของเกมหยอดรูปทรง
+
+  ต้นฉบับที่เจ้าของโปรเจกต์วาด (object/…(4).png) เป็น "ลูกบาศก์หันมุมเข้าหาคนดู"
+  หน้าบนจึงเป็นข้าวหลามตัด ไม่เหมือนหลุมบนแผ่นซึ่งเป็นสี่เหลี่ยมวางตรง เด็กจับคู่ไม่ถูก
+  scripts/prepare-shape-art.mjs จึงตัดแผ่นที่หยอดแล้วจากภาพแผ่นฐานมาใช้แทน แล้วปั้นความหนาต่อ
+
+  เทสต์นี้คุมสองอย่างที่เคยพังมาแล้วทั้งคู่:
+  1. ที่มาของภาพต้องเป็นแผ่นฐานที่หยอดแล้ว ไม่ใช่ลูกบาศก์ใน object/
+  2. ต้องมีความหนา — ด้านล่างของบล็อกต้องเข้มกว่าหน้าบนชัดเจน (แผ่นแบนล้วนจะสว่างเท่ากันทั้งใบ)
+*/
+test('บล็อกสี่เหลี่ยมจัตุรัสมาจากแผ่นที่หยอดแล้ว ไม่ใช่ลูกบาศก์', async () => {
+  const sources = JSON.parse(await readFile('scripts/source-images.json', 'utf8'));
+  const entry = sources['public/games/shape/block-square.webp'];
+  assert.ok(entry, 'ต้องบันทึกที่มาของ block-square.webp ไว้ใน source-images.json');
+  assert.match(entry.source, /\/done\//, `ต้องตัดมาจากภาพแผ่นฐานที่หยอดแล้ว แต่ได้ ${entry.source}`);
+});
+
+test('บล็อกสี่เหลี่ยมจัตุรัสมีความหนา ไม่ใช่แผ่นแบนราบ', async () => {
+  const sharp = (await import('sharp')).default;
+  const { data, info } = await sharp('public/games/shape/block-square.webp').ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const opaque = i => data[i * 4 + 3] >= 40;
+  let y0 = info.height, y1 = -1;
+  for (let y = 0; y < info.height; y += 1) for (let x = 0; x < info.width; x += 1) {
+    if (!opaque(y * info.width + x)) continue;
+    if (y < y0) y0 = y;
+    if (y > y1) y1 = y;
+  }
+  const band = (from, to) => {
+    let sum = 0, n = 0;
+    for (let y = Math.round(y0 + (y1 - y0) * from); y <= Math.round(y0 + (y1 - y0) * to); y += 1)
+      for (let x = 0; x < info.width; x += 1) {
+        const i = y * info.width + x;
+        if (!opaque(i)) continue;
+        sum += (data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2]) / 3;
+        n += 1;
+      }
+    return n ? sum / n : 0;
+  };
+  const ratio = band(0.88, 1) / band(0.1, 0.5);
+  // บล็อกอีกสี่ชิ้นอยู่ในช่วง 0.50–0.70 ชิ้นนี้เข้มกว่าเล็กน้อยเพราะด้านข้างสูงกว่า
+  assert.ok(ratio > 0.25 && ratio < 0.8, `ด้านล่างควรเข้มกว่าหน้าบน (0.25–0.8) แต่ได้ ${ratio.toFixed(2)}`);
 });

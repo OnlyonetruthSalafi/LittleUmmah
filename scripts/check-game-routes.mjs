@@ -11,10 +11,21 @@ for (const route of routes) {
   if (route === '/games') for (const game of games) assert.ok(html.includes(`href="/games/${game.slug}"`), `${game.slug} is linked`);
   const game = games.find(game => route === `/games/${game.slug}`);
   if (game) {
+    const theme = gamePresentation[game.slug];
     assert.ok(html.includes(game.title.th), `${route} Thai title rendered`);
-    assert.ok(html.includes(gamePresentation[game.slug].world.th), `${route} world name rendered`);
-    assert.ok(html.includes('gc-adventure-intro'), `${route} illustrated introduction rendered`);
-    for (const label of gamePresentation[game.slug].levels) assert.ok(html.includes(label.th), `${route} level description rendered`);
+    if (theme.voiceIntro) {
+      // เกมที่หุ่นยนต์สอนด้วยเสียง: หน้าแนะนำเหลือคำสั่งบรรทัดเดียวกับปุ่มเริ่มเล่น
+      // ข้อความชุดเดิม (ชื่อโลก คำโปรย ชื่อด่าน) ต้องหายไปจริง ไม่ใช่แค่ซ่อนด้วย CSS
+      assert.ok(html.includes('gc-voice-intro'), `${route} voice introduction rendered`);
+      assert.ok(html.includes('gc-start-3d'), `${route} start button rendered`);
+      assert.ok(html.includes(game.instruction.th), `${route} instruction still readable as text`);
+      assert.ok(!html.includes(theme.world.th), `${route} world name removed`);
+      assert.ok(!html.includes('gc-adventure-intro'), `${route} old wordy introduction removed`);
+    } else {
+      assert.ok(html.includes(theme.world.th), `${route} world name rendered`);
+      assert.ok(html.includes('gc-adventure-intro'), `${route} illustrated introduction rendered`);
+      for (const label of theme.levels) assert.ok(html.includes(label.th), `${route} level description rendered`);
+    }
   }
   console.log(`PASS ${route}`);
 }

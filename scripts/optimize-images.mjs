@@ -16,6 +16,7 @@ import sharp from "sharp";
    ส่วนพื้นหลังกินเต็มความกว้างจอ จึงต้องใหญ่กว่า
    หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
 const JOBS = [
+  { dir: "public/games/sequence", width: 1100, quality: 88 },
   // หนังสือนิทาน: ภาพหน้าคู่แสดงกว้างสุด 1100px (ครึ่งละ ~550px) 1200 พอ และไฟล์เล็กลงราวครึ่ง ปกกว้าง 1024 อยู่แล้ว
   { dir: "public/stories/nuh", width: 1200, quality: 82 },
   { dir: "public/stories/shelf", width: 1400, quality: 84 },
@@ -143,7 +144,7 @@ for (const job of JOBS) {
     }
 
     await pipeline
-      .resize(file === 'game-hub-bg.png' ? 1536 : job.width, null, { fit: "inside", withoutEnlargement: true })
+      .resize(file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: job.quality, effort: 6 })
       .toFile(out);
     const outSize = (await stat(out)).size;
