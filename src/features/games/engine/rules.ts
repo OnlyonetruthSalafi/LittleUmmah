@@ -26,3 +26,19 @@ export function settleMemory(state: MemoryState): MemoryState {
   const value = state.deck.find(c => c.id === state.open[0])!.value;
   return { ...state, open: [], matched: memoryMatches(state) ? [...state.matched, value] : state.matched };
 }
+
+/* หลุมของเกมหยอดรูปทรงวาดแบบ isometric กรอบสี่เหลี่ยมของแต่ละหลุมจึงคาบเกี่ยวกันได้
+   (หลุมดาวกินเข้าไปในเนื้อวงกลมกับสี่เหลี่ยมจัตุรัสที่เด็กเห็นราว 4%)
+   จุดที่ตกอยู่ในกรอบหลายใบต้องตัดสินด้วยกรอบที่จุดนั้น "อยู่ลึกที่สุด"
+   ไม่ใช่ชั้นบนสุดใน DOM เพราะชั้นบนสุดคือใบที่ render ทีหลัง ไม่ใช่ใบที่เด็กเล็ง
+
+   วัดความลึกเป็นระยะจากจุดศูนย์กลางที่หารด้วยครึ่งขนาดของกรอบใบนั้นเอง
+   ระยะดิบใช้ไม่ได้ เพราะหลุมสี่เหลี่ยมผืนกว้างมีขอบที่ห่างจากศูนย์กลางตัวเองกว่าศูนย์กลางหลุมดาวที่อยู่ทแยงมุม */
+export function nearestDropTarget<T extends { cx: number; cy: number; rx: number; ry: number }>(x: number, y: number, candidates: readonly T[]): T | null {
+  let best: T | null = null, bestDepth = Infinity;
+  for (const candidate of candidates) {
+    const depth = Math.hypot((x - candidate.cx) / (candidate.rx || 1), (y - candidate.cy) / (candidate.ry || 1));
+    if (depth < bestDepth) { bestDepth = depth; best = candidate; }
+  }
+  return best;
+}

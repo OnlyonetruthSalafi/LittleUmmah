@@ -1,5 +1,6 @@
 'use client';
 import { useRef, type ReactNode, type PointerEvent } from 'react';
+import { dropTargetAt } from './dropTarget';
 export function DragItem({ id, label, selected, disabled, onSelect, onDrop, children }: { id: string; label: string; selected: boolean; disabled?: boolean; onSelect: () => void; onDrop: (id: string, target: string) => void; children: ReactNode }) {
   const drag = useRef<{ x: number; y: number; moved: boolean; pointerId: number } | null>(null);
   const suppressClick = useRef(false);
@@ -11,7 +12,7 @@ export function DragItem({ id, label, selected, disabled, onSelect, onDrop, chil
     if (current.moved) {
       suppressClick.current = true;
       element.style.pointerEvents = 'none';
-      const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-drop-id]');
+      const target = dropTargetAt(event.clientX, event.clientY);
       element.style.pointerEvents = '';
       if (target && !target.hasAttribute('disabled')) onDrop(id, target.dataset.dropId!);
     }

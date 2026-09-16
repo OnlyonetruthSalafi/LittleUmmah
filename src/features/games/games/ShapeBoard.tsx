@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { GameImage as Image } from '../components/GameImage';
 import { IslandBoard } from '../components/diorama/IslandBoard';
 import { DragItem } from '../components/DragItem';
+import { dropTargetAt } from '../components/dropTarget';
 import { canPlace, levelComplete, shuffle } from '../engine/rules';
 import { BLOCK, HOLES, PLATE, SHAPE_ISLAND, blockArt, plateFor, shapeNames, shapeOrder, type ShapeId } from '../data/shapeArt';
 import type { PlayProps } from '../components/GameShell';
@@ -74,7 +75,15 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
             style={{ left: `${hole.x}%`, top: `${hole.y}%`, width: `${hole.w}%`, height: `${hole.h}%` }}
             disabled={filled || !used}
             aria-label={`ช่อง${shapeNames[shape].th} / ${shapeNames[shape].en} slot${filled ? ' หยอดแล้ว' : ''}`}
-            onClick={() => { if (selected) place(selected, shape); else setAnnouncement('แตะเลือกชิ้นรูปทรงก่อน แล้วแตะช่องนี้'); }}
+            onClick={event => {
+              if (!selected) { setAnnouncement('แตะเลือกชิ้นรูปทรงก่อน แล้วแตะช่องนี้'); return; }
+              /* กรอบหลุมคาบเกี่ยวกัน ชั้นบนสุดที่รับคลิกจึงไม่ใช่หลุมที่เด็กเล็งเสมอไป
+                 แตะด้วยนิ้ว/เมาส์ให้หาหลุมจากพิกัดจริง ส่วนคีย์บอร์ด (detail 0 ไม่มีพิกัด) ใช้หลุมที่โฟกัสอยู่ */
+              if (event.detail === 0) { place(selected, shape); return; }
+              const target = dropTargetAt(event.clientX, event.clientY);
+              // ช่องที่หยอดแล้วเป็นช่องปิด แตะโดนแล้วไม่ต้องทำอะไร ไม่ใช่ตอบผิด
+              if (target && !target.hasAttribute('disabled')) place(selected, target.dataset.dropId!);
+            }}
           >
             {hint === shape && <span className="gc-hint-arrow" aria-hidden="true">↓</span>}
             {filled && <span className="shp-spark" aria-hidden="true"><i /><i /><i /></span>}
