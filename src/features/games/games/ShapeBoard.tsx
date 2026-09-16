@@ -12,9 +12,9 @@ import type { PlayProps } from '../components/GameShell';
  * แผ่นฐานเป็นภาพเดียว หลุมที่กดได้เป็นกล่องใสวางทับตำแหน่งหลุมในภาพ
  * พอหยอดถูก แผ่นจะสลับไปเป็นภาพที่มีรูปทรง "ที่หยอดไปแล้วทั้งหมด" อยู่ในหลุม แล้วมีประกายขึ้น
  * ของที่หยอดก่อนหน้าจึงยังอยู่ให้เห็น เด็กเห็นความคืบหน้าสะสมบนแผ่นจริงๆ
- * (เจ้าของโปรเจกต์วาดภาพมาครบทั้ง 32 สถานะ = ทุกชุดย่อยของห้ารูปทรง)
+ * (ประกอบจากถาดเปล่าและภาพหยอดครบ โดยเปลี่ยนเฉพาะพิกเซลภายในหลุม)
  *
- * บล็อกที่ลากได้อยู่ใต้เกาะ ส่วนแผ่นฐานอยู่บนผิวเกาะ
+ * ถาดอยู่ด้านหลัง บล็อกที่ลากได้อยู่ด้านหน้าของผิวครีมเดียวกัน
  */
 export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   // ใช้ครบห้ารูปทรงเสมอ เพราะหลุมทั้งห้าวาดติดมากับภาพแผ่นฐาน
@@ -81,9 +81,7 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
           </button>;
         })}
       </div>
-    </IslandBoard>
-
-    {/* บล็อกอยู่ใต้เกาะ แผ่นฐานอยู่บนเกาะ */}
+    {/* ทั้งถาดและชิ้นส่วนอ้างอิงผิวเกาะเดียวกัน */}
     <div className="shp-tray-dock">
       <div className="gc-tray" aria-label="ชิ้นรูปทรงของเรา / Our shape pieces">{pieces.map(shape => <div key={shape} className={`gc-tray-slot ${placed.includes(shape) ? 'gc-done-slot' : ''}`}>
         {placed.includes(shape)
@@ -93,5 +91,6 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
             </DragItem>}
       </div>)}</div>
     </div>
+    </IslandBoard>
   </div>;
 }

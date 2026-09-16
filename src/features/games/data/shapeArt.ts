@@ -1,4 +1,5 @@
-/* ภาพประกอบเกมจับคู่รูปทรง — วาดโดยเจ้าของโปรเจกต์ แปลงด้วย scripts/prepare-shape-art.mjs
+/* ภาพประกอบเกมจับคู่รูปทรง — สร้างใหม่ด้วย imagegen ตามภาพอ้างอิงของโปรเจกต์
+ * แปลงด้วย scripts/prepare-shape-art.mjs
  *
  * แผ่นฐานมีครบทุกสถานะ 32 ใบ = ทุกชุดย่อยของห้ารูปทรง ตั้งชื่อเป็นบิตมาสก์
  * เกมจึงเปลี่ยนภาพแผ่นให้ตรงกับ "ของที่หยอดไปแล้วทั้งหมด" ได้จริง ไม่ใช่โชว์แค่ชิ้นล่าสุด
@@ -21,16 +22,16 @@ export const shapeNames: Record<ShapeId, { th: string; en: string }> = {
 
 /* กึ่งกลางและขนาดของแต่ละหลุม เป็น % ของภาพแผ่นฐาน
    แผ่นวาดแบบ isometric หลุมจึงไม่ได้เรียงเป็นตาราง ต้องระบุทีละหลุม
-   ค่า w/h คือพื้นที่ "กดได้" ซึ่งใหญ่กว่าตัวหลุมที่วาดไว้เล็กน้อย เพื่อให้นิ้วเด็กกดง่ายขึ้น */
+   ค่า w/h วัดจากขอบคิ้วทองจริง สร้างอัตโนมัติด้วย scripts/shape-art-masks.mjs */
 export const HOLES: Record<ShapeId, { x: number; y: number; w: number; h: number }> = {
-  circle: { x: 38.2, y: 20.3, w: 25, h: 22 },
-  square: { x: 76.1, y: 28.0, w: 30, h: 24 },
-  star: { x: 51.0, y: 40.0, w: 24, h: 21 },
-  triangle: { x: 23.2, y: 51.9, w: 26, h: 23 },
-  rectangle: { x: 60.2, y: 64.2, w: 36, h: 22 },
+  circle: {"x":34.833,"y":20.12,"w":26.444,"h":24.599},
+  square: {"x":74.278,"y":26.872,"w":29.556,"h":26.604},
+  triangle: {"x":21.333,"y":55.749,"w":28.333,"h":28.209},
+  rectangle: {"x":59.833,"y":67.313,"w":35.333,"h":22.995},
+  star: {"x":49.889,"y":41.578,"w":27.444,"h":27.941},
 };
 
-export const PLATE = { width: 900, height: 860 };
+export const PLATE = { width: 900, height: 748 };
 /** ภาพแผ่นฐานที่ตรงกับชุดรูปทรงที่หยอดไปแล้ว */
 export const plateFor = (placed: readonly ShapeId[]) =>
   `/games/shape/plate-${shapeOrder.map(shape => (placed.includes(shape) ? '1' : '0')).join('')}.webp`;

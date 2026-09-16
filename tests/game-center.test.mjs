@@ -129,15 +129,29 @@ test('ป้ายคำสั่งของหน้าแนะนำแบ�
   หน้าบนจึงเป็นข้าวหลามตัด ไม่เหมือนหลุมบนแผ่นซึ่งเป็นสี่เหลี่ยมวางตรง เด็กจับคู่ไม่ถูก
   scripts/prepare-shape-art.mjs จึงตัดแผ่นที่หยอดแล้วจากภาพแผ่นฐานมาใช้แทน แล้วปั้นความหนาต่อ
 
+  ภาพชุดใหม่สร้างบล็อกวางตรงแยกไฟล์แล้ว ไม่ต้องตัดจากถาดอีก
   เทสต์นี้คุมสองอย่างที่เคยพังมาแล้วทั้งคู่:
-  1. ที่มาของภาพต้องเป็นแผ่นฐานที่หยอดแล้ว ไม่ใช่ลูกบาศก์ใน object/
+  1. หน้าบนวางตรง ไม่หันมุมจนกลายเป็นข้าวหลามตัด
   2. ต้องมีความหนา — ด้านล่างของบล็อกต้องเข้มกว่าหน้าบนชัดเจน (แผ่นแบนล้วนจะสว่างเท่ากันทั้งใบ)
 */
-test('บล็อกสี่เหลี่ยมจัตุรัสมาจากแผ่นที่หยอดแล้ว ไม่ใช่ลูกบาศก์', async () => {
+test('บล็อกสี่เหลี่ยมจัตุรัสวางตรง ไม่หันมุมเป็นข้าวหลามตัด', async () => {
   const sources = JSON.parse(await readFile('scripts/source-images.json', 'utf8'));
   const entry = sources['public/games/shape/block-square.webp'];
   assert.ok(entry, 'ต้องบันทึกที่มาของ block-square.webp ไว้ใน source-images.json');
-  assert.match(entry.source, /\/done\//, `ต้องตัดมาจากภาพแผ่นฐานที่หยอดแล้ว แต่ได้ ${entry.source}`);
+  assert.match(entry.sha256, /^[a-f\d]{64}$/);
+  const sharp = (await import('sharp')).default;
+  const { data, info } = await sharp('public/games/shape/block-square.webp').ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const rows = Array.from({ length: info.height }, (_, y) => {
+    let count = 0;
+    for (let x = 0; x < info.width; x++) if (data[(y * info.width + x) * 4 + 3] > 200) count++;
+    return count;
+  });
+  const y0 = rows.findIndex(n => n > 20), y1 = rows.findLastIndex(n => n > 20);
+  // A diamond has a narrow apex; the aligned block has a broad horizontal rear edge.
+  // วัดที่ 20% ของความสูง: บล็อกชุดใหม่หันเฉียง 3/4 ตามภาพเกาะตัวอย่าง มุมโค้งด้านหลังจึงแคบกว่าที่ 8%
+  // แต่ข้าวหลามตัดที่ 20% ยังกว้างไม่ถึงครึ่ง จึงยังแยกสองแบบออกจากกันได้
+  const rearWidth = rows[Math.round(y0 + (y1 - y0) * .2)];
+  assert.ok(rearWidth / Math.max(...rows) > .75, 'ขอบหลังของหน้าบนต้องกว้าง ไม่เป็นยอดแหลม');
 });
 
 test('บล็อกสี่เหลี่ยมจัตุรัสมีความหนา ไม่ใช่แผ่นแบนราบ', async () => {
