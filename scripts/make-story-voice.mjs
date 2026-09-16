@@ -15,18 +15,20 @@
     ปก (p00) = titleTh
     หน้าอื่น = th ... reading ... meaning (เฉพาะที่มี) คั่นด้วย " ... "
 
-  ── SPEECH_FIXES ────────────────────────────────────────────────
-  ElevenLabs อ่านคำไทยบางคำผิด แก้ด้วยการสะกดใหม่ "เฉพาะขาเข้า TTS"
-  ข้อความบนหน้าเว็บต้องสะกดถูกตามหลักเสมอ ห้ามแก้ nuh.ts ตามเสียง
+  ── ทำไมต้องอัดหลายเทค ──────────────────────────────────────────
+  ElevenLabs ไม่ได้อ่านเหมือนกันทุกครั้ง ข้อความเดิมเป๊ะๆ อัดสองรอบได้เสียงคนละอัน
+  คำว่า "นบีนูห์" บางเทคอ่านถูก บางเทคอ่านเป็น "นั๊วะ"
+  หน้า 2 3 4 อ่านถูกด้วยการสะกดปกติ ส่วนปกกับหน้า 6 ขึ้นไปอ่านผิด (2026-09-16)
+  จึงไม่ใช่เรื่องการสะกด แต่เป็นความสุ่มของโมเดล — วิธีแก้คืออัดหลายเทคแล้วคัด
 
   วิธีใช้
     ELEVENLABS_API_KEY อยู่ใน .env.local แล้ว (สคริปต์อ่านให้เอง)
     เครื่องนี้ไม่มี ffmpeg ส่วนกลาง ให้ชี้ที่ ffmpeg-static:
-      FFMPEG=<path ของ ffmpeg.exe> node scripts/make-story-voice.mjs p00
-    ไม่ใส่ชื่อ = สร้างทุกหน้า (ระวังโควตา และต้องให้เจ้าของโปรเจกต์ฟังใหม่ทุกไฟล์)
+      FFMPEG=<path ของ ffmpeg.exe> node scripts/make-story-voice.mjs p06
 
-    --try=<ก,ข,ค>  อัดปกหลายแบบเทียบเสียงลง output/story-voice/ แทนการทับของจริง
-      ใช้ตอนหาวิธีสะกดที่ ElevenLabs อ่านถูก เจ้าของโปรเจกต์ฟังแล้วเลือกเอง
+    <ชื่อหน้า...>   เลือกเฉพาะบางหน้า (p00 p06 p08b ...) ไม่ใส่ = ทุกหน้า
+    --takes=N      อัด N เทคต่อหน้า ลง output/story-voice/ ให้เลือกฟัง ไม่ทับของจริง
+    --fix          ใช้ SPEECH_FIXES สะกดใหม่ก่อนป้อน TTS (ปกติไม่ใช้)
 */
 
 import path from "node:path";
@@ -35,17 +37,26 @@ import { NUH_STORY } from "../src/features/stories/data/nuh.ts";
 import { renderRobotLines } from "./lib/robot-voice.mjs";
 
 /*
-  คำที่ ElevenLabs อ่านผิด -> วิธีสะกดที่อ่านถูก (ใช้กับขาเข้า TTS เท่านั้น)
+  คำที่สะกดใหม่ก่อนป้อน TTS (ใช้เมื่อสั่ง --fix เท่านั้น)
 
-  "นบีนูห์" ตัว ห์ มีทัณฑฆาตจึงไม่ออกเสียง ควรได้ยินว่า "นะ-บี-นู"
-  แต่ ElevenLabs อ่านท้ายเป็น "นั๊วะ" (เจ้าของโปรเจกต์ฟังเจอในปก p00 2026-09-16)
+  หลักการ: หา "คำพ้องเสียง" ที่สะกดแล้วโมเดลอ่านง่ายกว่า ไม่ใช่การสะกดมั่วให้ได้เสียงบังเอิญ
+
+  "นบีนูห์" -> "นบีนั๊วะ" (เจ้าของโปรเจกต์ 2026-09-16)
+  ในภาษาไทย "นูห์" กับ "นั๊วะ" เสียงใกล้กัน แต่ ElevenLabs อ่าน "นูห์" เป็น "นู" เฉยๆ
+  คือหายเสียงท้ายไป พอสะกดเป็น "นั๊วะ" โมเดลอ่านได้ตรงกับที่ควรเป็น
+
+  ที่ลองแล้วไม่ผ่าน: ปก 15 เทค ทั้ง นู / นู้ / นู๊ / นูฮ์ / นู้ห์ / นู้ฮ์
+  (ทุกตัวยังเป็นสระอู ไม่ได้แก้ที่เสียงท้ายซึ่งเป็นต้นเหตุ)
+  และหน้า 6 8b 11 หน้าละ 3 เทคด้วยการสะกดปกติ
+
+  ไม่ว่ากรณีใด ข้อความบนหน้าเว็บใน nuh.ts ต้องสะกดถูกตามหลักเสมอ ห้ามแก้ตามเสียง
 */
 const SPEECH_FIXES = [
   // [ข้อความบนหน้าเว็บ, ข้อความที่ป้อน ElevenLabs]
-  ["นูห์", "นู"],
+  ["นูห์", "นั๊วะ"],
 ];
 
-const forSpeech = text => SPEECH_FIXES.reduce((out, [from, to]) => out.replaceAll(from, to), text);
+const applyFixes = text => SPEECH_FIXES.reduce((out, [from, to]) => out.replaceAll(from, to), text);
 
 /** บทพูดของหน้าหนึ่ง ประกอบแบบเดียวกับ StoryBook.tsx */
 const pageLine = page => [page.th, page.reading, page.meaning].filter(Boolean).join(" ... ");
@@ -54,26 +65,31 @@ const pageLine = page => [page.th, page.reading, page.meaning].filter(Boolean).j
 const pageKey = page => page.image.split("/").pop().replace(/\.\w+$/, "");
 
 const story = NUH_STORY;
-const outDir = path.join(process.cwd(), "public", "audio", "stories", story.slug);
-
 const args = process.argv.slice(2);
-const tryArg = args.find(arg => arg.startsWith("--try="));
+const takesArg = args.find(arg => arg.startsWith("--takes="));
+const useFixes = args.includes("--fix");
+const only = args.filter(arg => !arg.startsWith("--"));
 
-if (tryArg) {
-  /* โหมดเทียบเสียง: อัดชื่อเรื่องหลายวิธีสะกดลง output/ ซึ่งอยู่ใน .gitignore
-     ไม่แตะไฟล์จริง เจ้าของโปรเจกต์ฟังแล้วบอกว่าเอาอันไหน ค่อยก๊อปทับ */
-  const variants = tryArg.slice("--try=".length).split(",").filter(Boolean);
-  const lines = Object.fromEntries(
-    variants.map((text, i) => [`p00-${String.fromCharCode(97 + i)}`, text]),
-  );
-  console.log("อัดเทียบเสียงชื่อเรื่อง ไม่ทับไฟล์จริง:");
-  for (const [key, text] of Object.entries(lines)) console.log(`  ${key}.mp3  ${text}`);
-  console.log();
+const prepare = text => (useFixes ? applyFixes(text) : text);
+const ALL = {
+  p00: prepare(story.titleTh),
+  ...Object.fromEntries(story.pages.map(page => [pageKey(page), prepare(pageLine(page))])),
+};
+
+for (const key of only) if (!ALL[key]) throw new Error(`ไม่รู้จักหน้าชื่อ ${key}`);
+const keys = only.length > 0 ? only : Object.keys(ALL);
+
+if (takesArg) {
+  /* โหมดคัดเทค: อัดหลายเทคลง output/ ซึ่งอยู่ใน .gitignore ไม่แตะไฟล์จริง
+     เจ้าของโปรเจกต์ฟังแล้วบอกว่าหน้าไหนเอาเทคไหน ค่อยก๊อปทับ */
+  const takes = Number(takesArg.slice("--takes=".length));
+  if (!Number.isInteger(takes) || takes < 1) throw new Error("--takes ต้องเป็นจำนวนเต็มตั้งแต่ 1");
+  const lines = {};
+  for (const key of keys) {
+    for (let i = 1; i <= takes; i++) lines[`${key}-เทค${i}`] = ALL[key];
+  }
+  console.log(`อัด ${takes} เทคต่อหน้า ${keys.length} หน้า ลง output/story-voice/ (ไม่ทับไฟล์จริง)\n`);
   await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice"));
 } else {
-  const lines = {
-    p00: forSpeech(story.titleTh),
-    ...Object.fromEntries(story.pages.map(page => [pageKey(page), forSpeech(pageLine(page))])),
-  };
-  await renderRobotLines(lines, outDir, args);
+  await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "stories", story.slug), keys);
 }
