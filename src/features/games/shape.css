@@ -3,31 +3,31 @@
    โครงเกาะ (.isl-board / .isl-surface / isl-drift) ใช้ร่วมกับเกมความจำใน memory.css */
 
 /* ── เอากรอบการ์ดขาวใหญ่ออก ให้เกาะเป็นตัวเอก ─────────────────────────── */
-.gc-focus[data-game='shape-match'] .gc-board,
-.gc-focus[data-game='shape-match'] .gc-panel.gc-board {
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-board,
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-panel.gc-board {
   background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0;
 }
-.gc-focus[data-game='shape-match'] .gc-workbench-title { display: none; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-workbench-title { display: none; }
 
 /* แถบบนซ้อนหลายชั้นจะเบียดเกาะลงจนไม่เด่น จึงบีบให้เตี้ยที่สุด
    คงช่องว่างซ้าย 88px ไว้ให้หุ่นยนต์ยืน ไม่งั้นข้อความจะทับตัวหุ่น */
-.gc-focus[data-game='shape-match'] .gc-instruction {
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-instruction {
   background: #ffffffe0; border-radius: 26px; min-height: 58px;
   padding: 6px 12px 6px 72px; max-width: 640px; margin: 6px auto 4px;
   box-shadow: 0 4px 14px #17659422;
 }
-.gc-focus[data-game='shape-match'] .gc-playing-guide { width: 58px; height: 68px; }
-.gc-focus[data-game='shape-match'] .gc-progress-row { max-width: 560px; padding: 6px 16px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-playing-guide { width: 58px; height: 68px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-progress-row { max-width: 560px; padding: 6px 16px; }
 /* ชื่อเกมยาวจนขึ้นบรรทัดใหม่เต็มความกว้างบนมือถือ กินความสูงไป 60px โดยไม่จำเป็น */
-.gc-focus[data-game='shape-match'] .gc-game-header { margin-bottom: 8px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-game-header { margin-bottom: 8px; }
 /* กฎมือถือกลางสั่งให้ชื่อเกมขึ้นบรรทัดใหม่เต็มความกว้าง (order:3; width:100%)
    เกมนี้ต้องการความสูงทุกพิกเซล จึงดึงกลับมาอยู่แถวเดียวกับปุ่ม */
-.gc-focus[data-game='shape-match'] .gc-game-header h1 { order: 0; width: auto; flex: 1; margin-top: 0; font-size: 19px; }
-.gc-focus[data-game='shape-match'] .gc-game-header h1 small { font-size: 12px; }
-.gc-focus[data-game='shape-match'] .gc-feedback { margin: 4px auto 0; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-game-header h1 { order: 0; width: auto; flex: 1; margin-top: 0; font-size: 19px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-game-header h1 small { font-size: 12px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-feedback { margin: 4px auto 0; }
 
 /* เหลือแค่ปุ่มคำใบ้ปุ่มเดียว จึงไม่ต้องกันพื้นที่เป็นแถบเต็มความกว้าง */
-.gc-focus[data-game='shape-match'] .gc-feedback { position: relative; z-index: 5; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-feedback { position: relative; z-index: 5; }
 /* ปุ่มคำใบ้กับป้ายชื่อชิ้นลอยทับมุมบนของฉาก ไม่กินความสูงเป็นแถวของตัวเอง
    ความสูงที่ประหยัดได้ทั้งแถวยกให้เกาะแทน */
 .shp-scene { position: relative; }
@@ -46,9 +46,9 @@
 .shp-picked span { font-size: 11px; font-weight: 400; }
 .shp-scene .gc-board-tools .gc-button { padding: 5px 16px; }
 /* เก็บเศษความสูงที่เหลือ ให้ทุกอย่างจบในหน้าจอเดียวพอดี */
-.gc-focus[data-game='shape-match'] { padding-bottom: 12px; }
-.gc-focus[data-game='shape-match'] .gc-bottom-controls { margin-top: 4px; }
-.gc-focus[data-game='shape-match'] .gc-instruction h2 { font-size: 17px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) { padding-bottom: 12px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-bottom-controls { margin-top: 4px; }
+.gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-instruction h2 { font-size: 17px; }
 /* หัวข้อถาดวางบนฉากตรงๆ ไม่มีป้ายทึบ ให้กลืนกับเกาะ (เหมือนชื่อเกาะในหน้า /games) */
 .shp-scene .gc-zone-heading {
   background: none; border: 0; box-shadow: none; padding: 0; margin: 0 auto 6px;
@@ -168,14 +168,14 @@
      ต้องปลด max-width ของเกาะ (scene จำกัดความกว้างให้แล้ว) ไม่งั้นความกว้างถูกตัด
      ขอบลบฝั่งซ้ายยังอยู่ ฝั่งขวาหาย เกาะจะเยื้องไปซ้าย */
   .isl-board.shp-island { width: auto; max-width: none; margin-inline: -12px; }
-  .gc-focus[data-game='shape-match'] .gc-instruction { padding: 5px 8px 5px 50px; min-height: 52px; }
-  .gc-focus[data-game='shape-match'] .gc-playing-guide { width: 46px; height: 58px; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-instruction { padding: 5px 8px 5px 50px; min-height: 52px; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-playing-guide { width: 46px; height: 58px; }
 }
 
 /* มือถือแนวนอน — ซ่อนแถบที่ไม่จำเป็น เหลือพื้นที่ให้เกาะมากที่สุด */
 @media (max-height: 520px) and (orientation: landscape) {
-  .gc-focus[data-game='shape-match'] .gc-instruction,
-  .gc-focus[data-game='shape-match'] .gc-feedback { display: none; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-instruction,
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence']) .gc-feedback { display: none; }
   /* จำกัดทั้ง scene เกาะกับแถวบล็อกจึงย่อไปด้วยกัน
      เกาะต้องปลดสูตร 100dvh - --shp-chrome ออก: จอสูง 390px ได้ค่าติดลบ เกาะหายเหลือกว้าง 0 */
   .shp-scene { width: min(100%, 62vh); }
@@ -191,7 +191,7 @@
    จำกัดเฉพาะตอนกำลังเล่น หน้าเลือกด่านกับหน้าผลลัพธ์ไม่เปลี่ยน
    min-aspect-ratio 3/2 กันแท็บเล็ตแนวตั้งและจอทั่วไป, max-height 850 ไม่รวม 1920×1080 ที่ใหญ่พออยู่แล้ว */
 @media (min-width: 1100px) and (min-height: 600px) and (max-height: 850px) and (min-aspect-ratio: 3/2) {
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-play-container {
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-play-container {
     max-width: 1440px;
     display: grid;
     grid-template-columns: 340px minmax(0, 1fr);
@@ -206,26 +206,26 @@
     gap: 12px 32px;
     align-items: start;
   }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-play-container > * { min-width: 0; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-game-header { grid-area: header; margin: 0; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-progress-row {
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-play-container > * { min-width: 0; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-game-header { grid-area: header; margin: 0; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-progress-row {
     grid-area: progress; width: 100%; max-width: none; margin: 0; gap: 10px;
   }
   /* หุ่นยนต์ + คำสั่งอยู่แถวบน ปุ่มฟังวิธีเล่นเต็มความกว้างแถวล่าง */
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction {
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-instruction {
     grid-area: instruction;
     display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px;
     width: 100%; max-width: none; margin: 0; padding: 12px;
   }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-playing-guide { position: static; align-self: start; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction h2 { min-width: 0; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-instruction > .gc-button { grid-column: 1 / -1; width: 100%; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-feedback { grid-area: feedback; width: 100%; margin: 0; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-bottom-controls {
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-playing-guide { position: static; align-self: start; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-instruction h2 { min-width: 0; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-instruction > .gc-button { grid-column: 1 / -1; width: 100%; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-feedback { grid-area: feedback; width: 100%; margin: 0; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-bottom-controls {
     grid-area: controls; margin: 0; gap: 12px; flex-wrap: wrap;
   }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-bottom-controls > .gc-button { flex: 1 1 140px; }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-board { grid-area: board; min-width: 0; overflow: visible; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-bottom-controls > .gc-button { flex: 1 1 140px; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-board { grid-area: board; min-width: 0; overflow: visible; }
   /* Scene is square; all blocks are now inside the island. */
   .gc-focus[data-game='shape-match'][data-status='playing'] .shp-scene {
     width: min(100%, 680px, calc(100dvh - 160px));
@@ -235,5 +235,5 @@
   .gc-focus[data-game='shape-match'][data-status='playing'] .shp-scene .isl-board {
     width: 100%; max-width: none; height: auto; aspect-ratio: 1; margin-inline: 0;
   }
-  .gc-focus[data-game='shape-match'][data-status='playing'] .gc-audio-note { grid-column: 1 / -1; margin: 0; }
+  .gc-focus:is([data-game='shape-match'], [data-game='sequence'])[data-status='playing'] .gc-audio-note { grid-column: 1 / -1; margin: 0; }
 }

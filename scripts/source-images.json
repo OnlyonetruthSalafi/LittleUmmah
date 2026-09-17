@@ -335,8 +335,8 @@
   "public/Character/run/run-04.png": "b19b3c5df1630d18d2b82ce673d3d9615e699da278eed33ab8db7f299063bdf2",
   "public/Character/run/run-05.png": "a74ac643365961695d8b8dd94726be97d986f1f7f5b6dacacf9fbff9ca7773f5",
   "public/Character/run/run-06.png": "def444456f6d58f9b760d6d4b00e9f49c1a1f1d50609a8b31de31ad2c676d236",
-  "public/games/sequence/block.png": "2c4ce8e221e6abf5e203f159d4ed9af033df5a71e8fd0f3596fdc022a86ea09a",
-  "public/games/sequence/island.png": "07d5d65a87106768f1680934687779049c0b1d7b63f360ee6307351c2194836f",
+  "public/games/sequence/block.png": "75f61bbbe1c7b1999f5c918fa4d6b7d978d3d10f925d2565d028e142ba475638",
+  "public/games/sequence/island.png": "569ddab7f054d6fe4be11bb2365b24b9dae1f3ddfeea68df1a56f27e349015bc",
   "public/stories/nuh/cover.png": "be59fbde2bc25f6e3745008a41c1ec7ae88bb9eb02d94a8dbebfb787db4af44d",
   "public/stories/nuh/p01.png": "2742dbce7e8c945b8a7adb13a467cc875997335276df2b44ebf280edba7370bd",
   "public/stories/nuh/p02.png": "3edf1634a6b3b34b910366e13881042cc2b097fd235f21ab5678d510ca2459a2",
@@ -351,5 +351,6 @@
   "public/stories/nuh/p11.png": "810c13be05846106031583de9fb0ea1b76500d3eb1c53201fe31b775a17b7b26",
   "public/stories/nuh/p08b.png": "a04c0bfae2935410385068d26e80ab5967d4b49c4a1d0c4c9cbcf030a90b7ede",
   "public/stories/shelf/shelf-tall.png": "6c79d030c07dce6ec1b3f87daa2084b91b43c013101a55f2f5c24996136386f9",
-  "public/stories/shelf/shelf-wide.png": "0307dfe91a1caa97eb81bf2552570e0f17b316e7945d5c0ec075829156650979"
+  "public/stories/shelf/shelf-wide.png": "0307dfe91a1caa97eb81bf2552570e0f17b316e7945d5c0ec075829156650979",
+  "public/games/sequence/pad.png": "b0cf2fb9720fa06c34c54e5939dca74836a35ed83de4e9965b600015e863844b"
 }

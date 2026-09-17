@@ -1,12 +1,15 @@
 import type { CSSProperties } from 'react';
 import { GameImage } from './GameImage';
 import type { SequenceLevel } from '../data/sequence';
+import { SEQ_BLOCK } from '../data/sequenceArt';
 
-/** Shared camera and block artwork keep the tray and placed objects identical. */
+/** ลูกบาศก์ภาพเดียวกันทั้งในแถวรอเรียงและบนแท่น เด็กจึงเทียบได้ว่าเป็นชิ้นเดียวกัน
+ *  size = ลูกเดียวขยายตามลำดับ · count = กองแบบ 2×2 · height = ซ้อนเป็นหอคอย */
 export function SequenceToy({ kind, rank }: { kind: SequenceLevel['kind']; rank: number }) {
-  return <span className="seq-toy" data-kind={kind} style={{ '--toy-size': `${48 + rank * 26}%` } as CSSProperties} aria-hidden="true">
-    {Array.from({ length: kind === 'size' ? 1 : rank + 1 }, (_, index) =>
-      <GameImage key={index} src="/games/sequence/block.webp" alt="" width={320} height={320} draggable={false}
-        style={{ '--block-index': index, '--block-x': `${index % 2 * 48}%`, '--block-y': `${Math.floor(index / 2) * 42}%` } as CSSProperties} sizes="(max-width: 639px) 75px, 130px" />)}
+  const blocks = kind === 'size' ? 1 : rank + 1;
+  return <span className="seq-toy" data-kind={kind} style={{ '--toy-size': `${42 + rank * 20}%` } as CSSProperties} aria-hidden="true">
+    {Array.from({ length: blocks }, (_, index) =>
+      <GameImage key={index} src={SEQ_BLOCK.src} alt="" width={SEQ_BLOCK.width} height={SEQ_BLOCK.height} draggable={false} unoptimized
+        style={{ '--block-index': index, '--block-col': index % 2, '--block-row': Math.floor(index / 2) } as CSSProperties} />)}
   </span>;
 }

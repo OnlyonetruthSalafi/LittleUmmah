@@ -241,7 +241,7 @@
 
 /*
   ── ภาพสาธิต: มือขาวลากรูปทรงไปลงหลุม ──
-  พิกัดต้นทาง/ปลายทางอยู่ใน PlayDemo.tsx (ผูกกับภาพ shape-match.webp)
+  พิกัดอยู่ใน PlayDemo.tsx (ผูกกับภาพ hub/<slug>.webp) ส่งมาเป็นตัวแปร --p0x --p0y …
   ปิดการเคลื่อนไหวอยู่: มือหยุดนิ่งที่จุดเริ่ม เส้นประกับลูกศรยังบอกทิศทางได้ครบ
 */
 .gc-demo { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
@@ -259,18 +259,35 @@
 @keyframes gc-demo-ring { 0%, 55% { transform: scale(.8); opacity: .45; } 78% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(.8); opacity: .45; } }
 
 /* มือเริ่มที่รูปทรง แล้วลากตามเส้นไปหยุดที่หลุม */
-.gc-demo-hand { position: absolute; left: 79%; top: 55%; width: 15%; aspect-ratio: 1; }
+.gc-demo-hand { position: absolute; left: var(--p0x); top: var(--p0y); width: 15%; aspect-ratio: 1; }
 .gc-demo-hand-icon { width: 100%; height: 100%; filter: drop-shadow(0 4px 4px #123a7250); }
 @media (prefers-reduced-motion: no-preference) {
   .gc-demo-hand { animation: gc-demo-drag 2.6s ease-in-out infinite; }
 }
 @keyframes gc-demo-drag {
-  0%, 12% { left: 79%; top: 55%; transform: scale(1); }
+  0%, 12% { left: var(--p0x); top: var(--p0y); transform: scale(1); }
   20% { transform: scale(.82); }
-  60% { left: 62%; top: 32%; transform: scale(.82); }
-  78%, 88% { left: 50%; top: 23%; transform: scale(.82); }
-  94%, 100% { left: 79%; top: 55%; transform: scale(1); opacity: .35; }
+  60% { left: calc((var(--p0x) + var(--p1x)) / 2 + 4%); top: calc((var(--p0y) + var(--p1y)) / 2 - 7%); transform: scale(.82); }
+  78%, 88% { left: var(--p1x); top: var(--p1y); transform: scale(.82); }
+  94%, 100% { left: var(--p0x); top: var(--p0y); transform: scale(1); opacity: .35; }
 }
+
+/* แตะตามลำดับ (เกมเรียงลำดับ): มือกดจุดแรก กระโดดไปจุดสอง แล้วจุดสาม วงแหวนสว่างตามทีละวง
+   ปิดการเคลื่อนไหว: มือหยุดที่จุดแรก เส้นประกับลูกศรยังบอกลำดับได้ครบ */
+@media (prefers-reduced-motion: no-preference) {
+  .gc-demo[data-variant='steps'] .gc-demo-hand { animation: gc-demo-steps 3.6s ease-in-out infinite; }
+  .gc-demo[data-variant='steps'] .gc-demo-target { animation: gc-demo-step-ring 3.6s ease-out infinite; animation-delay: calc(var(--step) * 1.2s); }
+}
+@keyframes gc-demo-steps {
+  0%, 8% { left: var(--p0x); top: var(--p0y); transform: scale(1); }
+  14%, 22% { left: var(--p0x); top: var(--p0y); transform: scale(.8); }
+  36%, 42% { left: var(--p1x); top: var(--p1y); transform: scale(1); }
+  48%, 56% { left: var(--p1x); top: var(--p1y); transform: scale(.8); }
+  70%, 76% { left: var(--p2x); top: var(--p2y); transform: scale(1); }
+  82%, 90% { left: var(--p2x); top: var(--p2y); transform: scale(.8); }
+  100% { left: var(--p0x); top: var(--p0y); transform: scale(1); opacity: .35; }
+}
+@keyframes gc-demo-step-ring { 0%, 10% { transform: scale(.8); opacity: .4; } 18% { transform: scale(1.15); opacity: 1; } 40%, 100% { transform: scale(.8); opacity: .4; } }
 
 /*
   ปุ่มเริ่มเล่น — ปุ่มไม้กดจริงแบบมีความหนา

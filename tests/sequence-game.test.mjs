@@ -2,15 +2,27 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { sequenceLevel, mixSequence, placeSequence } from '../src/features/games/data/sequence.ts';
 
-test('sequence text contrast exceeds 4.5:1 on all new solid surfaces', () => {
+// ตัวหนังสือบนจอของเกมนี้เหลือสองจุด: ปุ่มคำใบ้ (.gc-button พื้นขาว) และป้ายชิ้นที่เลือก (#123a72 ขอบขาว)
+// พื้นป้าย/ถาดสีเดิม (#eaf6ff #f5e5bc ...) ถูกตัดออกพร้อมตัวหนังสือแล้ว
+test('sequence text contrast exceeds 4.5:1 on the surfaces that still carry text', () => {
   const luminance = hex => {
     const c = hex.match(/[a-f\d]{2}/gi).map(v => parseInt(v, 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
     return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
   };
-  for (const background of ['#ffffff', '#fffdf2', '#f5e5bc', '#e6c878', '#d9f7ee', '#bde8dc', '#97cebb', '#eaf6ff']) {
-    assert.ok((luminance(background) + .05) / (luminance('#1f2937') + .05) >= 4.5, background);
+  const ratio = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);
+  assert.ok(ratio('#ffffff', '#1f2937') >= 4.5);
+  assert.ok(ratio('#ffffff', '#123a72') >= 4.5);
+});
+
+test('sequence pads follow one front-left to back-right path for 3 and 4 pieces', async () => {
+  const { padAt } = await import('../src/features/games/data/sequenceArt.ts');
+  for (const count of [3, 4]) {
+    const pads = Array.from({ length: count }, (_, i) => padAt(i, count));
+    for (let i = 1; i < count; i++) {
+      assert.ok(pads[i].x > pads[i - 1].x, 'แท่นถัดไปอยู่ทางขวา');
+      assert.ok(pads[i].y < pads[i - 1].y, 'แท่นถัดไปอยู่ลึกเข้าไป');
+    }
   }
-  assert.ok((luminance('#ffffff') + .05) / (luminance('#1e5fbf') + .05) >= 4.5);
 });
 
 for (const level of [1, 2, 3]) {

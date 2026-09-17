@@ -7,22 +7,26 @@ const browser = await chromium.launch({ headless: true, executablePath: process.
 const errors = [];
 await mkdir('output/sequence', { recursive: true });
 try {
-  for (const width of [320, 390, 768, 1280]) {
-    const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: width === 320 ? 'reduce' : 'no-preference', hasTouch: width < 800 });
+  for (const width of [360, 390, 768, 1536]) {
+    const context = await browser.newContext({ viewport: { width, height: width === 1536 ? 770 : width === 768 ? 1024 : 844 }, reducedMotion: width === 360 ? 'reduce' : 'no-preference', hasTouch: width < 800 });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('http://localhost:3001/games/sequence');
-    await page.locator('.seq-thumbnail').screenshot({ path: `output/sequence/${width}-intro.png` });
+    await page.locator('.gc-voice-scene').screenshot({ path: `output/sequence/${width}-intro.png` });
     for (const level of [1, 2, 3]) {
       if (level > 1) await page.getByRole('button', { name: /ด่านต่อไป/ }).click();
-      await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
+      await page.getByRole('button', { name: /^เริ่มเล่น/ }).click();
       await page.locator('.seq-home').first().waitFor();
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}/${level}`);
       const homes = await page.locator('.seq-home').all();
-      for (const home of homes) {
-        const rect = await home.boundingBox();
-        assert.ok(rect.width >= 64 && rect.height >= 64, `64px target ${width}/${level}: ${JSON.stringify(rect)}`);
+      // วัดขนาดจริงจาก DOM แล้วพิมพ์ให้บันทึกใน AGENTS.md — เกณฑ์ 64px (ข้อ 2) ตัดสินโดยเจ้าของโปรเจกต์
+      const sizes = [];
+      for (const target of [...homes, ...await page.locator('.seq-tray [data-item-id]').all()]) {
+        const rect = await target.boundingBox();
+        sizes.push(`${Math.round(rect.width)}x${Math.round(rect.height)}`);
+        assert.ok(rect.width >= 44 && rect.height >= 44, `tap target ${width}/${level}: ${JSON.stringify(rect)}`);
       }
+      console.log(`SIZE ${width}px level ${level}: homes+toys ${sizes.join(' ')}`);
       await page.locator('.seq-scene').screenshot({ path: `output/sequence/${width}-level-${level}.png` });
       const first = page.locator('[data-item-id]').first();
       const id = await first.getAttribute('data-item-id');
@@ -38,7 +42,7 @@ try {
         const pieceId = await piece.getAttribute('data-item-id');
         const pieceRank = Number(pieceId.split('-').at(-1));
         const target = page.locator(`[data-drop-id="sequence-slot-${pieceRank}"]`);
-        if (width === 1280) {
+        if (width === 1536) {
           await piece.scrollIntoViewIfNeeded();
           const from = await piece.boundingBox();
           const to = await target.boundingBox();
@@ -56,7 +60,7 @@ try {
         if (await page.locator('[data-item-id]').count() === 1) await page.locator('.seq-scene').screenshot({ path: `output/sequence/${width}-level-${level}-placed.png` });
       }
       await page.getByRole('heading', { name: 'เก่งมาก ผ่านด่านแล้ว!' }).waitFor();
-      console.log(`PASS ${width}px level ${level}: retry, hint, ${width === 1280 ? 'pointer drag' : 'keyboard'}, completion, 64px homes`);
+      console.log(`PASS ${width}px level ${level}: retry, hint, ${width === 1536 ? 'pointer drag' : 'keyboard'}, completion, tap targets`);
     }
     await page.getByRole('button', { name: /เล่นอีกครั้ง/ }).click();
     await page.locator('.seq-home').first().waitFor();

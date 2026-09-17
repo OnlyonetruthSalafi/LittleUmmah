@@ -78,9 +78,9 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
       <div className="gc-adventure-aura" aria-hidden="true" />
       <div className="gc-adventure-island">
         <Thumbnail slug={game.slug} large />
-        {/* มือขาวลากรูปทรงลงหลุมให้ดูเป็นตัวอย่าง แทนคำอธิบายที่เป็นตัวหนังสือ
+        {/* มือขาวสาธิตวิธีเล่น (ลากลงหลุม / แตะตามลำดับ) แทนคำอธิบายที่เป็นตัวหนังสือ
             ต้องอยู่ข้างในกรอบภาพเกาะ เพราะพิกัดทั้งหมดเป็นเปอร์เซ็นต์ของภาพ ไม่ใช่ของฉาก */}
-        <PlayDemo />
+        <PlayDemo slug={game.slug} />
       </div>
       <Image src={gameAssets.guide} width={200} height={240} alt="" className="gc-voice-robot" />
       {/* คลื่นเสียงตอนหุ่นยนต์พูด — เป็นภาพประกอบเสียงพูด ไม่ใช่สัญลักษณ์ดนตรี (ข้อ 1.3) */}

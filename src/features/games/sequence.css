@@ -1,65 +1,134 @@
-/* The image is the board itself; homes sit entirely on its ivory top. */
-.seq-thumbnail-toys { position: absolute; inset: 28% 16% 42%; display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; }
-.seq-thumbnail-toys .seq-toy { height: 100%; }
-.gc-focus[data-game='sequence'] .gc-panel.gc-board { background: none; border: 0; box-shadow: none; padding: 0; }
-.gc-focus[data-game='sequence'] .gc-workbench-title { display: none; }
-.seq-scene { max-width: 780px; margin: auto; }
-.seq-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; background: #fff; border-radius: 24px; box-shadow: 0 5px 18px #17659418; }
-.seq-heading h3 { font-size: clamp(16px, 2.6vw, 23px); font-weight: 800; }
-.seq-heading p { font-size: 12px; }
-.seq-heading .gc-button { flex-shrink: 0; }
-.seq-island { position: relative; width: 100%; aspect-ratio: 1; margin-top: -8px; }
-.seq-island-art { width: 100%; height: 100%; pointer-events: none; }
-.seq-direction { position: absolute; top: 23%; left: 25%; right: 25%; text-align: center; font-weight: 700; font-size: clamp(12px, 2vw, 17px); color: var(--color-ink); }
-.seq-direction small { display: block; font-size: 10px; }
-.seq-homes { position: absolute; left: 8%; right: 8%; top: 33%; height: 24%; display: grid; grid-template-columns: repeat(var(--seq-count), minmax(0, 1fr)); gap: 6px; align-items: end; }
-.seq-home { position: relative; height: 100%; min-width: 64px; min-height: 80px; border: 0; padding: 0; border-radius: 18px; cursor: pointer; color: var(--color-ink); isolation: isolate; transition: box-shadow 200ms ease-out; }
-.seq-home:disabled { cursor: default; }
-.seq-home-object { position: absolute; inset: 0 5% 12%; display: flex; align-items: end; justify-content: center; z-index: 2; }
-.seq-home-object .seq-toy { width: 100%; height: 100%; }
-.seq-empty { align-self: center; display: grid; place-items: center; width: 38px; height: 38px; background: #fff; border: 2px dashed #486777; border-radius: 50%; font-size: 22px; font-weight: 800; }
-.seq-plinth { position: absolute; bottom: 0; left: 0; right: 0; height: 37%; border-radius: 45%; background: linear-gradient(#fffdf2 0%, #f5e5bc 68%, #e6c878 69%); border: 2px solid #bda365; box-shadow: 0 6px 0 #ac8e53, 0 10px 9px #3b6a7933; transition: box-shadow 200ms ease-out; }
-.seq-position { position: absolute; bottom: -5px; left: 0; right: 0; z-index: 3; font-size: clamp(13px, 2vw, 20px); font-weight: 800; }
-.seq-home[data-filled] .seq-plinth { background: linear-gradient(#d9f7ee 0%, #bde8dc 68%, #97cebb 69%); }
-.seq-home[data-hint] { outline: 3px solid #1e5fbf; outline-offset: 3px; }
-.seq-home[data-hint] .seq-empty { color: #1e5fbf; border-style: solid; }
-.seq-tray-wrap { position: relative; margin: -15% auto 0; padding: 14px 12px 18px; border: 2px solid white; border-radius: 28px; background: #eaf6ff; box-shadow: 0 7px 0 #a8d8f5, 0 12px 24px #17659420; }
-.seq-notice { min-height: 50px; margin: 0 0 14px; text-align: center; font-size: 15px; font-weight: 700; }
-.seq-notice small { display: block; font-size: 11px; font-weight: 400; }
-.seq-tray { display: grid; grid-template-columns: repeat(var(--seq-count), minmax(0, 1fr)); gap: 12px; }
-.seq-tray-cell { min-width: 0; min-height: 154px; }
-.gc-focus[data-game='sequence'] .seq-tray .gc-object-button { border: 0; padding: 5px; background: #fff; box-shadow: 0 5px 0 #a8d8f5; border-radius: 18px; justify-content: end; transform: none; transition: box-shadow 200ms ease-out; }
-.seq-toy { position: relative; display: block; width: 100%; height: 115px; pointer-events: none; }
-.seq-toy img { position: absolute; object-fit: contain; }
-.seq-toy[data-kind='size'] img { width: var(--toy-size); height: var(--toy-size); left: calc((100% - var(--toy-size)) / 2); bottom: 0; }
-.seq-toy[data-kind='count'] img { width: 48%; height: 48%; left: var(--block-x); bottom: var(--block-y); }
-.seq-toy[data-kind='height'] img { width: 53%; height: 48%; left: 23.5%; bottom: calc(var(--block-index) * 17%); z-index: calc(var(--block-index) + 1); }
-.seq-label { display: block; width: 100%; min-height: 35px; text-align: center; font-size: 14px; line-height: 1.5; font-weight: 700; }
-.seq-label small { display: block; font-size: 10px; font-weight: 400; }
-.seq-done { height: 100%; display: grid; place-content: center; text-align: center; border: 2px dashed #486777; border-radius: 18px; color: var(--color-ink); }
-.seq-done > span { font-size: 28px; }.seq-done small { display: block; }
-.seq-home:focus-visible { outline: 4px solid #1e5fbf; outline-offset: 5px; }
-@media (hover: hover) {
-  .seq-home:not(:disabled):hover .seq-plinth { box-shadow: 0 8px 0 #ac8e53, 0 15px 18px #3b6a7955; }
-  .gc-focus[data-game='sequence'] .seq-tray .gc-object-button:hover { box-shadow: 0 7px 0 #a8d8f5, 0 12px 22px #17659440; }
+/* เกมเรียงลำดับแบบ 2.5D — สไตล์จำกัดอยู่ใต้ [data-game='sequence'] หรือ .seq-* เท่านั้น
+   โครงเกาะ (.isl-board / .isl-surface) ใช้ร่วมกับเกมความจำใน memory.css
+   แถบบนหน้าเล่น (คำสั่ง ความคืบหน้า สองคอลัมน์บนจอเตี้ย) ใช้กฎชุดเดียวกับเกมหยอดรูปทรงใน shape.css */
+
+.seq-scene {
+  position: relative;
+  --seq-chrome: 400px;
+  width: min(100%, calc(100dvh - var(--seq-chrome)));
+  min-width: min(100%, 300px);
+  margin-inline: auto;
 }
-.seq-home:not(:disabled):active .seq-plinth { box-shadow: 0 8px 0 #ac8e53, 0 15px 18px #3b6a7955; }
-.gc-focus[data-game='sequence'] .seq-tray .gc-object-button:active { box-shadow: 0 7px 0 #a8d8f5, 0 12px 22px #17659440; }
+
+/* ปุ่มคำใบ้กับป้ายชิ้นที่เลือกลอยทับมุมบนของฉาก ไม่กินความสูงเป็นแถวของตัวเอง */
+.seq-tools {
+  position: absolute; z-index: 20; inset: 0 0 auto; display: flex; justify-content: flex-end;
+  pointer-events: none;
+}
+.seq-tools > * { pointer-events: auto; }
+.seq-tools .gc-button { padding: 5px 16px; }
+.seq-picked {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; margin: 0;
+  text-align: center; font-size: 13px; font-weight: 700; color: #123a72;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 6px #fff;
+}
+.seq-picked span { font-size: 11px; font-weight: 400; }
+
+/* ผิวเล่น = ภาพเกาะทั้งภาพ พิกัดแท่นและแถวของเล่นเป็น % ของภาพ (data/sequenceArt.ts) */
+.seq-scene .isl-board {
+  --surface-l: 0%; --surface-r: 0%; --surface-t: 0%; --surface-b: 0%;
+  max-width: 100%; aspect-ratio: 1;
+}
+.seq-scene .isl-art { animation: none; }
+.seq-scene .isl-surface { display: block; }
+
+/* ── แผ่นทอง ─────────────────────────────────────────────────────────
+   ปุ่มกว้างเท่าแผ่น สูงเผื่อที่ให้ของที่วางแล้วตั้งอยู่เหนือแผ่น
+   จุด left/top คือกึ่งกลางแผ่น ปุ่มจึงยื่นขึ้นไปด้านบน */
+.seq-homes { position: absolute; inset: 0; }
+.seq-home {
+  position: absolute; width: var(--pad-w); aspect-ratio: 1 / 1.25;
+  /* จุด left/top = กลางหน้าบนของแผ่น (ที่นั่งของ) ซึ่งอยู่สูงจากก้นปุ่ม 41.7% */
+  translate: -50% -58.3%;
+  padding: 0; border: 0; background: none; border-radius: 22px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 200ms ease-out;
+}
+.seq-home:disabled { cursor: default; }
+.seq-pad {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: auto; aspect-ratio: 1;
+  object-fit: contain; object-position: bottom; pointer-events: none;
+  translate: 0 6%;
+  filter: drop-shadow(0 6px 6px #17659433);
+  transition: filter 200ms ease-out;
+}
+.seq-home:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 3px; }
+@media (hover: hover) {
+  .seq-home:not(:disabled):hover .seq-pad { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 12px #ffffffd9); }
+}
+.seq-home:not(:disabled):active .seq-pad { filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 14px #fff); }
+/* คำใบ้: วงแสงทองรอบแผ่น + ลูกศร ไม่ได้สื่อด้วยสีอย่างเดียว (ข้อ 2) */
+.seq-home[data-hint] .seq-pad { filter: drop-shadow(0 0 4px #f6c64d) drop-shadow(0 0 14px #f6c64d); }
+.seq-home .gc-hint-arrow { top: 8%; left: 50%; translate: -50% 0; }
+.seq-home[data-landed] .seq-pad { filter: drop-shadow(0 6px 6px #17659433) drop-shadow(0 0 10px #ffe9a8); }
+.seq-home .shp-spark i { top: 30%; }
+
+/* ก้นกล่องนี้ = เส้นกลางหน้าบนของแผ่น: ภาพแผ่นเริ่ม .31W จากบน + กลางหน้าบน 41.9% ของภาพ = .729W → เหลือ 41.7% ของความสูงปุ่ม */
+.seq-home-object { position: absolute; inset: 0 0 41.7%; display: flex; align-items: flex-end; justify-content: center; pointer-events: none; }
+
+/* ── แถวของที่รอเรียง ────────────────────────────────────────────── */
+/* เกาะรอบ 1 ไม่มีลานว่างด้านหน้า แถวจึงอยู่ใต้เกาะ ดึงขึ้นทับใต้ท้องเกาะเล็กน้อยให้ดูเป็นฉากเดียวกัน
+   ความกว้างช่องคิดจากความกว้างฉาก: 4 ช่องได้ช่องละ ~21% (มือถือ 390px ≈ 80px) */
+.seq-tray {
+  position: relative; z-index: 15; width: 88%; margin: -16% auto 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); justify-content: center; gap: 2%;
+  align-items: end;
+}
+/* ด่านแรกมีสามชิ้น: คงขนาดช่องเท่าด่านอื่น แล้วจัดกลาง */
+.seq-scene[data-count='3'] .seq-tray { grid-template-columns: repeat(3, calc((100% - 6%) / 4)); }
+.seq-tray-cell { position: relative; aspect-ratio: 1 / 1.25; }
+.gc-focus[data-game='sequence'] .seq-tray .gc-drag {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0;
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14%;
+  background: none; border: 0; box-shadow: none; border-radius: 18px; transform: none;
+  transition: box-shadow 200ms ease-out, background-color 200ms ease-out;
+}
+/* ไม่มีกรอบ จึงบอก "เลือกอยู่" ด้วยแสงรอบชิ้นกับเครื่องหมายถูก (gc-selected-mark) */
+.gc-focus[data-game='sequence'] .seq-tray .gc-drag[aria-pressed='true'] { background: #ffffff5c; box-shadow: 0 0 0 4px #1e5fbf, 0 6px 16px #17659440; }
+.gc-focus[data-game='sequence'] .seq-tray .gc-drag:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 2px; }
+@media (hover: hover) {
+  .gc-focus[data-game='sequence'] .seq-tray .gc-drag:not([aria-pressed='true']):hover { background: #ffffff4d; box-shadow: 0 4px 12px #17659440; }
+}
+.gc-focus[data-game='sequence'] .seq-tray .gc-drag:active { box-shadow: 0 2px 8px #17659455; }
+
+/* ── ลูกบาศก์ ─────────────────────────────────────────────────────────
+   กล่องของเล่นมีสัดส่วนเท่ากันทุกที่ ลูกบาศก์ขนาดเท่ากันในทุกชิ้นของด่าน count/height
+   เด็กจึงเทียบจำนวนและความสูงได้ตรงๆ */
+.seq-toy { position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.25; pointer-events: none; }
+.seq-toy img { position: absolute; height: auto; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 4px 4px #17659433); }
+/* ภาพบล็อกเป็นลูกบาศก์หมุนเฉียง ฐานเป็นรูปข้าวหลามตัด (วัดจาก alpha ของ block.png)
+   กลางฐาน = (50%, 76.5%) ของภาพ · ซ้อนหนึ่งชั้นสูง 69.1% ของความกว้างภาพ
+   · วางชิดกันตามแนวหน้าบล็อก เลื่อน x +61% ลง y 22% ของความกว้างภาพ
+   กลางฐานต้องตกที่กลางก้นกล่อง (= กลางหน้าบนของแผ่น) กล่องสูง 1.25 เท่าของความกว้าง
+   left คิด % ของความกว้าง, bottom คิด % ของความสูง จึงหาร 1.25: .235→.188  .691→.553  .22→.176 */
+.seq-toy[data-kind='size'] img { width: var(--toy-size); left: calc(50% - var(--toy-size) * .5); bottom: calc(var(--toy-size) * -.188); }
+.seq-toy[data-kind='count'] img {
+  width: 40%;
+  left: calc(50% - 20% + (var(--block-col) - .5) * 40% * .61);
+  bottom: calc(40% * -.188 - (var(--block-col) - .5) * 40% * .176 + var(--block-row) * 40% * .553);
+  z-index: calc(var(--block-row) * 2 + var(--block-col) + 1);
+}
+.seq-toy[data-kind='height'] img { width: 40%; left: 30%; bottom: calc(40% * -.188 + var(--block-index) * 40% * .553); z-index: calc(var(--block-index) + 1); }
+
 @media (prefers-reduced-motion: no-preference) {
   .seq-tray .seq-toy { transition: transform 200ms ease-out; }
-  @media (hover: hover) { .seq-tray .gc-object-button:hover .seq-toy { transform: translateY(-4px) scale(1.03); } }
-  .seq-tray .gc-object-button:active .seq-toy { transform: scale(.98); transition-duration: 75ms; }
+  @media (hover: hover) { .seq-tray .gc-drag:hover .seq-toy { transform: translateY(-4px) scale(1.03); } }
+  .seq-tray .gc-drag:active .seq-toy { transform: scale(.98); transition-duration: 75ms; }
+  .seq-home[data-landed] .seq-home-object { animation: seq-seat 420ms ease-out; }
 }
+@keyframes seq-seat { 0% { translate: 0 -14%; } 70% { translate: 0 2%; } 100% { translate: 0 0; } }
+
 @media (max-width: 639px) {
-  .seq-heading { padding: 10px; gap: 8px; }.seq-heading p { font-size: 10px; }
-  .seq-heading .gc-button { padding: 6px; }
-  .seq-tray { gap: 8px; }.seq-tray-wrap { padding: 12px 8px 15px; }
-  .seq-tray-cell { min-height: 130px; }.seq-toy { height: 83px; }
-  .seq-label { font-size: 11px; }.seq-label small { font-size: 9px; }
-  .seq-notice { font-size: 13px; }.seq-homes { left: 8%; right: 8%; gap: 5px; }
-  .seq-empty { width: 29px; height: 29px; font-size: 18px; }
+  .seq-scene { --seq-chrome: 380px; }
+  /* เกาะล้นขอบซ้ายขวาข้างละ 12px ให้เต็มจอมือถือ เหมือนเกมหยอดรูปทรง */
+  .isl-board.seq-island { width: auto; max-width: none; margin-inline: -12px; }
 }
-@media (max-width: 350px) {
-  .seq-homes { left: 5%; right: 5%; gap: 2px; }
-  .seq-tray { gap: 4px; }.seq-tray-wrap { padding-inline: 4px; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .seq-scene { width: min(100%, 62vh); }
+  .seq-scene .isl-board { max-width: 100%; margin-inline: 0; }
+}
+
+/* จอ PC กว้างแต่เตี้ย: สองคอลัมน์ (กฎ grid อยู่ใน shape.css) เกาะใช้ความสูงเกือบทั้งจอ */
+@media (min-width: 1100px) and (min-height: 600px) and (max-height: 850px) and (min-aspect-ratio: 3/2) {
+  .gc-focus[data-game='sequence'][data-status='playing'] .seq-scene { width: min(100%, 640px, calc((100dvh - 150px) / 1.14)); }
 }

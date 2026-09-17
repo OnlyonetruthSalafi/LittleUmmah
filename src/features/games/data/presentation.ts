@@ -53,6 +53,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
   },
   sequence: {
     world: { th: 'เกาะนักเรียงตัวน้อย', en: 'Little Builders Island' },
+    voiceIntro: true,
     description: { th: 'พาบล็อกของเล่นขึ้นเกาะ เรียงขนาด จำนวน และความสูงจากน้อยไปมาก', en: 'Bring the toy blocks to the island. Order their size, number and height.' },
     levels: [{ th: 'เล็ก → ใหญ่', en: 'Small to large' }, { th: 'น้อย → มาก', en: 'Count 1 to 4' }, { th: 'เตี้ย → สูง', en: 'Short to tall' }],
     destinations: { th: 'เรียงไปตามทาง', en: 'Follow the trail' }, pieces: { th: 'ชิ้นไหนมาก่อนนะ?', en: 'Which comes first?' },
