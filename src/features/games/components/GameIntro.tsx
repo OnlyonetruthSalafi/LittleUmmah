@@ -2,12 +2,14 @@ import { GameImage as Image } from './GameImage';
 import { Thumbnail } from './Artwork';
 import { gameAssets, type GameDefinition } from '../data/catalog';
 import { gamePresentation } from '../data/presentation';
+import { BOARD, piecePath } from '../data/puzzleArt';
 
 export function GameIntro({ game, level, onLevel, onStart }: {
   game: GameDefinition; level: number; onLevel: (level: number) => void; onStart: () => void;
 }) {
   const theme = gamePresentation[game.slug];
   const levels = theme.levels.slice(0, theme.levelCount ?? 3);
+  const art = theme.levelArt;
   const tapGame = game.slug === 'memory' || game.slug === 'find-object';
   return <section className="gc-adventure-intro" aria-labelledby="gc-adventure-title">
     <div className="gc-adventure-scene">
@@ -22,9 +24,9 @@ export function GameIntro({ game, level, onLevel, onStart }: {
       <p className="gc-adventure-description">{theme.description.th}<small lang="en">{theme.description.en}</small></p>
       {levels.length > 1 && <fieldset className="gc-level-path">
         <legend>เลือกด่านของเรา <small lang="en">Choose your adventure</small></legend>
-        <div className="gc-level-stones">{levels.map((label, i) => <button type="button" key={label.en} className="gc-level-stone" aria-pressed={level === i + 1} onClick={() => onLevel(i + 1)}>
-          <span className="gc-level-number" aria-hidden="true">{i + 1}</span>
-          <span className="sr-only">ด่าน {i + 1}: </span><strong>{label.th}</strong><small lang="en">{label.en}</small>
+        <div className="gc-level-stones">{levels.map((label, i) => <button type="button" key={label.en} className="gc-level-stone" data-art={art ? '' : undefined} aria-pressed={level === i + 1} onClick={() => onLevel(i + 1)}>
+          {art?.[i] ? <LevelArt {...art[i]} number={i + 1} /> : <span className="gc-level-number" aria-hidden="true">{i + 1}</span>}
+          <span className="sr-only">ด่าน {i + 1}{art?.[i] ? ` ภาพ${art[i].label.th}` : ''}: </span><strong>{label.th}</strong><small lang="en">{label.en}</small>
           <span className="gc-level-selected" aria-hidden="true">{level === i + 1 ? '✓' : '·'}</span>
         </button>)}</div>
       </fieldset>}
@@ -32,4 +34,15 @@ export function GameIntro({ game, level, onLevel, onStart }: {
       <p className="gc-how-to">{tapGame ? 'แตะภาพเพื่อเล่น' : 'แตะชิ้น → แตะช่อง หรือลากไปวาง'}<small lang="en">{tapGame ? 'Tap a picture to play' : 'Tap a piece, then its home — or drag it there'}</small></p>
     </div>
   </section>;
+}
+
+/** ภาพตัวอย่างของด่านบนการ์ดเลือกด่าน: ภาพของด่านนั้น + เส้นตัดชิ้นจิ๊กซอว์จริง เด็กเห็นว่าด่านไหนชิ้นเยอะกว่า */
+function LevelArt({ src, columns, rows, number }: { src: string; columns: number; rows: number; number: number }) {
+  return <span className="gc-level-art" aria-hidden="true">
+    <Image src={src} alt="" width={240} height={240} sizes="(max-width: 639px) 30vw, 160px" />
+    <svg viewBox={`0 0 ${BOARD} ${BOARD}`} focusable="false">
+      {Array.from({ length: columns * rows }, (_, i) => <path key={i} d={piecePath(i % columns, Math.floor(i / columns), columns, rows)} />)}
+    </svg>
+    <span className="gc-level-badge">{number}</span>
+  </span>;
 }

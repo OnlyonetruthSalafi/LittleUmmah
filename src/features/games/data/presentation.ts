@@ -11,6 +11,8 @@ type GamePresentation = {
     เปิดทีละเกมโดยเจ้าของโปรเจกต์ ไม่เปิดพร้อมกันทั้งแปดเกม
   */
   voiceIntro?: boolean;
+  /** ภาพตัวอย่างของแต่ละด่านบนการ์ดเลือกด่าน (ตอนนี้ใช้กับจิ๊กซอว์: ภาพบนจิ๊กซอว์ + เส้นตัดชิ้นของด่านนั้น) */
+  levelArt?: { src: string; columns: number; rows: number; label: Label }[];
   /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
   levelCount?: 1 | 2 | 3;
   destinations: Label;
@@ -43,6 +45,8 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     world: { th: 'ช่างต่อเมืองน้อย', en: 'The Little City Builders' },
     description: { th: 'ต่อทีละชิ้น ให้เมืองสวยกลับมาครบ', en: 'Build a beautiful little city, piece by piece.' },
     levels: [{ th: '4 ชิ้น', en: '4 pieces' }, { th: '6 ชิ้น', en: '6 pieces' }, { th: '9 ชิ้น', en: '9 pieces' }],
+    // ภาพบนจิ๊กซอว์ของแต่ละด่าน (ที่เดียวที่กำหนด) — เกมจริง (PuzzleBoard) กับการ์ดเลือกด่านใช้ร่วมกัน
+    levelArt: [{ src: '/games/puzzle/picture-1.webp', columns: 2, rows: 2, label: { th: 'จันทร์เสี้ยว ดาว ต้นอินทผลัม และอาคารโดมฟ้า', en: 'A crescent, a star, a date palm and a blue dome' } }, { src: '/games/puzzle/picture-2.webp', columns: 3, rows: 2, label: { th: 'สวนน้ำพุโอเอซิส', en: 'An oasis fountain garden' } }, { src: '/games/puzzle/courtyard.webp', columns: 3, rows: 3, label: { th: 'ลานมัสยิดโดมทอง', en: 'A golden-dome masjid courtyard' } }],
     destinations: { th: 'มาสร้างภาพนี้ด้วยกัน', en: 'Let’s build this picture' }, pieces: { th: 'ชิ้นภาพที่รอเราอยู่', en: 'Your picture pieces' },
   },
   'arabic-match': {

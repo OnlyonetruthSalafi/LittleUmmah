@@ -98,12 +98,6 @@
 .gc-focus[data-game='sequence'] .gc-drop:not(:last-child)::after { content: '→'; position: absolute; right: -21px; top: 40%; font-size: 21px; color: #1f2937; }
 .gc-focus[data-game='sequence'] .gc-tray .gc-object-button { background: #eaf6ff; border: 4px solid white; border-bottom: 8px solid #a8d8f5; }
 
-/* Puzzle: a gold picture frame and a separate tray of loose pieces. */
-.gc-focus[data-game='puzzle'] .gc-puzzle-board { width: min(100%, 490px); padding: 12px; background: #fff7d5; border: 6px solid #f6c64d; border-bottom: 10px solid #d5b966; border-radius: 22px; gap: 3px; box-shadow: inset 0 0 0 3px white, 0 8px 18px #1e5fbf25; }
-.gc-focus[data-game='puzzle'] .gc-puzzle-board .gc-drop { border: 0; padding: 0; min-height: 64px; border-radius: 4px; }
-.gc-focus[data-game='puzzle'] .gc-puzzle-tray .gc-tray-slot { flex-basis: 100px; min-height: 64px; }
-.gc-focus[data-game='puzzle'] .gc-puzzle-tray .gc-object-button { padding: 0; border: 3px solid white; border-radius: 8px; }
-
 /* Memory: chunky treasure tiles with geometric backs and original 3D objects. */
 .gc-focus[data-game='memory'] .gc-memory-stats { background: #fff7d5; border: 2px solid white; border-radius: 18px; width: fit-content; padding: 8px 25px; margin: 0 auto 22px; font-weight: 700; }
 .gc-focus[data-game='memory'] .gc-memory-grid { max-width: 740px; gap: 18px; padding-bottom: 10px; }

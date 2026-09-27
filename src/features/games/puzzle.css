@@ -1,0 +1,183 @@
+/* เกมจิ๊กซอว์แบบ 2.5D — สไตล์จำกัดอยู่ใต้ [data-game='puzzle'] หรือ .pz-* เท่านั้น
+   โครงเกาะ (.isl-board / .isl-surface) ใช้ร่วมกับเกมความจำใน memory.css
+   แถบบนหน้าเล่น (คำสั่ง ความคืบหน้า สองคอลัมน์บนจอเตี้ย) ใช้กฎชุดเดียวกับเกมหยอดรูปทรงใน shape.css */
+
+/* กล่อง SVG ของชิ้นที่รอวางกว้างกว่าตัวชิ้น (เผื่อหัวที่ยื่น) ส่วนที่โปร่งใสนี้ล้นขอบจอมือถือได้ จึงตัดแนวนอนทิ้ง */
+.gc-focus[data-game='puzzle'] { overflow-x: clip; }
+
+.pz-scene {
+  position: relative;
+  --pz-chrome: 400px;
+  width: min(100%, calc(100dvh - var(--pz-chrome)));
+  min-width: min(100%, 300px);
+  margin-inline: auto;
+}
+
+/* ปุ่มภาพช่วยกับคำใบ้ลอยทับมุมบนของฉาก ไม่กินความสูงเป็นแถวของตัวเอง */
+.pz-tools {
+  position: absolute; z-index: 20; inset: 0 0 auto; display: flex; justify-content: space-between; gap: 8px;
+  pointer-events: none;
+}
+.pz-tools > * { pointer-events: auto; }
+.pz-tools .gc-button { padding: 5px 14px; }
+
+/* ผิวเล่น = ภาพเกาะทั้งภาพ มุมถาดเป็น % ของภาพ (data/puzzleArt.ts) */
+.pz-scene .isl-board {
+  --surface-l: 0%; --surface-r: 0%; --surface-t: 0%; --surface-b: 0%;
+  max-width: 100%; aspect-ratio: 1;
+}
+.pz-scene .isl-art { animation: none; }
+.pz-scene .isl-surface { display: block; container-type: normal; }
+.pz-layer { position: absolute; inset: 0; }
+
+/* ── ระนาบกระดาน ──────────────────────────────────────────────────────
+   กล่องจัตุรัสกว้างเท่าเกาะ ถูกเอียงลงพื้นถาดด้วย matrix3d (คำนวณใน PuzzleBoard) */
+.pz-plane { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.pz-ghost {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill;
+  opacity: 0; pointer-events: none; user-select: none;
+  transition: opacity 200ms ease-out;
+}
+.pz-ghost[data-show] { opacity: .38; }
+/* เส้นรอบช่องที่ยังว่าง: เด็กเห็นรูปร่างหัว/รูจิ๊กซอว์ของแต่ละช่อง เทียบกับชิ้นที่ถืออยู่ได้ */
+.pz-outlines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.pz-outlines path { pointer-events: visibleFill; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: fill 200ms ease-out; fill: #ffffff2e; stroke: #b98a2e; stroke-width: 5; stroke-dasharray: 16 10; stroke-linejoin: round; }
+/* คำใบ้: เส้นทองหนาต่อเนื่องรอบช่อง + ลูกศร ไม่ได้สื่อด้วยสีอย่างเดียว (ข้อ 2) */
+.pz-outlines path[data-hint] { fill: #fff3c466; stroke: #f6c64d; stroke-width: 12; stroke-dasharray: none; filter: drop-shadow(0 0 10px #fff); }
+
+@media (hover: hover) { .pz-outlines path:hover { fill: #ffffff66; } }
+.pz-outlines path:active { fill: #ffffff8c; }
+/* ปุ่มสี่เหลี่ยมของช่องมีไว้ให้คีย์บอร์ดกับเครื่องอ่านหน้าจอ นิ้ว/เมาส์ไปโดนรูปจิ๊กซอว์ด้านบนแทน */
+.pz-cell { position: absolute; padding: 0; border: 0; background: none; pointer-events: none; }
+.pz-cell:focus-visible { outline: 8px solid var(--color-brand-blue); outline-offset: -8px; }
+
+/* ชิ้นที่วางแล้ว: ไม่รับการแตะ ช่องข้างๆ ที่หัวจิ๊กซอว์ยื่นทับจะได้ยังรับการวางได้ */
+.pz-placed { position: absolute; pointer-events: none; }
+.pz-piece-art { display: block; width: 100%; height: 100%; overflow: visible; }
+.pz-wall path { stroke-width: 5; stroke-linejoin: round; }
+/* เงาสัมผัสใต้ฐานชิ้น ให้ดูวางอยู่บนพื้นจริง ไม่ลอย */
+.pz-contact { fill: #0e3a5a; stroke: #0e3a5a; stroke-width: 14; stroke-linejoin: round; opacity: .28; filter: blur(5px); }
+.pz-rim { fill: none; stroke: #f2c75c; stroke-width: 9; stroke-linejoin: round; }
+.pz-shine { fill: none; stroke: #fffbe8; stroke-width: 2.5; stroke-linejoin: round; opacity: .85; }
+.pz-placed .pz-piece-art { filter: drop-shadow(0 4px 3px #1765942e); }
+
+.pz-hint-arrow { translate: -50% -110%; z-index: 5; pointer-events: none; }
+
+/* ── ถาดวางชิ้นที่รอต่อ ─────────────────────────────────────────────────
+   ถาดลอยฟ้าใต้เกาะ (tray-1row / tray-2row) ดึงขึ้นทับใต้ท้องเกาะให้เป็นฉากเดียวกัน
+   ตารางชิ้น (.pz-tray) วางในพื้นถาดด้านในที่วัดจากภาพ ช่องเป็นจัตุรัสขนาดเท่ากันทุกช่อง */
+.pz-bench { position: relative; z-index: 15; width: 86%; margin: -17% auto 0; }
+.pz-bench-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; filter: drop-shadow(0 14px 14px #1765942e); }
+.pz-tray {
+  position: absolute; container-type: size;
+  display: grid; place-items: center;
+}
+/* กล่องแถวกว้างพอดี "จำนวนต่อแถว × ขนาดช่อง" ชิ้นจึงตัดแถวตามที่ตั้งไว้เสมอ (ด่าน 2 = 3+3, ด่าน 3 = 5+4)
+   ขนาดช่องคิดจากพื้นถาด (.pz-tray เป็น container) ลบครึ่งพิกเซลกันเศษทศนิยมดันชิ้นสุดท้ายตกบรรทัด */
+.pz-tray-rows {
+  --pz-cell: calc(min(100cqw / var(--pz-per-row), 100cqh / var(--pz-rows)) - .5px);
+  display: flex; flex-wrap: wrap; justify-content: center;
+  width: calc(var(--pz-per-row) * var(--pz-cell) + 1px);
+}
+.pz-bench[data-rows='1'] .pz-tray { --pz-rows: 1; }
+.pz-bench[data-rows='2'] .pz-tray { --pz-rows: 2; }
+.pz-tray-cell {
+  position: relative;
+  width: var(--pz-cell);
+  aspect-ratio: 1;
+}
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0;
+  display: grid; place-items: center;
+  background: none; border: 0; box-shadow: none; border-radius: 18px; transform: none;
+  transition: box-shadow 200ms ease-out, background-color 200ms ease-out;
+}
+/* ชิ้นใหญ่กว่าปุ่ม (หัวจิ๊กซอว์ยื่นออก) จึงจัดกลางด้วย transform ไม่ใช่ grid ซึ่งดันของที่ล้นไปชิดขอบ */
+.pz-toy { position: absolute; left: 50%; top: 50%; display: block; pointer-events: none; }
+.pz-toy .pz-piece-art { filter: drop-shadow(0 6px 5px #17659440); }
+/* ไม่มีกรอบ จึงบอก "เลือกอยู่" ด้วยวงแสงรอบชิ้นกับเครื่องหมายถูก (gc-selected-mark) */
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag[aria-pressed='true'] { background: #ffffff5c; box-shadow: 0 0 0 4px #1e5fbf, 0 6px 16px #17659440; }
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 2px; }
+@media (hover: hover) {
+  .gc-focus[data-game='puzzle'] .pz-tray .gc-drag:not([aria-pressed='true']):hover { background: #ffffff4d; box-shadow: 0 4px 12px #17659440; }
+}
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag:active { box-shadow: 0 2px 8px #17659455; }
+
+/* ครบทุกชิ้น: ภาพเต็มถาดเรืองแสงทองให้รู้ว่าสำเร็จ */
+.pz-scene[data-done] .pz-placed .pz-piece-art { filter: drop-shadow(0 0 6px #fff3c4); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pz-tray .pz-toy { transition: translate 200ms ease-out, scale 200ms ease-out; }
+  @media (hover: hover) { .pz-tray .gc-drag:hover .pz-toy { translate: 0 -4px; scale: 1.03; } }
+  .pz-tray .gc-drag:active .pz-toy { scale: .98; transition-duration: 75ms; }
+  .pz-placed[data-landed] { animation: pz-seat 420ms ease-out; }
+}
+@keyframes pz-seat { 0% { translate: 0 -3%; opacity: .6; } 70% { translate: 0 .5%; } 100% { translate: 0 0; opacity: 1; } }
+
+@media (max-width: 639px) {
+  .pz-scene { --pz-chrome: 380px; }
+  /* เกาะล้นขอบซ้ายขวาข้างละ 12px ให้เต็มจอมือถือ เหมือนเกมหยอดรูปทรง */
+  .isl-board.pz-island { width: auto; max-width: none; margin-inline: -12px; }
+  /* ถาดล้นขอบจอเท่าเกาะ ให้ชิ้นได้พื้นที่มากที่สุด */
+  .pz-bench { width: auto; margin-inline: -12px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .pz-scene { width: min(100%, 62vh); }
+  .pz-scene .isl-board { max-width: 100%; margin-inline: 0; }
+}
+
+/* จอ PC กว้างแต่เตี้ย: สองคอลัมน์ (กฎ grid อยู่ใน shape.css) */
+@media (min-width: 1100px) and (min-height: 600px) and (max-height: 850px) and (min-aspect-ratio: 3/2) {
+  .gc-focus[data-game='puzzle'][data-status='playing'] .pz-scene { width: min(100%, 640px, calc((100dvh - 150px) / 1.2)); }
+}
+
+/* ── หน้าเลือกด่าน: การ์ดด่านมีภาพตัวอย่างของด่าน + เส้นตัดชิ้นจริง ─────────────
+   มาตรฐาน motion ข้อ 2.1: ขยับเฉพาะกรอบภาพ ข้อความนิ่ง เงาเพิ่มตอน hover ใส่ motion-safe ทุก transform */
+.gc-level-stone[data-art] {
+  gap: 6px; min-height: 0; padding: 9px 9px 14px;
+  background: linear-gradient(180deg, #fffdf6, #fff3cf);
+  border: 3px solid #fff; border-radius: 24px;
+  box-shadow: 0 5px 0 #d5b966, 0 6px 14px #b98a2e1f;
+}
+.gc-level-stone[data-art][aria-pressed='true'] {
+  background: linear-gradient(180deg, #ffffff, #eaf6ff);
+  border-color: #1e5fbf; box-shadow: 0 5px 0 #1e5fbf, 0 10px 22px #1e5fbf33;
+}
+.gc-level-art {
+  position: relative; display: block; width: 100%; aspect-ratio: 1;
+  border-radius: 14px; overflow: hidden;
+  border: 4px solid #f2c75c;
+  box-shadow: inset 0 0 0 2px #fffbe8, 0 4px 0 #b98a2e, 0 6px 10px #17659426;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.gc-level-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.gc-level-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gc-level-art path { fill: none; stroke: #fffbe8; stroke-width: 11; stroke-linejoin: round; filter: drop-shadow(0 0 3px #7a5a1a); }
+.gc-level-badge {
+  position: absolute; top: 5px; left: 5px; display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #1e5fbf; color: #fff; border: 2px solid #fff; box-shadow: 0 2px 0 #123a72;
+  font: 800 18px/1 var(--font-display);
+}
+.gc-level-stone[data-art] strong { font-size: 16px; color: #123a72; }
+.gc-level-stone[data-art] .gc-level-selected {
+  top: -9px; right: -9px; bottom: auto; display: grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 50%; font-size: 16px;
+}
+.gc-level-stone[data-art][aria-pressed='true'] .gc-level-selected { background: #1e5fbf; color: #fff; border: 2px solid #fff; box-shadow: 0 2px 0 #123a72; }
+.gc-level-stone[data-art][aria-pressed='false'] .gc-level-selected { visibility: hidden; }
+@media (hover: hover) {
+  .gc-level-stone[data-art]:hover { box-shadow: 0 7px 0 #d5b966, var(--shadow-float); }
+  .gc-level-stone[data-art][aria-pressed='true']:hover { box-shadow: 0 7px 0 #1e5fbf, var(--shadow-float); }
+  .gc-level-stone[data-art]:hover .gc-level-art { box-shadow: inset 0 0 0 2px #fffbe8, 0 6px 0 #b98a2e, 0 12px 18px #17659433; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .gc-level-stone[data-art]:hover .gc-level-art { transform: translateY(-4px) scale(1.03); } }
+  .gc-level-stone[data-art]:active .gc-level-art { transform: scale(.98); transition-duration: 75ms; }
+}
+@media (max-width: 639px) {
+  .gc-level-stone[data-art] { padding: 6px 6px 11px; border-radius: 18px; }
+  .gc-level-art { border-width: 3px; border-radius: 11px; }
+  .gc-level-badge { width: 24px; height: 24px; font-size: 15px; top: 3px; left: 3px; }
+  .gc-level-stone[data-art] strong { font-size: 14px; }
+}

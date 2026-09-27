@@ -352,5 +352,10 @@
   "public/stories/nuh/p08b.png": "a04c0bfae2935410385068d26e80ab5967d4b49c4a1d0c4c9cbcf030a90b7ede",
   "public/stories/shelf/shelf-tall.png": "6c79d030c07dce6ec1b3f87daa2084b91b43c013101a55f2f5c24996136386f9",
   "public/stories/shelf/shelf-wide.png": "0307dfe91a1caa97eb81bf2552570e0f17b316e7945d5c0ec075829156650979",
-  "public/games/sequence/pad.png": "b0cf2fb9720fa06c34c54e5939dca74836a35ed83de4e9965b600015e863844b"
+  "public/games/sequence/pad.png": "b0cf2fb9720fa06c34c54e5939dca74836a35ed83de4e9965b600015e863844b",
+  "public/games/puzzle/island.png": "92175d84daff0d77051213c3fa3ed91b997e879c88b5235b0ca28964296c4feb",
+  "public/games/puzzle/picture-1.png": "3c2fb89d08076f397a24de66ffaf09f5c087b6961af05502c51a3294ce75d850",
+  "public/games/puzzle/picture-2.png": "1ebd0dcd3f2de102228f6073eca62139cae9bacd88cb7b4e916e7c1107c20541",
+  "public/games/puzzle/tray-1row.png": "deee0e89460d4917d7050b855c5c24725c95b219e93910fc7a1ba9887cba806d",
+  "public/games/puzzle/tray-2row.png": "6af854678fff37abe2bcd9152ae952e993deea26e8c16dbf0cb8b614509a5d5a"
 }
