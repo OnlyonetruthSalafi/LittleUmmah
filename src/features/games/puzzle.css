@@ -64,28 +64,13 @@
 .pz-hint-arrow { translate: -50% -110%; z-index: 5; pointer-events: none; }
 
 /* ── ถาดวางชิ้นที่รอต่อ ─────────────────────────────────────────────────
-   ถาดลอยฟ้าใต้เกาะ (tray-1row / tray-2row) ดึงขึ้นทับใต้ท้องเกาะให้เป็นฉากเดียวกัน
-   ตารางชิ้น (.pz-tray) วางในพื้นถาดด้านในที่วัดจากภาพ ช่องเป็นจัตุรัสขนาดเท่ากันทุกช่อง */
-.pz-bench { position: relative; z-index: 15; width: 86%; margin: -17% auto 0; }
-.pz-bench-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; filter: drop-shadow(0 14px 14px #1765942e); }
-.pz-tray {
-  position: absolute; container-type: size;
-  display: grid; place-items: center;
-}
-/* กล่องแถวกว้างพอดี "จำนวนต่อแถว × ขนาดช่อง" ชิ้นจึงตัดแถวตามที่ตั้งไว้เสมอ (ด่าน 2 = 3+3, ด่าน 3 = 5+4)
-   ขนาดช่องคิดจากพื้นถาด (.pz-tray เป็น container) ลบครึ่งพิกเซลกันเศษทศนิยมดันชิ้นสุดท้ายตกบรรทัด */
-.pz-tray-rows {
-  --pz-cell: calc(min(100cqw / var(--pz-per-row), 100cqh / var(--pz-rows)) - .5px);
-  display: flex; flex-wrap: wrap; justify-content: center;
-  width: calc(var(--pz-per-row) * var(--pz-cell) + 1px);
-}
-.pz-bench[data-rows='1'] .pz-tray { --pz-rows: 1; }
-.pz-bench[data-rows='2'] .pz-tray { --pz-rows: 2; }
-.pz-tray-cell {
-  position: relative;
-  width: var(--pz-cell);
-  aspect-ratio: 1;
-}
+   ถาดวาดด้วยโค้ดบนระนาบเอียงเดียวกับถาดบนเกาะ (BenchTray + benchLayout ใน data/puzzleArt.ts)
+   ความสูงกล่องคำนวณใน PuzzleBoard ดึงขึ้นทับใต้ท้องเกาะให้เป็นฉากเดียวกัน */
+.pz-bench { position: relative; z-index: 15; width: 82%; margin: -14% auto 0; min-height: 120px; }
+.pz-bench-plane { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; }
+.pz-bench-tray { display: block; overflow: visible; filter: drop-shadow(0 10px 12px #17659433); }
+.pz-tray { position: absolute; inset: 0; }
+.pz-tray-cell { position: absolute; }
 .gc-focus[data-game='puzzle'] .pz-tray .gc-drag {
   position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0;
   display: grid; place-items: center;
@@ -96,12 +81,14 @@
 .pz-toy { position: absolute; left: 50%; top: 50%; display: block; pointer-events: none; }
 .pz-toy .pz-piece-art { filter: drop-shadow(0 6px 5px #17659440); }
 /* ไม่มีกรอบ จึงบอก "เลือกอยู่" ด้วยวงแสงรอบชิ้นกับเครื่องหมายถูก (gc-selected-mark) */
-.gc-focus[data-game='puzzle'] .pz-tray .gc-drag[aria-pressed='true'] { background: #ffffff5c; box-shadow: 0 0 0 4px #1e5fbf, 0 6px 16px #17659440; }
+/* เลือกอยู่: วงแสงน้ำเงินตามรูปชิ้น (ชิ้นเอียงเป็นข้าวหลามตัด กรอบสี่เหลี่ยมจะดูไม่ตรงชิ้น) + เครื่องหมายถูก */
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag[aria-pressed='true'] { background: none; box-shadow: none; }
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag[aria-pressed='true'] .pz-piece-art { filter: drop-shadow(0 0 2px #1e5fbf) drop-shadow(0 0 2px #1e5fbf) drop-shadow(0 0 6px #1e5fbf); }
 .gc-focus[data-game='puzzle'] .pz-tray .gc-drag:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 2px; }
 @media (hover: hover) {
-  .gc-focus[data-game='puzzle'] .pz-tray .gc-drag:not([aria-pressed='true']):hover { background: #ffffff4d; box-shadow: 0 4px 12px #17659440; }
+  .gc-focus[data-game='puzzle'] .pz-tray .gc-drag:not([aria-pressed='true']):hover .pz-piece-art { filter: drop-shadow(0 10px 8px #17659455); }
 }
-.gc-focus[data-game='puzzle'] .pz-tray .gc-drag:active { box-shadow: 0 2px 8px #17659455; }
+.gc-focus[data-game='puzzle'] .pz-tray .gc-drag:active { box-shadow: none; }
 
 /* ครบทุกชิ้น: ภาพเต็มถาดเรืองแสงทองให้รู้ว่าสำเร็จ */
 .pz-scene[data-done] .pz-placed .pz-piece-art { filter: drop-shadow(0 0 6px #fff3c4); }
@@ -117,7 +104,18 @@
 @media (max-width: 639px) {
   .pz-scene { --pz-chrome: 380px; }
   /* เกาะล้นขอบซ้ายขวาข้างละ 12px ให้เต็มจอมือถือ เหมือนเกมหยอดรูปทรง */
-  .isl-board.pz-island { width: auto; max-width: none; margin-inline: -12px; }
+  /* ขยายเกาะให้ถาดจิ๊กซอว์ (x 15–89% ของภาพ) กินความกว้างจอเกือบเต็ม ชิ้นและช่องใหญ่ขึ้นราว 1.3 เท่า
+     ของประดับริมเกาะ (ต้นอินทผลัม ก้อนหิน) ถูกตัดขอบไปบ้าง — ยอมเพื่อให้เด็กเห็นภาพบนชิ้นชัด
+     ถาดกลางภาพอยู่ที่ x ≈ 52% จึงเลื่อนซ้ายเพิ่มเล็กน้อยให้ถาดอยู่กลางจอ
+     ส่วนล้นแนวนอนถูกตัดด้วย overflow-x: clip ของ .gc-focus */
+  .pz-scene { --pz-zoom: 1.3; }
+  .isl-board.pz-island {
+    width: calc((100% + 24px) * var(--pz-zoom)); max-width: none;
+    margin-left: calc(-12px - (100% + 24px) * (var(--pz-zoom) - 1) / 2 - (100% + 24px) * var(--pz-zoom) * .02);
+    /* ใต้ท้องเกาะ (ผลึกห้อย) ขยายตามไปด้วย ดึงถาดวางชิ้นขึ้นทับให้ไม่เปลืองความสูงจอ */
+    margin-bottom: calc((100% + 24px) * var(--pz-zoom) * -.12);
+  }
+
   /* ถาดล้นขอบจอเท่าเกาะ ให้ชิ้นได้พื้นที่มากที่สุด */
   .pz-bench { width: auto; margin-inline: -12px; }
 }

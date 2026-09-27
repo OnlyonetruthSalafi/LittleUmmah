@@ -8,12 +8,6 @@
  */
 export const PUZZLE_ISLAND = { src: '/games/puzzle/island.webp', width: 1100, height: 1100 };
 /* ภาพบนจิ๊กซอว์ของแต่ละด่านอยู่ใน data/presentation.ts (levelArt) — จัตุรัสทุกภาพ ด่าน 2 ตัดเป็นช่องผืนผ้า 3×2 */
-/** ถาดวางชิ้นที่รอต่อ ลอยใต้เกาะ (ภาพจาก Codex รอบ 2 ของ CODEX_PUZZLE_BRIEF.md)
- *  inner = สี่เหลี่ยมผืนผ้าใหญ่สุดในพื้นถาดด้านใน (% ของภาพ) จาก output/puzzle-art/measurements.json */
-export const PUZZLE_BENCH = {
-  oneRow: { src: '/games/puzzle/tray-1row.webp', width: 1400, height: 560, rows: 1, inner: { x: 6.5, y: 16.61, width: 87.14, height: 49.82 } },
-  twoRow: { src: '/games/puzzle/tray-2row.webp', width: 1400, height: 820, rows: 2, inner: { x: 6.36, y: 14.15, width: 87.43, height: 59.39 } },
-};
 /** ขนาดระนาบกระดาน (หน่วย SVG) */
 export const BOARD = 1000;
 
@@ -70,17 +64,44 @@ export function screenDown(H: number[], length: number): Point {
   return { x: (u / n) * length, y: (v / n) * length };
 }
 
-/** transform 2D ของชิ้นที่รอวาง ให้เอียงแบบเดียวกับถาด (affine ที่กลางถาด)
- *  ปรับขนาดให้ "ตัวชิ้น" (ไม่รวมหัวที่ยื่น) ขนาด 1 × aspect พอดีกรอบ 1×1 หัวจิ๊กซอว์จึงยื่นเลยกรอบได้ */
-export function trayAffine(H: number[], aspect = 1) {
+/* ── ถาดวางชิ้นที่รอต่อ (ใต้เกาะ) ──────────────────────────────────────
+   วาดด้วยโค้ดบนระนาบเอียงเดียวกับถาดบนเกาะ (affine ที่กลางถาด ปรับ det = 1 หน่วยระนาบ ≈ px บนจอ)
+   ชิ้นที่รอวางจึงเอียงและใหญ่เท่าช่องในถาดบนเกาะ เด็กเทียบรูปทรงกับช่องได้ตรงๆ
+   ถาดเรียงช่องแบบเดียวกับกระดาน (cols × rows) ช่องผืนผ้าของด่าน 2 จึงทำให้ระนาบเป็นจัตุรัสเสมอ */
+export type Affine = { a: number; b: number; c: number; d: number };
+
+/** affine ที่กลางถาดบนเกาะ ปรับให้ไม่ย่อ/ขยายพื้นที่ (det = 1) — (x, y) บนระนาบ → (a x + c y, b x + d y) บนจอ */
+export function planeAffine(H: number[]): Affine {
   const j = jacobian(H, 0.5, 0.5);
   const s = Math.sqrt(Math.abs(j.ux * j.vy - j.vx * j.uy));
-  const a = j.ux / s, b = j.uy / s, c = j.vx / s, d = j.vy / s;
-  // กล่องล้อมของจัตุรัสหน่วยหลังแปลง
-  const w = Math.min(1, 1 / aspect), h = Math.min(1, aspect);
-  const xs = [0, a * w, c * h, a * w + c * h], ys = [0, b * w, d * h, b * w + d * h];
-  const fit = 1 / Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
-  return `matrix(${[a, b, c, d].map(n => +(n * fit).toFixed(5)).join(',')},0,0)`;
+  return { a: j.ux / s, b: j.uy / s, c: j.vx / s, d: j.vy / s };
+}
+
+/** ระยะขอบถาด (ผนังทอง + เผื่อหัวจิ๊กซอว์ที่ยื่น) เทียบกับด้านสั้นของช่อง */
+export const BENCH_PAD = 0.34;
+/** ความหนาของถาดบนจอ เทียบกับความกว้างช่อง */
+export const BENCH_DEPTH = 0.2;
+
+/** จัดถาดวางชิ้นให้กว้างพอดี width px บนจอ (ช่องกว้างไม่เกิน maxCell px บนระนาบ)
+ *  คืนขนาดระนาบ S×S, ขนาดช่อง, ตำแหน่ง transform ของระนาบ และฟังก์ชันหาจุดกลางช่องบนจอ */
+export function benchLayout(A: Affine, cols: number, rows: number, width: number, maxCell = 130) {
+  const aspect = cols / rows; // ด้านสูง/ด้านกว้างของช่อง = สัดส่วนของตัวชิ้น
+  const padUnit = BENCH_PAD * Math.min(1, aspect);
+  const xs = [0, A.a, A.c, A.a + A.c], ys = [0, A.b, A.d, A.b + A.d];
+  const spanX = Math.max(...xs) - Math.min(...xs), spanY = Math.max(...ys) - Math.min(...ys);
+  const cw = Math.min(maxCell, width / spanX / (cols + 2 * padUnit));
+  const ch = cw * aspect, pad = cw * padUnit, S = cols * cw + 2 * pad;
+  const depth = BENCH_DEPTH * cw;
+  const tx = (width - S * spanX) / 2 - S * Math.min(...xs), ty = -S * Math.min(...ys);
+  const toScreen = (x: number, y: number) => ({ x: A.a * x + A.c * y + tx, y: A.b * x + A.d * y + ty });
+  /** เวกเตอร์บนระนาบที่ชี้ลงจอยาว depth px: A⁻¹ (0, depth) */
+  const wall = { x: -A.c * depth, y: A.a * depth };
+  return {
+    cw, ch, pad, S, height: S * spanY + depth, wall, toScreen,
+    matrix: `matrix(${[A.a, A.b, A.c, A.d, tx, ty].map(n => +n.toFixed(5)).join(',')})`,
+    /** จุดกลางช่องที่ slot (เรียงซ้าย→ขวา บน→ล่าง บนระนาบ) บนจอ */
+    center: (slot: number) => toScreen(pad + ((slot % cols) + 0.5) * cw, pad + (Math.floor(slot / cols) + 0.5) * ch),
+  };
 }
 
 /* ── ชิ้นจิ๊กซอว์ ─────────────────────────────────────────────────────

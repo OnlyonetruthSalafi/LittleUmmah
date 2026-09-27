@@ -246,3 +246,9 @@ Use case: precise-object-edit. Create the TWO ROW companion of this tray, same e
 #### tray-2row-round2
 
 Use case: precise-object-edit. SINGLE GEOMETRIC CORRECTION to this exact tray: increase empty cream floor vertical screen height by 10.5 percent keeping floor width unchanged. Target screen floor ratio2.3:1 instead of current2.54:1. Move top rim upward into transparent margin; retain bottom rim fascia three turquoise pendants. Preserve design colors materials gold arches upper-left lighting straight near-vertical side edges and horizontal front/back.1400x820 transparent canvas entire object contained. Smooth uniform empty ivory cream floor no patterns. No humans animals birds faces religious persons text numbers Arabic letters arrows logos watermarks music symbols puzzle pieces or third-party artwork. Actual alpha transparency.
+
+## หมายเหตุ 27 ก.ย. 2026 — เลิกใช้ tray-1row / tray-2row
+
+เจ้าของโปรเจกต์ขอให้ถาดวางชิ้นเอียงเหมือนถาดบนเกาะ ถาดจึงวาดด้วยโค้ด (`BenchTray` ใน `PuzzleBoard.tsx`
++ `benchLayout` ใน `data/puzzleArt.ts`) บนระนาบเอียงเดียวกับถาดบนเกาะ ลบ WebP ของถาดสองไฟล์ออกจาก public แล้ว
+ต้นฉบับ PNG และ prompt ด้านบนยังเก็บไว้ใน `output/puzzle-art/originals/` เผื่อใช้ภายหลัง

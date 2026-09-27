@@ -7,7 +7,7 @@ import { DragItem } from '../components/DragItem';
 import { boardContent } from '../data/content';
 import { gamePresentation } from '../data/presentation';
 import { canPlace, levelComplete, shuffle } from '../engine/rules';
-import { BOARD, PUZZLE_BENCH, PUZZLE_ISLAND, TRAY, homography, pieceBox, piecePath, project, screenDown, trayAffine, trayMatrix } from '../data/puzzleArt';
+import { BOARD, PUZZLE_ISLAND, TRAY, benchLayout, homography, pieceBox, piecePath, planeAffine, project, screenDown, trayMatrix } from '../data/puzzleArt';
 
 /* เกมจิ๊กซอว์แบบ 2.5D — ตามภาพเกาะตัวอย่าง public/games/hub/puzzle.png
  *
@@ -20,8 +20,8 @@ import { BOARD, PUZZLE_BENCH, PUZZLE_ISLAND, TRAY, homography, pieceBox, piecePa
 const THICKNESS = 56;
 /** จำนวนชั้นที่ซ้อนเป็นผนังข้าง ยิ่งมากผนังยิ่งเนียน ไล่สีทองเข้มล่าง → ทองอ่อนบน */
 const WALL_LAYERS = 14;
-/** ตารางชิ้นล้นทับขอบทองด้านในของถาดวางชิ้นได้ (% ของภาพถาด) ปุ่มบนจอ 360px จึงยังได้ ≥ 64px */
-const RIM_OVERLAP = 2.2;
+/** ช่องไฟระหว่างชิ้นบนถาดวางชิ้น เทียบกับขนาดชิ้น */
+const BENCH_GAP = 0.14;
 const wallColor = (t: number) => `hsl(40 ${62 + t * 10}% ${30 + t * 26}%)`;
 
 /** part: 'wall' = เงา + ผนังข้าง, 'face' = ผิวบน, ไม่ใส่ = ทั้งชิ้น
@@ -47,6 +47,27 @@ function PieceSvg({ index, cols, rows, src, down, uid, part }: { index: number; 
   </svg>;
 }
 
+/** ถาดวางชิ้นบนระนาบ S×S: ผนังหินอ่อนคาดทองซ้อนหลายชั้นลงจอ · ขอบทองหนา · พื้นครีม (เข้าชุดกับถาดบนเกาะ) */
+function BenchTray({ S, pad, wall, uid }: { S: number; pad: number; wall: { x: number; y: number }; uid: string }) {
+  const r = pad * 0.9, rim = pad * 0.55;
+  const rect = (inset: number, radius: number) => <rect x={inset} y={inset} width={S - 2 * inset} height={S - 2 * inset} rx={radius} />;
+  const layers = 12;
+  return <svg className="pz-bench-tray" width={S} height={S} viewBox={`0 0 ${S} ${S}`} aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id={`${uid}-rim`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffe28a" /><stop offset=".5" stopColor="#f2c24f" /><stop offset="1" stopColor="#c98f22" /></linearGradient>
+      <linearGradient id={`${uid}-floor`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fffaf0" /><stop offset="1" stopColor="#f1e7d2" /></linearGradient>
+    </defs>
+    {/* ผนังด้านข้าง: ล่างสุดเป็นแถบทอง เหนือขึ้นมาเป็นหินอ่อนขาว แบบหน้าผาเกาะ */}
+    {Array.from({ length: layers }, (_, k) => {
+      const t = k / (layers - 1), fill = t < 0.28 ? `hsl(40 70% ${36 + t * 60}%)` : `hsl(40 30% ${88 + t * 8}%)`;
+      return <g key={k} transform={`translate(${+(wall.x * (1 - t)).toFixed(2)} ${+(wall.y * (1 - t)).toFixed(2)})`} fill={fill}>{rect(0, r)}</g>;
+    })}
+    <g fill={`url(#${uid}-rim)`}>{rect(0, r)}</g>
+    <g fill="none" stroke="#fff4c4" strokeWidth={Math.max(1.5, rim * 0.12)}>{rect(rim * 0.18, r * 0.95)}</g>
+    <g fill={`url(#${uid}-floor)`} stroke="#d9b45a" strokeWidth={Math.max(1.5, rim * 0.14)}>{rect(rim, r - rim * 0.6)}</g>
+  </svg>;
+}
+
 export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   const uid = useId().replace(/:/g, '');
   const [round] = useState(() => { const data = boardContent('puzzle', level); return { ...data, tray: shuffle(data.items) }; });
@@ -54,7 +75,7 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   const art = gamePresentation.puzzle.levelArt!, picture = art[level - 1] ?? art[0], src = picture.src;
   const H = useMemo(() => homography(TRAY), []);
   const down = useMemo(() => screenDown(H, THICKNESS), [H]);
-  const affine = useMemo(() => trayAffine(H, cols / rows), [H, cols, rows]);
+  const A = useMemo(() => planeAffine(H), [H]);
   const [placed, setPlaced] = useState<string[]>([]);
   const current = useRef<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -66,14 +87,17 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   const layer = useRef<HTMLDivElement>(null);
   const scene = useRef<HTMLDivElement>(null);
   const total = round.items.length;
-  /* ด่าน 1 (4 ชิ้น) ใช้ถาดแถวเดียว ด่าน 2–3 ใช้ถาดสองแถว ชิ้นบนมือถือจึงยังกว้างอย่างน้อย 64px */
-  const bench = total <= 4 ? PUZZLE_BENCH.oneRow : PUZZLE_BENCH.twoRow;
+  const [benchWidth, setBenchWidth] = useState(0);
+  const benchRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const element = layer.current;
     if (!element) return;
-    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) (entry.target === element ? setWidth : setBenchWidth)(entry.contentRect.width);
+    });
     observer.observe(element);
+    if (benchRef.current) observer.observe(benchRef.current);
     return () => observer.disconnect();
   }, []);
   useEffect(() => { onProgress(placed.length, total); }, [placed.length, total, onProgress]);
@@ -100,9 +124,11 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   /* ชิ้นที่อยู่ต่ำกว่าบนจอ (ใกล้คนดู) วาดทีหลัง ผนังข้างของมันจึงบังชิ้นที่อยู่ไกลกว่าอย่างถูกต้อง */
   const depth = (i: number) => Math.round(project(H, ((i % cols) + 0.5) / cols, (Math.floor(i / cols) + 0.5) / rows).y * 1000);
   const tapCell = (targetId: string) => { if (selected) place(selected, targetId); else setNotice('แตะเลือกชิ้นภาพก่อน แล้วแตะช่องในถาด'); };
-  /* กล่อง svg ของชิ้นใหญ่กว่าตัวชิ้นเพราะเผื่อหัวที่ยื่น ขยายกล่องให้ตัวชิ้นเต็มปุ่ม หัวยื่นเลยปุ่มได้ */
-  const body = pieceBox(0, 0, cols, rows, THICKNESS), side = Math.max(BOARD / cols, BOARD / rows);
-  const toySize = { width: `${body.w / side * 100}%`, height: `${body.h / side * 100}%` };
+  /* ถาดวางชิ้นใต้เกาะ: เอียงแบบเดียวกับถาดบนเกาะ กว้างเกือบเต็มกล่อง ช่องใหญ่สุด 130px */
+  const bench = benchWidth > 0 ? benchLayout(A, cols, rows, benchWidth * 0.97, 130) : null;
+  /* ชิ้นบนระนาบถาดวางชิ้น: หน่วยกระดาน → px บนระนาบ เว้นช่องไฟ BENCH_GAP ระหว่างชิ้น
+     ไม่งั้นชิ้นที่สลับที่กันแล้วชิดกันจะดูเหมือนภาพต่อสำเร็จอีกภาพ */
+  const toyScale = bench ? bench.cw / (1 + BENCH_GAP) / (BOARD / cols) : 0;
   const hintAt = hint === null ? null : project(H, ((hint % cols) + 0.5) / cols, (Math.floor(hint / cols) + 0.5) / rows);
   const done = placed.length === total;
 
@@ -149,24 +175,30 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
       </div>
     </IslandBoard>
 
-    {/* ชิ้นที่รอวางอยู่บนถาดลอยฟ้าใต้เกาะ (ภาพจาก Codex) ตารางชิ้นอยู่ในพื้นถาดด้านในที่วัดจากภาพ
+    {/* ชิ้นที่รอวางอยู่บนถาดใต้เกาะ ถาดกับชิ้นเอียงบนระนาบเดียวกับถาดบนเกาะ ชิ้นจึงใหญ่และเอียงเท่าช่องจริง
+        ปุ่มของแต่ละชิ้นเป็นกล่องตรงบนจอ (ลากตามนิ้วได้ตรง) ≥ 64px ศูนย์กลางอยู่ที่กลางช่องบนระนาบ
         ช่องของชิ้นที่วางแล้วยังเว้นไว้ ชิ้นอื่นจึงไม่เลื่อนขณะเด็กเล็ง */}
-    <div className="pz-bench" data-rows={bench.rows} style={{ aspectRatio: `${bench.width} / ${bench.height}` }}>
-      <Image className="pz-bench-art" src={bench.src} alt="" width={bench.width} height={bench.height} unoptimized draggable={false} />
-    <div className="pz-tray" role="group" aria-label="ชิ้นภาพที่รอวาง / Puzzle pieces"
-      style={{ left: `${bench.inner.x - RIM_OVERLAP}%`, top: `${bench.inner.y - RIM_OVERLAP}%`, width: `${bench.inner.width + 2 * RIM_OVERLAP}%`, height: `${bench.inner.height + 2 * RIM_OVERLAP}%`, '--pz-per-row': Math.ceil(total / bench.rows) } as CSSProperties}>
-      <div className="pz-tray-rows">
-      {round.tray.map(item => {
-        const i = indexOf(item.id);
-        return <div className="pz-tray-cell" key={item.id}>
-          {!placed.includes(item.id) && <DragItem id={item.id} label={`ชิ้นภาพที่ ${i + 1} ของภาพ${picture.label.th} / Piece ${i + 1} of ${picture.label.en}`} selected={selected === item.id}
-            onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice('เลือกชิ้นภาพแล้ว แตะช่องในถาดที่รูปร่างตรงกัน'); }} onDrop={place}>
-            <span className="pz-toy" style={{ transform: `translate(-50%, -50%) ${affine}`, ...toySize }}><PieceSvg index={i} cols={cols} rows={rows} src={src} down={down} uid={`${uid}t`} /></span>
-          </DragItem>}
-        </div>;
-      })}
-      </div>
-    </div>
+    <div className="pz-bench" ref={benchRef} style={bench ? { height: bench.height } : undefined}>
+      {bench && <>
+        <div className="pz-bench-plane" style={{ width: bench.S, height: bench.S, transform: bench.matrix }}>
+          <BenchTray S={bench.S} pad={bench.pad} wall={bench.wall} uid={`${uid}bench`} />
+        </div>
+        <div className="pz-tray" role="group" aria-label="ชิ้นภาพที่รอวาง / Puzzle pieces">
+          {round.tray.map((item, slot) => {
+            const i = indexOf(item.id), at = bench.center(slot);
+            const size = Math.max(64, Math.min(bench.cw, bench.ch) * 0.95);
+            const box = pieceBox(i % cols, Math.floor(i / cols), cols, rows, THICKNESS);
+            return <div className="pz-tray-cell" key={item.id} style={{ left: at.x - size / 2, top: at.y - size / 2, width: size, height: size, zIndex: Math.round(at.y) }}>
+              {!placed.includes(item.id) && <DragItem id={item.id} label={`ชิ้นภาพที่ ${i + 1} ของภาพ${picture.label.th} / Piece ${i + 1} of ${picture.label.en}`} selected={selected === item.id}
+                onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice('เลือกชิ้นภาพแล้ว แตะช่องในถาดที่รูปร่างตรงกัน'); }} onDrop={place}>
+                <span className="pz-toy" style={{ width: box.w * toyScale, height: box.h * toyScale, transform: `translate(-50%, -50%) matrix(${A.a},${A.b},${A.c},${A.d},0,0)` }}>
+                  <PieceSvg index={i} cols={cols} rows={rows} src={src} down={down} uid={`${uid}t`} />
+                </span>
+              </DragItem>}
+            </div>;
+          })}
+        </div>
+      </>}
     </div>
   </div>;
 }
