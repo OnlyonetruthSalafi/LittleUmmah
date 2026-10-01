@@ -29,7 +29,7 @@ export function GameShell({ game, Board }: { game: GameDefinition; Board: Compon
   const onProgress = useCallback((done: number, total: number) => setProgress({ done, total }), []);
   const onTap = useCallback(() => play('uiClick'), [play]);
   const onFeedback = useCallback((correct: boolean) => { setFeedback(previous => ({ text: correct ? 'ถูกแล้ว! • Well done!' : 'ลองอีกครั้งนะ • Try again', correct, key: previous.key + 1 })); play(correct ? 'correct' : 'incorrect'); }, [play]);
-  const onComplete = useCallback(() => { const saved = gameProgress.complete(game.slug, level, completionStars()); setSavedStars(saved.stars); setStatus('complete'); play('levelComplete'); }, [game.slug, level, play]);
+  const onComplete = useCallback(() => { const saved = gameProgress.complete(game.slug, level, completionStars()); setSavedStars(saved.stars); setStatus('complete'); if (theme.ownVoice) audio.effect('levelComplete'); else play('levelComplete'); }, [game.slug, level, play, theme.ownVoice, audio]);
   useEffect(() => {
     if (status === 'complete') resultHeading.current?.focus();
     if (status === 'playing') instructionHeading.current?.focus({ preventScroll: true });

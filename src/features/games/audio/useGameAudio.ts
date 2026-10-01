@@ -72,5 +72,8 @@ export function useGameAudio() {
     praiseTimer.current = setTimeout(() => speak(line.text, line.key), PRAISE_DELAY_MS);
   }, [enabled, playEffect, speak]);
 
-  return { enabled, toggle, play, speechBroken };
+  /** เสียงเอฟเฟคอย่างเดียว ไม่มีคำชม — สำหรับเกมที่หุ่นยนต์พูดบทของตัวเอง (เช่น เขาวงกตแสงพูด อัลฮัมดุลิลลาฮ์ ตอนจบ) */
+  const effect = useCallback((cue: AudioCue) => { if (enabled) playEffect(cue); }, [enabled, playEffect]);
+
+  return { enabled, toggle, play, effect, speechBroken };
 }

@@ -1,0 +1,105 @@
+/* เกมเขาวงกตแสง 2.5D — สไตล์จำกัดอยู่ใต้ .lm-* หรือ [data-game='light-maze'] เท่านั้น
+   ฉากเกมวาดบน canvas (render/lightMazeRenderer.ts) ส่วนนี้คุมกรอบ ฉากหลังท้องฟ้า HUD และปุ่มทิศ
+   แถบบนหน้าเล่น (คำสั่ง ความคืบหน้า สองคอลัมน์บนจอเตี้ย) ใช้กฎชุดเดียวกับเกมหยอดรูปทรงใน shape.css */
+
+.lm-scene {
+  --lm-chrome: 440px;
+  width: min(100%, calc((100dvh - var(--lm-chrome)) * 1.5));
+  min-width: min(100%, 300px);
+  margin-inline: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+
+/* ฉากหลังท้องฟ้ายามค่ำแบบภาพ Mock — ภาพจาก Codex ทับไล่สี ถ้าภาพยังไม่มีจะเห็นไล่สีแทน */
+.lm-stage {
+  position: relative; width: 100%; aspect-ratio: 3 / 2; flex: none;
+  border-radius: 28px; overflow: hidden;
+  background: center / cover no-repeat, radial-gradient(ellipse at 50% 30%, #4a4f9c 0%, #22285e 55%, #121638 100%);
+  box-shadow: 0 10px 30px #0b123a40;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+}
+.lm-scene[data-theme='neon'] .lm-stage { background-image: url('/games/light-maze/v2/backdrop-neon.webp'), radial-gradient(ellipse at 50% 30%, #4a4f9c 0%, #22285e 55%, #121638 100%); }
+.lm-scene[data-theme='grove'] .lm-stage { background-image: url('/games/light-maze/v2/backdrop-grove.webp'), radial-gradient(ellipse at 50% 30%, #2f7c86 0%, #17485a 55%, #0d2a38 100%); }
+.lm-scene[data-theme='sky'] .lm-stage { background-image: url('/games/light-maze/v2/backdrop-sky.webp'), radial-gradient(ellipse at 50% 30%, #7fa6e0 0%, #3f5fa6 55%, #243a78 100%); }
+.lm-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ── HUD บนฉาก ───────────────────────────────────────────────────── */
+.lm-hud { position: absolute; top: 10px; left: 10px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
+.lm-chip {
+  padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 14px;
+  background: #ffffffeb; color: var(--color-ink, #1f2937); box-shadow: 0 3px 10px #0b123a40;
+}
+.lm-chip-power { background: #fff2cf; }
+.lm-chip-slow { background: #e3f1ff; }
+.lm-chip-shield { background: #d9f5f2; }
+.lm-toast {
+  position: absolute; left: 50%; bottom: 12px; translate: -50% 0; margin: 0; max-width: calc(100% - 24px);
+  padding: 6px 14px; border-radius: 999px; background: #ffffffeb; color: var(--color-ink, #1f2937);
+  font-weight: 700; font-size: 14px; text-align: center; box-shadow: 0 3px 10px #0b123a40; pointer-events: none;
+}
+
+/* ── ปุ่มทิศ 4 ปุ่มทแยงตามทางเดินของกล้องเฉียง (ปุ่มที่เด็กกด ≥ 64px) ────── */
+.lm-pad { display: grid; grid-template-columns: repeat(2, minmax(64px, 88px)); gap: 8px; }
+.lm-pad button {
+  display: grid; place-items: center; gap: 0; min-width: 64px; min-height: 64px; padding: 6px 4px;
+  background: #fff; border: 3px solid #fff; border-radius: 20px; color: #1e5fbf;
+  box-shadow: 0 5px 0 #b9cfe0, var(--shadow-soft);
+  transition: box-shadow 200ms ease-out, transform 75ms ease-out; touch-action: manipulation;
+}
+.lm-pad button svg { width: 28px; height: 28px; fill: currentColor; }
+.lm-pad button span { font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--color-ink, #1f2937); }
+.lm-pad button:focus-visible { outline: 3px solid #1e5fbf; outline-offset: 3px; }
+/* hover เฉพาะอุปกรณ์ที่ชี้ได้จริง กันปุ่มค้างสถานะ hover หลังแตะบนแท็บเล็ต (ข้อ 2.1) */
+@media (hover: hover) {
+  .lm-pad button:hover { box-shadow: 0 5px 0 #b9cfe0, var(--shadow-float); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lm-pad button:hover { transform: translateY(-2px); transition: box-shadow 200ms ease-out, transform 200ms ease-out; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lm-pad button:active { transform: scale(.96); transition-duration: 75ms; }
+}
+
+@media (max-width: 639px) {
+  .lm-scene { width: 100%; }
+  /* ฉากเต็มความกว้างจอมือถือ เกาะจะได้ใหญ่ที่สุด */
+  /* สูงเท่าที่เหลือหลังแถบบน ปุ่มทิศ และปุ่มล่าง (วัดจริง ~525px) ไม่ให้หน้าเลื่อน */
+  .lm-stage { width: 100vw; border-radius: 0; aspect-ratio: auto; height: max(240px, min(calc(100vw / 1.05), calc(100dvh - 525px))); }
+  .gc-focus[data-game='light-maze'] { overflow-x: clip; }
+  /* ชื่อเกมยาวกว่าเกมอื่น ถ้าตัดคำจะเป็นสามบรรทัด ถ้าไม่ตัด ปุ่มเสียงจะตกไปแถวใหม่ จึงบีบให้อยู่แถวเดียว */
+  .gc-focus[data-game='light-maze'] .gc-game-header { flex-wrap: nowrap; gap: 6px; }
+  .gc-focus[data-game='light-maze'] .gc-game-header h1 { white-space: nowrap; min-width: 0; font-size: 17px; }
+  /* จอแคบ: ปุ่มเสียงเหลือแค่ไอคอนลำโพง (ปุ่มมี aria-label อยู่แล้ว) ให้ชื่อเกมไม่ถูกตัด */
+  .gc-focus[data-game='light-maze'] .gc-sound > span { display: none; }
+}
+
+/* แนวนอน (แท็บเล็ตแนวนอน มือถือแนวนอน) — ปุ่มทิศไปอยู่ข้างฉาก ฉากจะได้สูงเต็มที่ */
+@media (orientation: landscape) and (min-aspect-ratio: 5/4) {
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-scene {
+    --lm-chrome: 400px;
+    width: min(100%, calc((100dvh - var(--lm-chrome)) * 1.5 + 200px)); min-width: 0;
+    flex-direction: row; align-items: flex-end;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-stage { width: auto; flex: 1 1 0; min-width: 0; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-scene { --lm-chrome: 200px; }
+  /* แถบความคืบหน้าซ้ำกับตัวนับเม็ดแสงบนฉาก (มุมซ้ายบน) ซ่อนไว้ให้เกาะได้ความสูงคืน */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-progress-row { display: none; }
+}
+/* จอ PC กว้างแต่เตี้ย (สองคอลัมน์ใน shape.css) */
+@media (min-width: 1100px) and (min-height: 600px) and (max-height: 850px) and (min-aspect-ratio: 3/2) {
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-scene {
+    width: min(100%, calc((100dvh - 150px) * 1.5 + 200px));
+    flex-direction: row; align-items: flex-end;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-stage { width: auto; flex: 1 1 0; min-width: 0; }
+}
+
+/* ── หน้ารวมเกม: เกาะเก้าเกาะ ใบสุดท้ายที่อยู่แถวเดี่ยวให้อยู่กลาง ─────── */
+@media (min-width: 1001px) {
+  .gc-hub .gc-grid > li:last-child:nth-child(4n+1) { grid-column: 2 / span 2; justify-self: center; width: calc((100% - 14px) / 2); }
+}
+@media (max-width: 639px) {
+  .gc-hub .gc-grid > li:last-child:nth-child(2n+1) { grid-column: 1 / -1; justify-self: center; width: calc((100% - 14px) / 2); }
+}

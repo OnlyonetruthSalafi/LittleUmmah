@@ -16,7 +16,7 @@ test('shuffle is reproducible, preserves inputs, identities and multiplicities',
   assert.deepEqual(shuffle([]), []);
 });
 
-for (const game of games.filter(g => !['memory', 'find-object'].includes(g.slug))) {
+for (const game of games.filter(g => !['memory', 'find-object', 'light-maze'].includes(g.slug))) {
   for (const level of [1, 2, 3]) test(`${game.slug} level ${level}: every item has a valid target and the level can finish`, () => {
     const { items, targets } = boardContent(game.slug, level);
     assert.equal(new Set(items.map(i => i.id)).size, items.length);

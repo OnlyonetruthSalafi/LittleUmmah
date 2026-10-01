@@ -31,7 +31,9 @@ export function GameIntro({ game, level, onLevel, onStart }: {
         </button>)}</div>
       </fieldset>}
       <button className="gc-button gc-primary gc-adventure-start" onClick={onStart}>ไปเล่นกันเลย! <small lang="en">Let’s play →</small></button>
-      <p className="gc-how-to">{tapGame ? 'แตะภาพเพื่อเล่น' : 'แตะชิ้น → แตะช่อง หรือลากไปวาง'}<small lang="en">{tapGame ? 'Tap a picture to play' : 'Tap a piece, then its home — or drag it there'}</small></p>
+      {game.slug === 'light-maze'
+        ? <p className="gc-how-to">กดปุ่มทิศ ปัดนิ้ว หรือแตะทางที่จะไป<small lang="en">Press a direction, swipe, or tap where to go</small></p>
+        : <p className="gc-how-to">{tapGame ? 'แตะภาพเพื่อเล่น' : 'แตะชิ้น → แตะช่อง หรือลากไปวาง'}<small lang="en">{tapGame ? 'Tap a picture to play' : 'Tap a piece, then its home — or drag it there'}</small></p>}
     </div>
   </section>;
 }

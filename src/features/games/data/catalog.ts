@@ -1,4 +1,4 @@
-export type GameSlug = 'color-match' | 'shape-match' | 'memory' | 'puzzle' | 'arabic-match' | 'sequence' | 'find-object' | 'sort';
+export type GameSlug = 'color-match' | 'shape-match' | 'memory' | 'puzzle' | 'arabic-match' | 'sequence' | 'find-object' | 'sort' | 'light-maze';
 export type Label = { th: string; en: string };
 export type GameDefinition = { slug: GameSlug; title: Label; instruction: Label; category: 'matching' | 'thinking'; ageGroup: string; enabled: boolean; color: string };
 export const gameAssets = { robot: '/Character/play.webp', guide: '/Character/idea.webp', celebration: '/Character/fighting.webp', island: '/islands/games.webp', puzzle: '/games/puzzle/courtyard.webp' } as const;
@@ -10,5 +10,6 @@ export const games: GameDefinition[] = [
   { slug: 'arabic-match', title: { th: 'อักษรอาหรับ', en: 'Arabic Match' }, instruction: { th: 'จับคู่อักษรที่เหมือนกัน', en: 'Match the same letter' }, category: 'matching', ageGroup: '3–10', enabled: true, color: 'sky' },
   { slug: 'sequence', title: { th: 'เรียงลำดับ', en: 'Sequence' }, instruction: { th: 'เรียงจากน้อยไปมาก', en: 'Put them in order' }, category: 'thinking', ageGroup: '3–10', enabled: true, color: 'peach' },
   { slug: 'find-object', title: { th: 'ค้นหา', en: 'Find It' }, instruction: { th: 'หาสิ่งของให้เหมือนภาพ', en: 'Find this object' }, category: 'thinking', ageGroup: '3–6', enabled: true, color: 'mint' },
+  { slug: 'light-maze', title: { th: 'เขาวงกตแสง', en: 'Light Maze' }, instruction: { th: 'เก็บแสงให้ครบ เลือกทางหลบเพื่อนหุ่นยนต์', en: 'Collect every light. Find a way around the robot friends' }, category: 'thinking', ageGroup: '3–10', enabled: true, color: 'sky' },
   { slug: 'sort', title: { th: 'แยกหมวด', en: 'Sort Objects' }, instruction: { th: 'พาของไปอยู่กลุ่มเดียวกัน', en: 'Sort into groups' }, category: 'matching', ageGroup: '3–10', enabled: true, color: 'lilac' },
 ];

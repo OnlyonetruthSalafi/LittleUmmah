@@ -9,4 +9,5 @@ const ShapeBoard = dynamic(() => import('../games/ShapeBoard'), { loading });
 const FindBoard = dynamic(() => import('../games/FindBoard'), { loading });
 const SequenceBoard = dynamic(() => import('../games/SequenceBoard'), { loading });
 const PuzzleBoard = dynamic(() => import('../games/PuzzleBoard'), { loading });
-export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'memory' ? MemoryBoard : game.slug === 'sequence' ? SequenceBoard : game.slug === 'puzzle' ? PuzzleBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : MatchingBoard} />; }
+const LightMazeBoard = dynamic(() => import('../games/LightMazeBoard'), { loading });
+export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'memory' ? MemoryBoard : game.slug === 'sequence' ? SequenceBoard : game.slug === 'puzzle' ? PuzzleBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : game.slug === 'light-maze' ? LightMazeBoard : MatchingBoard} />; }

@@ -1,0 +1,2509 @@
+{
+  "version": 2,
+  "units": "pixels in delivered WebP",
+  "alphaPolicy": "Sprites: alpha=0 background, median body alpha>=250. Opaque textures/backdrops: all alpha>=250.",
+  "assets": {
+    "orb-se": {
+      "file": "/games/light-maze/v2/actors/orb-se.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 57,
+        "width": 178,
+        "height": 158,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 129.5,
+        "y": 213,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 42862,
+        "solid250": 21129,
+        "visible128": 21644,
+        "solidFractionOfVisible": 0.98,
+        "bodyMedian": 253,
+        "mean": 83.63
+      },
+      "bytes": 13382,
+      "sha256": "5a98d920c3df88f88ad31ce2753fe8a15db70f7b6f75a16498c8658696f44317",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/orb-se.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 114,
+          "width": 358,
+          "height": 316,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 259.5,
+          "y": 427,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 173492,
+          "solid250": 85386,
+          "visible128": 86649,
+          "solidFractionOfVisible": 0.99,
+          "bodyMedian": 253,
+          "mean": 83.61
+        },
+        "bytes": 199175,
+        "sha256": "55b68a62fe31a87cfce9e40f567d174a90e53b57d05b7c2a6f47f8c2d92dc08b"
+      }
+    },
+    "star": {
+      "file": "/games/light-maze/v2/items/star.webp",
+      "width": 128,
+      "height": 128,
+      "bbox": {
+        "x": 20,
+        "y": 15,
+        "width": 87,
+        "height": 88,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 61,
+        "y": 101,
+        "threshold": 128,
+        "minRowWidth": 7
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 8468,
+        "solid250": 5530,
+        "visible128": 6015,
+        "solidFractionOfVisible": 0.92,
+        "bodyMedian": 253,
+        "mean": 95.52
+      },
+      "bytes": 7428,
+      "sha256": "9fc6a183178f447164ac37d550a56801c72a144298e7eb1046be3ad062f020fb",
+      "source": {
+        "file": "public/games/light-maze/v2/items/star.png",
+        "width": 256,
+        "height": 256,
+        "bbox": {
+          "x": 40,
+          "y": 30,
+          "width": 175,
+          "height": 175,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 123,
+          "y": 204,
+          "threshold": 128,
+          "minRowWidth": 14
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 33901,
+          "solid250": 22297,
+          "visible128": 24084,
+          "solidFractionOfVisible": 0.93,
+          "bodyMedian": 253,
+          "mean": 95.52
+        },
+        "bytes": 88525,
+        "sha256": "ff96e4930cc61d336ccaca8b095bcb9d67d6a4a64bdbee0abe031232fa9f785a"
+      }
+    },
+    "clock": {
+      "file": "/games/light-maze/v2/items/clock.webp",
+      "width": 128,
+      "height": 128,
+      "bbox": {
+        "x": 23,
+        "y": 10,
+        "width": 82,
+        "height": 97,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 64,
+        "y": 106,
+        "threshold": 128,
+        "minRowWidth": 7
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 10072,
+        "solid250": 5534,
+        "visible128": 5806,
+        "solidFractionOfVisible": 0.95,
+        "bodyMedian": 253,
+        "mean": 89.49
+      },
+      "bytes": 6512,
+      "sha256": "abdc3719f3f47d89e6f23feaa25054d55a872824ff5a674dafb8f2bea3015b9e",
+      "source": {
+        "file": "public/games/light-maze/v2/items/clock.png",
+        "width": 256,
+        "height": 256,
+        "bbox": {
+          "x": 46,
+          "y": 20,
+          "width": 164,
+          "height": 195,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 129,
+          "y": 213,
+          "threshold": 128,
+          "minRowWidth": 14
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 41450,
+          "solid250": 22621,
+          "visible128": 23196,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 89.46
+        },
+        "bytes": 68293,
+        "sha256": "fd5c5c65e677e4fe19b362febc39ec6d6fe823d439aaede92ee336fcff6677fe"
+      }
+    },
+    "shield": {
+      "file": "/games/light-maze/v2/items/shield.webp",
+      "width": 128,
+      "height": 128,
+      "bbox": {
+        "x": 25,
+        "y": 13,
+        "width": 79,
+        "height": 92,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 60.5,
+        "y": 102,
+        "threshold": 128,
+        "minRowWidth": 7
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 9810,
+        "solid250": 5091,
+        "visible128": 5297,
+        "solidFractionOfVisible": 0.96,
+        "bodyMedian": 253,
+        "mean": 83.21
+      },
+      "bytes": 6252,
+      "sha256": "b796eb4fdc40849cdc807e2d637b129341f7dfcc451b2f349795d1119c1630f4",
+      "source": {
+        "file": "public/games/light-maze/v2/items/shield.png",
+        "width": 256,
+        "height": 256,
+        "bbox": {
+          "x": 49,
+          "y": 26,
+          "width": 159,
+          "height": 183,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 121.5,
+          "y": 206,
+          "threshold": 128,
+          "minRowWidth": 13
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 39241,
+          "solid250": 20695,
+          "visible128": 21166,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 83.28
+        },
+        "bytes": 72918,
+        "sha256": "f9afc8e79320b1e653ee6aafbe29335675138daff4ec402d2620090f11a15377"
+      }
+    },
+    "portal": {
+      "file": "/games/light-maze/v2/items/portal.webp",
+      "width": 192,
+      "height": 128,
+      "bbox": {
+        "x": 23,
+        "y": 50,
+        "width": 146,
+        "height": 55,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 95,
+        "y": 104,
+        "threshold": 128,
+        "minRowWidth": 12
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 16941,
+        "solid250": 6103,
+        "visible128": 6437,
+        "solidFractionOfVisible": 0.95,
+        "bodyMedian": 253,
+        "mean": 66.87
+      },
+      "bytes": 6844,
+      "sha256": "ecaaf242bda40b76abf3e06d5837e57bbc21d9dfc92bfce0a2313c556488bef7",
+      "source": {
+        "file": "public/games/light-maze/v2/items/portal.png",
+        "width": 384,
+        "height": 256,
+        "bbox": {
+          "x": 46,
+          "y": 101,
+          "width": 291,
+          "height": 109,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 190,
+          "y": 209,
+          "threshold": 128,
+          "minRowWidth": 24
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 67838,
+          "solid250": 24551,
+          "visible128": 25632,
+          "solidFractionOfVisible": 0.96,
+          "bodyMedian": 253,
+          "mean": 66.89
+        },
+        "bytes": 93635,
+        "sha256": "6ef8b346765c815c3f71bfe9803bce44c5c24cbfc47aa77bd71c3418ca92b0a8"
+      }
+    },
+    "neon-floor": {
+      "file": "/games/light-maze/v2/textures/neon-floor.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 5484,
+      "sha256": "cc5feda387fcf574a42446bd8cdb009d60fbca28f26537e5838e5e015b54c384",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/neon-floor.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 494795,
+        "sha256": "ca3052336f11bbbba563fe7f72a636e6dbab85d4181ecc8ad7f40421848ba2e2"
+      }
+    },
+    "neon-walltop": {
+      "file": "/games/light-maze/v2/textures/neon-walltop.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 5314,
+      "sha256": "a17aec4581dcbac4c0b88a0eaaffa6d97b0abe2a659a2f24b47915d197b46efb",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/neon-walltop.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 465378,
+        "sha256": "7d8617a72ecb9d73169a05ffdb84f1a431745f291a0e465d8ee7838b9f7d1908"
+      }
+    },
+    "neon-wallside": {
+      "file": "/games/light-maze/v2/textures/neon-wallside.webp",
+      "width": 256,
+      "height": 128,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 128,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 32768,
+        "visible128": 32768,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 4176,
+      "sha256": "db2b6e5ecebde59e7b11f9675b66fea3595eba6951b4a98c813d34dbbafdf915",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/neon-wallside.png",
+        "width": 512,
+        "height": 256,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 256,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 131072,
+          "visible128": 131072,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 256601,
+        "sha256": "36725f05bb5c9de5a0e911c1fc519781464910a91ce626cd7235d16fe2d7f7b0"
+      }
+    },
+    "grove-floor": {
+      "file": "/games/light-maze/v2/textures/grove-floor.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 15710,
+      "sha256": "6fe745af1edfb2d0a485ee5579b9ddd743bc994b6a4d0a74c555fd06accca493",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/grove-floor.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 636696,
+        "sha256": "5c9acf3446d34b48ccab3dd3bb761f040f6798548efe97043bd2c1f5b6fb47ea"
+      }
+    },
+    "grove-walltop": {
+      "file": "/games/light-maze/v2/textures/grove-walltop.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 16190,
+      "sha256": "66bc9b3cca6ad6242c9e0277d2bd8f482df0a385c22e243e11232087971cc5ae",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/grove-walltop.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 633449,
+        "sha256": "b1b7ea06d43ec06bb96a9bfbe002194c96685663e9597fe180f98a7c0a3d9328"
+      }
+    },
+    "grove-wallside": {
+      "file": "/games/light-maze/v2/textures/grove-wallside.webp",
+      "width": 256,
+      "height": 128,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 128,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 32768,
+        "visible128": 32768,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 6818,
+      "sha256": "5e47ae74a46e9e795a2a994235c221c854a380416210e24935e72fec6af3b911",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/grove-wallside.png",
+        "width": 512,
+        "height": 256,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 256,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 131072,
+          "visible128": 131072,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 317599,
+        "sha256": "21c3f59b9d2f7d57be1b9c512a7e53b3095a7b8fca3e507352bbcea069b9de01"
+      }
+    },
+    "sky-floor": {
+      "file": "/games/light-maze/v2/textures/sky-floor.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 4708,
+      "sha256": "d7c8c2ff531f5f1c03114c484d4f2ecd4a136c64336b8e3aba23c97ca8f9b4cd",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/sky-floor.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 417443,
+        "sha256": "ee2fd20b4b12ffa3a699e633e8d839414ee15cfd651ce10b6ce97ed0ca916193"
+      }
+    },
+    "sky-walltop": {
+      "file": "/games/light-maze/v2/textures/sky-walltop.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 65536,
+        "visible128": 65536,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 14532,
+      "sha256": "56212b1e22e069b44c69db1a6da8b31b21d3543d384566ed7f8724684c4286cc",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/sky-walltop.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 512,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 262144,
+          "visible128": 262144,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 660274,
+        "sha256": "a223e92d8229ab59cfc31c128736cb772db2756d5ae564027929fde9c7b7614d"
+      }
+    },
+    "sky-wallside": {
+      "file": "/games/light-maze/v2/textures/sky-wallside.webp",
+      "width": 256,
+      "height": 128,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 128,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 32768,
+        "visible128": 32768,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 8386,
+      "sha256": "77f22c3a81cf6dad1e25f70c68a65e95c32dc1ea3ebbd5ae3bcfc54fdd0c0139",
+      "source": {
+        "file": "public/games/light-maze/v2/textures/sky-wallside.png",
+        "width": 512,
+        "height": 256,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 512,
+          "height": 256,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 131072,
+          "visible128": 131072,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 317674,
+        "sha256": "bbfdedf81192fadbc04a974cf66e6d4465d527aa777794cd7202841a1be0f032"
+      }
+    },
+    "island-neon": {
+      "file": "/games/light-maze/v2/island-neon.webp",
+      "width": 1400,
+      "height": 963,
+      "bbox": {
+        "x": 21,
+        "y": 38,
+        "width": 1359,
+        "height": 852,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 725,
+        "y": 855,
+        "threshold": 128,
+        "minRowWidth": 109
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 609319,
+        "solid250": 666461,
+        "visible128": 685667,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 129
+      },
+      "bytes": 247730,
+      "sha256": "53eeef0685d29280cf3f2ccb72ec7d104557e7627bdbe2fe63e213b842374553",
+      "source": {
+        "file": "public/games/light-maze/v2/island-neon.png",
+        "width": 1600,
+        "height": 1100,
+        "bbox": {
+          "x": 24,
+          "y": 43,
+          "width": 1553,
+          "height": 974,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 828.5,
+          "y": 977,
+          "threshold": 128,
+          "minRowWidth": 125
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 795312,
+          "solid250": 871011,
+          "visible128": 895581,
+          "solidFractionOfVisible": 0.97,
+          "bodyMedian": 253,
+          "mean": 129.07
+        },
+        "bytes": 2528115,
+        "sha256": "2e48c9cf777d930cd4c9da5855f2b8ec14a8a68df81ea34c4f889dbd241179d6"
+      },
+      "surface": {
+        "corners": {
+          "top": {
+            "x": 697.46,
+            "y": 66.37
+          },
+          "right": {
+            "x": 1307.82,
+            "y": 359.02
+          },
+          "bottom": {
+            "x": 696.21,
+            "y": 667.25
+          },
+          "left": {
+            "x": 92.26,
+            "y": 359.38
+          }
+        },
+        "edges": {
+          "tl": {
+            "m": -0.4841499512390117,
+            "b": 404.04580584107237,
+            "samples": 372,
+            "rms": 1.83,
+            "angle": 25.83
+          },
+          "tr": {
+            "m": 0.4794756921908495,
+            "b": -268.0444688542513,
+            "samples": 377,
+            "rms": 0.87,
+            "angle": 25.62
+          },
+          "bl": {
+            "m": 0.5097615319445284,
+            "b": 312.3477775584334,
+            "samples": 395,
+            "rms": 0.61,
+            "angle": 27.01
+          },
+          "br": {
+            "m": -0.5039493935263833,
+            "b": 1018.0995509303854,
+            "samples": 402,
+            "rms": 1.35,
+            "angle": 26.75
+          }
+        },
+        "targetAngle": 26.565051,
+        "tolerance": 1.5,
+        "pass": true,
+        "method": "Gold-pixel regression in four top-rim search bands; intersections extrapolate through corner caps."
+      }
+    },
+    "backdrop-neon": {
+      "file": "/games/light-maze/v2/backdrop-neon.webp",
+      "width": 1600,
+      "height": 1000,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 1600,
+        "height": 1000,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 1600000,
+        "visible128": 1600000,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 102420,
+      "sha256": "86214fb52b1fe0e43de98a20a2adceaddc01852774777572d951fcbd4c309a0a",
+      "source": {
+        "file": "public/games/light-maze/v2/backdrop-neon.png",
+        "width": 1600,
+        "height": 1000,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1600,
+          "height": 1000,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 1600000,
+          "visible128": 1600000,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 3425755,
+        "sha256": "c48a43285abb830e3475e024481024a90682ddcb08325e1bab6efac600306192"
+      }
+    },
+    "island-grove": {
+      "file": "/games/light-maze/v2/island-grove.webp",
+      "width": 1400,
+      "height": 963,
+      "bbox": {
+        "x": 21,
+        "y": 35,
+        "width": 1359,
+        "height": 863,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 730.5,
+        "y": 878,
+        "threshold": 128,
+        "minRowWidth": 109
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 582854,
+        "solid250": 681653,
+        "visible128": 708441,
+        "solidFractionOfVisible": 0.96,
+        "bodyMedian": 253,
+        "mean": 133.24
+      },
+      "bytes": 269952,
+      "sha256": "d6ff23f0b10333c41da60ad74d8b78e16fb36eb0c54be84e7848d4b04ad083dd",
+      "source": {
+        "file": "public/games/light-maze/v2/island-grove.png",
+        "width": 1600,
+        "height": 1100,
+        "bbox": {
+          "x": 24,
+          "y": 40,
+          "width": 1554,
+          "height": 987,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 834.5,
+          "y": 1003,
+          "threshold": 128,
+          "minRowWidth": 125
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 760515,
+          "solid250": 890739,
+          "visible128": 925294,
+          "solidFractionOfVisible": 0.96,
+          "bodyMedian": 253,
+          "mean": 133.31
+        },
+        "bytes": 2620257,
+        "sha256": "e4ca60e410040db84b1b6f6e7771118e0a1e35fd92f8b7602d2708c90ce1eb5f"
+      },
+      "surface": {
+        "corners": {
+          "top": {
+            "x": 699.52,
+            "y": 66.3
+          },
+          "right": {
+            "x": 1308.02,
+            "y": 359.76
+          },
+          "bottom": {
+            "x": 699.21,
+            "y": 669.31
+          },
+          "left": {
+            "x": 93.15,
+            "y": 359.77
+          }
+        },
+        "edges": {
+          "tl": {
+            "m": -0.48398981399372426,
+            "b": 404.85794440390464,
+            "samples": 370,
+            "rms": 2.66,
+            "angle": 25.83
+          },
+          "tr": {
+            "m": 0.48227596806670314,
+            "b": -271.0637208473062,
+            "samples": 358,
+            "rms": 0.56,
+            "angle": 25.75
+          },
+          "bl": {
+            "m": 0.5107400064475284,
+            "b": 312.19792681217723,
+            "samples": 368,
+            "rms": 0.6,
+            "angle": 27.06
+          },
+          "br": {
+            "m": -0.5084503517174732,
+            "b": 1024.828038411236,
+            "samples": 378,
+            "rms": 2.52,
+            "angle": 26.95
+          }
+        },
+        "targetAngle": 26.565051,
+        "tolerance": 1.5,
+        "pass": true,
+        "method": "Gold-pixel regression in four top-rim search bands; intersections extrapolate through corner caps."
+      }
+    },
+    "backdrop-grove": {
+      "file": "/games/light-maze/v2/backdrop-grove.webp",
+      "width": 1600,
+      "height": 1000,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 1600,
+        "height": 1000,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 1600000,
+        "visible128": 1600000,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 98180,
+      "sha256": "e5eee2f64bc0c8d266ff278e1f1e1c0422a33c805a619de95a34686a18ff4f8c",
+      "source": {
+        "file": "public/games/light-maze/v2/backdrop-grove.png",
+        "width": 1600,
+        "height": 1000,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1600,
+          "height": 1000,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 1600000,
+          "visible128": 1600000,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 2990710,
+        "sha256": "0266926da3dc239fed3ef747de8798dd206d8b3a7c9198eeb794870c8fd51faf"
+      }
+    },
+    "island-sky": {
+      "file": "/games/light-maze/v2/island-sky.webp",
+      "width": 1400,
+      "height": 963,
+      "bbox": {
+        "x": 21,
+        "y": 35,
+        "width": 1359,
+        "height": 860,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 729,
+        "y": 860,
+        "threshold": 128,
+        "minRowWidth": 109
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 614302,
+        "solid250": 672572,
+        "visible128": 692230,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 129.9
+      },
+      "bytes": 258976,
+      "sha256": "1101a9123a22c9618df3ff92a5fdce9de04f04e1ed0976b9bb737a6f2b738a96",
+      "source": {
+        "file": "public/games/light-maze/v2/island-sky.png",
+        "width": 1600,
+        "height": 1100,
+        "bbox": {
+          "x": 24,
+          "y": 40,
+          "width": 1553,
+          "height": 983,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 833,
+          "y": 982,
+          "threshold": 128,
+          "minRowWidth": 125
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 801790,
+          "solid250": 878966,
+          "visible128": 904090,
+          "solidFractionOfVisible": 0.97,
+          "bodyMedian": 253,
+          "mean": 129.97
+        },
+        "bytes": 2552549,
+        "sha256": "d6e4776b45a104332eb9f1046ae9090aff637ca661919abc6dc0813d125a0870"
+      },
+      "surface": {
+        "corners": {
+          "top": {
+            "x": 698.43,
+            "y": 66.52
+          },
+          "right": {
+            "x": 1308.14,
+            "y": 360.08
+          },
+          "bottom": {
+            "x": 697.26,
+            "y": 670.31
+          },
+          "left": {
+            "x": 91.73,
+            "y": 359.42
+          }
+        },
+        "edges": {
+          "tl": {
+            "m": -0.48277668963290005,
+            "b": 403.70232664003174,
+            "samples": 374,
+            "rms": 1.59,
+            "angle": 25.77
+          },
+          "tr": {
+            "m": 0.48148094750975096,
+            "b": -269.7647227446577,
+            "samples": 364,
+            "rms": 0.89,
+            "angle": 25.71
+          },
+          "bl": {
+            "m": 0.5134232292394203,
+            "b": 312.31734020752987,
+            "samples": 373,
+            "rms": 0.4,
+            "angle": 27.18
+          },
+          "br": {
+            "m": -0.5078326770918985,
+            "b": 1024.3999124107543,
+            "samples": 371,
+            "rms": 1.02,
+            "angle": 26.92
+          }
+        },
+        "targetAngle": 26.565051,
+        "tolerance": 1.5,
+        "pass": true,
+        "method": "Gold-pixel regression in four top-rim search bands; intersections extrapolate through corner caps."
+      }
+    },
+    "backdrop-sky": {
+      "file": "/games/light-maze/v2/backdrop-sky.webp",
+      "width": 1600,
+      "height": 1000,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 1600,
+        "height": 1000,
+        "threshold": 128
+      },
+      "anchor": null,
+      "alpha": {
+        "min": 255,
+        "max": 255,
+        "zero": 0,
+        "solid250": 1600000,
+        "visible128": 1600000,
+        "solidFractionOfVisible": 1,
+        "bodyMedian": 255,
+        "mean": 255
+      },
+      "bytes": 102740,
+      "sha256": "b663eda6a0c17b1feeff0abfb276ac0f60d584d4244ca75e1ddddcea7ceb1980",
+      "source": {
+        "file": "public/games/light-maze/v2/backdrop-sky.png",
+        "width": 1600,
+        "height": 1000,
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1600,
+          "height": 1000,
+          "threshold": 128
+        },
+        "anchor": null,
+        "alpha": {
+          "min": 255,
+          "max": 255,
+          "zero": 0,
+          "solid250": 1600000,
+          "visible128": 1600000,
+          "solidFractionOfVisible": 1,
+          "bodyMedian": 255,
+          "mean": 255
+        },
+        "bytes": 3085774,
+        "sha256": "9aae8600d7428568c32040b24762d59883eabc9f2732b7122cf72e2cc5a8b434"
+      }
+    },
+    "crystal": {
+      "file": "/games/light-maze/v2/props/crystal.webp",
+      "width": 128,
+      "height": 192,
+      "bbox": {
+        "x": 17,
+        "y": 16,
+        "width": 94,
+        "height": 145,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 65,
+        "y": 159,
+        "threshold": 128,
+        "minRowWidth": 8
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 15567,
+        "solid250": 7977,
+        "visible128": 8350,
+        "solidFractionOfVisible": 0.96,
+        "bodyMedian": 253,
+        "mean": 85.81
+      },
+      "bytes": 6926,
+      "sha256": "d6daa6fed55a30024bd4287a02d39a95c2478fad2f095486fff95c0ebb7dd01e",
+      "source": {
+        "file": "public/games/light-maze/v2/props/crystal.png",
+        "width": 256,
+        "height": 384,
+        "bbox": {
+          "x": 33,
+          "y": 31,
+          "width": 190,
+          "height": 292,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 131,
+          "y": 319,
+          "threshold": 128,
+          "minRowWidth": 16
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 63640,
+          "solid250": 32559,
+          "visible128": 33305,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 85.8
+        },
+        "bytes": 107131,
+        "sha256": "502a2adaf43018765c9b383951ea14412dbb670fb44b82ec0f79d118cd52bbb9"
+      }
+    },
+    "arch": {
+      "file": "/games/light-maze/v2/props/arch.webp",
+      "width": 192,
+      "height": 256,
+      "bbox": {
+        "x": 20,
+        "y": 40,
+        "width": 153,
+        "height": 175,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 50.5,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 13
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 27523,
+        "solid250": 20101,
+        "visible128": 20661,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 106.27
+      },
+      "bytes": 14808,
+      "sha256": "346022abf111d4a19273be949e06308dbd4c3f824e4fbed87d12a04c2a9d5e7b",
+      "source": {
+        "file": "public/games/light-maze/v2/props/arch.png",
+        "width": 384,
+        "height": 512,
+        "bbox": {
+          "x": 39,
+          "y": 80,
+          "width": 307,
+          "height": 350,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 101,
+          "y": 425,
+          "threshold": 128,
+          "minRowWidth": 25
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 112122,
+          "solid250": 81326,
+          "visible128": 82705,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 106.24
+        },
+        "bytes": 251012,
+        "sha256": "8b112e0b969006759d7b02d158bb556cff50905fd40743d79b6db38299dc8dda"
+      }
+    },
+    "shrub": {
+      "file": "/games/light-maze/v2/props/shrub.webp",
+      "width": 128,
+      "height": 128,
+      "bbox": {
+        "x": 13,
+        "y": 52,
+        "width": 102,
+        "height": 55,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 90.5,
+        "y": 105,
+        "threshold": 128,
+        "minRowWidth": 9
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 12680,
+        "solid250": 2857,
+        "visible128": 3167,
+        "solidFractionOfVisible": 0.9,
+        "bodyMedian": 253,
+        "mean": 48.85
+      },
+      "bytes": 5378,
+      "sha256": "3346fa360a40962d97a1b28a5567388f6cd21661dcef607057932b98756ff9c4",
+      "source": {
+        "file": "public/games/light-maze/v2/props/shrub.png",
+        "width": 256,
+        "height": 256,
+        "bbox": {
+          "x": 26,
+          "y": 103,
+          "width": 205,
+          "height": 112,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 181.5,
+          "y": 211,
+          "threshold": 128,
+          "minRowWidth": 17
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 51651,
+          "solid250": 11860,
+          "visible128": 12664,
+          "solidFractionOfVisible": 0.94,
+          "bodyMedian": 253,
+          "mean": 48.82
+        },
+        "bytes": 47997,
+        "sha256": "c60d9b1c72d18fe3a924ba0cde7bf7e564bb57f6ba4a86ecc809e320c7cffef8"
+      }
+    },
+    "lantern": {
+      "file": "/games/light-maze/v2/props/lantern.webp",
+      "width": 128,
+      "height": 128,
+      "bbox": {
+        "x": 33,
+        "y": 10,
+        "width": 62,
+        "height": 97,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 62.5,
+        "y": 106,
+        "threshold": 128,
+        "minRowWidth": 5
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 12504,
+        "solid250": 3180,
+        "visible128": 3419,
+        "solidFractionOfVisible": 0.93,
+        "bodyMedian": 253,
+        "mean": 52.72
+      },
+      "bytes": 4410,
+      "sha256": "28dc9ead9db7ffdcf37e89cde948b4d5678396944229c7d780ca992fb515d560",
+      "source": {
+        "file": "public/games/light-maze/v2/props/lantern.png",
+        "width": 256,
+        "height": 256,
+        "bbox": {
+          "x": 65,
+          "y": 20,
+          "width": 126,
+          "height": 195,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 125.5,
+          "y": 212,
+          "threshold": 128,
+          "minRowWidth": 11
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 50984,
+          "solid250": 13023,
+          "visible128": 13623,
+          "solidFractionOfVisible": 0.96,
+          "bodyMedian": 253,
+          "mean": 52.71
+        },
+        "bytes": 48741,
+        "sha256": "bfa2d701c1fb2bd06d6c6d6c5a8996e8cf792c13bac9b3d1f59ca5656ca193ed"
+      }
+    },
+    "post": {
+      "file": "/games/light-maze/v2/props/post.webp",
+      "width": 128,
+      "height": 192,
+      "bbox": {
+        "x": 23,
+        "y": 16,
+        "width": 82,
+        "height": 145,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 61.5,
+        "y": 159,
+        "threshold": 128,
+        "minRowWidth": 7
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 16402,
+        "solid250": 7179,
+        "visible128": 7431,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 76.88
+      },
+      "bytes": 6674,
+      "sha256": "6f3fb4930a4e20dcc39c320e929bbc010d33457d3bb4d8d60134dc0a693c288f",
+      "source": {
+        "file": "public/games/light-maze/v2/props/post.png",
+        "width": 256,
+        "height": 384,
+        "bbox": {
+          "x": 45,
+          "y": 31,
+          "width": 166,
+          "height": 292,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 123.5,
+          "y": 318,
+          "threshold": 128,
+          "minRowWidth": 14
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 67112,
+          "solid250": 29089,
+          "visible128": 29851,
+          "solidFractionOfVisible": 0.97,
+          "bodyMedian": 253,
+          "mean": 76.83
+        },
+        "bytes": 95494,
+        "sha256": "65dbed09f0f4f7be6a038e6c57c16be7b77d50be9c04df73e5b9b7940edac767"
+      }
+    },
+    "charger": {
+      "file": "/games/light-maze/v2/props/charger.webp",
+      "width": 128,
+      "height": 64,
+      "bbox": {
+        "x": 15,
+        "y": 6,
+        "width": 98,
+        "height": 48,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 64,
+        "y": 53,
+        "threshold": 128,
+        "minRowWidth": 8
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 4053,
+        "solid250": 3533,
+        "visible128": 3732,
+        "solidFractionOfVisible": 0.95,
+        "bodyMedian": 253,
+        "mean": 115.35
+      },
+      "bytes": 4236,
+      "sha256": "b6ad7ad236d836802935e7528482c2ac267068045b2368703c09accdd8163bfa",
+      "source": {
+        "file": "public/games/light-maze/v2/props/charger.png",
+        "width": 256,
+        "height": 128,
+        "bbox": {
+          "x": 30,
+          "y": 11,
+          "width": 197,
+          "height": 97,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 128,
+          "y": 107,
+          "threshold": 128,
+          "minRowWidth": 16
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 17167,
+          "solid250": 14483,
+          "visible128": 14956,
+          "solidFractionOfVisible": 0.97,
+          "bodyMedian": 253,
+          "mean": 115.3
+        },
+        "bytes": 47451,
+        "sha256": "1c45ede0fd60be603b2e135a6a1f92c07725cf6ea79435f7f09d7b4d63a3bd37"
+      }
+    },
+    "palm": {
+      "file": "/games/light-maze/v2/props/palm.webp",
+      "width": 192,
+      "height": 256,
+      "bbox": {
+        "x": 22,
+        "y": 21,
+        "width": 149,
+        "height": 194,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 123.5,
+        "y": 213,
+        "threshold": 128,
+        "minRowWidth": 12
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 33507,
+        "solid250": 12256,
+        "visible128": 13682,
+        "solidFractionOfVisible": 0.9,
+        "bodyMedian": 252,
+        "mean": 70.26
+      },
+      "bytes": 19450,
+      "sha256": "da0342ef6c666067e4d3ddc4b14ccbb549031c3b7a7353a8db880e22d901ec31",
+      "source": {
+        "file": "public/games/light-maze/v2/props/palm.png",
+        "width": 384,
+        "height": 512,
+        "bbox": {
+          "x": 45,
+          "y": 42,
+          "width": 297,
+          "height": 388,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 262,
+          "y": 428,
+          "threshold": 128,
+          "minRowWidth": 24
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 135873,
+          "solid250": 50731,
+          "visible128": 54683,
+          "solidFractionOfVisible": 0.93,
+          "bodyMedian": 252,
+          "mean": 70.23
+        },
+        "bytes": 205863,
+        "sha256": "a7cf7d1eff1e55299c1e808e370063cd0a653d54c3c708e95c13ef0b26388b4b"
+      }
+    },
+    "orb-ne": {
+      "file": "/games/light-maze/v2/actors/orb-ne.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 35,
+        "width": 178,
+        "height": 180,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 177.5,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 42244,
+        "solid250": 21761,
+        "visible128": 22317,
+        "solidFractionOfVisible": 0.98,
+        "bodyMedian": 253,
+        "mean": 86.14
+      },
+      "bytes": 14212,
+      "sha256": "b988b3a9b6358b879c7d8d6ef2b98256f2db352eef781991333263abf93a2066",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/orb-ne.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 71,
+          "width": 358,
+          "height": 358,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 355,
+          "y": 425,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 170627,
+          "solid250": 88001,
+          "visible128": 89243,
+          "solidFractionOfVisible": 0.99,
+          "bodyMedian": 253,
+          "mean": 86.12
+        },
+        "bytes": 205576,
+        "sha256": "99021d95c04cd9214262a726b34d05ce44bc4c03cfb1653251eac7af22060599"
+      }
+    },
+    "red-se": {
+      "file": "/games/light-maze/v2/actors/red-se.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 81,
+        "width": 178,
+        "height": 134,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 93,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 49963,
+        "solid250": 14296,
+        "visible128": 14714,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 56.83
+      },
+      "bytes": 10698,
+      "sha256": "7e2fc190811ba56576107e9733382022d5812350b1b3d3efc645585023132940",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/red-se.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 161,
+          "width": 358,
+          "height": 269,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 186,
+          "y": 425,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 201591,
+          "solid250": 57857,
+          "visible128": 58901,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 56.81
+        },
+        "bytes": 147994,
+        "sha256": "42e7ed7eff117ab1823a0d8925c1c33a5d2f103cbc77cba930f8bde12fab4814"
+      }
+    },
+    "violet-se": {
+      "file": "/games/light-maze/v2/actors/violet-se.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 55,
+        "y": 20,
+        "width": 146,
+        "height": 195,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 79.5,
+        "y": 213,
+        "threshold": 128,
+        "minRowWidth": 12
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 45232,
+        "solid250": 18660,
+        "visible128": 19265,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 74.36
+      },
+      "bytes": 11344,
+      "sha256": "8ef4e8a223d4e963767c40e44d142500a40caa863b71fd49d8d47d6f8b3aa2e0",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/violet-se.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 110,
+          "y": 41,
+          "width": 293,
+          "height": 389,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 160,
+          "y": 426,
+          "threshold": 128,
+          "minRowWidth": 24
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 182930,
+          "solid250": 75668,
+          "visible128": 77186,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 74.32
+        },
+        "bytes": 200965,
+        "sha256": "d3ab7e2898ba0f69e77956a7184dc1d21d992f5ec5a0376e887aaae299bd2954"
+      }
+    },
+    "blue-se": {
+      "file": "/games/light-maze/v2/actors/blue-se.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 49,
+        "width": 178,
+        "height": 166,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 98.5,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 45496,
+        "solid250": 18361,
+        "visible128": 18936,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 73.13
+      },
+      "bytes": 11776,
+      "sha256": "4500168d89cb3664ed4a7772c19beeb41543b975ecc3d4f30212bbed6e589dfb",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/blue-se.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 97,
+          "width": 358,
+          "height": 333,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 196,
+          "y": 426,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 183996,
+          "solid250": 74470,
+          "visible128": 75796,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 73.11
+        },
+        "bytes": 177018,
+        "sha256": "89ccab3eb7616b6ffdda475b14b1030a51ebf66257882343995a7df36a70a01d"
+      }
+    },
+    "green-se": {
+      "file": "/games/light-maze/v2/actors/green-se.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 71,
+        "width": 178,
+        "height": 144,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 102,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 49496,
+        "solid250": 14700,
+        "visible128": 15183,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 58.6
+      },
+      "bytes": 10794,
+      "sha256": "b738c8742b41f2b0f0ab6b911540f751de1b8ee6c44b56115af7e1649f0ebc5d",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/green-se.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 141,
+          "width": 358,
+          "height": 289,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 205,
+          "y": 424,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 199731,
+          "solid250": 59595,
+          "visible128": 60744,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 58.58
+        },
+        "bytes": 156325,
+        "sha256": "ab5f118d5e165668a5441a58ca1d1f190f767c51072b4657004cb295ef4d34b6"
+      }
+    },
+    "red-ne": {
+      "file": "/games/light-maze/v2/actors/red-ne.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 69,
+        "width": 178,
+        "height": 146,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 145,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 48973,
+        "solid250": 15308,
+        "visible128": 15725,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 60.75
+      },
+      "bytes": 10578,
+      "sha256": "ba19ed0bd62cf77c7b5ec576b7c4a0f79f28af86a89cdaa6f40b0ea28263c3b5",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/red-ne.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 137,
+          "width": 358,
+          "height": 293,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 291.5,
+          "y": 424,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 197577,
+          "solid250": 61873,
+          "visible128": 62888,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 60.73
+        },
+        "bytes": 146324,
+        "sha256": "a9a15b9fd752acfc29424d76357c4997138ff6903f2a1fef4db9e090c4600c0e"
+      }
+    },
+    "violet-ne": {
+      "file": "/games/light-maze/v2/actors/violet-ne.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 46,
+        "y": 21,
+        "width": 164,
+        "height": 194,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 73.5,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 14
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 42742,
+        "solid250": 21227,
+        "visible128": 21748,
+        "solidFractionOfVisible": 0.98,
+        "bodyMedian": 253,
+        "mean": 84.13
+      },
+      "bytes": 10560,
+      "sha256": "e9cb55a54f28660f5d80b16ce11a8daaf10c57d99a8517b28c2a4a65caf9e4e8",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/violet-ne.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 92,
+          "y": 42,
+          "width": 328,
+          "height": 388,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 147,
+          "y": 426,
+          "threshold": 128,
+          "minRowWidth": 27
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 172983,
+          "solid250": 85819,
+          "visible128": 87253,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 84.1
+        },
+        "bytes": 210470,
+        "sha256": "ae84425af8e4518cb18a762b8825daa0a11f80fa65cd84bc71a4c5553a08fc8c"
+      }
+    },
+    "blue-ne": {
+      "file": "/games/light-maze/v2/actors/blue-ne.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 47,
+        "width": 178,
+        "height": 168,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 154,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 45779,
+        "solid250": 18192,
+        "visible128": 18759,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 72.48
+      },
+      "bytes": 11070,
+      "sha256": "16f9a84278e3684a4270208abce70085d956f08ae47c6b0cc5746baae8196b21",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/blue-ne.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 94,
+          "width": 357,
+          "height": 336,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 309.5,
+          "y": 426,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 185087,
+          "solid250": 73927,
+          "visible128": 75076,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 72.46
+        },
+        "bytes": 166341,
+        "sha256": "c9cdec5f51dd1945662c45baad9f75ef7031da30c0645468654c2fa0150ebceb"
+      }
+    },
+    "green-ne": {
+      "file": "/games/light-maze/v2/actors/green-ne.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 63,
+        "width": 178,
+        "height": 152,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 143,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 48747,
+        "solid250": 15476,
+        "visible128": 15900,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 61.41
+      },
+      "bytes": 11322,
+      "sha256": "73842b359d83fb43baed16ccc3a2220594623e87c8059b51f570578ca948b781",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/green-ne.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 125,
+          "width": 358,
+          "height": 304,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 286.5,
+          "y": 424,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 196818,
+          "solid250": 62638,
+          "visible128": 63622,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 61.39
+        },
+        "bytes": 154938,
+        "sha256": "bb8b7a19112000fbb3025ab21e0db23b3d52fe8d867484ad885eaf759fc56d45"
+      }
+    },
+    "red-rest": {
+      "file": "/games/light-maze/v2/actors/red-rest.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 91,
+        "width": 178,
+        "height": 124,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 92,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 50358,
+        "solid250": 13951,
+        "visible128": 14382,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 55.54
+      },
+      "bytes": 10432,
+      "sha256": "d7442a07f2358eafa13fd6303a8446f00d1d201b77bf65a1018a27b1885aef51",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/red-rest.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 182,
+          "width": 357,
+          "height": 248,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 185,
+          "y": 424,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 203071,
+          "solid250": 56544,
+          "visible128": 57540,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 55.52
+        },
+        "bytes": 141853,
+        "sha256": "0b8a34aba48293bcaf96e16ed533d02d7c7e17771055116882a71e0cf34879f2"
+      }
+    },
+    "violet-rest": {
+      "file": "/games/light-maze/v2/actors/violet-rest.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 47,
+        "y": 21,
+        "width": 162,
+        "height": 194,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 75,
+        "y": 213,
+        "threshold": 128,
+        "minRowWidth": 13
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 42050,
+        "solid250": 21945,
+        "visible128": 22531,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 86.83
+      },
+      "bytes": 12104,
+      "sha256": "449e0e584a290456e1f675f7fc733b05be1dff29b5fc38aeb855e407ac2f7853",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/violet-rest.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 93,
+          "y": 42,
+          "width": 326,
+          "height": 388,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 151,
+          "y": 426,
+          "threshold": 128,
+          "minRowWidth": 27
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 170109,
+          "solid250": 88674,
+          "visible128": 89991,
+          "solidFractionOfVisible": 0.99,
+          "bodyMedian": 253,
+          "mean": 86.82
+        },
+        "bytes": 223311,
+        "sha256": "7a0e879fc322d35b61acc954ad3e5972fbb0b4e2010df4c474be9bdaae2c5cc2"
+      }
+    },
+    "blue-rest": {
+      "file": "/games/light-maze/v2/actors/blue-rest.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 67,
+        "width": 178,
+        "height": 148,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 98.5,
+        "y": 212,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 46652,
+        "solid250": 17425,
+        "visible128": 17948,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 69.4
+      },
+      "bytes": 11046,
+      "sha256": "01d6bd84dada4fe4a6ad19dcd36bf5b130ed8575804cb2af0aa86eb84a1f11ba",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/blue-rest.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 135,
+          "width": 357,
+          "height": 295,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 197.5,
+          "y": 425,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 188288,
+          "solid250": 70736,
+          "visible128": 71912,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 69.38
+        },
+        "bytes": 165404,
+        "sha256": "a162f39b0814b93cc1368d744ccaa0a30d3a12cff64d1a49bc92bf50e3ac2329"
+      }
+    },
+    "green-rest": {
+      "file": "/games/light-maze/v2/actors/green-rest.webp",
+      "width": 256,
+      "height": 256,
+      "bbox": {
+        "x": 39,
+        "y": 90,
+        "width": 178,
+        "height": 125,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 102,
+        "y": 211,
+        "threshold": 128,
+        "minRowWidth": 15
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 50301,
+        "solid250": 14011,
+        "visible128": 14445,
+        "solidFractionOfVisible": 0.97,
+        "bodyMedian": 253,
+        "mean": 55.76
+      },
+      "bytes": 10114,
+      "sha256": "6ad04d33b3cd9294a81797cfa2718961d86cd248669d5336162ccd513e738b61",
+      "source": {
+        "file": "public/games/light-maze/v2/actors/green-rest.png",
+        "width": 512,
+        "height": 512,
+        "bbox": {
+          "x": 77,
+          "y": 180,
+          "width": 358,
+          "height": 250,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 203.5,
+          "y": 424,
+          "threshold": 128,
+          "minRowWidth": 29
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 202809,
+          "solid250": 56826,
+          "visible128": 57770,
+          "solidFractionOfVisible": 0.98,
+          "bodyMedian": 253,
+          "mean": 55.74
+        },
+        "bytes": 144765,
+        "sha256": "6332e91e72a6c6c58664064df9b4ecd4aca7026d7f795f620acc2e62dbdf594d"
+      }
+    },
+    "hub-light-maze": {
+      "file": "/games/hub/light-maze.webp",
+      "width": 640,
+      "height": 640,
+      "bbox": {
+        "x": 8,
+        "y": 21,
+        "width": 624,
+        "height": 596,
+        "threshold": 128
+      },
+      "anchor": {
+        "x": 287.5,
+        "y": 595,
+        "threshold": 128,
+        "minRowWidth": 50
+      },
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zero": 138001,
+        "solid250": 250682,
+        "visible128": 260783,
+        "solidFractionOfVisible": 0.96,
+        "bodyMedian": 252,
+        "mean": 160.51
+      },
+      "bytes": 147600,
+      "sha256": "95a2097dc270b2e9d6b1687bcf70b98d3f4043c14eda0a40f12a239390a9c228",
+      "source": {
+        "file": "public/games/hub/light-maze.png",
+        "width": 1254,
+        "height": 1254,
+        "bbox": {
+          "x": 15,
+          "y": 41,
+          "width": 1223,
+          "height": 1168,
+          "threshold": 128
+        },
+        "anchor": {
+          "x": 563,
+          "y": 1167,
+          "threshold": 128,
+          "minRowWidth": 98
+        },
+        "alpha": {
+          "min": 0,
+          "max": 255,
+          "zero": 527571,
+          "solid250": 962583,
+          "visible128": 1001308,
+          "solidFractionOfVisible": 0.96,
+          "bodyMedian": 252,
+          "mean": 160.53
+        },
+        "bytes": 3403678,
+        "sha256": "fdfb83ba26a49a81edc0bc8df650c1270d7f95940438ceaf9fe6211e9b5acfb7"
+      }
+    }
+  }
+}
