@@ -6,6 +6,7 @@ import { MAZE_LEVELS, canGo, walkerCell, walkerPos, type Dir } from '../data/lig
 import { LM_ACTOR_ART, LM_ITEM_ART, LM_MANIFEST, LM_PALETTES, LM_PROP_ART, LM_THEME_ART } from '../data/lightMazeArt';
 import { beadsLeft, createSim, powered, slowed, steer, stepSim, type Sim, type SimEvent } from '../engine/lightMazeSim';
 import { MazeRenderer, type ArtSet, type IslandFit, type Sprite } from '../render/lightMazeRenderer';
+import { useSfx, type SfxSet } from '../audio/useSfx';
 
 /* เกมเขาวงกตแสง 2.5D — กล้อง isometric แบบภาพ tests/MockOrbGame.png วาดบน Canvas (render/lightMazeRenderer.ts)
  * ตรรกะอยู่ engine/lightMazeSim.ts ส่วนนี้แค่ต่อ input ลูปเวลา เสียงพูด และ HUD
@@ -20,10 +21,9 @@ const KEYS: Record<string, Dir> = { ArrowUp: 'up', ArrowRight: 'right', ArrowDow
 const SCREEN: Record<Dir, [number, number]> = { up: [0.894, -0.447], right: [0.894, 0.447], down: [-0.894, 0.447], left: [-0.894, -0.447] };
 
 /* บทพูดของหุ่นยนต์ (จาก output/orbmaze-plan/PLAN.md §7) key = ไฟล์ public/audio/th/<key>.mp3 เมื่ออัดและอนุมัติแล้ว
- * ระหว่างยังไม่มีไฟล์ ใช้เสียงสังเคราะห์ของเบราว์เซอร์อ่านข้อความแทน */
-type LineId = SimEvent | 'start' | 'half';
+ * ลงทะเบียนไฟล์ใน RECORDED_CLIPS (src/lib/speech.ts) แล้ว ถ้าไฟล์เล่นไม่ได้ จะใช้เสียงสังเคราะห์ของเบราว์เซอร์อ่านข้อความแทน */
+type LineId = SimEvent | 'half';
 const LINES: Partial<Record<LineId, { key: string; th: string }>> = {
-  start: { key: 'orbmaze-start', th: 'บิสมิลลาฮ์ มาเก็บแสงกัน' },
   star: { key: 'orbmaze-star', th: 'ได้พลังแสงแล้ว เพื่อนหุ่นยนต์จะหลบให้สักครู่นะ' },
   clock: { key: 'orbmaze-slow', th: 'เพื่อนหุ่นยนต์เดินช้าลงแล้ว ค่อยๆ เลือกทางนะ' },
   shield: { key: 'orbmaze-shield', th: 'ได้โล่แล้ว ช่วยกันการแตะได้หนึ่งครั้ง' },
@@ -32,6 +32,17 @@ const LINES: Partial<Record<LineId, { key: string; th: string }>> = {
   half: { key: 'orbmaze-praise', th: 'มาชาอัลลอฮ์ ตั้งใจเก็บแสงได้ดีเลย' },
   complete: { key: 'orbmaze-complete', th: 'อัลฮัมดุลิลลาฮ์ เก็บแสงครบแล้ว' },
 };
+/* เสียงเอฟเฟค (scripts/make-lightmaze-sfx.mjs — ElevenLabs, no music) เม็ดแสงเกิดบ่อยมากจึงเบาที่สุด */
+type Sfx = 'bead' | 'star' | 'clock' | 'shield' | 'warp' | 'bump';
+const SFX: SfxSet<Sfx> = {
+  bead: { file: '/audio/sfx/orbmaze-bead.mp3', volume: 0.35 },
+  star: { file: '/audio/sfx/orbmaze-star.mp3', volume: 0.6 },
+  clock: { file: '/audio/sfx/orbmaze-clock.mp3', volume: 0.55 },
+  shield: { file: '/audio/sfx/orbmaze-shield.mp3', volume: 0.55 },
+  warp: { file: '/audio/sfx/orbmaze-warp.mp3', volume: 0.55 },
+  bump: { file: '/audio/sfx/orbmaze-bump.mp3', volume: 0.5 },
+};
+const EVENT_SFX: Partial<Record<SimEvent, Sfx>> = { bead: 'bead', star: 'star', clock: 'clock', shield: 'shield', shieldUsed: 'bump', warp: 'warp', bump: 'bump' };
 const TOAST: Partial<Record<SimEvent, string>> = {
   star: 'พลังแสง! เพื่อนหุ่นหลบให้ • Light power!', clock: 'เพื่อนเดินช้าลง • Robots slow down', shield: 'ได้โล่ 1 ครั้ง • Shield on',
   shieldUsed: 'โล่ช่วยไว้แล้ว • Shield used', warp: 'วาร์ป! • Warp!', checkpoint: 'ถึงจุดพัก • Rest spot saved', bump: 'ไม่เป็นไร แสงยังอยู่ครบ • Your lights are safe',
@@ -47,7 +58,7 @@ function loadImage(src: string) {
   });
 }
 
-export default function LightMazeBoard({ level, onProgress, onComplete }: PlayProps) {
+export default function LightMazeBoard({ level, paused, onProgress, onComplete }: PlayProps) {
   const lv = MAZE_LEVELS[level - 1];
   const { speak } = useSound();
   const [sim] = useState<Sim>(() => createSim(lv));
@@ -58,8 +69,12 @@ export default function LightMazeBoard({ level, onProgress, onComplete }: PlayPr
   const canvas = useRef<HTMLCanvasElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const renderer = useRef<MazeRenderer | null>(null);
-  const callbacks = useRef({ onComplete, speak });
-  useEffect(() => { callbacks.current = { onComplete, speak }; });
+  const sfx = useSfx(SFX);
+  const callbacks = useRef({ onComplete, speak, sfx });
+  useEffect(() => { callbacks.current = { onComplete, speak, sfx }; });
+  // ระหว่างนับถอยหลังของ GameShell (paused) ฉากวาดอยู่แต่เวลาในเกมยังไม่เดิน และกดเดินไม่ได้
+  const counting = useRef(paused);
+  useEffect(() => { counting.current = paused; }, [paused]);
   useEffect(() => { onProgress(total - left, total); }, [left, total, onProgress]);
 
   const fit = useRef(() => {
@@ -67,8 +82,9 @@ export default function LightMazeBoard({ level, onProgress, onComplete }: PlayPr
     if (!cv || !box || !r) return;
     const dpr = Math.min(window.devicePixelRatio || 1, box.clientWidth < 640 ? 1.5 : 2);
     cv.width = Math.round(box.clientWidth * dpr); cv.height = Math.round(box.clientHeight * dpr);
-    // มือถือ: ช่องอย่างน้อย 44px (CSS) ถ้าเกาะทั้งเกาะเล็กกว่านั้น กล้องจะตามหุ่นแทน
-    r.resize(cv.width, cv.height, box.clientWidth < 640 ? 44 * dpr : 0);
+    // เห็นเวทีทั้งเกาะเสมอ รวมถึงมือถือ — เดิมมือถือบังคับช่อง 44px แล้วให้กล้องตามหุ่น เกาะจึงล้นขอบจอ
+    // เจ้าของโปรเจกต์ให้เห็นทั้งเวที (1 ต.ค. 2026) เด็กเดินด้วยปุ่มทิศ 64px ไม่ต้องแตะช่องบนเกาะ
+    r.resize(cv.width, cv.height);
   });
 
   // โหลดภาพของธีม (ภาพไหนยังไม่มี ตัววาดใช้สีธีมแทน เกมเล่นได้ตั้งแต่ก่อนภาพเสร็จ)
@@ -124,7 +140,9 @@ export default function LightMazeBoard({ level, onProgress, onComplete }: PlayPr
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      for (const e of stepSim(sim, dt)) {
+      for (const e of counting.current ? [] : stepSim(sim, dt)) {
+        const cue = EVENT_SFX[e];
+        if (cue) callbacks.current.sfx(cue);
         const text = TOAST[e];
         if (text) { setToast(text); clearTimeout(toastTimer); toastTimer = setTimeout(() => setToast(''), 2400); }
         if (e === 'bead') {
@@ -147,9 +165,8 @@ export default function LightMazeBoard({ level, onProgress, onComplete }: PlayPr
     return () => { cancelAnimationFrame(raf); clearTimeout(finish); clearTimeout(toastTimer); };
   }, [sim, total]);
 
-  const started = useRef(false);
   const go = useRef((dir: Dir) => {
-    if (!started.current) { started.current = true; const s = LINES.start!; callbacks.current.speak(s.th, s.key); }
+    if (counting.current) return;
     steer(sim, dir);
   });
   useEffect(() => {

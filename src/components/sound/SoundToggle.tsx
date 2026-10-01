@@ -33,14 +33,17 @@ export function SoundToggle() {
           ? "อุปกรณ์นี้ยังไม่มีเสียงอ่านภาษาไทยติดตั้งไว้"
           : "เสียงอ่าน"
       }
-      className="scene-copy shadow-soft relative flex min-h-16 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-[transform,box-shadow] duration-200 ease-out hover:shadow-float motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] sm:px-5 sm:text-base"
+      className="ui-pill ui-pill-sm-round relative shrink-0 text-sm sm:text-base"
     >
-      <SpeakerIcon
-        on={enabled}
-        className={`size-6 shrink-0 sm:size-7 ${enabled ? "text-brand-blue" : "text-ink-soft"}`}
-      />
-      <span className={`hidden sm:inline ${enabled ? "text-ink" : "text-ink-soft"}`}>
-        เสียง
+      <span className="ui-disc">
+        <SpeakerIcon on={enabled} />
+      </span>
+      {/* ป้ายบอกสถานะด้วยคำ ไม่ใช่สีของวงไอคอนอย่างเดียว (ข้อ 2) */}
+      <span className="ui-label hidden sm:block" aria-hidden="true">
+        เสียง{enabled ? "เปิด" : "ปิด"}
+        <span lang="en" className="ui-sub">
+          {enabled ? "Sound on" : "Sound off"}
+        </span>
       </span>
       {unavailable && (
         <span className="bg-sun absolute top-1.5 right-1.5 size-3 rounded-full" />

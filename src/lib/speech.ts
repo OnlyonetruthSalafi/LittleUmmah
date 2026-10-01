@@ -26,6 +26,13 @@ export const RECORDED_CLIPS = new Set<string>([
   "cat-moral", "cat-stories", "cat-arabic", "cat-explore", "cat-games", "cat-art",
   // หัวข้อหน้าแรก อ่านเมื่อเลื่อนจอมาเจอ (HeroVoice)
   "hero-tagline",
+  // เกมเขาวงกตแสง (scripts/make-lightmaze-voice.mjs) — เจ้าของโปรเจกต์ให้ลงได้เลยโดยไม่ต้องรอฟังก่อน
+  // จะลองเล่นแล้วแจ้งแก้ทีหลัง (1 ต.ค. 2026)
+  "game-light-maze", "name-light-maze",
+  "orbmaze-star", "orbmaze-slow", "orbmaze-shield", "orbmaze-warp",
+  "orbmaze-bump", "orbmaze-praise", "orbmaze-complete",
+  // นับถอยหลังก่อนเริ่มเล่นทุกเกม (components/Countdown.tsx, scripts/make-game-voice.mjs)
+  "count-3", "count-2", "count-1", "count-go",
 ]);
 
 /** มีเสียงพูดเล่นอยู่ไหม ใช้กันเสียงอัตโนมัติไปตัดเสียงที่เด็กเพิ่งกดฟัง */

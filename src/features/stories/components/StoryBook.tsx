@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
-import { GameIcon } from "@/components/icons/GameIcon";
+import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
+import { BackLink } from "@/components/ui/BackLink";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
@@ -323,28 +323,31 @@ export function StoryBook({ story }: { story: Story }) {
           type="button"
           onClick={() => step(-1)}
           disabled={spread < 0 || !!turn}
-          className="sb-btn scene-copy text-ink"
+          aria-label="หน้าก่อน / Previous page"
+          className="ui-round"
         >
-          <GameIcon name="back" className="size-7" />
-          <span className="sr-only">หน้าก่อน</span>
+          <ArrowLeftIcon />
         </button>
 
         {auto ? (
-          <button type="button" onClick={pause} className="sb-btn sb-btn-main bg-sun text-sun-ink">
-            <PauseIcon className="size-9" />
-            <span>
+          <button type="button" onClick={pause} className="ui-pill ui-pill-primary sb-btn-main">
+            <span className="ui-disc">
+              <PauseIcon />
+            </span>
+            <span className="ui-label">
               พัก
-              <span lang="en" className="block text-xs font-normal">
+              <span lang="en" className="ui-sub">
                 Pause
               </span>
             </span>
           </button>
         ) : (
-          <button type="button" onClick={play} className="sb-btn sb-btn-main bg-sun text-sun-ink">
-            {finished ? <ReplayIcon className="size-9" /> : <PlayIcon className="size-10" />}
-            <span>
+          <button type="button" onClick={play} className="ui-pill ui-pill-primary sb-btn-main">
+            {/* PlayIcon มีวงกลมในตัวอยู่แล้ว ขนาดเท่า .ui-disc */}
+            {finished ? <span className="ui-disc"><ReplayIcon /></span> : <PlayIcon className="size-11 shrink-0" />}
+            <span className="ui-label">
               {finished ? "อ่านอีกครั้ง" : spread < 0 ? "เล่นนิทาน" : "เล่นต่อ"}
-              <span lang="en" className="block text-xs font-normal">
+              <span lang="en" className="ui-sub">
                 {finished ? "Read again" : spread < 0 ? "Play" : "Continue"}
               </span>
             </span>
@@ -355,10 +358,10 @@ export function StoryBook({ story }: { story: Story }) {
           type="button"
           onClick={() => step(1)}
           disabled={spread >= count - 1 || !!turn}
-          className="sb-btn scene-copy text-ink"
+          aria-label="หน้าถัดไป / Next page"
+          className="ui-round"
         >
-          <GameIcon name="back" className="size-7 -scale-x-100" />
-          <span className="sr-only">หน้าถัดไป</span>
+          <ArrowLeftIcon className="-scale-x-100" />
         </button>
 
         {/* live region สั้นๆ แค่เลขหน้า เนื้อเรื่องมีเสียงพากย์อยู่แล้ว ไม่ต้องให้ screen reader อ่านทับ */}
@@ -405,12 +408,7 @@ export function StoryBook({ story }: { story: Story }) {
 
       {finished && (
         <div className="mt-5 flex justify-center">
-          <Link href="/learn/stories" className="sb-btn scene-copy text-ink px-6">
-            กลับเกาะเรื่องเล่า
-            <span lang="en" className="text-sm font-normal">
-              Stories
-            </span>
-          </Link>
+          <BackLink href="/learn/stories" labelTh="เกาะเรื่องเล่า" labelEn="Stories" />
         </div>
       )}
     </section>

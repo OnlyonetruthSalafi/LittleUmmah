@@ -76,7 +76,14 @@
 }
 .gc-hub-guide-status span { display: block; font-size: 12px; font-weight: 500; }
 .gc-run-frame { position: absolute; inset: 0; opacity: 0; }
-.gc-run-frame-6 { opacity: 1; }
+/* ท่าทักทายหน้าตรง: ปิด motion = เห็นแค่ท่ายืนถือจอย (stand) ตั้งแต่แรก
+   ขนาดเทียบกับเฟรมวิ่งสุดท้าย: หัวกว้างเท่ากัน (×1.17) และล้อแตะขอบล่างกล่องเดียวกัน
+   ภาพไม่ trim ล้อสิ้นสุดที่ 93.3% ของภาพ จึงหมุนขยายรอบจุดนั้นแล้วเลื่อนลง 6.7% */
+.gc-greet {
+  position: absolute; inset: 0; opacity: 0;
+  transform-origin: 50% 93.3%; transform: translateY(6.7%) scale(1.17);
+}
+.gc-greet-stand { opacity: 1; }
 /* ลูกศรชี้ลงไปที่เกาะ แทนหัวข้อ "เลือกเกมกันเลย" — นิ่ง ไม่เด้งวน (AGENTS.md ข้อ 2.1) */
 .gc-hub .gc-hub-cue {
   width: 40px;
@@ -94,9 +101,28 @@
 .gc-run-dust i:nth-child(3) { left: -55%; top: -50%; width: 25%; }
 @media (prefers-reduced-motion: no-preference) {
   .gc-hub-guide-arrival[data-ready='true'] { animation: gc-guide-curve 3600ms linear both; }
-  .gc-hub-guide-arrival[data-ready='true'] .gc-run-frame { animation-duration: 3600ms; animation-timing-function: steps(1, end); animation-fill-mode: both; }
+  /* backwards: ระหว่างวิ่งใช้เฟรมวิ่ง พอวิ่งจบเฟรมวิ่งหายไป แล้วท่าทักทายรับช่วงต่อ */
+  .gc-hub-guide-arrival[data-ready='true'] .gc-run-frame { animation-duration: 3600ms; animation-timing-function: steps(1, end); animation-fill-mode: backwards; }
+  /* วิ่งถึงกลางจอ (3.6 วิ) → หันหน้าตรงโบกมือ 3 รอบ (1.8 วิ) → หยุดยืนถือจอย */
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-wave-1 { animation: gc-wave-a 1800ms steps(1, end) 3600ms; }
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-wave-2 { animation: gc-wave-b 1800ms steps(1, end) 3600ms; }
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-stand { animation: gc-greet-stand 5400ms steps(1, end) both; }
   .gc-hub-guide-arrival[data-ready='true'] .gc-run-dust { animation: gc-dust-trail 3600ms linear both; }
   .gc-hub-guide-arrival[data-ready='true'] .gc-run-dust i { animation: gc-dust-puff 600ms ease-out 6; }
+}
+@keyframes gc-wave-a {
+  0%, 33.33%, 66.66% { opacity: 1; }
+  16.66%, 50%, 83.33% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes gc-wave-b {
+  0%, 33.33%, 66.66% { opacity: 0; }
+  16.66%, 50%, 83.33% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes gc-greet-stand {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 @keyframes gc-dust-trail {
   0% { opacity: 0; left: 70%; }

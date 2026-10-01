@@ -13,8 +13,14 @@ type GamePresentation = {
   voiceIntro?: boolean;
   /** ภาพตัวอย่างของแต่ละด่านบนการ์ดเลือกด่าน (ตอนนี้ใช้กับจิ๊กซอว์: ภาพบนจิ๊กซอว์ + เส้นตัดชิ้นของด่านนั้น) */
   levelArt?: { src: string; columns: number; rows: number; label: Label }[];
-  /** เกมพูดบทจบด่านของตัวเอง หน้าผลลัพธ์จึงเล่นแค่เสียงเอฟเฟค ไม่พูดคำชมทับ */
+  /** เกมพูดบทของตัวเอง: ตอนเริ่ม (เช่น นับถอยหลัง) GameShell ไม่อ่านคำสั่งทับ และหน้าผลลัพธ์เล่นแค่เสียงเอฟเฟค ไม่พูดคำชมทับ */
   ownVoice?: boolean;
+  /**
+    เล่นต่อกันเป็นเส้นทาง ไม่มีการ์ดเลือกด่าน: ผ่านด่านแล้วไปด่านต่อไปทันที (ฉากใหม่ ยากขึ้น)
+    เปิดหน้าเกมใหม่จะต่อจากด่านถัดจากที่ผ่านล่าสุด ผ่านครบทุกด่านแล้วเริ่มด่านแรกใหม่
+    เจ้าของโปรเจกต์สั่งให้เขาวงกตแสงเป็นแบบนี้ (1 ต.ค. 2026)
+  */
+  journey?: boolean;
   /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
   levelCount?: 1 | 2 | 3;
   destinations: Label;
@@ -74,6 +80,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     world: { th: 'เกาะเขาวงกตแสง', en: 'Light Maze Island' },
     description: { th: 'พาหุ่นลูกกลมเก็บเม็ดแสงให้ครบ เลือกทางหลบเพื่อนหุ่นยนต์ ใช้ดาว นาฬิกา โล่ และประตูวาร์ปช่วย', en: 'Guide the round robot to every light. Find a way around the robot friends with stars, clocks, shields and portals.' },
     ownVoice: true,
+    journey: true,
     levels: [{ th: 'เมืองแสงสี', en: 'Neon Courtyard' }, { th: 'สวนคริสตัล · เพื่อน 2 ตัว', en: 'Crystal Grove · 2 friends' }, { th: 'ลานลอยฟ้า · เพื่อน 3 ตัว', en: 'Sky Ruins · 3 friends' }],
     destinations: { th: 'เม็ดแสงบนเกาะ', en: 'Lights on the island' }, pieces: { th: 'พาหุ่นลูกกลมเดิน', en: 'Move the round robot' },
   },

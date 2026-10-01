@@ -20,16 +20,14 @@ type ButtonProps = {
 
 /*
   ปุ่มสูง 64px ตามเกณฑ์ tap target ของเด็กใน AGENTS.md
-  motion ตามมาตรฐานหัวข้อ 2.1: hover ยกขึ้นเล็กน้อย active ย่อลง ครอบ motion-safe ทุกจุด
-  และมีเงาเปลี่ยนเป็น fallback สำหรับคนที่ปิดการเคลื่อนไหว
+  หน้าตาและ motion ทั้งหมดอยู่ที่ .ui-pill ใน controls.css (ชุดเดียวกับปุ่มทั้งเว็บ)
+  ที่นี่กำหนดแค่ขนาดตัวอักษรของปุ่มใหญ่
 */
-const BASE =
-  "inline-flex min-h-16 items-center justify-center gap-3 rounded-full px-7 text-lg font-extrabold whitespace-nowrap transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75 sm:px-9 sm:text-xl";
+const BASE = "text-lg sm:text-xl";
 
 const VARIANTS = {
-  // เงาต้องเพิ่มขึ้นตอน hover ไม่ใช่ลดลง และเป็น fallback ให้คนที่ปิดการเคลื่อนไหว
-  primary: "bg-sun text-sun-ink shadow-soft hover:bg-sun-deep hover:shadow-float",
-  soft: "scene-copy text-ink shadow-soft hover:shadow-float",
+  primary: "ui-pill ui-pill-primary",
+  soft: "ui-pill",
 } as const;
 
 export function Button({
@@ -48,7 +46,7 @@ export function Button({
     onClick?.();
   };
 
-  const classes = `font-display ${BASE} ${VARIANTS[variant]} ${className}`;
+  const classes = `${VARIANTS[variant]} ${BASE} ${className}`;
 
   if (href) {
     return (

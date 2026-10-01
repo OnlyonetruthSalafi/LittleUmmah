@@ -399,5 +399,8 @@
   "public/games/light-maze/v2/actors/violet-rest.png": "7a0e879fc322d35b61acc954ad3e5972fbb0b4e2010df4c474be9bdaae2c5cc2",
   "public/games/light-maze/v2/actors/blue-rest.png": "a162f39b0814b93cc1368d744ccaa0a30d3a12cff64d1a49bc92bf50e3ac2329",
   "public/games/light-maze/v2/actors/green-rest.png": "6332e91e72a6c6c58664064df9b4ecd4aca7026d7f795f620acc2e62dbdf594d",
-  "output/orbmaze-art/originals/hub-light-maze-production.png": "fdfb83ba26a49a81edc0bc8df650c1270d7f95940438ceaf9fe6211e9b5acfb7"
+  "output/orbmaze-art/originals/hub-light-maze-production.png": "fdfb83ba26a49a81edc0bc8df650c1270d7f95940438ceaf9fe6211e9b5acfb7",
+  "public/Character/greet/stand.png": "9f04d9558928dfbb195106f60f404c1de0da684bebbc937c6f17939b9b4c0460",
+  "public/Character/greet/wave-1.png": "3aab0bfa20f2231c83f2a3454cb0c2192a59a3099bd7b462aeecf746ecf93dcc",
+  "public/Character/greet/wave-2.png": "629d41c2ce7c79ddf857803a3550d97df425376ca9986ad143592e98070ca679"
 }

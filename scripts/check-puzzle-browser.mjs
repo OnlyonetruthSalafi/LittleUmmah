@@ -46,6 +46,7 @@ try {
       await page.locator('.gc-level-stone').nth(level - 1).click();
       if (level === 1) await page.locator('.gc-adventure-intro').screenshot({ path: `output/puzzle/${width}-intro.png` });
       await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
+      await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
       await page.locator('.pz-cell').first().waitFor();
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}/${level}`);
       // วัดขนาดจริงจาก DOM แล้วพิมพ์ให้บันทึกใน AGENTS.md — เกณฑ์ 64px (ข้อ 2) ตัดสินโดยเจ้าของโปรเจกต์

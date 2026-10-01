@@ -49,8 +49,8 @@ const SECTIONS = [
   },
 ];
 
-const PARENT_LINK =
-  "scene-copy text-ink shadow-soft hover:shadow-float inline-flex min-h-12 items-center rounded-full px-5 font-semibold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75";
+// ปุ่มฝั่งผู้ปกครอง ใช้ชุดปุ่มเดียวกับทั้งเว็บ (.ui-pill ใน controls.css)
+const PARENT_LINK = "ui-pill";
 
 export default function ParentsPage() {
   return (

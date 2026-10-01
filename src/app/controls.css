@@ -1,0 +1,170 @@
+/*
+  ปุ่มของทั้งเว็บ — ที่เดียวที่กำหนดหน้าตาปุ่ม (สกิน) ให้หน้าเว็บและหน้าเกมใช้ร่วมกัน
+
+  ต้นแบบคือปุ่มกลมในหน้ารวมเกม (.gc-hub-icon-btn) และ .gc-button เดิมใน games.css:
+  พื้นขาว ขอบฟ้าอ่อน และ "ขอบนูน" สีฟ้าเทาใต้ปุ่ม ให้ดูเป็นของเล่นที่กดลงไปได้
+  เด็กจึงแยกออกทันทีว่าอะไรกดได้ อะไรเป็นแค่ตัวหนังสือบนฉาก
+
+  - .ui-pill          ปุ่มแคปซูล ไอคอนอยู่ในวงกลมสีฟ้า (.ui-disc) ข้อความไทยนำ อังกฤษรอง
+  - .ui-pill-primary  ปุ่มหลักสีทอง ใช้กลุ่มละหนึ่งปุ่ม (เล่นนิทาน ไปเล่นกันเลย ด่านต่อไป)
+  - .ui-round         ปุ่มกลม 64px ไอคอนล้วน ชื่อปุ่มอยู่ใน aria-label
+  - .ui-chip          ชิปทางลัดมุมมนแบบการ์ดเล็ก (ValueBar)
+
+  .gc-button ในเกมรับเฉพาะ "สกิน" จากไฟล์นี้ ส่วนขนาด/padding ยังเป็นของ games.css
+  และไฟล์ของแต่ละเกม เพราะขนาดกระดานเกมวัดไว้แล้วใน AGENTS.md ข้อ 2
+
+  ไฟล์นี้ไม่อยู่ใน @layer ตั้งใจ — games.css ก็ไม่อยู่ใน layer ถ้าไฟล์นี้อยู่ใน layer จะแพ้ทุกกฎ
+*/
+:root {
+  --ctl-face: #fff;
+  --ctl-edge: #d3e3ed;
+  --ctl-lip: #d1e2ec;
+  --ctl-lip-hover: #afc9d9;
+  --ctl-ink: var(--color-ink);
+  --ctl-disc: var(--color-brand-blue); /* ขาวบนฟ้า 6.1:1 */
+  --ctl-gold-edge: var(--color-sun-deep);
+  --ctl-gold-lip: #b86e00;
+  --ctl-focus: #123a72;
+}
+
+/* ── สกินร่วม ── */
+.ui-pill,
+.ui-round,
+.ui-chip,
+.gc-world .gc-button {
+  border: 2px solid var(--ctl-edge);
+  border-radius: 999px;
+  background: var(--ctl-face);
+  color: var(--ctl-ink);
+  box-shadow: 0 5px 0 var(--ctl-lip), var(--shadow-soft);
+  font-family: var(--font-display);
+  font-weight: 800;
+  /* ปุ่มอยู่บนแผงที่มีเงาขาวของ .scene-copy ได้ — ตัดเงาที่สืบทอดมา ตัวหนังสือบนพื้นขาวไม่ต้องมี */
+  text-shadow: none;
+  cursor: pointer;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, background-color 200ms ease-out;
+}
+
+/* ชิปทางลัด (ValueBar) — สกินเดียวกับปุ่ม แต่มุมมนแบบการ์ดเล็ก ขนาด/การจัดวางมาจาก Tailwind */
+.ui-chip { border-radius: var(--radius-card-sm); }
+
+/* ── ขนาดและการจัดวาง (เฉพาะปุ่มของหน้าเว็บ) ── */
+.ui-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 6px 22px;
+  /* สระบนและวรรณยุกต์ไทยต้องไม่ชนขอบ */
+  line-height: 1.35;
+  text-align: left;
+}
+.ui-pill:has(> .ui-disc) { padding-left: 8px; }
+/* มีแค่วงไอคอน (ป้ายซ่อนบนมือถือ) ให้กลายเป็นปุ่มกลม */
+.ui-pill:has(> .ui-disc:only-child) { padding: 8px; }
+/* ป้ายซ่อนบนมือถือ (ปุ่มบนหัวเว็บ) — เหลือวงไอคอนในปุ่มกลม */
+@media (max-width: 639px) {
+  .ui-pill-sm-round { padding: 8px; }
+}
+.ui-pill :is(.ui-sub, small),
+.gc-world .gc-button small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.ui-disc {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ctl-disc);
+  color: #fff;
+}
+.ui-disc > svg { width: 26px; height: 26px; }
+
+.ui-round {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  color: var(--ctl-disc);
+}
+.ui-round > svg { width: 30px; height: 30px; }
+
+/* หัวเกมบนจอแคบ: ปุ่มกลับเหลือวงลูกศร ปุ่มเสียงเหลือวงลำโพง (ui-pill-sm-round) ชื่อเกมตรงกลางจะได้ไม่ตัดบรรทัด
+   ป้าย "รวมเกม" ยังอยู่ให้ screen reader อ่าน — ซ่อนแบบ sr-only ไม่ใช่ display:none */
+@media (max-width: 639px) {
+  .gc-game-header > .ui-pill:not(.gc-sound) { padding: 8px; }
+  .gc-game-header > .ui-pill:not(.gc-sound) > .ui-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ── ปุ่มหลักสีทอง — sun-ink บน sun 6.6:1 ── */
+.ui-pill-primary,
+.gc-world .gc-button.gc-primary {
+  border-color: var(--ctl-gold-edge);
+  background: var(--color-sun);
+  color: var(--color-sun-ink);
+  box-shadow: 0 5px 0 var(--ctl-gold-lip), var(--shadow-soft);
+}
+.ui-pill-primary :is(.ui-sub, small),
+.gc-world .gc-button.gc-primary small { color: var(--color-sun-ink); }
+.ui-pill-primary .ui-disc { background: var(--color-sun-ink); color: var(--color-sun); }
+
+/* ── สถานะเปิด/ปิด (ปุ่มเสียง) — aria-pressed=true แปลว่าเปิดอยู่ ── */
+:is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button)[aria-pressed='true'] {
+  border-color: var(--ctl-disc);
+}
+.ui-pill[aria-pressed='false'] .ui-disc { background: var(--color-ink-soft); } /* ขาวบนเทา 7.6:1 */
+.ui-round[aria-pressed='false'] { color: var(--color-ink-soft); }
+
+/* ── โฟกัส: วงนอกสีน้ำเงินเข้ม เห็นชัดทั้งบนฟ้าและบนพื้นขาว ── */
+:is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):focus-visible {
+  outline: 3px solid var(--ctl-focus);
+  outline-offset: 4px;
+}
+
+/* ── hover: เงาเพิ่มขึ้น (ทำงานแม้ปิด motion) + ยกขึ้นเฉพาะ motion-safe ── */
+@media (hover: hover) {
+  :is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):not(:disabled):hover {
+    box-shadow: 0 7px 0 var(--ctl-lip-hover), var(--shadow-float);
+  }
+  :is(.ui-pill-primary, .gc-world .gc-button.gc-primary):not(:disabled):hover {
+    box-shadow: 0 7px 0 var(--ctl-gold-lip), var(--shadow-float);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):not(:disabled):hover { transform: translateY(-2px); }
+}
+
+/* ── กด: ขอบนูนยุบลง ให้รู้ว่ากดติดแล้ว ── */
+:is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):not(:disabled):active {
+  transition-duration: 75ms;
+  box-shadow: 0 2px 0 var(--ctl-lip), var(--shadow-soft);
+}
+:is(.ui-pill-primary, .gc-world .gc-button.gc-primary):not(:disabled):active {
+  box-shadow: 0 2px 0 var(--ctl-gold-lip), var(--shadow-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):not(:disabled):active { transform: translateY(3px) scale(0.98); }
+}
+
+:is(.ui-pill, .ui-round, .ui-chip, .gc-world .gc-button):disabled {
+  cursor: default;
+  opacity: 0.45;
+  box-shadow: 0 3px 0 var(--ctl-lip);
+}

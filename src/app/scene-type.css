@@ -36,7 +36,7 @@
    retain their own visual surfaces and selected states. Specificity keeps this
    consistent when game styles load after the root stylesheet. */
 body .gc-world.gc-world :is(
-  .gc-button, .gc-game-header h1, .gc-adventure-sign, .gc-adventure-menu,
+  .gc-game-header h1, .gc-adventure-menu,
   .gc-instruction, .gc-progress-row, .gc-feedback, .gc-workbench-title,
   .gc-item-label, .gc-placed-count, .gc-slot-number, .mem-stats,
   .gc-star-counter, .gc-hero-tags span, .gc-result, .gc-intro,
@@ -48,31 +48,11 @@ body .gc-world.gc-world :is(
   color: var(--scene-ink);
   text-shadow: var(--scene-halo);
 }
-body .gc-world.gc-world :is(h1, h2, .gc-workbench-title, .gc-adventure-sign) {
+body .gc-world.gc-world :is(h1, h2, .gc-workbench-title) {
   color: var(--scene-ink);
   font-family: var(--font-display);
   text-shadow: var(--scene-title-shadow);
 }
-body .gc-world.gc-world .gc-button {
-  font-family: var(--font-display);
-  font-weight: 800;
-}
-body .gc-world.gc-world .gc-button:focus-visible {
-  outline: 3px solid var(--scene-ink);
-  outline-offset: 4px;
-}
-body .gc-world.gc-world .gc-button[aria-pressed='true'] {
-  border-color: var(--scene-ink);
-  border-bottom-width: 4px;
-}
-@media (hover: hover) {
-  body .gc-world.gc-world .gc-button:hover {
-    box-shadow: none;
-    text-shadow: var(--scene-halo), 0 4px 6px #123a7255;
-  }
-}
-body .gc-world.gc-world .gc-button:active {
-  text-shadow: var(--scene-halo), 0 2px 3px #123a7255;
-}
+/* ปุ่มในเกม (.gc-button) ไม่อยู่ในรายการนี้ — ปุ่มต้องมีพื้นและขอบนูน ดู controls.css */
 
 .scene-copy :is(.text-ink, .text-ink-soft) { color: var(--scene-ink); }

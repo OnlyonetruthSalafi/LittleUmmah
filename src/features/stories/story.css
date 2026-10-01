@@ -171,33 +171,11 @@
 
 .sb-preload { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
 
-/* ปุ่มควบคุม: 64px ตามเกณฑ์เด็ก ยกทั้งปุ่มตอน hover (ข้อ 2.1) */
-.sb-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  min-width: 64px;
-  min-height: 64px;
-  border-radius: 999px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  box-shadow: var(--shadow-soft);
-  transition: transform 200ms ease-out, box-shadow 200ms ease-out, opacity 200ms ease-out;
-}
-.sb-btn:not(.sb-btn-main) { background: #fff; border: 2px solid var(--color-sky); }
-.sb-btn-main { min-height: 76px; min-width: 11.5rem; padding-inline: 1.4rem 1.8rem; font-size: 1.25rem; }
-.sb-btn:disabled { opacity: 0.45; cursor: default; }
-@media (hover: hover) {
-  .sb-btn:not(:disabled):hover { box-shadow: var(--shadow-float); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  @media (hover: hover) { .sb-btn:not(:disabled):hover { transform: translateY(-2px); } }
-  .sb-btn:not(:disabled):active { transform: scale(0.98); transition-duration: 75ms; }
-}
+/* ปุ่มของหนังสือใช้ชุดปุ่มทั้งเว็บ (.ui-pill / .ui-round ใน controls.css) — ที่นี่กำหนดแค่ขนาดปุ่มเล่น */
+.ui-pill.sb-btn-main { white-space: nowrap; min-height: 76px; min-width: 11.5rem; padding-inline: 12px 1.8rem; font-size: 1.25rem; }
 
 @media (max-width: 639px) {
-  .sb-btn-main { min-width: 10rem; padding-inline: 1rem 1.2rem; font-size: 1.1rem; }
+  .ui-pill.sb-btn-main { min-width: 10rem; padding-inline: 10px 1.2rem; font-size: 1.1rem; }
   .sb-stage { perspective: 1400px; padding-block: 6px 18px; }
   .sb-book { transform: rotateX(5deg); }
   .sb-cover-title { border-radius: 10px; box-shadow: 0 3px 0 #e3b64c; }

@@ -1,0 +1,59 @@
+/* ── นับถอยหลังก่อนเริ่มเล่น ทุกเกม (components/Countdown.tsx): ตัวเลขใหญ่กลางจอ ──
+   เหรียญวงกลมสีฟ้าขอบขาว-ทอง ตัวเลขสีทองขอบน้ำตาล ใช้ palette หลัก (ฟ้า ขาว ทอง)
+   ไม่บังการแตะ (pointer-events: none) และไม่กะพริบ — แต่ละตัวเลขเด้งเข้าครั้งเดียว */
+.gc-countdown {
+  position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, #0b123a40 0, #0b123a1a 38%, transparent 62%);
+}
+.gc-count-badge {
+  --size: clamp(150px, 44vw, 240px);
+  position: relative; display: grid; place-items: center;
+  width: var(--size); height: var(--size); border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #7cc4f5 0%, #2f7fd6 42%, #1e5fbf 70%, #154181 100%);
+  border: calc(var(--size) * 0.04) solid #fff;
+  box-shadow:
+    0 0 0 calc(var(--size) * 0.03) #f6c64d,
+    0 calc(var(--size) * 0.05) 0 calc(var(--size) * 0.03) #b86e00,
+    0 calc(var(--size) * 0.1) calc(var(--size) * 0.18) #0b123a66,
+    inset 0 calc(var(--size) * -0.06) 0 #12346f80,
+    inset 0 calc(var(--size) * 0.05) 0 #ffffff4d;
+}
+/* ประกายมุมบนซ้ายของเหรียญ ให้ดูเป็นของเล่นนูน */
+.gc-count-badge::before {
+  content: ""; position: absolute; top: 12%; left: 20%; width: 26%; height: 14%;
+  border-radius: 50%; background: #ffffff59; transform: rotate(-28deg);
+}
+.gc-count-num {
+  position: relative;
+  font: 800 calc(var(--size) * 0.62) / 1 var(--font-baloo), var(--font-display);
+  background: linear-gradient(#fffbe8 0%, #ffe08a 45%, #f5a623 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-stroke: calc(var(--size) * 0.022) #7a3e00; paint-order: stroke fill;
+  filter: drop-shadow(0 calc(var(--size) * 0.025) 0 #4a2600);
+  translate: 0 calc(var(--size) * 0.03);
+}
+.gc-count-go {
+  display: grid; justify-items: center; padding: 14px 44px 12px; border-radius: 999px;
+  font: 800 clamp(44px, 13vw, 72px) / 1.15 var(--font-display); color: var(--color-sun-ink);
+  background: linear-gradient(#ffe08a, #f5a623);
+  border: 5px solid #fff;
+  box-shadow: 0 0 0 4px #e08c0b, 0 9px 0 4px #b86e00, 0 18px 30px #0b123a55;
+}
+.gc-count-go small { font: 700 clamp(16px, 4.5vw, 22px) / 1.2 var(--font-baloo), var(--font-display); }
+@media (prefers-reduced-motion: no-preference) {
+  .gc-count-badge { animation: gc-count-pop 1000ms cubic-bezier(.2, .9, .3, 1.2) both; }
+  .gc-count-go { animation: gc-go-pop 800ms cubic-bezier(.2, .9, .3, 1.2) both; }
+}
+@keyframes gc-count-pop {
+  0% { opacity: 0; transform: scale(.35); }
+  32% { opacity: 1; transform: scale(1.1); }
+  48%, 82% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(.8); }
+}
+@keyframes gc-go-pop {
+  0% { opacity: 0; transform: scale(.4); }
+  40% { opacity: 1; transform: scale(1.12); }
+  60%, 80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.15); }
+}

@@ -23,6 +23,8 @@ const JOBS = [
   { dir: "public/islands", width: 900, quality: 86 },
   { dir: "public/Character", width: 400, quality: 86 },
   { dir: "public/Character/run", width: 640, quality: 86, trim: true },
+  // หุ่นหน้าตรงโบกมือ/ยืนถือจอย ต่อท้ายการวิ่งในหน้ารวมเกม — ไม่ trim สามเฟรมจะได้ตำแหน่งตรงกันเป๊ะ (ตัวหุ่นกึ่งกลางภาพ)
+  { dir: "public/Character/greet", width: 640, quality: 86 },
   { dir: "public/BG", width: 1920, quality: 80 },
   { dir: "public/games/puzzle", width: 900, quality: 86 },
   { dir: "public/games/hub", width: 640, quality: 85 },

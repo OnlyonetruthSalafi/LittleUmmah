@@ -62,15 +62,11 @@
 
 @media (max-width: 639px) {
   .lm-scene { width: 100%; }
-  /* ฉากเต็มความกว้างจอมือถือ เกาะจะได้ใหญ่ที่สุด */
-  /* สูงเท่าที่เหลือหลังแถบบน ปุ่มทิศ และปุ่มล่าง (วัดจริง ~525px) ไม่ให้หน้าเลื่อน */
-  .lm-stage { width: 100vw; border-radius: 0; aspect-ratio: auto; height: max(240px, min(calc(100vw / 1.05), calc(100dvh - 525px))); }
-  .gc-focus[data-game='light-maze'] { overflow-x: clip; }
+  /* เวทีอยู่ในขอบหน้าจอ มุมมน เห็นทั้งเกาะ (ไม่ชนขอบจอ) สูงไม่เกินที่เหลือหลังแถบบน ปุ่มทิศ และปุ่มล่าง ไม่ให้หน้าเลื่อน */
+  .lm-stage { border-radius: 22px; aspect-ratio: 10 / 9; max-height: max(240px, calc(100dvh - 515px)); }
   /* ชื่อเกมยาวกว่าเกมอื่น ถ้าตัดคำจะเป็นสามบรรทัด ถ้าไม่ตัด ปุ่มเสียงจะตกไปแถวใหม่ จึงบีบให้อยู่แถวเดียว */
   .gc-focus[data-game='light-maze'] .gc-game-header { flex-wrap: nowrap; gap: 6px; }
   .gc-focus[data-game='light-maze'] .gc-game-header h1 { white-space: nowrap; min-width: 0; font-size: 17px; }
-  /* จอแคบ: ปุ่มเสียงเหลือแค่ไอคอนลำโพง (ปุ่มมี aria-label อยู่แล้ว) ให้ชื่อเกมไม่ถูกตัด */
-  .gc-focus[data-game='light-maze'] .gc-sound > span { display: none; }
 }
 
 /* แนวนอน (แท็บเล็ตแนวนอน มือถือแนวนอน) — ปุ่มทิศไปอยู่ข้างฉาก ฉากจะได้สูงเต็มที่ */
@@ -103,3 +99,4 @@
 @media (max-width: 639px) {
   .gc-hub .gc-grid > li:last-child:nth-child(2n+1) { grid-column: 1 / -1; justify-self: center; width: calc((100% - 14px) / 2); }
 }
+

@@ -31,7 +31,7 @@ export function ValueBar() {
             <Link
               href={category.href}
               onClick={() => speak(category.nameTh, `cat-${category.slug}`)}
-              className="group rounded-card-sm hover:shadow-float flex min-h-16 w-full items-center gap-2.5 scene-copy px-3 py-2 shadow-[0_2px_6px_-2px_rgb(30_95_191/0.25)] transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75"
+              className="ui-chip group flex min-h-16 w-full items-center gap-2.5 px-3 py-2"
             >
               <SparkleIcon
                 className={`logo-mark-glow size-6 shrink-0 ${SPARKLE_TINTS[i % SPARKLE_TINTS.length]}`}

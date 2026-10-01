@@ -18,10 +18,13 @@ try {
       const page = await browser.newPage({ viewport: { width, height: sizes[width] ?? 844 }, hasTouch: width < 1000 });
       page.on('pageerror', e => errors.push(`${width} L${level}: ${e.message}`));
       page.on('console', m => { if (m.type() === 'error' && !/404|Failed to load resource/.test(m.text())) errors.push(`${width} L${level}: ${m.text()}`); });
+      // ไม่มีการ์ดเลือกด่านแล้ว (journey) — เกมต่อจากด่านถัดจากที่ผ่านล่าสุด จึงใส่ความคืบหน้าปลอมไว้ก่อนโหลด
+      if (level > 1) await page.addInitScript(n => { const levelStars = {}; for (let i = 1; i < n; i++) levelStars[i] = 3; localStorage.setItem('little-ummah:games:v1:light-maze', JSON.stringify({ levelStars })); }, level);
       await page.goto(`${base}/games/light-maze`, { waitUntil: 'networkidle' });
-      if (level > 1) await page.locator('.gc-level-stone').nth(level - 1).click();
+      assert.equal(await page.locator('.gc-level-stone').count(), 0, 'light maze has no level picker');
       await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
       await page.waitForFunction(() => document.querySelector('.lm-stage')?.dataset.robot);
+      assert.equal(await page.locator('.lm-scene').getAttribute('data-theme'), ['neon', 'grove', 'sky'][level - 1], `${width} resumes at level ${level}`);
       const m = await page.evaluate(() => {
         const r = e => { const b = e.getBoundingClientRect(); return { x: Math.round(b.left), y: Math.round(b.top), w: Math.round(b.width), h: Math.round(b.height) }; };
         const stage = document.querySelector('.lm-stage'), h = document.querySelector('.gc-game-header h1');
@@ -39,6 +42,15 @@ try {
       assert.ok(m.title.overflow <= 0 && m.title.right <= m.title.sound, `${width} title clipped`);
       // หุ่นลูกกลมอยู่ในฉาก
       assert.ok(m.robot[0] > 0 && m.robot[0] < m.stage.w && m.robot[1] > 0 && m.robot[1] < m.stage.h, `${width} robot outside stage ${m.robot}`);
+      // นับถอยหลัง 3 2 1 ก่อนเริ่ม: ตัวเลขขึ้นกลางจอ และกดปุ่มทิศแล้วต้องยังไม่เดิน
+      // ปุ่มทิศอยู่ในกระดานที่ inert ระหว่างนับ จึงทดสอบด้วยคีย์ลูกศร (ฟังทั้งหน้า) ว่าเกมหยุดเวลาไว้จริง
+      // ทดสอบเฉพาะตอนที่ตัวเลขยังขึ้นอยู่ — ภาพเกาะอาจโหลดช้าจนนับไปถึง "เริ่ม!" แล้ว
+      if (await page.locator('.gc-count-badge').isVisible()) {
+        await page.keyboard.press('ArrowRight');
+        await page.waitForTimeout(300);
+        if (await page.locator('.gc-count-badge').isVisible()) assert.equal(await page.evaluate(() => Number(document.querySelector('.lm-stage').dataset.beadsLeft)), m.beads, `${width} moved during countdown`);
+      }
+      await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 6000 });
       // กดขวาล่าง (+c) ต้องเดินและเก็บเม็ดแสงได้ (กล้องตามหุ่นบนมือถือ ตำแหน่งบนจอจึงอาจแทบไม่ขยับ ดูจากเม็ดแสงแทน)
       await page.getByRole('button', { name: 'ขวาล่าง / Down-right' }).click();
       await page.waitForTimeout(900);

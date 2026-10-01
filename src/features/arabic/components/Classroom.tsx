@@ -6,12 +6,16 @@ import { useCallback, useEffect, useState, useSyncExternalStore, type CSSPropert
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
+import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
 import { CHEER_COUNT, CLASS_STEPS, classAudio, type AgeGroupId, type ClassStep } from "../data/classroom";
 import "../classroom.css";
+
+// ปุ่มควบคุมบทเรียน (เริ่ม พัก ฟังซ้ำ ก่อน/ถัดไป) ใช้ชุดปุ่มทั้งเว็บ — .ui-pill ใน controls.css
+const CONTROL = "ui-pill text-lg";
 
 /*
   ห้องเรียนหุ่นยนต์ — เกาะภาษาอาหรับ
@@ -354,22 +358,31 @@ function Lesson({ group }: { group: AgeGroupId }) {
         {/* ── ปุ่มควบคุม สูงอย่างน้อย 64px ตามข้อ 2 ── */}
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
           {!running || finished ? (
-            <button type="button" onClick={start} className={`${BUTTON} bg-sun text-sun-ink`}>
-              <PlayIcon className="size-6" />
-              {finished ? "เรียนอีกรอบ" : "เริ่มเรียน"}
-              <span lang="en" className="text-sm font-normal">
-                {finished ? "Again" : "Start"}
+            <button type="button" onClick={start} className={`${CONTROL} ui-pill-primary`}>
+              <PlayIcon className="size-11 shrink-0" />
+              <span>
+                {finished ? "เรียนอีกรอบ" : "เริ่มเรียน"}
+                <span lang="en" className="ui-sub">
+                  {finished ? "Again" : "Start"}
+                </span>
               </span>
             </button>
           ) : (
             <>
-              <button type="button" onClick={togglePause} className={`${BUTTON} bg-cloud text-ink`}>
-                {paused ? <PlayIcon className="size-6" /> : <PauseIcon className="size-6" />}
-                {paused ? "เรียนต่อ" : "พักก่อน"}
+              <button type="button" onClick={togglePause} className={CONTROL}>
+                {/* PlayIcon มีวงกลมในตัวแล้ว ขนาดเท่า .ui-disc */}
+                {paused ? <PlayIcon className="size-11 shrink-0 text-brand-blue" /> : <span className="ui-disc"><PauseIcon /></span>}
+                <span>
+                  {paused ? "เรียนต่อ" : "พักก่อน"}
+                  <span lang="en" className="ui-sub">{paused ? "Continue" : "Pause"}</span>
+                </span>
               </button>
-              <button type="button" onClick={again} className={`${BUTTON} bg-sun text-sun-ink`}>
-                <ReplayIcon className="size-6" />
-                ฟังอีกครั้ง
+              <button type="button" onClick={again} className={`${CONTROL} ui-pill-primary`}>
+                <span className="ui-disc"><ReplayIcon /></span>
+                <span>
+                  ฟังอีกครั้ง
+                  <span lang="en" className="ui-sub">Listen again</span>
+                </span>
               </button>
             </>
           )}
@@ -380,17 +393,25 @@ function Lesson({ group }: { group: AgeGroupId }) {
                 type="button"
                 onClick={() => goToStep(index - 1)}
                 disabled={index === 0}
-                className={`${BUTTON} bg-cloud text-ink disabled:pointer-events-none disabled:opacity-50`}
+                className={CONTROL}
               >
-                ก่อนหน้า
+                <span className="ui-disc"><ArrowLeftIcon /></span>
+                <span>
+                  ก่อนหน้า
+                  <span lang="en" className="ui-sub">Previous</span>
+                </span>
               </button>
               <button
                 type="button"
                 onClick={() => goToStep(index + 1)}
                 disabled={index + 1 >= steps.length}
-                className={`${BUTTON} bg-cloud text-ink disabled:pointer-events-none disabled:opacity-50`}
+                className={CONTROL}
               >
-                ตัวถัดไป
+                <span>
+                  ตัวถัดไป
+                  <span lang="en" className="ui-sub">Next</span>
+                </span>
+                <span className="ui-disc"><ArrowLeftIcon className="-scale-x-100" /></span>
               </button>
             </>
           )}

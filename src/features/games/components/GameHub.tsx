@@ -1,5 +1,5 @@
 import { GameImage as Image } from './GameImage';
-import Link from 'next/link';
+import { BackLink } from '@/components/ui/BackLink';
 import { games } from '../data/catalog';
 import { HubGuide } from './HubGuide';
 import { Thumbnail } from './Artwork';
@@ -11,7 +11,7 @@ export function GameHub() {
   return <main className="gc-world gc-hub">
     <div className="gc-world-backdrop" aria-hidden="true"><Image src="/games/hub/game-hub-bg.webp" alt="" fill sizes="100vw" preload /></div>
     <div className="gc-container">
-      <nav className="gc-hub-nav" aria-label="นำทางเกม"><Link className="gc-button" href="/">← หน้าหลัก <small lang="en">Home</small></Link><span className="font-display text-xl font-bold">Little Ummah</span><HubProgress /></nav>
+      <nav className="gc-hub-nav" aria-label="นำทางเกม"><BackLink /><span className="font-display text-xl font-bold">Little Ummah</span><HubProgress /></nav>
       <HubGuide />
       <section aria-labelledby="gc-choose">
         {/* หัวข้อเก็บไว้ให้ screen reader ส่วนบนจอใช้ลูกศรชี้ลงแทน เด็กที่ยังอ่านไม่ออกก็เข้าใจ */}

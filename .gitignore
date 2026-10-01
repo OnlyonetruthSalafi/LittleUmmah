@@ -44,6 +44,7 @@ next-env.d.ts
 /public/islands/*.png
 /public/BG/*.png
 /public/Character/*.png
+/public/Character/greet/*.png
 /public/games/puzzle/*.png
 /public/games/hub/*.png
 /public/games/common/objects/*.png

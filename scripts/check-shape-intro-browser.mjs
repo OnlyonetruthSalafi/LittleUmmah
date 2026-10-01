@@ -75,6 +75,7 @@ try {
     // กดข้ามขณะหุ่นยนต์ยังพูดอยู่ — ต้องเข้าเกมได้ และเสียงสอนต้องหยุด ไม่พูดทับตอนเล่น
     await start.click();
     await page.locator('.gc-board').waitFor();
+    await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
     if (realAudio) {
       const talking = await page.evaluate(() => [...document.querySelectorAll('audio')].some(a => !a.paused));
       assert.equal(talking, false, `เสียงสอนต้องหยุดเมื่อกดเริ่มเล่น ที่ ${width}`);
@@ -126,7 +127,8 @@ try {
     page.on('pageerror', error => errors.push(`sibling: ${error.message}`));
     await page.goto(`${base}/games/color-match`);
     await page.locator('.gc-adventure-intro').waitFor();
-    await page.getByText('พร้อมออกผจญภัยไหม', { exact: false }).waitFor();
+    await page.locator('#gc-adventure-title').waitFor();
+    await page.getByRole('button', { name: /ฟังวิธีเล่น/ }).waitFor();
     await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).waitFor();
     assert.equal(await page.locator('.gc-voice-intro').count(), 0, 'color-match ต้องไม่ใช้หน้าแนะนำแบบเสียง');
     await context.close();

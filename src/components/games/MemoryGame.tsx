@@ -103,8 +103,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         {announcement}
       </p>
       {!started && <div className="mb-6 text-center">
-        <button className={gameButtonClass} onClick={start}>
-          เริ่มเล่น<span lang="en" className="text-sm font-normal">Start</span>
+        <button className={`${gameButtonClass} ui-pill-primary`} onClick={start}>
+          <span>เริ่มเล่น<span lang="en" className="ui-sub">Start</span></span>
         </button>
       </div>}
       {won ? <div className="mx-auto max-w-lg rounded-card scene-copy p-6 text-center">
@@ -116,7 +116,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         <p lang="en" className="text-sm">You found every pair!</p>
         <div className="mt-6 flex flex-wrap justify-center gap-4">
           <button onClick={start} className={gameButtonClass}>
-            <span>เล่นอีกครั้ง<span lang="en" className="block text-xs font-normal">Play again</span></span>
+            <span>เล่นอีกครั้ง<span lang="en" className="ui-sub">Play again</span></span>
           </button>
           <GameNavigation />
         </div>

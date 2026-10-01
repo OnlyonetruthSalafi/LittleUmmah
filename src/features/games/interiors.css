@@ -21,27 +21,19 @@
 .gc-adventure-aura { position: absolute; inset: 5% -3% 0; border-radius: 50%; background: radial-gradient(ellipse, #fff7d5 10%, #fff7d590 42%, transparent 70%); pointer-events: none; }
 .gc-adventure-island { position: relative; width: 100%; aspect-ratio: 1; }
 .gc-adventure-robot { position: absolute; width: 31%; height: auto; left: -2%; bottom: 26px; filter: drop-shadow(0 12px 10px #1e5fbf30); pointer-events: none; }
-.gc-adventure-sign { position: relative; width: fit-content; max-width: 80%; margin: -15px 0 0 auto; padding: 12px 22px; text-align: center; background: #fff7d5; border: 3px solid white; border-radius: 20px; box-shadow: 0 6px 0 #d5b966, var(--shadow-soft); font: 800 22px var(--font-display); }
-.gc-adventure-sign small { display: block; font-size: 14px; }
 .gc-adventure-menu { position: relative; padding: 32px 25px 25px; border: 4px solid white; border-top: 10px solid var(--gc-edge); border-radius: 36px; background: #fff7d5; box-shadow: 0 10px 0 var(--gc-deep-edge), var(--shadow-float); text-align: center; }
-.gc-adventure-kicker { font-size: 14px; font-weight: 700; color: #1e5fbf; margin-bottom: 10px; }
-.gc-adventure-kicker span { display: block; font: 500 13px var(--font-display); }
+.gc-adventure-heading { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.gc-adventure-heading .ui-round { flex-shrink: 0; }
 .gc-adventure-menu h2 { font: 800 clamp(24px, 3vw, 33px)/1.4 var(--font-display); }
-.gc-adventure-description { margin: 12px auto 0; max-width: 360px; font-size: 16px; line-height: 1.7; }
-.gc-adventure-description small { display: block; font-size: 13px; line-height: 1.5; margin-top: 5px; }
 .gc-level-path { margin: 25px 0; min-width: 0; }
 .gc-level-path legend { width: 100%; font-size: 17px; font-weight: 800; margin-bottom: 14px; }
-.gc-level-path legend small { display: block; }
 .gc-level-stones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.gc-level-stone { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; min-height: 150px; min-width: 64px; padding: 12px 5px 18px; border: 3px solid white; background: #eaf6ff; border-radius: 24px; box-shadow: 0 5px 0 #a8d8f5; cursor: pointer; transition: box-shadow 200ms ease-out, border-color 200ms ease-out; }
+.gc-level-stone { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; min-height: 112px; min-width: 64px; padding: 12px 5px 18px; border: 3px solid white; background: #eaf6ff; border-radius: 24px; box-shadow: 0 5px 0 #a8d8f5; cursor: pointer; transition: box-shadow 200ms ease-out, border-color 200ms ease-out; }
 .gc-level-number { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff7d5; border: 2px solid white; color: #1e5fbf; box-shadow: 0 3px 0 #d5b966; font: 800 27px var(--font-display); transition: transform 200ms ease-out; }
 .gc-level-stone strong { font-size: 14px; line-height: 1.4; }
-.gc-level-stone small { font-size: 11px; line-height: 1.4; }
 .gc-level-stone[aria-pressed='true'] { border-color: #1e5fbf; background: #fff; box-shadow: 0 5px 0 #1e5fbf, 0 8px 18px #1e5fbf25; }
 .gc-level-selected { position: absolute; bottom: 0; right: 8px; color: #1e5fbf; font-weight: 800; }
 .gc-adventure-start { width: 100%; font-size: 25px; border-radius: 24px; min-height: 78px; }
-.gc-how-to { margin-top: 20px; font-size: 13px; line-height: 1.6; }
-.gc-how-to small { display: block; font-size: 11px; }
 
 /* Active play: guide, reward track and a large toy workbench. */
 .gc-progress-row { max-width: 740px; margin: 0 auto; border: 3px solid white; background: #fff7d5; box-shadow: 0 4px 0 #d5b966; }
@@ -136,10 +128,8 @@
   .gc-focus[data-game='sequence'] .gc-drop::after { display: none; }
   .gc-adventure-intro { gap: 14px; }
   .gc-adventure-menu { padding: 22px 14px; }
-  .gc-adventure-sign { font-size: 18px; padding: 10px 15px; }
   .gc-level-stones { gap: 7px; }
   .gc-level-stone strong { font-size: 12px; }
-  .gc-level-stone small { font-size: 10px; }
 }
 @media (max-width: 639px) {
   .gc-focus { padding: 12px 12px 35px; }
@@ -149,14 +139,10 @@
   .gc-adventure-scene { width: min(100%, 340px); margin: 0 auto; padding-bottom: 10px; }
   .gc-adventure-island { width: 78%; margin: 0 auto; }
   .gc-adventure-robot { width: 24%; left: 0; bottom: 12px; }
-  .gc-adventure-sign { margin-top: -12px; font-size: 17px; padding: 7px 14px; max-width: 78%; }
-  .gc-adventure-sign small { font-size: 11px; }
   .gc-adventure-menu { padding: 21px 12px 16px; border-radius: 28px; border-top-width: 7px; }
   .gc-adventure-menu h2 { font-size: 24px; }
-  .gc-adventure-description { font-size: 14px; }
-  .gc-adventure-description small { font-size: 12px; }
   .gc-level-path { margin: 18px 0 22px; }
-  .gc-level-stone { min-height: 136px; padding: 10px 3px 16px; border-radius: 19px; }
+  .gc-level-stone { min-height: 100px; padding: 10px 3px 16px; border-radius: 19px; }
   .gc-level-number { width: 40px; height: 40px; font-size: 25px; }
   .gc-adventure-start { min-height: 72px; font-size: 24px; }
   .gc-progress-row { padding: 8px 10px; gap: 8px; }

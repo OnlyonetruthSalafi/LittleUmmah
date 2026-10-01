@@ -11,7 +11,12 @@ export function HubTileLink({ href, slug, nameTh, className, style, children }: 
   href: string; slug: string; nameTh: string; className: string; style?: CSSProperties; children: ReactNode;
 }) {
   const { speak } = useSound();
-  const say = () => speak(nameTh, `name-${slug}`);
+  const say = () => {
+    // หุ่นยนต์กำลังพูดแนะนำเกมอยู่ ไม่อ่านชื่อเกาะทับ (เสียงแนะนำเป็น <audio> แยกใน HubGuide ไม่ผ่าน speak)
+    const intro = document.getElementById('gc-hub-voice');
+    if (intro instanceof HTMLAudioElement && !intro.paused) return;
+    speak(nameTh, `name-${slug}`);
+  };
   return <Link href={href} prefetch={false} className={className} style={style}
     // เลื่อนจอแล้วเกาะเลื่อนมาอยู่ใต้เมาส์ที่นิ่งอยู่ ก็เกิด pointerenter ได้ — ไม่นับ (ดู lib/scrollHover)
     onPointerEnter={event => { if (event.pointerType === 'mouse' && !isScrollHover()) say(); }}

@@ -16,6 +16,7 @@ try {
     for (const level of [1, 2, 3]) {
       if (level > 1) await page.getByRole('button', { name: /ด่านต่อไป/ }).click();
       await page.getByRole('button', { name: /^เริ่มเล่น/ }).click();
+      await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
       await page.locator('.seq-home').first().waitFor();
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}/${level}`);
       const homes = await page.locator('.seq-home').all();
@@ -63,6 +64,7 @@ try {
       console.log(`PASS ${width}px level ${level}: retry, hint, ${width === 1536 ? 'pointer drag' : 'keyboard'}, completion, tap targets`);
     }
     await page.getByRole('button', { name: /เล่นอีกครั้ง/ }).click();
+    await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
     await page.locator('.seq-home').first().waitFor();
     assert.equal(await page.locator('.seq-home[data-filled]').count(), 0);
     await page.getByRole('button', { name: /เริ่มใหม่/ }).click();
