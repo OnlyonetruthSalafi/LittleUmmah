@@ -1,0 +1,693 @@
+/*
+  เกาะมารยาท (/learn/moral) — หน้าตาตาม mock tests/MoralPage.png
+
+  สี: ปุ่ม/ป้ายวัย 3-6 = ทอง ตัวอักษร sun-ink (#4a2600 บน #f7bd35 ≈ 8.5:1)
+      ปุ่ม/ป้ายวัย 7+ = เขียวน้ำทะเล #0f766e ตัวอักษรขาว (5.5:1)
+      พื้นส่วนวัย 3-6 ครีม #fdf4e1, วัย 7+ เขียวอ่อน #e1f3ec — ink 12+:1, ink-soft 6.4+:1
+  motion ตามข้อ 2.1: การ์ดขยับเฉพาะกรอบภาพ ปุ่มยกทั้งปุ่ม เงาเพิ่มตอน hover
+  transform ทุกตัวอยู่ใต้ prefers-reduced-motion: no-preference
+*/
+.mrl-page {
+  --mrl-gold: #f7bd35;
+  --mrl-gold-lip: #d4940f;
+  --mrl-teal: #0f766e;
+  --mrl-teal-lip: #0a4f49;
+  --mrl-focus: #123a72;
+}
+
+/* ── หัวหน้า ── */
+.mrl-hero {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 20px 16px 12px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, #e3f4ff 0%, #f5fbff 70%, #ffffff 100%);
+  box-shadow: var(--shadow-soft);
+  /* หุ่นยนต์วิ่งเข้ามาจากนอกกรอบทางขวา — ตัดส่วนที่ล้นไว้ไม่ให้เกิดเลื่อนหน้าแนวนอน */
+  overflow: clip;
+}
+@media (min-width: 768px) {
+  .mrl-hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    padding: 28px 24px 16px 36px;
+  }
+}
+.mrl-hero-title {
+  display: block;
+  color: var(--color-island-ink);
+  font-size: clamp(2.1rem, 7vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-shadow: 0 3px 0 #fff, 0 6px 14px rgb(30 95 191 / 0.18);
+}
+.mrl-hero-title-en {
+  display: block;
+  color: var(--color-brand-amber);
+  font-size: clamp(1.5rem, 4.5vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+.mrl-hero-intro {
+  margin-top: 10px;
+  font-size: 1.05rem;
+}
+
+.mrl-age-btns {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+/* สองปุ่มเคียงกันเมื่อคอลัมน์ข้อความกว้างพอ — 768-1023px ข้อความอยู่ครึ่งจอ จึงเรียงบนลงล่าง */
+@media (min-width: 480px) and (max-width: 767px), (min-width: 1024px) {
+  .mrl-age-btns { grid-template-columns: 1fr 1fr; }
+}
+.mrl-age-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  padding: 6px 14px 6px 8px;
+  border: 3px solid #fff;
+  border-radius: 22px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.25;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, outline-color 200ms ease-out;
+  outline: 4px solid transparent;
+  outline-offset: 3px;
+}
+.mrl-age-btn-kids {
+  background: linear-gradient(180deg, #ffd65c, var(--mrl-gold));
+  color: var(--color-sun-ink);
+  box-shadow: 0 5px 0 var(--mrl-gold-lip), var(--shadow-soft);
+}
+.mrl-age-btn-juniors {
+  background: linear-gradient(180deg, #0f7a71, #0b6259);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--mrl-teal-lip), var(--shadow-soft);
+}
+.mrl-age-btn-art {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgb(0 0 0 / 0.18));
+}
+@media (hover: hover) {
+  .mrl-age-btn-kids:hover { box-shadow: 0 6px 0 var(--mrl-gold-lip), var(--shadow-float); }
+  .mrl-age-btn-juniors:hover { box-shadow: 0 6px 0 var(--mrl-teal-lip), var(--shadow-float); }
+}
+.mrl-age-btn:focus-visible { outline-color: var(--mrl-focus); }
+/* หุ่นยนต์กำลังชี้ปุ่มนี้ — วงแสงทองค้างไว้ตลอดจังหวะนั้น ไม่กะพริบ */
+.mrl-age-btn[data-guided] {
+  outline-color: #ffb300;
+  box-shadow: 0 0 0 8px rgb(255 214 92 / 0.45), var(--shadow-float);
+}
+/* โฟกัสคีย์บอร์ดต้องเห็นชัดแม้หุ่นยนต์กำลังชี้ปุ่มนี้อยู่ */
+.mrl-age-btn[data-guided]:focus-visible { outline-color: var(--mrl-focus); }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    .mrl-age-btn:hover { transform: translateY(-2px); }
+  }
+  .mrl-age-btn:active { transform: scale(0.98); transition-duration: 75ms; }
+  .mrl-age-btn[data-guided] { transform: translateY(-2px); }
+}
+
+/* ── ภาพเกาะ + หุ่นยนต์นำทาง ──
+   จอแคบกว่า 768px: กรอบเท่าสัดส่วนภาพเกาะ (1063×923 ตัดขอบว่างแล้ว) เกาะจึงชิดปุ่มวัย ไม่เหลือที่ว่าง
+   จอ < 480px ซ่อนบรรทัดอังกฤษในบอลลูนจากสายตา (screen reader ยังอ่าน) บอลลูนจะได้เตี้ยพอไม่บังหุ่นยนต์
+   ตอนพัก: หุ่นยนต์ 36% × 0.75 ≈ 27% ของกรอบ = 69px บนจอ 320px (ต้อง ≥ 64px ข้อ 2) */
+.mrl-hero-art {
+  --g-w: 36%;
+  --g-rest: 0.75;
+  --g-rest-shift: 177.8%;
+  position: relative;
+  aspect-ratio: 1063 / 923;
+  width: 100%;
+  margin-inline: auto;
+}
+@media (min-width: 480px) {
+  .mrl-hero-art { --g-rest: 0.6; }
+}
+@media (min-width: 768px) {
+  .mrl-hero-art {
+    --g-w: 34%;
+    --g-rest: 0.66;
+    --g-rest-shift: 194.1%;
+    aspect-ratio: 3 / 2.3;
+  }
+}
+/* จอกว้าง: กรอบภาพใหญ่ขึ้น ย่อหุ่นยนต์ตอนพักลงได้อีก (~100px ที่ 1280px) */
+@media (min-width: 1024px) {
+  .mrl-hero-art { --g-rest: 0.56; }
+}
+.mrl-hero-island {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  pointer-events: none;
+}
+
+.mrl-guide {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: var(--g-w);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: none;
+  cursor: pointer;
+  transform-origin: 100% 100%;
+  /* ตำแหน่งพัก: ชิดขวาล่าง ตัวเล็กลง — translate คิดเป็น % ของตัวเอง: (100/w − 1) × 100% */
+  transform: translateX(var(--g-rest-shift)) scale(var(--g-rest));
+  filter: drop-shadow(0 10px 10px rgb(30 95 191 / 0.25));
+}
+.mrl-guide:focus-visible {
+  outline: 4px solid var(--mrl-focus);
+  outline-offset: 2px;
+}
+.mrl-guide-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.mrl-guide[data-pose="stand"] .mrl-guide-stand,
+.mrl-guide[data-pose="point"] .mrl-guide-point,
+.mrl-guide[data-pose="wave"] .mrl-guide-wave-1 { opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .mrl-guide {
+    transition: transform 1300ms cubic-bezier(0.3, 0.7, 0.3, 1), filter 200ms ease-out;
+  }
+  .mrl-guide[data-phase="off"] { transform: translateX(330%); transition: none; }
+  .mrl-guide[data-phase="tour"] { transform: translateX(4%); }
+  /* โบกมือ: สลับสองเฟรม 4 รอบแล้วค้างที่เฟรมแรก — จบในตัว ไม่วนตลอด (ข้อ 2.1) */
+  .mrl-guide[data-pose="wave"] .mrl-guide-wave-1 { animation: mrl-wave-a 1600ms steps(1, end) 1 both; }
+  .mrl-guide[data-pose="wave"] .mrl-guide-wave-2 { animation: mrl-wave-b 1600ms steps(1, end) 1 both; }
+}
+/* แตะหุ่นยนต์: สว่างขึ้นทันที ไม่ใช้ transform จึงไม่ไปรบกวนตำแหน่งพัก และยังทำงานตอนปิด motion */
+.mrl-guide:active { filter: brightness(1.12) drop-shadow(0 6px 6px rgb(30 95 191 / 0.35)); transition-duration: 75ms; }
+@media (hover: hover) {
+  .mrl-guide[data-phase="rest"]:hover { filter: drop-shadow(0 14px 14px rgb(30 95 191 / 0.4)); }
+}
+@keyframes mrl-wave-a {
+  0%, 25%, 50%, 75% { opacity: 1; }
+  12.5%, 37.5%, 62.5%, 87.5% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes mrl-wave-b {
+  0%, 25%, 50%, 75% { opacity: 0; }
+  12.5%, 37.5%, 62.5%, 87.5% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* บอลลูนคำพูด มุมขวาบนของกรอบภาพ หางชี้ลงซ้ายไปหาหุ่นยนต์ */
+.mrl-bubble {
+  position: absolute;
+  top: 2%;
+  right: 1%;
+  z-index: 3;
+  width: min(96%, 360px);
+  padding: 12px 16px;
+  border: 3px solid #cfe3f1;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--shadow-float);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out, visibility 0s linear 200ms;
+}
+.mrl-bubble[data-show] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease-out;
+}
+.mrl-bubble::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  bottom: -14px;
+  width: 22px;
+  height: 22px;
+  border: solid #cfe3f1;
+  border-width: 0 3px 3px 0;
+  background: #fff;
+  transform: rotate(45deg) skew(10deg, 10deg);
+}
+@media (min-width: 1024px) {
+  .mrl-bubble { width: 66%; }
+  .mrl-bubble::after { left: 10%; }
+}
+
+/* ── ส่วนของแต่ละช่วงวัย ── */
+.mrl-section {
+  margin-top: 28px;
+  padding: 18px 14px 20px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+@media (min-width: 640px) {
+  .mrl-section { padding: 22px 24px 26px; }
+}
+.mrl-section-kids { background: #fdf4e1; }
+.mrl-section-juniors { background: #e1f3ec; }
+.mrl-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-bottom: 18px;
+}
+.mrl-age-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 22px 4px 8px;
+  border-radius: 999px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  box-shadow: var(--shadow-soft);
+}
+.mrl-section-kids .mrl-age-badge { background: linear-gradient(180deg, #ffd65c, var(--mrl-gold)); color: var(--color-sun-ink); }
+/* ขาวบนเขียวน้ำทะเลทั้งช่วงไล่สี ≥ 5.2:1 (ตัวอังกฤษเล็กต้อง ≥ 4.5:1) */
+.mrl-section-juniors .mrl-age-badge { background: linear-gradient(180deg, #0f7a71, #0b6259); color: #fff; }
+.mrl-age-badge-art { width: 60px; height: 60px; object-fit: contain; }
+.mrl-section-desc { flex: 1 1 220px; font-weight: 600; }
+.mrl-mission {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 260px;
+  padding: 8px 16px 10px 10px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.mrl-mission-bar {
+  display: block;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+.mrl-mission-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 300ms ease-out;
+}
+.mrl-section-kids .mrl-mission-bar > span { background: #f5a623; }
+.mrl-section-juniors .mrl-mission-bar > span { background: #10a37f; }
+
+.mrl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (min-width: 1024px) {
+  .mrl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+}
+
+/* การ์ดบทเรียน: ปุ่มทั้งใบ */
+.mrl-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 8px 8px 10px;
+  border: 3px solid #fff;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out;
+}
+@media (hover: hover) {
+  .mrl-card:hover { box-shadow: var(--shadow-float); }
+}
+.mrl-card:focus-visible {
+  outline: 4px solid var(--mrl-focus);
+  outline-offset: 3px;
+}
+/* กรอบภาพขนาดคงที่ 4:3 ตัดส่วนล้นที่กรอบภาพเท่านั้น (ข้อ 2.1) */
+.mrl-card-art {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  /* ตัวอาหรับบนบอลลูนย่อ/ขยายตามความกว้างของภาพ */
+  container-type: inline-size;
+  transition: transform 200ms ease-out;
+}
+.mrl-card-art img { width: 100%; height: 100%; object-fit: cover; }
+.mrl-card-bubble {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 2;
+  color: var(--color-island-ink);
+  font-size: 9cqi;
+  font-weight: 700;
+  line-height: 1;
+}
+.mrl-card-title {
+  display: block;
+  margin-top: 10px;
+  color: var(--color-ink);
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.mrl-card-title [lang="en"] {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+.mrl-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+  padding: 10px 4px 0;
+}
+.mrl-card-play { width: 40px; height: 40px; flex-shrink: 0; }
+.mrl-card-stars svg { width: 20px; height: 20px; }
+@media (min-width: 400px) {
+  .mrl-card-play { width: 44px; height: 44px; }
+  .mrl-card-stars svg { width: 24px; height: 24px; }
+}
+.mrl-section-kids .mrl-card-play { fill: #e08c0b; }
+.mrl-section-juniors .mrl-card-play { fill: var(--mrl-teal); }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    .mrl-card:hover .mrl-card-art { transform: translateY(-4px) scale(1.03); }
+  }
+  .mrl-card:active .mrl-card-art { transform: scale(0.98); transition-duration: 75ms; }
+}
+
+/* หน้าต่างบทเรียน */
+.mrl-dialog {
+  width: min(560px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: #fff;
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float);
+}
+.mrl-dialog::backdrop { background: rgb(18 58 114 / 0.55); }
+.mrl-dialog-body { padding: 14px 18px 20px; }
+.mrl-dialog-art {
+  display: block;
+  aspect-ratio: 4 / 3;
+  max-height: 34dvh;
+  margin: 0 auto 12px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.mrl-dialog-art img { width: 100%; height: 100%; object-fit: cover; }
+.mrl-dialog-arabic {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-card-sm);
+  background: var(--color-sky-pale);
+}
+
+/* ── ไปเกาะอื่นกัน ── */
+.mrl-others {
+  margin-top: 32px;
+  padding: 18px 14px 22px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.92), rgb(234 246 255 / 0.92));
+  box-shadow: var(--shadow-soft);
+}
+.mrl-others-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-bottom: 14px;
+}
+.mrl-others-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .mrl-others-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .mrl-others-list { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.mrl-island {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-radius: 22px;
+}
+.mrl-island:focus-visible {
+  outline: 4px solid var(--mrl-focus);
+  outline-offset: 3px;
+}
+.mrl-island-art {
+  display: block;
+  width: 88%;
+  aspect-ratio: 1;
+  transition: transform 200ms ease-out;
+}
+.mrl-island-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 10px rgb(30 95 191 / 0.2));
+}
+.mrl-island-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 64px;
+  margin-top: -14px;
+  padding: 6px 10px 6px 14px;
+  border: 2px solid #d3e3ed;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--color-ink);
+  box-shadow: 0 4px 0 #d1e2ec, var(--shadow-soft);
+  text-align: left;
+  transition: box-shadow 200ms ease-out;
+}
+.mrl-island-chev {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--color-sky-pale);
+  color: var(--color-brand-blue);
+}
+@media (hover: hover) {
+  .mrl-island:hover .mrl-island-label { box-shadow: 0 5px 0 #d1e2ec, var(--shadow-float); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    .mrl-island:hover .mrl-island-art { transform: translateY(-4px) scale(1.03); }
+  }
+  .mrl-island:active .mrl-island-art { transform: scale(0.98); transition-duration: 75ms; }
+}
+
+/* จอแคบ: บรรทัดอังกฤษในบอลลูนเหลือไว้ให้ screen reader เท่านั้น (เสียงหุ่นยนต์ + ข้อความไทยบอกครบแล้ว) */
+@media (max-width: 479px) {
+  .mrl-bubble-en {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ── การ์ตูนครูนูรี (CartoonLesson) ── */
+.mrl-cartoon { width: min(900px, calc(100vw - 16px)); }
+.mrl-cartoon-body { padding: 12px 14px 16px; }
+@media (min-width: 640px) {
+  .mrl-cartoon-body { padding: 16px 22px 20px; }
+}
+.mrl-cartoon-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.mrl-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--color-sky-pale);
+}
+.mrl-stage-bg {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+.mrl-stage-bg[data-active] { opacity: 1; }
+
+/* ป้ายคำที่สอน กลางด้านบน ทองตัวอักษรน้ำตาลเข้ม (sun-ink บนทอง ≈ 8.5:1) */
+.mrl-stage-word {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 22px 6px;
+  border: 3px solid #fff;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffd65c, var(--mrl-gold));
+  color: var(--color-sun-ink);
+  box-shadow: var(--shadow-soft);
+  transform: translateX(-50%);
+  transition: box-shadow 200ms ease-out, transform 300ms ease-out;
+}
+.mrl-stage-word [lang="ar"] { font-size: clamp(1.4rem, 4.5vw, 2.4rem); font-weight: 700; line-height: 1.5; }
+.mrl-stage-word-th { font-family: var(--font-display); font-size: clamp(0.85rem, 2.2vw, 1.1rem); font-weight: 800; }
+/* จังหวะให้เด็กพูดตาม: วงแสงรอบป้ายค้างไว้ (ไม่กะพริบ) */
+.mrl-stage[data-say] .mrl-stage-word { box-shadow: 0 0 0 6px rgb(255 214 92 / 0.55), var(--shadow-float); }
+
+.mrl-nuri {
+  position: absolute;
+  right: 1%;
+  bottom: 1%;
+  z-index: 2;
+  width: 30%;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 10px 10px rgb(30 95 191 / 0.3));
+}
+.mrl-nuri[data-pose="stand"] .mrl-guide-stand,
+.mrl-nuri[data-pose="point"] .mrl-guide-point,
+.mrl-nuri[data-pose="wave"] .mrl-guide-wave-1 { opacity: 1; }
+
+.mrl-say {
+  position: absolute;
+  left: 3%;
+  bottom: 4%;
+  z-index: 3;
+  max-width: 62%;
+  padding: 8px 16px;
+  border: 3px solid #cfe3f1;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--color-island-ink);
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.8vw, 1.35rem);
+  font-weight: 800;
+  box-shadow: var(--shadow-float);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ภาพฉากค่อยๆ ขยายครั้งเดียวต่อฉาก แล้วหยุด */
+  .mrl-stage-bg[data-active] { animation: mrl-kenburns 9s ease-out both; }
+  .mrl-stage[data-say] .mrl-stage-word { transform: translateX(-50%) scale(1.06); }
+  .mrl-nuri[data-enter] { animation: mrl-nuri-in 1100ms cubic-bezier(0.3, 0.7, 0.3, 1) both; }
+  .mrl-nuri[data-pose="wave"] .mrl-guide-wave-1 { animation: mrl-wave-a 1600ms steps(1, end) 1 both; }
+  .mrl-nuri[data-pose="wave"] .mrl-guide-wave-2 { animation: mrl-wave-b 1600ms steps(1, end) 1 both; }
+  .mrl-say { animation: mrl-pop 250ms ease-out both; }
+}
+@keyframes mrl-kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+@keyframes mrl-nuri-in {
+  from { transform: translateX(110%); }
+  to { transform: none; }
+}
+@keyframes mrl-pop {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ข้อความใต้ภาพ — สูงคงที่ ปุ่มข้างล่างไม่กระโดดเวลาเปลี่ยนฉาก */
+.mrl-cartoon-caption {
+  min-height: 6.2em;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-card-sm);
+  background: var(--color-sky-pale);
+  line-height: 1.5;
+}
+.mrl-cartoon-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+.mrl-cartoon-controls button:disabled { opacity: 0.4; cursor: default; }
+.mrl-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.mrl-dots li {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+.mrl-dots li[data-done] { background: #94a3b8; }
+.mrl-dots li[data-on] { width: 26px; background: var(--color-brand-blue); }
+
+.mrl-say-caption {
+  margin-top: 4px;
+  color: var(--color-island-ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+@media (max-width: 639px) {
+  .mrl-say { display: none; }
+  .mrl-stage-word { top: 3%; padding: 2px 14px 4px; border-width: 2px; }
+  .mrl-cartoon-head .ui-pill { padding-inline: 14px; }
+}
+@media (min-width: 640px) {
+  /* จอกว้างบอกบนฉากแล้ว บรรทัดนี้เหลือไว้ให้ screen reader */
+  .mrl-say-caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

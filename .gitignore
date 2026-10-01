@@ -51,6 +51,9 @@ next-env.d.ts
 /public/games/common/backgrounds/*.png
 /public/games/memorygame/*.png
 /public/games/shapegame/*.png
+/public/moral/*.png
+/public/moral/guide/*.png
+/public/moral/bismillah/*.png
 /public/games/sequence/*.png
 /public/games/light-maze/*.png
 /public/games/light-maze/v2/**/*.png
