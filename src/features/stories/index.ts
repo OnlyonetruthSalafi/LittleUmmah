@@ -1,8 +1,10 @@
+import { MUSA_STORY } from "./data/musa";
 import { NUH_STORY } from "./data/nuh";
+import { YUNUS_STORY } from "./data/yunus";
 import type { Story } from "./types";
 
 /** นิทานทั้งหมด — เพิ่มเรื่องใหม่ที่นี่ แล้วหน้า /learn/stories/<slug> จะถูกสร้างตอน build */
-export const STORIES: Story[] = [NUH_STORY];
+export const STORIES: Story[] = [NUH_STORY, YUNUS_STORY, MUSA_STORY];
 
 export function getStory(slug: string) {
   return STORIES.find((s) => s.slug === slug);

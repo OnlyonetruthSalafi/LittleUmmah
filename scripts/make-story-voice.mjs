@@ -10,7 +10,7 @@
   ── บทพูดมาจากไหน ───────────────────────────────────────────────
   ไฟล์เสียงชุดแรก (commit 2f155b4) สร้างโดยไม่มีสคริปต์เก็บไว้
   ข้อความที่ป้อน ElevenLabs จริงๆ ตอนนั้นจึงย้อนดูไม่ได้แล้ว
-  สคริปต์นี้ถือ NUH_STORY ใน src/features/stories/data/nuh.ts เป็นต้นฉบับนับจากนี้
+  สคริปต์นี้ถือไฟล์ข้อมูลนิทานใน src/features/stories/data/<slug>.ts เป็นต้นฉบับนับจากนี้
   และประกอบบทพูดแบบเดียวกับที่ StoryBook.tsx เล่นจริง
     ปก (p00) = titleTh
     หน้าอื่น = th ... reading ... meaning (เฉพาะที่มี) คั่นด้วย " ... "
@@ -26,14 +26,14 @@
     เครื่องนี้ไม่มี ffmpeg ส่วนกลาง ให้ชี้ที่ ffmpeg-static:
       FFMPEG=<path ของ ffmpeg.exe> node scripts/make-story-voice.mjs p06
 
+    --story=<slug> เลือกเรื่อง (nuh yunus musa) ไม่ใส่ = nuh
     <ชื่อหน้า...>   เลือกเฉพาะบางหน้า (p00 p06 p08b ...) ไม่ใส่ = ทุกหน้า
-    --takes=N      อัด N เทคต่อหน้า ลง output/story-voice/ ให้เลือกฟัง ไม่ทับของจริง
+    --takes=N      อัด N เทคต่อหน้า ลง output/story-voice/<slug>/ ให้เลือกฟัง ไม่ทับของจริง
     --fix          ใช้ SPEECH_FIXES สะกดใหม่ก่อนป้อน TTS (ปกติไม่ใช้)
 */
 
 import path from "node:path";
 
-import { NUH_STORY } from "../src/features/stories/data/nuh.ts";
 import { renderRobotLines } from "./lib/robot-voice.mjs";
 
 /*
@@ -64,8 +64,10 @@ const pageLine = page => [page.th, page.reading, page.meaning].filter(Boolean).j
 /** ชื่อไฟล์เสียงผูกกับชื่อไฟล์ภาพ ตรงกับ narrationSrc ใน features/stories/index.ts */
 const pageKey = page => page.image.split("/").pop().replace(/\.\w+$/, "");
 
-const story = NUH_STORY;
 const args = process.argv.slice(2);
+const slug = args.find(arg => arg.startsWith("--story="))?.slice("--story=".length) ?? "nuh";
+// ไฟล์ข้อมูลนิทานมี export เดียว (import แค่ type) Node จึงโหลด .ts ได้ตรงๆ
+const story = Object.values(await import(`../src/features/stories/data/${slug}.ts`))[0];
 const takesArg = args.find(arg => arg.startsWith("--takes="));
 const useFixes = args.includes("--fix");
 const only = args.filter(arg => !arg.startsWith("--"));
@@ -88,8 +90,8 @@ if (takesArg) {
   for (const key of keys) {
     for (let i = 1; i <= takes; i++) lines[`${key}-เทค${i}`] = ALL[key];
   }
-  console.log(`อัด ${takes} เทคต่อหน้า ${keys.length} หน้า ลง output/story-voice/ (ไม่ทับไฟล์จริง)\n`);
-  await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice"));
+  console.log(`อัด ${takes} เทคต่อหน้า ${keys.length} หน้า ลง output/story-voice/${slug}/ (ไม่ทับไฟล์จริง)\n`);
+  await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice", slug));
 } else {
   await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "stories", story.slug), keys);
 }

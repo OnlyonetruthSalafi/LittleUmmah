@@ -36,7 +36,7 @@ try {
 
     // หนังสือ "เร็วๆ นี้" แตะแล้วไม่ไปไหน ป้ายใต้ตู้บอกชื่อเรื่อง
     // aria-disabled ทำให้ Playwright ไม่ยอมคลิกเอง แต่ในหน้าจริงแตะได้และต้องมีผลตอบรับ
-    await cells.nth(1).click({ force: true });
+    await page.locator('.bs-shelf:visible .bs-cell[aria-disabled="true"]').first().click({ force: true });
     assert.match(page.url(), /\/learn\/stories$/);
     assert.match(await page.locator('.bs-stage [aria-live="polite"]').innerText(), /เร็วๆ นี้/);
 
