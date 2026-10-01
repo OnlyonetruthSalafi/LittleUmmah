@@ -11,7 +11,7 @@ import type { Lesson } from "@/lib/lessons";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { CARTOONS, SAY_ALONG_MS } from "../cartoon";
+import { CARTOONS, SAY_ALONG_MS, sayPrompt } from "../cartoon";
 
 /*
   การ์ตูนบทเรียน — ครูหุ่นยนต์นูรีพาไปดูเหตุการณ์ทีละฉาก (ข้อมูลใน cartoon.ts)
@@ -27,7 +27,7 @@ import { CARTOONS, SAY_ALONG_MS } from "../cartoon";
 type Status = "playing" | "paused" | "ended";
 
 export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: () => void }) {
-  const scenes = CARTOONS[lesson.id];
+  const { scenes, word: lessonWord } = CARTOONS[lesson.id];
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
   const [status, setStatus] = useState<Status>("playing");
@@ -93,6 +93,8 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
 
   const scene = scenes[index];
   const firstScene = index === 0 && take <= 1;
+  // ป้ายคำของฉาก: ฉากกำหนดเองได้ (null = ไม่มีป้าย) ไม่งั้นใช้ป้ายของบท ยกเว้นฉากแรกที่เป็นการทักทาย
+  const word = scene.word !== undefined ? scene.word : index > 0 ? lessonWord : undefined;
 
   const togglePlay = () => {
     if (status === "playing") {
@@ -150,12 +152,12 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
             ) : null,
           )}
           {/* ป้ายคำที่สอน — ข้อความจริง ไม่ฝังในภาพ (ข้อ 1.5) */}
-          {index > 0 && (
+          {word && (
             <p className="mrl-stage-word" key={`w-${index}-${take}`}>
               <span lang="ar" dir="rtl">
-                بِسْمِ اللَّهِ
+                {word.ar}
               </span>
-              <span className="mrl-stage-word-th">บิสมิลลาฮ์</span>
+              <span className="mrl-stage-word-th">{word.th}</span>
             </p>
           )}
           <div className="mrl-nuri" data-enter={firstScene || undefined} data-pose={scene.pose} key={`n-${scene.pose}-${index}-${take}`}>
@@ -170,9 +172,9 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
               />
             ))}
           </div>
-          {sayAlong && (
+          {sayAlong && word && (
             <p className="mrl-say" aria-hidden="true">
-              ตาหนูแล้ว! พูดว่า บิสมิลลาฮ์
+              {sayPrompt(word)}
             </p>
           )}
         </div>
@@ -184,7 +186,7 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
             {scene.en}
           </p>
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
-          {sayAlong && <p className="mrl-say-caption">ตาหนูแล้ว! พูดว่า บิสมิลลาฮ์</p>}
+          {sayAlong && word && <p className="mrl-say-caption">{sayPrompt(word)}</p>}
         </div>
 
         <div className="mrl-cartoon-controls">

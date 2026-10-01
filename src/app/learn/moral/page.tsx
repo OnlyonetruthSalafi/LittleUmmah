@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
 import { MoralHero } from "@/features/moral/components/MoralHero";
 import { MoralSection } from "@/features/moral/components/MoralLessons";
-import { OtherIslands } from "@/features/moral/components/OtherIslands";
+import { OtherIslands } from "@/components/islands/OtherIslands";
 import { CATEGORIES } from "@/lib/categories";
 import { getIslandContent } from "@/lib/lessons";
 

@@ -11,15 +11,15 @@
   background: radial-gradient(ellipse at 50% 45%, rgb(255 214 120 / 0.55), rgb(255 214 120 / 0) 65%);
   pointer-events: none;
 }
-.bs-shelf { position: relative; width: 100%; container-type: inline-size; }
-/* ตัวอักษรบนตู้ใช้หน่วย cqw ให้โตตามความกว้างตู้ ไม่ใช่ตามจอ จึงพอดีป้ายทั้งตู้กว้างและตู้สูง */
-.bs-shelf[data-variant="tall"] { display: none; width: min(100%, 520px); margin-inline: auto; }
-@media (max-width: 639px) {
-  .bs-shelf[data-variant="wide"] { display: none; }
-  .bs-shelf[data-variant="tall"] { display: block; }
+/* สองตู้ (วัย 3-6 ปี / 7 ปีขึ้นไป): จอกว้างวางคู่กัน จอแคบเรียงบนล่าง */
+.bs-cabinets { position: relative; display: grid; gap: 28px; }
+@media (min-width: 900px) {
+  .bs-cabinets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 }
+.bs-shelf { position: relative; width: 100%; max-width: 620px; margin-inline: auto; container-type: inline-size; }
 .bs-art { object-fit: contain; filter: drop-shadow(0 24px 30px rgb(60 35 5 / 0.35)); }
 
+/* ตัวอักษรบนตู้ใช้หน่วย cqw ให้โตตามความกว้างตู้ ไม่ใช่ตามจอ */
 .bs-plaque {
   position: absolute;
   display: grid;
@@ -29,10 +29,8 @@
   font-family: var(--font-display);
   line-height: 1.1;
 }
-.bs-plaque-th { font-weight: 800; font-size: 3.4cqw; }
-.bs-shelf[data-variant="tall"] .bs-plaque-th { font-size: 5.6cqw; }
-.bs-plaque-en { font-weight: 700; font-size: max(11px, 1.5cqw); color: var(--color-island-ink-soft); }
-.bs-shelf[data-variant="tall"] .bs-plaque-en { font-size: max(11px, 2.8cqw); }
+.bs-plaque-th { font-weight: 800; font-size: max(15px, 3.6cqw); }
+.bs-plaque-en { font-weight: 700; font-size: max(11px, 1.8cqw); color: var(--color-island-ink-soft); }
 
 .bs-row { position: absolute; display: grid; padding-inline: 2%; column-gap: 2%; }
 
@@ -126,25 +124,6 @@
   border-radius: 4px;
 }
 
-/* ป้ายช่วงวัย ห้อยจากไม้ชั้นตรงกลาง */
-.bs-tag {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  translate: -50% 12%;
-  white-space: nowrap;
-  padding: 2px 12px;
-  border-radius: 999px;
-  background: #fffaf0;
-  border: 2px solid #e9bf55;
-  color: var(--color-island-ink);
-  font-weight: 700;
-  font-size: clamp(10px, 1.3vw, 15px);
-  box-shadow: 0 3px 8px rgb(60 35 5 / 0.3);
-  pointer-events: none;
-  z-index: 2;
-}
-
 @media (hover: hover) {
   .bs-cell:not([aria-disabled="true"]):hover .bs-book { filter: drop-shadow(0 14px 12px rgb(40 20 0 / 0.5)); }
 }
@@ -168,6 +147,5 @@
 .bs-fly .bs-book { height: 100%; width: 100%; transform: none; filter: drop-shadow(0 30px 30px rgb(0 0 0 / 0.45)); }
 
 @media (max-width: 639px) {
-  .bs-tag { padding: 1px 8px; }
   .bs-row { padding-inline: 4%; column-gap: 6%; }
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ValueBar } from "@/components/landing/ValueBar";
+import { OtherIslands } from "@/components/islands/OtherIslands";
 import { BackLink } from "@/components/ui/BackLink";
 import { Bookshelf } from "@/features/stories/components/Bookshelf";
 import { shelfBooks } from "@/features/stories/shelf";
@@ -24,10 +24,7 @@ export default function StoriesIslandPage() {
       </h1>
       <Bookshelf kids={kids} juniors={juniors} introTh={island?.introTh ?? ""} introEn={island?.introEn ?? ""} />
 
-      <div className="mt-12">
-        <h2 className="font-display mb-4 text-center text-2xl font-bold">ไปเกาะอื่นกัน</h2>
-        <ValueBar />
-      </div>
+      <OtherIslands current="stories" />
     </>
   );
 }

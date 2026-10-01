@@ -10,7 +10,7 @@ import type { Lesson } from "@/lib/lessons";
 import { stopAllSpeech } from "@/lib/speech";
 
 import { CARTOONS } from "../cartoon";
-import { AGE_SECTIONS, CARD_ART, CARD_BUBBLE, type AgeId } from "../data";
+import { AGE_SECTIONS, CARD_ART, CARD_BUBBLE, LESSON_OPEN_EVENT, type AgeId } from "../data";
 import { markPractised, useMoralProgress } from "../progress";
 import { CartoonLesson } from "./CartoonLesson";
 
@@ -38,6 +38,8 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
     [lesson.titleTh, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
+    // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
+    window.dispatchEvent(new Event(LESSON_OPEN_EVENT));
     markPractised(lesson.id);
     if (CARTOONS[lesson.id]) {
       setCartoon(lesson);

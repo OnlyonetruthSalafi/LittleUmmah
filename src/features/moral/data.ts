@@ -19,6 +19,10 @@ export const CARD_ART: Record<string, string> = {
   truth: "/moral/card-truth.webp",
   sneeze: "/moral/card-sneeze.webp",
   animals: "/moral/card-animals.webp",
+  thanks: "/moral/card-thanks.webp",
+  share: "/moral/card-share.webp",
+  permission: "/moral/card-permission.webp",
+  calm: "/moral/card-calm.webp",
 };
 
 /**
@@ -96,3 +100,6 @@ export const GUIDE_STEPS: {
     ms: 6000,
   },
 ];
+
+/** ส่งตอนเด็กแตะการ์ดบทเรียน ให้หุ่นยนต์แนะนำหน้าหยุดพูดทันที เสียงจะได้ไม่ทับเสียงในบทเรียน */
+export const LESSON_OPEN_EVENT = "lu-moral-lesson-open";

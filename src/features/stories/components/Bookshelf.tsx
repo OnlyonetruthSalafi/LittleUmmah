@@ -9,13 +9,14 @@ import { LessonIcon } from "@/components/icons/LessonIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { AGE_GROUPS } from "@/lib/games";
 
-import { SHELF_TALL, SHELF_WIDE, type ShelfArt, type ShelfBook } from "../shelf";
+import { SHELF_WIDE, type ShelfArt, type ShelfBook } from "../shelf";
 import "../bookshelf.css";
 
 /*
   ตู้หนังสือของเกาะเรื่องเล่า
 
-  - ภาพตู้สองแบบ: กว้าง (2 ชั้น x 4 เล่ม) สำหรับจอ ≥ 640px และสูง (4 ชั้น x 2 เล่ม) สำหรับมือถือ
+  - ตู้แยกตามช่วงวัย (เจ้าของโปรเจกต์สั่ง 2 ต.ค. 2026): ตู้วัย 3-6 ปี กับตู้วัย 7 ปีขึ้นไป ป้ายบนตู้บอกช่วงวัย
+    ใช้ภาพตู้กว้าง (2 ชั้น) ทั้งสองตู้ เล่มแบ่งครึ่งบนครึ่งล่าง จอกว้างวางสองตู้คู่กัน จอแคบเรียงบนล่าง
     ช่องที่กดได้คือทั้งช่องบนชั้น ไม่ใช่แค่ตัวหนังสือ จึงได้ ≥ 64px แม้หนังสือบนมือถือจะเล็ก
   - กดหนังสือที่มีนิทาน: หนังสือถูกดึงออกจากชั้น หันเข้าหาจอ แล้วลอยมาขยายกลางจอ
     ขนาดปลายทางเท่าปกหนังสือในหน้านิทาน แล้วจึงเปลี่ยนหน้า (?play=1 ให้เริ่มเล่นเอง)
@@ -101,30 +102,36 @@ function FlyingBook({ flying, onDone }: { flying: Flying; onDone: () => void }) 
 
 function Shelf({
   art,
+  label,
   rows,
-  variant,
+  cols,
   onOpen,
   onPick,
   flyingId,
 }: {
   art: ShelfArt;
-  rows: { books: ShelfBook[]; offset: number; ageLabel?: { th: string; en: string } }[];
-  variant: "wide" | "tall";
+  label: { th: string; en: string };
+  rows: { books: ShelfBook[]; offset: number }[];
+  cols: number;
   onOpen: (e: MouseEvent<HTMLAnchorElement>, book: ShelfBook, tint: string) => void;
   onPick: (book: ShelfBook) => void;
   flyingId?: string;
 }) {
   return (
-    <div className="bs-shelf" data-variant={variant} style={{ aspectRatio: `${art.width} / ${art.height}` }}>
-      <Image src={art.src} alt="" fill priority sizes="(max-width: 639px) 100vw, 1100px" className="bs-art" />
+    <section
+      aria-label={`ตู้หนังสือ ${label.th}`}
+      className="bs-shelf"
+      style={{ aspectRatio: `${art.width} / ${art.height}` }}
+    >
+      <Image src={art.src} alt="" fill priority sizes="(max-width: 899px) 100vw, 560px" className="bs-art" />
 
       <div
         className="bs-plaque"
         style={{ left: `${art.plaque.l}%`, right: `${art.plaque.r}%`, top: `${art.plaque.t}%`, bottom: `${art.plaque.b}%` }}
       >
-        <span className="bs-plaque-th">เรื่องเล่า</span>
+        <span className="bs-plaque-th">{label.th}</span>
         <span className="bs-plaque-en" lang="en">
-          Stories
+          Stories · {label.en}
         </span>
       </div>
 
@@ -137,7 +144,7 @@ function Shelf({
             right: `${art.r}%`,
             top: `${art.rows[r].t}%`,
             height: `${art.rows[r].b - art.rows[r].t}%`,
-            gridTemplateColumns: `repeat(${row.books.length}, minmax(0, 1fr))`,
+            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
           }}
         >
           {row.books.map((book, i) => {
@@ -175,15 +182,9 @@ function Shelf({
               </button>
             );
           })}
-          {row.ageLabel && (
-            <span className="bs-tag">
-              {row.ageLabel.th}
-              <span lang="en"> · {row.ageLabel.en}</span>
-            </span>
-          )}
         </div>
       ))}
-    </div>
+    </section>
   );
 }
 
@@ -195,8 +196,13 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
 
   const age = (id: "kids" | "juniors") => {
     const g = AGE_GROUPS.find((a) => a.id === id);
-    return g ? { th: g.nameTh, en: g.nameEn } : undefined;
+    return g ? { th: g.nameTh, en: g.nameEn } : { th: id, en: id };
   };
+  // หนึ่งตู้ = หนึ่งช่วงวัย เล่มแบ่งครึ่งบนครึ่งล่าง (เล่มที่เกินครึ่งอยู่ชั้นบน)
+  const cabinets = [
+    { id: "kids" as const, books: kids, offset: 0 },
+    { id: "juniors" as const, books: juniors, offset: 4 },
+  ];
 
   useEffect(() => {
     for (const b of [...kids, ...juniors]) if (b.href) router.prefetch(b.href);
@@ -229,30 +235,26 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
     <section aria-label="ตู้หนังสือนิทาน" className="bs-stage">
       <div className="bs-glow" aria-hidden="true" />
 
-      <Shelf
-        art={SHELF_WIDE}
-        variant="wide"
-        rows={[
-          { books: kids, offset: 0, ageLabel: age("kids") },
-          { books: juniors, offset: 4, ageLabel: age("juniors") },
-        ]}
-        onOpen={open}
-        onPick={pick}
-        flyingId={flying?.book.id}
-      />
-      <Shelf
-        art={SHELF_TALL}
-        variant="tall"
-        rows={[
-          { books: kids.slice(0, 2), offset: 0, ageLabel: age("kids") },
-          { books: kids.slice(2), offset: 2 },
-          { books: juniors.slice(0, 2), offset: 4, ageLabel: age("juniors") },
-          { books: juniors.slice(2), offset: 6 },
-        ]}
-        onOpen={open}
-        onPick={pick}
-        flyingId={flying?.book.id}
-      />
+      <div className="bs-cabinets">
+        {cabinets.map(({ id, books, offset }) => {
+          const cols = Math.max(1, Math.ceil(books.length / 2));
+          return (
+            <Shelf
+              key={id}
+              art={SHELF_WIDE}
+              label={age(id)}
+              cols={cols}
+              rows={[
+                { books: books.slice(0, cols), offset },
+                { books: books.slice(cols), offset: offset + cols },
+              ]}
+              onOpen={open}
+              onPick={pick}
+              flyingId={flying?.book.id}
+            />
+          );
+        })}
+      </div>
 
       {/* ป้ายชื่อเรื่องใต้ตู้: หนังสือบนชั้นเล็กเกินจะใส่ชื่อ จึงแสดงชื่อเล่มที่ชี้/แตะอยู่ที่นี่ */}
       <div className="scene-copy shadow-soft rounded-card mx-auto mt-6 flex max-w-3xl items-center gap-4 p-4 sm:p-5">

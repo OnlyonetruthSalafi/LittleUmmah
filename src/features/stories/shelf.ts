@@ -64,18 +64,3 @@ export const SHELF_WIDE: ShelfArt = {
     { t: 57.4, b: 80.6 },
   ],
 };
-
-export const SHELF_TALL: ShelfArt = {
-  src: "/stories/shelf/shelf-tall.webp",
-  width: 1024,
-  height: 1536,
-  plaque: { l: 30, r: 29.5, t: 4.2, b: 87.6 },
-  l: 25.5,
-  r: 25.3,
-  rows: [
-    { t: 22.6, b: 32.3 },
-    { t: 39.6, b: 50.7 },
-    { t: 57, b: 68.6 },
-    { t: 72, b: 86.4 },
-  ],
-};

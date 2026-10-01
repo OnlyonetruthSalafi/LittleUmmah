@@ -57,7 +57,7 @@ try {
       }
 
       // เป้ากดของเด็ก ≥ 64px (ข้อ 2)
-      for (const sel of ['.mrl-age-btn', '.mrl-card', '.mrl-island-label']) {
+      for (const sel of ['.mrl-age-btn', '.mrl-card', '.oi-island-label']) {
         for (const el of await page.locator(sel).all()) {
           const box = await el.boundingBox();
           assert.ok(box.height >= 64, `${sel} ${tag} height ${box.height}`);

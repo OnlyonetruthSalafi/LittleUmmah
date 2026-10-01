@@ -29,8 +29,8 @@ const JOBS = [
   { dir: "public/moral", width: 1100, quality: 84 },
   // หุ่นยนต์นำทางเกาะมารยาท สี่ท่า ไม่ trim ให้ตำแหน่งตรงกันทุกเฟรม แสดงกว้างสุด ~190px
   { dir: "public/moral/guide", width: 512, quality: 86 },
-  // ฉากการ์ตูนครูนูรี (บิสมิลลาฮ์) แสดงกว้างสุด ~860px ในหน้าต่างการ์ตูน
-  { dir: "public/moral/bismillah", width: 1600, quality: 80 },
+  // ฉากการ์ตูนครูนูรี (ทุกบท ตัวละครหุ่นยนต์ CODEX_MORAL_SCENES_BRIEF.md) แสดงกว้างสุด ~860px ในหน้าต่างการ์ตูน
+  { dir: "public/moral/scenes", width: 1600, quality: 80 },
   { dir: "public/BG", width: 1920, quality: 80 },
   { dir: "public/games/puzzle", width: 900, quality: 86 },
   { dir: "public/games/hub", width: 640, quality: 85 },

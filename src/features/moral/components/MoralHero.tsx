@@ -7,7 +7,7 @@ import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { playNarration } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { AGE_SECTIONS, GUIDE_STEPS, type AgeId } from "../data";
+import { AGE_SECTIONS, GUIDE_STEPS, LESSON_OPEN_EVENT, type AgeId } from "../data";
 import "../moral.css";
 
 /*
@@ -126,13 +126,17 @@ export function MoralHero({ titleTh, titleEn, introTh, introEn }: {
   }, [start]);
 
   // สลับแท็บ = หยุดพูดแล้วกลับไปยืนมุมขวา
+  // เปิดบทเรียน = จบการแนะนำทันที — ถ้าเบราว์เซอร์บล็อกเสียงตอนเปิดหน้า การแนะนำจะเดินตามเวลา
+  // พอเด็กแตะการ์ด เบราว์เซอร์ยอมให้มีเสียงแล้ว จังหวะถัดไปของหุ่นแนะนำจะดังทับเสียงครูนูรีในการ์ตูน
   useEffect(() => {
     const onHide = () => {
       if (document.hidden) finish();
     };
     document.addEventListener("visibilitychange", onHide);
+    window.addEventListener(LESSON_OPEN_EVENT, finish);
     return () => {
       document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener(LESSON_OPEN_EVENT, finish);
       cancelEnter.current();
     };
   }, [finish]);
