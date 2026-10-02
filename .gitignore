@@ -58,6 +58,8 @@ next-env.d.ts
 /public/games/light-maze/*.png
 /public/games/light-maze/v2/**/*.png
 /public/stories/**/*.png
+/public/explore/*.png
+/public/explore/scenes/*.png
 /audio-src/
 /public/games/shape match/
 

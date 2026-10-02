@@ -9,10 +9,15 @@ import { useSound } from "@/components/sound/SoundProvider";
 import type { Lesson } from "@/lib/lessons";
 import { stopAllSpeech } from "@/lib/speech";
 
-import { CARTOONS } from "../cartoon";
-import { AGE_SECTIONS, CARD_ART, CARD_BUBBLE, LESSON_OPEN_EVENT, type AgeId } from "../data";
-import { markPractised, useMoralProgress } from "../progress";
+import type { Cartoon } from "../cartoon";
+import { LESSON_OPEN_EVENT, type AgeId, type AgeSection } from "../data";
+import { progressStore } from "../progress";
 import { CartoonLesson } from "./CartoonLesson";
+
+/** การ์ดหนึ่งกลุ่มในช่วงวัย — เกาะที่มีหลายหมวด (สำรวจโลก) แสดงหัวข้อกลุ่มเหนือแต่ละตาราง */
+export type LessonGroup = { id: string; titleTh?: string; titleEn?: string; lessons: Lesson[] };
+
+type CardBubble = { text: string; left: number; top: number; width: number };
 
 /*
   ส่วนบทเรียนหนึ่งช่วงวัย: หัวข้อ + ภารกิจวันนี้ + การ์ดสี่ใบ + หน้าต่างบทเรียน
@@ -24,9 +29,30 @@ import { CartoonLesson } from "./CartoonLesson";
   hover ขยับเฉพาะกรอบภาพ ข้อความนิ่ง (ข้อ 2.1) และใช้ <dialog> ของเบราว์เซอร์
   ได้การกักโฟกัส ปุ่ม Esc และคืนโฟกัสกลับการ์ดให้เอง
 */
-export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }) {
-  const section = AGE_SECTIONS[age];
-  const { stars, doneToday, maxStars } = useMoralProgress();
+export function MoralSection({
+  age,
+  section,
+  groups,
+  cardArt,
+  cardBubble = {},
+  cartoons,
+  progressKey,
+}: {
+  age: AgeId;
+  section: AgeSection;
+  groups: LessonGroup[];
+  /** ภาพการ์ดของแต่ละบท (key = id บทเรียน) */
+  cardArt: Record<string, string>;
+  cardBubble?: Record<string, CardBubble>;
+  /** บทที่มีการ์ตูนครูนูรี เปิดเป็นการ์ตูนแทนหน้าต่างข้อความ */
+  cartoons: Record<string, Cartoon>;
+  /** localStorage key ของดาว แยกตามเกาะ */
+  progressKey: string;
+}) {
+  const lessons = groups.flatMap((group) => group.lessons);
+  const progress = progressStore(progressKey);
+  const { markPractised } = progress;
+  const { stars, doneToday, maxStars } = progress.useProgress();
   const { speak } = useSound();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState<Lesson | null>(null);
@@ -41,7 +67,7 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
     window.dispatchEvent(new Event(LESSON_OPEN_EVENT));
     markPractised(lesson.id);
-    if (CARTOONS[lesson.id]) {
+    if (cartoons[lesson.id]) {
       setCartoon(lesson);
       return;
     }
@@ -98,16 +124,28 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
         </div>
       </div>
 
+      {groups.map((group) => (
+        <div key={group.id} className="mrl-group">
+          {group.titleTh && (
+            <h3 className="mrl-group-title font-display">
+              {group.titleTh}
+              {group.titleEn && (
+                <span lang="en" className="text-ink-soft ml-2 text-base font-semibold">
+                  {group.titleEn}
+                </span>
+              )}
+            </h3>
+          )}
       <ul className="mrl-grid">
-        {lessons.map((lesson) => {
+        {group.lessons.map((lesson) => {
           const count = stars(lesson.id);
-          const bubble = CARD_BUBBLE[lesson.id];
+          const bubble = cardBubble[lesson.id];
           return (
             <li key={lesson.id} className="flex">
               <button type="button" className="mrl-card group" onClick={() => openLesson(lesson)}>
                 <span className="mrl-card-art">
                   <Image
-                    src={CARD_ART[lesson.id]}
+                    src={cardArt[lesson.id]}
                     alt=""
                     width={512}
                     height={384}
@@ -148,6 +186,8 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
           );
         })}
       </ul>
+        </div>
+      ))}
 
       <dialog
         ref={dialogRef}
@@ -166,7 +206,7 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
         {open && (
           <div className="mrl-dialog-body">
             <span className="mrl-dialog-art">
-              <Image src={CARD_ART[open.id]} alt="" width={512} height={384} sizes="(max-width: 639px) 90vw, 480px" />
+              <Image src={cardArt[open.id]} alt="" width={512} height={384} sizes="(max-width: 639px) 90vw, 480px" />
             </span>
             <h3 id={`lesson-title-${age}`} className="font-display text-2xl leading-snug font-extrabold sm:text-3xl">
               {open.titleTh}
@@ -207,7 +247,7 @@ export function MoralSection({ age, lessons }: { age: AgeId; lessons: Lesson[] }
         )}
       </dialog>
 
-      {cartoon && <CartoonLesson lesson={cartoon} onClose={() => setCartoon(null)} />}
+      {cartoon && <CartoonLesson lesson={cartoon} cartoon={cartoons[cartoon.id]} onClose={() => setCartoon(null)} />}
     </section>
   );
 }

@@ -16,10 +16,28 @@ import type { GuidePose } from "./data";
   ข้อความไทยต้องตรงกับบทใน scripts/make-moral-cartoon-voice.mjs (เสียงพูดอาจมี "พูดตามครู" ต่อท้าย)
   sayAlong = จบคลิปแล้วเว้นจังหวะให้เด็กพูดตาม ป้ายคำบนฉากจะเด่นขึ้น
 */
-export type Word = { ar: string; th: string };
+/** compact = ป้ายตัวเล็กสำหรับข้อความยาวมาก (อายะฮ์บนเกาะสำรวจโลก) ป้ายดุอาอ์ของเกาะมารยาทไม่ใช้ */
+export type Word = { ar: string; th: string; compact?: boolean };
+
+/**
+  ภาพถ่ายสัตว์จริงในช่วงสอน (เกาะสำรวจโลก) — AGENTS.md ข้อ 1.1 "ภาพถ่ายสัตว์เพื่อการสอน"
+  วางในกรอบเหนือภาพฉาก ไม่ใช่ภาพพื้นหลัง และต้องมีเครดิตกำกับเสมอ
+*/
+export type ScenePhoto = {
+  src: string;
+  width: number;
+  height: number;
+  /** alt ภาษาไทย บอกว่าเป็นสัตว์อะไร ทำอะไร — ภาพนี้สื่อความหมาย ไม่ใช่ภาพตกแต่ง */
+  alt: string;
+  /** ป้ายชื่อใต้ภาพ */
+  label: { th: string; en: string };
+  /** เครดิตสั้นใต้ภาพ เช่น "ภาพ: Drew Avery (CC BY 2.0)" */
+  credit: string;
+};
 
 export type CartoonScene = {
   bg: string;
+  photo?: ScenePhoto;
   clip: string;
   pose: GuidePose;
   th: string;

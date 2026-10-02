@@ -7,7 +7,7 @@ import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { playNarration } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { AGE_SECTIONS, GUIDE_STEPS, LESSON_OPEN_EVENT, type AgeId } from "../data";
+import { LESSON_OPEN_EVENT, type AgeId, type AgeSection, type GuideStep } from "../data";
 import "../moral.css";
 
 /*
@@ -26,16 +26,33 @@ import "../moral.css";
   - ปิดการเคลื่อนไหว: หุ่นยนต์ยืนที่มุมขวาตลอด ไม่เลื่อน ไม่โบก บอลลูนยังขึ้นตามจังหวะ
   - การเคลื่อนไหวจบในตัว ไม่มีลอย/เด้งวน (ข้อ 2.1)
 */
-const SEEN_KEY = "lu-moral-guide-seen";
 const ENTER_MS = 1300;
 
 type Phase = "off" | "tour" | "rest";
 
-export function MoralHero({ titleTh, titleEn, introTh, introEn }: {
+export type HeroArt = { src: string; width: number; height: number };
+
+export function MoralHero({
+  titleTh,
+  titleEn,
+  introTh,
+  introEn,
+  steps: GUIDE_STEPS,
+  ageSections: AGE_SECTIONS,
+  art,
+  seenKey: SEEN_KEY,
+}: {
   titleTh: string;
   titleEn: string;
   introTh: string;
   introEn: string;
+  /** บทของหุ่นยนต์นำทาง (หนึ่งจังหวะ = หนึ่งคลิปเสียง) */
+  steps: GuideStep[];
+  ageSections: Record<AgeId, AgeSection>;
+  /** ภาพเกาะในส่วนหัว */
+  art: HeroArt;
+  /** sessionStorage key — แต่ละเกาะเล่นแนะนำเองครั้งแรกแยกกัน */
+  seenKey: string;
 }) {
   const [phase, setPhase] = useState<Phase>("rest");
   const [step, setStep] = useState(-1);
@@ -76,7 +93,7 @@ export function MoralHero({ titleTh, titleEn, introTh, introEn }: {
       window.clearTimeout(timer);
       stopAudio();
     };
-  }, [phase, step, finish]);
+  }, [phase, step, finish, GUIDE_STEPS]);
 
   const start = useCallback(() => {
     cancelEnter.current();
@@ -123,7 +140,7 @@ export function MoralHero({ titleTh, titleEn, introTh, introEn }: {
       start();
     }, 500);
     return () => window.clearTimeout(timer);
-  }, [start]);
+  }, [start, SEEN_KEY]);
 
   // สลับแท็บ = หยุดพูดแล้วกลับไปยืนมุมขวา
   // เปิดบทเรียน = จบการแนะนำทันที — ถ้าเบราว์เซอร์บล็อกเสียงตอนเปิดหน้า การแนะนำจะเดินตามเวลา
@@ -185,10 +202,10 @@ export function MoralHero({ titleTh, titleEn, introTh, introEn }: {
 
       <div className="mrl-hero-art">
         <Image
-          src="/moral/hero-island.webp"
+          src={art.src}
           alt=""
-          width={1063}
-          height={923}
+          width={art.width}
+          height={art.height}
           priority
           sizes="(max-width: 767px) 100vw, 560px"
           className="mrl-hero-island"

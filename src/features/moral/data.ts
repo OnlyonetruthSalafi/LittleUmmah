@@ -33,10 +33,9 @@ export const CARD_BUBBLE: Record<string, { text: string; left: number; top: numb
   sneeze: { text: "الْحَمْدُ لِلَّهِ", left: 47, top: 11, width: 44 },
 };
 
-export const AGE_SECTIONS: Record<
-  AgeId,
-  { labelTh: string; labelEn: string; descTh: string; descEn: string; badge: string }
-> = {
+export type AgeSection = { labelTh: string; labelEn: string; descTh: string; descEn: string; badge: string };
+
+export const AGE_SECTIONS: Record<AgeId, AgeSection> = {
   kids: {
     labelTh: "วัย 3-6 ปี",
     labelEn: "Ages 3-6",
@@ -61,14 +60,16 @@ export const AGE_SECTIONS: Record<
 */
 export type GuidePose = "wave" | "point" | "stand";
 
-export const GUIDE_STEPS: {
+export type GuideStep = {
   clip: string;
   pose: GuidePose;
   focus?: AgeId;
   th: string;
   en: string;
   ms: number;
-}[] = [
+};
+
+export const GUIDE_STEPS: GuideStep[] = [
   {
     clip: "moral-intro",
     pose: "wave",

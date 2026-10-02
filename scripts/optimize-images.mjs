@@ -33,6 +33,10 @@ const JOBS = [
   { dir: "public/moral/guide", width: 512, quality: 86 },
   // ฉากการ์ตูนครูนูรี (ทุกบท ตัวละครหุ่นยนต์ CODEX_MORAL_SCENES_BRIEF.md) แสดงกว้างสุด ~860px ในหน้าต่างการ์ตูน
   { dir: "public/moral/scenes", width: 1600, quality: 80 },
+  // เกาะสำรวจโลก: การ์ดและภาพเกาะหัวหน้าแบบเดียวกับเกาะมารยาท, ฉากการ์ตูนถิ่นที่อยู่ของสัตว์ (CODEX_EXPLORE_BRIEF.md)
+  // ภาพถ่ายสัตว์จริงใน public/explore/photos เป็น WebP จาก Wikimedia Commons อยู่แล้ว ไม่ผ่านขั้นนี้
+  { dir: "public/explore", width: 1100, quality: 84 },
+  { dir: "public/explore/scenes", width: 1600, quality: 80 },
   { dir: "public/BG", width: 1920, quality: 80 },
   { dir: "public/games/puzzle", width: 900, quality: 86 },
   { dir: "public/games/hub", width: 640, quality: 85 },

@@ -11,7 +11,7 @@ import type { Lesson } from "@/lib/lessons";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { CARTOONS, SAY_ALONG_MS, sayPrompt } from "../cartoon";
+import { SAY_ALONG_MS, sayPrompt, type Cartoon } from "../cartoon";
 
 /*
   การ์ตูนบทเรียน — ครูหุ่นยนต์นูรีพาไปดูเหตุการณ์ทีละฉาก (ข้อมูลใน cartoon.ts)
@@ -23,11 +23,21 @@ import { CARTOONS, SAY_ALONG_MS, sayPrompt } from "../cartoon";
   - ใช้ช่องเสียงเดียวกับทั้งเว็บ (playNarration) ปิดหน้าต่าง = เสียงหยุด
   - ฉากเปลี่ยนด้วยการจางซ้อน ภาพค่อยๆ ขยายเล็กน้อยครั้งเดียวต่อฉาก นูรีวิ่งเข้ามาครั้งแรกครั้งเดียว
     ไม่มีลอย/เด้งวน (ข้อ 2.1) ปิด motion = เปลี่ยนฉากทันที นูรียืนนิ่ง
+  - ฉากที่มีภาพถ่ายสัตว์จริง (เกาะสำรวจโลก) วางภาพในกรอบเหนือภาพฉาก นูรียังยืนทางขวาชี้ไปที่ภาพ
+    ภาพถ่ายมี alt ภาษาไทย ป้ายชื่อ และเครดิตใต้ภาพเสมอ
 */
 type Status = "playing" | "paused" | "ended";
 
-export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: () => void }) {
-  const { scenes, word: lessonWord } = CARTOONS[lesson.id];
+export function CartoonLesson({
+  lesson,
+  cartoon,
+  onClose,
+}: {
+  lesson: Pick<Lesson, "titleTh" | "titleEn">;
+  cartoon: Cartoon;
+  onClose: () => void;
+}) {
+  const { scenes, word: lessonWord } = cartoon;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
   const [status, setStatus] = useState<Status>("playing");
@@ -151,9 +161,27 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
               />
             ) : null,
           )}
+          {/* ภาพถ่ายสัตว์จริง — ภาพที่สื่อความหมาย จึงมี alt จริง (ข้อ 2) และเครดิตใต้ภาพ */}
+          {scene.photo && (
+            <figure className="mrl-photo" key={`p-${index}-${take}`}>
+              <span className="mrl-photo-img">
+                <Image
+                  src={scene.photo.src}
+                  alt={scene.photo.alt}
+                  width={scene.photo.width}
+                  height={scene.photo.height}
+                  sizes="(max-width: 767px) 62vw, 540px"
+                />
+              </span>
+              <figcaption className="mrl-photo-label font-display">
+                {scene.photo.label.th} <span lang="en">{scene.photo.label.en}</span>
+              </figcaption>
+            </figure>
+          )}
           {/* ป้ายคำที่สอน — ข้อความจริง ไม่ฝังในภาพ (ข้อ 1.5) */}
           {word && (
-            <p className="mrl-stage-word" key={`w-${index}-${take}`}>
+            // ป้ายที่ระบุ compact (อายะฮ์ยาว) ใช้ตัวเล็กลง ป้ายจะได้ไม่บังทั้งฉากบนมือถือ
+            <p className="mrl-stage-word" data-long={word.compact || undefined} key={`w-${index}-${take}`}>
               <span lang="ar" dir="rtl">
                 {word.ar}
               </span>
@@ -187,6 +215,8 @@ export function CartoonLesson({ lesson, onClose }: { lesson: Lesson; onClose: ()
           </p>
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
           {sayAlong && word && <p className="mrl-say-caption">{sayPrompt(word)}</p>}
+          {/* เครดิตภาพถ่าย — วางในกล่องข้อความ อ่านง่ายกว่าตัวเล็กบนกรอบภาพ */}
+          {scene.photo && <p className="text-ink-soft mt-1 text-xs">{scene.photo.credit}</p>}
         </div>
 
         <div className="mrl-cartoon-controls">

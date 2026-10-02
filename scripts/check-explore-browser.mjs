@@ -1,0 +1,98 @@
+// ตรวจหน้าเกาะสำรวจโลก (/learn/explore) และการ์ตูนเกาะมารยาทที่ใช้ส่วนประกอบร่วมกัน ด้วย Playwright ที่มีในเครื่อง
+//   PORT=3000 PLAYWRIGHT_MODULE=<playwright/index.mjs> PLAYWRIGHT_EXECUTABLE=<chrome.exe> node scripts/check-explore-browser.mjs
+import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
+
+const OUT = 'output/explore-check';
+const BASE = `http://localhost:${process.env.PORT ?? 3001}`;
+const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE });
+const errors = [];
+await mkdir(OUT, { recursive: true });
+
+const area = (b) => b.width * b.height;
+const overlapArea = (a, b) =>
+  Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) *
+  Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+
+// ไปฉากที่ index ด้วยปุ่ม "ฉากถัดไป"
+async function goToScene(page, index) {
+  for (let i = 0; i < index; i++) await page.getByRole('button', { name: /ฉากถัดไป/ }).click();
+  await page.locator('.mrl-cartoon .mrl-dots li[data-on]').nth(0).waitFor();
+}
+
+try {
+  for (const [width, height] of [[360, 780], [390, 844], [768, 1024], [1280, 800]]) {
+    const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 800 });
+    const page = await context.newPage();
+    page.on('pageerror', (error) => errors.push(`${width}: ${error.message}`));
+    page.on('response', (r) => { if (r.status() >= 400) errors.push(`${width}: ${r.status()} ${r.url()}`); });
+
+    await page.goto(`${BASE}/learn/explore`);
+    await page.locator('.mrl-hero').waitFor();
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}`);
+    await page.locator('.mrl-bubble[data-show]').waitFor({ timeout: 6000 });
+    await page.locator('.mrl-guide').click();
+    await page.locator('.mrl-guide[data-phase="rest"]').waitFor();
+
+    // สองหมวดต่อช่วงวัย การ์ดสูง ≥ 64px (ข้อ 2)
+    for (const age of ['kids', 'juniors']) {
+      assert.equal(await page.locator(`#${age} .mrl-group-title`).count(), 2, `${age} groups`);
+    }
+    for (const el of await page.locator('.mrl-card').all()) {
+      assert.ok((await el.boundingBox()).height >= 64, `card height ${width}`);
+    }
+    // ภาพการ์ดทุกใบโหลดได้
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(800);
+    const broken = await page.locator('.mrl-card-art img').evaluateAll((imgs) => imgs.filter((i) => i.complete && i.naturalWidth === 0).length);
+    assert.equal(broken, 0, `broken card images ${width}`);
+    await page.screenshot({ path: `${OUT}/${width}-page.png`, fullPage: true });
+
+    // การ์ตูนทะเลทราย วัย 3-6: ฉาก 3 (index 2) = ภาพอูฐจริง
+    for (const [age, photoScene, extra] of [['kids', 2, null], ['juniors', 2, 3]]) {
+      await page.locator(`#${age} .mrl-card`).first().click();
+      await page.locator('.mrl-cartoon[open]').waitFor();
+      await goToScene(page, photoScene);
+      const photo = page.locator('.mrl-cartoon .mrl-photo img');
+      await photo.waitFor();
+      await page.waitForFunction(() => {
+        const img = document.querySelector('.mrl-cartoon .mrl-photo img');
+        return img && img.complete && img.naturalWidth > 0;
+      });
+      assert.ok((await photo.getAttribute('alt')).includes('ตัวจริง'), 'photo alt');
+      // นูรีบังภาพถ่ายได้ไม่เกิน 10%
+      const pBox = await page.locator('.mrl-cartoon .mrl-photo').boundingBox();
+      const nBox = await page.locator('.mrl-cartoon .mrl-nuri').boundingBox();
+      assert.ok(overlapArea(pBox, nBox) / area(pBox) < 0.1, `nuri covers photo ${width} ${age}`);
+      assert.match(await page.locator('.mrl-cartoon-caption').innerText(), /ภาพ:/);
+      await page.waitForTimeout(500);
+      await page.locator('.mrl-cartoon[open]').screenshot({ path: `${OUT}/${width}-${age}-photo.png` });
+      if (extra) {
+        await page.getByRole('button', { name: /ฉากถัดไป/ }).click();
+        await page.waitForTimeout(700);
+        await page.locator('.mrl-cartoon[open]').screenshot({ path: `${OUT}/${width}-${age}-ayah.png` });
+        const word = await page.locator('.mrl-cartoon .mrl-stage-word').boundingBox();
+        const stage = await page.locator('.mrl-cartoon .mrl-stage').boundingBox();
+        assert.ok(word.x >= stage.x - 1 && word.x + word.width <= stage.x + stage.width + 1, `ayah label fits ${width}`);
+      }
+      await page.getByRole('button', { name: /ปิด/ }).first().click();
+      await page.locator('.mrl-cartoon[open]').waitFor({ state: 'detached' });
+    }
+    assert.match(await page.locator('#kids .mrl-mission').innerText(), /1\/5/);
+
+    // เกาะมารยาท: การ์ตูนบิสมิลลาฮ์ยังเปิดได้ ดาวแยกจากเกาะสำรวจโลก
+    await page.goto(`${BASE}/learn/moral`);
+    await page.locator('.mrl-hero').waitFor();
+    assert.match(await page.locator('#kids .mrl-mission').innerText(), / 0\//);
+    await page.locator('#kids .mrl-card').first().click();
+    await page.locator('.mrl-cartoon[open]').waitFor();
+    await page.waitForTimeout(600);
+    await page.locator('.mrl-cartoon[open]').screenshot({ path: `${OUT}/${width}-moral-cartoon.png` });
+    await context.close();
+  }
+  assert.deepEqual(errors, []);
+  console.log('explore ok');
+} finally {
+  await browser.close();
+}
