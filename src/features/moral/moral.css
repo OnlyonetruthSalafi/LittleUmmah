@@ -328,15 +328,49 @@
 }
 
 /* เครดิตภาพถ่าย ท้ายหน้า (ผู้อ่านเป็นผู้ใหญ่ ลิงก์สูง 48px ตามข้อ 2) */
+/* ล่างสุดของหน้า พับไว้เป็นบรรทัดเล็กบรรทัดเดียว (<details>) กดเปิดเอง — ไม่แย่งสายตาจากเนื้อหาของเด็ก
+   เปิดแล้วเป็นกล่องขาว ตัวเล็ก สีรอง จอกว้างแบ่งสองคอลัมน์ */
 .mrl-credits {
-  margin-top: 28px;
-  padding: 14px 18px;
+  margin-top: 16px;
+  color: var(--color-ink-soft);
+}
+.mrl-credits-summary {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.mrl-credits-summary::-webkit-details-marker { display: none; }
+/* ลูกศรเล็กบอกว่าเปิดได้ (รูปทรงกำกับ ไม่ใช้สีอย่างเดียว) */
+.mrl-credits-summary::before {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+.mrl-credits[open] .mrl-credits-summary::before { transform: rotate(45deg); }
+.mrl-credits-summary:focus-visible { outline: 3px solid var(--mrl-focus); outline-offset: 2px; }
+.mrl-credit-list {
+  margin-top: 4px;
+  padding: 6px 16px;
   border-radius: var(--radius-card-sm);
-  background: #fff;
-  box-shadow: var(--shadow-soft);
+  background: rgb(255 255 255 / 0.85);
+}
+@media (min-width: 768px) {
+  .mrl-credit-list { columns: 2; column-gap: 28px; }
+  .mrl-credit-list li { break-inside: avoid; }
 }
 .mrl-credit-link {
   display: inline-flex;
+  /* ลิงก์ฝั่งผู้ใหญ่ สูง 48px ตามข้อ 2 แม้ตัวอักษรเล็ก */
   min-height: 48px;
   align-items: center;
   color: var(--color-brand-blue);

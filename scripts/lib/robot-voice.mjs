@@ -22,6 +22,25 @@ const ROBOT_FILTER =
 
 const TMP_DIR = path.join(process.cwd(), ".next", "cache", "robot-voice");
 
+/*
+  คำทับศัพท์ที่ ElevenLabs อ่านตัวไทยเพี้ยน — ส่งเป็นภาษาอังกฤษแทน (เจ้าของโปรเจกต์สั่ง 2 ต.ค. 2026:
+  "คำพ้องเสียงไทย-อังกฤษ ให้อ่านทับศัพท์อังกฤษไปเลย") ใช้กับทุกสคริปต์อัตโนมัติ บทบนจอยังเขียนไทยตามเดิม
+  เจอคำที่อ่านเพี้ยนอีก ให้เพิ่มที่นี่ แล้วอัดใหม่ทั้งประโยค
+    การ์ด  -> "กาด" (เคยแก้ด้วย "ก๊าด" ก็ยังเพี้ยน)
+    เฟนเนค -> "เฟนเจาะ"
+*/
+const SAY_AS_ENGLISH = [
+  ["การ์ด", "Card"],
+  ["ก๊าด", "Card"],
+  ["เฟนเนค", "Fennec"],
+];
+
+export function voiceText(text) {
+  let out = text;
+  for (const [th, en] of SAY_AS_ENGLISH) out = out.replaceAll(th, ` ${en} `);
+  return out.replace(/ {2,}/g, " ").trim();
+}
+
 export function readApiKey() {
   if (process.env.ELEVENLABS_API_KEY) return process.env.ELEVENLABS_API_KEY;
   const env = readFileSync(path.join(process.cwd(), ".env.local"), "utf8");
@@ -63,7 +82,7 @@ export async function renderRobotLines(lines, outDir, only = []) {
   for (const key of keys) {
     const text = lines[key];
     if (!text) throw new Error(`ไม่รู้จักคลิปชื่อ ${key}`);
-    const raw = await synth(key, text, apiKey);
+    const raw = await synth(key, voiceText(text), apiKey);
     const outFile = path.join(outDir, `${key}.mp3`);
     // mono + 64k พอสำหรับเสียงพูด และทำให้ไฟล์เล็กพอจะ commit ได้
     execFileSync(ffmpeg, ["-y", "-i", raw, "-af", ROBOT_FILTER, "-ac", "1", "-b:a", "64k", outFile], {

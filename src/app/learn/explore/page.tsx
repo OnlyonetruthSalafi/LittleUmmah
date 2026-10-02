@@ -61,33 +61,24 @@ export default function ExploreIslandPage() {
       {section("kids")}
       {section("juniors")}
 
-      {/* เครดิตภาพถ่าย (สัญญาอนุญาต CC BY ต้องระบุผู้ถ่าย ต้นฉบับ และสัญญา) — ผู้อ่านเป็นผู้ใหญ่ */}
-      <section aria-labelledby="photo-credits" className="mrl-credits">
-        <h2 id="photo-credits" className="font-display text-lg font-bold">
-          เครดิตภาพถ่ายสัตว์ <span lang="en" className="text-ink-soft text-sm font-semibold">Photo credits</span>
-        </h2>
-        <ul className="mt-2 space-y-1 text-sm">
+      <OtherIslands current="explore" />
+
+      {/* เครดิตภาพถ่าย — ทุกภาพเป็นสาธารณสมบัติหรือ CC0 ไม่บังคับเครดิต แต่ใส่ชื่อผู้ถ่ายเป็นมารยาท ผู้อ่านเป็นผู้ใหญ่ วางล่างสุดของหน้า พับไว้ กดเปิดเอง ไม่รบกวนสายตา (เจ้าของโปรเจกต์สั่ง 2 ต.ค. 2026) */}
+      <details className="mrl-credits">
+        <summary className="mrl-credits-summary">
+          เครดิตภาพถ่ายสัตว์ <span lang="en">Photo credits</span>
+        </summary>
+        <ul className="mrl-credit-list text-xs">
           {PHOTO_CREDITS.map((credit) => (
             <li key={credit.page}>
               <a href={credit.page} target="_blank" rel="noopener noreferrer" className="mrl-credit-link">
                 “{credit.title}”<span className="sr-only"> (เปิดในแท็บใหม่)</span>
               </a>{" "}
-              โดย {credit.author} —{" "}
-              {credit.licenseUrl ? (
-                <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer" className="mrl-credit-link">
-                  {credit.license}
-                  <span className="sr-only"> (เปิดในแท็บใหม่)</span>
-                </a>
-              ) : (
-                credit.license
-              )}
-              {credit.licenseUrl && " ย่อขนาดภาพจากต้นฉบับ"}
+              โดย {credit.author} — {credit.license}
             </li>
           ))}
         </ul>
-      </section>
-
-      <OtherIslands current="explore" />
+      </details>
     </div>
   );
 }

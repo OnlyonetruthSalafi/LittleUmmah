@@ -493,5 +493,22 @@
   "public/explore/scenes/desert-camel.png": "4dbdd94ac3880f4f2663fc3b7420433a79f825a8daaf546e8e5ec198c9ef9ffe",
   "public/explore/scenes/desert-fox.png": "97d0f52c056136f2b096e49ab040f8ad2a40e1c5ca851d2cee340f580eaf003b",
   "public/explore/scenes/desert-night.png": "15561f4b2ebd0ec831cfc187b04104d173babc0702ccd8f94bdedb177ce2851c",
-  "public/explore/scenes/desert-oasis.png": "a2528de63700bbb42a932f66053b8998eadf7519f5111f6ad6379dbb7a59dd5d"
+  "public/explore/scenes/desert-oasis.png": "a2528de63700bbb42a932f66053b8998eadf7519f5111f6ad6379dbb7a59dd5d",
+  "public/explore/card-forest.png": "bb5463da85362d65d24a3972633ab8592be3d51b87159057244d7f69a5209e32",
+  "public/explore/card-polar.png": "1f358e7a73dc95a9f26e28271708f371ff5678d332985d6fa3861a03d81a75f2",
+  "public/explore/card-sea.png": "571cab40946e0eabff2e7f4fff40500e327f0a3d50ab1d0d3b21cd3950fe3468",
+  "public/explore/scenes/forest-arrive.png": "cc4a0af105753aad8a315dd98dabd2227d95f015dc9eba27945d941644906112",
+  "public/explore/scenes/forest-canopy.png": "9ac93ca3ca014df933e2467b1ae16e60a6b5fac9f96e8348bb049dfb9316b8c3",
+  "public/explore/scenes/forest-elephant.png": "404a25db909e1768fe5cdfe1d757a89f449a65af38292099fab293814715985a",
+  "public/explore/scenes/forest-river.png": "1513d6b00ecacfc4390dca88a8aba6475f9d03b056ecb86750d173248e719dba",
+  "public/explore/scenes/forest-squirrel.png": "e0cea33ddf21f8fd11c6553c6a13f356315b13fdc9b0abea5b394e18ac7ec091",
+  "public/explore/scenes/polar-arrive.png": "f5d504b98f4fbd6c8e05f275bc0145402620b50ccf792023dbdb018a4fc1a8aa",
+  "public/explore/scenes/polar-bear.png": "7599fec39fa52513017816ec5c25be8f98c91e72b7808fafc266f67c2eed8be5",
+  "public/explore/scenes/polar-den.png": "ae6957e279fb937c095af99c72c82a778fa11d24a0b3ae5a5055f547ff5c1b81",
+  "public/explore/scenes/polar-seal.png": "de7f1f0e32164130ee9937827bded0f31b0f3bf4afe853cf89db20a301bd9f95",
+  "public/explore/scenes/polar-swim.png": "a946e438d0720196ef035bfa22fd389e43aff7608f52f962b2394a5f94de2ffb",
+  "public/explore/scenes/sea-arrive.png": "da186e34a0ff0f8ea97506368053545933ab55ee17ff173c4eae9d8d97408021",
+  "public/explore/scenes/sea-beach.png": "575cfbefa162a4c9027114ffe73919803951045d40edef8b61909d126f4f0e95",
+  "public/explore/scenes/sea-dolphin.png": "290b6cd08d41907882c10e99a0121206d790d88922861b1edd4ad9a005081248",
+  "public/explore/scenes/sea-turtle.png": "33d2531bdc06975263b9208072ea6f311eeeb2fbeac62014a364e778b3d18be1"
 }
