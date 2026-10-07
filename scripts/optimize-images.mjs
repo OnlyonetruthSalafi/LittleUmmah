@@ -22,6 +22,8 @@ const JOBS = [
   { dir: "public/stories/yunus", width: 1200, quality: 82 },
   { dir: "public/stories/musa", width: 1200, quality: 82 },
   { dir: "public/stories/shelf", width: 1400, quality: 84 },
+  // หนังสือนิทานแบบสมจริง (CODEX_STORYBOOK_BRIEF.md): เล่มเปิดหน้าว่างแสดงกว้างสุด ~1250px คมบนจอ 2x ที่ 2400, กระดาษ/ลายปกใน 1024 ไม่ขยาย
+  { dir: "public/stories/book", width: 2400, quality: 86 },
   { dir: "public/islands", width: 900, quality: 86 },
   { dir: "public/Character", width: 400, quality: 86 },
   { dir: "public/Character/run", width: 640, quality: 86, trim: true },

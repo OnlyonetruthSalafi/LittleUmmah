@@ -423,9 +423,6 @@
   "public/games/light-maze/v2/actors/blue-rest.png": "a162f39b0814b93cc1368d744ccaa0a30d3a12cff64d1a49bc92bf50e3ac2329",
   "public/games/light-maze/v2/actors/green-rest.png": "6332e91e72a6c6c58664064df9b4ecd4aca7026d7f795f620acc2e62dbdf594d",
   "output/orbmaze-art/originals/hub-light-maze-production.png": "fdfb83ba26a49a81edc0bc8df650c1270d7f95940438ceaf9fe6211e9b5acfb7",
-  "public/Character/greet/stand.png": "9f04d9558928dfbb195106f60f404c1de0da684bebbc937c6f17939b9b4c0460",
-  "public/Character/greet/wave-1.png": "3aab0bfa20f2231c83f2a3454cb0c2192a59a3099bd7b462aeecf746ecf93dcc",
-  "public/Character/greet/wave-2.png": "629d41c2ce7c79ddf857803a3550d97df425376ca9986ad143592e98070ca679",
   "public/moral/age-juniors.png": "120f87dc6c3afa3bf4757ac22806b142b638d9a1ba2e28e374fd331bc47270ef",
   "public/moral/age-kids.png": "a3d59250629e92a677c733ddc1a9841763fdda792052937105efc0289ce1737a",
   "public/moral/card-animals.png": "a9b849979bf6e9033b094745cf638fdad9a98b9ae75cf2050f04ffec1dbdbc56",
@@ -510,5 +507,11 @@
   "public/explore/scenes/sea-arrive.png": "da186e34a0ff0f8ea97506368053545933ab55ee17ff173c4eae9d8d97408021",
   "public/explore/scenes/sea-beach.png": "575cfbefa162a4c9027114ffe73919803951045d40edef8b61909d126f4f0e95",
   "public/explore/scenes/sea-dolphin.png": "290b6cd08d41907882c10e99a0121206d790d88922861b1edd4ad9a005081248",
-  "public/explore/scenes/sea-turtle.png": "33d2531bdc06975263b9208072ea6f311eeeb2fbeac62014a364e778b3d18be1"
+  "public/explore/scenes/sea-turtle.png": "33d2531bdc06975263b9208072ea6f311eeeb2fbeac62014a364e778b3d18be1",
+  "public/stories/book/book-spread.png": "6c9ef56b1ac2aec28717f709d6e9feaad9e15182bbf8240fb8a45a5e5f9e4af1",
+  "public/stories/book/endpaper.png": "526e48b1a7de3feb622adfbf24a0e20a853be173b9b55912b651b387a1f05c16",
+  "public/stories/book/paper.png": "e55e881c129496815e0dd623dd689dcd3b6a3ee44acd61d47bc411f8837e9ff5",
+  "public/stories/yunus/cover-deluxe.png": "bfef65d6026be2ef36463dad1c3723a9a8a42b0d4445cf535e6f006e36ef6767",
+  "public/stories/nuh/cover-deluxe.png": "d6aa22de24c768e450a503a55d76462b1fa353883a8ae848bd03113838e637fe",
+  "public/stories/musa/cover-deluxe.png": "0389313cb41c9cbf7ae39e366b91790151c0487a80962e6a54494e93accc35a6"
 }

@@ -13,7 +13,12 @@ import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
 import { narrationSrc } from "../index";
 import type { Story, StoryPage } from "../types";
+import { useAmbience } from "../useAmbience";
+import { CurlLeaf } from "./CurlLeaf";
+import { DeluxeCover, GoldBurst } from "./DeluxeCover";
+import { FishShadow, SceneFx } from "./SceneFx";
 import "../story.css";
+import "../story-deluxe.css";
 
 /*
   หนังสือนิทาน 2.5D
@@ -26,13 +31,31 @@ import "../story.css";
   โหมดเล่นอัตโนมัติ: เสียงพากย์จบ -> พักสั้นๆ -> พลิก -> พากย์หน้าถัดไป จนจบเล่ม
   ปิดเสียงอยู่: ใช้เวลาอ่านตามความยาวข้อความแทน
   ปิดการเคลื่อนไหว: ไม่พลิก 3D เปลี่ยนหน้าแบบจางเข้าแทน (ข้อ 2.1)
+
+  แบบอลังการ (story.deluxe): ปกหนังแข็ง ประกายทองตอนจบเรื่อง
+  เล่มสมจริง (deluxe.book) เปิดเหมือนหนังสือตัวอย่างของเจ้าของโปรเจกต์ (7 ต.ค. 2026 ตามคำแนะนำของ Codex):
+  เล่มเปิดวางเต็มขนาดตั้งแต่แรก ปกวางทับครึ่งขวา -> ปกแข็งพลิกไปซ้าย (ด้านในปกเป็นกระดาษครีม)
+  -> พักสั้นๆ -> กระดาษแผ่นแรก (หน้าชื่อเรื่อง) โค้งพลิก เผยภาพหน้า 1  ปิดเล่มเล่นย้อนกลับ
+  ระหว่างสองจังหวะนี้ turn.phase บอกว่าแผ่นไหนกำลังพลิก เปิดเล่มทั้งชุดนับเป็นการพลิกครั้งเดียว
+  กระดาษโค้งตอนพลิก (CurlLeaf) ฉากเคลื่อนไหวบนภาพ (SceneFx) และเสียงบรรยากาศวนซ้ำ (useAmbience)
+  ตรรกะการเล่า/เสียงพากย์/เล่นอัตโนมัติใช้ชุดเดียวกับแบบเดิมทั้งหมด
 */
 
 const TURN_MS = 1000;
+const CURL_MS = 1150;
+const COVER_MS = 1500;
+/** เล่มสมจริง: ปกพลิกเสร็จแล้วพักก่อนกระดาษแผ่นแรกพลิกตาม */
+const REAL_COVER_MS = 900;
+const REAL_HOLD_MS = 150;
+const REAL_PAPER_MS = 1000;
+const SFX_PAGE = "/audio/sfx/story-page-curl.mp3";
+const SFX_COVER = "/audio/sfx/story-book-open.mp3";
+const SFX_FALLBACK = "/audio/sfx/page-turn.mp3";
 const PAUSE_AFTER_NARRATION_MS = 800;
 const SIZES = "(max-width: 1140px) 100vw, 1100px";
 
-type Turn = { from: number; to: number };
+/** phase ใช้เฉพาะเล่มสมจริงตอนเปิด/ปิดปก: cover = ปกแข็งพลิก, hold = ปกเปิดแล้วพักครู่หนึ่ง, paper = หน้าชื่อเรื่องพลิก */
+type Turn = { from: number; to: number; phase?: "cover" | "hold" | "paper" };
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,6 +73,7 @@ function Half({ page, side }: { page: StoryPage; side: "left" | "right" }) {
 }
 
 function Cover({ story }: { story: Story }) {
+  if (story.deluxe) return <DeluxeCover story={story} />;
   return (
     <div className="sb-cover">
       <Image src={story.cover} alt="" fill sizes="(max-width: 1140px) 50vw, 550px" className="object-cover" priority />
@@ -59,6 +83,42 @@ function Cover({ story }: { story: Story }) {
           {story.titleEn}
         </span>
       </div>
+    </div>
+  );
+}
+
+/** หน้าชื่อเรื่องใต้ปก (เล่มสมจริง) ตัวหนังสือจริง ไม่ฝังในภาพ — aria-hidden เพราะมี h1 ชื่อเรื่องแล้ว */
+function TitlePage({ story }: { story: Story }) {
+  return (
+    <div className="sbx-titlepage" aria-hidden="true">
+      <span className="sbx-tp-th">{story.titleTh}</span>
+      <span className="sbx-tp-en" lang="en">
+        {story.titleEn}
+      </span>
+    </div>
+  );
+}
+
+/**
+  ภาพเล่มหนังสือเปิดหน้าว่าง วางให้กรอบหน้ากระดาษในภาพทับพื้นที่หน้าของ .sb-book พอดี
+  ส่วนปก ขอบกระดาษซ้อน และหัวสัน ยื่นออกนอกพื้นที่หน้า ตามสัดส่วนที่วัดจากภาพ
+*/
+function BookShell({ book }: { book: NonNullable<NonNullable<Story["deluxe"]>["book"]> }) {
+  const [l, top, r, bottom] = book.paper;
+  const pw = r - l;
+  const ph = bottom - top;
+  return (
+    <div
+      className="sbx-shell"
+      aria-hidden="true"
+      style={{
+        left: `${(-l / pw) * 100}%`,
+        right: `${(-(book.width - r) / pw) * 100}%`,
+        top: `${(-top / ph) * 100}%`,
+        bottom: `${(-(book.height - bottom) / ph) * 100}%`,
+      }}
+    >
+      <Image src={book.src} alt="" fill sizes="(max-width: 1140px) 110vw, 1250px" priority />
     </div>
   );
 }
@@ -74,35 +134,74 @@ export function StoryBook({ story }: { story: Story }) {
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const turnSfx = useRef<HTMLAudioElement | null>(null);
+  const deluxe = story.deluxe;
+  const real = !!deluxe?.book;
+  /** กดพักแล้ว: เงียบเสียงบรรยากาศด้วย จนกว่าจะกดเล่นหรือพลิกหน้าอีก */
+  const [userPaused, setUserPaused] = useState(false);
 
-  const shown = turn ? turn.to : spread;
+  const playSfx = useCallback(
+    (src: string) => {
+      if (!soundOn) return;
+      turnSfx.current?.pause();
+      const sfx = new Audio(src);
+      sfx.volume = 0.7;
+      turnSfx.current = sfx;
+      void sfx.play().catch(() => {
+        if (src === SFX_FALLBACK || turnSfx.current !== sfx) return;
+        const fallback = new Audio(SFX_FALLBACK);
+        fallback.volume = 0.7;
+        turnSfx.current = fallback;
+        void fallback.play().catch(() => {});
+      });
+    },
+    [soundOn],
+  );
+
+  // เปิด/ปิดเล่มสมจริง (มี phase): ยังแสดงข้อความและเลขหน้าของปกจนกว่าจะเปิดเสร็จ ไม่ให้ประกาศหน้า 1 ขณะยังเห็นหน้าชื่อเรื่อง
+  const shown = turn && !turn.phase ? turn.to : spread;
   const page = shown >= 0 ? story.pages[shown] : null;
 
   const goTo = useCallback(
     (to: number) => {
       if (turn || to === spread || to < -1 || to >= count) return;
       setFinished(false);
+      // พลิกหน้าเอง = ฟังต่อ (รวมกรณีปิดการเคลื่อนไหวที่ข้ามไปหน้าใหม่ทันที)
+      setUserPaused(false);
       if (prefersReducedMotion()) {
         setSpread(to);
         return;
       }
-      if (soundOn) {
-        turnSfx.current ??= new Audio("/audio/sfx/page-turn.mp3");
-        turnSfx.current.currentTime = 0;
-        turnSfx.current.volume = 0.7;
-        void turnSfx.current.play().catch(() => {});
-      }
-      setTurn({ from: spread, to });
+      // เล่มสมจริง: เปิดเริ่มที่ปกแข็ง ปิดเริ่มที่หน้าชื่อเรื่อง
+      const first = real && (spread < 0 || to < 0) ? (spread < 0 ? "cover" : "paper") : undefined;
+      // แบบอลังการ: เสียงเปิดปกแข็ง / เสียงกระดาษแผ่นใหญ่ ถ้ายังไม่มีไฟล์ใช้เสียงพลิกหน้าเดิม
+      playSfx(!deluxe ? SFX_FALLBACK : first === "paper" || (!first && spread >= 0 && to >= 0) ? SFX_PAGE : SFX_COVER);
+      setTurn({ from: spread, to, phase: first });
     },
-    [turn, spread, count, soundOn],
+    [turn, spread, count, deluxe, real, playSfx],
   );
 
   const finishTurn = useCallback(() => {
     setTurn((t) => {
-      if (t) setSpread(t.to);
+      if (!t) return null;
+      // เปิดเล่ม: ปกพลิกเสร็จ -> พัก  ปิดเล่ม: หน้าชื่อเรื่องพลิกกลับเสร็จ -> ปกพลิกปิดต่อ
+      if (t.phase === "cover" && t.to >= 0) return { ...t, phase: "hold" };
+      if (t.phase === "paper" && t.to < 0) return { ...t, phase: "cover" };
+      setSpread(t.to);
       return null;
     });
   }, []);
+
+  // จังหวะที่สองของการเปิด/ปิดเล่ม: เสียงของแผ่นที่เริ่มพลิก และพักสั้นๆ ก่อนหน้าชื่อเรื่องพลิก
+  const phase = turn?.phase;
+  const closing = !!turn && turn.to < 0;
+  useEffect(() => {
+    if (phase === "hold") {
+      const timer = setTimeout(() => setTurn((t) => t && { ...t, phase: "paper" }), REAL_HOLD_MS);
+      return () => clearTimeout(timer);
+    }
+    if (phase === "paper" && !closing) playSfx(SFX_PAGE);
+    if (phase === "cover" && closing) playSfx(SFX_COVER);
+  }, [phase, closing, playSfx]);
 
   /*
     auto อ่านผ่าน ref ไม่ใส่ใน deps ของ effect เสียงพากย์
@@ -149,7 +248,8 @@ export function StoryBook({ story }: { story: Story }) {
 
   // เสียงพากย์ของหน้าที่หยุดนิ่งแล้ว (ไม่ทำงานระหว่างพลิก)
   useEffect(() => {
-    if (!started || turn) return;
+    // กดพักระหว่างพลิก: พลิกให้จบ แต่ไม่เริ่มพากย์หน้าใหม่ จนกว่าจะกดเล่นหรือพลิกอีก
+    if (!started || turn || userPaused) return;
     const text = spread < 0 ? story.titleTh : [page?.th, page?.reading, page?.meaning].filter(Boolean).join(" ... ");
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancel: (() => void) | undefined;
@@ -189,7 +289,7 @@ export function StoryBook({ story }: { story: Story }) {
       if (narration.current === "playing") narration.current = "stopped";
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- เล่นใหม่เฉพาะเมื่อหน้า/เสียง/การขอเล่นซ้ำเปลี่ยน
-  }, [started, turn, spread, soundOn, replay]);
+  }, [started, turn, spread, soundOn, replay, userPaused]);
 
   // ปิดเสียง หรือออกจากหน้านี้: หยุดเสียงพลิกหน้าด้วย (เป็น Audio แยกจากช่องเสียงพูด)
   useEffect(() => {
@@ -203,7 +303,17 @@ export function StoryBook({ story }: { story: Story }) {
     [],
   );
 
+  // เสียงบรรยากาศของหน้าที่วางนิ่งแล้ว ระหว่างพลิกยังเป็นเสียงของหน้าเดิม แล้วค่อยเฟดข้าม
+  const settled = spread >= 0 ? story.pages[spread] : null;
+  // จบเรื่องแล้วเฟดเสียงบรรยากาศออก ไม่ให้วนต่อไปเรื่อยๆ
+  const unlockAmbience = useAmbience(
+    settled?.ambience ? `/audio/sfx/story-amb-${settled.ambience}.mp3` : null,
+    !!deluxe && soundOn && started && !userPaused && !finished,
+  );
+
   const play = () => {
+    if (deluxe) unlockAmbience();
+    setUserPaused(false);
     setAutoMode(true);
     if (!started) {
       setStarted(true);
@@ -220,16 +330,20 @@ export function StoryBook({ story }: { story: Story }) {
   };
   const pause = () => {
     setAutoMode(false);
+    setUserPaused(true);
     stopAllSpeech();
   };
   const step = (delta: number) => {
+    if (deluxe) unlockAmbience();
     setStarted(true);
+    setUserPaused(false);
     goTo(spread + delta);
   };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLElement && e.target.closest("input, textarea")) return;
+      if (deluxe && (e.key === "ArrowRight" || e.key === "ArrowLeft")) unlockAmbience();
       if (e.key === "ArrowRight") {
         setStarted(true);
         goTo(spread + 1);
@@ -240,18 +354,70 @@ export function StoryBook({ story }: { story: Story }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [goTo, spread]);
+  }, [goTo, spread, deluxe, unlockAmbience]);
 
   // ชั้นภาพนิ่งซ้าย-ขวา ขณะพลิกเป็นส่วนผสมของหน้าเดิมกับหน้าใหม่
   const forward = turn ? turn.to > turn.from : true;
   const leftIndex = turn ? (forward ? turn.from : turn.to) : spread;
   const rightIndex = turn ? (forward ? turn.to : turn.from) : spread;
   const closed = (turn ? turn.to : spread) < 0;
+  /*
+    เล่มสมจริงตอนเปิด/ปิดปก: ทางซ้ายเป็นกระดาษครีมเปล่า (ด้านในปก) ขวาเป็นหน้าชื่อเรื่องหรือภาพหน้า 1
+    ไม่มีปกด้านในลายเขียวโผล่ระหว่างพลิก และด้านหลังปกไม่ใช่ภาพนิทาน
+  */
+  const realOpening = real && !!phase;
+  const leftSurface = realOpening || (real && spread < 0 && !turn) ? null : leftIndex >= 0 ? (
+    <Half page={story.pages[leftIndex]} side="left" />
+  ) : (
+    <div
+      className="sb-endpaper"
+      style={deluxe?.endpaper ? { backgroundImage: `url(${deluxe.endpaper})`, backgroundSize: "50% auto" } : undefined}
+    />
+  );
+  const rightSurface =
+    phase === "paper" ? (
+      <Half page={story.pages[0]} side="right" />
+    ) : phase ? (
+      <TitlePage story={story} />
+    ) : rightIndex >= 0 ? (
+      <Half page={story.pages[rightIndex]} side="right" />
+    ) : (
+      <Cover story={story} />
+    );
+  const inside = <div className="sbx-inside" />;
+  const realLeaf =
+    phase === "cover" ? (
+      <CurlLeaf
+        key="cover"
+        dir={closing ? "back" : "fwd"}
+        rigid
+        duration={REAL_COVER_MS}
+        onDone={finishTurn}
+        front={closing ? inside : <Cover story={story} />}
+        back={closing ? <Cover story={story} /> : inside}
+      />
+    ) : phase === "paper" ? (
+      <CurlLeaf
+        key="paper"
+        dir={closing ? "back" : "fwd"}
+        rigid={false}
+        duration={REAL_PAPER_MS}
+        onDone={finishTurn}
+        front={closing ? <Half page={story.pages[0]} side="left" /> : <TitlePage story={story} />}
+        back={closing ? <TitlePage story={story} /> : <Half page={story.pages[0]} side="left" />}
+      />
+    ) : null;
 
   const preload = [spread + 1, spread + 2].filter((i) => i >= 0 && i < count);
 
   return (
-    <section aria-label={`หนังสือนิทาน ${story.titleTh}`} className="sb-root mt-6">
+    <section
+      aria-label={`หนังสือนิทาน ${story.titleTh}`}
+      className="sb-root mt-6"
+      data-deluxe={deluxe ? "" : undefined}
+      data-real={deluxe?.book ? "" : undefined}
+      style={deluxe?.paper ? ({ "--sb-paper": `url(${deluxe.paper})` } as React.CSSProperties) : undefined}
+    >
       <div className="sb-stage">
         <div
           ref={bookRef}
@@ -262,20 +428,55 @@ export function StoryBook({ story }: { story: Story }) {
           aria-label={page ? page.alt : story.coverAlt}
         >
           <div className="sb-board" aria-hidden="true" />
+          {deluxe?.book && <BookShell book={deluxe.book} />}
 
           {/* หน้าซ้าย */}
           <div className="sb-page sb-page-left" aria-hidden="true">
-            {leftIndex >= 0 ? <Half page={story.pages[leftIndex]} side="left" /> : <div className="sb-endpaper" />}
+            {leftSurface}
           </div>
 
           {/* หน้าขวา (หรือปกตอนปิดเล่ม) */}
           <div className="sb-page sb-page-right" aria-hidden="true">
-            {rightIndex >= 0 ? <Half page={story.pages[rightIndex]} side="right" /> : <Cover story={story} />}
+            {rightSurface}
           </div>
+
+          {/* ฉากเคลื่อนไหวของหน้าที่วางนิ่งแล้ว ซ่อนระหว่างพลิก ไม่ให้ไปขยับบนแผ่นที่กำลังโค้ง */}
+          {deluxe && !turn && page?.fx && <SceneFx key={`fx-${shown}`} fx={page.fx} water={page.water} moon={page.moon} lamp={page.lamp} />}
+          {deluxe && !turn && page?.fish && <FishShadow key={`fish-${shown}`} fish={page.fish} />}
 
           <div className="sb-gutter" aria-hidden="true" />
 
-          {turn && (
+          {deluxe && finished && <GoldBurst key="end" />}
+
+          {realLeaf}
+
+          {turn && deluxe && !realOpening && (
+            <CurlLeaf
+              key={`${turn.from}-${turn.to}`}
+              dir={forward ? "fwd" : "back"}
+              rigid={turn.from < 0 || turn.to < 0}
+              duration={turn.from < 0 || turn.to < 0 ? COVER_MS : CURL_MS}
+              onDone={finishTurn}
+              front={
+                forward ? (
+                  turn.from >= 0 ? <Half page={story.pages[turn.from]} side="right" /> : <Cover story={story} />
+                ) : (
+                  <Half page={story.pages[turn.from]} side="left" />
+                )
+              }
+              back={
+                forward ? (
+                  <Half page={story.pages[turn.to]} side="left" />
+                ) : turn.to >= 0 ? (
+                  <Half page={story.pages[turn.to]} side="right" />
+                ) : (
+                  <Cover story={story} />
+                )
+              }
+            />
+          )}
+
+          {turn && !deluxe && (
             <div
               key={`${turn.from}-${turn.to}`}
               className="sb-leaf"
