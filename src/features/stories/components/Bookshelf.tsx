@@ -16,7 +16,8 @@ import "../bookshelf.css";
   ตู้หนังสือของเกาะเรื่องเล่า
 
   - ตู้เดียว แบ่งสองโซนตามช่วงวัย (เจ้าของโปรเจกต์สั่ง 7 ต.ค. 2026 ให้กลับเป็นตู้เดียวแต่แยกให้ชัดกว่าเดิม)
-    แต่ละโซนมีป้ายช่วงวัยตัวใหญ่ + สัญลักษณ์รูปทรง (วงกลม = 3-6 ปี, ข้าวหลามตัด = 7+) + กรอบครอบเฉพาะเล่มของวัยนั้น
+    แต่ละโซนมีป้ายแผ่นไม้ช่วงวัย + สัญลักษณ์รูปทรง (วงกลม = 3-6 ปี, ข้าวหลามตัด = 7+) + สีผนังหลังตู้ (ทอง/น้ำเงิน)
+    ไม่มีกรอบเส้นรอบโซน — เจ้าของโปรเจกต์ดูแล้วว่าทำให้ตู้ดูแปลก (7 ต.ค. 2026)
     จึงไม่สื่อด้วยสีอย่างเดียว
     - จอกว้าง (≥ 640px) ภาพตู้กว้าง 2 ชั้น: ชั้นละหนึ่งวัย ป้ายเป็นแผ่นตั้งบนชั้นเป็นช่องแรกของแถว
       (ถ้าวางป้ายเหนือแถว ช่องหนังสือที่ 640px จะเหลือไม่ถึง 64px)
@@ -211,7 +212,7 @@ function Shelf({
       {/* ภาพเต็มวางใน canvas ที่กว้างกว่ากรอบ แล้วกรอบตัดส่วนข้างออก พิกัดทุกตัวจึงยังเป็น % ของภาพเต็ม */}
       <div className="bs-canvas" style={{ width: `${(100 * 100) / keep}%`, left: `${(-crop.l * 100) / keep}%` }}>
         {/* lazy + fetchPriority แทน preload: ตู้ที่ถูก display:none จะไม่โหลด (ตามเอกสาร next/image เรื่อง art direction) */}
-        <Image src={art.src} alt="" fill fetchPriority="high"sizes="(max-width: 639px) 130vw, 1100px" className="bs-art" />
+        <Image src={art.src} alt="" fill fetchPriority="high" sizes="(max-width: 639px) 130vw, 1100px" className="bs-art" />
 
         <div
           className="bs-plaque"
@@ -223,17 +224,27 @@ function Shelf({
           </span>
         </div>
 
+        {/* ผนังหลังตู้ย้อมสีตามช่วงวัย (ทองอุ่น = 3-6 ปี, น้ำเงิน = 7+) อยู่ใต้หนังสือและป้าย */}
+        {art.walls.map((wall, r) => (
+          <div
+            key={r}
+            className="bs-wall"
+            data-zone={zones[Math.floor(r / rowsPerZone)]?.id}
+            aria-hidden="true"
+            style={{ left: `${art.l}%`, right: `${art.r}%`, top: `${wall.t}%`, height: `${wall.b - wall.t}%` }}
+          />
+        ))}
+
         {zones.map((zone, z) => {
           const headingId = `${uid}-${zone.id}`;
           const first = z * rowsPerZone;
-          const last = first + rowsPerZone - 1;
 
           if (variant === "wide") {
             return (
               <section
                 key={zone.id}
                 aria-labelledby={headingId}
-                className="bs-zone bs-row"
+                className="bs-row"
                 data-zone={zone.id}
                 style={{ ...pos(first), gridTemplateColumns: `1.45fr repeat(${zone.books.length}, minmax(0, 1fr))` }}
               >
@@ -255,13 +266,6 @@ function Shelf({
           const perRow = Math.ceil(zone.books.length / rowsPerZone);
           return (
             <section key={zone.id} aria-labelledby={headingId}>
-              {/* กรอบครอบทุกชั้นของวัยนี้ ให้เห็นว่าสองชั้นนี้เป็นกลุ่มเดียวกัน */}
-              <div
-                className="bs-zone"
-                data-zone={zone.id}
-                aria-hidden="true"
-                style={{ ...pos(first), height: `${art.rows[last].b - art.rows[first].t}%` }}
-              />
               <AgeSign
                 id={zone.id}
                 headingId={headingId}
