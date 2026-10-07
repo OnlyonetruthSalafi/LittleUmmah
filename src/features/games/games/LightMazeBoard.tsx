@@ -48,12 +48,16 @@ const TOAST: Partial<Record<SimEvent, string>> = {
   shieldUsed: 'โล่ช่วยไว้แล้ว • Shield used', warp: 'วาร์ป! • Warp!', checkpoint: 'ถึงจุดพัก • Rest spot saved', bump: 'ไม่เป็นไร แสงยังอยู่ครบ • Your lights are safe',
 };
 
+// เน็ตชะงักแล้วภาพไม่มาเสียที: เลิกรอภาพนั้น ตัววาดใช้สีธีมแทน เกมไม่ค้างที่จอว่าง
+const ART_TIMEOUT_MS = 10000;
+
 function loadImage(src: string) {
   return new Promise<HTMLImageElement | null>(resolve => {
     const img = new Image();
+    const timer = window.setTimeout(() => resolve(null), ART_TIMEOUT_MS);
     img.decoding = 'async';
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
+    img.onload = () => { window.clearTimeout(timer); resolve(img); };
+    img.onerror = () => { window.clearTimeout(timer); resolve(null); };
     img.src = src;
   });
 }
@@ -100,7 +104,7 @@ export default function LightMazeBoard({ level, paused, onProgress, onComplete }
     (async () => {
       // manifest จาก Codex: assets[ชื่อ] = { file, anchor (จุดกลางฐาน), surface.corners (มุมข้าวหลามตัดขอบทองบนเกาะ) } พิกเซลของ WebP จริง
       type Asset = { file: string; anchor?: { x: number; y: number }; surface?: { corners: IslandFit } };
-      const manifest = await fetch(LM_MANIFEST).then(r => r.ok ? r.json() : null).catch(() => null) as { assets?: Record<string, Asset> } | null;
+      const manifest = await fetch(LM_MANIFEST, { signal: AbortSignal.timeout(ART_TIMEOUT_MS) }).then(r => r.ok ? r.json() : null).catch(() => null) as { assets?: Record<string, Asset> } | null;
       const byFile = new Map(Object.values(manifest?.assets ?? {}).map(a => [a.file, a]));
       const art: ArtSet = new Map();
       await Promise.all(Object.entries(want).map(async ([key, src]) => {

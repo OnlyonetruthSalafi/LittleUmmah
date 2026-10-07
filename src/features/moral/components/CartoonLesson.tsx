@@ -32,10 +32,13 @@ export function CartoonLesson({
   lesson,
   cartoon,
   onClose,
+  onFinish,
 }: {
   lesson: Pick<Lesson, "titleTh" | "titleEn">;
   cartoon: Cartoon;
   onClose: () => void;
+  /** ดูจนจบฉากสุดท้าย — ใช้ให้ดาว (เปิดดูเฉยๆ ยังไม่นับ) */
+  onFinish?: () => void;
 }) {
   const { scenes, word: lessonWord } = cartoon;
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -44,6 +47,8 @@ export function CartoonLesson({
   const [sayAlong, setSayAlong] = useState(false);
   // เพิ่มเลขทุกครั้งที่เริ่มฉากใหม่ (รวมเล่นซ้ำฉากเดิม) ให้ effect เล่นเสียงฉากนั้นอีกรอบ
   const [take, setTake] = useState(0);
+  // ฉากที่เล่นจนจบเอง (ไม่ใช่กดข้าม)
+  const played = useRef(new Set<number>());
 
   useEffect(() => {
     dialogRef.current?.showModal();
@@ -62,6 +67,8 @@ export function CartoonLesson({
     const scene = scenes[index];
     let timer = 0;
     const advance = () => {
+      // ฉากนี้เล่นจนจบจริง (ไม่ใช่กดข้าม) — นับไว้ให้ดาว
+      played.current.add(index);
       if (index + 1 < scenes.length) goTo(index + 1);
       else setStatus("ended");
     };
@@ -92,6 +99,15 @@ export function CartoonLesson({
     };
     // take: เริ่มฉากเดิมใหม่ได้ (กดเล่นต่อ/ดูอีกครั้ง)
   }, [index, status, take, scenes, goTo]);
+
+  // ดาว: ต้องดูครบทุกฉาก กด "ถัดไป" ข้ามไปฉากสุดท้ายแล้วรอจบยังไม่นับ (ย้อนกลับไปดูฉากที่ข้ามก็ยังนับได้)
+  const onFinishRef = useRef(onFinish);
+  useEffect(() => {
+    onFinishRef.current = onFinish;
+  });
+  useEffect(() => {
+    if (status === "ended" && played.current.size === scenes.length) onFinishRef.current?.();
+  }, [status, scenes.length]);
 
   useEffect(() => {
     const onHide = () => {

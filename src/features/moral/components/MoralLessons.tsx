@@ -7,7 +7,7 @@ import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { StarIcon } from "@/components/icons/StarIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import type { Lesson } from "@/lib/lessons";
-import { stopAllSpeech } from "@/lib/speech";
+import { isSpeaking, stopAllSpeech } from "@/lib/speech";
 
 import type { Cartoon } from "../cartoon";
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection } from "../data";
@@ -18,6 +18,14 @@ import { CartoonLesson } from "./CartoonLesson";
 export type LessonGroup = { id: string; titleTh?: string; titleEn?: string; lessons: Lesson[] };
 
 type CardBubble = { text: string; left: number; top: number; width: number };
+
+/*
+  ภารกิจวันนี้ = เป้าเล็กๆ DAILY_GOAL บท ไม่ใช่ทุกบทในช่วงวัย (ประชุม 7 ต.ค. 2026: ไม่ให้เป็นภาระรายวัน)
+  เกินเป้าก็ยังนับต่อ แต่แถบเต็มแล้ว
+*/
+const DAILY_GOAL = 2;
+/** บทข้อความ (ไม่มีการ์ตูน): เปิดอย่างน้อยเท่านี้ และเสียงอ่านจบแล้วตอนปิดหน้าต่าง จึงนับว่าฝึกแล้ว */
+const TEXT_LESSON_MIN_MS = 5000;
 
 /*
   ส่วนบทเรียนหนึ่งช่วงวัย: หัวข้อ + ภารกิจวันนี้ + การ์ดสี่ใบ + หน้าต่างบทเรียน
@@ -60,17 +68,26 @@ export function MoralSection({
   const [cartoon, setCartoon] = useState<Lesson | null>(null);
 
   const done = lessons.filter((lesson) => doneToday(lesson.id)).length;
+  const goal = Math.min(DAILY_GOAL, lessons.length);
+  // บทข้อความ: ครบ TEXT_LESSON_MIN_MS หลังเปิดจึงนับว่าฟังแล้ว
+  const listened = useRef(false);
+  const listenTimer = useRef(0);
   const scriptOf = (lesson: Lesson) =>
     [lesson.titleTh, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
     window.dispatchEvent(new Event(LESSON_OPEN_EVENT));
-    markPractised(lesson.id);
+    // ดาวได้เมื่อดูการ์ตูนจบ (onFinish) หรือฟังบทข้อความจนจบแล้วปิดหน้าต่าง ไม่ใช่แค่แตะเปิด
     if (cartoons[lesson.id]) {
       setCartoon(lesson);
       return;
     }
+    listened.current = false;
+    window.clearTimeout(listenTimer.current);
+    listenTimer.current = window.setTimeout(() => {
+      listened.current = true;
+    }, TEXT_LESSON_MIN_MS);
     setOpen(lesson);
     speak(scriptOf(lesson));
   };
@@ -108,17 +125,17 @@ export function MoralSection({
           </span>
         </p>
         {/* ภารกิจวันนี้ — บอกด้วยตัวเลขกำกับเสมอ ไม่ใช่แถบสีอย่างเดียว (ข้อ 2) */}
-        <div className="mrl-mission" role="group" aria-label={`ภารกิจวันนี้ ${done} จาก ${lessons.length}`}>
+        <div className="mrl-mission" role="group" aria-label={`ภารกิจวันนี้ ${done} จาก ${goal}`}>
           <StarIcon className="size-9 shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold">
-              ภารกิจวันนี้ {done}/{lessons.length}{" "}
+              ภารกิจวันนี้ {done}/{goal}{" "}
               <span lang="en" className="text-ink-soft font-normal">
                 Today
               </span>
             </p>
             <span className="mrl-mission-bar" aria-hidden="true">
-              <span style={{ width: `${(done / lessons.length) * 100}%` }} />
+              <span style={{ width: `${Math.min(done / goal, 1) * 100}%` }} />
             </span>
           </div>
         </div>
@@ -195,6 +212,9 @@ export function MoralSection({
         aria-labelledby={`lesson-title-${age}`}
         onClose={() => {
           // ปิดหน้าต่าง = หยุดเสียงอ่านบทนั้นด้วย
+          window.clearTimeout(listenTimer.current);
+          // ยังอ่านไม่จบตอนปิด = ยังไม่นับ (ปิดเสียงอยู่ก็ใช้แค่เกณฑ์เวลา)
+          if (open && listened.current && !isSpeaking()) markPractised(open.id);
           stopAllSpeech();
           setOpen(null);
         }}
@@ -247,7 +267,14 @@ export function MoralSection({
         )}
       </dialog>
 
-      {cartoon && <CartoonLesson lesson={cartoon} cartoon={cartoons[cartoon.id]} onClose={() => setCartoon(null)} />}
+      {cartoon && (
+        <CartoonLesson
+          lesson={cartoon}
+          cartoon={cartoons[cartoon.id]}
+          onClose={() => setCartoon(null)}
+          onFinish={() => markPractised(cartoon.id)}
+        />
+      )}
     </section>
   );
 }

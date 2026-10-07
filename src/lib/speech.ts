@@ -157,39 +157,58 @@ export function speakWithSynth(text: string) {
   ต่างจาก playRecordedClip ตรงที่บอกผู้เรียกได้ว่าเล่นจบ หรือถูกหยุดกลางคัน หนังสือจะได้รู้ว่าควรพลิกหน้าหรือพัก
   คืนฟังก์ชันยกเลิก ซึ่งหยุดเสียงโดยไม่เรียก handler ใดๆ
 */
+const NARRATION_STALL_MS = 8000;
+
 export function playNarration(
   src: string,
   handlers: { onEnded: () => void; onStopped: () => void; onFail: () => void },
 ): () => void {
   stopAllSpeech();
   let cancelled = false;
+  let failed = false;
+  let stallTimer = 0;
   const audio = new Audio(src);
   currentAudio = audio;
   currentClipKey = src;
   audio.addEventListener("pause", () => {
     // pause ก่อนจบเท่านั้นที่นับว่าถูกหยุด ตอนเล่นจบเบราว์เซอร์ก็ส่ง pause มาเหมือนกัน
-    if (!cancelled && !audio.ended) handlers.onStopped();
+    if (!cancelled && !failed && !audio.ended) handlers.onStopped();
   });
   audio.addEventListener("ended", () => {
+    window.clearTimeout(stallTimer);
     if (currentAudio === audio) {
       currentAudio = null;
       currentClipKey = null;
     }
     if (!cancelled) handlers.onEnded();
   });
-  // เล่นไม่ได้ตั้งแต่ต้น (play reject) หรือพังกลางทาง (error) แจ้ง onFail ครั้งเดียว หนังสือจะได้ไม่ค้าง
-  let failed = false;
+  // เล่นไม่ได้ตั้งแต่ต้น (play reject) พังกลางทาง (error) หรือโหลดค้าง แจ้ง onFail ครั้งเดียว หนังสือ/การ์ตูนจะได้ไม่ค้าง
   const fail = () => {
     if (failed || cancelled || currentAudio !== audio) return;
     failed = true;
+    window.clearTimeout(stallTimer);
     currentAudio = null;
     currentClipKey = null;
+    // ไฟล์ที่โหลดช้ามาถึงทีหลังต้องไม่ดังทับฉากถัดไป
+    audio.pause();
     handlers.onFail();
   };
+  /*
+    เน็ตชะงัก: เบราว์เซอร์ไม่ส่ง error แต่ค้างรอข้อมูลไปเรื่อยๆ
+    ยังไม่เริ่มเล่น หรือหยุดรอข้อมูลกลางคัน นานเกิน NARRATION_STALL_MS = ถือว่าเล่นไม่ได้ ให้ผู้เรียกเดินต่อตามเวลา
+  */
+  const armStall = () => {
+    window.clearTimeout(stallTimer);
+    stallTimer = window.setTimeout(fail, NARRATION_STALL_MS);
+  };
+  audio.addEventListener("playing", () => window.clearTimeout(stallTimer));
+  audio.addEventListener("waiting", armStall);
   audio.addEventListener("error", fail);
+  armStall();
   void audio.play().catch(fail);
   return () => {
     cancelled = true;
+    window.clearTimeout(stallTimer);
     if (currentAudio === audio) stopAllSpeech();
   };
 }

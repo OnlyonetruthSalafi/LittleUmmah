@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Little Ummah
 
-## Getting Started
+เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก ภาษาไทยนำ อังกฤษรอง สองช่วงวัย: 3–6 ปี และ 7 ปีขึ้นไป
+ใช้ฟรี ไม่มีโฆษณา ไม่มีบัญชีผู้ใช้ ไม่มีระบบติดตาม — ข้อมูลความคืบหน้าเก็บในเบราว์เซอร์ของเครื่องเท่านั้น
 
-First, run the development server:
+**ก่อนแก้อะไรในโปรเจกต์ อ่าน [`AGENTS.md`](AGENTS.md) ให้ครบ** — กฎเนื้อหาศาสนา (ภาพ ดนตรี หลักฐาน),
+มาตรฐาน UX/motion, สิทธิ์ใช้งาน asset และขั้นตอนก่อน commit อยู่ในนั้นทั้งหมด
+
+## เนื้อหา
+
+| เกาะ | เส้นทาง |
+|---|---|
+| ภาษาอาหรับ | `/learn/arabic` |
+| มารยาท | `/learn/moral` |
+| เรื่องเล่า (หนังสือนิทาน) | `/learn/stories` |
+| สำรวจโลก | `/learn/explore` |
+| เกม | `/games` |
+| ศิลปะ | `/learn/art` |
+| ผู้ปกครอง | `/parents` |
+
+## เริ่มพัฒนา
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ก่อน commit (AGENTS.md ข้อ 5):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run typecheck
+npm run lint
+npm test
+npm run build      # ต้องผ่าน — dev ผ่านอย่างเดียวไม่พอ
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## โครงสร้าง
 
-## Learn More
+- `src/app` — หน้าเว็บ (Next.js App Router)
+- `src/features/*` — แต่ละเกาะ (arabic, explore, games, moral, stories)
+- `src/lib/lessons.ts` — ข้อมูลบทเรียนของทุกเกาะ
+- `src/app/globals.css` — design token (Tailwind v4 `@theme` ไม่มี tailwind.config)
+- `public/` — เฉพาะไฟล์ที่เสิร์ฟจริง (WebP/MP3) ภาพต้นฉบับ PNG ถูก ignore และแปลงด้วย `scripts/optimize-images.mjs`
+- `scripts/` — สร้างเสียงพากย์ แปลงภาพ วัดพิกัดภาพ และตรวจในเบราว์เซอร์
+- `docs/meetings/` — บันทึกการประชุมเรื่องทิศทางเว็บ
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Deploy จาก git เท่านั้น** อย่าอัปโหลดโฟลเดอร์จากเครื่องตรงๆ
+เพราะในเครื่องมีไฟล์ที่ไม่มีสิทธิ์ใช้งานหรือไม่ควรขึ้นเว็บ (เช่น `public/audio/sfx/IMPACTS/`, ภาพต้นฉบับ PNG ขนาดใหญ่)
+ซึ่งถูก `.gitignore` กันไว้แล้ว

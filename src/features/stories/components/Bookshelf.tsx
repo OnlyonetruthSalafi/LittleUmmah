@@ -3,21 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
 import { LessonIcon } from "@/components/icons/LessonIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { AGE_GROUPS } from "@/lib/games";
 
-import { SHELF_WIDE, type ShelfArt, type ShelfBook } from "../shelf";
+import { SHELF_TALL, SHELF_WIDE, type ShelfArt, type ShelfBook } from "../shelf";
 import "../bookshelf.css";
 
 /*
   ตู้หนังสือของเกาะเรื่องเล่า
 
-  - ตู้แยกตามช่วงวัย (เจ้าของโปรเจกต์สั่ง 2 ต.ค. 2026): ตู้วัย 3-6 ปี กับตู้วัย 7 ปีขึ้นไป ป้ายบนตู้บอกช่วงวัย
-    ใช้ภาพตู้กว้าง (2 ชั้น) ทั้งสองตู้ เล่มแบ่งครึ่งบนครึ่งล่าง จอกว้างวางสองตู้คู่กัน จอแคบเรียงบนล่าง
+  - ตู้เดียว แบ่งสองโซนตามช่วงวัย (เจ้าของโปรเจกต์สั่ง 7 ต.ค. 2026 ให้กลับเป็นตู้เดียวแต่แยกให้ชัดกว่าเดิม)
+    แต่ละโซนมีป้ายช่วงวัยตัวใหญ่ + สัญลักษณ์รูปทรง (วงกลม = 3-6 ปี, ข้าวหลามตัด = 7+) + กรอบครอบเฉพาะเล่มของวัยนั้น
+    จึงไม่สื่อด้วยสีอย่างเดียว
+    - จอกว้าง (≥ 640px) ภาพตู้กว้าง 2 ชั้น: ชั้นละหนึ่งวัย ป้ายเป็นแผ่นตั้งบนชั้นเป็นช่องแรกของแถว
+      (ถ้าวางป้ายเหนือแถว ช่องหนังสือที่ 640px จะเหลือไม่ถึง 64px)
+    - จอแคบ ภาพตู้สูง 4 ชั้น: สองชั้นต่อหนึ่งวัย ป้ายวางบนไม้คาน/ไม้ชั้นเหนือโซน
     ช่องที่กดได้คือทั้งช่องบนชั้น ไม่ใช่แค่ตัวหนังสือ จึงได้ ≥ 64px แม้หนังสือบนมือถือจะเล็ก
+  - screen reader: แต่ละวัยเป็น section ที่มีหัวข้อ h2 คือป้ายช่วงวัย อ่านวัย 3-6 ปีครบก่อนวัย 7+
+    ตู้จอกว้างกับตู้จอแคบสลับกันด้วย display:none จึงไม่ถูกอ่านซ้ำ
   - กดหนังสือที่มีนิทาน: หนังสือถูกดึงออกจากชั้น หันเข้าหาจอ แล้วลอยมาขยายกลางจอ
     ขนาดปลายทางเท่าปกหนังสือในหน้านิทาน แล้วจึงเปลี่ยนหน้า (?play=1 ให้เริ่มเล่นเอง)
   - ปิดการเคลื่อนไหว: ไปหน้านิทานทันที ไม่ลอย
@@ -28,7 +34,15 @@ import "../bookshelf.css";
 const FLY_MS = 950;
 const TINTS = ["#0f7c93", "#1e5fbf", "#b7791f", "#15803d", "#7c3aed", "#0e7490", "#c2410c", "#be185d"];
 
+type AgeId = "kids" | "juniors";
+type Zone = { id: AgeId; books: ShelfBook[]; offset: number };
 type Flying = { book: ShelfBook; tint: string; from: DOMRect };
+type OpenFn = (e: MouseEvent<HTMLAnchorElement>, book: ShelfBook, tint: string) => void;
+
+function ageLabel(id: AgeId) {
+  const g = AGE_GROUPS.find((a) => a.id === id);
+  return g ? { th: g.nameTh, en: g.nameEn } : { th: id, en: id };
+}
 
 function BookFace({ book, tint }: { book: ShelfBook; tint: string }) {
   return (
@@ -100,91 +114,186 @@ function FlyingBook({ flying, onDone }: { flying: Flying; onDone: () => void }) 
   );
 }
 
+/** ป้ายช่วงวัย: สัญลักษณ์รูปทรง + ชื่อวัยไทยนำ อังกฤษรอง */
+function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: string; className: string; style?: CSSProperties }) {
+  const label = ageLabel(id);
+  return (
+    <h2 id={headingId} className={className} data-zone={id} style={style}>
+      <span className="bs-mark" aria-hidden="true" />
+      <span className="bs-sign-text">
+        <span className="bs-sign-th">{label.th}</span>
+        <span className="bs-sign-en" lang="en">
+          {label.en}
+        </span>
+      </span>
+    </h2>
+  );
+}
+
+function BookCell({
+  book,
+  tint,
+  flyingId,
+  onOpen,
+  onPick,
+}: {
+  book: ShelfBook;
+  tint: string;
+  flyingId?: string;
+  onOpen: OpenFn;
+  onPick: (book: ShelfBook) => void;
+}) {
+  const label = (
+    <span className="sr-only">
+      {book.titleTh} {book.href ? "" : "(เร็วๆ นี้)"}
+    </span>
+  );
+  return book.href ? (
+    <Link
+      href={book.href}
+      className="bs-cell"
+      data-flying={flyingId === book.id || undefined}
+      onClick={(e) => onOpen(e, book, tint)}
+      onPointerEnter={() => onPick(book)}
+      onFocus={() => onPick(book)}
+    >
+      <BookFace book={book} tint={tint} />
+      {label}
+    </Link>
+  ) : (
+    <button
+      type="button"
+      className="bs-cell"
+      aria-disabled="true"
+      onClick={() => onPick(book)}
+      onPointerEnter={() => onPick(book)}
+      onFocus={() => onPick(book)}
+    >
+      <BookFace book={book} tint={tint} />
+      {label}
+    </button>
+  );
+}
+
 function Shelf({
   art,
-  label,
-  rows,
-  cols,
+  variant,
+  zones,
   onOpen,
   onPick,
   flyingId,
 }: {
   art: ShelfArt;
-  label: { th: string; en: string };
-  rows: { books: ShelfBook[]; offset: number }[];
-  cols: number;
-  onOpen: (e: MouseEvent<HTMLAnchorElement>, book: ShelfBook, tint: string) => void;
+  variant: "wide" | "tall";
+  zones: Zone[];
+  onOpen: OpenFn;
   onPick: (book: ShelfBook) => void;
   flyingId?: string;
 }) {
+  const uid = useId();
+  const crop = art.crop ?? { l: 0, r: 0 };
+  const keep = 100 - crop.l - crop.r;
+  // แถวต่อโซน: ตู้กว้าง 1 แถว/วัย, ตู้สูง 2 แถว/วัย
+  const rowsPerZone = art.rows.length / zones.length;
+  const pos = (r: number) => ({
+    left: `${art.l}%`,
+    right: `${art.r}%`,
+    top: `${art.rows[r].t}%`,
+    height: `${art.rows[r].b - art.rows[r].t}%`,
+  });
+
   return (
-    <section
-      aria-label={`ตู้หนังสือ ${label.th}`}
+    <div
       className="bs-shelf"
-      style={{ aspectRatio: `${art.width} / ${art.height}` }}
+      data-variant={variant}
+      style={{ aspectRatio: `${(art.width * keep) / 100} / ${art.height}` }}
     >
-      <Image src={art.src} alt="" fill priority sizes="(max-width: 899px) 100vw, 560px" className="bs-art" />
+      {/* ภาพเต็มวางใน canvas ที่กว้างกว่ากรอบ แล้วกรอบตัดส่วนข้างออก พิกัดทุกตัวจึงยังเป็น % ของภาพเต็ม */}
+      <div className="bs-canvas" style={{ width: `${(100 * 100) / keep}%`, left: `${(-crop.l * 100) / keep}%` }}>
+        {/* lazy + fetchPriority แทน preload: ตู้ที่ถูก display:none จะไม่โหลด (ตามเอกสาร next/image เรื่อง art direction) */}
+        <Image src={art.src} alt="" fill fetchPriority="high"sizes="(max-width: 639px) 130vw, 1100px" className="bs-art" />
 
-      <div
-        className="bs-plaque"
-        style={{ left: `${art.plaque.l}%`, right: `${art.plaque.r}%`, top: `${art.plaque.t}%`, bottom: `${art.plaque.b}%` }}
-      >
-        <span className="bs-plaque-th">{label.th}</span>
-        <span className="bs-plaque-en" lang="en">
-          Stories · {label.en}
-        </span>
-      </div>
-
-      {rows.map((row, r) => (
         <div
-          key={r}
-          className="bs-row"
-          style={{
-            left: `${art.l}%`,
-            right: `${art.r}%`,
-            top: `${art.rows[r].t}%`,
-            height: `${art.rows[r].b - art.rows[r].t}%`,
-            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-          }}
+          className="bs-plaque"
+          style={{ left: `${art.plaque.l}%`, right: `${art.plaque.r}%`, top: `${art.plaque.t}%`, bottom: `${art.plaque.b}%` }}
         >
-          {row.books.map((book, i) => {
-            const tint = TINTS[(row.offset + i) % TINTS.length];
-            const label = (
-              <span className="sr-only">
-                {book.titleTh} {book.href ? "" : "(เร็วๆ นี้)"}
-              </span>
-            );
-            return book.href ? (
-              <Link
-                key={book.id}
-                href={book.href}
-                className="bs-cell"
-                data-flying={flyingId === book.id || undefined}
-                onClick={(e) => onOpen(e, book, tint)}
-                onPointerEnter={() => onPick(book)}
-                onFocus={() => onPick(book)}
-              >
-                <BookFace book={book} tint={tint} />
-                {label}
-              </Link>
-            ) : (
-              <button
-                key={book.id}
-                type="button"
-                className="bs-cell"
-                aria-disabled="true"
-                onClick={() => onPick(book)}
-                onPointerEnter={() => onPick(book)}
-                onFocus={() => onPick(book)}
-              >
-                <BookFace book={book} tint={tint} />
-                {label}
-              </button>
-            );
-          })}
+          <span className="bs-plaque-th">เรื่องเล่า</span>
+          <span className="bs-plaque-en" lang="en">
+            Stories
+          </span>
         </div>
-      ))}
-    </section>
+
+        {zones.map((zone, z) => {
+          const headingId = `${uid}-${zone.id}`;
+          const first = z * rowsPerZone;
+          const last = first + rowsPerZone - 1;
+
+          if (variant === "wide") {
+            return (
+              <section
+                key={zone.id}
+                aria-labelledby={headingId}
+                className="bs-zone bs-row"
+                data-zone={zone.id}
+                style={{ ...pos(first), gridTemplateColumns: `1.45fr repeat(${zone.books.length}, minmax(0, 1fr))` }}
+              >
+                <AgeSign id={zone.id} headingId={headingId} className="bs-sign" />
+                {zone.books.map((book, i) => (
+                  <BookCell
+                    key={book.id}
+                    book={book}
+                    tint={TINTS[(zone.offset + i) % TINTS.length]}
+                    flyingId={flyingId}
+                    onOpen={onOpen}
+                    onPick={onPick}
+                  />
+                ))}
+              </section>
+            );
+          }
+
+          const perRow = Math.ceil(zone.books.length / rowsPerZone);
+          return (
+            <section key={zone.id} aria-labelledby={headingId}>
+              {/* กรอบครอบทุกชั้นของวัยนี้ ให้เห็นว่าสองชั้นนี้เป็นกลุ่มเดียวกัน */}
+              <div
+                className="bs-zone"
+                data-zone={zone.id}
+                aria-hidden="true"
+                style={{ ...pos(first), height: `${art.rows[last].b - art.rows[first].t}%` }}
+              />
+              <AgeSign
+                id={zone.id}
+                headingId={headingId}
+                className="bs-sign bs-sign-bar"
+                style={{ top: `${art.zoneTags?.[z] ?? art.rows[first].t}%` }}
+              />
+              {Array.from({ length: rowsPerZone }, (_, k) => {
+                const books = zone.books.slice(k * perRow, (k + 1) * perRow);
+                return (
+                  <div
+                    key={k}
+                    className="bs-row"
+                    style={{ ...pos(first + k), gridTemplateColumns: `repeat(${perRow}, minmax(0, 1fr))` }}
+                  >
+                    {books.map((book, i) => (
+                      <BookCell
+                        key={book.id}
+                        book={book}
+                        tint={TINTS[(zone.offset + k * perRow + i) % TINTS.length]}
+                        flyingId={flyingId}
+                        onOpen={onOpen}
+                        onPick={onPick}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
+            </section>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -194,21 +303,16 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
   const [picked, setPicked] = useState<ShelfBook | null>(null);
   const [flying, setFlying] = useState<Flying | null>(null);
 
-  const age = (id: "kids" | "juniors") => {
-    const g = AGE_GROUPS.find((a) => a.id === id);
-    return g ? { th: g.nameTh, en: g.nameEn } : { th: id, en: id };
-  };
-  // หนึ่งตู้ = หนึ่งช่วงวัย เล่มแบ่งครึ่งบนครึ่งล่าง (เล่มที่เกินครึ่งอยู่ชั้นบน)
-  const cabinets = [
-    { id: "kids" as const, books: kids, offset: 0 },
-    { id: "juniors" as const, books: juniors, offset: 4 },
+  const zones: Zone[] = [
+    { id: "kids", books: kids, offset: 0 },
+    { id: "juniors", books: juniors, offset: 4 },
   ];
 
   useEffect(() => {
     for (const b of [...kids, ...juniors]) if (b.href) router.prefetch(b.href);
   }, [kids, juniors, router]);
 
-  const open = (e: MouseEvent<HTMLAnchorElement>, book: ShelfBook, tint: string) => {
+  const open: OpenFn = (e, book, tint) => {
     // ปุ่มพิเศษ (เปิดแท็บใหม่) ปล่อยให้เบราว์เซอร์จัดการเอง
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
@@ -230,37 +334,28 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
   };
 
   const shown = picked ?? kids.find((b) => b.href) ?? kids[0];
+  const shownAge: AgeId = juniors.some((b) => b.id === shown.id) ? "juniors" : "kids";
+  const shownLabel = ageLabel(shownAge);
 
   return (
     <section aria-label="ตู้หนังสือนิทาน" className="bs-stage">
       <div className="bs-glow" aria-hidden="true" />
 
-      <div className="bs-cabinets">
-        {cabinets.map(({ id, books, offset }) => {
-          const cols = Math.max(1, Math.ceil(books.length / 2));
-          return (
-            <Shelf
-              key={id}
-              art={SHELF_WIDE}
-              label={age(id)}
-              cols={cols}
-              rows={[
-                { books: books.slice(0, cols), offset },
-                { books: books.slice(cols), offset: offset + cols },
-              ]}
-              onOpen={open}
-              onPick={pick}
-              flyingId={flying?.book.id}
-            />
-          );
-        })}
-      </div>
+      <Shelf art={SHELF_WIDE} variant="wide" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
+      <Shelf art={SHELF_TALL} variant="tall" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
 
-      {/* ป้ายชื่อเรื่องใต้ตู้: หนังสือบนชั้นเล็กเกินจะใส่ชื่อ จึงแสดงชื่อเล่มที่ชี้/แตะอยู่ที่นี่ */}
+      {/* ป้ายชื่อเรื่องใต้ตู้: หนังสือบนชั้นเล็กเกินจะใส่ชื่อ จึงแสดงชื่อเล่มที่ชี้/แตะอยู่ที่นี่ พร้อมช่วงวัยของเล่มนั้น */}
       <div className="scene-copy shadow-soft rounded-card mx-auto mt-6 flex max-w-3xl items-center gap-4 p-4 sm:p-5">
         <Image src="/Character/read.webp" alt="" width={96} height={96} className="size-16 shrink-0 object-contain sm:size-24" />
         <div className="min-w-0" aria-live="polite">
-          <p className="font-display text-xl font-extrabold sm:text-2xl">
+          <p className="bs-chip" data-zone={shownAge}>
+            <span className="bs-mark" aria-hidden="true" />
+            {shownLabel.th}
+            <span lang="en" className="bs-chip-en">
+              · {shownLabel.en}
+            </span>
+          </p>
+          <p className="font-display mt-1 text-xl font-extrabold sm:text-2xl">
             {shown.titleTh}
             <span lang="en" className="text-ink-soft block text-sm font-semibold sm:text-base">
               {shown.titleEn}
