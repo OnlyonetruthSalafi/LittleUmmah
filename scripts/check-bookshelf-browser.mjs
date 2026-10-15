@@ -50,7 +50,7 @@ try {
     await page.getByRole('button', { name: /พัก/ }).waitFor({ timeout: 5000 });
     await page.waitForTimeout(700);
     await page.screenshot({ path: `${out}/${width}-arrived.png` });
-    const plays = await page.evaluate(() => window.__plays.filter((p) => p.includes('/audio/stories/')));
+    const plays = await page.evaluate(() => window.__plays.filter((p) => p.includes('/audio/th/stories/')));
     assert.ok(plays[0]?.endsWith('/p00.mp3'), `title narration starts: ${plays}`);
     await context.close();
   }

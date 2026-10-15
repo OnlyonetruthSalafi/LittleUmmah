@@ -1,4 +1,6 @@
 import { getIslandContent } from "@/lib/lessons";
+import type { Text } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 
 /*
   บทเรียนในห้องเรียนหุ่นยนต์ — เกาะภาษาอาหรับ
@@ -20,8 +22,7 @@ export type ClassStep = {
   board: string;
   /** ตัวเดียวเขียนเต็มกระดาน ส่วนวลีต้องเล็กลงจึงจะพอ */
   boardSize: "glyph" | "phrase";
-  titleTh: string;
-  titleEn: string;
+  title: Text;
   /** สิ่งที่ครูสอน อ่านเป็นเสียงในคลิป teach- */
   body: string;
   /** คำที่เด็กอ่านตามในจังหวะเว้นว่าง */
@@ -89,10 +90,9 @@ function buildSteps(group: AgeGroupId): ClassStep[] {
     group,
     board: lesson.glyph ?? lesson.arabic ?? "",
     boardSize: lesson.glyph ? "glyph" : "phrase",
-    titleTh: lesson.titleTh,
-    titleEn: lesson.titleEn,
+    title: lesson.title,
     body: lesson.body,
-    say: SAY[lesson.id] ?? lesson.reading ?? lesson.titleTh,
+    say: SAY[lesson.id] ?? lesson.reading ?? lesson.title.th,
     meaning: lesson.meaning,
   }));
 }
@@ -108,13 +108,13 @@ export const CLASS_STEPS: Record<AgeGroupId, ClassStep[]> = {
   วัย 7+: 4 หมวด ตามรหัสบทใน lessons.ts
   preview = สิ่งที่แสดงบนปุ่มเลือกชุด (ตัวอักษรของชุด หรือตัวอย่างอาหรับสั้นๆ)
 */
-export type ClassUnit = { id: string; titleTh: string; titleEn: string; preview: string; steps: ClassStep[] };
+export type ClassUnit = { id: string; title: Text; preview: string; steps: ClassStep[] };
 
-const JUNIOR_UNITS: { id: string; titleTh: string; titleEn: string; preview: string; ids: string[] }[] = [
-  { id: "manners", titleTh: "มารยาทและคำทักทาย", titleEn: "Manners", preview: "سَلَام", ids: ["salam", "jazak", "bismillah", "alhamdulillah"] },
-  { id: "harakat", titleTh: "สระอาหรับ", titleEn: "Vowel marks", preview: "بَ بِ بُ", ids: ["fatha", "kasra", "damma", "sukun"] },
-  { id: "numbers", titleTh: "ตัวเลข", titleEn: "Numbers", preview: "١ ٢ ٣", ids: ["numbers", "numbers2", "digits"] },
-  { id: "words", titleTh: "คำศัพท์", titleEn: "Words", preview: "كِتَاب", ids: ["words", "home", "nature", "family"] },
+const JUNIOR_UNITS: { id: string; title: Text; preview: string; ids: string[] }[] = [
+  { id: "manners", title: { th: "มารยาทและคำทักทาย", en: "Manners" }, preview: "سَلَام", ids: ["salam", "jazak", "bismillah", "alhamdulillah"] },
+  { id: "harakat", title: { th: "สระอาหรับ", en: "Vowel marks" }, preview: "بَ بِ بُ", ids: ["fatha", "kasra", "damma", "sukun"] },
+  { id: "numbers", title: { th: "ตัวเลข", en: "Numbers" }, preview: "١ ٢ ٣", ids: ["numbers", "numbers2", "digits"] },
+  { id: "words", title: { th: "คำศัพท์", en: "Words" }, preview: "كِتَاب", ids: ["words", "home", "nature", "family"] },
 ];
 
 function buildUnits(group: AgeGroupId): ClassUnit[] {
@@ -124,8 +124,7 @@ function buildUnits(group: AgeGroupId): ClassUnit[] {
       const chunk = steps.slice(i * 4, i * 4 + 4);
       return {
         id: `letters-${i + 1}`,
-        titleTh: `ชุดที่ ${i + 1}`,
-        titleEn: `Set ${i + 1}`,
+        title: { th: `ชุดที่ ${i + 1}`, en: `Set ${i + 1}` },
         preview: chunk.map((s) => s.board).join(" "),
         steps: chunk,
       };
@@ -146,9 +145,9 @@ export const CLASS_UNITS: Record<AgeGroupId, ClassUnit[]> = {
   juniors: buildUnits("juniors"),
 };
 
-/** ไฟล์เสียงห้องเรียน — แยกโฟลเดอร์จาก /audio/th เพราะเล่นด้วย playNarration ไม่ผ่านทะเบียน RECORDED_CLIPS */
-export function classAudio(key: string) {
-  return `/audio/class/${key}.mp3`;
+/** ไฟล์เสียงห้องเรียน — โฟลเดอร์ย่อย class/ เพราะเล่นด้วย playNarration ไม่ผ่านทะเบียน RECORDED_CLIPS */
+export function classAudio(locale: Locale, key: string) {
+  return `/audio/${locale}/class/${key}.mp3`;
 }
 
 /** คำชมสามแบบ หมุนไปเรื่อยๆ เพื่อไม่ให้ซ้ำจนเด็กเบื่อ */

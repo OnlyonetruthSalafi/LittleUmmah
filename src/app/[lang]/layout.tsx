@@ -1,0 +1,57 @@
+import type { Metadata, Viewport } from "next";
+import { notFound } from "next/navigation";
+
+import { SoundProvider } from "@/components/sound/SoundProvider";
+import { LOCALES } from "@/i18n/config";
+import { LocaleProvider } from "@/i18n/LocaleProvider";
+import { isLocale } from "@/i18n/path";
+import "../globals.css";
+import "../scene-type.css";
+import "../controls.css";
+import { fontClasses } from "../fonts";
+
+const metadata: Metadata = {
+  title: {
+    default: "Little Ummah — เรียนรู้ เล่นสนุก เติบโต",
+    template: "%s | Little Ummah",
+  },
+  description:
+    "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก เรียนรู้ศรัทธา สร้างมารยาทที่ดี และเติบโตเป็นคนดีของโลกใบนี้ สำหรับเด็กวัย 3-6 ปี และ 7 ปีขึ้นไป",
+};
+
+/*
+  root layout อยู่ใต้ [lang] เพื่อให้ <html lang> ตรงกับภาษาของหน้า (คู่มือ Next: guides/internationalization)
+  ไทยไม่มี prefix ใน URL — src/proxy.ts rewrite /learn ไปที่ /th/learn ภายใน
+  /en ยังไม่เปิดให้คนทั่วไป (เนื้อหาอังกฤษยังไม่ครบ) จึงสั่ง noindex ไว้ก่อน
+*/
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }));
+}
+
+export const dynamicParams = false;
+
+export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await params;
+  return lang === "th" ? metadata : { ...metadata, robots: { index: false, follow: false } };
+}
+
+export const viewport: Viewport = {
+  themeColor: "#4fa8e8",
+};
+
+export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+  return (
+    <html
+      lang={lang}
+      className={`${fontClasses} h-full antialiased`}
+    >
+      <body className="font-body bg-sky-pale text-ink flex min-h-full flex-col">
+        <LocaleProvider locale={lang}>
+          <SoundProvider>{children}</SoundProvider>
+        </LocaleProvider>
+      </body>
+    </html>
+  );
+}

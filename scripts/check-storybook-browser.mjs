@@ -60,7 +60,7 @@ try {
   });
   const page = await context.newPage();
   page.on('pageerror', (e) => errors.push(`auto: ${e.message}`));
-  const narr = () => page.evaluate(() => window.__plays.filter((p) => p.includes('/audio/stories/')));
+  const narr = () => page.evaluate(() => window.__plays.filter((p) => p.includes('/audio/th/stories/')));
   await page.goto(url);
   await page.getByRole('button', { name: /เล่นนิทาน/ }).click();
   await page.getByText(`หน้า 1 / ${story.pages.length}`).waitFor({ timeout: 12000 });
@@ -77,7 +77,7 @@ try {
   await page.waitForTimeout(3000);
   const plays = await narr();
   const keys = story.pages.map((p) => p.image.split('/').pop().replace(/\.\w+$/, ''));
-  const expected = ['p00', keys[0], ...keys].map((k) => `/audio/stories/${slug}/${k}.mp3`);
+  const expected = ['p00', keys[0], ...keys].map((k) => `/audio/th/stories/${slug}/${k}.mp3`);
   assert.deepEqual(plays, expected, 'each page of this story narrated once, p01 replayed after pause');
   assert.equal(await page.getByRole('button', { name: /อ่านอีกครั้ง/ }).count(), 1);
   for (const btn of await page.locator('.sb-btn').all()) {

@@ -21,17 +21,13 @@ import type { Lesson } from "@/lib/lessons";
 
 export const AGE_SECTIONS: Record<AgeId, AgeSection> = {
   kids: {
-    labelTh: "วัย 3-6 ปี",
-    labelEn: "Ages 3-6",
-    descTh: "รู้จักสัตว์และสิ่งรอบตัวที่อัลลอฮ์ทรงสร้าง",
-    descEn: "Animals and the world Allah created",
+    label: { th: "วัย 3-6 ปี", en: "Ages 3-6" },
+    desc: { th: "รู้จักสัตว์และสิ่งรอบตัวที่อัลลอฮ์ทรงสร้าง", en: "Animals and the world Allah created" },
     badge: "/moral/age-kids.webp",
   },
   juniors: {
-    labelTh: "วัย 7 ปีขึ้นไป",
-    labelEn: "Ages 7+",
-    descTh: "สำรวจว่าสัตว์อยู่ในบ้านของมันได้อย่างไร",
-    descEn: "How animals live in their homes",
+    label: { th: "วัย 7 ปีขึ้นไป", en: "Ages 7+" },
+    desc: { th: "สำรวจว่าสัตว์อยู่ในบ้านของมันได้อย่างไร", en: "How animals live in their homes" },
     badge: "/moral/age-juniors.webp",
   },
 };
@@ -225,22 +221,22 @@ export const PHOTO_CREDITS = Object.values(PHOTOS).map((s: PhotoSource) => ({
 
 /* ---------- หมวด "สัตว์และบ้านของมัน" ---------- */
 
-export const HABITAT_GROUP = { titleTh: "สัตว์และบ้านของมัน", titleEn: "Animals and their homes" };
-export const WORLD_GROUP = { titleTh: "สิ่งรอบตัว", titleEn: "The world around us" };
+export const HABITAT_GROUP = { title: { th: "สัตว์และบ้านของมัน", en: "Animals and their homes" } };
+export const WORLD_GROUP = { title: { th: "สิ่งรอบตัว", en: "The world around us" } };
 
 /* id ไม่ซ้ำกับบทของเกาะอื่น (ดาวเก็บแยกเกาะอยู่แล้ว แต่กันสับสน) — body ใช้เมื่อไม่มีการ์ตูนเท่านั้น */
 export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
   kids: [
-    { id: "desert-home", icon: "sun", titleTh: "ทะเลทราย", titleEn: "The desert", body: "อูฐและจิ้งจอกเฟนเนคอยู่ในทะเลทรายที่ร้อนและแห้งได้" },
-    { id: "forest-home", icon: "tree", titleTh: "ป่าไม้", titleEn: "The forest", body: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่" },
-    { id: "sea-home", icon: "wave", titleTh: "ทะเล", titleEn: "The sea", body: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง" },
-    { id: "polar-home", icon: "mountain", titleTh: "ขั้วโลก", titleEn: "The polar lands", body: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด" },
+    { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย", en: "The desert" }, body: "อูฐและจิ้งจอกเฟนเนคอยู่ในทะเลทรายที่ร้อนและแห้งได้" },
+    { id: "forest-home", icon: "tree", title: { th: "ป่าไม้", en: "The forest" }, body: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่" },
+    { id: "sea-home", icon: "wave", title: { th: "ทะเล", en: "The sea" }, body: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง" },
+    { id: "polar-home", icon: "mountain", title: { th: "ขั้วโลก", en: "The polar lands" }, body: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด" },
   ],
   juniors: [
-    { id: "desert-life", icon: "sun", titleTh: "ชีวิตในทะเลทราย", titleEn: "Life in the desert", body: "อูฐและจิ้งจอกเฟนเนคปรับตัวให้อยู่ในความร้อนได้" },
-    { id: "forest-life", icon: "tree", titleTh: "ชีวิตในป่า", titleEn: "Life in the forest", body: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต" },
-    { id: "sea-life", icon: "wave", titleTh: "ชีวิตในทะเล", titleEn: "Life in the sea", body: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล" },
-    { id: "polar-life", icon: "mountain", titleTh: "ชีวิตที่ขั้วโลก", titleEn: "Life at the poles", body: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว" },
+    { id: "desert-life", icon: "sun", title: { th: "ชีวิตในทะเลทราย", en: "Life in the desert" }, body: "อูฐและจิ้งจอกเฟนเนคปรับตัวให้อยู่ในความร้อนได้" },
+    { id: "forest-life", icon: "tree", title: { th: "ชีวิตในป่า", en: "Life in the forest" }, body: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต" },
+    { id: "sea-life", icon: "wave", title: { th: "ชีวิตในทะเล", en: "Life in the sea" }, body: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล" },
+    { id: "polar-life", icon: "mountain", title: { th: "ชีวิตที่ขั้วโลก", en: "Life at the poles" }, body: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว" },
   ],
 };
 

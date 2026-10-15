@@ -49,17 +49,17 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
   function flip(card: MemoryCard) {
     const next = chooseMemoryCard(round, card.id);
     if (next === round) return;
-    speak(card.item.nameTh);
+    speak(card.item.name.th);
     setRound(next);
     if (next.open.length === 1) {
-      setAnnouncement(`เปิด ${card.item.nameTh} เลือกอีกหนึ่งใบ`);
+      setAnnouncement(`เปิด ${card.item.name.th} เลือกอีกหนึ่งใบ`);
       return;
     }
     const first = deck.find(candidate => candidate.id === next.open[0])!;
     const isMatch = isMemoryMatch(next);
     setAnnouncement(isMatch
-      ? `จับคู่ ${card.item.nameTh} ได้แล้ว`
-      : `${first.item.nameTh} กับ ${card.item.nameTh} ยังไม่เหมือนกัน ลองจำภาพไว้นะ`);
+      ? `จับคู่ ${card.item.name.th} ได้แล้ว`
+      : `${first.item.name.th} กับ ${card.item.name.th} ยังไม่เหมือนกัน ลองจำภาพไว้นะ`);
     // เว้นเวลาให้เด็กเห็นภาพทั้งสองใบ และไม่ตัดเสียงชื่อด้วยคำชมทันที
     timer.current = setTimeout(() => {
       if (isMatch) {
@@ -84,8 +84,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
           จับคู่ภาพ
           <span lang="en" className="block text-xl font-semibold">Memory Match</span>
         </h1>
-        <p className="mt-2 font-bold">{group.nameTh} · {group.pairs} คู่</p>
-        <p lang="en" className="text-sm">{group.nameEn} · {group.pairs} pairs</p>
+        <p className="mt-2 font-bold">{group.name.th} · {group.pairs} คู่</p>
+        <p lang="en" className="text-sm">{group.name.en} · {group.pairs} pairs</p>
         <p id="memory-help" className="mt-4">แตะการ์ดสองใบ หาภาพที่เหมือนกัน</p>
         <p lang="en" className="text-sm">Turn over two cards. Find the matching pictures.</p>
       </div>
@@ -136,7 +136,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
             disabled={!started}
             aria-disabled={!started || isMatched || open.length === 2 || open.includes(card.id)}
             aria-pressed={revealed}
-            aria-label={`การ์ดใบที่ ${index + 1}, ${revealed ? card.item.nameTh : "คว่ำอยู่"}${isMatched ? ", จับคู่แล้ว" : ""}`}
+            aria-label={`การ์ดใบที่ ${index + 1}, ${revealed ? card.item.name.th : "คว่ำอยู่"}${isMatched ? ", จับคู่แล้ว" : ""}`}
             onClick={() => flip(card)}
             className={`group flex min-h-28 min-w-16 flex-col items-center justify-center rounded-card-sm border-2 border-brand-blue p-2 text-ink shadow-soft transition-shadow duration-200 ease-out enabled:hover:shadow-float ${revealed ? "bg-cloud" : "bg-sky"} ${ageGroup === "kids" ? "aspect-[4/5] sm:aspect-square" : "aspect-[3/4] sm:aspect-square"}`}
           >
@@ -146,8 +146,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
             </span>
             <span aria-hidden="true" className={`block min-h-12 text-center leading-normal ${ageGroup === "kids" ? "text-base sm:text-lg" : "text-xs sm:text-base"}`}>
               {revealed ? <>
-                <span className="block font-bold">{card.item.nameTh}</span>
-                <span lang="en" className="block text-xs">{card.item.nameEn}</span>
+                <span className="block font-bold">{card.item.name.th}</span>
+                <span lang="en" className="block text-xs">{card.item.name.en}</span>
               </> : <span className="font-display text-xl font-bold">{index + 1}</span>}
             </span>
             <span aria-hidden="true" className="flex min-h-6 items-center gap-1 text-xs font-bold">{isMatched && <><GameIcon name="check" className="size-5" />จับคู่แล้ว</>}</span>

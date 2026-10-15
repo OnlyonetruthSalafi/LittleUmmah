@@ -17,7 +17,7 @@ const TINTS = ["bg-sky", "bg-game-peach", "bg-game-mint", "bg-game-lilac"];
 */
 export function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
   const { speak } = useSound();
-  const script = [lesson.titleTh, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+  const script = [lesson.title.th, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   return (
     <li className="scene-copy shadow-soft rounded-card flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
@@ -36,9 +36,9 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
 
       <div className="min-w-0 flex-1">
         <h3 className="font-display text-xl leading-snug font-extrabold sm:text-2xl">
-          {lesson.titleTh}
+          {lesson.title.th}
           <span lang="en" className="text-ink-soft block text-sm font-semibold">
-            {lesson.titleEn}
+            {lesson.title.en}
           </span>
         </h3>
         <p className="mt-2 leading-relaxed">{lesson.body}</p>
@@ -63,7 +63,7 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
           <span lang="en" className="text-sm font-normal">
             Listen
           </span>
-          <span className="sr-only">{lesson.titleTh}</span>
+          <span className="sr-only">{lesson.title.th}</span>
         </button>
       </div>
     </li>

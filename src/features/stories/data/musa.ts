@@ -24,8 +24,7 @@ import type { Story } from "../types";
 */
 export const MUSA_STORY: Story = {
   slug: "musa",
-  titleTh: "นบีมูซาข้ามทะเล",
-  titleEn: "Prophet Musa and the sea",
+  title: { th: "นบีมูซาข้ามทะเล", en: "Prophet Musa and the sea" },
   cover: "/stories/musa/cover.webp",
   coverAlt: "ทะเลแยกออกเป็นกำแพงน้ำสองฝั่ง มีทางเดินทรายแห้งทอดอยู่ตรงกลาง",
   robot: "/Character/faith.webp",

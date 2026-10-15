@@ -19,6 +19,7 @@ import { DeluxeCover, GoldBurst } from "./DeluxeCover";
 import { FishShadow, SceneFx } from "./SceneFx";
 import "../story.css";
 import "../story-deluxe.css";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 /*
   หนังสือนิทาน 2.5D
@@ -78,9 +79,9 @@ function Cover({ story }: { story: Story }) {
     <div className="sb-cover">
       <Image src={story.cover} alt="" fill sizes="(max-width: 1140px) 50vw, 550px" className="object-cover" priority />
       <div className="sb-cover-title" aria-hidden="true">
-        <span className="sb-cover-th">{story.titleTh}</span>
+        <span className="sb-cover-th">{story.title.th}</span>
         <span className="sb-cover-en" lang="en">
-          {story.titleEn}
+          {story.title.en}
         </span>
       </div>
     </div>
@@ -91,9 +92,9 @@ function Cover({ story }: { story: Story }) {
 function TitlePage({ story }: { story: Story }) {
   return (
     <div className="sbx-titlepage" aria-hidden="true">
-      <span className="sbx-tp-th">{story.titleTh}</span>
+      <span className="sbx-tp-th">{story.title.th}</span>
       <span className="sbx-tp-en" lang="en">
-        {story.titleEn}
+        {story.title.en}
       </span>
     </div>
   );
@@ -124,6 +125,7 @@ function BookShell({ book }: { book: NonNullable<NonNullable<Story["deluxe"]>["b
 }
 
 export function StoryBook({ story }: { story: Story }) {
+  const locale = useLocale();
   const { enabled: soundOn } = useSound();
   const count = story.pages.length;
 
@@ -250,7 +252,7 @@ export function StoryBook({ story }: { story: Story }) {
   useEffect(() => {
     // กดพักระหว่างพลิก: พลิกให้จบ แต่ไม่เริ่มพากย์หน้าใหม่ จนกว่าจะกดเล่นหรือพลิกอีก
     if (!started || turn || userPaused) return;
-    const text = spread < 0 ? story.titleTh : [page?.th, page?.reading, page?.meaning].filter(Boolean).join(" ... ");
+    const text = spread < 0 ? story.title.th : [page?.th, page?.reading, page?.meaning].filter(Boolean).join(" ... ");
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancel: (() => void) | undefined;
     let usedSynth = false;
@@ -267,7 +269,7 @@ export function StoryBook({ story }: { story: Story }) {
     if (!soundOn) {
       readingTime();
     } else {
-      cancel = playNarration(narrationSrc(story, spread), {
+      cancel = playNarration(narrationSrc(locale, story, spread), {
         onEnded: done,
         // เสียงอื่นแทรก หรือกดปิดเสียง: พักหนังสือไว้ ไม่พลิกเอง
         onStopped: () => {
@@ -431,7 +433,7 @@ export function StoryBook({ story }: { story: Story }) {
 
   return (
     <section
-      aria-label={`หนังสือนิทาน ${story.titleTh}`}
+      aria-label={`หนังสือนิทาน ${story.title.th}`}
       className="sb-root mt-6"
       data-deluxe={deluxe ? "" : undefined}
       data-real={deluxe?.book ? "" : undefined}
@@ -635,7 +637,7 @@ export function StoryBook({ story }: { story: Story }) {
 
       {finished && (
         <div className="mt-5 flex justify-center">
-          <BackLink href="/learn/stories" labelTh="เกาะเรื่องเล่า" labelEn="Stories" />
+          <BackLink href="/learn/stories" label={{ th: "เกาะเรื่องเล่า", en: "Stories" }} />
         </div>
       )}
     </section>

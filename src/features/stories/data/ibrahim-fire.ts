@@ -20,8 +20,7 @@ import type { Story } from "../types";
 */
 export const IBRAHIM_FIRE_STORY: Story = {
   slug: "ibrahim-fire",
-  titleTh: "นบีอิบรอฮีมกับกองไฟ",
-  titleEn: "Prophet Ibrahim and the fire",
+  title: { th: "นบีอิบรอฮีมกับกองไฟ", en: "Prophet Ibrahim and the fire" },
   cover: "/stories/ibrahim-fire/cover.webp",
   coverAlt: "เปลวไฟสีส้มกลายเป็นแสงสีฟ้าเย็นสบาย มีดอกไม้เล็กๆ ผลิบานรอบๆ",
   robot: "/Character/faith.webp",

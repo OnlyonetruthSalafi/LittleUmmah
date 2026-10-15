@@ -22,8 +22,7 @@ import type { Story } from "../types";
 */
 export const YUNUS_STORY: Story = {
   slug: "yunus",
-  titleTh: "นบียูนุสในท้องปลา",
-  titleEn: "Prophet Yunus",
+  title: { th: "นบียูนุสในท้องปลา", en: "Prophet Yunus" },
   cover: "/stories/yunus/cover.webp",
   coverAlt: "เรือใบไม้ลำเล็กบนทะเลสีฟ้า มีแสงสีทองส่องขึ้นมาจากใต้น้ำ",
   robot: "/Character/faith.webp",

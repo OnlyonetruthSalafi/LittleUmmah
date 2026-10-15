@@ -17,8 +17,7 @@ import type { Story } from "../types";
 */
 export const ANTS_STORY: Story = {
   slug: "ants",
-  titleTh: "มดตัวน้อยกับนบีสุลัยมาน",
-  titleEn: "The ant and Prophet Sulayman",
+  title: { th: "มดตัวน้อยกับนบีสุลัยมาน", en: "The ant and Prophet Sulayman" },
   cover: "/stories/ants/cover.webp",
   coverAlt: "หุบเขาสีทองยามเช้า มีจอมปลวกรังมดเล็กๆ เรียงรายอยู่บนพื้น",
   robot: "/Character/faith.webp",

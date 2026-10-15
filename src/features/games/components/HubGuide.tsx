@@ -7,6 +7,7 @@ import { getSoundSnapshot } from '@/lib/soundStore';
 import { ReplayIcon } from '@/components/icons/ReplayIcon';
 import { PauseIcon } from '@/components/icons/PauseIcon';
 import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
+import { useLocale } from "@/i18n/LocaleProvider";
 
 const RUN_FRAMES = [1, 2, 3, 4, 5, 6];
 /* วิ่งมาถึงกลางจอแล้วหันหน้าตรง โบกมือทักทาย (wave-1/2 สลับกัน) แล้วหยุดยืนถือจอยเกม (stand)
@@ -20,6 +21,7 @@ const PHONE_FRAMES = ['phone-portrait', 'phone-landscape'];
 const noSubscribe = () => () => {};
 
 export function HubGuide() {
+  const locale = useLocale();
   const runSound = useRunSound();
   const stopRunSound = runSound.stop;
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -162,7 +164,7 @@ export function HubGuide() {
         {status === 'playing' ? <PauseIcon className="h-8 w-8" /> : <SpeakerIcon className="h-9 w-9" />}
       </button>
     </div>
-    <audio id="gc-hub-voice" ref={audioRef} src={touch ? '/audio/th/hub-intro-touch.mp3' : '/audio/th/hub-intro.mp3'} preload="auto"
+    <audio id="gc-hub-voice" ref={audioRef} src={`/audio/${locale}/${touch ? 'hub-intro-touch' : 'hub-intro'}.mp3`} preload="auto"
       onPlay={() => setStatus('playing')}
       onPause={() => { if (!audioRef.current?.ended) setStatus('paused'); }}
       onEnded={() => setStatus('ended')} onError={() => setError(true)} />

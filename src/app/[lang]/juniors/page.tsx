@@ -9,10 +9,8 @@ export default function JuniorsPage() {
     <AgeHome
       anchor="juniors"
       robot="/Character/read.webp"
-      titleTh="วัย 7 ปีขึ้นไป"
-      titleEn="Ages 7+"
-      hintTh="อ่านเองได้ สำรวจเอง เลือกเกาะที่อยากเรียนรู้"
-      hintEn="Read and explore on your own. Pick an island."
+      title={{ th: "วัย 7 ปีขึ้นไป", en: "Ages 7+" }}
+      hint={{ th: "อ่านเองได้ สำรวจเอง เลือกเกาะที่อยากเรียนรู้", en: "Read and explore on your own. Pick an island." }}
     />
   );
 }

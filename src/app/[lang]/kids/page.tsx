@@ -9,10 +9,8 @@ export default function KidsPage() {
     <AgeHome
       anchor="kids"
       robot="/Character/play.webp"
-      titleTh="วัย 3-6 ปี"
-      titleEn="Ages 3–6"
-      hintTh="เรียนรู้ผ่านการเล่น แตะเกาะที่อยากไปได้เลย"
-      hintEn="Learn through play. Tap an island to begin."
+      title={{ th: "วัย 3-6 ปี", en: "Ages 3–6" }}
+      hint={{ th: "เรียนรู้ผ่านการเล่น แตะเกาะที่อยากไปได้เลย", en: "Learn through play. Tap an island to begin." }}
     />
   );
 }

@@ -1,6 +1,8 @@
+import type { Text } from "@/i18n/config";
+
 import type { GameIconName } from "./games";
 
-type MemoryItem = { icon: GameIconName; nameTh: string; nameEn: string };
+type MemoryItem = { icon: GameIconName; name: Text };
 export type MemoryCard = { id: string; item: MemoryItem };
 export type MemoryState = {
   deck: MemoryCard[];

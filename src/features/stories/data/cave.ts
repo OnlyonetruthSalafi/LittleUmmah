@@ -21,8 +21,7 @@ import type { Story } from "../types";
 */
 export const CAVE_STORY: Story = {
   slug: "cave",
-  titleTh: "ชาวถ้ำ",
-  titleEn: "The people of the cave",
+  title: { th: "ชาวถ้ำ", en: "The people of the cave" },
   cover: "/stories/cave/cover.webp",
   coverAlt: "ปากถ้ำบนภูเขาหินยามเช้า แสงอาทิตย์สีทองส่องผ่านเข้าไปข้างใน",
   robot: "/Character/faith.webp",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { PageShell } from "@/components/layout/PageShell";
 import { BackLink } from "@/components/ui/BackLink";

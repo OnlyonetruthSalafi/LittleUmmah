@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { MapIcon } from "@/components/icons/MapIcon";
@@ -38,7 +38,7 @@ export function OtherIslands({ current }: { current: string }) {
           <li key={island.slug} className="flex">
             <Link
               href={island.href}
-              onClick={() => speak(island.nameTh, `cat-${island.slug}`)}
+              onClick={() => speak(island.name.th, `cat-${island.slug}`)}
               className="oi-island group"
             >
               <span className="oi-island-art">
@@ -46,9 +46,9 @@ export function OtherIslands({ current }: { current: string }) {
               </span>
               <span className="oi-island-label">
                 <span className="min-w-0 flex-1">
-                  <span className="font-display block leading-snug font-extrabold">{island.nameTh}</span>
+                  <span className="font-display block leading-snug font-extrabold">{island.name.th}</span>
                   <span lang="en" className="text-ink-soft block text-xs">
-                    {island.nameEn}
+                    {island.name.en}
                   </span>
                 </span>
                 <ChevronRightIcon className="oi-island-chev" />

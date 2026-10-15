@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { SparkleIcon } from "@/components/icons/SparkleIcon";
 import { useSound } from "@/components/sound/SoundProvider";
@@ -30,7 +30,7 @@ export function ValueBar() {
           <li key={category.slug} className="flex">
             <Link
               href={category.href}
-              onClick={() => speak(category.nameTh, `cat-${category.slug}`)}
+              onClick={() => speak(category.name.th, `cat-${category.slug}`)}
               className="ui-chip group flex min-h-16 w-full items-center gap-2.5 px-3 py-2"
             >
               <SparkleIcon
@@ -38,10 +38,10 @@ export function ValueBar() {
               />
               <span className="flex min-w-0 flex-col text-left">
                 <span className="font-display text-ink text-base leading-snug font-extrabold decoration-2 underline-offset-4 group-hover:underline sm:text-lg">
-                  {category.nameTh}
+                  {category.name.th}
                 </span>
                 <span lang="en" className="text-ink-soft text-xs">
-                  {category.nameEn}
+                  {category.name.en}
                 </span>
               </span>
             </Link>

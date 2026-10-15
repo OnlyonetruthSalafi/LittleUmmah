@@ -1,5 +1,5 @@
 /*
-  สร้างเสียงครูหุ่นยนต์ของห้องเรียนภาษาอาหรับ -> public/audio/class/
+  สร้างเสียงครูหุ่นยนต์ของห้องเรียนภาษาอาหรับ -> public/audio/th/class/
 
   ใช้เสียงและเอฟเฟคชุดเดียวกับเสียงหุ่นยนต์ที่มีอยู่แล้วทั้งเว็บ (เจ้าของโปรเจกต์เลือกไว้)
   ElevenLabs เสียง "Leo - Cute Energetic Young Kid" + ฟิลเตอร์หุ่นยนต์ของ ffmpeg
@@ -132,4 +132,4 @@ const LINES = {
   done: "เก่งมากเลย เรียนจบชุดนี้แล้ว พักสักหน่อย แล้วมาเรียนชุดต่อไปกับครูนะ",
 };
 
-await renderRobotLines(LINES, path.join(process.cwd(), "public", "audio", "class"), process.argv.slice(2));
+await renderRobotLines(LINES, path.join(process.cwd(), "public", "audio", "th", "class"), process.argv.slice(2));

@@ -23,8 +23,7 @@ import type { Story } from "../types";
 */
 export const KAABA_STORY: Story = {
   slug: "kaaba",
-  titleTh: "สร้างบ้านของอัลลอฮ์",
-  titleEn: "Building the Kaaba",
+  title: { th: "สร้างบ้านของอัลลอฮ์", en: "Building the Kaaba" },
   cover: "/stories/kaaba/cover.webp",
   coverAlt: "ฐานกำแพงหินสี่เหลี่ยมที่กำลังก่อขึ้นกลางหุบเขาทะเลทรายยามเย็น",
   robot: "/Character/faith.webp",

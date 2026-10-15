@@ -1,3 +1,4 @@
+import type { Locale } from "@/i18n/config";
 /*
   เสียงอ่านออกเสียงภาษาไทย สำหรับเด็กเล็กที่ยังอ่านหนังสือไม่ออก
 
@@ -43,6 +44,25 @@ export function isSpeaking(): boolean {
 }
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
+
+/*
+  ภาษาของหน้าปัจจุบัน — LocaleProvider ตั้งให้ ไฟล์เสียงอยู่ที่ public/audio/<ภาษา>/
+  ทะเบียน RECORDED_CLIPS เป็นไฟล์ภาษาไทย ภาษาอื่นใช้เสียงสังเคราะห์จนกว่าจะอัดไฟล์ของภาษานั้น
+*/
+// import แค่ type: scripts/speech.test.mjs รันไฟล์นี้แยกโดยไม่มีตัว resolve "@/"
+let speechLocale: Locale = "th";
+const SYNTH_LANG: Record<Locale, string> = { th: "th-TH", en: "en-US" };
+
+export function setSpeechLocale(locale: Locale) {
+  if (locale === speechLocale) return;
+  speechLocale = locale;
+  cachedVoice = null;
+}
+
+/** มีไฟล์เสียงอัดของ key นี้ในภาษาปัจจุบันไหม */
+export function hasRecordedClip(key: string): boolean {
+  return speechLocale === "th" && RECORDED_CLIPS.has(key);
+}
 let currentAudio: HTMLAudioElement | null = null;
 let currentClipKey: string | null = null;
 let currentUtterance: SpeechSynthesisUtterance | null = null;
@@ -81,7 +101,7 @@ function pickThaiVoice(synth: SpeechSynthesis): SpeechSynthesisVoice | null {
   const voices = synth.getVoices();
   if (voices.length === 0) return null;
   cachedVoice =
-    voices.find((v) => v.lang?.toLowerCase().startsWith("th")) ?? null;
+    voices.find((v) => v.lang?.toLowerCase().startsWith(speechLocale)) ?? null;
   return cachedVoice;
 }
 
@@ -126,7 +146,7 @@ export function speakWithSynth(text: string) {
   stopAllSpeech();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "th-TH";
+  utterance.lang = SYNTH_LANG[speechLocale];
   utterance.pitch = 1.6; // สูงขึ้นให้ใกล้เสียงเด็ก
   utterance.rate = 0.9; // ช้าลงให้เด็กเล็กตามทัน
   const voice = pickThaiVoice(synth);
@@ -217,7 +237,7 @@ export function playNarration(
 export function playRecordedClip(key: string, onFail: () => void) {
   if (currentAudio && currentClipKey === key) return;
   stopAllSpeech();
-  const audio = new Audio(`/audio/th/${key}.mp3`);
+  const audio = new Audio(`/audio/${speechLocale}/${key}.mp3`);
   currentAudio = audio;
   currentClipKey = key;
   audio.addEventListener("ended", () => {

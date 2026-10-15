@@ -2,11 +2,11 @@ import type { LessonIconName } from "@/components/icons/LessonIcon";
 import { ISLAND_CONTENT } from "@/lib/lessons";
 
 import { STORIES } from "./index";
+import type { Text } from "@/i18n/config";
 
 export type ShelfBook = {
   id: string;
-  titleTh: string;
-  titleEn: string;
+  title: Text;
   icon: LessonIconName;
   /** มีเฉพาะเรื่องที่ทำหนังสือนิทานแล้ว เรื่องอื่นเป็นหนังสือ "เร็วๆ นี้" */
   cover?: string;
@@ -24,8 +24,7 @@ export function shelfBooks() {
     const story = STORIES.find((s) => s.slug === lesson.id);
     return {
       id: lesson.id,
-      titleTh: story?.titleTh ?? lesson.titleTh,
-      titleEn: story?.titleEn ?? lesson.titleEn,
+      title: story?.title ?? lesson.title,
       icon: lesson.icon,
       cover: story?.cover,
       href: story ? `/learn/stories/${story.slug}` : undefined,

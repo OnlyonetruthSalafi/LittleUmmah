@@ -6,5 +6,5 @@ import { BackLink } from "@/components/ui/BackLink";
 export const gameButtonClass = "ui-pill";
 
 export function GameNavigation({ home = false }: { home?: boolean }) {
-  return home ? <BackLink /> : <BackLink href="/learn/games" labelTh="หน้าเกม" labelEn="Games" />;
+  return home ? <BackLink /> : <BackLink href="/learn/games" label={{ th: "หน้าเกม", en: "Games" }} />;
 }

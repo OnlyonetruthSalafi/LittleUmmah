@@ -41,9 +41,9 @@ export function DeluxeCover({ story }: { story: Story }) {
         </>
       )}
       <div className="sbx-title" aria-hidden="true">
-        <span className="sbx-title-th">{story.titleTh}</span>
+        <span className="sbx-title-th">{story.title.th}</span>
         <span className="sbx-title-en" lang="en">
-          {story.titleEn}
+          {story.title.en}
         </span>
       </div>
     </div>

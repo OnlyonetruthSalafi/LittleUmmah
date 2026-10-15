@@ -30,9 +30,9 @@ export default function MemoryPage() {
           {AGE_GROUPS.map((group) => (
             <section key={group.id}>
               <h2 className="mb-4 text-xl font-bold">
-                {group.nameTh}
+                {group.name.th}
                 <span lang="en" className="block text-sm font-normal">
-                  {group.nameEn}
+                  {group.name.en}
                 </span>
               </h2>
               <ul>

@@ -9,6 +9,8 @@ import { getSoundSnapshot } from "@/lib/soundStore";
 
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection, type GuideStep } from "../data";
 import "../moral.css";
+import type { Text } from "@/i18n/config";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 /*
   ส่วนหัวของเกาะมารยาท + หุ่นยนต์นำทาง
@@ -33,19 +35,15 @@ type Phase = "off" | "tour" | "rest";
 export type HeroArt = { src: string; width: number; height: number };
 
 export function MoralHero({
-  titleTh,
-  titleEn,
-  introTh,
-  introEn,
+  title,
+  intro,
   steps: GUIDE_STEPS,
   ageSections: AGE_SECTIONS,
   art,
   seenKey: SEEN_KEY,
 }: {
-  titleTh: string;
-  titleEn: string;
-  introTh: string;
-  introEn: string;
+  title: Text;
+  intro: Text;
   /** บทของหุ่นยนต์นำทาง (หนึ่งจังหวะ = หนึ่งคลิปเสียง) */
   steps: GuideStep[];
   ageSections: Record<AgeId, AgeSection>;
@@ -54,6 +52,7 @@ export function MoralHero({
   /** sessionStorage key — แต่ละเกาะเล่นแนะนำเองครั้งแรกแยกกัน */
   seenKey: string;
 }) {
+  const locale = useLocale();
   const [phase, setPhase] = useState<Phase>("rest");
   const [step, setStep] = useState(-1);
   // ยกเลิกช่วงวิ่งเข้า (rAF + ตัวจับเวลา) — ส่วนเสียงของแต่ละจังหวะยกเลิกใน cleanup ของ effect ข้างล่าง
@@ -77,7 +76,7 @@ export function MoralHero({
     };
     let stopAudio = () => {};
     if (getSoundSnapshot()) {
-      stopAudio = playNarration(`/audio/th/${current.clip}.mp3`, {
+      stopAudio = playNarration(`/audio/${locale}/${current.clip}.mp3`, {
         onEnded: () => {
           timer = window.setTimeout(next, 350);
         },
@@ -93,7 +92,7 @@ export function MoralHero({
       window.clearTimeout(timer);
       stopAudio();
     };
-  }, [phase, step, finish, GUIDE_STEPS]);
+  }, [phase, step, finish, GUIDE_STEPS, locale]);
 
   const start = useCallback(() => {
     cancelEnter.current();
@@ -169,9 +168,9 @@ export function MoralHero({
       <a href={`#${age}`} className={`mrl-age-btn mrl-age-btn-${age}`} data-guided={focus === age || undefined}>
         <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-btn-art" priority />
         <span className="min-w-0 flex-1">
-          {section.labelTh}
+          {section.label.th}
           <span lang="en" className="block text-sm font-semibold">
-            {section.labelEn}
+            {section.label.en}
           </span>
         </span>
         <ChevronRightIcon className="size-6 shrink-0" />
@@ -183,15 +182,15 @@ export function MoralHero({
     <header className="mrl-hero">
       <div className="mrl-hero-copy">
         <h1 className="font-display">
-          <span className="mrl-hero-title">{titleTh}</span>
+          <span className="mrl-hero-title">{title.th}</span>
           <span lang="en" className="mrl-hero-title-en">
-            {titleEn}
+            {title.en}
           </span>
         </h1>
         <p className="mrl-hero-intro">
-          {introTh}
+          {intro.th}
           <span lang="en" className="text-ink-soft block text-sm">
-            {introEn}
+            {intro.en}
           </span>
         </p>
         <nav aria-label="เลือกช่วงวัย / Choose an age" className="mrl-age-btns">

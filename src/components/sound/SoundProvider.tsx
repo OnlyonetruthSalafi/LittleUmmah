@@ -11,7 +11,7 @@ import {
 } from "react";
 
 import {
-  RECORDED_CLIPS,
+  hasRecordedClip,
   getSpeechBrokenServerSnapshot,
   getSpeechBrokenSnapshot,
   playRecordedClip,
@@ -77,7 +77,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   const speak = useCallback((text: string, key?: string) => {
     if (!getSoundSnapshot()) return;
 
-    if (key && RECORDED_CLIPS.has(key)) {
+    if (key && hasRecordedClip(key)) {
       playRecordedClip(key, () => {
         // ระหว่างรอไฟล์โหลด ผู้ใช้อาจกดปิดเสียงไปแล้ว ต้องเช็กซ้ำก่อนใช้เสียงสำรอง
         if (getSoundSnapshot()) speakWithSynth(text);

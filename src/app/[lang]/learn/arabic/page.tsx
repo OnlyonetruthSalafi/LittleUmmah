@@ -18,7 +18,7 @@ export default function ArabicIslandPage() {
   return (
     <>
       <BackLink />
-      <Classroom introTh={island?.introTh ?? ""} introEn={island?.introEn ?? ""} />
+      <Classroom introTh={island?.intro.th ?? ""} introEn={island?.intro.en ?? ""} />
 
       <div className="mt-12">
         <h2 className="font-display mb-4 text-center text-2xl font-bold">ไปเกาะอื่นกัน</h2>

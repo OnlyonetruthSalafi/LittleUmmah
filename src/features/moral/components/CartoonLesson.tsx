@@ -12,6 +12,7 @@ import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
 import { SAY_ALONG_MS, sayPrompt, type Cartoon } from "../cartoon";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 /*
   การ์ตูนบทเรียน — ครูหุ่นยนต์นูรีพาไปดูเหตุการณ์ทีละฉาก (ข้อมูลใน cartoon.ts)
@@ -34,12 +35,13 @@ export function CartoonLesson({
   onClose,
   onFinish,
 }: {
-  lesson: Pick<Lesson, "titleTh" | "titleEn">;
+  lesson: Pick<Lesson, "title">;
   cartoon: Cartoon;
   onClose: () => void;
   /** ดูจนจบฉากสุดท้าย — ใช้ให้ดาว (เปิดดูเฉยๆ ยังไม่นับ) */
   onFinish?: () => void;
 }) {
+  const locale = useLocale();
   const { scenes, word: lessonWord } = cartoon;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
@@ -82,7 +84,7 @@ export function CartoonLesson({
     };
     let stop = () => {};
     if (getSoundSnapshot()) {
-      stop = playNarration(`/audio/th/${scene.clip}.mp3`, {
+      stop = playNarration(`/audio/${locale}/${scene.clip}.mp3`, {
         onEnded: afterVoice,
         // ปุ่มปิดเสียง หรือเสียงอื่นแทรก = พักการ์ตูนไว้ เด็กกดเล่นต่อได้
         onStopped: () => setStatus("paused"),
@@ -98,7 +100,7 @@ export function CartoonLesson({
       stop();
     };
     // take: เริ่มฉากเดิมใหม่ได้ (กดเล่นต่อ/ดูอีกครั้ง)
-  }, [index, status, take, scenes, goTo]);
+  }, [index, status, take, scenes, goTo, locale]);
 
   // ดาว: ต้องดูครบทุกฉาก กด "ถัดไป" ข้ามไปฉากสุดท้ายแล้วรอจบยังไม่นับ (ย้อนกลับไปดูฉากที่ข้ามก็ยังนับได้)
   const onFinishRef = useRef(onFinish);
@@ -150,9 +152,9 @@ export function CartoonLesson({
       <div className="mrl-cartoon-body">
         <div className="mrl-cartoon-head">
           <h3 id="cartoon-title" className="font-display text-xl leading-snug font-extrabold sm:text-2xl">
-            {lesson.titleTh}
+            {lesson.title.th}
             <span lang="en" className="text-ink-soft ml-2 text-sm font-semibold">
-              {lesson.titleEn}
+              {lesson.title.en}
             </span>
           </h3>
           <button type="button" className="ui-pill" onClick={() => dialogRef.current?.close()}>

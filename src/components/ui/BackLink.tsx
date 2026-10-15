@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { HomeIcon } from "@/components/icons/HomeIcon";
 import { useSound } from "@/components/sound/SoundProvider";
+import type { Text } from "@/i18n/config";
 
 /*
   ปุ่มนำทางกลับของหน้าด้านใน — ใช้ตัวนี้ทุกหน้า รวมถึงหน้าเกม
@@ -14,27 +15,25 @@ import { useSound } from "@/components/sound/SoundProvider";
 */
 export function BackLink({
   href = "/",
-  labelTh = "หน้าแรก",
-  labelEn = "Home",
+  label = { th: "หน้าแรก", en: "Home" },
   className = "",
 }: {
   href?: string;
-  labelTh?: string;
-  labelEn?: string;
+  label?: Text;
   className?: string;
 }) {
   const { speak } = useSound();
   const Icon = href === "/" ? HomeIcon : ArrowLeftIcon;
 
   return (
-    <Link href={href} onClick={() => speak(labelTh)} className={`ui-pill ${className}`}>
+    <Link href={href} onClick={() => speak(label.th)} className={`ui-pill ${className}`}>
       <span className="ui-disc">
         <Icon />
       </span>
       <span className="ui-label">
-        {labelTh}
+        {label.th}
         <span lang="en" className="ui-sub">
-          {labelEn}
+          {label.en}
         </span>
       </span>
     </Link>

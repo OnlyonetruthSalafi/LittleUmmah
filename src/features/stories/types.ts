@@ -1,3 +1,4 @@
+import type { Text } from "@/i18n/config";
 /**
   ฉากเคลื่อนไหวซ้อนบนภาพหน้าคู่ (โหมด deluxe) — เคลื่อนแค่สิ่งไม่มีชีวิต: น้ำ เมฆ ฝน ฟอง แสง
   ตำแหน่งจุดเด่นของภาพ (วังน้ำวน ดวงจันทร์) อยู่ใน story.css ตามชื่อฉาก
@@ -59,8 +60,7 @@ export type StoryPage = {
 
 export type Story = {
   slug: string;
-  titleTh: string;
-  titleEn: string;
+  title: Text;
   /** ภาพปกแนวตั้ง */
   cover: string;
   coverAlt: string;

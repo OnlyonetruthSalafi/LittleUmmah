@@ -6,6 +6,7 @@ import { Thumbnail } from './Artwork';
 import { PlayDemo } from './PlayDemo';
 import { gameAssets, type GameDefinition } from '../data/catalog';
 import { playNarration, stopAllSpeech } from '@/lib/speech';
+import { useLocale } from "@/i18n/LocaleProvider";
 
 /*
   หน้าแนะนำเกมแบบ "หุ่นยนต์สอนด้วยเสียง"
@@ -31,6 +32,7 @@ const VOICE_CEILING_MS = 45000;
 export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
   game: GameDefinition; soundOn: boolean; speechBroken: boolean; onStart: () => void;
 }) {
+  const locale = useLocale();
   const voiceReady = soundOn && !speechBroken;
   /** พูดอยู่ไหม ใช้แค่โชว์คลื่นเสียง ไม่มีผลกับการกดปุ่ม */
   const [talking, setTalking] = useState(voiceReady);
@@ -51,7 +53,7 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
     if (!voiceReady) return;
     clearTimeout(ceiling.current);
     ceiling.current = setTimeout(finish, VOICE_CEILING_MS);
-    cancel.current = playNarration(`/audio/th/howto-${game.slug}.mp3`, {
+    cancel.current = playNarration(`/audio/${locale}/howto-${game.slug}.mp3`, {
       onEnded: finish,
       // เด็กกดปิดเสียงกลางคัน หรือมีเสียงอื่นแทรก — ให้ปุ่มโผล่เลย จะได้ไม่ค้างรอเสียงที่ไม่มีวันจบ
       onStopped: finish,
@@ -62,7 +64,7 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
       clearTimeout(ceiling.current);
       stopAllSpeech();
     };
-  }, [game.slug, voiceReady, replay, finish]);
+  }, [game.slug, voiceReady, replay, finish, locale]);
 
   const listenAgain = () => {
     if (!voiceReady) return;

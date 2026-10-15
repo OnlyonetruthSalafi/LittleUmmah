@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { LocaleLink as Link, useLocalePath } from "@/i18n/LocaleProvider";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useId, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
@@ -44,7 +44,7 @@ type OpenFn = (e: MouseEvent<HTMLAnchorElement>, book: ShelfBook, tint: string) 
 
 function ageLabel(id: AgeId) {
   const g = AGE_GROUPS.find((a) => a.id === id);
-  return g ? { th: g.nameTh, en: g.nameEn } : { th: id, en: id };
+  return g ? { th: g.name.th, en: g.name.en } : { th: id, en: id };
 }
 
 function BookFace({ book, tint }: { book: ShelfBook; tint: string }) {
@@ -158,7 +158,7 @@ function BookCell({
   // ป้ายนี้เป็นชื่อที่ screen reader อ่านด้วย "เร็วๆ นี้" อ่านเฉพาะ screen reader
   const label = (
     <span className="bs-label">
-      {labelParts(book.titleTh).map((part, i) => (
+      {labelParts(book.title.th).map((part, i) => (
         <Fragment key={i}>
           {i > 0 && <wbr />}
           <span className="whitespace-nowrap">{part}</span>
@@ -321,6 +321,7 @@ function Shelf({
 
 export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: ShelfBook[] }) {
   const router = useRouter();
+  const toLocale = useLocalePath();
   const { speak } = useSound();
   const [picked, setPicked] = useState<ShelfBook | null>(null);
   const [flying, setFlying] = useState<Flying | null>(null);
@@ -331,7 +332,8 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
   ];
 
   useEffect(() => {
-    for (const b of [...kids, ...juniors]) if (b.href) router.prefetch(b.href);
+    for (const b of [...kids, ...juniors]) if (b.href) router.prefetch(toLocale(b.href));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- toLocale เปลี่ยนเมื่อเปลี่ยนภาษาเท่านั้น ซึ่งโหลดหน้าใหม่ทั้งหน้าอยู่แล้ว
   }, [kids, juniors, router]);
 
   const open: OpenFn = (e, book, tint) => {
@@ -339,7 +341,7 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
     if (flying || !book.href) return;
-    const href = `${book.href}?play=1`;
+    const href = toLocale(`${book.href}?play=1`);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       router.push(href);
       return;
@@ -352,7 +354,7 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
   const pick = (book: ShelfBook) => {
     if (picked?.id === book.id) return;
     setPicked(book);
-    speak(book.href ? book.titleTh : `${book.titleTh} เร็วๆ นี้`);
+    speak(book.href ? book.title.th : `${book.title.th} เร็วๆ นี้`);
   };
 
 
@@ -363,7 +365,7 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
       <Shelf art={SHELF_WIDE} variant="wide" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
       <Shelf art={SHELF_TALL} variant="tall" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
 
-      {flying && <FlyingBook flying={flying} onDone={() => router.push(`${flying.book.href}?play=1`)} />}
+      {flying && <FlyingBook flying={flying} onDone={() => router.push(toLocale(`${flying.book.href}?play=1`))} />}
     </section>
   );
 }

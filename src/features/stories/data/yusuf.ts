@@ -21,8 +21,7 @@ import type { Story } from "../types";
 */
 export const YUSUF_STORY: Story = {
   slug: "yusuf",
-  titleTh: "นบียูซุฟผู้อดทน",
-  titleEn: "Patient Prophet Yusuf",
+  title: { th: "นบียูซุฟผู้อดทน", en: "Patient Prophet Yusuf" },
   cover: "/stories/yusuf/cover.webp",
   coverAlt: "ท้องฟ้ายามค่ำ มีดาว 11 ดวง ดวงอาทิตย์ และดวงจันทร์ส่องแสงเหนือทุ่งข้าวสาลี",
   robot: "/Character/faith.webp",

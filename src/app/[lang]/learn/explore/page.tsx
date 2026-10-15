@@ -49,10 +49,8 @@ export default function ExploreIslandPage() {
     <div className="mrl-page">
       <BackLink />
       <MoralHero
-        titleTh={category.nameTh}
-        titleEn={category.nameEn}
-        introTh={island.introTh}
-        introEn={island.introEn}
+        title={category.name}
+        intro={island.intro}
         steps={GUIDE_STEPS}
         ageSections={AGE_SECTIONS}
         art={{ src: "/explore/hero-island.webp", width: 1063, height: 923 }}

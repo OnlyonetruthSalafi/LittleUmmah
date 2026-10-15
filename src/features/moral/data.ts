@@ -1,3 +1,4 @@
+import type { Text } from "@/i18n/config";
 /*
   ข้อมูลเฉพาะหน้าเกาะมารยาท (/learn/moral) — ตัวบทเรียนยังอยู่ที่ lib/lessons.ts ที่เดียว
   ไฟล์นี้เก็บเฉพาะสิ่งที่หน้าตาใหม่ (ตาม mock tests/MoralPage.png) ต้องใช้เพิ่ม:
@@ -33,21 +34,17 @@ export const CARD_BUBBLE: Record<string, { text: string; left: number; top: numb
   sneeze: { text: "الْحَمْدُ لِلَّهِ", left: 47, top: 11, width: 44 },
 };
 
-export type AgeSection = { labelTh: string; labelEn: string; descTh: string; descEn: string; badge: string };
+export type AgeSection = { label: Text; desc: Text; badge: string };
 
 export const AGE_SECTIONS: Record<AgeId, AgeSection> = {
   kids: {
-    labelTh: "วัย 3-6 ปี",
-    labelEn: "Ages 3-6",
-    descTh: "เรียนรู้มารยาทพื้นฐานในชีวิตประจำวัน",
-    descEn: "Everyday good manners",
+    label: { th: "วัย 3-6 ปี", en: "Ages 3-6" },
+    desc: { th: "เรียนรู้มารยาทพื้นฐานในชีวิตประจำวัน", en: "Everyday good manners" },
     badge: "/moral/age-kids.webp",
   },
   juniors: {
-    labelTh: "วัย 7 ปีขึ้นไป",
-    labelEn: "Ages 7+",
-    descTh: "ฝึกมารยาทที่ลึกขึ้น เพื่อเป็นมุสลิมที่ดีในทุกสถานการณ์",
-    descEn: "Deeper manners for every situation",
+    label: { th: "วัย 7 ปีขึ้นไป", en: "Ages 7+" },
+    desc: { th: "ฝึกมารยาทที่ลึกขึ้น เพื่อเป็นมุสลิมที่ดีในทุกสถานการณ์", en: "Deeper manners for every situation" },
     badge: "/moral/age-juniors.webp",
   },
 };

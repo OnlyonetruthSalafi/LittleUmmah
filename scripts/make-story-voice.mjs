@@ -1,5 +1,5 @@
 /*
-  สร้างเสียงพากย์นิทาน -> public/audio/stories/<slug>/
+  สร้างเสียงพากย์นิทาน -> public/audio/th/stories/<slug>/
 
   ใช้เสียงและเอฟเฟคชุดเดียวกับหุ่นยนต์ทั้งเว็บ ผ่าน lib/robot-voice.mjs
   ElevenLabs เสียง "Leo - Cute Energetic Young Kid" + ฟิลเตอร์หุ่นยนต์ของ ffmpeg
@@ -12,7 +12,7 @@
   ข้อความที่ป้อน ElevenLabs จริงๆ ตอนนั้นจึงย้อนดูไม่ได้แล้ว
   สคริปต์นี้ถือไฟล์ข้อมูลนิทานใน src/features/stories/data/<slug>.ts เป็นต้นฉบับนับจากนี้
   และประกอบบทพูดแบบเดียวกับที่ StoryBook.tsx เล่นจริง
-    ปก (p00) = titleTh
+    ปก (p00) = title.th
     หน้าอื่น = th ... reading ... meaning (เฉพาะที่มี) คั่นด้วย " ... "
 
   ── ทำไมต้องอัดหลายเทค ──────────────────────────────────────────
@@ -79,7 +79,7 @@ const only = args.filter(arg => !arg.startsWith("--"));
 
 const prepare = text => (useFixes ? applyFixes(text) : text);
 const ALL = {
-  p00: prepare(story.titleTh),
+  p00: prepare(story.title.th),
   ...Object.fromEntries(story.pages.map(page => [pageKey(page), prepare(pageLine(page))])),
 };
 
@@ -98,5 +98,5 @@ if (takesArg) {
   console.log(`อัด ${takes} เทคต่อหน้า ${keys.length} หน้า ลง output/story-voice/${slug}/ (ไม่ทับไฟล์จริง)\n`);
   await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice", slug), [], { languageCode: arabicMode ? null : "th" });
 } else {
-  await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "stories", story.slug), keys, { languageCode: arabicMode ? null : "th" });
+  await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "th", "stories", story.slug), keys, { languageCode: arabicMode ? null : "th" });
 }

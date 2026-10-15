@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IslandPicker } from "@/components/learn/IslandPicker";
 import { BackLink } from "@/components/ui/BackLink";
 import { PageShell } from "@/components/layout/PageShell";
+import type { Text } from "@/i18n/config";
 
 /*
   หน้าแรกของแต่ละช่วงวัย (/kids, /juniors) — ปลายทางของการ์ดเลือกวัยในหน้าแรก
@@ -12,17 +13,13 @@ import { PageShell } from "@/components/layout/PageShell";
 export function AgeHome({
   anchor,
   robot,
-  titleTh,
-  titleEn,
-  hintTh,
-  hintEn,
+  title,
+  hint,
 }: {
   anchor: "kids" | "juniors";
   robot: string;
-  titleTh: string;
-  titleEn: string;
-  hintTh: string;
-  hintEn: string;
+  title: Text;
+  hint: Text;
 }) {
   return (
     <PageShell>
@@ -38,14 +35,14 @@ export function AgeHome({
         />
         <div className="min-w-0">
           <h1 className="font-display text-3xl font-extrabold sm:text-5xl">
-            {titleTh}
+            {title.th}
             <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
-              {titleEn}
+              {title.en}
             </span>
           </h1>
-          <p className="mt-2">{hintTh}</p>
+          <p className="mt-2">{hint.th}</p>
           <p lang="en" className="text-ink-soft text-sm">
-            {hintEn}
+            {hint.en}
           </p>
         </div>
       </div>

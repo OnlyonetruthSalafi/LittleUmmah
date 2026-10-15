@@ -13,9 +13,10 @@ import type { Cartoon } from "../cartoon";
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection } from "../data";
 import { progressStore } from "../progress";
 import { CartoonLesson } from "./CartoonLesson";
+import type { Text } from "@/i18n/config";
 
 /** การ์ดหนึ่งกลุ่มในช่วงวัย — เกาะที่มีหลายหมวด (สำรวจโลก) แสดงหัวข้อกลุ่มเหนือแต่ละตาราง */
-export type LessonGroup = { id: string; titleTh?: string; titleEn?: string; lessons: Lesson[] };
+export type LessonGroup = { id: string; title?: Text; lessons: Lesson[] };
 
 type CardBubble = { text: string; left: number; top: number; width: number };
 
@@ -73,7 +74,7 @@ export function MoralSection({
   const listened = useRef(false);
   const listenTimer = useRef(0);
   const scriptOf = (lesson: Lesson) =>
-    [lesson.titleTh, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+    [lesson.title.th, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
@@ -112,16 +113,16 @@ export function MoralSection({
         <h2 id={`age-${age}`} className="mrl-age-badge font-display">
           <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-badge-art" />
           <span>
-            {section.labelTh}
+            {section.label.th}
             <span lang="en" className="block text-sm font-semibold">
-              {section.labelEn}
+              {section.label.en}
             </span>
           </span>
         </h2>
         <p className="mrl-section-desc">
-          {section.descTh}
+          {section.desc.th}
           <span lang="en" className="text-ink-soft block text-sm">
-            {section.descEn}
+            {section.desc.en}
           </span>
         </p>
         {/* ภารกิจวันนี้ — บอกด้วยตัวเลขกำกับเสมอ ไม่ใช่แถบสีอย่างเดียว (ข้อ 2) */}
@@ -143,12 +144,12 @@ export function MoralSection({
 
       {groups.map((group) => (
         <div key={group.id} className="mrl-group">
-          {group.titleTh && (
+          {group.title?.th && (
             <h3 className="mrl-group-title font-display">
-              {group.titleTh}
-              {group.titleEn && (
+              {group.title.th}
+              {group.title.en && (
                 <span lang="en" className="text-ink-soft ml-2 text-base font-semibold">
-                  {group.titleEn}
+                  {group.title.en}
                 </span>
               )}
             </h3>
@@ -181,8 +182,8 @@ export function MoralSection({
                   )}
                 </span>
                 <span className="mrl-card-title font-display">
-                  {lesson.titleTh}
-                  <span lang="en">{lesson.titleEn}</span>
+                  {lesson.title.th}
+                  <span lang="en">{lesson.title.en}</span>
                 </span>
                 <span className="mrl-card-foot">
                   <span className="mrl-card-stars flex gap-0.5">
@@ -229,9 +230,9 @@ export function MoralSection({
               <Image src={cardArt[open.id]} alt="" width={512} height={384} sizes="(max-width: 639px) 90vw, 480px" />
             </span>
             <h3 id={`lesson-title-${age}`} className="font-display text-2xl leading-snug font-extrabold sm:text-3xl">
-              {open.titleTh}
+              {open.title.th}
               <span lang="en" className="text-ink-soft block text-base font-semibold">
-                {open.titleEn}
+                {open.title.en}
               </span>
             </h3>
             <p className="mt-2 text-lg leading-relaxed">{open.body}</p>

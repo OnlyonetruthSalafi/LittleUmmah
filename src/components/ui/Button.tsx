@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 import type { ReactNode } from "react";
 
 import { useSound } from "@/components/sound/SoundProvider";

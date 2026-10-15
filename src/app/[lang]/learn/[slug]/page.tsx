@@ -26,13 +26,13 @@ export function generateStaticParams() {
   return ISLAND_CONTENT.filter((island) => !OWN_PAGE.has(island.slug)).map((island) => ({ slug: island.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/learn/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/learn/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const category = CATEGORIES.find((c) => c.slug === slug);
-  return { title: category ? `เกาะ${category.nameTh}` : "เกาะการเรียนรู้" };
+  return { title: category ? `เกาะ${category.name.th}` : "เกาะการเรียนรู้" };
 }
 
-export default async function IslandPage({ params }: PageProps<"/learn/[slug]">) {
+export default async function IslandPage({ params }: PageProps<"/[lang]/learn/[slug]">) {
   const { slug } = await params;
   const island = getIslandContent(slug);
   const category = CATEGORIES.find((c) => c.slug === slug);
@@ -54,14 +54,14 @@ export default async function IslandPage({ params }: PageProps<"/learn/[slug]">)
         />
         <div className="min-w-0">
           <h1 className="font-display text-3xl leading-snug font-extrabold sm:text-5xl">
-            {category.nameTh}
+            {category.name.th}
             <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
-              {category.nameEn}
+              {category.name.en}
             </span>
           </h1>
-          <p className="mt-2">{island.introTh}</p>
+          <p className="mt-2">{island.intro.th}</p>
           <p lang="en" className="text-ink-soft text-sm">
-            {island.introEn}
+            {island.intro.en}
           </p>
         </div>
       </div>
@@ -76,9 +76,9 @@ export default async function IslandPage({ params }: PageProps<"/learn/[slug]">)
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             {/* ป้ายพื้นขาว เพราะหัวข้อวัยแรกวางทับภาพพื้นหลังที่รายละเอียดเยอะ contrast คุมไม่ได้ถ้าไม่มีพื้นรอง */}
             <h2 id={`age-${group.id}`} className="font-display scene-copy shadow-soft text-ink rounded-full px-6 py-2 text-2xl font-bold sm:text-3xl">
-              {group.nameTh}
+              {group.name.th}
               <span lang="en" className="block text-sm font-normal">
-                {group.nameEn}
+                {group.name.en}
               </span>
             </h2>
           </div>

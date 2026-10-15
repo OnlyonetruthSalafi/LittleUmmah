@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { useSound } from "@/components/sound/SoundProvider";
 import type { Category } from "@/lib/categories";
@@ -31,15 +31,15 @@ export function IslandCard({ category }: { category: Category }) {
           // Scrolling also slides islands under a still mouse and fires pointerenter;
           // skip those so they don't cut off other speech (see lib/scrollHover).
           if (event.pointerType === "mouse" && !isScrollHover()) {
-            speak(category.nameTh, `cat-${category.slug}`);
+            speak(category.name.th, `cat-${category.slug}`);
           }
         }}
         onFocus={(event) => {
           if (event.currentTarget.matches(":focus-visible")) {
-            speak(category.nameTh, `cat-${category.slug}`);
+            speak(category.name.th, `cat-${category.slug}`);
           }
         }}
-        onClick={() => speak(category.nameTh, `cat-${category.slug}`)}
+        onClick={() => speak(category.name.th, `cat-${category.slug}`)}
         className="group flex w-full flex-col items-center"
       >
         {/* ไม่ใส่ overflow-hidden ที่กรอบนี้ ไม่งั้นแสงฟุ้งรอบเกาะจะถูกตัดเป็นขอบสี่เหลี่ยม
@@ -61,10 +61,10 @@ export function IslandCard({ category }: { category: Category }) {
 
         <span className="island-caption flex max-w-full flex-col items-center px-1 pb-2 text-center">
           <span className="font-display text-island-ink text-xl leading-snug font-extrabold text-balance decoration-1 underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-2xl lg:text-xl xl:text-[1.375rem]">
-            {category.nameTh}
+            {category.name.th}
           </span>
           <span lang="en" className="font-display text-island-ink-soft mt-1 text-sm leading-normal font-semibold tracking-wide text-balance sm:text-base">
-            {category.nameEn}
+            {category.name.en}
           </span>
         </span>
       </Link>

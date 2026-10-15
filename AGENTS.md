@@ -296,6 +296,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## 3. Stack และโครงสร้าง
 
 - Next.js (App Router) + TypeScript + Tailwind **v4**
+- **หลายภาษา (เจ้าของโปรเจกต์ตัดสิน 15 ต.ค. 2026 — `docs/meetings/2026-10-15-global-structure-audit.md`)**
+  - หน้าทั้งหมดอยู่ใต้ `src/app/[lang]/` — ไทย URL ไม่มี prefix (`/learn/moral`) `src/proxy.ts` rewrite ไป `/th/...` ภายใน
+    อังกฤษอยู่ที่ `/en/...` · deploy บน Vercel (ต้องรัน proxy ได้ ไม่งั้นหน้าไทย 404)
+  - **หน้าภาษาไทยยังเป็นสองภาษาเหมือนเดิม (ไทยนำ อังกฤษรอง)** ส่วน `/en` เป็นอังกฤษล้วน — กฎ "ไทยนำ อังกฤษรอง" ใช้กับหน้าไทย
+  - `/en` ยังไม่เปิด (noindex, ไม่มีปุ่มสลับ, ไม่ส่งไปอัตโนมัติ) จนกว่าเนื้อหาและเสียงอังกฤษครบ
+  - ข้อความสองภาษาใช้ type `Text` (`src/i18n/config.ts`) เป็น `{ th, en }` ห้ามสร้างฟิลด์คู่ `xxxTh/xxxEn` ใหม่
+  - ลิงก์ภายในใช้ `LocaleLink` / `useLocalePath()` (`src/i18n/LocaleProvider.tsx`) ไม่ใช่ `next/link` ตรงๆ
+  - เสียงพากย์อยู่ที่ `public/audio/<ภาษา>/` (เช่น `th/class/`, `th/stories/<slug>/`) เสียง sfx ไม่ขึ้นกับภาษา อยู่ที่ `public/audio/sfx/`
+  - ความหมายอายะฮ์ภาษาอังกฤษใช้ Saheeh International ยกเฉพาะท่อนที่ใช้ เหมือนกฎคำแปลไทยในข้อ 1.6
 - **Design token อยู่ใน `src/app/globals.css` ใต้ `@theme`** — Tailwind v4 ไม่ใช้ `tailwind.config.ts` แล้ว การสร้างไฟล์ config จะถูกเมินเงียบๆ
 - ฟอนต์โหลดผ่าน `next/font/google` เท่านั้น (self-host, ไม่มี layout shift)
   - display ละติน: **Baloo 2** — ตัวอ้วนมนตามอารมณ์ mockup ไม่มีชุดอักษรไทย

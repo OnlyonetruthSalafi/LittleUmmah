@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { ShieldHeartIcon } from "@/components/icons/ShieldHeartIcon";
 import { SoundToggle } from "@/components/sound/SoundToggle";

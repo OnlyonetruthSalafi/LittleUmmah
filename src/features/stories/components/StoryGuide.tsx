@@ -7,6 +7,7 @@ import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 
 import "../story-guide.css";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 /*
   ครูนูรีแนะนำเกาะเรื่องเล่า เหนือตู้หนังสือ (เจ้าของโปรเจกต์สั่ง 8 ต.ค. 2026)
@@ -17,12 +18,13 @@ import "../story-guide.css";
   - ไม่มีการเคลื่อนไหววนซ้ำ (ข้อ 2.1)
   เสียง: public/audio/th/stories-intro.mp3 อัดด้วย scripts/lib/robot-voice.mjs จากข้อความ SAY_TH ด้านล่างตรงตัว
 */
-const CLIP = "/audio/th/stories-intro.mp3";
+const CLIP = "stories-intro";
 const SEEN_KEY = "lu-stories-guide-seen";
 const SAY_TH = "อัสสลามุอะลัยกุม ครูนูรีเองนะ เรื่องเล่าที่นี่ เราใช้เรื่องจริงจากอัลกุรอานและหะดีษเท่านั้น ลองเลือกหนังสือบนตู้ ให้เหมาะกับวัยของเรานะ";
 const SAY_EN = "Assalamu alaikum! I'm Teacher Nuri. Every story here is a true story from the Quran and hadith only. Pick a book from the shelf that fits your age!";
 
 export function StoryGuide() {
+  const locale = useLocale();
   const { enabled: soundOn } = useSound();
   const stop = useRef<() => void>(() => {});
 
@@ -30,7 +32,7 @@ export function StoryGuide() {
     // ปิดเสียงเว็บอยู่ = ไม่เล่น ข้อความในบอลลูนยังอ่านได้
     if (!soundOn) return;
     stop.current();
-    stop.current = playNarration(CLIP, { onEnded: () => {}, onStopped: () => {}, onFail: () => {} });
+    stop.current = playNarration(`/audio/${locale}/${CLIP}.mp3`, { onEnded: () => {}, onStopped: () => {}, onFail: () => {} });
   };
 
   useEffect(() => {

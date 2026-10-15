@@ -15,7 +15,7 @@ import { getIslandContent } from '../src/lib/lessons.ts';
 */
 
 const CHEER_COUNT = 3;
-const clip = name => `public/audio/class/${name}.mp3`;
+const clip = name => `public/audio/th/class/${name}.mp3`;
 const island = getIslandContent('arabic');
 const steps = [...island.kids, ...island.juniors];
 const classroomSource = readFileSync('src/features/arabic/data/classroom.ts', 'utf8');

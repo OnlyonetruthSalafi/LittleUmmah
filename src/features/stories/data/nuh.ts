@@ -23,8 +23,7 @@ import type { Story } from "../types";
 */
 export const NUH_STORY: Story = {
   slug: "nuh",
-  titleTh: "นบีนูห์กับเรือลำใหญ่",
-  titleEn: "Prophet Nuh and the Ark",
+  title: { th: "นบีนูห์กับเรือลำใหญ่", en: "Prophet Nuh and the Ark" },
   cover: "/stories/nuh/cover.webp",
   coverAlt: "เรือไม้ลำใหญ่แล่นบนคลื่นสีฟ้ายามรุ่งอรุณ",
   robot: "/Character/faith.webp",

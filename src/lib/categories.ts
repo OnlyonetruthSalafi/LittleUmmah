@@ -1,7 +1,7 @@
+import type { Text } from "@/i18n/config";
 export type Category = {
   slug: string;
-  nameTh: string;
-  nameEn: string;
+  name: Text;
   href: string;
   image: string;
 };
@@ -25,15 +25,13 @@ export type Category = {
 export const CATEGORIES: Category[] = [
   {
     slug: "moral",
-    nameTh: "มารยาทและศีลธรรม",
-    nameEn: "Manners & Morals",
+    name: { th: "มารยาทและศีลธรรม", en: "Manners & Morals" },
     href: "/learn/moral",
     image: "/islands/moral.webp",
   },
   {
     slug: "stories",
-    nameTh: "เรื่องเล่า",
-    nameEn: "Stories",
+    name: { th: "เรื่องเล่า", en: "Stories" },
     href: "/learn/stories",
     image: "/islands/stories.webp",
   },
@@ -43,29 +41,25 @@ export const CATEGORIES: Category[] = [
       ภาพยังใช้ไฟล์เดิม (มุศฮัฟ) ชั่วคราว รอภาพเกาะใหม่ — ดู public/islands/README.md
     */
     slug: "arabic",
-    nameTh: "ภาษาอาหรับเบื้องต้น",
-    nameEn: "Basic Arabic",
+    name: { th: "ภาษาอาหรับเบื้องต้น", en: "Basic Arabic" },
     href: "/learn/arabic",
     image: "/islands/quran.webp",
   },
   {
     slug: "explore",
-    nameTh: "สำรวจโลก",
-    nameEn: "Explore",
+    name: { th: "สำรวจโลก", en: "Explore" },
     href: "/learn/explore",
     image: "/islands/explore.webp",
   },
   {
     slug: "games",
-    nameTh: "เกม",
-    nameEn: "Games",
+    name: { th: "เกม", en: "Games" },
     href: "/learn/games",
     image: "/islands/games.webp",
   },
   {
     slug: "art",
-    nameTh: "ศิลปะ",
-    nameEn: "Art",
+    name: { th: "ศิลปะ", en: "Art" },
     href: "/learn/art",
     image: "/islands/art.webp",
   },
