@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { Fragment, useEffect, useId, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
 import { LessonIcon } from "@/components/icons/LessonIcon";
 import { useSound } from "@/components/sound/SoundProvider";
@@ -133,6 +133,14 @@ function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: st
   );
 }
 
+/*
+  จุดขึ้นบรรทัดใหม่ของป้ายชื่อบนตู้แคบ — ตัวตัดคำของเบราว์เซอร์ตัดชื่อนบีผิด (เช่น "นบีอิ|บรอฮี|มกับ")
+  จึงให้ขึ้นบรรทัดได้เฉพาะหน้าคำเชื่อม "กับ" และ "ของ" ที่เหลืออยู่ติดกันเสมอ
+*/
+function labelParts(title: string) {
+  return title.split(/(?=กับ|ของ)/);
+}
+
 function BookCell({
   book,
   tint,
@@ -146,9 +154,17 @@ function BookCell({
   onOpen: OpenFn;
   onPick: (book: ShelfBook) => void;
 }) {
+  // ป้ายชื่อบนขอบชั้นใต้เล่ม — คนที่ปิดเสียงก็รู้ว่าเล่มไหนเรื่องอะไร (เจ้าของโปรเจกต์อนุมัติ 15 ต.ค. 2026)
+  // ป้ายนี้เป็นชื่อที่ screen reader อ่านด้วย "เร็วๆ นี้" อ่านเฉพาะ screen reader
   const label = (
-    <span className="sr-only">
-      {book.titleTh} {book.href ? "" : "(เร็วๆ นี้)"}
+    <span className="bs-label">
+      {labelParts(book.titleTh).map((part, i) => (
+        <Fragment key={i}>
+          {i > 0 && <wbr />}
+          <span className="whitespace-nowrap">{part}</span>
+        </Fragment>
+      ))}
+      {!book.href && <span className="sr-only"> (เร็วๆ นี้)</span>}
     </span>
   );
   return book.href ? (
