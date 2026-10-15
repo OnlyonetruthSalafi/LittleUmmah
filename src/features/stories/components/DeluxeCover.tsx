@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useDict } from "@/i18n/LocaleProvider";
 
 import type { Story } from "../types";
 
@@ -24,6 +25,7 @@ function CornerStar({ className }: { className: string }) {
 }
 
 export function DeluxeCover({ story }: { story: Story }) {
+  const { pick, pickSub } = useDict();
   const art = story.deluxe?.cover;
   return (
     <div className="sbx-cover" data-art={art ? "" : undefined}>
@@ -41,10 +43,10 @@ export function DeluxeCover({ story }: { story: Story }) {
         </>
       )}
       <div className="sbx-title" aria-hidden="true">
-        <span className="sbx-title-th">{story.title.th}</span>
-        <span className="sbx-title-en" lang="en">
-          {story.title.en}
-        </span>
+        <span className="sbx-title-th">{pick(story.title)}</span>
+        {pickSub(story.title) && <span className="sbx-title-en" lang="en">
+          {pickSub(story.title)}
+        </span>}
       </div>
     </div>
   );

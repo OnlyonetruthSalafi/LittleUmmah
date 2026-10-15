@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/i18n/config";
+import { dict } from "@/i18n/dict";
 
 import { ValueBar } from "@/components/landing/ValueBar";
 import { BackLink } from "@/components/ui/BackLink";
@@ -10,18 +12,25 @@ import { getIslandContent } from "@/lib/lessons";
   โฟลเดอร์ literal นี้ชนะ learn/[slug] (แบบเดียวกับ learn/games และ learn/stories)
   และ [slug] ไม่สร้างหน้า arabic แล้ว
 */
-export const metadata: Metadata = { title: "เกาะภาษาอาหรับเบื้องต้น" };
+type Props = { params: Promise<{ lang: string }> };
 
-export default function ArabicIslandPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params;
+  return { title: dict(lang as Locale).t.arabic.classroom.metadataTitle };
+}
+
+export default async function ArabicIslandPage({ params }: Props) {
+  const { lang } = await params;
+  const { t } = dict(lang as Locale);
   const island = getIslandContent("arabic");
 
   return (
     <>
       <BackLink />
-      <Classroom introTh={island?.intro.th ?? ""} introEn={island?.intro.en ?? ""} />
+      <Classroom intro={island?.intro ?? { th: "", en: "" }} />
 
       <div className="mt-12">
-        <h2 className="font-display mb-4 text-center text-2xl font-bold">ไปเกาะอื่นกัน</h2>
+        <h2 className="font-display mb-4 text-center text-2xl font-bold">{t.arabic.classroom.otherIslands}</h2>
         <ValueBar />
       </div>
     </>

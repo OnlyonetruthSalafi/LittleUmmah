@@ -1,4 +1,6 @@
 'use client';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { useEffect, useRef, useState } from 'react';
 import { useSound } from '@/components/sound/SoundProvider';
 import { useSfx, type SfxSet } from '../audio/useSfx';
@@ -10,9 +12,10 @@ const SFX: SfxSet<'tick' | 'go'> = {
 };
 /* เสียงหุ่นยนต์พูดตัวเลข (scripts/make-game-voice.mjs) */
 const STEPS = [
-  { n: 3, key: 'count-3', th: 'สาม' }, { n: 2, key: 'count-2', th: 'สอง' }, { n: 1, key: 'count-1', th: 'หนึ่ง' },
+  { n: 3, key: 'count-3', textKey: 'three' }, { n: 2, key: 'count-2', textKey: 'two' }, { n: 1, key: 'count-1', textKey: 'one' },
 ] as const;
-const GO = { key: 'count-go', th: 'บิสมิลลาฮ์ เริ่มกันเลย' };
+const GO_KEY = 'count-go';
+
 const STEP_MS = 1000;
 /** ป้าย "เริ่ม!" ค้างอยู่เท่านี้หลังเริ่มเล่นได้แล้ว แล้วหายไปเอง */
 const GO_MS = 800;
@@ -25,22 +28,23 @@ const GO_MS = 800;
   ไม่บังการแตะส่วนอื่นของหน้า (pointer-events: none) และไม่กะพริบ — ตัวเลขแต่ละตัวเด้งเข้าครั้งเดียว
 */
 export function Countdown({ onGo }: { onGo: () => void }) {
+  const { t, sub } = useDict();
   const { speak } = useSound();
   const sfx = useSfx(SFX);
   const [shown, setShown] = useState<number | null>(STEPS[0].n);
-  const latest = useRef({ onGo, speak, sfx });
-  useEffect(() => { latest.current = { onGo, speak, sfx }; });
+  const latest = useRef({ onGo, speak, sfx, t });
+  useEffect(() => { latest.current = { onGo, speak, sfx, t }; });
 
   useEffect(() => {
     const timers = STEPS.map((step, i) => setTimeout(() => {
       setShown(step.n);
       latest.current.sfx('tick');
-      latest.current.speak(step.th, step.key);
+      latest.current.speak(latest.current.t.games.countdown[step.textKey], step.key);
     }, i * STEP_MS));
     timers.push(setTimeout(() => {
       setShown(0);
       latest.current.sfx('go');
-      latest.current.speak(GO.th, GO.key);
+      latest.current.speak(latest.current.t.games.dhikr.countGo, GO_KEY);
       latest.current.onGo();
     }, STEPS.length * STEP_MS));
     timers.push(setTimeout(() => setShown(null), STEPS.length * STEP_MS + GO_MS));
@@ -51,8 +55,8 @@ export function Countdown({ onGo }: { onGo: () => void }) {
     {shown !== null && <div className="gc-countdown" aria-hidden="true">
       {/* key ต่อตัวเลข ให้ animation เด้งเข้าใหม่ทุกครั้งที่เปลี่ยน */}
       {shown > 0 ? <span key={shown} className="gc-count-badge"><span className="gc-count-num">{shown}</span></span>
-        : <span key="go" className="gc-count-go">เริ่ม!<small lang="en">Go!</small></span>}
+        : <span key="go" className="gc-count-go">{t.games.countdown.go}{sub && <small lang="en">{sub.games.countdown.go}</small>}</span>}
     </div>}
-    <p className="sr-only" role="status" aria-live="assertive">{shown === null ? '' : shown > 0 ? String(shown) : 'เริ่ม! Go!'}</p>
+    <p className="sr-only" role="status" aria-live="assertive">{shown === null ? '' : shown > 0 ? String(shown) : t.games.countdown.announcement}</p>
   </>;
 }

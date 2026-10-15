@@ -1,9 +1,10 @@
+import { dict } from "@/i18n/dict";
+import type { Locale } from "@/i18n/config";
 import Image from "next/image";
 
 import { IslandPicker } from "@/components/learn/IslandPicker";
 import { BackLink } from "@/components/ui/BackLink";
 import { PageShell } from "@/components/layout/PageShell";
-import type { Text } from "@/i18n/config";
 
 /*
   หน้าแรกของแต่ละช่วงวัย (/kids, /juniors) — ปลายทางของการ์ดเลือกวัยในหน้าแรก
@@ -11,16 +12,17 @@ import type { Text } from "@/i18n/config";
   หุ่นยนต์ท่าเดียวกับการ์ดเลือกวัย เด็กจึงรู้ว่ามาถูกที่
 */
 export function AgeHome({
+  locale,
   anchor,
   robot,
-  title,
-  hint,
 }: {
+  locale: Locale;
   anchor: "kids" | "juniors";
   robot: string;
-  title: Text;
-  hint: Text;
 }) {
+  const { t, sub } = dict(locale);
+  const title = anchor === "kids" ? "kidsTitle" : "juniorsTitle";
+  const hint = anchor === "kids" ? "kidsHint" : "juniorsHint";
   return (
     <PageShell>
       <BackLink />
@@ -35,15 +37,15 @@ export function AgeHome({
         />
         <div className="min-w-0">
           <h1 className="font-display text-3xl font-extrabold sm:text-5xl">
-            {title.th}
-            <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
-              {title.en}
-            </span>
+            {t.ageHome[title]}
+            {sub && <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
+              {sub.ageHome[title]}
+            </span>}
           </h1>
-          <p className="mt-2">{hint.th}</p>
-          <p lang="en" className="text-ink-soft text-sm">
-            {hint.en}
-          </p>
+          <p className="mt-2">{t.ageHome[hint]}</p>
+          {sub && <p lang="en" className="text-ink-soft text-sm">
+            {sub.ageHome[hint]}
+          </p>}
         </div>
       </div>
       <IslandPicker anchor={anchor} />

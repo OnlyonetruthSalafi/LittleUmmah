@@ -1,4 +1,6 @@
 import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
+import { dict } from "@/i18n/dict";
+import type { Locale } from "@/i18n/config";
 
 /*
   คำขวัญโค้งคว่ำ "Obey Trust Faithful" — แยกออกมาจาก Hero
@@ -8,7 +10,8 @@ import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
 
   แสงขาวด้านหลัง (hero-glow) รองให้ตัวอักษรสีแบรนด์อ่านได้บนภาพที่มีฟ้าสีเข้ม
 */
-export function ObeyArc() {
+export function ObeyArc({ locale }: { locale: Locale }) {
+  const { t } = dict(locale);
   return (
     <div className="relative mx-auto w-full max-w-3xl px-4 pt-5 pb-6 text-center sm:px-6 sm:pt-7 sm:pb-8">
       <div
@@ -16,9 +19,9 @@ export function ObeyArc() {
         className="hero-glow pointer-events-none absolute inset-0 -z-10 scale-x-110"
       />
       <p lang="en" className="font-display font-extrabold">
-        <span className="sr-only">Obey Trust Faithful</span>
+        <span className="sr-only">{t.obeyArc.title}</span>
         <StickerArcTitle
-          words={["Obey", "Trust", "Faithful"]}
+          words={[t.obeyArc.obey, t.obeyArc.trust, t.obeyArc.faithful]}
           arc="M 30 40 Q 380 170 730 40"
           fontSize={80}
         />

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/i18n/config";
+import { dict } from "@/i18n/dict";
 import { notFound } from "next/navigation";
 
 import { BackLink } from "@/components/ui/BackLink";
@@ -16,7 +18,12 @@ import { getIslandContent } from "@/lib/lessons";
   บทเรียนยังมาจาก lib/lessons.ts ที่เดียว หน้าแรกของช่วงวัยลิงก์มาที่ #kids / #juniors ได้เหมือนเดิม
   ส่วนประกอบของหน้าใช้ร่วมกับเกาะสำรวจโลก (learn/explore) ข้อมูลเฉพาะเกาะส่งเข้าไปทาง props
 */
-export const metadata: Metadata = { title: "เกาะมารยาทและศีลธรรม" };
+type Props = { params: Promise<{ lang: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params;
+  return { title: dict(lang as Locale).t.moral.metadataTitle };
+}
 
 export default function MoralIslandPage() {
   const island = getIslandContent("moral");

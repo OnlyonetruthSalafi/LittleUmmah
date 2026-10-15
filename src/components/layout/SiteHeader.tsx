@@ -1,6 +1,6 @@
 "use client";
 
-import { LocaleLink as Link } from "@/i18n/LocaleProvider";
+import { LocaleLink as Link, useDict } from "@/i18n/LocaleProvider";
 
 import { ShieldHeartIcon } from "@/components/icons/ShieldHeartIcon";
 import { SoundToggle } from "@/components/sound/SoundToggle";
@@ -17,17 +17,18 @@ import { Logo } from "@/components/ui/Logo";
 */
 export function SiteHeader() {
   const { speak } = useSound();
+  const { t, sub, locale } = useDict();
 
   return (
     <header className="w-full">
       <div className="brand-header flex w-full flex-col items-start justify-between gap-3 pt-1 pr-2 pb-3 sm:pr-6 lg:flex-row lg:items-center lg:pt-2">
         <Link
           href="/"
-          aria-label="Little Ummah หน้าแรก"
-          onClick={() => speak("ลิตเทิ่ล อุมมะฮ์ หน้าแรก", "logo-home")}
+          aria-label={t.header.homeLabel}
+          onClick={() => speak(t.speech.logoHome, "logo-home")}
           className="flex min-h-16 max-w-full shrink-0 items-center justify-center rounded-xl drop-shadow-[0_1px_2px_rgb(30_95_191/0.15)] transition-[transform,filter] duration-200 ease-out hover:drop-shadow-[0_3px_5px_rgb(30_95_191/0.35)] motion-safe:active:scale-[0.98] active:duration-75"
         >
-          <Logo />
+          <Logo locale={locale} />
         </Link>
 
         <div className="flex shrink-0 items-center gap-2 self-end sm:gap-3 lg:self-center">
@@ -35,18 +36,20 @@ export function SiteHeader() {
 
           <Link
             href="/parents"
-            onClick={() => speak("สำหรับผู้ปกครอง", "for-parents")}
+            onClick={() => speak(t.speech.parents, "for-parents")}
             className="ui-pill shrink-0 text-sm whitespace-nowrap sm:text-base"
           >
             <span className="ui-disc">
               <ShieldHeartIcon />
             </span>
             <span className="ui-label">
-              <span className="sm:hidden">ผู้ปกครอง</span>
-              <span className="hidden sm:inline">สำหรับผู้ปกครอง</span>
-              <span lang="en" className="ui-sub">
-                Parents
-              </span>
+              <span className="sm:hidden">{t.header.parentsShort}</span>
+              <span className="hidden sm:inline">{t.header.parents}</span>
+              {sub && (
+                <span lang="en" className="ui-sub">
+                  {sub.header.parents}
+                </span>
+              )}
             </span>
           </Link>
         </div>

@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { LocaleLink as Link, useLocalePath } from "@/i18n/LocaleProvider";
+import { LocaleLink as Link, useLocalePath, useDict } from "@/i18n/LocaleProvider";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useId, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
 import { LessonIcon } from "@/components/icons/LessonIcon";
 import { useSound } from "@/components/sound/SoundProvider";
+import { fmt } from "@/i18n/dict";
 import { AGE_GROUPS } from "@/lib/games";
 
 import { SHELF_TALL, SHELF_WIDE, type ShelfArt, type ShelfBook } from "../shelf";
@@ -48,6 +49,7 @@ function ageLabel(id: AgeId) {
 }
 
 function BookFace({ book, tint }: { book: ShelfBook; tint: string }) {
+  const { t } = useDict();
   return (
     <span className="bs-book" style={{ "--tint": tint } as CSSProperties}>
       <span className="bs-cover">
@@ -61,7 +63,7 @@ function BookFace({ book, tint }: { book: ShelfBook; tint: string }) {
       </span>
       {!book.href && (
         <span className="bs-soon" aria-hidden="true">
-          เร็วๆ นี้
+          {t.stories.shelf.soon}
         </span>
       )}
     </span>
@@ -119,15 +121,16 @@ function FlyingBook({ flying, onDone }: { flying: Flying; onDone: () => void }) 
 
 /** ป้ายช่วงวัย: สัญลักษณ์รูปทรง + ชื่อวัยไทยนำ อังกฤษรอง */
 function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: string; className: string; style?: CSSProperties }) {
+  const { pick, pickSub } = useDict();
   const label = ageLabel(id);
   return (
     <h2 id={headingId} className={className} data-zone={id} style={style}>
       <span className="bs-mark" aria-hidden="true" />
       <span className="bs-sign-text">
-        <span className="bs-sign-th">{label.th}</span>
-        <span className="bs-sign-en" lang="en">
-          {label.en}
-        </span>
+        <span className="bs-sign-th">{pick(label)}</span>
+        {pickSub(label) && <span className="bs-sign-en" lang="en">
+          {pickSub(label)}
+        </span>}
       </span>
     </h2>
   );
@@ -154,17 +157,18 @@ function BookCell({
   onOpen: OpenFn;
   onPick: (book: ShelfBook) => void;
 }) {
+  const { locale, t, pick } = useDict();
   // ป้ายชื่อบนขอบชั้นใต้เล่ม — คนที่ปิดเสียงก็รู้ว่าเล่มไหนเรื่องอะไร (เจ้าของโปรเจกต์อนุมัติ 15 ต.ค. 2026)
   // ป้ายนี้เป็นชื่อที่ screen reader อ่านด้วย "เร็วๆ นี้" อ่านเฉพาะ screen reader
   const label = (
     <span className="bs-label">
-      {labelParts(book.title.th).map((part, i) => (
+      {(locale === "th" ? labelParts(pick(book.title)) : [pick(book.title)]).map((part, i) => (
         <Fragment key={i}>
           {i > 0 && <wbr />}
           <span className="whitespace-nowrap">{part}</span>
         </Fragment>
       ))}
-      {!book.href && <span className="sr-only"> (เร็วๆ นี้)</span>}
+      {!book.href && <span className="sr-only">{t.stories.shelf.soonSuffix}</span>}
     </span>
   );
   return book.href ? (
@@ -209,6 +213,7 @@ function Shelf({
   onPick: (book: ShelfBook) => void;
   flyingId?: string;
 }) {
+  const { t, sub } = useDict();
   const uid = useId();
   const crop = art.crop ?? { l: 0, r: 0 };
   const keep = 100 - crop.l - crop.r;
@@ -236,10 +241,10 @@ function Shelf({
           className="bs-plaque"
           style={{ left: `${art.plaque.l}%`, right: `${art.plaque.r}%`, top: `${art.plaque.t}%`, bottom: `${art.plaque.b}%` }}
         >
-          <span className="bs-plaque-th">เรื่องเล่า</span>
-          <span className="bs-plaque-en" lang="en">
-            Stories
-          </span>
+          <span className="bs-plaque-th">{t.stories.shelf.title}</span>
+          {sub && <span className="bs-plaque-en" lang="en">
+            {sub.stories.shelf.title}
+          </span>}
         </div>
 
         {/* ผนังหลังตู้ย้อมสีตามช่วงวัย (ทองอุ่น = 3-6 ปี, น้ำเงิน = 7+) อยู่ใต้หนังสือและป้าย */}
@@ -320,6 +325,7 @@ function Shelf({
 }
 
 export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: ShelfBook[] }) {
+  const { t, pick: pickText } = useDict();
   const router = useRouter();
   const toLocale = useLocalePath();
   const { speak } = useSound();
@@ -354,12 +360,12 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
   const pick = (book: ShelfBook) => {
     if (picked?.id === book.id) return;
     setPicked(book);
-    speak(book.href ? book.title.th : `${book.title.th} เร็วๆ นี้`);
+    speak(book.href ? pickText(book.title) : fmt(t.stories.shelf.soonSpeech, { title: pickText(book.title) }));
   };
 
 
   return (
-    <section aria-label="ตู้หนังสือนิทาน" className="bs-stage">
+    <section aria-label={t.stories.shelf.label} className="bs-stage">
       <div className="bs-glow" aria-hidden="true" />
 
       <Shelf art={SHELF_WIDE} variant="wide" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />

@@ -1,5 +1,8 @@
 "use client";
 
+import { fmt } from "@/i18n/dict";
+import { useDict } from "@/i18n/LocaleProvider";
+
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { GameIcon } from "@/components/icons/GameIcon";
@@ -16,11 +19,12 @@ import {
 import { GameNavigation, gameButtonClass } from "./GameNavigation";
 
 export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
+  const { t, sub, pick, pickSub } = useDict();
   const group = AGE_GROUPS.find(group => group.id === ageGroup)!;
   const { speak } = useSound();
   const [round, setRound] = useState(() => createMemoryState(MEMORY_ITEMS.slice(0, group.pairs)));
   const { deck, started, open, matched, moves } = round;
-  const [announcement, setAnnouncement] = useState("กดเริ่มเล่นเพื่อสับการ์ด");
+  const [announcement, setAnnouncement] = useState(t.memoryGame.ready);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const firstCard = useRef<HTMLButtonElement>(null);
   const winHeading = useRef<HTMLHeadingElement>(null);
@@ -40,8 +44,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
     if (timer.current) clearTimeout(timer.current);
     // สุ่มตอนกดเริ่มเท่านั้น HTML จากเซิร์ฟเวอร์จึงตรงกับการแสดงผลครั้งแรก
     setRound(startMemoryRound(round));
-    setAnnouncement("เริ่มแล้ว เลือกการ์ดสองใบที่มีภาพเหมือนกัน");
-    speak("เลือกการ์ดสองใบที่มีภาพเหมือนกัน");
+    setAnnouncement(t.memoryGame.started);
+    speak(t.memoryGame.choose);
     // เล่นซ้ำยังคง started=true จึงคืนโฟกัสหลัง React วาดกระดานใหม่
     requestAnimationFrame(() => firstCard.current?.focus());
   }
@@ -49,27 +53,27 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
   function flip(card: MemoryCard) {
     const next = chooseMemoryCard(round, card.id);
     if (next === round) return;
-    speak(card.item.name.th);
+    speak(pick(card.item.name));
     setRound(next);
     if (next.open.length === 1) {
-      setAnnouncement(`เปิด ${card.item.name.th} เลือกอีกหนึ่งใบ`);
+      setAnnouncement(fmt(t.memoryGame.opened, { name: pick(card.item.name) }));
       return;
     }
     const first = deck.find(candidate => candidate.id === next.open[0])!;
     const isMatch = isMemoryMatch(next);
     setAnnouncement(isMatch
-      ? `จับคู่ ${card.item.name.th} ได้แล้ว`
-      : `${first.item.name.th} กับ ${card.item.name.th} ยังไม่เหมือนกัน ลองจำภาพไว้นะ`);
+      ? fmt(t.memoryGame.found, { name: pick(card.item.name) })
+      : fmt(t.memoryGame.mismatch, { first: pick(first.item.name), name: pick(card.item.name) }));
     // เว้นเวลาให้เด็กเห็นภาพทั้งสองใบ และไม่ตัดเสียงชื่อด้วยคำชมทันที
     timer.current = setTimeout(() => {
       if (isMatch) {
         const found = settleMemoryTurn(next).matched;
-        speak("เก่งมาก");
+        speak(t.memoryGame.praise);
         setAnnouncement(found.length === group.pairs
-          ? `เก่งมาก! จับคู่ครบ ${group.pairs} คู่ ใช้ ${next.moves} ครั้ง`
-          : `เก่งมาก จับคู่ได้ ${found.length} จาก ${group.pairs} คู่`);
+          ? fmt(t.memoryGame.wonAnnouncement, { pairs: group.pairs, moves: next.moves })
+          : fmt(t.memoryGame.progress, { found: found.length, pairs: group.pairs }));
       } else {
-        setAnnouncement("คว่ำการ์ดแล้ว ลองเลือกคู่อีกครั้ง");
+        setAnnouncement(t.memoryGame.hiddenAnnouncement);
       }
       setRound(settleMemoryTurn(next));
       timer.current = null;
@@ -81,22 +85,22 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
     <section className="mt-6 rounded-card scene-copy p-4 shadow-soft sm:p-8" aria-labelledby="memory-title">
       <div className="text-center">
         <h1 id="memory-title" className="font-display text-3xl font-extrabold sm:text-4xl">
-          จับคู่ภาพ
-          <span lang="en" className="block text-xl font-semibold">Memory Match</span>
+          {t.memoryGame.title}
+          {sub && <span lang="en" className="block text-xl font-semibold">{sub.memoryGame.title}</span>}
         </h1>
-        <p className="mt-2 font-bold">{group.name.th} · {group.pairs} คู่</p>
-        <p lang="en" className="text-sm">{group.name.en} · {group.pairs} pairs</p>
-        <p id="memory-help" className="mt-4">แตะการ์ดสองใบ หาภาพที่เหมือนกัน</p>
-        <p lang="en" className="text-sm">Turn over two cards. Find the matching pictures.</p>
+        <p className="mt-2 font-bold">{fmt(t.memoryGame.groupPairs, { group: pick(group.name), pairs: group.pairs })}</p>
+        {sub && <p lang="en" className="text-sm">{fmt(sub.memoryGame.groupPairs, { group: pickSub(group.name)!, pairs: group.pairs })}</p>}
+        <p id="memory-help" className="mt-4">{t.memoryGame.help}</p>
+        {sub && <p lang="en" className="text-sm">{sub.memoryGame.help}</p>}
       </div>
       <div className="my-5 flex flex-wrap justify-center gap-3 text-center">
         <p className="rounded-card-sm scene-copy px-5 py-3 font-bold">
-          จับคู่ได้ {matched.length} / {group.pairs}
-          <span lang="en" className="block text-xs font-normal">Pairs found</span>
+          {fmt(t.memoryGame.pairsFound, { found: matched.length, pairs: group.pairs })}
+          {sub && <span lang="en" className="block text-xs font-normal">{sub.memoryGame.pairsCaption}</span>}
         </p>
         <p className="rounded-card-sm scene-copy px-5 py-3 font-bold">
-          เปิดแล้ว {moves} ครั้ง
-          <span lang="en" className="block text-xs font-normal">Moves</span>
+          {fmt(t.memoryGame.moves, { moves })}
+          {sub && <span lang="en" className="block text-xs font-normal">{sub.memoryGame.movesCaption}</span>}
         </p>
       </div>
       <p role="status" aria-live="polite" aria-atomic="true" className="mx-auto mb-5 min-h-12 max-w-xl text-center text-sm">
@@ -104,19 +108,19 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
       </p>
       {!started && <div className="mb-6 text-center">
         <button className={`${gameButtonClass} ui-pill-primary`} onClick={start}>
-          <span>เริ่มเล่น<span lang="en" className="ui-sub">Start</span></span>
+          <span>{t.memoryGame.start}{sub && <span lang="en" className="ui-sub">{sub.memoryGame.start}</span>}</span>
         </button>
       </div>}
       {won ? <div className="mx-auto max-w-lg rounded-card scene-copy p-6 text-center">
         <Image src="/Character/fighting.webp" alt="" width={200} height={200} sizes="200px" className="logo-mark-glow mx-auto size-40 object-contain sm:size-48" />
         <h2 ref={winHeading} tabIndex={-1} className="mt-2 font-display text-3xl font-extrabold">
-          เก่งมาก!<span lang="en" className="block text-2xl">Well done!</span>
+          {t.memoryGame.wellDone}{sub && <span lang="en" className="block text-2xl">{sub.memoryGame.wellDone}</span>}
         </h2>
-        <p className="mt-3">จับคู่ครบแล้ว มาเล่นกันอีกนะ</p>
-        <p lang="en" className="text-sm">You found every pair!</p>
+        <p className="mt-3">{t.memoryGame.complete}</p>
+        {sub && <p lang="en" className="text-sm">{sub.memoryGame.complete}</p>}
         <div className="mt-6 flex flex-wrap justify-center gap-4">
           <button onClick={start} className={gameButtonClass}>
-            <span>เล่นอีกครั้ง<span lang="en" className="ui-sub">Play again</span></span>
+            <span>{t.memoryGame.again}{sub && <span lang="en" className="ui-sub">{sub.memoryGame.again}</span>}</span>
           </button>
           <GameNavigation />
         </div>
@@ -136,7 +140,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
             disabled={!started}
             aria-disabled={!started || isMatched || open.length === 2 || open.includes(card.id)}
             aria-pressed={revealed}
-            aria-label={`การ์ดใบที่ ${index + 1}, ${revealed ? card.item.name.th : "คว่ำอยู่"}${isMatched ? ", จับคู่แล้ว" : ""}`}
+            aria-label={fmt(t.memoryGame.card, { index: index + 1, state: revealed ? pick(card.item.name) : t.memoryGame.faceDown, matched: isMatched ? t.memoryGame.matchedSuffix : "" })}
             onClick={() => flip(card)}
             className={`group flex min-h-28 min-w-16 flex-col items-center justify-center rounded-card-sm border-2 border-brand-blue p-2 text-ink shadow-soft transition-shadow duration-200 ease-out enabled:hover:shadow-float ${revealed ? "bg-cloud" : "bg-sky"} ${ageGroup === "kids" ? "aspect-[4/5] sm:aspect-square" : "aspect-[3/4] sm:aspect-square"}`}
           >
@@ -146,11 +150,11 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
             </span>
             <span aria-hidden="true" className={`block min-h-12 text-center leading-normal ${ageGroup === "kids" ? "text-base sm:text-lg" : "text-xs sm:text-base"}`}>
               {revealed ? <>
-                <span className="block font-bold">{card.item.name.th}</span>
-                <span lang="en" className="block text-xs">{card.item.name.en}</span>
+                <span className="block font-bold">{pick(card.item.name)}</span>
+                {sub && <span lang="en" className="block text-xs">{pickSub(card.item.name)}</span>}
               </> : <span className="font-display text-xl font-bold">{index + 1}</span>}
             </span>
-            <span aria-hidden="true" className="flex min-h-6 items-center gap-1 text-xs font-bold">{isMatched && <><GameIcon name="check" className="size-5" />จับคู่แล้ว</>}</span>
+            <span aria-hidden="true" className="flex min-h-6 items-center gap-1 text-xs font-bold">{isMatched && <><GameIcon name="check" className="size-5" />{t.memoryGame.matched}</>}</span>
           </button>;
         })}
       </div>}

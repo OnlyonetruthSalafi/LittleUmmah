@@ -1,4 +1,6 @@
 'use client';
+import { useDict } from '@/i18n/LocaleProvider';
+
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { GameImage as Image } from './GameImage';
@@ -21,6 +23,7 @@ const PHONE_FRAMES = ['phone-portrait', 'phone-landscape'];
 const noSubscribe = () => () => {};
 
 export function HubGuide() {
+  const { t, sub } = useDict();
   const locale = useLocale();
   const runSound = useRunSound();
   const stopRunSound = runSound.stop;
@@ -115,16 +118,16 @@ export function HubGuide() {
     try { await audio.play(); } catch { setError(true); }
   };
 
-  const label = status === 'playing' ? ['พักเสียง', 'Pause']
-    : status === 'paused' ? ['ฟังต่อ', 'Continue']
-    : status === 'ended' ? ['ฟังอีกครั้ง', 'Listen again']
-    : ['ฟังเพื่อนหุ่นยนต์แนะนำเกม', 'Meet your game guide'];
+  const label = status === 'playing' ? [t.games.guide.pause, sub?.games.guide.pause]
+    : status === 'paused' ? [t.games.guide.resume, sub?.games.guide.resume]
+    : status === 'ended' ? [t.games.guide.again, sub?.games.guide.again]
+    : [t.games.guide.meet, sub?.games.guide.meet];
 
-  return <header className="gc-hub-guide" aria-label="หุ่นยนต์แนะนำเกม / Your game guide">
-    <h1 className="sr-only">โลกแห่งเกม / A world of little adventures</h1>
+  return <header className="gc-hub-guide" aria-label={t.games.guide.label}>
+    <h1 className="sr-only">{t.games.guide.title}</h1>
     <div className="gc-hub-guide-stage" role="img" aria-label={touch
-      ? 'หุ่นยนต์วิ่งตีโค้งเข้ามา โบกมือทักทาย แล้วยกมือถือขึ้น หมุนจากแนวตั้งเป็นแนวนอนให้ดู'
-      : 'หุ่นยนต์ถือจอยเกม วิ่งตีโค้งจากไกลเข้ามา โบกมือทักทาย แล้วยืนหน้าตรงกลางจอ'}>
+      ? t.games.guide.touchAlt
+      : t.games.guide.desktopAlt}>
       <div key={run} className="gc-hub-guide-arrival" data-ready={ready && runSound.ready} aria-hidden="true"
         onAnimationStart={event => {
           if (event.target === event.currentTarget && event.animationName === 'gc-guide-curve') runSound.play();
@@ -150,7 +153,7 @@ export function HubGuide() {
     {/* ปุ่มไอคอนล้วน ข้อความอยู่ใน aria-label และ title (ไทยนำ อังกฤษรอง) */}
     <div className="gc-hub-guide-controls">
       <button type="button" className="gc-hub-icon-btn motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98]"
-        aria-label="ดูหุ่นยนต์วิ่งอีกครั้ง / Replay arrival" title="ดูหุ่นยนต์วิ่งอีกครั้ง / Replay arrival" onClick={() => {
+        aria-label={t.games.guide.replay} title={t.games.guide.replay} onClick={() => {
           audioRef.current?.pause();
           runSound.stop();
           runSound.unlock();
@@ -160,7 +163,7 @@ export function HubGuide() {
       </button>
       <button type="button" className="gc-hub-icon-btn gc-hub-icon-btn-primary motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98]"
         onClick={() => void toggleVoice()} aria-controls="gc-hub-voice"
-        aria-label={`${label[0]} / ${label[1]}`} title={`${label[0]} / ${label[1]}`} data-error={error || undefined}>
+        aria-label={sub ? `${label[0]} / ${label[1]}` : label[0]} title={sub ? `${label[0]} / ${label[1]}` : label[0]} data-error={error || undefined}>
         {status === 'playing' ? <PauseIcon className="h-8 w-8" /> : <SpeakerIcon className="h-9 w-9" />}
       </button>
     </div>
@@ -171,8 +174,8 @@ export function HubGuide() {
     {/* สถานะให้ screen reader อ่าน ส่วนบนจอบอกด้วยไอคอนบนปุ่มแทน
         ยกเว้นตอนเปิดเสียงไม่ได้ ต้องเห็นเป็นข้อความ ไม่งั้นเด็กกดแล้วเงียบโดยไม่รู้สาเหตุ */}
     <p className={error ? 'gc-hub-guide-status' : 'sr-only'} role="status">
-      {error ? <>เปิดเสียงไม่ได้ ลองแตะอีกครั้งนะ <span lang="en">Unable to play. Please try again.</span></>
-        : status === 'playing' ? <>กำลังแนะนำเกม… <span lang="en">Your guide is speaking…</span></>
+      {error ? <>{t.games.guide.error} {sub && <span lang="en">{sub.games.guide.error}</span>}</>
+        : status === 'playing' ? <>{t.games.guide.speaking} {sub && <span lang="en">{sub.games.guide.speaking}</span>}</>
         : null}
     </p>
   </header>;

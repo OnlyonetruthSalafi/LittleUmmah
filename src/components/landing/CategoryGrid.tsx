@@ -1,3 +1,5 @@
+import { dict } from "@/i18n/dict";
+import type { Locale } from "@/i18n/config";
 import { IslandCard } from "@/components/landing/IslandCard";
 import { CATEGORIES } from "@/lib/categories";
 
@@ -14,10 +16,11 @@ const ISLANDS = [
   ...CATEGORIES.filter((c) => c.slug !== "arabic"),
 ];
 
-export function CategoryGrid() {
+export function CategoryGrid({ locale }: { locale: Locale }) {
+  const { t } = dict(locale);
   return (
     <section className="island-arc mx-auto w-full max-w-[96rem] px-3 pb-6 sm:px-6">
-      <h2 className="sr-only">หมวดการเรียนรู้</h2>
+      <h2 className="sr-only">{t.categoryGrid.heading}</h2>
       <ul className="grid grid-cols-2 items-start gap-3 sm:grid-cols-6 sm:gap-5 lg:gap-3">
         {ISLANDS.map((category) => (
           <IslandCard key={category.slug} category={category} />

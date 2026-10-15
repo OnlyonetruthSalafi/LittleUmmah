@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
+import { UI } from "./content";
+
 /*
   ปุ่มล้างความคืบหน้าในเครื่องนี้ (ดาวมารยาท ดาวสำรวจโลก ด่านเกม และสถานะ "ดูคำแนะนำแล้ว")
   ไม่ล้างการตั้งค่าเปิด/ปิดเสียง เพราะเป็นการตั้งค่า ไม่ใช่ข้อมูลการเรียน
@@ -29,6 +33,7 @@ function clearAll() {
 
 export function ClearProgress() {
   const [armed, setArmed] = useState(false);
+  const { pick } = useDict();
   return (
     <div className="mt-3 flex flex-wrap items-center gap-3">
       <button
@@ -44,10 +49,10 @@ export function ClearProgress() {
         }}
         onBlur={() => setArmed(false)}
       >
-        {armed ? "กดอีกครั้งเพื่อยืนยันการล้าง" : "ล้างความคืบหน้าในเครื่องนี้"}
+        {pick(armed ? UI.clearConfirm : UI.clear)}
       </button>
       <p className="text-ink-soft text-sm" aria-live="polite">
-        {armed ? "ดาวและด่านที่ผ่านแล้วจะหายไป เริ่มใหม่ได้ทุกเมื่อ" : ""}
+        {armed ? pick(UI.clearWarn) : ""}
       </p>
     </div>
   );

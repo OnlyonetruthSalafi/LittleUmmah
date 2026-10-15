@@ -642,8 +642,5 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
 };
 
-/** ข้อความชวนพูดตาม ตอนจังหวะ sayAlong */
-export const sayPrompt = (word: Word) => `ตาหนูแล้ว! พูดว่า ${word.th}`;
-
 /** จังหวะเงียบให้เด็กพูดตามหลังจบคลิป */
 export const SAY_ALONG_MS = 2600;

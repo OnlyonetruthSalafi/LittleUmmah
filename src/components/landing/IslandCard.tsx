@@ -1,5 +1,7 @@
 "use client";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
 import Image from "next/image";
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
@@ -20,6 +22,7 @@ import { isScrollHover } from "@/lib/scrollHover";
   ถ้าใส่ alt ซ้ำ screen reader จะอ่านชื่อหมวดสองรอบ
 */
 export function IslandCard({ category }: { category: Category }) {
+  const { sub, pick, pickSub } = useDict();
   const { speak } = useSound();
 
   return (
@@ -31,15 +34,15 @@ export function IslandCard({ category }: { category: Category }) {
           // Scrolling also slides islands under a still mouse and fires pointerenter;
           // skip those so they don't cut off other speech (see lib/scrollHover).
           if (event.pointerType === "mouse" && !isScrollHover()) {
-            speak(category.name.th, `cat-${category.slug}`);
+            speak(pick(category.name), `cat-${category.slug}`);
           }
         }}
         onFocus={(event) => {
           if (event.currentTarget.matches(":focus-visible")) {
-            speak(category.name.th, `cat-${category.slug}`);
+            speak(pick(category.name), `cat-${category.slug}`);
           }
         }}
-        onClick={() => speak(category.name.th, `cat-${category.slug}`)}
+        onClick={() => speak(pick(category.name), `cat-${category.slug}`)}
         className="group flex w-full flex-col items-center"
       >
         {/* ไม่ใส่ overflow-hidden ที่กรอบนี้ ไม่งั้นแสงฟุ้งรอบเกาะจะถูกตัดเป็นขอบสี่เหลี่ยม
@@ -61,11 +64,11 @@ export function IslandCard({ category }: { category: Category }) {
 
         <span className="island-caption flex max-w-full flex-col items-center px-1 pb-2 text-center">
           <span className="font-display text-island-ink text-xl leading-snug font-extrabold text-balance decoration-1 underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-2xl lg:text-xl xl:text-[1.375rem]">
-            {category.name.th}
+            {pick(category.name)}
           </span>
-          <span lang="en" className="font-display text-island-ink-soft mt-1 text-sm leading-normal font-semibold tracking-wide text-balance sm:text-base">
-            {category.name.en}
-          </span>
+          {sub && <span lang="en" className="font-display text-island-ink-soft mt-1 text-sm leading-normal font-semibold tracking-wide text-balance sm:text-base">
+            {pickSub(category.name)}
+          </span>}
         </span>
       </Link>
     </li>

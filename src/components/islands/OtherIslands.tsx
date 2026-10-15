@@ -1,5 +1,7 @@
 "use client";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
 import Image from "next/image";
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
@@ -18,6 +20,7 @@ import "./other-islands.css";
   ภาพ alt="" เพราะชื่อเกาะเป็นข้อความอยู่ในลิงก์เดียวกันแล้ว
 */
 export function OtherIslands({ current }: { current: string }) {
+  const { t, sub, pick, pickSub } = useDict();
   const { speak } = useSound();
   const islands = CATEGORIES.filter((category) => category.slug !== current);
 
@@ -26,19 +29,19 @@ export function OtherIslands({ current }: { current: string }) {
       <div className="oi-wrap-head">
         <MapIcon className="size-12 shrink-0" />
         <h2 id="other-islands" className="font-display text-2xl font-extrabold sm:text-3xl">
-          ไปเกาะอื่นกัน
-          <span lang="en" className="text-ink-soft ml-2 text-base font-semibold">
-            More islands
-          </span>
+          {t.otherIslands.title}
+          {sub && <span lang="en" className="text-ink-soft ml-2 text-base font-semibold">
+            {sub.otherIslands.title}
+          </span>}
         </h2>
-        <p className="text-ink-soft basis-full text-sm sm:basis-auto">เรียนรู้เรื่องราวดีๆ อีกมากมาย</p>
+        <p className="text-ink-soft basis-full text-sm sm:basis-auto">{t.otherIslands.hint}</p>
       </div>
       <ul className="oi-wrap-list">
         {islands.map((island) => (
           <li key={island.slug} className="flex">
             <Link
               href={island.href}
-              onClick={() => speak(island.name.th, `cat-${island.slug}`)}
+              onClick={() => speak(pick(island.name), `cat-${island.slug}`)}
               className="oi-island group"
             >
               <span className="oi-island-art">
@@ -46,10 +49,10 @@ export function OtherIslands({ current }: { current: string }) {
               </span>
               <span className="oi-island-label">
                 <span className="min-w-0 flex-1">
-                  <span className="font-display block leading-snug font-extrabold">{island.name.th}</span>
-                  <span lang="en" className="text-ink-soft block text-xs">
-                    {island.name.en}
-                  </span>
+                  <span className="font-display block leading-snug font-extrabold">{pick(island.name)}</span>
+                  {sub && <span lang="en" className="text-ink-soft block text-xs">
+                    {pickSub(island.name)}
+                  </span>}
                 </span>
                 <ChevronRightIcon className="oi-island-chev" />
               </span>

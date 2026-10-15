@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { createContext, useContext, useEffect, type ComponentProps } from "react";
+import { createContext, useContext, useEffect, useMemo, type ComponentProps } from "react";
 
 import { setSpeechLocale } from "@/lib/speech";
 
 import { DEFAULT_LOCALE, type Locale } from "./config";
+import { dict } from "./dict";
 import { localePath } from "./path";
 
 /*
@@ -22,6 +23,13 @@ export function LocaleProvider({ locale, children }: { locale: Locale; children:
 
 export function useLocale(): Locale {
   return useContext(LocaleContext);
+}
+
+/** ข้อความของหน้าในภาษาปัจจุบัน — ดู dict() ใน ./dict */
+export function useDict() {
+  const locale = useLocale();
+  // คงอ้างอิงเดิมตลอดที่ภาษาไม่เปลี่ยน ใส่ใน dependency ของ effect ได้โดยไม่ทำให้รันซ้ำทุก render
+  return useMemo(() => dict(locale), [locale]);
 }
 
 /** แปลง path ภายในเว็บให้อยู่ในภาษาปัจจุบัน ใช้กับ router.push() */

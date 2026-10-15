@@ -1,4 +1,7 @@
 'use client';
+import { fmt } from '@/i18n/dict';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { PlayProps } from '../components/GameShell';
 import { GameImage as Image } from '../components/GameImage';
@@ -69,6 +72,7 @@ function BenchTray({ S, pad, wall, uid }: { S: number; pad: number; wall: { x: n
 }
 
 export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+  const { t, sub, pick, pickSub } = useDict();
   const uid = useId().replace(/:/g, '');
   const [round] = useState(() => { const data = boardContent('puzzle', level); return { ...data, tray: shuffle(data.items) }; });
   const { columns: cols, rows } = round.puzzle!;
@@ -82,7 +86,7 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   const [hint, setHint] = useState<number | null>(null);
   const [landed, setLanded] = useState<number | null>(null);
   const [guide, setGuide] = useState(true);
-  const [notice, setNotice] = useState('แตะชิ้นภาพ แล้วแตะช่องในถาด หรือลากไปวาง');
+  const [notice, setNotice] = useState(t.games.puzzle.help);
   const [width, setWidth] = useState(0);
   const layer = useRef<HTMLDivElement>(null);
   const scene = useRef<HTMLDivElement>(null);
@@ -112,18 +116,18 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
     if (current.current.includes(itemId)) return;
     const correct = canPlace(round.items, round.targets, current.current, itemId, targetId);
     onFeedback(correct);
-    if (!correct) { setNotice('ยังไม่ใช่ช่องนี้ ดูภาพช่วยในถาดแล้วลองใหม่นะ'); return; }
+    if (!correct) { setNotice(t.games.puzzle.retry); return; }
     const next = [...current.current, itemId];
     current.current = next;
     setPlaced(next); setSelected(null); setHint(null); setLanded(indexOf(itemId));
-    setNotice(`วางแล้ว ${next.length} จาก ${total} ชิ้น`);
+    setNotice(fmt(t.games.puzzle.placedCount, { done: next.length, total: total }));
     const nextItem = round.tray.find(item => !next.includes(item.id));
     if (nextItem) requestAnimationFrame(() => scene.current?.querySelector<HTMLButtonElement>(`[data-item-id="${nextItem.id}"]`)?.focus({ preventScroll: true }));
   }
 
   /* ชิ้นที่อยู่ต่ำกว่าบนจอ (ใกล้คนดู) วาดทีหลัง ผนังข้างของมันจึงบังชิ้นที่อยู่ไกลกว่าอย่างถูกต้อง */
   const depth = (i: number) => Math.round(project(H, ((i % cols) + 0.5) / cols, (Math.floor(i / cols) + 0.5) / rows).y * 1000);
-  const tapCell = (targetId: string) => { if (selected) place(selected, targetId); else setNotice('แตะเลือกชิ้นภาพก่อน แล้วแตะช่องในถาด'); };
+  const tapCell = (targetId: string) => { if (selected) place(selected, targetId); else setNotice(t.games.puzzle.selectFirst); };
   /* ถาดวางชิ้นใต้เกาะ: เอียงแบบเดียวกับถาดบนเกาะ กว้างเกือบเต็มกล่อง ช่องใหญ่สุด 130px */
   const bench = benchWidth > 0 ? benchLayout(A, cols, rows, benchWidth * 0.97, 130) : null;
   /* ชิ้นบนระนาบถาดวางชิ้น: หน่วยกระดาน → px บนระนาบ เว้นช่องไฟ BENCH_GAP ระหว่างชิ้น
@@ -135,18 +139,18 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   return <div className="pz-scene" ref={scene} data-level={level} data-done={done || undefined} style={{ '--pz-cols': cols } as CSSProperties}>
     <div className="pz-tools">
       <button type="button" className="gc-button" aria-pressed={guide} onClick={() => { onTap(); setGuide(g => !g); }}>
-        {guide ? 'ซ่อนภาพช่วย' : 'ดูภาพช่วย'}<small lang="en">Picture guide</small>
+        {guide ? t.games.puzzle.hide : t.games.puzzle.show}{sub && <small lang="en">{sub.games.puzzle.pictureGuide}</small>}
       </button>
       <button type="button" className="gc-button" disabled={done} onClick={() => {
         const item = round.items.find(i => i.id === selected) ?? round.tray.find(i => !current.current.includes(i.id));
         if (!item) return;
         onTap(); setSelected(item.id); setHint(indexOf(item.id));
-        setNotice(`ลองวางชิ้นที่เลือกในช่องที่มีลูกศร ช่องที่ ${indexOf(item.id) + 1}`);
-      }}>คำใบ้<small lang="en">Hint</small></button>
+        setNotice(fmt(t.games.puzzle.hintSlot, { index: indexOf(item.id) + 1 }));
+      }}>{t.games.puzzle.hint}{sub && <small lang="en">{sub.games.puzzle.hint}</small>}</button>
     </div>
     <p className="sr-only" role="status" aria-live="polite">{notice}</p>
 
-    <IslandBoard {...PUZZLE_ISLAND} className="pz-island" label={`ถาดจิ๊กซอว์ ภาพ${picture.label.th} / Puzzle tray: ${picture.label.en}`}>
+    <IslandBoard {...PUZZLE_ISLAND} className="pz-island" label={fmt(t.games.puzzle.tray, { name: pick(picture.label), secondary: pickSub(picture.label)! })}>
       <div className="pz-layer" ref={layer}>
         {width > 0 && <div className="pz-plane" style={{ width, height: width, transform: trayMatrix(H, width, width) }}>
           <Image className="pz-ghost" src={src} alt="" width={900} height={900} unoptimized data-show={guide || undefined} draggable={false} />
@@ -159,7 +163,7 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
             const filled = placed.includes(round.items[i].id);
             return <button type="button" key={target.id} className="pz-cell" data-drop-id={target.id} disabled={filled}
               style={{ left: `${(i % cols) * 100 / cols}%`, top: `${Math.floor(i / cols) * 100 / rows}%`, width: `${100 / cols}%`, height: `${100 / rows}%` }}
-              aria-label={`ช่องที่ ${i + 1} / Slot ${i + 1}${filled ? ' วางแล้ว / placed' : ''}`}
+              aria-label={fmt(t.games.puzzle.slot, { index: i + 1, placed: filled ? t.games.puzzle.placed : '' })}
               onClick={() => tapCell(target.id)} />;
           })}
           {(['wall', 'face'] as const).map(part => round.items.map((item, i) => {
@@ -183,14 +187,14 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
         <div className="pz-bench-plane" style={{ width: bench.S, height: bench.S, transform: bench.matrix }}>
           <BenchTray S={bench.S} pad={bench.pad} wall={bench.wall} uid={`${uid}bench`} />
         </div>
-        <div className="pz-tray" role="group" aria-label="ชิ้นภาพที่รอวาง / Puzzle pieces">
+        <div className="pz-tray" role="group" aria-label={t.games.puzzle.pieces}>
           {round.tray.map((item, slot) => {
             const i = indexOf(item.id), at = bench.center(slot);
             const size = Math.max(64, Math.min(bench.cw, bench.ch) * 0.95);
             const box = pieceBox(i % cols, Math.floor(i / cols), cols, rows, THICKNESS);
             return <div className="pz-tray-cell" key={item.id} style={{ left: at.x - size / 2, top: at.y - size / 2, width: size, height: size, zIndex: Math.round(at.y) }}>
-              {!placed.includes(item.id) && <DragItem id={item.id} label={`ชิ้นภาพที่ ${i + 1} ของภาพ${picture.label.th} / Piece ${i + 1} of ${picture.label.en}`} selected={selected === item.id}
-                onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice('เลือกชิ้นภาพแล้ว แตะช่องในถาดที่รูปร่างตรงกัน'); }} onDrop={place}>
+              {!placed.includes(item.id) && <DragItem id={item.id} label={fmt(t.games.puzzle.piece, { index: i + 1, name: pick(picture.label), secondary: pickSub(picture.label)! })} selected={selected === item.id}
+                onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice(t.games.puzzle.selected); }} onDrop={place}>
                 <span className="pz-toy" style={{ width: box.w * toyScale, height: box.h * toyScale, transform: `translate(-50%, -50%) matrix(${A.a},${A.b},${A.c},${A.d},0,0)` }}>
                   <PieceSvg index={i} cols={cols} rows={rows} src={src} down={down} uid={`${uid}t`} />
                 </span>

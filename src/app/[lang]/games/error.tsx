@@ -1,3 +1,6 @@
 'use client';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { BackLink } from '@/components/ui/BackLink';
-export default function GameError({ reset }: { reset: () => void }) { return <main className="gc-world gc-focus"><section className="gc-panel gc-intro"><h1>พักสักนิด แล้วลองใหม่</h1><p lang="en">Let’s try again.</p><button className="gc-button gc-primary" onClick={reset}>ลองใหม่ <small lang="en">Retry</small></button><BackLink href="/games" label={{ th: "รวมเกม", en: "Game Hub" }} /></section></main>; }
+export default function GameError({ reset }: { reset: () => void }) {
+  const { t, sub } = useDict(); return <main className="gc-world gc-focus"><section className="gc-panel gc-intro"><h1>{t.games.error.title}</h1>{sub && <p lang="en">{sub.games.error.title}</p>}<button className="gc-button gc-primary" onClick={reset}>{t.games.error.retry} {sub && <small lang="en">{sub.games.error.retry}</small>}</button><BackLink href="/games" label={{ th: t.games.error.hub, en: sub?.games.error.hub ?? t.games.error.hub }} /></section></main>; }

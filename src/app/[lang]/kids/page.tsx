@@ -1,16 +1,22 @@
+import { dict } from "@/i18n/dict";
+import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
 
 import { AgeHome } from "@/components/learn/AgeHome";
 
-export const metadata: Metadata = { title: "วัย 3-6 ปี" };
+export async function generateMetadata({ params }: PageProps<"/[lang]/kids">): Promise<Metadata> {
+  const { lang } = await params;
+  return { title: dict(lang as Locale).t.ageHome.kidsTitle };
+}
 
-export default function KidsPage() {
+export default async function KidsPage({ params }: PageProps<"/[lang]/kids">) {
+  const { lang } = await params;
+  const locale = lang as Locale;
   return (
     <AgeHome
+      locale={locale}
       anchor="kids"
       robot="/Character/play.webp"
-      title={{ th: "วัย 3-6 ปี", en: "Ages 3–6" }}
-      hint={{ th: "เรียนรู้ผ่านการเล่น แตะเกาะที่อยากไปได้เลย", en: "Learn through play. Tap an island to begin." }}
     />
   );
 }

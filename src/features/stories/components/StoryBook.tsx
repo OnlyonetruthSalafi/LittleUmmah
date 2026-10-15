@@ -19,7 +19,8 @@ import { DeluxeCover, GoldBurst } from "./DeluxeCover";
 import { FishShadow, SceneFx } from "./SceneFx";
 import "../story.css";
 import "../story-deluxe.css";
-import { useLocale } from "@/i18n/LocaleProvider";
+import { useDict } from "@/i18n/LocaleProvider";
+import { fmt } from "@/i18n/dict";
 
 /*
   หนังสือนิทาน 2.5D
@@ -74,15 +75,16 @@ function Half({ page, side }: { page: StoryPage; side: "left" | "right" }) {
 }
 
 function Cover({ story }: { story: Story }) {
+  const { pick, pickSub } = useDict();
   if (story.deluxe) return <DeluxeCover story={story} />;
   return (
     <div className="sb-cover">
       <Image src={story.cover} alt="" fill sizes="(max-width: 1140px) 50vw, 550px" className="object-cover" priority />
       <div className="sb-cover-title" aria-hidden="true">
-        <span className="sb-cover-th">{story.title.th}</span>
-        <span className="sb-cover-en" lang="en">
-          {story.title.en}
-        </span>
+        <span className="sb-cover-th">{pick(story.title)}</span>
+        {pickSub(story.title) && <span className="sb-cover-en" lang="en">
+          {pickSub(story.title)}
+        </span>}
       </div>
     </div>
   );
@@ -90,12 +92,13 @@ function Cover({ story }: { story: Story }) {
 
 /** หน้าชื่อเรื่องใต้ปก (เล่มสมจริง) ตัวหนังสือจริง ไม่ฝังในภาพ — aria-hidden เพราะมี h1 ชื่อเรื่องแล้ว */
 function TitlePage({ story }: { story: Story }) {
+  const { pick, pickSub } = useDict();
   return (
     <div className="sbx-titlepage" aria-hidden="true">
-      <span className="sbx-tp-th">{story.title.th}</span>
-      <span className="sbx-tp-en" lang="en">
-        {story.title.en}
-      </span>
+      <span className="sbx-tp-th">{pick(story.title)}</span>
+      {pickSub(story.title) && <span className="sbx-tp-en" lang="en">
+        {pickSub(story.title)}
+      </span>}
     </div>
   );
 }
@@ -125,7 +128,7 @@ function BookShell({ book }: { book: NonNullable<NonNullable<Story["deluxe"]>["b
 }
 
 export function StoryBook({ story }: { story: Story }) {
-  const locale = useLocale();
+  const { locale, t, sub, pick, pickSub } = useDict();
   const { enabled: soundOn } = useSound();
   const count = story.pages.length;
 
@@ -252,7 +255,7 @@ export function StoryBook({ story }: { story: Story }) {
   useEffect(() => {
     // กดพักระหว่างพลิก: พลิกให้จบ แต่ไม่เริ่มพากย์หน้าใหม่ จนกว่าจะกดเล่นหรือพลิกอีก
     if (!started || turn || userPaused) return;
-    const text = spread < 0 ? story.title.th : [page?.th, page?.reading, page?.meaning].filter(Boolean).join(" ... ");
+    const text = spread < 0 ? pick(story.title) : [page && pick(page), page?.reading, page?.meaning].filter(Boolean).join(" ... ");
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancel: (() => void) | undefined;
     let usedSynth = false;
@@ -433,7 +436,7 @@ export function StoryBook({ story }: { story: Story }) {
 
   return (
     <section
-      aria-label={`หนังสือนิทาน ${story.title.th}`}
+      aria-label={fmt(t.stories.book.label, { title: pick(story.title) })}
       className="sb-root mt-6"
       data-deluxe={deluxe ? "" : undefined}
       data-real={deluxe?.book ? "" : undefined}
@@ -545,7 +548,7 @@ export function StoryBook({ story }: { story: Story }) {
           type="button"
           onClick={() => step(-1)}
           disabled={spread < 0 || !!turn}
-          aria-label="หน้าก่อน / Previous page"
+          aria-label={t.stories.book.previous}
           className="ui-round"
         >
           <ArrowLeftIcon />
@@ -557,10 +560,10 @@ export function StoryBook({ story }: { story: Story }) {
               <PauseIcon />
             </span>
             <span className="ui-label">
-              พัก
-              <span lang="en" className="ui-sub">
-                Pause
-              </span>
+              {t.stories.book.pause}
+              {sub && <span lang="en" className="ui-sub">
+                {sub.stories.book.pause}
+              </span>}
             </span>
           </button>
         ) : (
@@ -568,10 +571,10 @@ export function StoryBook({ story }: { story: Story }) {
             {/* PlayIcon มีวงกลมในตัวอยู่แล้ว ขนาดเท่า .ui-disc */}
             {finished ? <span className="ui-disc"><ReplayIcon /></span> : <PlayIcon className="size-11 shrink-0" />}
             <span className="ui-label">
-              {finished ? "อ่านอีกครั้ง" : spread < 0 ? "เล่นนิทาน" : "เล่นต่อ"}
-              <span lang="en" className="ui-sub">
-                {finished ? "Read again" : spread < 0 ? "Play" : "Continue"}
-              </span>
+              {finished ? t.stories.book.again : spread < 0 ? t.stories.book.play : t.stories.book.continue}
+              {sub && <span lang="en" className="ui-sub">
+                {finished ? sub.stories.book.again : spread < 0 ? sub.stories.book.play : sub.stories.book.continue}
+              </span>}
             </span>
           </button>
         )}
@@ -580,7 +583,7 @@ export function StoryBook({ story }: { story: Story }) {
           type="button"
           onClick={() => step(1)}
           disabled={spread >= count - 1 || !!turn}
-          aria-label="หน้าถัดไป / Next page"
+          aria-label={t.stories.book.next}
           className="ui-round"
         >
           <ArrowLeftIcon className="-scale-x-100" />
@@ -588,7 +591,7 @@ export function StoryBook({ story }: { story: Story }) {
 
         {/* live region สั้นๆ แค่เลขหน้า เนื้อเรื่องมีเสียงพากย์อยู่แล้ว ไม่ต้องให้ screen reader อ่านทับ */}
         <p className="text-ink col-span-3 font-bold tabular-nums" aria-live="polite">
-          {shown < 0 ? "ปก" : `หน้า ${shown + 1} / ${count}`}
+          {shown < 0 ? t.stories.book.cover : fmt(t.stories.book.page, { page: shown + 1, count })}
         </p>
       </div>
 
@@ -598,17 +601,17 @@ export function StoryBook({ story }: { story: Story }) {
         <div className="sb-text min-w-0 flex-1">
           {page ? (
             <>
-              <p className="text-xl leading-relaxed font-semibold sm:text-2xl">{page.th}</p>
-              <p lang="en" className="text-ink-soft mt-2 text-sm sm:text-base">
-                {page.en}
-              </p>
+              <p className="text-xl leading-relaxed font-semibold sm:text-2xl">{pick(page)}</p>
+              {pickSub(page) && <p lang="en" className="text-ink-soft mt-2 text-sm sm:text-base">
+                {pickSub(page)}
+              </p>}
               {page.arabic ? (
                 <div className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3">
                   <p lang="ar" dir="rtl" className="text-2xl leading-loose font-semibold sm:text-3xl">
                     {page.arabic}
                   </p>
-                  {page.reading && <p className="mt-1 font-semibold">อ่านว่า: {page.reading}</p>}
-                  {page.meaning && <p className="text-ink-soft text-sm">ความหมาย: {page.meaning}</p>}
+                  {page.reading && <p className="mt-1 font-semibold">{fmt(t.stories.book.reading, { reading: page.reading })}</p>}
+                  {page.meaning && <p className="text-ink-soft text-sm">{fmt(t.stories.book.meaning, { meaning: page.meaning })}</p>}
                 </div>
               ) : (
                 /* อายะฮ์อัลกุรอาน: แสดงเฉพาะความหมายภาษาไทย ไม่ยกตัวอาหรับ (เจ้าของโปรเจกต์ 8 ต.ค. 2026 — AGENTS.md ข้อ 1.6) */
@@ -621,15 +624,15 @@ export function StoryBook({ story }: { story: Story }) {
             </>
           ) : (
             <>
-              <p className="text-xl leading-relaxed font-semibold sm:text-2xl">กดปุ่มเล่น แล้วมาฟังนิทานกันนะ</p>
-              <p lang="en" className="text-ink-soft mt-1 text-sm sm:text-base">
-                Press play and let&apos;s listen to the story!
-              </p>
+              <p className="text-xl leading-relaxed font-semibold sm:text-2xl">{t.stories.book.intro}</p>
+              {sub && <p lang="en" className="text-ink-soft mt-1 text-sm sm:text-base">
+                {sub.stories.book.intro}
+              </p>}
             </>
           )}
           {finished && (
             <p className="font-display text-brand-blue mt-3 text-2xl font-extrabold">
-              จบแล้ว <span lang="en">The End</span>
+              {t.stories.book.end}{" "}{sub && <span lang="en">{sub.stories.book.end}</span>}
             </p>
           )}
         </div>
@@ -637,7 +640,7 @@ export function StoryBook({ story }: { story: Story }) {
 
       {finished && (
         <div className="mt-5 flex justify-center">
-          <BackLink href="/learn/stories" label={{ th: "เกาะเรื่องเล่า", en: "Stories" }} />
+          <BackLink href="/learn/stories" label={{ th: t.stories.shelf.back, en: sub?.stories.shelf.back ?? t.stories.shelf.back }} />
         </div>
       )}
     </section>

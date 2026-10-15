@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/i18n/config";
+import { dict } from "@/i18n/dict";
 import { notFound } from "next/navigation";
 
 import { OtherIslands } from "@/components/islands/OtherIslands";
@@ -24,9 +26,14 @@ import { getIslandContent } from "@/lib/lessons";
   ส่วนประกอบมาจาก features/moral ข้อมูลเฉพาะเกาะอยู่ที่ features/explore/data.ts
   บท "สิ่งรอบตัว" ยังมาจาก lib/lessons.ts ที่เดียว
 */
-export const metadata: Metadata = { title: "เกาะสำรวจโลก" };
+type Props = { params: Promise<{ lang: string }> };
 
-export default function ExploreIslandPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params;
+  return { title: dict(lang as Locale).t.explore.metadataTitle };
+}
+
+export default function ExploreIslandPage({ params }: Props) {
   const island = getIslandContent("explore");
   const category = CATEGORIES.find((c) => c.slug === "explore");
   if (!island || !category) notFound();
@@ -62,21 +69,29 @@ export default function ExploreIslandPage() {
       <OtherIslands current="explore" />
 
       {/* เครดิตภาพถ่าย — ทุกภาพเป็นสาธารณสมบัติหรือ CC0 ไม่บังคับเครดิต แต่ใส่ชื่อผู้ถ่ายเป็นมารยาท ผู้อ่านเป็นผู้ใหญ่ วางล่างสุดของหน้า พับไว้ กดเปิดเอง ไม่รบกวนสายตา (เจ้าของโปรเจกต์สั่ง 2 ต.ค. 2026) */}
+      <PhotoCredits params={params} />
+    </div>
+  );
+}
+
+async function PhotoCredits({ params }: Props) {
+  const { lang } = await params;
+  const { t, sub } = dict(lang as Locale);
+  return (
       <details className="mrl-credits">
         <summary className="mrl-credits-summary">
-          เครดิตภาพถ่ายสัตว์ <span lang="en">Photo credits</span>
+          {t.explore.photoCredits} {sub && <span lang="en">{sub.explore.photoCredits}</span>}
         </summary>
         <ul className="mrl-credit-list text-xs">
           {PHOTO_CREDITS.map((credit) => (
             <li key={credit.page}>
               <a href={credit.page} target="_blank" rel="noopener noreferrer" className="mrl-credit-link">
-                “{credit.title}”<span className="sr-only"> (เปิดในแท็บใหม่)</span>
+                “{credit.title}”<span className="sr-only">{t.explore.newTab}</span>
               </a>{" "}
-              โดย {credit.author} — {credit.license}
+              {t.explore.by} {credit.author} — {credit.license}
             </li>
           ))}
         </ul>
       </details>
-    </div>
   );
 }

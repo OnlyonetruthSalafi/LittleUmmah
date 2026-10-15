@@ -1,6 +1,6 @@
 "use client";
 
-import { LocaleLink as Link } from "@/i18n/LocaleProvider";
+import { LocaleLink as Link, useDict } from "@/i18n/LocaleProvider";
 
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { HomeIcon } from "@/components/icons/HomeIcon";
@@ -15,7 +15,7 @@ import type { Text } from "@/i18n/config";
 */
 export function BackLink({
   href = "/",
-  label = { th: "หน้าแรก", en: "Home" },
+  label,
   className = "",
 }: {
   href?: string;
@@ -23,18 +23,24 @@ export function BackLink({
   className?: string;
 }) {
   const { speak } = useSound();
+  const d = useDict();
+  // ไม่ส่ง label = ปุ่มกลับหน้าแรก
+  const main = label ? d.pick(label) : d.t.nav.home;
+  const second = label ? d.pickSub(label) : d.sub?.nav.home;
   const Icon = href === "/" ? HomeIcon : ArrowLeftIcon;
 
   return (
-    <Link href={href} onClick={() => speak(label.th)} className={`ui-pill ${className}`}>
+    <Link href={href} onClick={() => speak(main)} className={`ui-pill ${className}`}>
       <span className="ui-disc">
         <Icon />
       </span>
       <span className="ui-label">
-        {label.th}
-        <span lang="en" className="ui-sub">
-          {label.en}
-        </span>
+        {main}
+        {second && (
+          <span lang="en" className="ui-sub">
+            {second}
+          </span>
+        )}
       </span>
     </Link>
   );

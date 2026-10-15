@@ -1,4 +1,7 @@
 'use client';
+import { fmt } from '@/i18n/dict';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { useEffect, useRef, useState } from 'react';
 import { GameImage as Image } from '../components/GameImage';
 import { IslandBoard } from '../components/diorama/IslandBoard';
@@ -18,6 +21,7 @@ import type { PlayProps } from '../components/GameShell';
  * ถาดอยู่ด้านหลัง บล็อกที่ลากได้อยู่ด้านหน้าของผิวครีมเดียวกัน
  */
 export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+  const { t, sub, pick, pickSub } = useDict();
   // ใช้ครบห้ารูปทรงเสมอ เพราะหลุมทั้งห้าวาดติดมากับภาพแผ่นฐาน
   const [pieces] = useState<ShapeId[]>(() => shuffle(shapeOrder));
   const items = pieces.map(shape => ({ id: shape, target: shape }));
@@ -41,7 +45,7 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
     if (!correct) return;
     const next = [...placedRef.current, itemId as ShapeId];
     placedRef.current = next; setPlaced(next); setSelected(null); setHint(null); setLanded(itemId as ShapeId);
-    setAnnouncement(`หยอด ${shapeNames[itemId as ShapeId].th} ลงช่องแล้ว ${next.length} จาก ${pieces.length} ชิ้น`);
+    setAnnouncement(fmt(t.games.shape.placedCount, { name: pick(shapeNames[itemId as ShapeId]), done: next.length, total: pieces.length }));
     if (levelComplete(pieces.length, next.length)) timer.current = setTimeout(onComplete, 1100);
     else {
       const nextPiece = pieces.find(p => !next.includes(p));
@@ -53,12 +57,12 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
     <div className="gc-board-tools">
       {/* ป้ายชื่อใต้บล็อกทั้งห้าชิ้นเบียดกันจนอ่านไม่ออกบนมือถือ
           จึงเหลือป้ายเดียว บอกชื่อชิ้นที่เด็กเลือกอยู่ (ชื่อครบยังอยู่ใน aria-label ของทุกชิ้น) */}
-      {selected && <p className="shp-picked">เลือก {shapeNames[selected].th} แล้ว <span lang="en">· {shapeNames[selected].en} selected</span></p>}
-      <button className="gc-button" onClick={() => { const piece = (selected && !placed.includes(selected) ? selected : pieces.find(p => !placed.includes(p))) ?? null; if (piece) { setSelected(piece); setHint(piece); setAnnouncement(`ลองหยอด ${shapeNames[piece].th} ในช่องที่มีลูกศร`); } }}>คำใบ้<small lang="en">Hint</small></button>
+      {selected && <p className="shp-picked">{fmt(t.games.shape.picked, { name: pick(shapeNames[selected]) })}{sub && <span lang="en">{fmt(sub.games.shape.pickedSecondary, { name: pickSub(shapeNames[selected])! })}</span>}</p>}
+      <button className="gc-button" onClick={() => { const piece = (selected && !placed.includes(selected) ? selected : pieces.find(p => !placed.includes(p))) ?? null; if (piece) { setSelected(piece); setHint(piece); setAnnouncement(fmt(t.games.shape.hintSlot, { name: pick(shapeNames[piece]) })); } }}>{t.games.shape.hint}{sub && <small lang="en">{sub.games.shape.hint}</small>}</button>
     </div>
     <p className="sr-only" role="status">{announcement}</p>
 
-    <IslandBoard {...SHAPE_ISLAND} className="shp-island" label="เกาะหยอดรูปทรง / Shape sorter island">
+    <IslandBoard {...SHAPE_ISLAND} className="shp-island" label={t.games.shape.island}>
       <div className="shp-plate" data-landed={landed ?? undefined}>
         {/* แผ่นฐานเป็นภาพนิ่ง หลุมที่กดได้ลอยอยู่เหนือภาพตามตำแหน่งใน HOLES */}
         {/* unoptimized: ตัว optimizer ของ next/image ทำ alpha ของไฟล์ชุดนี้หาย กลายเป็นกล่องดำ
@@ -74,9 +78,9 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
             className={`shp-hole ${filled ? 'shp-hole-filled' : ''} ${hint === shape ? 'gc-hint' : ''}`}
             style={{ left: `${hole.x}%`, top: `${hole.y}%`, width: `${hole.w}%`, height: `${hole.h}%` }}
             disabled={filled || !used}
-            aria-label={`ช่อง${shapeNames[shape].th} / ${shapeNames[shape].en} slot${filled ? ' หยอดแล้ว' : ''}`}
+            aria-label={fmt(t.games.shape.slot, { name: pick(shapeNames[shape]), secondary: pickSub(shapeNames[shape])!, placed: filled ? t.games.shape.placed : '' })}
             onClick={event => {
-              if (!selected) { setAnnouncement('แตะเลือกชิ้นรูปทรงก่อน แล้วแตะช่องนี้'); return; }
+              if (!selected) { setAnnouncement(t.games.shape.selectFirst); return; }
               /* กรอบหลุมคาบเกี่ยวกัน ชั้นบนสุดที่รับคลิกจึงไม่ใช่หลุมที่เด็กเล็งเสมอไป
                  แตะด้วยนิ้ว/เมาส์ให้หาหลุมจากพิกัดจริง ส่วนคีย์บอร์ด (detail 0 ไม่มีพิกัด) ใช้หลุมที่โฟกัสอยู่ */
               if (event.detail === 0) { place(selected, shape); return; }
@@ -92,10 +96,10 @@ export default function ShapeBoard({ onProgress, onFeedback, onComplete, onTap }
       </div>
     {/* ทั้งถาดและชิ้นส่วนอ้างอิงผิวเกาะเดียวกัน */}
     <div className="shp-tray-dock">
-      <div className="gc-tray" aria-label="ชิ้นรูปทรงของเรา / Our shape pieces">{pieces.map(shape => <div key={shape} className={`gc-tray-slot ${placed.includes(shape) ? 'gc-done-slot' : ''}`}>
+      <div className="gc-tray" aria-label={t.games.shape.pieces}>{pieces.map(shape => <div key={shape} className={`gc-tray-slot ${placed.includes(shape) ? 'gc-done-slot' : ''}`}>
         {placed.includes(shape)
-          ? <span className="gc-done-mark" aria-label={`หยอด ${shapeNames[shape].th} แล้ว`}>✓</span>
-          : <DragItem id={shape} label={`${shapeNames[shape].th} / ${shapeNames[shape].en}`} selected={selected === shape} onSelect={() => { onTap(); setSelected(shape); setHint(null); setAnnouncement(`เลือก ${shapeNames[shape].th} แล้ว แตะช่องที่ตรงกัน`); }} onDrop={place}>
+          ? <span className="gc-done-mark" aria-label={fmt(t.games.shape.placedItem, { name: pick(shapeNames[shape]) })}>✓</span>
+          : <DragItem id={shape} label={(pickSub(shapeNames[shape]) ? `${pick(shapeNames[shape])} / ${pickSub(shapeNames[shape])}` : pick(shapeNames[shape]))} selected={selected === shape} onSelect={() => { onTap(); setSelected(shape); setHint(null); setAnnouncement(fmt(t.games.shape.selected, { name: pick(shapeNames[shape]) })); }} onDrop={place}>
               <Image className="shp-block" src={blockArt(shape)} width={BLOCK.width} height={BLOCK.height} alt="" unoptimized draggable={false} />
             </DragItem>}
       </div>)}</div>

@@ -1,4 +1,7 @@
 'use client';
+import { fmt } from '@/i18n/dict';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { useEffect, useRef, useState } from 'react';
 import { GameImage as Image } from '../components/GameImage';
 import { createMemory, flipCard, memoryMatches, settleMemory } from '../engine/rules';
@@ -7,6 +10,7 @@ import { CARD_ART, ISLAND_ART, memorySymbols } from '../data/memoryArt';
 import type { PlayProps } from '../components/GameShell';
 
 export default function MemoryBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+  const { t, sub, pick, pickSub } = useDict();
   const count = [3, 6, 8][level - 1];
   const [state, setState] = useState(() => createMemory(memorySymbols.slice(0, count).map(s => s.id)));
   const stateRef = useRef(state);
@@ -22,8 +26,8 @@ export default function MemoryBoard({ level, onProgress, onFeedback, onComplete,
   useEffect(() => { if (state.matched.length !== count) return; const timer = setTimeout(onComplete, 850); return () => clearTimeout(timer); }, [state.matched.length, count, onComplete]);
 
   return <div className="mem-scene" data-cards={count * 2}>
-    <p className="mem-stats">เปิดไปแล้ว {state.moves} ครั้ง <span lang="en">· {state.moves} moves</span></p>
-    <IslandBoard {...ISLAND_ART} label="กระดานการ์ดความจำ / Memory card board">
+    <p className="mem-stats">{fmt(t.games.memory.moves, { moves: state.moves })}{sub && <span lang="en">{fmt(sub.games.memory.movesSecondary, { moves: state.moves })}</span>}</p>
+    <IslandBoard {...ISLAND_ART} label={t.games.memory.board}>
       <div className="mem-grid" data-count={count * 2}>{state.deck.map((card, i) => {
         const shown = state.open.includes(card.id) || state.matched.includes(card.value);
         const matched = state.matched.includes(card.value);
@@ -34,7 +38,7 @@ export default function MemoryBoard({ level, onProgress, onFeedback, onComplete,
           className="mem-card"
           data-shown={shown || undefined}
           data-matched={matched || undefined}
-          aria-label={shown ? `${symbol.th} / ${symbol.en}${matched ? ' จับคู่แล้ว' : ''}` : `เปิดการ์ด ${i + 1} / Card ${i + 1}`}
+          aria-label={shown ? `${pick(symbol)}${pickSub(symbol) ? ` / ${pickSub(symbol)}` : ''}${matched ? t.games.memory.matched : ''}` : fmt(t.games.memory.card, { index: i + 1 })}
           aria-disabled={matched || state.open.length === 2 || state.open.includes(card.id)}
           onClick={() => {
             const next = flipCard(stateRef.current, card.id);

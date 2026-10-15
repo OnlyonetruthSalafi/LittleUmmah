@@ -1,4 +1,6 @@
 'use client';
+import { useDict } from '@/i18n/LocaleProvider';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { GameImage as Image } from './GameImage';
 import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
@@ -32,6 +34,7 @@ const VOICE_CEILING_MS = 45000;
 export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
   game: GameDefinition; soundOn: boolean; speechBroken: boolean; onStart: () => void;
 }) {
+  const { t, sub, pick, pickSub } = useDict();
   const locale = useLocale();
   const voiceReady = soundOn && !speechBroken;
   /** พูดอยู่ไหม ใช้แค่โชว์คลื่นเสียง ไม่มีผลกับการกดปุ่ม */
@@ -74,7 +77,7 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
 
   return <section className="gc-voice-intro" aria-labelledby="gc-voice-title">
     {/* คำสั่งไม่แสดงบนจอตามที่เจ้าของโปรเจกต์กำหนด แต่ยังเป็นหัวข้อของส่วนนี้ให้เครื่องอ่านหน้าจอ */}
-    <h2 id="gc-voice-title" className="sr-only">{game.title.th} — {game.instruction.th}<span lang="en"> ({game.instruction.en})</span></h2>
+    <h2 id="gc-voice-title" className="sr-only">{pick(game.title)} — {pick(game.instruction)}{sub && <span lang="en"> ({pickSub(game.instruction)!})</span>}</h2>
 
     <div className="gc-voice-scene">
       <div className="gc-adventure-aura" aria-hidden="true" />
@@ -91,12 +94,12 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
 
     <div className="gc-voice-actions">
       <button type="button" className="gc-start-3d" onClick={onStart} data-ready={ready}>
-        เริ่มเล่น<small lang="en">Start</small>
+        {t.games.voiceIntro.start}{sub && <small lang="en">{sub.games.voiceIntro.start}</small>}
       </button>
       {/* ปุ่มกดได้ตลอด เด็กที่เล่นเป็นแล้วข้ามคำอธิบายได้เลย บรรทัดนี้บอกเครื่องอ่านหน้าจอว่าตอนนี้เป็นช่วงไหน */}
-      <p className="sr-only" role="status">{ready ? 'หุ่นยนต์บอกวิธีเล่นจบแล้ว' : 'หุ่นยนต์กำลังบอกวิธีเล่น กดเริ่มเล่นข้ามได้'}</p>
+      <p className="sr-only" role="status">{ready ? t.games.voiceIntro.ready : t.games.voiceIntro.speaking}</p>
 
-      <button type="button" className="gc-voice-replay" onClick={listenAgain} aria-label="ฟังวิธีเล่นอีกครั้ง / Listen again">
+      <button type="button" className="gc-voice-replay" onClick={listenAgain} aria-label={t.games.voiceIntro.again}>
         <SpeakerIcon className="h-7 w-7" />
       </button>
     </div>

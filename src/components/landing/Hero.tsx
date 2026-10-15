@@ -1,3 +1,5 @@
+import { dict } from "@/i18n/dict";
+import type { Locale } from "@/i18n/config";
 import Image from "next/image";
 
 import { SparkleIcon } from "@/components/icons/SparkleIcon";
@@ -11,7 +13,8 @@ import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
   ไม่มีปุ่ม "เริ่มสำรวจเลย" แล้ว เพราะการ์ดเลือกช่วงวัยอยู่ถัดลงไปในหน้าจอแรกอยู่แล้ว
   ปุ่มนั้นกลายเป็นขั้นตอนซ้ำที่ทำให้เด็กต้องกดสองทีกว่าจะถึงเนื้อหา
 */
-export function Hero() {
+export function Hero({ locale }: { locale: Locale }) {
+  const { t } = dict(locale);
 
   /* ไม่มี padding ล่าง: ระยะก่อนคำโค้ง "Obey" ย้ายไปอยู่ที่ ObeyArc (pt-5 / sm:pt-7) ช่องไฟจึงเท่าเดิม */
   return (
@@ -22,9 +25,9 @@ export function Hero() {
       />
       <HeroVoice />
       <h1 lang="en" className="font-display font-extrabold">
-        <span className="sr-only">Learn, Play, Grow</span>
+        <span className="sr-only">{t.hero.arcTitle}</span>
         <StickerArcTitle
-          words={["Learn,", "Play,", "Grow"]}
+          words={[t.hero.arcLearn, t.hero.arcPlay, t.hero.arcGrow]}
           arc="M 30 150 Q 380 20 730 150"
           fontSize={92}
         />
@@ -56,9 +59,9 @@ export function Hero() {
         <div className="min-w-0 flex-1 text-left">
           <p className="font-display title-sticker flex flex-wrap items-center gap-x-2 text-2xl leading-snug font-extrabold sm:text-4xl">
             <SparkleIcon className="logo-mark-glow text-sun size-5 shrink-0 sm:size-7" />
-            <span className="text-brand-blue">เรียนรู้</span>
-            <span className="text-brand-amber">เล่นสนุก</span>
-            <span className="text-brand-green">เติบโต</span>
+            <span className="text-brand-blue">{t.hero.learn}</span>
+            <span className="text-brand-amber">{t.hero.play}</span>
+            <span className="text-brand-green">{t.hero.grow}</span>
             <SparkleIcon className="logo-mark-glow text-sun size-4 shrink-0 sm:size-6" />
           </p>
 
@@ -70,12 +73,12 @@ export function Hero() {
           {/* ภาษาไทยไม่มีช่องว่างระหว่างคำ เบราว์เซอร์จึงตัดกลางคำได้ ("คุณพ่อคุณ / แม่")
               ห่อแต่ละวลีด้วย whitespace-nowrap ให้ขึ้นบรรทัดใหม่เฉพาะช่องว่างระหว่างวลี */}
           <p className="island-caption text-ink mt-1.5 text-base font-semibold text-pretty sm:mt-2 sm:text-xl">
-            <span className="whitespace-nowrap">รู้จักความรัก</span>{" "}
-            <span className="whitespace-nowrap">เชื่อฟัง</span>{" "}
-            <span className="whitespace-nowrap">ไว้วางใจ</span>{" "}
-            <span className="whitespace-nowrap">คุณพ่อคุณแม่</span>{" "}
-            <span className="whitespace-nowrap">และเปี่ยมไปด้วยศรัทธา</span>{" "}
-            <span className="whitespace-nowrap">ด้วยอิสลาม</span>
+            <span className="whitespace-nowrap">{t.hero.love}</span>{" "}
+            <span className="whitespace-nowrap">{t.hero.obey}</span>{" "}
+            <span className="whitespace-nowrap">{t.hero.trust}</span>{" "}
+            <span className="whitespace-nowrap">{t.hero.parents}</span>{" "}
+            <span className="whitespace-nowrap">{t.hero.faith}</span>{" "}
+            <span className="whitespace-nowrap">{t.hero.islam}</span>
           </p>
         </div>
       </div>

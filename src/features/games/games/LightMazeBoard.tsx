@@ -1,5 +1,8 @@
 'use client';
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { fmt } from '@/i18n/dict';
+import { useDict } from '@/i18n/LocaleProvider';
+
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import type { PlayProps } from '../components/GameShell';
 import { useSound } from '@/components/sound/SoundProvider';
 import { MAZE_LEVELS, canGo, walkerCell, walkerPos, type Dir } from '../data/lightMaze';
@@ -12,9 +15,9 @@ import { useSfx, type SfxSet } from '../audio/useSfx';
  * ตรรกะอยู่ engine/lightMazeSim.ts ส่วนนี้แค่ต่อ input ลูปเวลา เสียงพูด และ HUD
  * ปุ่มทิศเป็น 4 ปุ่มทแยงตามแนวทางเดินของกล้องเฉียง (ขวาบน = −r, ขวาล่าง = +c, ซ้ายล่าง = +r, ซ้ายบน = −c)
  */
-const PAD: { dir: Dir; th: string; en: string; rotate: number }[] = [
-  { dir: 'left', th: 'ซ้ายบน', en: 'Up-left', rotate: -63.4 }, { dir: 'up', th: 'ขวาบน', en: 'Up-right', rotate: 63.4 },
-  { dir: 'down', th: 'ซ้ายล่าง', en: 'Down-left', rotate: -116.6 }, { dir: 'right', th: 'ขวาล่าง', en: 'Down-right', rotate: 116.6 },
+const PAD: { dir: Dir; label: 'upLeft' | 'upRight' | 'downLeft' | 'downRight'; rotate: number }[] = [
+  { dir: 'left', label: 'upLeft', rotate: -63.4 }, { dir: 'up', label: 'upRight', rotate: 63.4 },
+  { dir: 'down', label: 'downLeft', rotate: -116.6 }, { dir: 'right', label: 'downRight', rotate: 116.6 },
 ];
 const KEYS: Record<string, Dir> = { ArrowUp: 'up', ArrowRight: 'right', ArrowDown: 'down', ArrowLeft: 'left', w: 'up', d: 'right', s: 'down', a: 'left', e: 'up', c: 'right', z: 'down', q: 'left' };
 /** ทิศบนจอของแต่ละทิศโลก (หน่วยเวกเตอร์ของแกน 2:1 เอียง 26.6°) ใช้แปลงการปัดนิ้วเป็นทิศ และหมุนลูกศรบนปุ่มให้ตรงแนวทางเดิน */
@@ -23,15 +26,7 @@ const SCREEN: Record<Dir, [number, number]> = { up: [0.894, -0.447], right: [0.8
 /* บทพูดของหุ่นยนต์ (จาก output/orbmaze-plan/PLAN.md §7) key = ไฟล์ public/audio/th/<key>.mp3 เมื่ออัดและอนุมัติแล้ว
  * ลงทะเบียนไฟล์ใน RECORDED_CLIPS (src/lib/speech.ts) แล้ว ถ้าไฟล์เล่นไม่ได้ จะใช้เสียงสังเคราะห์ของเบราว์เซอร์อ่านข้อความแทน */
 type LineId = SimEvent | 'half';
-const LINES: Partial<Record<LineId, { key: string; th: string }>> = {
-  star: { key: 'orbmaze-star', th: 'ได้พลังแสงแล้ว เพื่อนหุ่นยนต์จะหลบให้สักครู่นะ' },
-  clock: { key: 'orbmaze-slow', th: 'เพื่อนหุ่นยนต์เดินช้าลงแล้ว ค่อยๆ เลือกทางนะ' },
-  shield: { key: 'orbmaze-shield', th: 'ได้โล่แล้ว ช่วยกันการแตะได้หนึ่งครั้ง' },
-  warp: { key: 'orbmaze-warp', th: 'ประตูนี้พาไปอีกจุด ลองเลือกทางต่อได้เลย' },
-  bump: { key: 'orbmaze-bump', th: 'ไม่เป็นไร แสงยังอยู่ครบ เราไปต่อกันนะ' },
-  half: { key: 'orbmaze-praise', th: 'มาชาอัลลอฮ์ ตั้งใจเก็บแสงได้ดีเลย' },
-  complete: { key: 'orbmaze-complete', th: 'อัลฮัมดุลิลลาฮ์ เก็บแสงครบแล้ว' },
-};
+
 /* เสียงเอฟเฟค (scripts/make-lightmaze-sfx.mjs — ElevenLabs, no music) เม็ดแสงเกิดบ่อยมากจึงเบาที่สุด */
 type Sfx = 'bead' | 'star' | 'clock' | 'shield' | 'warp' | 'bump';
 const SFX: SfxSet<Sfx> = {
@@ -43,10 +38,6 @@ const SFX: SfxSet<Sfx> = {
   bump: { file: '/audio/sfx/orbmaze-bump.mp3', volume: 0.5 },
 };
 const EVENT_SFX: Partial<Record<SimEvent, Sfx>> = { bead: 'bead', star: 'star', clock: 'clock', shield: 'shield', shieldUsed: 'bump', warp: 'warp', bump: 'bump' };
-const TOAST: Partial<Record<SimEvent, string>> = {
-  star: 'พลังแสง! เพื่อนหุ่นหลบให้ • Light power!', clock: 'เพื่อนเดินช้าลง • Robots slow down', shield: 'ได้โล่ 1 ครั้ง • Shield on',
-  shieldUsed: 'โล่ช่วยไว้แล้ว • Shield used', warp: 'วาร์ป! • Warp!', checkpoint: 'ถึงจุดพัก • Rest spot saved', bump: 'ไม่เป็นไร แสงยังอยู่ครบ • Your lights are safe',
-};
 
 // เน็ตชะงักแล้วภาพไม่มาเสียที: เลิกรอภาพนั้น ตัววาดใช้สีธีมแทน เกมไม่ค้างที่จอว่าง
 const ART_TIMEOUT_MS = 10000;
@@ -63,6 +54,20 @@ function loadImage(src: string) {
 }
 
 export default function LightMazeBoard({ level, paused, onProgress, onComplete }: PlayProps) {
+  const { t, sub, pick } = useDict();
+  const TOAST = useMemo<Partial<Record<SimEvent, string>>>(() => ({
+    star: t.games.lightMaze.starToast, clock: t.games.lightMaze.slowToast, shield: t.games.lightMaze.shieldToast,
+    shieldUsed: t.games.lightMaze.shieldUsed, warp: t.games.lightMaze.warp, checkpoint: t.games.lightMaze.checkpoint, bump: t.games.lightMaze.safe,
+  }), [t]);
+  const LINES = useMemo<Partial<Record<LineId, { key: string; text: string }>>>(() => ({
+    star: { key: 'orbmaze-star', text: t.games.lightMaze.starSpeech },
+    clock: { key: 'orbmaze-slow', text: t.games.lightMaze.slowSpeech },
+    shield: { key: 'orbmaze-shield', text: t.games.lightMaze.shieldSpeech },
+    warp: { key: 'orbmaze-warp', text: t.games.lightMaze.warpSpeech },
+    bump: { key: 'orbmaze-bump', text: t.games.lightMaze.bumpSpeech },
+    half: { key: 'orbmaze-praise', text: t.games.dhikr.lightMazeHalf },
+    complete: { key: 'orbmaze-complete', text: t.games.dhikr.lightMazeComplete },
+  }), [t]);
   const lv = MAZE_LEVELS[level - 1];
   const { speak } = useSound();
   const [sim] = useState<Sim>(() => createSim(lv));
@@ -139,7 +144,7 @@ export default function LightMazeBoard({ level, paused, onProgress, onComplete }
       const line = LINES[id];
       if (!line || (once && said.has(id))) return;
       said.add(id);
-      callbacks.current.speak(line.th, line.key);
+      callbacks.current.speak(line.text, line.key);
     };
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -167,7 +172,7 @@ export default function LightMazeBoard({ level, paused, onProgress, onComplete }
     };
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); clearTimeout(finish); clearTimeout(toastTimer); };
-  }, [sim, total]);
+  }, [sim, total, LINES, TOAST]);
 
   const go = useRef((dir: Dir) => {
     if (counting.current) return;
@@ -219,21 +224,21 @@ export default function LightMazeBoard({ level, paused, onProgress, onComplete }
 
   return <div className="lm-scene" data-theme={lv.theme}>
     <div ref={wrap} className="lm-stage" data-beads-left={left} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={() => { swipe.current = null; }}
-      role="group" aria-label={`เขาวงกตแสง ${lv.th} เหลือเม็ดแสง ${left} เม็ด ใช้ปุ่มทิศหรือลูกศรพาหุ่นลูกกลมเดิน / Light maze, ${left} lights left`}>
+      role="group" aria-label={fmt(t.games.lightMaze.board, { name: pick(lv), left })}>
       <canvas ref={canvas} className="lm-canvas" aria-hidden="true" />
       <div className="lm-hud" aria-hidden="true">
         <span className="lm-chip">✦ {total - left}/{total}</span>
-        {hud.power && <span className="lm-chip lm-chip-power">★ พลังแสง</span>}
-        {hud.slow && <span className="lm-chip lm-chip-slow">◷ ช้าลง</span>}
-        {hud.shield > 0 && <span className="lm-chip lm-chip-shield">◈ โล่ 1</span>}
+        {hud.power && <span className="lm-chip lm-chip-power">{t.games.lightMaze.power}</span>}
+        {hud.slow && <span className="lm-chip lm-chip-slow">{t.games.lightMaze.slow}</span>}
+        {hud.shield > 0 && <span className="lm-chip lm-chip-shield">{t.games.lightMaze.shield}</span>}
       </div>
       {toast && <p className="lm-toast" aria-hidden="true">{toast}</p>}
     </div>
     <p className="sr-only" role="status">{toast}</p>
-    <div className="lm-pad" role="group" aria-label="ปุ่มพาหุ่นลูกกลมเดิน / Move the robot">
-      {PAD.map(p => <button key={p.dir} type="button" className={`lm-pad-${p.dir}`} aria-label={`${p.th} / ${p.en}`} onPointerDown={e => { e.preventDefault(); go.current(p.dir); }} onClick={() => go.current(p.dir)}>
+    <div className="lm-pad" role="group" aria-label={t.games.lightMaze.move}>
+      {PAD.map(p => <button key={p.dir} type="button" className={`lm-pad-${p.dir}`} aria-label={sub ? `${t.games.lightMaze[p.label]} / ${sub.games.lightMaze[p.label]}` : t.games.lightMaze[p.label]} onPointerDown={e => { e.preventDefault(); go.current(p.dir); }} onClick={() => go.current(p.dir)}>
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={{ transform: `rotate(${p.rotate}deg)` }}><path d="M12 2 20.5 11.5H15V22H9V11.5H3.5z" /></svg>
-        <span>{p.th}</span>
+        <span>{t.games.lightMaze[p.label]}</span>
       </button>)}
     </div>
   </div>;

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { fmt } from "@/i18n/dict";
 import { useEffect, useRef, useState } from "react";
 
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
@@ -13,6 +14,7 @@ import type { Cartoon } from "../cartoon";
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection } from "../data";
 import { progressStore } from "../progress";
 import { CartoonLesson } from "./CartoonLesson";
+import { useDict } from "@/i18n/LocaleProvider";
 import type { Text } from "@/i18n/config";
 
 /** การ์ดหนึ่งกลุ่มในช่วงวัย — เกาะที่มีหลายหมวด (สำรวจโลก) แสดงหัวข้อกลุ่มเหนือแต่ละตาราง */
@@ -58,6 +60,7 @@ export function MoralSection({
   /** localStorage key ของดาว แยกตามเกาะ */
   progressKey: string;
 }) {
+  const { t, sub, pick, pickSub } = useDict();
   const lessons = groups.flatMap((group) => group.lessons);
   const progress = progressStore(progressKey);
   const { markPractised } = progress;
@@ -74,7 +77,7 @@ export function MoralSection({
   const listened = useRef(false);
   const listenTimer = useRef(0);
   const scriptOf = (lesson: Lesson) =>
-    [lesson.title.th, lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+    [pick(lesson.title), lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
@@ -113,27 +116,27 @@ export function MoralSection({
         <h2 id={`age-${age}`} className="mrl-age-badge font-display">
           <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-badge-art" />
           <span>
-            {section.label.th}
-            <span lang="en" className="block text-sm font-semibold">
-              {section.label.en}
-            </span>
+            {pick(section.label)}
+            {sub && <span lang="en" className="block text-sm font-semibold">
+              {pickSub(section.label)}
+            </span>}
           </span>
         </h2>
         <p className="mrl-section-desc">
-          {section.desc.th}
-          <span lang="en" className="text-ink-soft block text-sm">
-            {section.desc.en}
-          </span>
+          {pick(section.desc)}
+          {sub && <span lang="en" className="text-ink-soft block text-sm">
+            {pickSub(section.desc)}
+          </span>}
         </p>
         {/* ภารกิจวันนี้ — บอกด้วยตัวเลขกำกับเสมอ ไม่ใช่แถบสีอย่างเดียว (ข้อ 2) */}
-        <div className="mrl-mission" role="group" aria-label={`ภารกิจวันนี้ ${done} จาก ${goal}`}>
+        <div className="mrl-mission" role="group" aria-label={fmt(t.moral.lessons.missionLabel, { done, goal })}>
           <StarIcon className="size-9 shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold">
-              ภารกิจวันนี้ {done}/{goal}{" "}
-              <span lang="en" className="text-ink-soft font-normal">
-                Today
-              </span>
+              {t.moral.lessons.mission} {done}/{goal}{" "}
+              {sub && <span lang="en" className="text-ink-soft font-normal">
+                {sub.moral.lessons.mission}
+              </span>}
             </p>
             <span className="mrl-mission-bar" aria-hidden="true">
               <span style={{ width: `${Math.min(done / goal, 1) * 100}%` }} />
@@ -144,12 +147,12 @@ export function MoralSection({
 
       {groups.map((group) => (
         <div key={group.id} className="mrl-group">
-          {group.title?.th && (
+          {group.title && pick(group.title) && (
             <h3 className="mrl-group-title font-display">
-              {group.title.th}
-              {group.title.en && (
+              {pick(group.title)}
+              {sub && pickSub(group.title) && (
                 <span lang="en" className="text-ink-soft ml-2 text-base font-semibold">
-                  {group.title.en}
+                  {pickSub(group.title)}
                 </span>
               )}
             </h3>
@@ -182,8 +185,8 @@ export function MoralSection({
                   )}
                 </span>
                 <span className="mrl-card-title font-display">
-                  {lesson.title.th}
-                  <span lang="en">{lesson.title.en}</span>
+                  {pick(lesson.title)}
+                  {sub && <span lang="en">{pickSub(lesson.title)}</span>}
                 </span>
                 <span className="mrl-card-foot">
                   <span className="mrl-card-stars flex gap-0.5">
@@ -192,7 +195,7 @@ export function MoralSection({
                     ))}
                   </span>
                   <span className="sr-only">
-                    ดาว {count} จาก {maxStars}
+                    {fmt(t.moral.lessons.stars, { count, maxStars })}
                   </span>
                   <svg viewBox="0 0 48 48" className="mrl-card-play" aria-hidden="true" focusable="false">
                     <circle cx="24" cy="24" r="22" />
@@ -230,10 +233,10 @@ export function MoralSection({
               <Image src={cardArt[open.id]} alt="" width={512} height={384} sizes="(max-width: 639px) 90vw, 480px" />
             </span>
             <h3 id={`lesson-title-${age}`} className="font-display text-2xl leading-snug font-extrabold sm:text-3xl">
-              {open.title.th}
-              <span lang="en" className="text-ink-soft block text-base font-semibold">
-                {open.title.en}
-              </span>
+              {pick(open.title)}
+              {sub && <span lang="en" className="text-ink-soft block text-base font-semibold">
+                {pickSub(open.title)}
+              </span>}
             </h3>
             <p className="mt-2 text-lg leading-relaxed">{open.body}</p>
             {open.arabic && (
@@ -241,26 +244,26 @@ export function MoralSection({
                 <p lang="ar" dir="rtl" className="text-ink text-2xl leading-loose font-semibold sm:text-3xl">
                   {open.arabic}
                 </p>
-                {open.reading && <p className="mt-1 font-semibold">อ่านว่า: {open.reading}</p>}
-                {open.meaning && <p className="text-ink-soft text-sm">ความหมาย: {open.meaning}</p>}
+                {open.reading && <p className="mt-1 font-semibold">{t.lessonCard.reading} {open.reading}</p>}
+                {open.meaning && <p className="text-ink-soft text-sm">{t.lessonCard.meaning} {open.meaning}</p>}
               </div>
             )}
             <div className="mt-5 flex flex-wrap gap-3">
               <button type="button" className="ui-pill ui-pill-primary" onClick={() => speak(scriptOf(open))}>
                 <SpeakerIcon className="size-6" />
                 <span>
-                  ฟังอีกครั้ง{" "}
-                  <span lang="en" className="text-sm font-normal">
-                    Listen again
-                  </span>
+                  {t.moral.lessons.listenAgain}{" "}
+                  {sub && <span lang="en" className="text-sm font-normal">
+                    {sub.moral.lessons.listenAgain}
+                  </span>}
                 </span>
               </button>
               <button type="button" className="ui-pill" onClick={() => dialogRef.current?.close()}>
                 <span>
-                  ปิด{" "}
-                  <span lang="en" className="text-sm font-normal">
-                    Close
-                  </span>
+                  {t.moral.lessons.close}{" "}
+                  {sub && <span lang="en" className="text-sm font-normal">
+                    {sub.moral.lessons.close}
+                  </span>}
                 </span>
               </button>
             </div>

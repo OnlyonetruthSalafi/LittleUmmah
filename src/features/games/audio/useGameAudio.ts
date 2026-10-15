@@ -1,23 +1,13 @@
 'use client';
-import { useCallback, useEffect, useRef } from 'react';
+import { useDict } from '@/i18n/LocaleProvider';
+
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSound } from '@/components/sound/SoundProvider';
 import { stopAllSpeech } from '@/lib/speech';
 export type AudioCue = 'uiClick' | 'correct' | 'incorrect' | 'levelComplete' | 'voiceInstruction';
 
 // คำชมและคำให้กำลังใจของหุ่นยนต์ สุ่มพูดทีละประโยคไม่ให้ซ้ำจนเด็กเบื่อ
 // key = ไฟล์ใน public/audio/th/ ส่วน text คือคำที่เสียงสังเคราะห์อ่านแทนถ้าไฟล์เล่นไม่ได้
-const praise: Partial<Record<AudioCue, { key: string; text: string }[]>> = {
-  correct: [
-    { key: 'praise-correct-1', text: 'เก่งมาก' },
-    { key: 'praise-correct-2', text: 'มาชาอัลลอฮ์' },
-    { key: 'praise-correct-3', text: 'ถูกต้อง' },
-  ],
-  incorrect: [
-    { key: 'praise-wrong-1', text: 'ลองอีกครั้งนะ' },
-    { key: 'praise-wrong-2', text: 'ใกล้แล้ว สู้ๆ นะ' },
-  ],
-  levelComplete: [{ key: 'praise-level-complete', text: 'เย้ ผ่านด่านแล้ว' }],
-};
 // รอให้เสียงเอฟเฟคขึ้นก่อนนิดหนึ่ง หุ่นยนต์ค่อยพูด เสียงจะได้ไม่ทับกันจนฟังไม่ออก
 const PRAISE_DELAY_MS = 300;
 
@@ -31,6 +21,20 @@ const effects: Partial<Record<AudioCue, { file: string; volume: number }>> = {
 };
 
 export function useGameAudio() {
+  const { t } = useDict();
+  const praise = useMemo<Partial<Record<AudioCue, { key: string; text: string }[]>>>(() => ({
+    correct: [
+      { key: 'praise-correct-1', text: t.games.audio.great },
+      { key: 'praise-correct-2', text: t.games.dhikr.mashaAllah },
+      { key: 'praise-correct-3', text: t.games.audio.correct },
+    ],
+    incorrect: [
+      { key: 'praise-wrong-1', text: t.games.audio.retry },
+      { key: 'praise-wrong-2', text: t.games.audio.close },
+    ],
+    levelComplete: [{ key: 'praise-level-complete', text: t.games.audio.complete }],
+  }), [t]);
+
   const { enabled, toggle, speak, speechBroken } = useSound();
   // เก็บ element ไว้ตัวละ cue แล้วรีเซ็ต currentTime ก่อนเล่น กันการสร้าง element ใหม่ทุกครั้ง
   const players = useRef(new Map<AudioCue, HTMLAudioElement>());
@@ -70,7 +74,7 @@ export function useGameAudio() {
     lastPraise.current.set(cue, line.key);
     clearTimeout(praiseTimer.current);
     praiseTimer.current = setTimeout(() => speak(line.text, line.key), PRAISE_DELAY_MS);
-  }, [enabled, playEffect, speak]);
+  }, [enabled, playEffect, speak, praise]);
 
   /** เสียงเอฟเฟคอย่างเดียว ไม่มีคำชม — สำหรับเกมที่หุ่นยนต์พูดบทของตัวเอง (เช่น เขาวงกตแสงพูด อัลฮัมดุลิลลาฮ์ ตอนจบ) */
   const effect = useCallback((cue: AudioCue) => { if (enabled) playEffect(cue); }, [enabled, playEffect]);

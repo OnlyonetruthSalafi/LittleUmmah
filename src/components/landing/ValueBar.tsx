@@ -1,5 +1,7 @@
 "use client";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { SparkleIcon } from "@/components/icons/SparkleIcon";
@@ -18,11 +20,12 @@ import { CATEGORIES } from "@/lib/categories";
 const SPARKLE_TINTS = ["text-brand-amber", "text-brand-blue", "text-brand-green"];
 
 export function ValueBar() {
+  const { t, sub, pick, pickSub } = useDict();
   const { speak } = useSound();
 
   return (
     <nav
-      aria-label="ทางลัดไปหมวดการเรียนรู้"
+      aria-label={t.valueBar.label}
       className="mx-auto w-full max-w-3xl px-4 pb-12 sm:px-6 sm:pb-16"
     >
       <ul className="scene-copy shadow-soft rounded-card ring-sun/30 grid grid-cols-2 gap-2 p-3 ring-2 sm:grid-cols-3 sm:gap-3 sm:p-4">
@@ -30,7 +33,7 @@ export function ValueBar() {
           <li key={category.slug} className="flex">
             <Link
               href={category.href}
-              onClick={() => speak(category.name.th, `cat-${category.slug}`)}
+              onClick={() => speak(pick(category.name), `cat-${category.slug}`)}
               className="ui-chip group flex min-h-16 w-full items-center gap-2.5 px-3 py-2"
             >
               <SparkleIcon
@@ -38,11 +41,11 @@ export function ValueBar() {
               />
               <span className="flex min-w-0 flex-col text-left">
                 <span className="font-display text-ink text-base leading-snug font-extrabold decoration-2 underline-offset-4 group-hover:underline sm:text-lg">
-                  {category.name.th}
+                  {pick(category.name)}
                 </span>
-                <span lang="en" className="text-ink-soft text-xs">
-                  {category.name.en}
-                </span>
+                {sub && <span lang="en" className="text-ink-soft text-xs">
+                  {pickSub(category.name)}
+                </span>}
               </span>
             </Link>
           </li>

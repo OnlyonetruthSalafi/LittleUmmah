@@ -10,7 +10,7 @@ import { getSoundSnapshot } from "@/lib/soundStore";
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection, type GuideStep } from "../data";
 import "../moral.css";
 import type { Text } from "@/i18n/config";
-import { useLocale } from "@/i18n/LocaleProvider";
+import { useDict } from "@/i18n/LocaleProvider";
 
 /*
   ส่วนหัวของเกาะมารยาท + หุ่นยนต์นำทาง
@@ -52,7 +52,7 @@ export function MoralHero({
   /** sessionStorage key — แต่ละเกาะเล่นแนะนำเองครั้งแรกแยกกัน */
   seenKey: string;
 }) {
-  const locale = useLocale();
+  const { locale, t, sub, pick, pickSub } = useDict();
   const [phase, setPhase] = useState<Phase>("rest");
   const [step, setStep] = useState(-1);
   // ยกเลิกช่วงวิ่งเข้า (rAF + ตัวจับเวลา) — ส่วนเสียงของแต่ละจังหวะยกเลิกใน cleanup ของ effect ข้างล่าง
@@ -168,10 +168,10 @@ export function MoralHero({
       <a href={`#${age}`} className={`mrl-age-btn mrl-age-btn-${age}`} data-guided={focus === age || undefined}>
         <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-btn-art" priority />
         <span className="min-w-0 flex-1">
-          {section.label.th}
-          <span lang="en" className="block text-sm font-semibold">
-            {section.label.en}
-          </span>
+          {pick(section.label)}
+          {sub && <span lang="en" className="block text-sm font-semibold">
+            {pickSub(section.label)}
+          </span>}
         </span>
         <ChevronRightIcon className="size-6 shrink-0" />
       </a>
@@ -182,18 +182,18 @@ export function MoralHero({
     <header className="mrl-hero">
       <div className="mrl-hero-copy">
         <h1 className="font-display">
-          <span className="mrl-hero-title">{title.th}</span>
-          <span lang="en" className="mrl-hero-title-en">
-            {title.en}
-          </span>
+          <span className="mrl-hero-title">{pick(title)}</span>
+          {sub && <span lang="en" className="mrl-hero-title-en">
+            {pickSub(title)}
+          </span>}
         </h1>
         <p className="mrl-hero-intro">
-          {intro.th}
-          <span lang="en" className="text-ink-soft block text-sm">
-            {intro.en}
-          </span>
+          {pick(intro)}
+          {sub && <span lang="en" className="text-ink-soft block text-sm">
+            {pickSub(intro)}
+          </span>}
         </p>
-        <nav aria-label="เลือกช่วงวัย / Choose an age" className="mrl-age-btns">
+        <nav aria-label={t.moral.hero.chooseAge} className="mrl-age-btns">
           {ageButton("kids")}
           {ageButton("juniors")}
         </nav>
@@ -214,10 +214,10 @@ export function MoralHero({
         <div className="mrl-bubble" role="status" data-show={(phase === "tour" && current !== null) || undefined}>
           {phase === "tour" && current && (
             <>
-              <p>{current.th}</p>
-              <p lang="en" className="mrl-bubble-en text-ink-soft mt-1 text-sm">
-                {current.en}
-              </p>
+              <p>{pick(current)}</p>
+              {sub && <p lang="en" className="mrl-bubble-en text-ink-soft mt-1 text-sm">
+                {pickSub(current)}
+              </p>}
             </>
           )}
         </div>
@@ -230,10 +230,10 @@ export function MoralHero({
           onClick={() => (touring ? finish() : start())}
           aria-label={
             touring
-              ? "ข้ามคำแนะนำของหุ่นยนต์ / Skip the guide"
-              : "ฟังหุ่นยนต์แนะนำหน้านี้อีกครั้ง / Hear the robot guide again"
+              ? t.moral.hero.skipGuide
+              : t.moral.hero.hearGuide
           }
-          title={touring ? "ข้าม / Skip" : "ฟังอีกครั้ง / Hear again"}
+          title={touring ? t.moral.hero.skip : t.moral.hero.hearAgain}
         >
           {(["stand", "wave-1", "wave-2", "point"] as const).map((frame) => (
             <Image

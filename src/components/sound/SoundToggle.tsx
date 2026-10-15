@@ -2,6 +2,7 @@
 
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { useSound } from "@/components/sound/SoundProvider";
+import { useDict } from "@/i18n/LocaleProvider";
 
 /*
   ปุ่มเปิด/ปิดเสียงอ่าน
@@ -15,6 +16,7 @@ import { useSound } from "@/components/sound/SoundProvider";
 */
 export function SoundToggle() {
   const { enabled, speechBroken, toggle, speak } = useSound();
+  const { t, sub } = useDict();
 
   const unavailable = enabled && speechBroken;
 
@@ -24,15 +26,11 @@ export function SoundToggle() {
       onClick={() => {
         toggle();
         // speak อ่านสถานะสดจาก store จึงพูดได้ทันทีในคลิกเดียวกับที่เพิ่งเปิด
-        speak("เปิดเสียงแล้ว", "sound-on");
+        speak(t.speech.soundOn, "sound-on");
       }}
       aria-pressed={enabled}
-      aria-label="เสียงอ่าน"
-      title={
-        unavailable
-          ? "อุปกรณ์นี้ยังไม่มีเสียงอ่านภาษาไทยติดตั้งไว้"
-          : "เสียงอ่าน"
-      }
+      aria-label={t.sound.label}
+      title={unavailable ? t.sound.noVoice : t.sound.label}
       className="ui-pill ui-pill-sm-round relative shrink-0 text-sm sm:text-base"
     >
       <span className="ui-disc">
@@ -40,16 +38,18 @@ export function SoundToggle() {
       </span>
       {/* ป้ายบอกสถานะด้วยคำ ไม่ใช่สีของวงไอคอนอย่างเดียว (ข้อ 2) */}
       <span className="ui-label hidden sm:block" aria-hidden="true">
-        เสียง{enabled ? "เปิด" : "ปิด"}
-        <span lang="en" className="ui-sub">
-          {enabled ? "Sound on" : "Sound off"}
-        </span>
+        {enabled ? t.sound.on : t.sound.off}
+        {sub && (
+          <span lang="en" className="ui-sub">
+            {enabled ? sub.sound.on : sub.sound.off}
+          </span>
+        )}
       </span>
       {unavailable && (
         <span className="bg-sun absolute top-1.5 right-1.5 size-3 rounded-full" />
       )}
       {unavailable && (
-        <span className="sr-only">อุปกรณ์นี้ยังไม่มีเสียงอ่านภาษาไทย</span>
+        <span className="sr-only">{t.sound.noVoiceShort}</span>
       )}
     </button>
   );

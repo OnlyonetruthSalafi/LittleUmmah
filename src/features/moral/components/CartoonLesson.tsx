@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { fmt } from "@/i18n/dict";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
@@ -11,8 +12,8 @@ import type { Lesson } from "@/lib/lessons";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { SAY_ALONG_MS, sayPrompt, type Cartoon } from "../cartoon";
-import { useLocale } from "@/i18n/LocaleProvider";
+import { SAY_ALONG_MS, type Cartoon } from "../cartoon";
+import { useDict } from "@/i18n/LocaleProvider";
 
 /*
   การ์ตูนบทเรียน — ครูหุ่นยนต์นูรีพาไปดูเหตุการณ์ทีละฉาก (ข้อมูลใน cartoon.ts)
@@ -41,7 +42,7 @@ export function CartoonLesson({
   /** ดูจนจบฉากสุดท้าย — ใช้ให้ดาว (เปิดดูเฉยๆ ยังไม่นับ) */
   onFinish?: () => void;
 }) {
-  const locale = useLocale();
+  const { locale, t, sub, pick, pickSub } = useDict();
   const { scenes, word: lessonWord } = cartoon;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
@@ -137,7 +138,7 @@ export function CartoonLesson({
   };
 
   const playLabel =
-    status === "playing" ? ["พัก", "Pause"] : status === "ended" ? ["ดูอีกครั้ง", "Watch again"] : ["เล่นต่อ", "Play"];
+    status === "playing" ? "pause" : status === "ended" ? "watchAgain" : "play";
 
   return (
     <dialog
@@ -152,13 +153,13 @@ export function CartoonLesson({
       <div className="mrl-cartoon-body">
         <div className="mrl-cartoon-head">
           <h3 id="cartoon-title" className="font-display text-xl leading-snug font-extrabold sm:text-2xl">
-            {lesson.title.th}
-            <span lang="en" className="text-ink-soft ml-2 text-sm font-semibold">
-              {lesson.title.en}
-            </span>
+            {pick(lesson.title)}
+            {sub && <span lang="en" className="text-ink-soft ml-2 text-sm font-semibold">
+              {pickSub(lesson.title)}
+            </span>}
           </h3>
           <button type="button" className="ui-pill" onClick={() => dialogRef.current?.close()}>
-            ปิด <span lang="en" className="text-sm font-normal">Close</span>
+            {t.moral.lessons.close} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.lessons.close}</span>}
           </button>
         </div>
 
@@ -192,7 +193,7 @@ export function CartoonLesson({
                 />
               </span>
               <figcaption className="mrl-photo-label font-display">
-                {scene.photo.label.th} <span lang="en">{scene.photo.label.en}</span>
+                {pick(scene.photo.label)} {sub && <span lang="en">{pickSub(scene.photo.label)}</span>}
               </figcaption>
             </figure>
           )}
@@ -220,19 +221,19 @@ export function CartoonLesson({
           </div>
           {sayAlong && word && (
             <p className="mrl-say" aria-hidden="true">
-              {sayPrompt(word)}
+              {fmt(t.moral.cartoon.sayPrompt, { word: word.th })}
             </p>
           )}
         </div>
 
         {/* ข้อความของฉาก — role=status ให้ screen reader อ่านเมื่อเปลี่ยนฉาก */}
         <div className="mrl-cartoon-caption" role="status">
-          <p className="font-semibold">{scene.th}</p>
-          <p lang="en" className="text-ink-soft text-sm">
-            {scene.en}
-          </p>
+          <p className="font-semibold">{pick(scene)}</p>
+          {sub && <p lang="en" className="text-ink-soft text-sm">
+            {pickSub(scene)}
+          </p>}
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
-          {sayAlong && word && <p className="mrl-say-caption">{sayPrompt(word)}</p>}
+          {sayAlong && word && <p className="mrl-say-caption">{fmt(t.moral.cartoon.sayPrompt, { word: word.th })}</p>}
           {/* เครดิตภาพถ่าย — วางในกล่องข้อความ อ่านง่ายกว่าตัวเล็กบนกรอบภาพ */}
           {scene.photo && <p className="text-ink-soft mt-1 text-xs">{scene.photo.credit}</p>}
         </div>
@@ -243,8 +244,8 @@ export function CartoonLesson({
             className="ui-round"
             disabled={index === 0}
             onClick={() => goTo(index - 1)}
-            aria-label="ฉากก่อนหน้า / Previous"
-            title="ฉากก่อนหน้า / Previous"
+            aria-label={t.moral.cartoon.previous}
+            title={t.moral.cartoon.previous}
           >
             <ChevronRightIcon className="size-7 rotate-180" />
           </button>
@@ -261,10 +262,10 @@ export function CartoonLesson({
               <SpeakerIcon className="size-7" />
             )}
             <span>
-              {playLabel[0]}{" "}
-              <span lang="en" className="text-sm font-normal">
-                {playLabel[1]}
-              </span>
+              {t.moral.cartoon[playLabel]}{" "}
+              {sub && <span lang="en" className="text-sm font-normal">
+                {sub.moral.cartoon[playLabel]}
+              </span>}
             </span>
           </button>
           <button
@@ -272,13 +273,13 @@ export function CartoonLesson({
             className="ui-round"
             disabled={index === scenes.length - 1}
             onClick={() => goTo(index + 1)}
-            aria-label="ฉากถัดไป / Next"
-            title="ฉากถัดไป / Next"
+            aria-label={t.moral.cartoon.next}
+            title={t.moral.cartoon.next}
           >
             <ChevronRightIcon className="size-7" />
           </button>
         </div>
-        <ol className="mrl-dots" aria-label={`ฉาก ${index + 1} จาก ${scenes.length}`}>
+        <ol className="mrl-dots" aria-label={fmt(t.moral.cartoon.scene, { index: index + 1, total: scenes.length })}>
           {scenes.map((s, i) => (
             <li key={s.clip} data-on={i === index || undefined} data-done={i < index || undefined} />
           ))}

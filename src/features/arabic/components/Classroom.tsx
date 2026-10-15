@@ -14,7 +14,8 @@ import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 import { CHEER_COUNT, CLASS_UNITS, classAudio, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
 import "../classroom.css";
 import type { Text } from "@/i18n/config";
-import { useLocale } from "@/i18n/LocaleProvider";
+import { fmt } from "@/i18n/dict";
+import { useDict } from "@/i18n/LocaleProvider";
 
 // ปุ่มควบคุมบทเรียน (เริ่ม พัก ฟังซ้ำ ก่อน/ถัดไป) ใช้ชุดปุ่มทั้งเว็บ — .ui-pill ใน controls.css
 const CONTROL = "ui-pill text-lg";
@@ -103,7 +104,8 @@ function getHashGroupOnServer(): AgeGroupId {
   return "kids";
 }
 
-export function Classroom({ introTh, introEn }: { introTh: string; introEn: string }) {
+export function Classroom({ intro }: { intro: Text }) {
+  const { t, sub, pick, pickSub } = useDict();
   const hashGroup = useSyncExternalStore(subscribeHash, getHashGroup, getHashGroupOnServer);
   /** null = ยังไม่ได้กดเลือกเอง ให้ยึดตาม anchor ที่ลิงก์มา */
   const [chosen, setChosen] = useState<AgeGroupId | null>(null);
@@ -127,20 +129,20 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
     <section aria-labelledby="classroom-heading" className="mt-6">
       <div className="scene-copy shadow-soft rounded-card px-4 py-6 sm:px-6">
         <h1 id="classroom-heading" className="font-display text-3xl leading-snug font-extrabold sm:text-5xl">
-          ห้องเรียนภาษาอาหรับ
-          <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
-            Arabic Classroom
-          </span>
+          {t.arabic.classroom.title}
+          {sub && <span lang="en" className="mt-1 block text-xl font-semibold sm:text-2xl">
+            {sub.arabic.classroom.title}
+          </span>}
         </h1>
-        <p className="mt-2">{introTh}</p>
-        <p lang="en" className="text-ink-soft text-sm">
-          {introEn}
-        </p>
-        <p className="mt-3 font-semibold">ครูหุ่นยนต์อ่านให้ฟังก่อน แล้วเว้นจังหวะให้หนูอ่านตามออกเสียงดังๆ</p>
+        <p className="mt-2">{pick(intro)}</p>
+        {pickSub(intro) && <p lang="en" className="text-ink-soft text-sm">
+          {pickSub(intro)}
+        </p>}
+        <p className="mt-3 font-semibold">{t.arabic.classroom.instructions}</p>
       </div>
 
       {/* เลือกช่วงวัย — ใบที่เลือกอยู่มีคำว่า "กำลังเรียน" กำกับ ไม่ได้บอกด้วยสีอย่างเดียว */}
-      <div role="group" aria-label="เลือกช่วงวัย" className="mt-6 flex flex-wrap justify-center gap-3">
+      <div role="group" aria-label={t.arabic.classroom.chooseAge} className="mt-6 flex flex-wrap justify-center gap-3">
         {GROUPS.map((g) => {
           const active = g.id === group;
           return (
@@ -152,11 +154,11 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
               onClick={() => setChosen(g.id)}
               className={`${BUTTON} scroll-mt-4 ${active ? "bg-brand-blue text-cloud" : "bg-cloud text-ink"}`}
             >
-              {g.name.th}
-              <span lang="en" className="text-sm font-normal">
-                {g.name.en}
-              </span>
-              {active && <span className="sr-only">กำลังเรียนช่วงวัยนี้</span>}
+              {pick(g.name)}
+              {pickSub(g.name) && <span lang="en" className="text-sm font-normal">
+                {pickSub(g.name)}
+              </span>}
+              {active && <span className="sr-only">{t.arabic.classroom.activeAge}</span>}
             </button>
           );
         })}
@@ -166,7 +168,7 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
         เลือกชุด (วัย 3-6: ตัวอักษรชุดละ 4 ตัว / วัย 7+: หมวด) — ปุ่มสูง 64px ขึ้นไป (ข้อ 2)
         ชุดที่เลือกมีข้อความ "กำลังเรียน" กำกับสำหรับ screen reader และสีพื้นต่างกัน ไม่บอกด้วยสีอย่างเดียว (aria-pressed)
       */}
-      <div role="group" aria-label={group === "kids" ? "เลือกชุดตัวอักษร" : "เลือกหมวดบทเรียน"} className="cls-units mt-5">
+      <div role="group" aria-label={group === "kids" ? t.arabic.classroom.chooseLetters : t.arabic.classroom.chooseCategory} className="cls-units mt-5">
         {units.map((u, i) => {
           const active = i === unitIndex;
           return (
@@ -184,12 +186,12 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
                 {u.preview}
               </span>
               <span className="cls-unit-title">
-                {u.title.th}
-                <span lang="en" className="block text-xs font-normal">
-                  {u.title.en}
-                </span>
+                {pick(u.title)}
+                {pickSub(u.title) && <span lang="en" className="block text-xs font-normal">
+                  {pickSub(u.title)}
+                </span>}
               </span>
-              {active && <span className="sr-only">กำลังเรียนชุดนี้</span>}
+              {active && <span className="sr-only">{t.arabic.classroom.activeUnit}</span>}
             </button>
           );
         })}
@@ -207,7 +209,7 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
 }
 
 function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUnit; onNextUnit?: () => void }) {
-  const locale = useLocale();
+  const { locale, t, sub, pick, pickSub } = useDict();
   const { enabled: soundOn } = useSound();
 
   const [index, setIndex] = useState(0);
@@ -278,9 +280,9 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
     };
 
     if (phase === "teach") {
-      narrate(`teach-${step.id}`, `${step.title.th} ... ${step.body}`, "say");
+      narrate(`teach-${step.id}`, `${pick(step.title)} ... ${step.body}`, "say");
     } else if (phase === "say") {
-      narrate(`say-${step.id}`, `อ่านตามครูนะ ... ${step.say}`, "echo");
+      narrate(`say-${step.id}`, fmt(t.arabic.classroom.echoSpeech, { say: step.say }), "echo");
     } else if (phase === "echo") {
       // จังหวะเว้นว่างให้เด็กอ่านตาม — เงียบสนิท ไม่มีเสียงแทรก
       const total = echoMs(step.say);
@@ -291,9 +293,9 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       timer = setTimeout(() => go("cheer"), total);
     } else if (phase === "cheer") {
       // คำชมหมุนตามลำดับบท เด็กจึงไม่ได้ยินประโยคเดิมซ้ำทุกบท
-      narrate(`cheer-${(index % CHEER_COUNT) + 1}`, "เก่งมาก ไปดูตัวต่อไปกันนะ", "teach");
+      narrate(`cheer-${(index % CHEER_COUNT) + 1}`, t.arabic.classroom.cheerSpeech, "teach");
     } else if (phase === "done") {
-      narrate("done", "เก่งมากเลย เรียนจบชุดนี้แล้ว พักสักหน่อย แล้วมาเรียนชุดต่อไปกับครูนะ", null);
+      narrate("done", t.arabic.classroom.doneSpeech, null);
     }
 
     return () => {
@@ -302,7 +304,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       if (ticker) clearInterval(ticker);
       cancelAudio?.();
     };
-  }, [phase, index, paused, soundOn, steps, step, replay, locale]);
+  }, [phase, index, paused, soundOn, steps, step, replay, locale, t, pick]);
 
   const start = useCallback(() => {
     stopAllSpeech();
@@ -394,13 +396,13 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       {/* ── ป้ายบอกว่าตอนนี้ถึงตาใคร ── */}
       <div className="scene-copy shadow-soft rounded-card mt-6 px-4 py-5 text-center sm:px-6">
         <p aria-live="polite" className="font-display text-2xl font-extrabold sm:text-3xl">
-          {!running && "กดปุ่มเริ่มเรียน แล้วครูจะสอนทีละตัว"}
-          {running && paused && "พักอยู่ กดเรียนต่อเมื่อพร้อมนะ"}
-          {running && !paused && phase === "teach" && `ครูกำลังสอน: ${step?.title.th ?? ""}`}
-          {running && !paused && phase === "say" && "ครูอ่านนำ ฟังให้ดีนะ"}
-          {running && !paused && phase === "echo" && "ตาหนูแล้ว! อ่านตามครูดังๆ"}
-          {running && !paused && phase === "cheer" && "เก่งมาก!"}
-          {running && !paused && finished && (onNextUnit ? "เรียนครบชุดนี้แล้ว เก่งมากเลย ไปชุดต่อไปกัน" : "เรียนครบทุกชุดแล้ว เก่งมากเลย")}
+          {!running && t.arabic.classroom.idle}
+          {running && paused && t.arabic.classroom.paused}
+          {running && !paused && phase === "teach" && fmt(t.arabic.classroom.teaching, { title: step ? pick(step.title) : "" })}
+          {running && !paused && phase === "say" && t.arabic.classroom.listen}
+          {running && !paused && phase === "echo" && t.arabic.classroom.echo}
+          {running && !paused && phase === "cheer" && t.arabic.classroom.great}
+          {running && !paused && finished && (onNextUnit ? t.arabic.classroom.unitDone : t.arabic.classroom.allDone)}
         </p>
 
         {/* วงแหวนนับถอยหลังของจังหวะอ่านตาม — มีคำอ่านเป็นข้อความกำกับ ไม่ได้บอกด้วยสีอย่างเดียว */}
@@ -416,14 +418,14 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
         {step && running && phase !== "echo" && (
           <div className="mt-3">
             <p className="text-xl font-bold">
-              {step.title.th}{" "}
-              <span lang="en" className="text-ink-soft text-base font-semibold">
-                {step.title.en}
-              </span>
+              {pick(step.title)}{" "}
+              {pickSub(step.title) && <span lang="en" className="text-ink-soft text-base font-semibold">
+                {pickSub(step.title)}
+              </span>}
             </p>
             <p className="mt-1">{step.body}</p>
-            <p className="mt-1 font-semibold">อ่านว่า: {step.say}</p>
-            {step.meaning && <p className="text-ink-soft mt-1 text-sm">ความหมาย: {step.meaning}</p>}
+            <p className="mt-1 font-semibold">{fmt(t.arabic.classroom.pronunciation, { say: step.say })}</p>
+            {step.meaning && <p className="text-ink-soft mt-1 text-sm">{fmt(t.arabic.classroom.meaning, { meaning: step.meaning })}</p>}
           </div>
         )}
 
@@ -432,8 +434,8 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
           {finished && onNextUnit && (
             <button type="button" onClick={onNextUnit} className={`${CONTROL} ui-pill-primary`}>
               <span>
-                ไปชุดถัดไป
-                <span lang="en" className="ui-sub">Next set</span>
+                {t.arabic.classroom.nextUnit}
+                {sub && <span lang="en" className="ui-sub">{sub.arabic.classroom.nextUnit}</span>}
               </span>
               <span className="ui-disc"><ArrowLeftIcon className="-scale-x-100" /></span>
             </button>
@@ -442,10 +444,10 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
             <button type="button" onClick={start} className={`${CONTROL} ${finished && onNextUnit ? "" : "ui-pill-primary"}`}>
               <PlayIcon className="size-11 shrink-0" />
               <span>
-                {finished ? "เรียนอีกรอบ" : "เริ่มเรียน"}
-                <span lang="en" className="ui-sub">
-                  {finished ? "Again" : "Start"}
-                </span>
+                {finished ? t.arabic.classroom.again : t.arabic.classroom.start}
+                {sub && <span lang="en" className="ui-sub">
+                  {finished ? sub.arabic.classroom.again : sub.arabic.classroom.start}
+                </span>}
               </span>
             </button>
           ) : (
@@ -454,15 +456,15 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
                 {/* PlayIcon มีวงกลมในตัวแล้ว ขนาดเท่า .ui-disc */}
                 {paused ? <PlayIcon className="size-11 shrink-0 text-brand-blue" /> : <span className="ui-disc"><PauseIcon /></span>}
                 <span>
-                  {paused ? "เรียนต่อ" : "พักก่อน"}
-                  <span lang="en" className="ui-sub">{paused ? "Continue" : "Pause"}</span>
+                  {paused ? t.arabic.classroom.continue : t.arabic.classroom.pause}
+                  {sub && <span lang="en" className="ui-sub">{paused ? sub.arabic.classroom.continue : sub.arabic.classroom.pause}</span>}
                 </span>
               </button>
               <button type="button" onClick={again} className={`${CONTROL} ui-pill-primary`}>
                 <span className="ui-disc"><ReplayIcon /></span>
                 <span>
-                  ฟังอีกครั้ง
-                  <span lang="en" className="ui-sub">Listen again</span>
+                  {t.arabic.classroom.listenAgain}
+                  {sub && <span lang="en" className="ui-sub">{sub.arabic.classroom.listenAgain}</span>}
                 </span>
               </button>
             </>
@@ -478,8 +480,8 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
               >
                 <span className="ui-disc"><ArrowLeftIcon /></span>
                 <span>
-                  ก่อนหน้า
-                  <span lang="en" className="ui-sub">Previous</span>
+                  {t.arabic.classroom.previous}
+                  {sub && <span lang="en" className="ui-sub">{sub.arabic.classroom.previous}</span>}
                 </span>
               </button>
               <button
@@ -489,8 +491,8 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
                 className={CONTROL}
               >
                 <span>
-                  ตัวถัดไป
-                  <span lang="en" className="ui-sub">Next</span>
+                  {t.arabic.classroom.next}
+                  {sub && <span lang="en" className="ui-sub">{sub.arabic.classroom.next}</span>}
                 </span>
                 <span className="ui-disc"><ArrowLeftIcon className="-scale-x-100" /></span>
               </button>
@@ -499,7 +501,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
         </div>
 
         <p className="text-ink-soft mt-4 text-sm">
-          {unit.title.th} · บทที่ {Math.min(index + 1, steps.length)} จาก {steps.length}
+          {fmt(t.arabic.classroom.progress, { title: pick(unit.title), current: Math.min(index + 1, steps.length), total: steps.length })}
         </p>
       </div>
 
@@ -518,8 +520,8 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
                   {s.board}
                 </span>
               )}
-              {s.title.th}
-              {running && i === index && <span className="sr-only">บทที่กำลังเรียนอยู่</span>}
+              {pick(s.title)}
+              {running && i === index && <span className="sr-only">{t.arabic.classroom.activeStep}</span>}
             </button>
           </li>
         ))}

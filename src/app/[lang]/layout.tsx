@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
 import { SoundProvider } from "@/components/sound/SoundProvider";
-import { LOCALES } from "@/i18n/config";
+import { dict } from "@/i18n/dict";
+import { LOCALES, type Locale } from "@/i18n/config";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { isLocale } from "@/i18n/path";
 import "../globals.css";
@@ -10,14 +11,6 @@ import "../scene-type.css";
 import "../controls.css";
 import { fontClasses } from "../fonts";
 
-const metadata: Metadata = {
-  title: {
-    default: "Little Ummah — เรียนรู้ เล่นสนุก เติบโต",
-    template: "%s | Little Ummah",
-  },
-  description:
-    "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก เรียนรู้ศรัทธา สร้างมารยาทที่ดี และเติบโตเป็นคนดีของโลกใบนี้ สำหรับเด็กวัย 3-6 ปี และ 7 ปีขึ้นไป",
-};
 
 /*
   root layout อยู่ใต้ [lang] เพื่อให้ <html lang> ตรงกับภาษาของหน้า (คู่มือ Next: guides/internationalization)
@@ -32,6 +25,11 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
+  const { t } = dict(lang as Locale);
+  const metadata: Metadata = {
+    title: { default: t.layout.title, template: t.layout.titleTemplate },
+    description: t.layout.description,
+  };
   return lang === "th" ? metadata : { ...metadata, robots: { index: false, follow: false } };
 }
 

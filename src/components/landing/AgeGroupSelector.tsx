@@ -1,5 +1,7 @@
 "use client";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
 import Image from "next/image";
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
@@ -16,30 +18,30 @@ import { useSound } from "@/components/sound/SoundProvider";
   - 7 ปีขึ้นไป "อ่านเองได้"      -> ท่าถือหนังสือเปิดอ่าน (Read)
   ภาพ alt="" เพราะชื่อช่วงวัยเป็นข้อความอยู่ข้างๆ ในลิงก์เดียวกันแล้ว
 */
-const GROUPS = [
-  {
-    href: "/kids",
-    image: "/Character/play.webp",
-    label: "วัย 3-6 ปี",
-    hint: "เรียนรู้ผ่านการเล่น",
-    speakKey: "age-3-6",
-  },
-  {
-    href: "/juniors",
-    image: "/Character/read.webp",
-    label: "วัย 7 ปีขึ้นไป",
-    hint: "อ่านเองได้ สำรวจเอง",
-    speakKey: "age-7-plus",
-  },
-];
-
 export function AgeGroupSelector() {
+  const { t } = useDict();
+  const GROUPS = [
+    {
+      href: "/kids",
+      image: "/Character/play.webp",
+      label: t.ageGroupSelector.kidsLabel,
+      hint: t.ageGroupSelector.kidsHint,
+      speakKey: "age-3-6",
+    },
+    {
+      href: "/juniors",
+      image: "/Character/read.webp",
+      label: t.ageGroupSelector.juniorsLabel,
+      hint: t.ageGroupSelector.juniorsHint,
+      speakKey: "age-7-plus",
+    },
+  ];
   const { speak } = useSound();
 
   return (
     <section
       id="choose-age"
-      aria-label="เลือกช่วงวัย"
+      aria-label={t.ageGroupSelector.label}
       className="mx-auto w-full max-w-3xl px-4 pb-10 sm:px-6 sm:pb-12"
     >
       <ul className="grid gap-3 sm:grid-cols-2 sm:gap-5">

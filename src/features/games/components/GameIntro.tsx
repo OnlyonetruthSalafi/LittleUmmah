@@ -1,3 +1,5 @@
+import { fmt } from '@/i18n/dict';
+import { useDict } from '@/i18n/LocaleProvider';
 import { GameImage as Image } from './GameImage';
 import { Thumbnail } from './Artwork';
 import { gameAssets, type GameDefinition } from '../data/catalog';
@@ -13,6 +15,7 @@ import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
 export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn }: {
   game: GameDefinition; level: number; onLevel: (level: number) => void; onStart: () => void; onListen: () => void; soundOn: boolean;
 }) {
+  const { t, sub, pick, pickSub } = useDict();
   const theme = gamePresentation[game.slug];
   const levels = theme.levels.slice(0, theme.levelCount ?? 3);
   const art = theme.levelArt;
@@ -25,23 +28,23 @@ export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn }: 
     </div>
     <div className="gc-adventure-menu">
       <div className="gc-adventure-heading">
-        <h2 id="gc-adventure-title">{game.instruction.th}<span lang="en" className="sr-only"> ({game.instruction.en})</span></h2>
+        <h2 id="gc-adventure-title">{pick(game.instruction)}{sub && <span lang="en" className="sr-only"> ({pickSub(game.instruction)!})</span>}</h2>
         {/* ปิดเสียงเกมอยู่ ปุ่มฟังจะกดแล้วเงียบ จึงไม่แสดง — เปิดเสียงได้ที่ปุ่มลำโพงบนหัวเกม */}
-        {soundOn && <button type="button" className="ui-round" onClick={onListen} aria-label="ฟังวิธีเล่น / Listen"><SpeakerIcon /></button>}
+        {soundOn && <button type="button" className="ui-round" onClick={onListen} aria-label={t.games.intro.listen}><SpeakerIcon /></button>}
       </div>
-      <p className="sr-only">{theme.world.th}: {theme.description.th} <span lang="en">{theme.description.en}</span></p>
+      <p className="sr-only">{pick(theme.world)}: {pick(theme.description)} {sub && <span lang="en">{pickSub(theme.description)!}</span>}</p>
       {levels.length > 1 && !theme.journey && <fieldset className="gc-level-path">
-        <legend className="sr-only">เลือกด่าน <span lang="en">Choose a level</span></legend>
-        <div className="gc-level-stones">{levels.map((label, i) => <button type="button" key={label.en} className="gc-level-stone" data-art={art ? '' : undefined} aria-pressed={level === i + 1} onClick={() => onLevel(i + 1)}>
+        <legend className="sr-only">{t.games.intro.choose} {sub && <span lang="en">{sub.games.intro.choose}</span>}</legend>
+        <div className="gc-level-stones">{levels.map((label, i) => <button type="button" key={i} className="gc-level-stone" data-art={art ? '' : undefined} aria-pressed={level === i + 1} onClick={() => onLevel(i + 1)}>
           {art?.[i] ? <LevelArt {...art[i]} number={i + 1} /> : <span className="gc-level-number" aria-hidden="true">{i + 1}</span>}
-          <span className="sr-only">ด่าน {i + 1}{art?.[i] ? ` ภาพ${art[i].label.th}` : ''}: </span><strong>{label.th}</strong><span lang="en" className="sr-only"> ({label.en})</span>
+          <span className="sr-only">{t.games.intro.level} {i + 1}{art?.[i] ? fmt(t.games.intro.picture, { name: pick(art[i].label) }) : ''}: </span><strong>{pick(label)}</strong>{sub && <span lang="en" className="sr-only"> ({pickSub(label)!})</span>}
           {level === i + 1 && <span className="gc-level-selected" aria-hidden="true">✓</span>}
         </button>)}</div>
       </fieldset>}
-      <button className="gc-button gc-primary gc-adventure-start" onClick={onStart}>ไปเล่นกันเลย! <small lang="en">Let’s play →</small></button>
+      <button className="gc-button gc-primary gc-adventure-start" onClick={onStart}>{t.games.intro.play} {sub && <small lang="en">{sub.games.intro.play}</small>}</button>
       {game.slug === 'light-maze'
-        ? <p className="sr-only">กดปุ่มทิศ ปัดนิ้ว หรือแตะทางที่จะไป <span lang="en">Press a direction, swipe, or tap where to go</span></p>
-        : <p className="sr-only">{tapGame ? 'แตะภาพเพื่อเล่น' : 'แตะชิ้น แล้วแตะช่อง หรือลากไปวาง'} <span lang="en">{tapGame ? 'Tap a picture to play' : 'Tap a piece, then its home — or drag it there'}</span></p>}
+        ? <p className="sr-only">{t.games.intro.mazeHelp} {sub && <span lang="en">{sub.games.intro.mazeHelp}</span>}</p>
+        : <p className="sr-only">{tapGame ? t.games.intro.tap : t.games.intro.drag} {sub && <span lang="en">{tapGame ? sub.games.intro.tap : sub.games.intro.drag}</span>}</p>}
     </div>
   </section>;
 }

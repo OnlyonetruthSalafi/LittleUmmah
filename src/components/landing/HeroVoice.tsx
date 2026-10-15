@@ -1,11 +1,12 @@
 "use client";
 
+import { useDict } from "@/i18n/LocaleProvider";
+
 import { useEffect, useRef } from "react";
 
 import { useSound } from "@/components/sound/SoundProvider";
 import { isSpeaking } from "@/lib/speech";
 
-const TEXT = "เรียนรู้ เล่นสนุก เติบโต";
 const KEY = "hero-tagline";
 // เห็นหัวข้ออย่างน้อยครึ่งหนึ่งถึงนับว่า "เลื่อนมาเจอ" แตะขอบจอเฉยๆ ยังไม่อ่าน
 const VISIBLE_RATIO = 0.5;
@@ -20,6 +21,7 @@ const VISIBLE_RATIO = 0.5;
     แต่ไม่นับการแตะลิงก์หรือปุ่ม เช่นกดเกาะศิลปะ ต้องได้ยินชื่อเกาะนั้นอย่างเดียว ไม่มีหัวข้อแทรก
 */
 export function HeroVoice() {
+  const { t } = useDict();
   const sentinel = useRef<HTMLSpanElement>(null);
   const { speak, enabled } = useSound();
   const speakRef = useRef(speak);
@@ -37,7 +39,7 @@ export function HeroVoice() {
 
     const say = () => {
       if (!visible || !enabledRef.current || document.hidden || isSpeaking()) return;
-      speakRef.current(TEXT, KEY);
+      speakRef.current(t.hero.speech, KEY);
     };
     const stopWaiting = () => {
       waitingForInteraction = false;
@@ -73,7 +75,7 @@ export function HeroVoice() {
       observer.disconnect();
       stopWaiting();
     };
-  }, []);
+  }, [t.hero.speech]);
 
   // ตัวจับตำแหน่งล่องหนเต็มพื้นที่หัวข้อ ไม่รับการแตะ ไม่กินที่ในหน้า
   return <span ref={sentinel} aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20" />;
