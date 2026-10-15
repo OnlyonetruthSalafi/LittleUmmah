@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { OtherIslands } from "@/components/islands/OtherIslands";
 import { BackLink } from "@/components/ui/BackLink";
 import { Bookshelf } from "@/features/stories/components/Bookshelf";
+import { StoryGuide } from "@/features/stories/components/StoryGuide";
 import { shelfBooks } from "@/features/stories/shelf";
-import { getIslandContent } from "@/lib/lessons";
 
 /*
   เกาะเรื่องเล่า = ตู้หนังสือ
@@ -14,7 +14,6 @@ export const metadata: Metadata = { title: "เกาะเรื่องเล
 
 export default function StoriesIslandPage() {
   const { kids, juniors } = shelfBooks();
-  const island = getIslandContent("stories");
 
   return (
     <>
@@ -22,7 +21,8 @@ export default function StoriesIslandPage() {
       <h1 className="sr-only">
         เรื่องเล่า <span lang="en">Stories</span>
       </h1>
-      <Bookshelf kids={kids} juniors={juniors} introTh={island?.introTh ?? ""} introEn={island?.introEn ?? ""} />
+      <StoryGuide />
+      <Bookshelf kids={kids} juniors={juniors} />
 
       <OtherIslands current="stories" />
     </>

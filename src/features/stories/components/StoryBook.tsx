@@ -295,6 +295,25 @@ export function StoryBook({ story }: { story: Story }) {
   useEffect(() => {
     if (!soundOn) turnSfx.current?.pause();
   }, [soundOn]);
+
+  /*
+    เสียงประกอบครั้งเดียวของหน้า (cue) — รอให้เสียงพลิกกระดาษจบก่อนราว 0.7 วินาที
+    ใช้ Audio แยกจาก turnSfx จะได้ไม่ตัดเสียงพลิกหน้า พลิกหน้าต่อหรือปิดเสียงก่อนถึงเวลา = ไม่เล่น
+  */
+  const cueSrc = spread >= 0 && story.pages[spread].cue ? `/audio/sfx/story-cue-${story.pages[spread].cue}.mp3` : null;
+  useEffect(() => {
+    if (!cueSrc || !deluxe || !soundOn || !started || userPaused) return;
+    let audio: HTMLAudioElement | null = null;
+    const timer = window.setTimeout(() => {
+      audio = new Audio(cueSrc);
+      audio.volume = 0.6;
+      void audio.play().catch(() => {});
+    }, 700);
+    return () => {
+      window.clearTimeout(timer);
+      audio?.pause();
+    };
+  }, [cueSrc, deluxe, soundOn, started, userPaused, spread]);
   useEffect(
     () => () => {
       stopAllSpeech();
@@ -581,7 +600,7 @@ export function StoryBook({ story }: { story: Story }) {
               <p lang="en" className="text-ink-soft mt-2 text-sm sm:text-base">
                 {page.en}
               </p>
-              {page.arabic && (
+              {page.arabic ? (
                 <div className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3">
                   <p lang="ar" dir="rtl" className="text-2xl leading-loose font-semibold sm:text-3xl">
                     {page.arabic}
@@ -589,6 +608,13 @@ export function StoryBook({ story }: { story: Story }) {
                   {page.reading && <p className="mt-1 font-semibold">อ่านว่า: {page.reading}</p>}
                   {page.meaning && <p className="text-ink-soft text-sm">ความหมาย: {page.meaning}</p>}
                 </div>
+              ) : (
+                /* อายะฮ์อัลกุรอาน: แสดงเฉพาะความหมายภาษาไทย ไม่ยกตัวอาหรับ (เจ้าของโปรเจกต์ 8 ต.ค. 2026 — AGENTS.md ข้อ 1.6) */
+                page.meaning && (
+                  <blockquote className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3 text-lg leading-relaxed font-semibold">
+                    “{page.meaning}”
+                  </blockquote>
+                )
               )}
             </>
           ) : (

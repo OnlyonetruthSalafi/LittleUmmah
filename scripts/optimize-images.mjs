@@ -21,6 +21,12 @@ const JOBS = [
   { dir: "public/stories/nuh", width: 1200, quality: 82 },
   { dir: "public/stories/yunus", width: 1200, quality: 82 },
   { dir: "public/stories/musa", width: 1200, quality: 82 },
+  { dir: "public/stories/ants", width: 1200, quality: 82 },
+  { dir: "public/stories/ibrahim-fire", width: 1200, quality: 82 },
+  { dir: "public/stories/kaaba", width: 1200, quality: 82 },
+  { dir: "public/stories/cave", width: 1200, quality: 82 },
+  { dir: "public/stories/yusuf", width: 1200, quality: 82 },
+  { dir: "public/games/classroom", width: 1920, quality: 82 },
   { dir: "public/stories/shelf", width: 1400, quality: 84 },
   // หนังสือนิทานแบบสมจริง (CODEX_STORYBOOK_BRIEF.md): เล่มเปิดหน้าว่างแสดงกว้างสุด ~1250px คมบนจอ 2x ที่ 2400, กระดาษ/ลายปกใน 1024 ไม่ขยาย
   { dir: "public/stories/book", width: 2400, quality: 86 },

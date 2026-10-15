@@ -25,6 +25,8 @@ import "../bookshelf.css";
     ช่องที่กดได้คือทั้งช่องบนชั้น ไม่ใช่แค่ตัวหนังสือ จึงได้ ≥ 64px แม้หนังสือบนมือถือจะเล็ก
   - screen reader: แต่ละวัยเป็น section ที่มีหัวข้อ h2 คือป้ายช่วงวัย อ่านวัย 3-6 ปีครบก่อนวัย 7+
     ตู้จอกว้างกับตู้จอแคบสลับกันด้วย display:none จึงไม่ถูกอ่านซ้ำ
+  - ไม่มีกล่องข้อความใต้ตู้ (เจ้าของโปรเจกต์สั่งลบ 7 ต.ค. 2026) ชี้/แตะหนังสือแล้วหุ่นอ่านชื่อเรื่องให้ฟัง
+    screen reader อ่านชื่อเรื่องจากข้อความ sr-only ในแต่ละเล่ม
   - กดหนังสือที่มีนิทาน: หนังสือถูกดึงออกจากชั้น หันเข้าหาจอ แล้วลอยมาขยายกลางจอ
     ขนาดปลายทางเท่าปกหนังสือในหน้านิทาน แล้วจึงเปลี่ยนหน้า (?play=1 ให้เริ่มเล่นเอง)
   - ปิดการเคลื่อนไหว: ไปหน้านิทานทันที ไม่ลอย
@@ -301,7 +303,7 @@ function Shelf({
   );
 }
 
-export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook[]; juniors: ShelfBook[]; introTh: string; introEn: string }) {
+export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: ShelfBook[] }) {
   const router = useRouter();
   const { speak } = useSound();
   const [picked, setPicked] = useState<ShelfBook | null>(null);
@@ -337,9 +339,6 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
     speak(book.href ? book.titleTh : `${book.titleTh} เร็วๆ นี้`);
   };
 
-  const shown = picked ?? kids.find((b) => b.href) ?? kids[0];
-  const shownAge: AgeId = juniors.some((b) => b.id === shown.id) ? "juniors" : "kids";
-  const shownLabel = ageLabel(shownAge);
 
   return (
     <section aria-label="ตู้หนังสือนิทาน" className="bs-stage">
@@ -347,37 +346,6 @@ export function Bookshelf({ kids, juniors, introTh, introEn }: { kids: ShelfBook
 
       <Shelf art={SHELF_WIDE} variant="wide" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
       <Shelf art={SHELF_TALL} variant="tall" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
-
-      {/* ป้ายชื่อเรื่องใต้ตู้: หนังสือบนชั้นเล็กเกินจะใส่ชื่อ จึงแสดงชื่อเล่มที่ชี้/แตะอยู่ที่นี่ พร้อมช่วงวัยของเล่มนั้น */}
-      <div className="scene-copy shadow-soft rounded-card mx-auto mt-6 flex max-w-3xl items-center gap-4 p-4 sm:p-5">
-        <Image src="/Character/read.webp" alt="" width={96} height={96} className="size-16 shrink-0 object-contain sm:size-24" />
-        <div className="min-w-0" aria-live="polite">
-          <p className="bs-chip" data-zone={shownAge}>
-            <span className="bs-mark" aria-hidden="true" />
-            {shownLabel.th}
-            <span lang="en" className="bs-chip-en">
-              · {shownLabel.en}
-            </span>
-          </p>
-          <p className="font-display mt-1 text-xl font-extrabold sm:text-2xl">
-            {shown.titleTh}
-            <span lang="en" className="text-ink-soft block text-sm font-semibold sm:text-base">
-              {shown.titleEn}
-            </span>
-          </p>
-          <p className="mt-1">
-            {shown.href ? "แตะที่หนังสือ แล้วมาฟังนิทานกันนะ" : "เรื่องนี้กำลังจะมาเร็วๆ นี้นะ"}
-            <span lang="en" className="text-ink-soft block text-sm">
-              {shown.href ? "Tap the book to open the story!" : "Coming soon!"}
-            </span>
-          </p>
-          {!picked && (
-            <p className="text-ink-soft mt-2 text-sm">
-              {introTh} <span lang="en">{introEn}</span>
-            </p>
-          )}
-        </div>
-      </div>
 
       {flying && <FlyingBook flying={flying} onDone={() => router.push(`${flying.book.href}?play=1`)} />}
     </section>

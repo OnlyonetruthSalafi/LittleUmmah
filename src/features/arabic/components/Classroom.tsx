@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useCallback, useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import Image, { getImageProps } from "next/image";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
@@ -11,7 +11,7 @@ import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
-import { CHEER_COUNT, CLASS_STEPS, classAudio, type AgeGroupId, type ClassStep } from "../data/classroom";
+import { CHEER_COUNT, CLASS_UNITS, classAudio, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
 import "../classroom.css";
 
 // ปุ่มควบคุมบทเรียน (เริ่ม พัก ฟังซ้ำ ก่อน/ถัดไป) ใช้ชุดปุ่มทั้งเว็บ — .ui-pill ใน controls.css
@@ -32,11 +32,35 @@ const CONTROL = "ui-pill text-lg";
   บทเรียนจึงไม่ค้าง และเด็กยังเห็นตัวอักษรบนกระดานครบทุกบท
 */
 
-/** ภาพฉากห้องเรียนจาก Codex — ใส่ path ของไฟล์เมื่อภาพมาถึง (ดู CODEX_CLASSROOM_BRIEF.md) */
-const CLASSROOM_SCENE: string | null = null;
+/*
+  ภาพฉากห้องเรียนจาก Codex (CODEX_CLASSROOM_BRIEF.md, 8 ต.ค. 2026) — สองอัตราส่วนตาม .cls-stage
+  4:3 ที่จอแคบกว่า 640px และ 16:10 ตั้งแต่ 640px ใช้ <picture> สลับภาพ (art direction ตามเอกสาร next/image)
+  ผนังตรงกระดานในภาพว่างเปล่า กระดานยังเป็น CSS + ข้อความจริงเสมอ (ข้อ 1.5)
+  ตั้งเป็น null = กลับไปใช้ฉาก CSS เดิม
+*/
+const CLASSROOM_SCENE: { wide: string; tall: string } | null = {
+  wide: "/games/classroom/room-wide.webp",
+  tall: "/games/classroom/room-tall.webp",
+};
 
-/** ท่าครูสอน — ใช้ท่า read ที่มีอยู่ไปก่อน เปลี่ยนเป็น teach.webp เมื่อ Codex วาดท่าใหม่เสร็จ */
-const TEACHER_POSE = "/Character/read.webp";
+/** ท่าครูสอน — นูรีตัวเดิม ท่าใหม่ชี้กระดาน (เพิ่มท่าในดีไซน์เดิม ไม่ใช่ redesign ข้อ 1.5) */
+const TEACHER_POSE = "/Character/teach.webp";
+
+function ClassroomScene({ wide, tall }: { wide: string; tall: string }) {
+  const common = { alt: "", sizes: "(max-width: 1100px) 100vw, 1100px", priority: true } as const;
+  const {
+    props: { srcSet: wideSet },
+  } = getImageProps({ ...common, src: wide, width: 1920, height: 1200 });
+  const {
+    props: tallProps,
+  } = getImageProps({ ...common, src: tall, width: 1200, height: 900 });
+  return (
+    <picture>
+      <source media="(min-width: 640px)" srcSet={wideSet} />
+      <img {...tallProps} alt="" className="absolute inset-0 size-full object-cover" />
+    </picture>
+  );
+}
 
 type Phase = "idle" | "teach" | "say" | "echo" | "cheer" | "done";
 
@@ -82,6 +106,20 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
   /** null = ยังไม่ได้กดเลือกเอง ให้ยึดตาม anchor ที่ลิงก์มา */
   const [chosen, setChosen] = useState<AgeGroupId | null>(null);
   const group = chosen ?? hashGroup;
+  /** ชุด/หมวดที่กำลังเรียน แยกตามช่วงวัย เปลี่ยนวัยแล้วกลับมาจะยังอยู่ชุดเดิม */
+  const [unitByGroup, setUnitByGroup] = useState<Record<AgeGroupId, number>>({ kids: 0, juniors: 0 });
+  const units = CLASS_UNITS[group];
+  const unitIndex = Math.min(unitByGroup[group], units.length - 1);
+  const unit = units[unitIndex];
+  const chooseUnit = (i: number) => setUnitByGroup((u) => ({ ...u, [group]: i }));
+  // ปุ่ม "ไปชุดถัดไป" อยู่ในบทเรียนที่ถูกสร้างใหม่ทั้งก้อน โฟกัสจึงย้ายไปปุ่มชุดใหม่ในแถวเลือกชุด
+  // screen reader อ่านชื่อชุดพร้อม "กำลังเรียนชุดนี้" และกด Tab ต่อไปถึงปุ่มเริ่มเรียน
+  const unitButtons = useRef<(HTMLButtonElement | null)[]>([]);
+  const goNextUnit = () => {
+    const next = unitIndex + 1;
+    chooseUnit(next);
+    requestAnimationFrame(() => unitButtons.current[next]?.focus());
+  };
 
   return (
     <section aria-labelledby="classroom-heading" className="mt-6">
@@ -122,13 +160,51 @@ export function Classroom({ introTh, introEn }: { introTh: string; introEn: stri
         })}
       </div>
 
-      {/* key = group: เปลี่ยนช่วงวัยแล้วบทเรียนเริ่มใหม่หมด ไม่มีเสียงหรือจังหวะของวัยเดิมค้างอยู่ */}
-      <Lesson key={group} group={group} />
+      {/*
+        เลือกชุด (วัย 3-6: ตัวอักษรชุดละ 4 ตัว / วัย 7+: หมวด) — ปุ่มสูง 64px ขึ้นไป (ข้อ 2)
+        ชุดที่เลือกมีข้อความ "กำลังเรียน" กำกับสำหรับ screen reader และสีพื้นต่างกัน ไม่บอกด้วยสีอย่างเดียว (aria-pressed)
+      */}
+      <div role="group" aria-label={group === "kids" ? "เลือกชุดตัวอักษร" : "เลือกหมวดบทเรียน"} className="cls-units mt-5">
+        {units.map((u, i) => {
+          const active = i === unitIndex;
+          return (
+            <button
+              key={u.id}
+              ref={(el) => {
+                unitButtons.current[i] = el;
+              }}
+              type="button"
+              aria-pressed={active}
+              onClick={() => chooseUnit(i)}
+              className={`cls-unit ${active ? "bg-brand-blue text-cloud" : "bg-cloud text-ink"}`}
+            >
+              <span lang="ar" dir="rtl" className="cls-unit-preview">
+                {u.preview}
+              </span>
+              <span className="cls-unit-title">
+                {u.titleTh}
+                <span lang="en" className="block text-xs font-normal">
+                  {u.titleEn}
+                </span>
+              </span>
+              {active && <span className="sr-only">กำลังเรียนชุดนี้</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* key = วัย+ชุด: เปลี่ยนแล้วบทเรียนเริ่มใหม่หมด ไม่มีเสียงหรือจังหวะของชุดเดิมค้างอยู่ */}
+      <Lesson
+        key={`${group}-${unit.id}`}
+        group={group}
+        unit={unit}
+        onNextUnit={unitIndex + 1 < units.length ? goNextUnit : undefined}
+      />
     </section>
   );
 }
 
-function Lesson({ group }: { group: AgeGroupId }) {
+function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUnit; onNextUnit?: () => void }) {
   const { enabled: soundOn } = useSound();
 
   const [index, setIndex] = useState(0);
@@ -139,7 +215,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
   /** นับขึ้นทุกครั้งที่สั่งให้เล่นช่วงเดิมใหม่ (ฟังอีกครั้ง / เรียนต่อ) */
   const [replay, setReplay] = useState(0);
 
-  const steps = CLASS_STEPS[group];
+  const steps = unit.steps;
   const step: ClassStep | undefined = steps[index];
   const talking = !paused && (phase === "teach" || phase === "say" || phase === "cheer");
 
@@ -214,7 +290,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
       // คำชมหมุนตามลำดับบท เด็กจึงไม่ได้ยินประโยคเดิมซ้ำทุกบท
       narrate(`cheer-${(index % CHEER_COUNT) + 1}`, "เก่งมาก ไปดูตัวต่อไปกันนะ", "teach");
     } else if (phase === "done") {
-      narrate("done", "เก่งมากเลย วันนี้เรียนจบแล้ว ครูภูมิใจในตัวหนูนะ", null);
+      narrate("done", "เก่งมากเลย เรียนจบชุดนี้แล้ว พักสักหน่อย แล้วมาเรียนชุดต่อไปกับครูนะ", null);
     }
 
     return () => {
@@ -271,14 +347,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
       {/* ── ฉากห้องเรียน ── */}
       <div className="cls-stage mt-6">
         {CLASSROOM_SCENE ? (
-          <Image
-            src={CLASSROOM_SCENE}
-            alt=""
-            fill
-            sizes="(max-width: 1100px) 100vw, 1100px"
-            className="object-cover"
-            priority
-          />
+          <ClassroomScene {...CLASSROOM_SCENE} />
         ) : (
           <>
             <div className="cls-wall-pattern" aria-hidden="true" />
@@ -295,7 +364,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
         <div className="cls-board">
           <div className="cls-board-face">
             <p
-              key={`${group}-${index}-${finished}`}
+              key={`${group}-${unit.id}-${index}-${finished}`}
               lang="ar"
               dir="rtl"
               className="cls-board-text"
@@ -328,7 +397,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
           {running && !paused && phase === "say" && "ครูอ่านนำ ฟังให้ดีนะ"}
           {running && !paused && phase === "echo" && "ตาหนูแล้ว! อ่านตามครูดังๆ"}
           {running && !paused && phase === "cheer" && "เก่งมาก!"}
-          {running && !paused && finished && "เรียนครบทุกบทแล้ว เก่งมากเลย"}
+          {running && !paused && finished && (onNextUnit ? "เรียนครบชุดนี้แล้ว เก่งมากเลย ไปชุดต่อไปกัน" : "เรียนครบทุกชุดแล้ว เก่งมากเลย")}
         </p>
 
         {/* วงแหวนนับถอยหลังของจังหวะอ่านตาม — มีคำอ่านเป็นข้อความกำกับ ไม่ได้บอกด้วยสีอย่างเดียว */}
@@ -357,8 +426,17 @@ function Lesson({ group }: { group: AgeGroupId }) {
 
         {/* ── ปุ่มควบคุม สูงอย่างน้อย 64px ตามข้อ 2 ── */}
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          {finished && onNextUnit && (
+            <button type="button" onClick={onNextUnit} className={`${CONTROL} ui-pill-primary`}>
+              <span>
+                ไปชุดถัดไป
+                <span lang="en" className="ui-sub">Next set</span>
+              </span>
+              <span className="ui-disc"><ArrowLeftIcon className="-scale-x-100" /></span>
+            </button>
+          )}
           {!running || finished ? (
-            <button type="button" onClick={start} className={`${CONTROL} ui-pill-primary`}>
+            <button type="button" onClick={start} className={`${CONTROL} ${finished && onNextUnit ? "" : "ui-pill-primary"}`}>
               <PlayIcon className="size-11 shrink-0" />
               <span>
                 {finished ? "เรียนอีกรอบ" : "เริ่มเรียน"}
@@ -418,7 +496,7 @@ function Lesson({ group }: { group: AgeGroupId }) {
         </div>
 
         <p className="text-ink-soft mt-4 text-sm">
-          บทที่ {Math.min(index + 1, steps.length)} จาก {steps.length}
+          {unit.titleTh} · บทที่ {Math.min(index + 1, steps.length)} จาก {steps.length}
         </p>
       </div>
 

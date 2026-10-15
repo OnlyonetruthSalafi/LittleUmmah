@@ -59,7 +59,12 @@ const SPEECH_FIXES = [
 const applyFixes = text => SPEECH_FIXES.reduce((out, [from, to]) => out.replaceAll(from, to), text);
 
 /** บทพูดของหน้าหนึ่ง ประกอบแบบเดียวกับ StoryBook.tsx */
-const pageLine = page => [page.th, page.reading, page.meaning].filter(Boolean).join(" ... ");
+/*
+  --arabic (เจ้าของโปรเจกต์ 8 ต.ค. 2026: ให้หุ่นอ่านอายะฮ์ไปก่อน แต่แก้สำเนียงให้ถูก)
+  ป้อนตัวอักษรอาหรับมีสระ (page.arabic) แทนคำอ่านไทย และไม่ล็อก language_code ให้โมเดลอ่านท่อนนั้นเป็นอาหรับ
+*/
+const arabicMode = process.argv.includes("--arabic");
+const pageLine = page => [page.th, arabicMode ? page.arabic : page.reading, page.meaning].filter(Boolean).join(" ... ");
 
 /** ชื่อไฟล์เสียงผูกกับชื่อไฟล์ภาพ ตรงกับ narrationSrc ใน features/stories/index.ts */
 const pageKey = page => page.image.split("/").pop().replace(/\.\w+$/, "");
@@ -91,7 +96,7 @@ if (takesArg) {
     for (let i = 1; i <= takes; i++) lines[`${key}-เทค${i}`] = ALL[key];
   }
   console.log(`อัด ${takes} เทคต่อหน้า ${keys.length} หน้า ลง output/story-voice/${slug}/ (ไม่ทับไฟล์จริง)\n`);
-  await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice", slug));
+  await renderRobotLines(lines, path.join(process.cwd(), "output", "story-voice", slug), [], { languageCode: arabicMode ? null : "th" });
 } else {
-  await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "stories", story.slug), keys);
+  await renderRobotLines(ALL, path.join(process.cwd(), "public", "audio", "stories", story.slug), keys, { languageCode: arabicMode ? null : "th" });
 }

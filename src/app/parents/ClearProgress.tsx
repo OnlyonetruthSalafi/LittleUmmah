@@ -12,7 +12,7 @@ import { useState } from "react";
 */
 const LOCAL_KEYS = ["lu-moral-progress", "lu-explore-progress"];
 const LOCAL_PREFIXES = ["little-ummah:games:"];
-const SESSION_KEYS = ["lu-moral-guide-seen", "lu-explore-guide-seen"];
+const SESSION_KEYS = ["lu-moral-guide-seen", "lu-explore-guide-seen", "lu-stories-guide-seen"];
 
 function clearAll() {
   try {

@@ -1,0 +1,108 @@
+import type { Story } from "../types";
+
+/*
+  นิทานมดตัวน้อยกับนบีสุลัยมาน (วัย 3-6 ปี)
+
+  เนื้อหามาจากอัลกุรอานเท่านั้น (ตรวจตัวบทกับ Shamela 7 ต.ค. 2026 — ตัฟซีรอิบนุ กะษีร https://shamela.ws/book/8473/3086)
+  - อัลลอฮ์ประทานความรู้แก่ดาวูดและสุลัยมาน ทั้งสองกล่าวสรรเสริญอัลลอฮ์ (อันนัมล์ 15)
+  - สุลัยมานได้รับความรู้ภาษาของนก และได้รับจากทุกสิ่ง (อันนัมล์ 16)
+  - กองทัพของสุลัยมาน ทั้งญิน มนุษย์ และนก ถูกรวบรวมมา เดินเป็นแถวอย่างเป็นระเบียบ (อันนัมล์ 17)
+  - มาถึงหุบเขาแห่งมด มดตัวหนึ่งกล่าว «يا أيها النمل ادخلوا مساكنكم لا يحطمنكم سليمان وجنوده وهم لا يشعرون» (อันนัมล์ 18)
+  - ท่านยิ้มหัวเราะเพราะคำพูดของมด แล้ววิงวอน «رب أوزعني أن أشكر نعمتك ...» (อันนัมล์ 19)
+  ไม่บอกว่ามดเข้ารังทันหรือไม่ ไม่ตั้งชื่อหุบเขา ไม่บอกจำนวนกองทัพ (ตัวบทไม่ได้ระบุ — AGENTS.md ข้อ 1.6)
+  บทเรียนท้ายเรื่อง (ห่วงใยเพื่อน / ขอบคุณอัลลอฮ์) เป็นข้อคิดสำหรับเด็ก ไม่ได้อ้างว่าเป็นตัวบท
+
+  ภาพไม่มีคน ไม่มีศาสดา ไม่มีญิน (ข้อ 1.4) กองทัพใช้ฝุ่นและธงไกลๆ แทนตัวทหาร
+  มดเป็นการ์ตูนตัวเล็กใบหน้าว่าง ไม่มีตา ปาก (ข้อ 1.1) ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
+*/
+export const ANTS_STORY: Story = {
+  slug: "ants",
+  titleTh: "มดตัวน้อยกับนบีสุลัยมาน",
+  titleEn: "The ant and Prophet Sulayman",
+  cover: "/stories/ants/cover.webp",
+  coverAlt: "หุบเขาสีทองยามเช้า มีจอมปลวกรังมดเล็กๆ เรียงรายอยู่บนพื้น",
+  robot: "/Character/faith.webp",
+  deluxe: {
+    cover: "/stories/ants/cover-deluxe.webp",
+    endpaper: "/stories/book/endpaper.webp",
+    paper: "/stories/book/paper.webp",
+    book: { src: "/stories/book/book-spread.webp", width: 2400, height: 1700, paper: [132, 139, 2270, 1560] },
+  },
+  pages: [
+    {
+      image: "/stories/ants/p01.webp",
+      fx: "dawn",
+      ambience: "land",
+      alt: "พระราชวังหินสีทรายบนเนินเขา ท่ามกลางสวนเขียวขจียามเช้า",
+      th: "อัลลอฮ์ทรงให้ความรู้แก่นบีดาวูดและนบีสุลัยมาน (อะลัยฮิมัสสลาม) ท่านทั้งสองกล่าวว่า อัลฮัมดุลิลลาฮ์ การสรรเสริญเป็นของอัลลอฮ์",
+      en: "Allah gave knowledge to Prophet Dawud and Prophet Sulayman (peace be upon them). They both said: Alhamdulillah, all praise is for Allah.",
+    },
+    {
+      image: "/stories/ants/p02.webp",
+      fx: "clouds",
+      ambience: "land",
+      alt: "ท้องฟ้าสีฟ้าสดใส มีขนนกสีทองลอยล่องเหนือยอดไม้",
+      th: "นบีสุลัยมานได้รับความรู้เรื่องภาษาของนก และอัลลอฮ์ทรงให้ท่านได้รับสิ่งต่างๆ มากมาย",
+      en: "Prophet Sulayman was taught the language of the birds, and Allah gave him a great many things.",
+    },
+    {
+      image: "/stories/ants/p03.webp",
+      fx: "dust",
+      ambience: "heat",
+      alt: "ฝุ่นทรายฟุ้งขึ้นเป็นแนวยาวบนเส้นทางไกลๆ มีธงหลากสีโบกสะบัดอยู่บนขอบฟ้า",
+      th: "วันหนึ่ง กองทัพของนบีสุลัยมานมารวมกัน มีทั้งญิน มนุษย์ และนก พวกเขาเดินเป็นแถวอย่างเป็นระเบียบ",
+      en: "One day, the army of Sulayman gathered: jinn, people and birds. They marched in neat rows.",
+    },
+    {
+      image: "/stories/ants/p04.webp",
+      fx: "dawn",
+      ambience: "land",
+      alt: "หุบเขาเล็กๆ มีรังมดเป็นเนินดินเล็กๆ อยู่ทั่วพื้น ทางเดินเล็กๆ ของมดทอดยาวระหว่างก้อนหิน",
+      th: "กองทัพเดินทางมาถึงหุบเขาแห่งหนึ่ง ที่มีมดอาศัยอยู่มากมาย",
+      en: "The army came to a valley where many ants lived.",
+    },
+    {
+      image: "/stories/ants/p05.webp",
+      fx: "dust",
+      ambience: "land",
+      alt: "มดตัวเล็กยืนบนก้อนหินหน้ารังมด ไกลออกไปมีฝุ่นของกองทัพกำลังเข้ามา",
+      th: "มดตัวหนึ่งเห็นกองทัพกำลังมา มันร้องเตือนเพื่อนๆ ว่า",
+      en: "One ant saw the army coming. She called out to the other ants:",
+      meaning: "โอ้พวกมดเอ๋ย! พวกเจ้าจงเข้าไปในรังของพวกเจ้าเถิด",
+    },
+    {
+      image: "/stories/ants/p06.webp",
+      ambience: "land",
+      alt: "มดตัวเล็กๆ หลายตัวเดินเป็นแถวเข้าไปในรูของรังมด",
+      th: "เพื่อนๆ จะได้ไม่ถูกนบีสุลัยมานและกองทัพเหยียบ เพราะพวกเขามองไม่เห็นมดตัวเล็กๆ",
+      en: "So that Sulayman and his army would not step on them, because they could not see the tiny ants.",
+    },
+    {
+      image: "/stories/ants/p07.webp",
+      fx: "rays",
+      ambience: "land",
+      alt: "แสงแดดอบอุ่นส่องลงมาที่หุบเขาเงียบสงบ รังมดอยู่ท่ามกลางดอกไม้เล็กๆ",
+      th: "นบีสุลัยมานได้ยินคำพูดของมดตัวน้อย ท่านยิ้ม แล้วหัวเราะเพราะคำพูดของมัน",
+      en: "Prophet Sulayman heard what the little ant said. He smiled, and laughed at her words.",
+    },
+    {
+      image: "/stories/ants/p08.webp",
+      fx: "rays",
+      ambience: "land",
+      alt: "ท้องฟ้ายามเย็นสีทอง เหนือหุบเขาและสวนที่สงบ",
+      th: "แล้วท่านก็ขอบคุณอัลลอฮ์ ด้วยดุอาอ์นี้",
+      en: "Then he thanked Allah with this du'a:",
+      meaning: "ข้าแต่พระผู้เป็นเจ้าของข้าพระองค์ ขอพระองค์ทรงโปรดประทานแก่ข้าพระองค์ เพื่อให้ข้าพระองค์ขอบคุณต่อความโปรดปรานของพระองค์ท่าน",
+    },
+    {
+      image: "/stories/ants/p09.webp",
+      fx: "night",
+      moon: null,
+      lamp: null,
+      ambience: "landnight",
+      alt: "รังมดใต้ท้องฟ้ายามค่ำ มีดาวระยิบระยับเต็มฟ้า",
+      th: "มดตัวน้อยห่วงใยเพื่อนๆ ส่วนนบีสุลัยมานมีทุกอย่าง แต่ก็ยังขอบคุณอัลลอฮ์ เรามาห่วงใยเพื่อน และพูดว่า อัลฮัมดุลิลลาฮ์ กันนะ",
+      en: "The little ant cared for her friends. Sulayman had so much, yet he still thanked Allah. Let's care for our friends and say Alhamdulillah!",
+    },
+  ],
+};

@@ -118,19 +118,6 @@
   font-size: 19px;
 }
 
-/* ช่วงวัยของเล่มที่เลือก ในกล่องข้อความใต้ตู้ */
-.bs-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45em;
-  padding: 2px 12px;
-  border: 2px solid var(--zone);
-  border-radius: 999px;
-  background: #fffaf0;
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-.bs-chip-en { color: var(--color-ink-soft); font-size: 0.85em; }
 
 /* ตัวอักษรบนตู้ใช้หน่วย cqw ให้โตตามความกว้างตู้ ไม่ใช่ตามจอ */
 .bs-plaque {
@@ -262,4 +249,3 @@
 @media (max-width: 639px) {
   .bs-row { padding-inline: 4%; column-gap: 6%; }
 }
-.bs-chip > .bs-mark { border-color: var(--color-ink); box-shadow: none; }

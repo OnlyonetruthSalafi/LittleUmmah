@@ -36,7 +36,8 @@ const SAY_AS_ENGLISH = [
 ];
 
 export function voiceText(text) {
-  let out = text;
+  // ขยายเฉพาะบทพูดก่อนส่ง TTS; ข้อความในหน้าหนังสือยังใช้ ﷺ ตามเดิม
+  let out = text.replaceAll("ﷺ", " ศ็อลลัลลอฮุอะลัยฮิวะซัลลัม ");
   for (const [th, en] of SAY_AS_ENGLISH) out = out.replaceAll(th, ` ${en} `);
   return out.replace(/ {2,}/g, " ").trim();
 }
@@ -49,13 +50,14 @@ export function readApiKey() {
   return match[1].trim();
 }
 
-async function synth(key, text, apiKey) {
+async function synth(key, text, apiKey, languageCode) {
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`,
     {
       method: "POST",
       headers: { "xi-api-key": apiKey, "content-type": "application/json" },
-      body: JSON.stringify({ text, model_id: MODEL_ID, language_code: "th" }),
+      // languageCode = null: ไม่ล็อกภาษา ให้โมเดลอ่านท่อนอาหรับ (ตัวอักษรอาหรับ) เป็นสำเนียงอาหรับ ส่วนไทยยังอ่านเป็นไทย
+      body: JSON.stringify(languageCode ? { text, model_id: MODEL_ID, language_code: languageCode } : { text, model_id: MODEL_ID }),
     },
   );
   if (!response.ok) {
@@ -72,7 +74,7 @@ async function synth(key, text, apiKey) {
   lines = { ชื่อไฟล์ (ไม่มีนามสกุล): บทพูดภาษาไทย }
   only  = รายชื่อที่จะสร้างเฉพาะบางไฟล์ (ว่าง = ทั้งหมด)
 */
-export async function renderRobotLines(lines, outDir, only = []) {
+export async function renderRobotLines(lines, outDir, only = [], { languageCode = "th" } = {}) {
   const ffmpeg = process.env.FFMPEG ?? "ffmpeg";
   const keys = only.length > 0 ? only : Object.keys(lines);
   const apiKey = readApiKey();
@@ -82,7 +84,7 @@ export async function renderRobotLines(lines, outDir, only = []) {
   for (const key of keys) {
     const text = lines[key];
     if (!text) throw new Error(`ไม่รู้จักคลิปชื่อ ${key}`);
-    const raw = await synth(key, voiceText(text), apiKey);
+    const raw = await synth(key, voiceText(text), apiKey, languageCode);
     const outFile = path.join(outDir, `${key}.mp3`);
     // mono + 64k พอสำหรับเสียงพูด และทำให้ไฟล์เล็กพอจะ commit ได้
     execFileSync(ffmpeg, ["-y", "-i", raw, "-af", ROBOT_FILTER, "-ac", "1", "-b:a", "64k", outFile], {

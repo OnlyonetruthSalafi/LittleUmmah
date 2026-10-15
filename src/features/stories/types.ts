@@ -5,7 +5,31 @@
 export type SceneFx = "clouds" | "harbor" | "storm" | "whirl" | "deep" | "rays" | "dawn" | "shade" | "town" | "night" | "dust";
 
 /** เสียงบรรยากาศวนซ้ำใต้เสียงพากย์ (public/audio/sfx/story-amb-<ชื่อ>.mp3) ไม่ใช่ดนตรี (ข้อ 1.3) */
-export type Ambience = "sea" | "harbor" | "storm" | "underwater" | "shore" | "night" | "wind" | "rain";
+export type Ambience =
+  | "sea"
+  | "harbor"
+  | "storm"
+  | "underwater"
+  | "shore"
+  | "night"
+  | "wind"
+  | "rain"
+  /** กลางแจ้งบนบกตอนกลางวัน ลมแผ่วผ่านหญ้า ไม่เป็นระลอก (wind เดิมพัดเป็นระลอกฟังเหมือนคลื่น) */
+  | "land"
+  /** คืนบนบก ไม่มีเสียงน้ำ (night เดิมเป็นคืนริมทะเลมีเสียงคลื่น) */
+  | "landnight"
+  /** ตาน้ำผุดและไหลริน ไม่มีคลื่น */
+  | "spring"
+  | "cave"
+  | "fire"
+  /** ไอร้อนระยิบในทะเลทรายกลางวัน */
+  | "kaaba-heat"
+  | "heat"
+  /** ก้าวเดินบนดินแห้งแตกระแหง */
+  | "steps";
+
+/** เสียงเล่นครั้งเดียวเมื่อเปิดถึงหน้านั้น (public/audio/sfx/story-cue-<ชื่อ>.mp3) */
+export type Cue = "canteen";
 
 export type StoryPage = {
   /** ภาพเต็มสองหน้า (1536x1024) แบ่งซ้าย-ขวาตรงสันหนังสือ */
@@ -21,6 +45,8 @@ export type StoryPage = {
   /** บริเวณผิวน้ำในภาพ (% ของภาพหน้าคู่: ซ้าย บน กว้าง สูง) ที่จะมีประกายแสงระยิบ */
   water?: [number, number, number, number];
   ambience?: Ambience;
+  /** เสียงเล่นครั้งเดียวหลังหน้าวางนิ่ง ซ้อนบนเสียงบรรยากาศ เช่น เขย่ากระติกเปล่าตอนน้ำหมด */
+  cue?: Cue;
   /** ฉาก night: ตำแหน่งดวงจันทร์/ตะเกียงในภาพ (% ของภาพหน้าคู่: x y) ไม่ใส่ = ตำแหน่งเดิมของหน้าสุดท้ายนิทานยูนุส, null = ไม่มี */
   moon?: [number, number] | null;
   lamp?: [number, number] | null;
