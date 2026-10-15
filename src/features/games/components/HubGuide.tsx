@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { GameImage as Image } from './GameImage';
 import { useRunSound } from '../audio/useRunSound';
 import { getSoundSnapshot } from '@/lib/soundStore';
@@ -12,6 +12,12 @@ const RUN_FRAMES = [1, 2, 3, 4, 5, 6];
 /* วิ่งมาถึงกลางจอแล้วหันหน้าตรง โบกมือทักทาย (wave-1/2 สลับกัน) แล้วหยุดยืนถือจอยเกม (stand)
    ภาพจาก Codex ยึดหุ่นตัวเดิม (output/robot-wave/BRIEF.md) ตัวหุ่นอยู่กึ่งกลางภาพ จึงหยุดตรงกลางจอพอดี */
 const GREET_FRAMES = ['wave-1', 'wave-2', 'stand'];
+/* จอสัมผัส: หลังทักทาย หุ่นยกมือถือแนวตั้ง แล้วหมุนเป็นแนวนอนให้ดู 3 รอบ หยุดค้างท่าแนวนอน
+   เจ้าของโปรเจกต์ให้แนะนำเด็กเล่นแนวนอน (4 ต.ค. 2026) — ภาพจาก Codex ยึดท่า stand เดิม (output/robot-phone/BRIEF.md)
+   คอมพิวเตอร์ไม่มีจอให้หมุน CSS จึงซ่อนเฟรมชุดนี้ และใช้เสียงบทที่ไม่พูดเรื่องหมุนจอ */
+const PHONE_FRAMES = ['phone-portrait', 'phone-landscape'];
+// ชนิดจอไม่เปลี่ยนระหว่างใช้งาน ไม่ต้อง subscribe
+const noSubscribe = () => () => {};
 
 export function HubGuide() {
   const runSound = useRunSound();
@@ -23,9 +29,12 @@ export function HubGuide() {
   const loadedFrames = useRef(new Set<string>());
   const frameLoaded = (id: string) => {
     loadedFrames.current.add(id);
-    if (loadedFrames.current.size === RUN_FRAMES.length + GREET_FRAMES.length) setReady(true);
+    if (loadedFrames.current.size === RUN_FRAMES.length + GREET_FRAMES.length + PHONE_FRAMES.length) setReady(true);
   };
   const [run, setRun] = useState(0);
+  // จอสัมผัส (มือถือ แท็บเล็ต) ฟังบทที่บอกให้หมุนจอ — อ่านหลัง mount กัน hydration ไม่ตรงกัน
+  // เสียงเริ่มพูดหลังหุ่นวิ่งถึง (3.6 วิ) จึงเปลี่ยน src ทันก่อนเล่นเสมอ
+  const touch = useSyncExternalStore(noSubscribe, () => window.matchMedia('(pointer: coarse)').matches, () => false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -90,6 +99,7 @@ export function HubGuide() {
   // ปิดการเคลื่อนไหวไว้ = ไม่มีแอนิเมชันให้รอ พูดเลยเมื่อพร้อม
   useEffect(() => {
     if (ready && runSound.ready && window.matchMedia('(prefers-reduced-motion: reduce)').matches) autoSpeak();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- พูดเมื่อภาพและเสียงพร้อมเท่านั้น autoSpeak เปลี่ยนทุก render
   }, [ready, runSound.ready]);
 
   const toggleVoice = async () => {
@@ -110,7 +120,9 @@ export function HubGuide() {
 
   return <header className="gc-hub-guide" aria-label="หุ่นยนต์แนะนำเกม / Your game guide">
     <h1 className="sr-only">โลกแห่งเกม / A world of little adventures</h1>
-    <div className="gc-hub-guide-stage" role="img" aria-label="หุ่นยนต์ถือจอยเกม วิ่งตีโค้งจากไกลเข้ามา โบกมือทักทาย แล้วยืนหน้าตรงกลางจอ">
+    <div className="gc-hub-guide-stage" role="img" aria-label={touch
+      ? 'หุ่นยนต์วิ่งตีโค้งเข้ามา โบกมือทักทาย แล้วยกมือถือขึ้น หมุนจากแนวตั้งเป็นแนวนอนให้ดู'
+      : 'หุ่นยนต์ถือจอยเกม วิ่งตีโค้งจากไกลเข้ามา โบกมือทักทาย แล้วยืนหน้าตรงกลางจอ'}>
       <div key={run} className="gc-hub-guide-arrival" data-ready={ready && runSound.ready} aria-hidden="true"
         onAnimationStart={event => {
           if (event.target === event.currentTarget && event.animationName === 'gc-guide-curve') runSound.play();
@@ -125,6 +137,10 @@ export function HubGuide() {
           alt="" unoptimized loading="eager" onLoad={() => frameLoaded(`run-${frame}`)} />)}
         {GREET_FRAMES.map(name => <Image key={name}
           className={`gc-hub-guide-robot gc-greet gc-greet-${name}`}
+          src={`/Character/greet/${name}.webp`} width={640} height={640}
+          alt="" unoptimized loading="eager" onLoad={() => frameLoaded(name)} />)}
+        {PHONE_FRAMES.map(name => <Image key={name}
+          className={`gc-hub-guide-robot gc-greet gc-phone gc-greet-${name}`}
           src={`/Character/greet/${name}.webp`} width={640} height={640}
           alt="" unoptimized loading="eager" onLoad={() => frameLoaded(name)} />)}
       </div>
@@ -146,7 +162,7 @@ export function HubGuide() {
         {status === 'playing' ? <PauseIcon className="h-8 w-8" /> : <SpeakerIcon className="h-9 w-9" />}
       </button>
     </div>
-    <audio id="gc-hub-voice" ref={audioRef} src="/audio/th/hub-intro.mp3" preload="auto"
+    <audio id="gc-hub-voice" ref={audioRef} src={touch ? '/audio/th/hub-intro-touch.mp3' : '/audio/th/hub-intro.mp3'} preload="auto"
       onPlay={() => setStatus('playing')}
       onPause={() => { if (!audioRef.current?.ended) setStatus('paused'); }}
       onEnded={() => setStatus('ended')} onError={() => setError(true)} />

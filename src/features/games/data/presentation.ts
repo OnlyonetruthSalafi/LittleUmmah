@@ -21,6 +21,11 @@ type GamePresentation = {
     เจ้าของโปรเจกต์สั่งให้เขาวงกตแสงเป็นแบบนี้ (1 ต.ค. 2026)
   */
   journey?: boolean;
+  /**
+    กดเล่นบนจอสัมผัสแล้วเต็มจอ + ล็อกแนวนอน (engine/fullscreen.ts) ออกจากเกมแล้วคืนจอปกติ
+    เปิดเฉพาะเกมที่มี layout แนวนอนบนมือถือแล้ว ทีละเกม หลังเจ้าของโปรเจกต์ตรวจ
+  */
+  fullscreen?: boolean;
   /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
   levelCount?: 1 | 2 | 3;
   destinations: Label;
@@ -81,6 +86,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     description: { th: 'พาหุ่นลูกกลมเก็บเม็ดแสงให้ครบ เลือกทางหลบเพื่อนหุ่นยนต์ ใช้ดาว นาฬิกา โล่ และประตูวาร์ปช่วย', en: 'Guide the round robot to every light. Find a way around the robot friends with stars, clocks, shields and portals.' },
     ownVoice: true,
     journey: true,
+    fullscreen: true,
     levels: [{ th: 'เมืองแสงสี', en: 'Neon Courtyard' }, { th: 'สวนคริสตัล · เพื่อน 2 ตัว', en: 'Crystal Grove · 2 friends' }, { th: 'ลานลอยฟ้า · เพื่อน 3 ตัว', en: 'Sky Ruins · 3 friends' }],
     destinations: { th: 'เม็ดแสงบนเกาะ', en: 'Lights on the island' }, pieces: { th: 'พาหุ่นลูกกลมเดิน', en: 'Move the round robot' },
   },

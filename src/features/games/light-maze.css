@@ -92,6 +92,106 @@
   .gc-focus[data-game='light-maze'][data-status='playing'] .lm-stage { width: auto; flex: 1 1 0; min-width: 0; }
 }
 
+/* ── มือถือแนวนอน (สูง ≤ 520px) — เจ้าของโปรเจกต์ให้เด็กเล่นแนวนอน (4 ต.ค. 2026) ──────────────
+   เดิมแถบหัวเกมกินความสูงไป ~100px เวทีเหลือ 293×195 บนจอ 844×390 ลูกเล่นไม่ถนัด
+   แบบใหม่: เวทีเต็มความสูงจอตรงกลาง ปุ่มทิศเป็นจอยวงกลมใสมุมขวาล่าง
+   ปุ่มกลับ/ปุ่มเสียงเหลือวงกลม 64px ที่มุมบน ปุ่มเริ่มใหม่ใต้ปุ่มเสียง ชื่อเกมเก็บไว้ให้ screen reader
+   ทับกฎ --lm-chrome ข้างบนทั้งหมด (สูตรนั้นเหลือความสูงติดลบเมื่อจอเตี้ย) ไม่แตะกฎร่วมใน shape.css ของเกมอื่น */
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-focus[data-game='light-maze'] { padding: 8px; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-play-container {
+    position: relative; max-width: none; height: calc(100dvh - 16px);
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header {
+    position: absolute; inset: 0 0 auto; z-index: 3; margin: 0; pointer-events: none;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header > * { pointer-events: auto; }
+  /* ซ่อนแบบ sr-only ไม่ใช่ display:none — ป้าย "รวมเกม" เป็นชื่อของลิงก์กลับ ส่วน h1 เป็นหัวข้อของหน้า */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header h1,
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header > .ui-pill:not(.gc-sound) > .ui-label {
+    position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header > .ui-pill { padding: 8px; }
+  /* ปุ่มเสียงมี aria-label อยู่แล้ว ป้ายบนจอเอาออกได้ */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-sound .ui-label { display: none; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-board { height: 100%; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-scene {
+    position: relative; display: block; width: 100%; min-width: 0; height: 100%;
+  }
+  /* เวทีเต็มจอ ปุ่มกลับ/เสียง/เริ่มใหม่/ปุ่มทิศลอยทับมุมฉาก (เกาะวางกลางตามความสูง ด้านข้างเป็นท้องฟ้า) */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-stage {
+    position: absolute; inset: 0; width: auto; height: auto; max-height: none; aspect-ratio: auto; border-radius: 24px;
+  }
+  /* ตัวนับเม็ดแสงหลบปุ่มกลับมุมซ้ายบน */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-hud { left: 84px; top: 14px; }
+  /* ปุ่มทิศ: จอยวงกลมใสอันเดียวมุมขวาล่าง (เจ้าของโปรเจกต์ 4 ต.ค. 2026 — ปุ่มสี่ปุ่มแยกสองข้างรกตา)
+     แบ่งสี่ส่วนตามทิศทแยง ซ้ายบน ขวาบน / ซ้ายล่าง ขวาล่าง ตรงลำดับใน PAD แต่ละส่วน ≥ 64px
+     ป้ายไทยบนปุ่มเอาออก ลูกศรบอกทิศแล้ว ชื่อปุ่มยังอยู่ใน aria-label */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad {
+    --lm-pad-d: 164px;
+    position: absolute; right: 12px; bottom: 12px; z-index: 2;
+    width: var(--lm-pad-d); height: var(--lm-pad-d); padding: 5px; box-sizing: border-box;
+    grid-template-columns: 1fr 1fr; gap: 4px; border-radius: 50%; clip-path: circle(50%);
+    background: rgb(18 22 56 / 0.36); border: 3px solid rgb(255 255 255 / 0.8);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button {
+    min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 8px;
+    background: rgb(255 255 255 / 0.16); color: #fff; box-shadow: none;
+    transition: background-color 200ms ease-out, transform 75ms ease-out;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button.lm-pad-left { border-radius: 100% 0 0 0; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button.lm-pad-up { border-radius: 0 100% 0 0; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button.lm-pad-down { border-radius: 0 0 0 100%; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button.lm-pad-right { border-radius: 0 0 100% 0; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button svg { width: 34px; height: 34px; filter: drop-shadow(0 1px 2px #0b123a99); }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button span { display: none; }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button:active { background: rgb(255 255 255 / 0.4); }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button:focus-visible { outline: 3px solid #fff7d5; outline-offset: -3px; }
+  @media (hover: hover) {
+    .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad button:hover { background: rgb(255 255 255 / 0.3); box-shadow: none; transform: none; }
+  }
+  /* ปุ่มเริ่มใหม่ใต้ปุ่มเสียง (มุมขวาบน) ยังมีป้ายไทยนำ อังกฤษรอง */
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-bottom-controls {
+    position: absolute; top: 74px; right: 0; z-index: 3; margin: 0; width: 84px;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-bottom-controls > .gc-button {
+    width: 84px; min-width: 0; padding: 6px 2px; border-radius: 18px; font-size: 14px; line-height: 1.2;
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-bottom-controls small { font-size: 11px; }
+  /* จอเตี้ยมาก (เช่น 568×320) ย่อจอยให้ไม่ชนปุ่มเริ่มใหม่ แต่ละส่วนยัง ≥ 64px */
+  @media (max-height: 350px) {
+    .gc-focus[data-game='light-maze'][data-status='playing'] .lm-pad { --lm-pad-d: 150px; }
+  }
+  .gc-focus[data-game='light-maze'][data-status='playing'] .gc-audio-note { position: absolute; left: 50%; bottom: 0; translate: -50% 0; margin: 0; }
+
+  /* หน้าแนะนำ: เกาะซ้าย เมนูขวา ปุ่ม "ไปเล่นกันเลย" อยู่ในจอเสมอ (เดิมตกขอบล่าง) */
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-game-header { margin-bottom: 4px; }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0; gap: 16px; align-items: center;
+  }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-scene {
+    width: min(100%, calc(100dvh - 110px)); margin: 0 auto; padding-bottom: 0;
+  }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-island { width: 100%; }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-menu { padding: 16px 14px; border-top-width: 7px; border-radius: 28px; }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-menu h2 { font-size: 20px; }
+  .gc-focus[data-game='light-maze'][data-status='idle'] .gc-adventure-start { min-height: 72px; font-size: 22px; }
+
+  /* หน้าผ่านด่าน: หุ่นยนต์ซ้าย ข้อความกับปุ่มขวา ปุ่ม "ด่านต่อไป" อยู่ในจอโดยไม่ต้องเลื่อน */
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-game-header { margin-bottom: 4px; }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result {
+    display: grid; grid-template-columns: 130px minmax(0, 1fr); column-gap: 16px; align-items: center;
+    margin: 0 auto; padding: 12px 16px; max-width: 760px;
+  }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result > :not(.gc-celebration, img) { grid-column: 2; margin-block: 0; }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result > img { grid-column: 1; grid-row: 1 / span 6; height: 150px; width: 130px; }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result h2 { font-size: 22px; }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result-stars { font-size: 34px; margin: 2px 0; }
+  .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result-actions { margin-top: 10px; gap: 10px; }
+}
+
 /* ── หน้ารวมเกม: เกาะเก้าเกาะ ใบสุดท้ายที่อยู่แถวเดี่ยวให้อยู่กลาง ─────── */
 @media (min-width: 1001px) {
   .gc-hub .gc-grid > li:last-child:nth-child(4n+1) { grid-column: 2 / span 2; justify-self: center; width: calc((100% - 14px) / 2); }

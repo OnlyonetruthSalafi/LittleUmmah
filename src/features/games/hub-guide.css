@@ -84,6 +84,13 @@
   transform-origin: 50% 93.3%; transform: translateY(6.7%) scale(1.17);
 }
 .gc-greet-stand { opacity: 1; }
+/* ท่าหมุนมือถือ (จอสัมผัสเท่านั้น) — ภาพยึดตำแหน่งท่า stand จึงใช้ transform ชุดเดียวกัน
+   ปิด motion = เห็นท่าถือมือถือแนวนอนนิ่งๆ แทนท่ายืนถือจอย */
+.gc-phone { opacity: 0; }
+@media (pointer: coarse) {
+  .gc-greet-stand { opacity: 0; }
+  .gc-greet-phone-landscape { opacity: 1; }
+}
 /* ลูกศรชี้ลงไปที่เกาะ แทนหัวข้อ "เลือกเกมกันเลย" — นิ่ง ไม่เด้งวน (AGENTS.md ข้อ 2.1) */
 .gc-hub .gc-hub-cue {
   width: 40px;
@@ -109,6 +116,31 @@
   .gc-hub-guide-arrival[data-ready='true'] .gc-greet-stand { animation: gc-greet-stand 5400ms steps(1, end) both; }
   .gc-hub-guide-arrival[data-ready='true'] .gc-run-dust { animation: gc-dust-trail 3600ms linear both; }
   .gc-hub-guide-arrival[data-ready='true'] .gc-run-dust i { animation: gc-dust-puff 600ms ease-out 6; }
+}
+/* จอสัมผัส: ทักทายจบ (5.4 วิ) ยืนถือจอยครู่หนึ่ง → ยกมือถือแนวตั้ง (6 วิ) → สลับแนวนอน/แนวตั้งทุก 0.8 วิ
+   หมุนให้ดู 3 รอบแล้วหยุดค้างที่แนวนอน (10 วิ) ไม่วนตลอด (AGENTS.md ข้อ 2.1)
+   จังหวะตรงกับเสียง hub-intro-touch ที่เริ่มพูดตอน 3.6 วิ และพูด "หมุนให้นอนแบบที่ครูทำให้ดู" ราววินาทีที่ 6–9 */
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-stand { animation: gc-stand-touch 6000ms steps(1, end) both; }
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-phone-landscape { opacity: 0; animation: gc-phone-landscape 4000ms steps(1, end) 6000ms forwards; }
+  .gc-hub-guide-arrival[data-ready='true'] .gc-greet-phone-portrait { animation: gc-phone-portrait 4000ms steps(1, end) 6000ms forwards; }
+}
+@keyframes gc-stand-touch {
+  0% { opacity: 0; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes gc-phone-portrait {
+  0%, 40%, 80% { opacity: 1; }
+  20%, 60%, 100% { opacity: 0; }
+}
+@keyframes gc-phone-landscape {
+  0%, 40%, 80% { opacity: 0; }
+  20%, 60%, 100% { opacity: 1; }
+}
+/* มือถือแนวนอน: เวทีหุ่นยนต์เตี้ยลง ให้เห็นลูกศรชี้ลงและขอบบนของเกาะเกมในจอแรก */
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-hub-guide-stage { width: min(100%, calc((100dvh - 140px) * 600 / 516)); }
 }
 @keyframes gc-wave-a {
   0%, 33.33%, 66.66% { opacity: 1; }

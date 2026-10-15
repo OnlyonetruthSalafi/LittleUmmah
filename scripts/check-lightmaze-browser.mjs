@@ -9,11 +9,11 @@ const base = process.env.BASE_URL ?? 'http://localhost:3001';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE });
 const errors = [];
 await mkdir('output/lightmaze', { recursive: true });
-// แนวตั้ง + แนวนอน (แท็บเล็ตแนวนอน 1024/1180, มือถือแนวนอน 844×390)
-const sizes = { 360: 844, 390: 844, 768: 1024, 1024: 768, 1180: 820, 844: 390, 1536: 770 };
+// แนวตั้ง + แนวนอน (แท็บเล็ตแนวนอน 1024/1180, มือถือแนวนอน 667×375 740×360 844×390 915×412)
+const sizes = { 360: 844, 390: 844, 768: 1024, 1024: 768, 1180: 820, 667: 375, 740: 360, 844: 390, 915: 412, 1536: 770 };
 
 try {
-  for (const width of (process.env.WIDTHS ?? '360,390,768,1024,1180,844,1536').split(',').map(Number)) {
+  for (const width of (process.env.WIDTHS ?? '360,390,768,1024,1180,667,740,844,915,1536').split(',').map(Number)) {
     for (const level of [1, 3]) {
       const page = await browser.newPage({ viewport: { width, height: sizes[width] ?? 844 }, hasTouch: width < 1000 });
       page.on('pageerror', e => errors.push(`${width} L${level}: ${e.message}`));
@@ -32,14 +32,18 @@ try {
           scroll: document.documentElement.scrollHeight - innerHeight, hscroll: document.documentElement.scrollWidth - innerWidth,
           stage: r(stage), tile: Number(stage.dataset.tile), beads: Number(stage.dataset.beadsLeft), robot: stage.dataset.robot.split(',').map(Number),
           pad: [...document.querySelectorAll('.lm-pad button')].map(r),
-          title: { overflow: h.scrollWidth - h.clientWidth, right: h.getBoundingClientRect().right, sound: document.querySelector('.gc-sound').getBoundingClientRect().left },
+          title: { hidden: h.getBoundingClientRect().width <= 1, overflow: h.scrollWidth - h.clientWidth, right: h.getBoundingClientRect().right, sound: document.querySelector('.gc-sound').getBoundingClientRect().left },
         };
       });
       // ปุ่มที่เด็กกด ≥ 64px ทุกขนาด และอยู่ในจอ (AGENTS.md ข้อ 2)
       for (const b of m.pad) assert.ok(b.w >= 64 && b.h >= 64 && b.y + b.h <= (sizes[width] ?? 844), `${width} pad ${JSON.stringify(b)}`);
       assert.ok(m.hscroll <= 0, `${width} horizontal scroll ${m.hscroll}`);
       assert.ok(m.scroll <= 0, `${width} page scrolls ${m.scroll}px`);
-      assert.ok(m.title.overflow <= 0 && m.title.right <= m.title.sound, `${width} title clipped`);
+      // มือถือแนวนอนซ่อนชื่อเกมแบบ sr-only (เวทีเต็มความสูงจอ) จึงไม่ต้องตรวจการตัดคำ
+      assert.ok(m.title.hidden || (m.title.overflow <= 0 && m.title.right <= m.title.sound), `${width} title clipped`);
+      // มือถือแนวนอน: เวทีสูงเกือบเต็มจอ (เดิมเหลือ 195px บนจอ 844×390 เพราะแถบหัวเกม)
+      const height = sizes[width] ?? 844;
+      if (width > height && height <= 520) assert.ok(m.stage.h >= height * 0.85, `${width} landscape stage too short ${m.stage.h}`);
       // หุ่นลูกกลมอยู่ในฉาก
       assert.ok(m.robot[0] > 0 && m.robot[0] < m.stage.w && m.robot[1] > 0 && m.robot[1] < m.stage.h, `${width} robot outside stage ${m.robot}`);
       // นับถอยหลัง 3 2 1 ก่อนเริ่ม: ตัวเลขขึ้นกลางจอ และกดปุ่มทิศแล้วต้องยังไม่เดิน

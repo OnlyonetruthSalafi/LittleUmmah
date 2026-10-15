@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // สคริปต์ทดลอง/ตรวจภาพชั่วคราว ไม่อยู่ใน git (.gitignore)
+    "output/**",
   ]),
 ]);
 

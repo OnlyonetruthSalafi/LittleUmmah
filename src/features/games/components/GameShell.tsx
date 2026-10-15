@@ -2,8 +2,7 @@
 import { GameImage as Image } from './GameImage';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
-import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
-import { BackLink } from '@/components/ui/BackLink';
+import { SpeakerIcon } from '@/components/icons/SpeakerIcon';import { BackLink } from '@/components/ui/BackLink';
 import { gameAssets, type GameDefinition } from '../data/catalog';
 import { gameProgress } from '../engine/progress';
 import { completionStars } from '../engine/rules';
@@ -12,6 +11,7 @@ import { GameIntro } from './GameIntro';
 import { VoiceIntro } from './VoiceIntro';
 import { Countdown } from './Countdown';
 import { gamePresentation } from '../data/presentation';
+import { enterGameFullscreen, exitGameFullscreen } from '../engine/fullscreen';
 
 /** onTap = เสียงตอบรับตอนแตะชิ้นส่วน กระดานไหนไม่ต้องการก็ไม่ต้องเรียก
  *  paused = กำลังนับถอยหลังก่อนเริ่ม — กระดานถูก inert อยู่แล้ว ใช้เฉพาะกระดานที่มีเวลาเดินเอง หรือฟังคีย์บอร์ดทั้งหน้า (เขาวงกตแสง) */
@@ -32,6 +32,8 @@ export function GameShell({ game, Board }: { game: GameDefinition; Board: Compon
   // ออกจากหน้าเล่น (ผ่านด่าน เลือกด่านใหม่) หรือออกจากเกม ยกเลิกเสียงคำสั่งที่ตั้งเวลาไว้
   useEffect(() => { if (status !== 'playing') clearTimeout(instructionTimer.current); }, [status]);
   useEffect(() => () => clearTimeout(instructionTimer.current), []);
+  // ออกจากหน้าเกม (ปุ่มรวมเกม เลือกเกมใหม่) คืนจอปกติ
+  useEffect(() => () => { if (theme.fullscreen) exitGameFullscreen(); }, [theme.fullscreen]);
   const resultHeading = useRef<HTMLHeadingElement>(null);
   const instructionHeading = useRef<HTMLHeadingElement>(null);
   const audio = useGameAudio();
@@ -49,9 +51,11 @@ export function GameShell({ game, Board }: { game: GameDefinition; Board: Compon
     if (!theme.journey) return;
     // ด่านแรกที่ยังไม่ผ่าน (ข้อมูลเก่าจากสมัยเลือกด่านได้อาจผ่านด่าน 2 โดยยังไม่ผ่านด่าน 1) ผ่านครบแล้วเริ่มด่าน 1
     const done = gameProgress.read(game.slug).completedLevels;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage อ่านได้หลัง mount เท่านั้น
     setLevel(Array.from({ length: levelCount }, (_, i) => i + 1).find(n => !done.includes(n)) ?? 1);
   }, [game.slug, theme.journey, levelCount]);
-  const start = ({ speak = true } = {}) => { setProgress({ done: 0, total: 1 }); setFeedback({ text: '', correct: true, key: 0 }); setSession(s => s + 1); setStatus('playing'); setCounting(true); clearTimeout(instructionTimer.current); speakAfterGo.current = speak && !theme.ownVoice; };
+  // start ถูกเรียกจากปุ่มที่เด็กกดเสมอ จึงขอเต็มจอได้ตรงนี้
+  const start = ({ speak = true } = {}) => { if (theme.fullscreen) enterGameFullscreen(); setProgress({ done: 0, total: 1 }); setFeedback({ text: '', correct: true, key: 0 }); setSession(s => s + 1); setStatus('playing'); setCounting(true); clearTimeout(instructionTimer.current); speakAfterGo.current = speak && !theme.ownVoice; };
   // "เริ่ม!" แล้วหุ่นพูด "บิสมิลลาฮ์ เริ่มกันเลย" (~1.8 วิ) รอจบก่อนค่อยอ่านคำสั่ง ไม่ให้เสียงพูดตัดกัน
   const onGo = useCallback(() => {
     setCounting(false);
