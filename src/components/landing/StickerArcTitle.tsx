@@ -15,7 +15,7 @@ const GRADIENTS = [
 ] as const;
 
 /*
-  ตัวอักษรสติกเกอร์โค้งแบบ mockup ใช้ร่วมกันระหว่าง "Learn, Play, Grow" และ "Obey Trust Faithful"
+  ตัวอักษรสติกเกอร์โค้งแบบ mockup ใช้ร่วมกันระหว่าง "Learn, Play, Grow" และ "Love, Believe, Obey"
   เป็นภาพตกแต่ง (aria-hidden) ผู้เรียกต้องใส่ข้อความ sr-only เอง
 
   วาดสามชั้นซ้อนกัน:

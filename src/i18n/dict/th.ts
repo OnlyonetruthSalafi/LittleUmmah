@@ -235,10 +235,10 @@ export const th = {
     description: "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก เรียนรู้ศรัทธา สร้างมารยาทที่ดี และเติบโตเป็นคนดีของโลกใบนี้ สำหรับเด็กวัย 3-6 ปี และ 7 ปีขึ้นไป",
   },
   obeyArc: {
-    title: "Obey Trust Faithful",
+    title: "Love, Believe, Obey",
+    love: "Love,",
+    believe: "Believe,",
     obey: "Obey",
-    trust: "Trust",
-    faithful: "Faithful",
   },
   // ข้อความระบบเกม
   games: {
@@ -257,11 +257,14 @@ export const th = {
       announcement: "เริ่ม! Go!"
     },
     hub: {
-      navigation: "นำทางเกม",
-      choose: "เลือกเกมกันเลย! / Choose your adventure",
-      note: "ค่อย ๆ ลอง เรียนรู้ได้ทุกครั้ง",
+      title: "เกาะเกม",
+      intro: "เลือกหมวดที่ชอบ แล้วไปเล่นกันเลย",
+      chooseCategory: "เลือกหมวดเกม / Choose a category",
+      ageUnit: "ปี",
+      collected: "สะสมแล้ว {stars} ดาว",
+      playLabel: "เล่น {name} · สะสม {stars} ดาว",
       metadataTitle: "เกาะแห่งการเล่น — Mini Game Center",
-      metadataDescription: "เกมเรียนรู้สำหรับเด็ก 8 เกม จับคู่สี รูปทรง ความจำ จิ๊กซอว์ และอักษรอาหรับ"
+      metadataDescription: "เกมเรียนรู้สำหรับเด็ก 9 เกม จับคู่สี รูปทรง ความจำ จิ๊กซอว์ และอักษรอาหรับ"
     },
     intro: {
       listen: "ฟังวิธีเล่น / Listen",
@@ -301,22 +304,16 @@ export const th = {
       collected: "สะสมเกมนี้ {stars} ดาว ",
       collectedSecondary: "• {stars} stars collected"
     },
-    guide: {
-      pause: "พักเสียง",
-      resume: "ฟังต่อ",
-      again: "ฟังอีกครั้ง",
-      meet: "ฟังเพื่อนหุ่นยนต์แนะนำเกม",
-      label: "หุ่นยนต์แนะนำเกม / Your game guide",
-      title: "โลกแห่งเกม / A world of little adventures",
-      touchAlt: "หุ่นยนต์วิ่งตีโค้งเข้ามา โบกมือทักทาย แล้วยกมือถือขึ้น หมุนจากแนวตั้งเป็นแนวนอนให้ดู",
-      desktopAlt: "หุ่นยนต์ถือจอยเกม วิ่งตีโค้งจากไกลเข้ามา โบกมือทักทาย แล้วยืนหน้าตรงกลางจอ",
-      replay: "ดูหุ่นยนต์วิ่งอีกครั้ง / Replay arrival",
-      error: "เปิดเสียงไม่ได้ ลองแตะอีกครั้งนะ",
-      speaking: "กำลังแนะนำเกม…"
-    },
     hubProgress: {
       stars: "ดาว",
       collected: "สะสม {stars} ดาว"
+    },
+    tutorial: {
+      skip: "ข้ามการสอน"
+    },
+    rotate: {
+      title: "หมุนจอให้นอนก่อนนะ แล้วมาเล่นกัน",
+      fullscreen: "เปิดเต็มจอ"
     },
     voiceIntro: {
       start: "เริ่มเล่น",

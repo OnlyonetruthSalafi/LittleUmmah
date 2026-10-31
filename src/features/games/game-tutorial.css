@@ -1,0 +1,87 @@
+/* หน้าสอนเล่นก่อนนับถอยหลัง (GameTutorial.tsx) และหน้าบอกให้หมุนจอ (RotateGate.tsx) */
+
+.lmt { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(220px, 1fr); gap: 16px; align-items: center; }
+.lmt-scene {
+  position: relative; height: min(calc(100dvh - 150px), 620px); min-height: 220px; display: grid; place-items: center; overflow: hidden;
+  border-radius: 28px; box-shadow: 0 10px 30px #0b123a40;
+  background: url('/games/light-maze/v2/backdrop-neon.webp') center / cover no-repeat, radial-gradient(ellipse at 50% 30%, #4a4f9c 0%, #22285e 55%, #121638 100%);
+}
+.lmt-island { position: relative; width: min(82%, calc((100dvh - 170px) * 1.25)); aspect-ratio: 1400 / 963; }
+.lmt-island > img:first-child { width: 100%; height: 100%; object-fit: contain; }
+
+.lmt-orb, .lmt-friend, .lmt-bead { position: absolute; left: var(--x); top: var(--y); }
+.lmt-orb, .lmt-friend { width: 15%; height: auto; translate: -50% -84%; }
+.lmt-bead {
+  width: 3.6%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fffbe0, #ffd24d 60%, #f5a623); box-shadow: 0 0 10px #ffd24d;
+}
+/* ตำแหน่งสุดท้ายของแต่ละจังหวะ ปิด motion แล้วเห็นภาพนี้ตรงๆ */
+.lmt-scene[data-step='0'] .lmt-orb { --x: 41%; --y: 31%; }
+.lmt-scene[data-step='1'] .lmt-orb { --x: 59.7%; --y: 44%; }
+.lmt-scene[data-step='2'] .lmt-orb { --x: 74.5%; --y: 33.6%; }
+.lmt-scene[data-step='2'] .lmt-bead { opacity: 0; }
+
+.lmt-pad {
+  position: absolute; right: 12px; bottom: 12px; width: 112px; height: 112px; padding: 4px; box-sizing: border-box;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 50%; overflow: hidden;
+  background: rgb(18 22 56 / 0.36); border: 3px solid rgb(255 255 255 / 0.8);
+}
+.lmt-pad i { display: grid; place-items: center; background: rgb(255 255 255 / 0.16); }
+.lmt-pad i[data-press] { background: rgb(255 255 255 / 0.55); }
+.lmt-pad svg { width: 24px; height: 24px; fill: #fff; filter: drop-shadow(0 1px 2px #0b123a99); }
+.lmt-hand { position: absolute; right: 6px; bottom: -6px; width: 52px; height: 52px; }
+
+.lmt-side { display: flex; flex-direction: column; gap: 14px; align-items: stretch; padding: 18px 16px; background: #fff; border-radius: 28px; box-shadow: 0 8px 0 #c1dce7, var(--shadow-soft); }
+.lmt-dots { display: flex; justify-content: center; gap: 8px; margin: 0; }
+.lmt-dots span { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #1e5fbf; background: #fff; }
+.lmt-dots span[data-on] { background: #1e5fbf; }
+.lmt-text { margin: 0; font: 800 24px/1.45 var(--font-display); text-align: center; color: var(--color-ink, #1f2937); }
+.lmt-text small { display: block; font-size: 15px; font-weight: 500; }
+.lmt-skip { min-height: 64px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lmt-scene[data-step='0'] .lmt-orb { animation: lmt-walk-0 1500ms ease-in-out 300ms backwards; }
+  .lmt-scene[data-step='1'] .lmt-orb { animation: lmt-walk-1 2400ms linear 200ms backwards; }
+  .lmt-scene[data-step='2'] .lmt-orb { animation: lmt-walk-2 1500ms ease-in-out 900ms backwards; }
+  .lmt-scene[data-step='1'] .lmt-bead { animation: lmt-collect 200ms ease-out calc(800ms + var(--i) * 560ms) forwards; }
+  .lmt-friend { animation: lmt-friend 500ms ease-out backwards; }
+  .lmt-scene[data-step='0'] .lmt-hand { animation: lmt-press 500ms ease-out 300ms 3 alternate; }
+}
+@keyframes lmt-walk-0 { from { left: 34.7%; top: 26.7%; } to { left: 41%; top: 31%; } }
+@keyframes lmt-walk-1 { from { left: 41%; top: 31%; } to { left: 59.7%; top: 44%; } }
+@keyframes lmt-walk-2 { from { left: 59.7%; top: 44%; } to { left: 74.5%; top: 33.6%; } }
+@keyframes lmt-collect { to { opacity: 0; scale: 1.8; } }
+@keyframes lmt-friend { from { opacity: 0; scale: .7; } }
+@keyframes lmt-press { to { scale: .85; } }
+
+/* มือถือแนวนอน: ไม่มีที่ให้กล่องข้อความใหญ่ หัวเกมยังอยู่ด้านบน */
+@media (orientation: landscape) and (max-height: 520px) {
+  .lmt { gap: 10px; }
+  .lmt-scene { height: calc(100dvh - 112px); min-height: 0; border-radius: 22px; }
+  .lmt-island { width: min(88%, calc((100dvh - 124px) * 1.3)); }
+  .lmt-side { gap: 8px; padding: 10px 12px; border-radius: 22px; }
+  .lmt-text { font-size: 19px; line-height: 1.4; }
+  .lmt-text small { font-size: 13px; }
+  .lmt-pad { width: 88px; height: 88px; right: 8px; bottom: 8px; }
+  .lmt-hand { width: 42px; height: 42px; }
+}
+@media (max-width: 639px) and (orientation: portrait) { .lmt { grid-template-columns: minmax(0, 1fr); } .lmt-scene { height: 56dvh; } }
+
+.gc-rotate {
+  position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;
+  background: #eaf6ff; text-align: center;
+}
+.gc-rotate h2 { margin: 0; font: 800 28px/1.4 var(--font-display); color: var(--color-ink, #1f2937); }
+.gc-rotate h2 small { display: block; font-size: 16px; font-weight: 500; }
+.gc-rotate-robot { position: relative; width: min(64vw, 240px); aspect-ratio: 1; }
+.gc-rotate-robot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.gc-rotate-phone-portrait { opacity: 0; }
+.gc-rotate-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
+.gc-rotate-actions .gc-button { min-height: 64px; }
+@media (prefers-reduced-motion: no-preference) {
+  /* หน้านี้เด็กต้องทำตามก่อนไปต่อ ท่าหมุนมือถือจึงเล่นวนจนกว่าจะหมุนจอ เปลี่ยนภาพเป็นจังหวะ ไม่กะพริบแสง */
+  .gc-rotate-phone-portrait { animation: gc-rotate-a 2400ms steps(1, end) infinite; }
+  .gc-rotate-phone-landscape { animation: gc-rotate-b 2400ms steps(1, end) infinite; }
+}
+@keyframes gc-rotate-a { 0% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes gc-rotate-b { 0% { opacity: 0; } 50%, 100% { opacity: 1; } }

@@ -22,7 +22,9 @@ try {
       if (level > 1) await page.addInitScript(n => { const levelStars = {}; for (let i = 1; i < n; i++) levelStars[i] = 3; localStorage.setItem('little-ummah:games:v1:light-maze', JSON.stringify({ levelStars })); }, level);
       await page.goto(`${base}/games/light-maze`, { waitUntil: 'networkidle' });
       assert.equal(await page.locator('.gc-level-stone').count(), 0, 'light maze has no level picker');
-      await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
+      // จอสัมผัสแนวตั้งต้องหมุนจอก่อนเล่น (scripts/check-game-landscape-browser.mjs ตรวจขั้นตอนนี้ละเอียด)
+      if (width < 1000 && width < (sizes[width] ?? 844)) { assert.equal(await page.locator('.gc-rotate').count(), 1, `${width} portrait gate`); await page.close(); continue; }
+      await page.getByRole('button', { name: /ข้ามการสอน/ }).click();
       await page.waitForFunction(() => document.querySelector('.lm-stage')?.dataset.robot);
       assert.equal(await page.locator('.lm-scene').getAttribute('data-theme'), ['neon', 'grove', 'sky'][level - 1], `${width} resumes at level ${level}`);
       const m = await page.evaluate(() => {

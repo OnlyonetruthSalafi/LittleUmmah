@@ -233,10 +233,10 @@ export const en: Dictionary = {
     description: "An Islamic learning website for children: learn about faith, build good manners, and grow into good people in this world. For ages 3–6 and 7+.",
   },
   obeyArc: {
-    title: "Obey Trust Faithful",
+    title: "Love, Believe, Obey",
+    love: "Love,",
+    believe: "Believe,",
     obey: "Obey",
-    trust: "Trust",
-    faithful: "Faithful",
   },
   // ข้อความระบบเกม
   games: {
@@ -254,11 +254,14 @@ export const en: Dictionary = {
       announcement: "Go!"
     },
     hub: {
-      navigation: "Game navigation",
-      choose: "Choose your adventure",
-      note: "Every little try is a little discovery.",
+      title: "Games Island",
+      intro: "Choose a category. Let's play!",
+      chooseCategory: "Choose a game category",
+      ageUnit: "yrs",
+      collected: "{stars} stars collected",
+      playLabel: "Play {name} · {stars} stars collected",
       metadataTitle: "Mini Game Center",
-      metadataDescription: "Eight learning games for children: colors, shapes, memory, puzzles, and Arabic letters."
+      metadataDescription: "Nine learning games for children: colors, shapes, memory, puzzles, and Arabic letters."
     },
     intro: {
       listen: "Listen",
@@ -298,22 +301,16 @@ export const en: Dictionary = {
       collected: "{stars} stars collected",
       collectedSecondary: "• {stars} stars collected"
     },
-    guide: {
-      pause: "Pause",
-      resume: "Continue",
-      again: "Listen again",
-      meet: "Meet your game guide",
-      label: "Your game guide",
-      title: "A world of little adventures",
-      touchAlt: "A robot runs in, waves, and turns a phone from portrait to landscape.",
-      desktopAlt: "A robot with a game controller runs in, waves, and stands in the middle of the screen.",
-      replay: "Replay arrival",
-      error: "Unable to play. Please try again.",
-      speaking: "Your guide is speaking…"
-    },
     hubProgress: {
       stars: "Stars",
       collected: "{stars} stars collected"
+    },
+    tutorial: {
+      skip: "Skip"
+    },
+    rotate: {
+      title: "Turn your screen sideways to play",
+      fullscreen: "Full screen"
     },
     voiceIntro: {
       start: "Start",

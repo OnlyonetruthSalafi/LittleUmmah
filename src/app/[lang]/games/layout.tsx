@@ -7,6 +7,5 @@ import '@/features/games/sequence.css';
 import '@/features/games/puzzle.css';
 import '@/features/games/light-maze.css';
 import '@/features/games/countdown.css';
-import '@/features/games/hub-guide.css';
-import '@/features/games/run-path.css';
+import '@/features/games/game-tutorial.css';
 export default function GamesLayout({ children }: { children: ReactNode }) { return children; }

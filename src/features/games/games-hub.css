@@ -1,0 +1,209 @@
+/* เกาะเกมตามแบบสองหมวด ใช้เฉพาะ gh-* ไม่เปลี่ยนกระดานเกม
+   ink / พื้นครีม-เขียว >12:1, ink-soft >6:1, ขาว / teal >=5.19:1 */
+.gh-page small { display:block }
+.gh-page svg { flex-shrink:0 }
+.gh-page :focus-visible { outline:4px solid #123a72; outline-offset:4px }
+.gh-total-stars svg { width:32px; height:32px }
+.gh-utility { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px }
+.gh-total-stars { display:flex; align-items:center; gap:9px; background:#fff7df; border:2px solid white; padding:6px 18px; border-radius:22px; min-height:60px }
+.gh-total-stars b { font-size:18px }
+.gh-total-stars small { font-size:11px; color:var(--color-ink-soft) }
+/* คอลัมน์ Hero เท่ากัน ใช้ภาพเกาะเดิมเต็มฝั่งขวา */
+.gh-hero {
+  position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center; gap:12px; min-height:430px; padding:24px 24px 20px 36px;
+  border:3px solid white; border-radius:32px; box-shadow:var(--shadow-soft);
+  background:linear-gradient(90deg,#edf9fff2,#edf9ffb3 46%,#edf9ff08 72%),url('/games/hub/game-hub-bg.webp') center/cover;
+}
+.gh-hero-copy { position:relative; z-index:1; min-width:0 }
+.gh-hero h1 {
+  color:#123a72; font-size:72px; line-height:1.2; font-weight:800;
+  text-shadow:-3px -3px white,3px -3px white,-3px 3px white,3px 3px white,-3px 0 white,3px 0 white,0 -3px white,0 3px white,0 6px 14px #1e5fbf2e;
+}
+.gh-hero h1 [lang=en] { display:block; margin-top:4px; font:800 42px/1.15 var(--font-display); color:#975008; text-shadow:0 2px white }
+.gh-intro { margin-top:14px; font-size:18px; color:#123a72 }
+.gh-intro [lang=en] { display:block; font-size:14px; margin-top:2px }
+.gh-category-jumps { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:24px }
+.gh-category-button { display:flex; align-items:center; gap:8px; padding:10px 12px 10px 7px; border:3px solid white; border-radius:22px; min-height:88px; font-size:22px; font-weight:800; line-height:1.35; box-shadow:0 5px 0 #cf9b31,var(--shadow-soft) }
+.gh-category-button>span { min-width:0 }
+.gh-category-button>svg { width:44px; height:44px }
+.gh-category-button .gh-arrow { width:18px; height:22px; margin-left:auto }
+.gh-category-button small { font-size:12px; font-weight:600; margin-top:2px }
+.gh-category-button.gh-gold,.gh-gold .gh-category-label { background:linear-gradient(#ffdb70,#f7bd35); color:#4a2600 }
+.gh-category-button.gh-teal,.gh-teal .gh-category-label { background:linear-gradient(#0f7a71,#0b6259); color:white }
+.gh-category-button.gh-teal { box-shadow:0 5px 0 #094d47,var(--shadow-soft) }
+.gh-hero-scene { position:relative; width:100%; height:460px }
+.gh-hero-island { position:absolute; width:100%; height:100%; right:0; bottom:0; object-fit:contain; filter:drop-shadow(0 14px 12px #14538930) }
+/* สัดส่วนหมวดและการ์ดตาม .mrl-section / .mrl-card */
+.gh-section { padding:22px 24px 26px; border-radius:28px; margin-top:28px; box-shadow:var(--shadow-soft); scroll-margin-top:20px }
+.gh-section.gh-gold { background:#fdf4e1 }
+.gh-section.gh-teal { background:#e1f3ec }
+.gh-section-head { display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; margin-bottom:18px }
+.gh-category-label { display:flex; align-items:center; gap:8px; padding:8px 20px 8px 12px; border-radius:999px; font-size:26px; line-height:1.25; font-weight:800; white-space:nowrap; box-shadow:var(--shadow-soft) }
+.gh-category-label>svg { width:46px; height:46px }
+.gh-category-label small { font-size:13px; font-weight:600; line-height:1.4; margin-top:3px }
+.gh-section-desc { flex:1 1 220px; font-size:15px; font-weight:600 }
+.gh-section-desc [lang=en] { display:block; color:var(--color-ink-soft); font-size:12px; font-weight:400; margin-top:3px }
+.gh-category-progress { display:flex; gap:9px; align-items:center; background:white; border-radius:20px; padding:12px 16px; min-width:216px; box-shadow:var(--shadow-soft) }
+.gh-category-progress svg { width:36px; height:36px }
+.gh-category-progress strong { font-size:15px }
+.gh-category-progress small { font-size:12px; color:var(--color-ink-soft) }
+.gh-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px }
+.gh-grid>li { display:flex; min-width:0 }
+.gh-card { width:100%; display:flex; flex-direction:column; padding:8px 8px 10px; border:3px solid white; border-radius:24px; background:white; text-align:center; box-shadow:var(--shadow-soft); transition:box-shadow 200ms ease-out }
+.gh-card-art { position:relative; display:block; aspect-ratio:4/3; overflow:hidden; border-radius:18px; background:#eaf6ff; transition:transform 200ms ease-out }
+.gh-card-art img { width:100%; height:100%; object-fit:contain }
+
+
+
+
+
+.gh-age { position:absolute; top:7px; left:7px; display:inline-block; padding:2px 8px; border:1px solid #d6e7f1; border-radius:999px; background:#f2f6f9; color:var(--color-ink-soft); font-size:11px; line-height:1.5; font-weight:600; white-space:nowrap }
+.gh-card-copy { display:block; padding-top:10px }
+.gh-card-title { display:block; color:var(--color-ink); font-size:18px; line-height:1.3; font-weight:800 }
+.gh-card-en { display:block; color:var(--color-ink-soft); font-size:13px; font-weight:500; margin-top:2px }
+.gh-card-foot { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:auto; padding:10px 4px 0 }
+.gh-card-stars { display:flex; align-items:center; gap:6px; color:var(--color-ink); font-size:15px; font-weight:700 }
+.gh-card-stars svg { width:24px; height:24px }
+.gh-card-play { width:44px; height:44px; color:#e08c0b }
+.gh-teal .gh-card-play { color:#0f766e }
+
+@media(max-width:1023px) {
+.gh-hero { padding:24px; gap:12px }
+.gh-hero h1 { font-size:56px }
+.gh-hero h1 [lang=en] { font-size:34px }
+.gh-hero-scene { height:360px }
+.gh-category-jumps { grid-template-columns:1fr }
+.gh-category-button { min-height:72px; font-size:21px }
+.gh-category-progress { margin-left:auto }
+.gh-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px }
+}
+
+@media(max-width:599px) {
+.gh-hero { display:block; min-height:0; padding:20px 16px 12px; border-radius:26px; background:linear-gradient(#edf9ffe6,#edf9ff30),url('/games/hub/game-hub-bg.webp') center/cover }
+.gh-hero h1 { font-size:48px }
+.gh-hero h1 [lang=en] { font-size:30px }
+.gh-intro { font-size:15px; margin-top:10px }
+.gh-intro [lang=en] { font-size:12px }
+.gh-category-jumps { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:18px; gap:8px }
+.gh-category-button { padding:9px 5px; gap:4px; border-width:2px; border-radius:17px; font-size:16px; min-height:78px }
+.gh-category-button>svg { width:29px; height:29px }
+.gh-category-button .gh-arrow { width:13px; height:16px }
+.gh-category-button small { font-size:10px }
+.gh-hero-scene { height:auto; aspect-ratio:1.4; margin-top:14px }
+.gh-section { padding:18px 10px 20px; margin-top:20px; border-radius:25px }
+.gh-section-head { gap:10px 6px; margin-bottom:14px }
+.gh-category-label { order:1; font-size:20px; padding:8px 11px 8px 6px; gap:4px }
+.gh-category-label>svg { width:34px; height:34px }
+.gh-category-label small { font-size:11px }
+.gh-category-progress { order:2; flex:1; min-width:128px; padding:9px 7px; gap:4px }
+.gh-category-progress>svg { width:22px; height:22px }
+.gh-category-progress strong { font-size:11px; white-space:nowrap }
+.gh-category-progress small { font-size:9px }
+.gh-section-desc { order:3; flex-basis:100%; min-width:0; font-size:13px; padding:0 3px }
+.gh-section-desc [lang=en] { font-size:11px }
+.gh-grid { gap:12px 10px }
+.gh-card { padding:5px 5px 8px; border-radius:20px }
+.gh-card-art { border-radius:14px }
+.gh-card-copy { padding-top:9px }
+.gh-card-title { font-size:18px; line-height:1.4 }
+.gh-card-en { font-size:11px }
+.gh-age { top:5px; left:5px; padding:2px 6px; font-size:10px }
+.gh-card-foot { padding:9px 1px 0 }
+.gh-card-stars { font-size:13px; gap:4px }
+.gh-card-stars svg { width:20px; height:20px }
+.gh-card-play { width:40px; height:40px }
+}
+
+.gh-hero { overflow:clip }
+.gh-card-art .gc-diorama { position:absolute; width:75%; height:100%; inset:0 12.5% }
+.gh-card-art .gc-art-letters { font-size:clamp(18px,2.5vw,30px) }
+.gh-card { min-width:0 }
+.gh-card-en { overflow-wrap:anywhere }
+.gh-category-button { transition:box-shadow 200ms ease-out,transform 200ms ease-out }
+.gh-category-button[data-guided] { box-shadow:0 0 0 4px #fff,0 0 0 7px #f7bd35,var(--shadow-float) }
+.gh-card:active,.gh-category-button:active { box-shadow:var(--shadow-float) }
+@media(hover:hover) {
+  .gh-card:hover,.gh-category-button:hover { box-shadow:var(--shadow-float) }
+}
+@media(prefers-reduced-motion:no-preference) {
+  @media(hover:hover) {
+    .gh-card:hover .gh-card-art { transform:translateY(-4px) scale(1.03) }
+    .gh-category-button:hover { transform:translateY(-2px) }
+  }
+  .gh-card:active .gh-card-art,.gh-category-button:active { transform:scale(.98); transition-duration:75ms }
+  .gh-category-button[data-guided] { transform:translateY(-2px) }
+}
+/* หุ่นใช้ท่าและจังหวะเดียวกับ MoralHero แต่กำหนดตำแหน่งพักด้วยขนาดจริง
+   reduced motion จึงไม่มี transform ทั้งตอนพักและตอนพูด */
+.gh-guide { position:absolute; right:0; bottom:0; width:124px; aspect-ratio:1; padding:0; border:0; border-radius:24px; background:none; z-index:2; cursor:pointer; filter:drop-shadow(0 10px 10px #1e5fbf40) }
+.gh-guide-frame { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0 }
+.gh-guide[data-pose=stand] .gh-guide-stand,.gh-guide[data-pose=point] .gh-guide-point,.gh-guide[data-pose=wave] .gh-guide-wave-1 { opacity:1 }
+.gh-guide[data-phone] .gh-guide-frame { opacity:0; animation:none }
+.gh-guide[data-phone] .gh-phone-landscape { opacity:1 }
+.gh-guide:active { filter:brightness(1.12) drop-shadow(0 6px 6px #1e5fbf59) }
+@media(hover:hover) { .gh-guide:hover { filter:drop-shadow(0 14px 14px #1e5fbf66) } }
+.gh-bubble { position:absolute; top:0; right:0; z-index:3; width:min(100%,360px); padding:12px 16px; border:3px solid #cfe3f1; border-radius:22px; background:#fff; box-shadow:var(--shadow-float); font-size:14px; line-height:1.45; font-weight:600; visibility:hidden; opacity:0; transition:opacity 200ms ease-out,visibility 0s linear 200ms; pointer-events:none }
+.gh-bubble[data-show] { visibility:visible; opacity:1; transition:opacity 200ms ease-out }
+.gh-bubble [lang=en] { font-size:12px; color:var(--color-ink-soft); margin-top:4px; font-weight:400 }
+@media(prefers-reduced-motion:no-preference) {
+  .gh-guide { transform-origin:bottom right; transition:transform 1300ms cubic-bezier(.3,.7,.3,1),filter 200ms ease-out }
+  .gh-guide[data-phase=off] { transform:translateX(250%); transition:none }
+  .gh-guide[data-phase=tour] { transform:translateX(-90%) scale(1.6) }
+  .gh-guide[data-pose=wave]:not([data-phone]) .gh-guide-wave-1 { animation:gh-wave-a 1600ms steps(1,end) 1 both }
+  .gh-guide[data-pose=wave]:not([data-phone]) .gh-guide-wave-2 { animation:gh-wave-b 1600ms steps(1,end) 1 both }
+  .gh-guide[data-phone] .gh-phone-portrait { animation:gh-phone-a 4800ms steps(1,end) 1 both }
+  .gh-guide[data-phone] .gh-phone-landscape { animation:gh-phone-b 4800ms steps(1,end) 1 both }
+}
+@keyframes gh-wave-a { 0%,25%,50%,75%,100% { opacity:1 } 12.5%,37.5%,62.5%,87.5% { opacity:0 } }
+@keyframes gh-wave-b { 0%,25%,50%,75%,100% { opacity:0 } 12.5%,37.5%,62.5%,87.5% { opacity:1 } }
+/* แนวตั้ง -> แนวนอน สามรอบ แล้วค้างแนวนอนจนจบจังหวะแรก */
+@keyframes gh-phone-a { 0%,33.333%,66.666% { opacity:1 } 16.666%,50%,83.333%,100% { opacity:0 } }
+@keyframes gh-phone-b { 0%,33.333%,66.666% { opacity:0 } 16.666%,50%,83.333%,100% { opacity:1 } }
+@media(max-width:1023px) { .gh-guide { width:104px } }
+@media(max-width:599px) {
+  .gh-guide { width:88px }
+  .gh-bubble { padding:7px 9px; font-size:12px; border-radius:16px; width:100% }
+  .gh-bubble [lang=en] { font-size:10px }
+  .gh-total-stars { padding:5px 10px; min-height:54px }
+  .gh-total-stars svg { width:25px; height:25px }
+  .gh-total-stars b { font-size:15px }
+  .gh-category-button { overflow-wrap:anywhere }
+}
+/* จอแคบ: กรอบภาพสูงขึ้นเกือบเท่าสัดส่วนเกาะ และบอลลูนเหลือบรรทัดไทย (อังกฤษไว้ให้ screen reader) บอลลูนจะได้ไม่บังท่าหมุนมือถือของหุ่น */
+@media(max-width:599px) {
+  .gh-hero-scene { aspect-ratio:1.1 }
+  .gh-bubble { width:100% }
+}
+@media(max-width:479px) {
+  .gh-bubble [lang=en] { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap }
+}
+@media(max-width:599px) and (prefers-reduced-motion:no-preference) {
+  .gh-guide[data-phase=tour] { transform:translateX(-70%) scale(1.3) }
+}
+/* มือถือแนวนอน: หุ่นแนะนำให้หมุนจอ จึงต้องเห็นปุ่มหมวดเร็วและเห็นการ์ดหลายใบต่อจอ */
+@media(max-height:500px) and (min-width:600px) {
+  .gh-hero { min-height:0; padding:12px 16px 10px 22px }
+  .gh-hero h1 { font-size:40px; line-height:1.15 }
+  .gh-hero h1 [lang=en] { font-size:22px; margin-top:0 }
+  .gh-intro { margin-top:4px; font-size:14px }
+  .gh-intro [lang=en] { display:none }
+  .gh-hero-scene { height:190px }
+  .gh-category-jumps { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:10px }
+  .gh-category-button { min-height:64px; padding:6px 8px 6px 5px; font-size:17px; gap:4px }
+  .gh-category-button>svg { width:32px; height:32px }
+  .gh-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px }
+  .gh-card-title { font-size:16px }
+  .gh-guide { width:80px }
+  .gh-bubble { font-size:12px; padding:6px 10px; width:100% }
+  .gh-bubble [lang=en] { display:none }
+}
+@media(max-height:500px) and (min-width:600px) and (prefers-reduced-motion:no-preference) {
+  .gh-guide[data-phase=tour] { transform:translateX(-60%) scale(1.2) }
+}
+/* จอ 320px: ปุ่มกลับหน้าแรกและปุ่มหมวดไม่ตัดคำ */
+@media(max-width:359px) {
+  .gh-total-stars small { display:none }
+  .gh-category-button { font-size:15px }
+  .gh-category-button>svg { width:24px; height:24px }
+}

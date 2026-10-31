@@ -34,6 +34,8 @@ export const RECORDED_CLIPS = new Set<string>([
   "orbmaze-bump", "orbmaze-praise", "orbmaze-complete",
   // นับถอยหลังก่อนเริ่มเล่นทุกเกม (components/Countdown.tsx, scripts/make-game-voice.mjs)
   "count-3", "count-2", "count-1", "count-go",
+  // หน้าบอกให้หมุนจอก่อนเล่นเกมแนวนอน (components/RotateGate.tsx)
+  "rotate-phone",
 ]);
 
 /** มีเสียงพูดเล่นอยู่ไหม ใช้กันเสียงอัตโนมัติไปตัดเสียงที่เด็กเพิ่งกดฟัง */

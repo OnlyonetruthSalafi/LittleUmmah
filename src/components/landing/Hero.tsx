@@ -16,7 +16,7 @@ import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
 export function Hero({ locale }: { locale: Locale }) {
   const { t } = dict(locale);
 
-  /* ไม่มี padding ล่าง: ระยะก่อนคำโค้ง "Obey" ย้ายไปอยู่ที่ ObeyArc (pt-5 / sm:pt-7) ช่องไฟจึงเท่าเดิม */
+  /* ไม่มี padding ล่าง: ระยะก่อนคำโค้ง "Love, Believe, Obey" ย้ายไปอยู่ที่ ObeyArc (pt-5 / sm:pt-7) ช่องไฟจึงเท่าเดิม */
   return (
     <section className="relative mx-auto w-full max-w-3xl px-4 pt-4 text-center sm:px-6 sm:pt-8">
       <div

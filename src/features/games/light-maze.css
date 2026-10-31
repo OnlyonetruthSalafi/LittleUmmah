@@ -192,11 +192,3 @@
   .gc-focus[data-game='light-maze'][data-status='complete'] .gc-result-actions { margin-top: 10px; gap: 10px; }
 }
 
-/* ── หน้ารวมเกม: เกาะเก้าเกาะ ใบสุดท้ายที่อยู่แถวเดี่ยวให้อยู่กลาง ─────── */
-@media (min-width: 1001px) {
-  .gc-hub .gc-grid > li:last-child:nth-child(4n+1) { grid-column: 2 / span 2; justify-self: center; width: calc((100% - 14px) / 2); }
-}
-@media (max-width: 639px) {
-  .gc-hub .gc-grid > li:last-child:nth-child(2n+1) { grid-column: 1 / -1; justify-self: center; width: calc((100% - 14px) / 2); }
-}
-

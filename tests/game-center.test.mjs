@@ -179,3 +179,14 @@ test('บล็อกสี่เหลี่ยมจัตุรัสมี�
   // บล็อกอีกสี่ชิ้นอยู่ในช่วง 0.50–0.70 ชิ้นนี้เข้มกว่าเล็กน้อยเพราะด้านข้างสูงกว่า
   assert.ok(ratio > 0.25 && ratio < 0.8, `ด้านล่างควรเข้มกว่าหน้าบน (0.25–0.8) แต่ได้ ${ratio.toFixed(2)}`);
 });
+
+// ทุกเกมที่เปิดต้องมีหมวดจริงเพียงหนึ่งหมวด และลำดับแสดงผลไม่ทำเกมซ้ำหรือหาย
+test('enabled games belong to exactly one existing hub category', async () => {
+  const { GAME_CATEGORIES } = await import('../src/features/games/data/hubCategories.ts');
+  assert.equal(new Set(GAME_CATEGORIES.map(category => category.id)).size, GAME_CATEGORIES.length);
+  for (const game of games.filter(game => game.enabled)) {
+    const categories = GAME_CATEGORIES.filter(category => category.id === game.category);
+    assert.equal(categories.length, 1, game.slug);
+    assert.equal(categories[0].order.filter(slug => slug === game.slug).length, 1, game.slug);
+  }
+});

@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useHeroGuide } from "../useHeroGuide";
 
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
-import { playNarration } from "@/lib/speech";
-import { getSoundSnapshot } from "@/lib/soundStore";
 
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection, type GuideStep } from "../data";
 import "../moral.css";
@@ -28,10 +26,6 @@ import { useDict } from "@/i18n/LocaleProvider";
   - ปิดการเคลื่อนไหว: หุ่นยนต์ยืนที่มุมขวาตลอด ไม่เลื่อน ไม่โบก บอลลูนยังขึ้นตามจังหวะ
   - การเคลื่อนไหวจบในตัว ไม่มีลอย/เด้งวน (ข้อ 2.1)
 */
-const ENTER_MS = 1300;
-
-type Phase = "off" | "tour" | "rest";
-
 export type HeroArt = { src: string; width: number; height: number };
 
 export function MoralHero({
@@ -52,115 +46,10 @@ export function MoralHero({
   /** sessionStorage key — แต่ละเกาะเล่นแนะนำเองครั้งแรกแยกกัน */
   seenKey: string;
 }) {
-  const { locale, t, sub, pick, pickSub } = useDict();
-  const [phase, setPhase] = useState<Phase>("rest");
-  const [step, setStep] = useState(-1);
-  // ยกเลิกช่วงวิ่งเข้า (rAF + ตัวจับเวลา) — ส่วนเสียงของแต่ละจังหวะยกเลิกใน cleanup ของ effect ข้างล่าง
-  const cancelEnter = useRef<() => void>(() => {});
-
-  const finish = useCallback(() => {
-    cancelEnter.current();
-    setStep(-1);
-    setPhase("rest");
-  }, []);
-
-  // เล่นจังหวะปัจจุบัน: เสียงจบ (หรือหมดเวลาเมื่อไม่มีเสียง) แล้วไปจังหวะถัดไป
-  // cleanup หยุดเสียงและตัวจับเวลาเสมอ — เปลี่ยนจังหวะ ข้าม หรือออกจากหน้า เสียงจึงไม่ค้าง
-  useEffect(() => {
-    if (phase !== "tour" || step < 0) return;
-    const current = GUIDE_STEPS[step];
-    let timer = 0;
-    const next = () => (step + 1 < GUIDE_STEPS.length ? setStep(step + 1) : finish());
-    const timed = () => {
-      timer = window.setTimeout(next, current.ms);
-    };
-    let stopAudio = () => {};
-    if (getSoundSnapshot()) {
-      stopAudio = playNarration(`/audio/${locale}/${current.clip}.mp3`, {
-        onEnded: () => {
-          timer = window.setTimeout(next, 350);
-        },
-        // เสียงอื่นแทรก (เด็กแตะการ์ด) หรือกดปิดเสียง = จบการแนะนำ
-        onStopped: finish,
-        // เบราว์เซอร์ไม่ยอมเล่นเสียงอัตโนมัติ: เดินตามเวลา บอลลูนยังบอกเรื่องครบ
-        onFail: timed,
-      });
-    } else {
-      timed();
-    }
-    return () => {
-      window.clearTimeout(timer);
-      stopAudio();
-    };
-  }, [phase, step, finish, GUIDE_STEPS, locale]);
-
-  const start = useCallback(() => {
-    cancelEnter.current();
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setPhase("tour");
-      setStep(0);
-      return;
-    }
-    // วางหุ่นยนต์นอกกรอบทางขวาก่อน แล้วค่อยให้เลื่อนเข้ามาในเฟรมถัดไป
-    setPhase("off");
-    setStep(-1);
-    let timer = 0;
-    let cancelled = false;
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        if (cancelled) return;
-        setPhase("tour");
-        timer = window.setTimeout(() => setStep(0), ENTER_MS);
-      }),
-    );
-    cancelEnter.current = () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  // เปิดหน้าครั้งแรกในรอบนี้ = เล่นเอง
-  useEffect(() => {
-    let seen = false;
-    try {
-      seen = window.sessionStorage.getItem(SEEN_KEY) === "1";
-    } catch {
-      // อ่าน sessionStorage ไม่ได้ ก็เล่นเหมือนเปิดครั้งแรก
-    }
-    if (seen) return;
-    // จดว่าเล่นแล้วตอนเริ่มจริง ไม่ใช่ตอน effect รัน (StrictMode รัน effect สองรอบ)
-    const timer = window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem(SEEN_KEY, "1");
-      } catch {
-        // จดไม่ได้ = รอบหน้าเล่นอีก ไม่เป็นไร
-      }
-      start();
-    }, 500);
-    return () => window.clearTimeout(timer);
-  }, [start, SEEN_KEY]);
-
-  // สลับแท็บ = หยุดพูดแล้วกลับไปยืนมุมขวา
-  // เปิดบทเรียน = จบการแนะนำทันที — ถ้าเบราว์เซอร์บล็อกเสียงตอนเปิดหน้า การแนะนำจะเดินตามเวลา
-  // พอเด็กแตะการ์ด เบราว์เซอร์ยอมให้มีเสียงแล้ว จังหวะถัดไปของหุ่นแนะนำจะดังทับเสียงครูนูรีในการ์ตูน
-  useEffect(() => {
-    const onHide = () => {
-      if (document.hidden) finish();
-    };
-    document.addEventListener("visibilitychange", onHide);
-    window.addEventListener(LESSON_OPEN_EVENT, finish);
-    return () => {
-      document.removeEventListener("visibilitychange", onHide);
-      window.removeEventListener(LESSON_OPEN_EVENT, finish);
-      cancelEnter.current();
-    };
-  }, [finish]);
-
-  const touring = phase !== "rest";
-  const current = step >= 0 ? GUIDE_STEPS[step] : null;
-  const pose = phase === "tour" && current ? current.pose : "stand";
-  const focus = current?.focus;
+  const { t, sub, pick, pickSub } = useDict();
+  const { phase, current, pose, focus, touring, start, finish } = useHeroGuide({
+    steps: GUIDE_STEPS, seenKey: SEEN_KEY, stopEvent: LESSON_OPEN_EVENT,
+  });
 
   const ageButton = (age: AgeId) => {
     const section = AGE_SECTIONS[age];

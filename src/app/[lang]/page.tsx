@@ -17,7 +17,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <main className="flex flex-1 flex-col">
         <CategoryGrid locale={locale} />
         <Hero locale={locale} />
-        {/* ตั้งแต่คำโค้ง "Obey" ลงไปใช้ภาพพื้นหลัง BGLower */}
+        {/* ตั้งแต่คำโค้ง "Love, Believe, Obey" ลงไปใช้ภาพพื้นหลัง BGLower */}
         <LowerScene>
           <ObeyArc locale={locale} />
           <AgeGroupSelector />
