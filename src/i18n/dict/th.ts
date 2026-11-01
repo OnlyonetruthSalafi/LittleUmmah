@@ -263,6 +263,10 @@ export const th = {
       ageUnit: "ปี",
       collected: "สะสมแล้ว {stars} ดาว",
       playLabel: "เล่น {name} · สะสม {stars} ดาว",
+      soon: "กำลังเตรียม",
+      soonLabel: "{name} กำลังเตรียม ยังเล่นไม่ได้",
+      soonBody: "นูรีกำลังเตรียมเกมนี้อยู่นะ อีกไม่นานมาเล่นกัน",
+      soonClose: "ตกลง",
       metadataTitle: "เกาะแห่งการเล่น — Mini Game Center",
       metadataDescription: "เกมเรียนรู้สำหรับเด็ก 9 เกม จับคู่สี รูปทรง ความจำ จิ๊กซอว์ และอักษรอาหรับ"
     },

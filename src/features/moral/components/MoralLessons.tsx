@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { StarIcon } from "@/components/icons/StarIcon";
+import { SHOW_REWARD_STARS } from "@/lib/rewardStars";
 import { useSound } from "@/components/sound/SoundProvider";
 import type { Lesson } from "@/lib/lessons";
 import { isSpeaking, stopAllSpeech } from "@/lib/speech";
@@ -130,7 +131,7 @@ export function MoralSection({
         </p>
         {/* ภารกิจวันนี้ — บอกด้วยตัวเลขกำกับเสมอ ไม่ใช่แถบสีอย่างเดียว (ข้อ 2) */}
         <div className="mrl-mission" role="group" aria-label={fmt(t.moral.lessons.missionLabel, { done, goal })}>
-          <StarIcon className="size-9 shrink-0" />
+          {SHOW_REWARD_STARS && <StarIcon className="size-9 shrink-0" />}
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold">
               {t.moral.lessons.mission} {done}/{goal}{" "}
@@ -189,14 +190,16 @@ export function MoralSection({
                   {sub && <span lang="en">{pickSub(lesson.title)}</span>}
                 </span>
                 <span className="mrl-card-foot">
-                  <span className="mrl-card-stars flex gap-0.5">
-                    {Array.from({ length: maxStars }, (_, i) => (
-                      <StarIcon key={i} filled={i < count} />
-                    ))}
-                  </span>
-                  <span className="sr-only">
-                    {fmt(t.moral.lessons.stars, { count, maxStars })}
-                  </span>
+                  {SHOW_REWARD_STARS ? <>
+                    <span className="mrl-card-stars flex gap-0.5">
+                      {Array.from({ length: maxStars }, (_, i) => (
+                        <StarIcon key={i} filled={i < count} />
+                      ))}
+                    </span>
+                    <span className="sr-only">
+                      {fmt(t.moral.lessons.stars, { count, maxStars })}
+                    </span>
+                  </> : <span />}
                   <svg viewBox="0 0 48 48" className="mrl-card-play" aria-hidden="true" focusable="false">
                     <circle cx="24" cy="24" r="22" />
                     <path d="M19.5 15.5 34 24l-14.5 8.5Z" fill="#fff" stroke="#fff" strokeWidth="2.5" strokeLinejoin="round" />

@@ -260,6 +260,10 @@ export const en: Dictionary = {
       ageUnit: "yrs",
       collected: "{stars} stars collected",
       playLabel: "Play {name} · {stars} stars collected",
+      soon: "Coming soon",
+      soonLabel: "{name}, coming soon, not ready to play yet",
+      soonBody: "Nuri is getting this game ready. Come back soon to play.",
+      soonClose: "OK",
       metadataTitle: "Mini Game Center",
       metadataDescription: "Nine learning games for children: colors, shapes, memory, puzzles, and Arabic letters."
     },

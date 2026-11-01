@@ -5,9 +5,12 @@ import { fmt } from '@/i18n/dict';
 import { GameCategoryIcon } from '@/components/icons/GameCategoryIcon';
 import { GamePlayIcon } from '@/components/icons/GamePlayIcon';
 import { StarIcon } from '@/components/icons/StarIcon';
+import { SHOW_REWARD_STARS } from '@/lib/rewardStars';
 import type { GameDefinition } from '../data/catalog';
+import { comingSoonGames } from '../data/comingSoon';
 import type { GameCategory } from '../data/hubCategories';
 import { Thumbnail } from './Artwork';
+import { ComingSoonCard } from './ComingSoonCard';
 import { HubTileLink } from './HubTileLink';
 import { useHubStars } from './HubProgress';
 
@@ -21,27 +24,28 @@ export function GameHubCategory({ category, games }: { category: GameCategory; g
         <span>{pick(category.label)}{sub && <small lang="en">{pickSub(category.label)}</small>}</span>
       </h2>
       <p className="gh-section-desc">{pick(category.desc)}{sub && <span lang="en">{pickSub(category.desc)}</span>}</p>
-      <div className="gh-category-progress"><StarIcon /><div>
+      {SHOW_REWARD_STARS && <div className="gh-category-progress"><StarIcon /><div>
         <strong>{fmt(t.games.hub.collected, { stars: total })}</strong>
         {sub && <small lang="en">{fmt(sub.games.hub.collected, { stars: total })}</small>}
-      </div></div>
+      </div></div>}
     </div>
-    <ul className="gh-grid">{games.map(game => <GameCard key={game.slug} game={game} />)}</ul>
+    <ul className="gh-grid">{games.map(game => <GameCard key={game.slug} game={game} />)}
+      {comingSoonGames.filter(game => game.category === category.id).map(game => <ComingSoonCard key={game.id} game={game} />)}</ul>
   </section>;
 }
 
 function GameCard({ game }: { game: GameDefinition }) {
   const { t, sub, pick, pickSub } = useDict();
   const stars = useHubStars([game]);
-  const label = fmt(t.games.hub.playLabel, { name: pick(game.title), stars });
+  const label = SHOW_REWARD_STARS ? fmt(t.games.hub.playLabel, { name: pick(game.title), stars }) : pick(game.title);
   return <li><HubTileLink href={`/games/${game.slug}`} slug={game.slug} name={pick(game.title)}
-    ariaLabel={sub ? `${label} / ${fmt(sub.games.hub.playLabel, { name: pickSub(game.title)!, stars })}` : label} className="gh-card">
+    ariaLabel={sub ? `${label} / ${SHOW_REWARD_STARS ? fmt(sub.games.hub.playLabel, { name: pickSub(game.title)!, stars }) : pickSub(game.title)}` : label} className="gh-card">
     <div className="gh-card-art"><Thumbnail slug={game.slug} />
       <span className="gh-age">{game.ageGroup} {t.games.hub.ageUnit}{sub && <span lang="en"> / {sub.games.hub.ageUnit}</span>}</span>
     </div>
     <div className="gh-card-copy"><h3 className="gh-card-title">{pick(game.title)}</h3>
       {sub && <span className="gh-card-en" lang="en">{pickSub(game.title)}</span>}
     </div>
-    <div className="gh-card-foot"><span className="gh-card-stars"><StarIcon /><span>{stars} <span className="sr-only">{t.games.hubProgress.stars}</span></span></span><GamePlayIcon className="gh-card-play" /></div>
+    <div className="gh-card-foot">{SHOW_REWARD_STARS ? <span className="gh-card-stars"><StarIcon /><span>{stars} <span className="sr-only">{t.games.hubProgress.stars}</span></span></span> : <span />}<GamePlayIcon className="gh-card-play" /></div>
   </HubTileLink></li>;
 }
