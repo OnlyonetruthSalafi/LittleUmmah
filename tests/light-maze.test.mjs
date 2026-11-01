@@ -12,7 +12,9 @@ for (const [i, level] of MAZE_LEVELS.entries()) test(`light-maze level ${i + 1}:
   assert.equal(open.size, walkable, 'every walkable cell reachable without portals');
   assert.ok(maze.lights.length >= 30);
   assert.ok(maze.crystal, 'crystal pillar in the middle like the mock');
-  assert.equal(maze.homes.length, [0, 2, 3][i]);
+  // เพื่อนหุ่นเพิ่มทีละตัว: เขียว → เพิ่มม่วง → เพิ่มแดง
+  assert.deepEqual(maze.homes.map(h => h.id), [['green'], ['green', 'violet'], ['green', 'red', 'violet']][i]);
+  if (i > 0) assert.ok(level.rules.seekerSpeed > MAZE_LEVELS[i - 1].rules.seekerSpeed);
   if (i > 0) assert.deepEqual(maze.items.map(x => x.kind).sort(), ['clock', 'shield', 'star']);
   if (i > 0) assert.ok(maze.portals && maze.checkpoints.length === 1);
   const fromStart = distances(maze, maze.start);

@@ -16,14 +16,20 @@ export type Sprite = { img: CanvasImageSource; w: number; h: number; ax: number;
 export type ArtSet = Map<string, Sprite>;
 export type IslandFit = { top: Pt; right: Pt; bottom: Pt; left: Pt } | null;
 
-/** ความสูงผนัง (× T) — หนาพอดูเป็นบล็อกหินแบบ Mock แต่ไม่บังเม็ดแสงช่องหลังผนัง (texture ข้าง 2:1 ไม่ยืดมาก) */
-export const WALL = 0.42;
+/** ความสูงผนัง (× T) — เตี้ยกว่าความกว้างทางเดินเล็กน้อย ไม่บังเม็ดแสงช่องหลังผนัง */
+export const WALL = 0.36;
+/** กำแพงรอบนอกหนาเท่านี้ (ช่อง) แทนการเต็มช่อง และแนวหน้าสองด้านเตี้ยเท่านี้ (× T)
+ *  ขนาดบนจอขึ้นกับ cols + rows เท่านั้น ทางนี้จึงได้ช่องใหญ่ขึ้นโดยไม่เปลี่ยนผัง ไม่บังทางเดินแถวสุดท้าย */
+const RING = 0.4, FRONT = 0.2;
+const INSET = 1 - RING;
+/** เลื่อนเกาะหนีจอยไปทางซ้ายได้สูงสุดเท่านี้ (× ความกว้างเวที) เฉพาะในที่ว่างข้างเกาะ */
+const SHIFT = 0.07;
 /** ขอบเกาะรอบเขาวงกต (ช่อง) — แบบ Mock ผนังรอบนอกคือขอบเวทีเลย เหลือแค่ปากหน้าผาแคบๆ ให้พุ่มไม้ห้อย */
-const RIM = 0.3;
+const RIM = 0.2;
 /** พื้นที่เหนือเขาวงกตสำหรับหัวตัวละคร/ต้นไม้ และใต้เกาะสำหรับหน้าผา (× T) */
-const HEAD = 1.1, CLIFF = 1.15;
+const HEAD = 0.6, CLIFF = 1.15;
 /** ภาพเกาะ: เห็นหน้าผาใต้ขอบเวทีได้สูงสุดเท่านี้ (× T) และหินยื่นข้างเท่านี้ ส่วนที่เกินให้ขอบฉากตัด แบบ Mock ที่ซูมเข้าเขาวงกต */
-const CLIFF_VIEW = 1.7, SIDE_VIEW = 0.5;
+const CLIFF_VIEW = 0.6, SIDE_VIEW = 0.5;
 
 export class MazeRenderer {
   T = 64; ox = 0; oy = 0; w = 0; h = 0;
@@ -53,13 +59,14 @@ export class MazeRenderer {
     this.w = w; this.h = h;
     this.ox = w / 2 - (u.minX + u.maxX) / 2 * this.T;
     this.oy = h / 2 - (u.minY + u.maxY) / 2 * this.T;
+    this.ox -= Math.max(0, Math.min((w - (u.maxX - u.minX) * this.T) / 2, SHIFT * w));
     this.box = { minX: u.minX * this.T, maxX: u.maxX * this.T, minY: u.minY * this.T, maxY: u.maxY * this.T };
     this.floor = null; this.bead = null; this.trail = [];
     this.camReady = false;
   }
 
   /** มุมข้าวหลามตัดขอบเวที (โลก) */
-  private rimCells() { const m = this.maze, lo = -0.5 - RIM, hc = m.cols - 0.5 + RIM, hr = m.rows - 0.5 + RIM; return { top: [lo, lo], right: [hc, lo], bottom: [hc, hr], left: [lo, hr] } as const; }
+  private rimCells() { const m = this.maze, lo = -0.5 + INSET - RIM, hc = m.cols - 0.5 - INSET + RIM, hr = m.rows - 0.5 - INSET + RIM; return { top: [lo, lo], right: [hc, lo], bottom: [hc, hr], left: [lo, hr] } as const; }
 
   /** affine จากพิกเซลภาพเกาะ → จอ: มุมบน/ขวา/ซ้ายของข้าวหลามตัดบนภาพ (manifest) ตรงกับมุมขอบเวทีเป๊ะ
    *  ใช้ 3 มุมแทนการย่อเท่ากันทุกแกน เพราะภาพจาก imagegen เอียงไม่ตรง 2:1 เป๊ะ */
@@ -118,7 +125,7 @@ export class MazeRenderer {
     cv.width = Math.ceil(b.maxX - b.minX); cv.height = Math.ceil(b.maxY - b.minY);
     this.ox = -b.minX; this.oy = -b.minY;
     const g = cv.getContext('2d')!, m = this.maze, T = this.T, p = this.pal;
-    const lo = -0.5 - RIM, hc = m.cols - 0.5 + RIM, hr = m.rows - 0.5 + RIM;
+    const lo = -0.5 + INSET - RIM, hc = m.cols - 0.5 - INSET + RIM, hr = m.rows - 0.5 - INSET + RIM;
     const rim = { top: this.iso(lo, lo), right: this.iso(hc, lo), bottom: this.iso(hc, hr), left: this.iso(lo, hr) };
 
     // ใต้เกาะ: ภาพหน้าผาจาก Codex ถ้ามี (ย่อ/ขยายเท่ากันทุกแกน วางให้ข้าวหลามตัดบนภาพตรงกับขอบเกาะ) ไม่งั้นวาดหน้าผาเอง
@@ -221,8 +228,8 @@ export class MazeRenderer {
     for (const cell of m.checkpoints) jobs.push({ key: cell.c + cell.r - 0.2, order: 2, run: () => this.prop(g, 'lantern', cell.c - 0.25, cell.r - 0.25, 0.55) });
     if (m.portals) { const a = m.portals[0]; jobs.push({ key: a.c + a.r - 0.6, order: 1, run: () => this.prop(g, 'arch', a.c - 0.3, a.r - 0.3, 1.05) }); }
     // ของประดับบนปากหน้าผา: เสาโคมมุมหลัง ต้นอินทผลัมมุมซ้าย/ขวา พุ่มไม้คร่อมขอบหน้าแบบ Mock (ไม่วางทับทางเดิน)
-    const lo = -0.5 - RIM * 0.5, hc = m.cols - 0.5 + RIM * 0.5, hr = m.rows - 0.5 + RIM * 0.5;
-    const deco: [string, number, number, number][] = [['post', lo, lo, 0.7], ['palm', lo, hr, 1.3], ['palm', hc, lo, 1.3], ['shrub', hc, hr, 0.8]];
+    const lo = -0.5 + INSET - RIM * 0.5, hc = m.cols - 0.5 - INSET + RIM * 0.5, hr = m.rows - 0.5 - INSET + RIM * 0.5;
+    const deco: [string, number, number, number][] = [['post', lo, lo, 0.5], ['palm', lo, hr, 1.3], ['palm', hc, lo, 1.3], ['shrub', hc, hr, 0.8]];
     for (let f = 0.22; f < 0.9; f += 0.28) deco.push(['shrub', lo + (hc - lo) * f, hr + 0.15, 0.85], ['shrub', hc + 0.15, lo + (hr - lo) * f, 0.85]);
     for (const [name, c, r, size] of deco) jobs.push({ key: c + r, order: 1, run: () => this.prop(g, name, c, r, size) });
     for (const s of sim.seekers) { const p = walkerPos(s.w); jobs.push({ key: p.x + p.y, order: 3, run: () => this.actor(g, s.id, p, s.w.dir, s.mode !== 'active' || sim.clock < sim.powerUntil, false, time, still) }); }
@@ -233,29 +240,32 @@ export class MazeRenderer {
   }
 
   private wall(g: CanvasRenderingContext2D, c: number, r: number) {
-    const m = this.maze, T = this.T, h = WALL * T, p = this.pal;
-    const top = [this.iso(c - 0.5, r - 0.5, h), this.iso(c + 0.5, r - 0.5, h), this.iso(c + 0.5, r + 0.5, h), this.iso(c - 0.5, r + 0.5, h)];
+    const m = this.maze, T = this.T, p = this.pal;
+    // แนวหน้าสองด้านเตี้ยลง มุมซ้าย/ขวาของเกาะสูงเท่าแนวหลัง ต้องวาดหน้าข้างที่ต่อกับแนวเตี้ยด้วย
+    const low = (cc: number, rr: number) => (cc === m.cols - 1 && rr !== 0) || (rr === m.rows - 1 && cc !== 0);
+    const h = (low(c, r) ? FRONT : WALL) * T;
+    const x0 = c === 0 ? c + 0.5 - RING : c - 0.5, x1 = c === m.cols - 1 ? c - 0.5 + RING : c + 0.5;
+    const y0 = r === 0 ? r + 0.5 - RING : r - 0.5, y1 = r === m.rows - 1 ? r - 0.5 + RING : r + 0.5;
+    const top = [this.iso(x0, y0, h), this.iso(x1, y0, h), this.iso(x1, y1, h), this.iso(x0, y1, h)];
     const side = this.art.get('tex-side'), cap = this.art.get('tex-top');
     // ร่องแสงแบบ Mock: ขีดสั้นแยกกัน ไม่ใช่ทุกหน้า เลือกจากตำแหน่งช่องแบบคงที่ (ไม่สุ่มทุกเฟรม)
     const seed = hash(c, r), glowZ = h * (0.3 + (seed % 3) * 0.12);
+    const open = (cc: number, rr: number) => !solid(m, cc, rr) || (low(cc, rr) && !low(c, r));
     // หน้าซ้ายล่าง (+r) แสงกลาง
-    if (!solid(m, c, r + 1)) {
-      const a = this.iso(c - 0.5, r + 0.5, h), b = this.iso(c + 0.5, r + 0.5, h), d = this.iso(c - 0.5, r + 0.5);
+    if (open(c, r + 1)) {
+      const a = this.iso(x0, y1, h), b = this.iso(x1, y1, h), d = this.iso(x0, y1);
       this.face(g, side, a, b, d, p.side, 0.1);
-      if (seed % 5 < 3) this.glow(g, this.iso(c - 0.5, r + 0.5, glowZ), this.iso(c + 0.5, r + 0.5, glowZ), seed);
+      if (seed % 5 < 3) this.glow(g, this.iso(x0, y1, glowZ), this.iso(x1, y1, glowZ), seed);
     }
     // หน้าขวาล่าง (+c) มืดกว่า
-    if (!solid(m, c + 1, r)) {
-      const a = this.iso(c + 0.5, r + 0.5, h), b = this.iso(c + 0.5, r - 0.5, h), d = this.iso(c + 0.5, r + 0.5);
+    if (open(c + 1, r)) {
+      const a = this.iso(x1, y1, h), b = this.iso(x1, y0, h), d = this.iso(x1, y1);
       this.face(g, side, a, b, d, shade(p.side, -0.25), 0.38);
-      if ((seed >> 3) % 5 < 2) this.glow(g, this.iso(c + 0.5, r + 0.5, glowZ), this.iso(c + 0.5, r - 0.5, glowZ), seed >> 2);
+      if ((seed >> 3) % 5 < 2) this.glow(g, this.iso(x1, y1, glowZ), this.iso(x1, y0, glowZ), seed >> 2);
     }
-    // หน้าบนสว่างสุด — ไม่มี texture ใช้สีธีม + ขอบ bevel (texture ของ Codex มี bevel ในภาพแล้ว ไม่วาดซ้ำ)
+    // หน้าบนสว่างสุด — ไม่มี texture ใช้สีธีม (texture ของ Codex มี bevel ในภาพแล้ว)
     if (cap) { mapImage(g, cap.img, cap.w, cap.h, top[0], top[1], top[3], 1.015); if (p.topLift) { g.fillStyle = `rgba(190,205,255,${p.topLift})`; poly(g, top); g.fill(); } }
-    else {
-      g.fillStyle = shade(p.top, -0.12); poly(g, top); g.fill();
-      g.fillStyle = p.top; poly(g, [this.iso(c - 0.38, r - 0.38, h), this.iso(c + 0.38, r - 0.38, h), this.iso(c + 0.38, r + 0.38, h), this.iso(c - 0.38, r + 0.38, h)]); g.fill();
-    }
+    else { g.fillStyle = p.top; poly(g, top); g.fill(); }
     // ขอบหน้าบนที่ไม่ติดผนังข้างเคียง: เส้นสว่างบางๆ ให้บล็อกดูมีสันแบบภาพ Mock
     g.strokeStyle = 'rgba(255,255,255,.28)'; g.lineWidth = Math.max(1, T * 0.02);
     const edges: [boolean, Pt, Pt][] = [[solid(m, c, r - 1), top[0], top[1]], [solid(m, c + 1, r), top[1], top[2]], [solid(m, c, r + 1), top[2], top[3]], [solid(m, c - 1, r), top[3], top[0]]];

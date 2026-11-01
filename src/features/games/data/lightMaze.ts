@@ -33,6 +33,8 @@ const SEEKERS: Record<string, SeekerId> = { 1: 'red', 2: 'violet', 3: 'blue', 4:
 const ITEMS: Record<string, ItemKind> = { '*': 'star', T: 'clock', H: 'shield' };
 
 // ผังจาก output/orbmaze-plan/levels.json (Codex ออกแบบใหม่ ไม่ถอดจากเกมอื่น)
+// เพื่อนหุ่นเพิ่มทีละตัว เริ่มจากตัวที่เบาสุด (เจ้าของโปรเจกต์ 1 พ.ย. 2026 — เด็กมองว่ายากเพราะมาถึงเจอหลายตัว):
+// ด่าน 1 เขียว (เดินสุ่ม มีหยุดพัก) · ด่าน 2 เพิ่มม่วง (เดินเล่นแถวแท่น) · ด่าน 3 เพิ่มแดง (ไล่เมื่อเข้าใกล้)
 export const MAZE_LEVELS: Level[] = [
   { theme: 'neon', th: 'เมืองแสงสี', en: 'Neon Courtyard', map: [
     '#########',
@@ -42,9 +44,9 @@ export const MAZE_LEVELS: Level[] = [
     '#.#.C.#.#',
     '#.#.....#',
     '#...##..#',
-    '#.......#',
+    '#......4#',
     '#########',
-  ], rules: { playerSpeed: 2.6, seekerSpeed: 0, powerSeconds: 10, slowSeconds: 8 } },
+  ], rules: { playerSpeed: 2.6, seekerSpeed: 1, powerSeconds: 10, slowSeconds: 8 } },
   { theme: 'grove', th: 'สวนคริสตัล', en: 'Crystal Grove', map: [
     '###########',
     '#P...#...A#',
@@ -53,11 +55,11 @@ export const MAZE_LEVELS: Level[] = [
     '#.#.##..#.#',
     '#...#C#...#',
     '#.#.....#.#',
-    '#..#T.#.1.#',
+    '#..#T.#.4.#',
     '#..#..#...#',
     '#B..*.H.2.#',
     '###########',
-  ], rules: { playerSpeed: 2.8, seekerSpeed: 1.3, powerSeconds: 10, slowSeconds: 8 } },
+  ], rules: { playerSpeed: 2.8, seekerSpeed: 1.2, powerSeconds: 10, slowSeconds: 8 } },
   { theme: 'sky', th: 'ลานลอยฟ้า', en: 'Sky Ruins', map: [
     '#############',
     '#P....#....A#',
@@ -68,9 +70,9 @@ export const MAZE_LEVELS: Level[] = [
     '#.##....#.#.#',
     '#..T.#....1.#',
     '#.#..#.##...#',
-    '#B..*.H.2.3.#',
+    '#B..*.H.2.4.#',
     '#############',
-  ], rules: { playerSpeed: 3, seekerSpeed: 1.5, powerSeconds: 10, slowSeconds: 8 } },
+  ], rules: { playerSpeed: 3, seekerSpeed: 1.4, powerSeconds: 10, slowSeconds: 8 } },
 ];
 
 export function parseMaze(map: readonly string[]): Maze {
