@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useSyncExternalStore, type ReactNode } from 'react';
 import { BackLink } from '@/components/ui/BackLink';
 import { useSound } from '@/components/sound/SoundProvider';
 import { useDict } from '@/i18n/LocaleProvider';
@@ -22,7 +22,7 @@ const VOICE_DELAY_MS = 900;
   บังหน้าเกมจนกว่าจะเป็นแนวนอน — iPhone ล็อกจอจากหน้าเว็บไม่ได้ หรือเด็กออกจากเต็มจอแล้วถือมือถือตั้งไว้
   ปุ่มเปิดเต็มจอมีเฉพาะเครื่องที่รองรับ กดแล้วเครื่องหมุนให้เอง (Android)
 */
-export function RotateGate() {
+export function RotateGate({ back }: { back?: ReactNode } = {}) {
   const { t, sub } = useDict();
   const { speak } = useSound();
   const say = useRef({ speak, text: t.games.rotate.title });
@@ -38,7 +38,7 @@ export function RotateGate() {
     <h2 id="gc-rotate-title">{t.games.rotate.title}{sub && <small lang="en">{sub.games.rotate.title}</small>}</h2>
     <div className="gc-rotate-actions">
       {canEnterFullscreen() && <button type="button" className="gc-button gc-primary" onClick={enterGameFullscreen}>{t.games.rotate.fullscreen}{sub && <small lang="en">{sub.games.rotate.fullscreen}</small>}</button>}
-      <BackLink href="/games" label={{ th: t.games.shell.hub, en: sub?.games.shell.hub ?? t.games.shell.hub }} />
+      {back ?? <BackLink href="/games" label={{ th: t.games.shell.hub, en: sub?.games.shell.hub ?? t.games.shell.hub }} />}
     </div>
   </section>;
 }

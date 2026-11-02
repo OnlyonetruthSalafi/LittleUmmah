@@ -1,0 +1,159 @@
+/*
+  เกาะศิลปะ: โต๊ะระบายสีบนเกาะลอยฟ้า (concept B ใน output/art-redesign)
+  ภาพชุด public/art-studio ค่า slice และช่องในของกรอบวัดจากไฟล์จริง (output/art-assets/report.md) ถ้าเปลี่ยนภาพต้องวัดใหม่
+  ปุ่มเด็ก ≥ 64px, แยกสีด้วยรูปทรงไม่ใช่สีอย่างเดียว (ข้อ 2)
+*/
+.art-stage {
+  --art-lift: drop-shadow(0 4px 4px rgb(70 42 12 / .38));
+  --art-lift-high: drop-shadow(0 9px 10px rgb(70 42 12 / .45));
+  position: relative;
+  overflow: hidden;
+  color: var(--color-ink);
+  background: url('/art-studio/scene.webp') center / cover no-repeat, linear-gradient(#8fd8ff, #d9f3ff 62%, #e7b878 62%);
+}
+.art-stage small { display: block; font-size: .68em; font-weight: 600; }
+
+.art-plate {
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #17508f; font: inherit; background: none;
+  /* 9-slice: แผ่นปุ่มยืดตามความยาวข้อความได้ มุมทองไม่เสียรูป */
+  border: 6px solid transparent; border-image: url('/art-studio/plate.webp') 80 fill / 16px;
+  filter: var(--art-lift);
+  transition: filter 200ms ease-out, transform 200ms ease-out, opacity 200ms ease-out;
+}
+.art-plate:active { filter: var(--art-lift-high); }
+.art-plate svg { width: 32px; height: 32px; }
+.art-plate:disabled { opacity: .45; cursor: default; }
+@media (hover: hover) { .art-plate:not(:disabled):hover { filter: var(--art-lift-high); } }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .art-plate:not(:disabled):hover { transform: translateY(-2px); } }
+  .art-plate:not(:disabled):active { transform: scale(.98); transition-duration: 75ms; }
+}
+.art-stage :is(button, a, path[role='button']):focus-visible { outline: 4px solid #17508f; outline-offset: 3px; }
+
+.art-frame {
+  position: relative; display: block;
+  /* ช่องในของ frame.webp กว้าง 86.875% สูง 82.167% ของภาพ: สัดส่วนนี้ทำให้ช่องในเป็น 4:3 พอดีกับ viewBox ของรูป */
+  aspect-ratio: 1.261;
+  background: url('/art-studio/frame.webp') center / 100% 100% no-repeat;
+  filter: var(--art-lift-high);
+}
+/* ยึดกับขอบช่องในของกรอบโดยตรง รูปจึงเต็มช่องเสมอแม้กรอบถูกจำกัดความกว้าง */
+.art-picture { position: absolute; inset: 8.9167% 6.5625%; width: 86.875%; height: 82.1666%; overflow: visible; background: #fffdf6; }
+.art-picture path:not(.art-hit) { stroke: #1c2b3a; stroke-width: 3.5; stroke-linejoin: round; transition: fill 200ms ease-out; }
+.art-picture path[role='button'] { cursor: pointer; touch-action: manipulation; }
+.art-picture path:focus:not(:focus-visible) { outline: none; }
+/* ชิ้นผอม (เสา ก้าน) ขยายพื้นที่แตะด้วยเส้นโปร่งใสทับด้านบน ไม่เปลี่ยนภาพ */
+.art-hit { fill: none; stroke: transparent; stroke-width: 26; pointer-events: stroke; cursor: pointer; touch-action: manipulation; }
+
+/* หน้าเลือกรูป */
+.art-picker {
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start;
+  gap: 10px; min-height: min(calc(100dvh - 130px), 700px); padding: 18px 16px 32px; border-radius: 32px;
+}
+.art-picker-back { position: absolute; top: 14px; left: 14px; z-index: 2; }
+.art-sign {
+  display: grid; place-items: center; width: min(460px, 62vw); aspect-ratio: 900 / 260;
+  background: url('/art-studio/sign.webp') center / 100% 100% no-repeat; filter: var(--art-lift-high);
+}
+.art-sign h1 { margin: 0; color: #4b2a0d; font: 800 clamp(22px, 3.4vw, 36px) / 1.1 var(--font-display); text-align: center; }
+.art-nuri { position: absolute; right: 2%; top: 8px; width: clamp(92px, 13vw, 170px); height: auto; z-index: 1; }
+/* ขอบโต๊ะในฉากขยับตามขนาดจอ ป้ายจึงต้องมีพื้นของตัวเอง ไม่งั้นตัวหนังสืออาจคร่อมฟ้ากับไม้ */
+.art-choose { margin: 0; padding: 0 12px; border: 6px solid transparent; border-image: url('/art-studio/plate.webp') 80 fill / 14px; font-size: 18px; font-weight: 800; line-height: 1.25; text-align: center; }
+.art-carousel { display: grid; grid-template-columns: 72px repeat(3, minmax(0, 1fr)) 72px; align-items: center; gap: 12px; width: min(1120px, 100%); margin-top: 8px; }
+.art-arrow { width: 72px; height: 72px; }
+.art-pick { display: flex; flex-direction: column; gap: 10px; align-items: center; min-width: 0; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: inherit; }
+/* รูปสามใบวางบนโต๊ะ ใบข้างเอียงรับกับมุมกล้องของฉาก เอียงคงที่ ไม่ตามเมาส์ (ข้อ 2.1) */
+.art-pick .art-frame { --art-rest: perspective(1100px) rotateX(10deg); width: 100%; transform: var(--art-rest); transition: filter 200ms ease-out, transform 200ms ease-out; }
+.art-pick[data-slot='0'] .art-frame { --art-rest: perspective(1100px) rotateX(10deg) rotate(-3deg); }
+.art-pick[data-slot='1'] .art-frame { --art-rest: perspective(1100px) rotateX(6deg) scale(1.05); }
+.art-pick[data-slot='2'] .art-frame { --art-rest: perspective(1100px) rotateX(10deg) rotate(3deg); }
+.art-pick-name { padding: 0 10px; border: 6px solid transparent; border-image: url('/art-studio/plate.webp') 80 fill / 12px; font-size: 18px; font-weight: 800; line-height: 1.25; }
+.art-pick:active .art-frame { filter: drop-shadow(0 16px 14px rgb(70 42 12 / .5)); }
+@media (hover: hover) { .art-pick:hover .art-frame { filter: drop-shadow(0 16px 14px rgb(70 42 12 / .5)); } }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) { .art-pick:hover .art-frame { transform: translateY(-4px) scale(1.03) var(--art-rest); } }
+
+/* กระดานระบายสี เต็มจอเหมือนเกม */
+.art-board { position: fixed; inset: 0; z-index: 60; height: 100dvh; outline: none; }
+.art-board-inner {
+  display: grid; height: 100%; gap: 8px; padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  grid-template-columns: 76px minmax(0, 1fr) 76px; grid-template-rows: minmax(0, 1fr) auto;
+}
+.art-rail { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; }
+.art-tool { width: 72px; height: 72px; }
+.art-done { color: #0f7a4a; width: 76px; height: 76px; }
+.art-board-inner > .art-frame { grid-column: 2; grid-row: 1; justify-self: center; align-self: center; width: min(100%, calc((100dvh - 122px) * 1.261)); height: auto; min-height: 0; }
+.art-rail { grid-row: 1; }
+.art-tray {
+  position: relative; grid-column: 1 / -1; grid-row: 2; justify-self: center;
+  width: min(780px, 100%); height: clamp(72px, 10vw, 98px);
+  background: url('/art-studio/paint-tray.webp') center / 100% 100% no-repeat; filter: var(--art-lift-high);
+}
+.art-color { position: absolute; margin: -32px 0 0 -32px; width: 64px; height: 64px; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 50%; transition: box-shadow 200ms ease-out, transform 200ms ease-out; }
+.art-color::before { content: ''; position: absolute; inset: 5px 2px; border-radius: 50%; border: 3px solid transparent; }
+.art-color[aria-pressed='true']::before { border-color: #ffe06b; box-shadow: 0 0 0 2px #795314, inset 0 0 0 1px #795314; }
+.art-color svg { position: absolute; bottom: 3px; left: 23px; width: 18px; height: 18px; filter: drop-shadow(0 1px 1px #4b2a0d); }
+.art-color:active { box-shadow: 0 5px 8px rgb(60 35 8 / .5); }
+@media (hover: hover) { .art-color:hover { box-shadow: 0 5px 8px rgb(60 35 8 / .5); } }
+@media (prefers-reduced-motion: no-preference) { .art-color:active { transform: scale(.98); transition-duration: 75ms; } }
+
+.art-paper { position: absolute; inset: 8.9167% 6.5625%; background: #fffdf6; }
+.art-paint, .art-lines, .art-keyboard { position: absolute; inset: 0; width: 100%; height: 100%; }
+.art-paint { touch-action: none; }
+.art-lines, .art-keyboard { pointer-events: none; }
+.art-keyboard path { fill: transparent; stroke: transparent; }
+.art-keyboard path:focus-visible { stroke: #17508f; stroke-width: 4; stroke-dasharray: 5 3; outline: none !important; }
+.art-brush-overlay { position: absolute; inset: 0; overflow: clip; pointer-events: none; z-index: 3; }
+.art-brush { position: absolute; left: 0; top: 0; width: 140px; height: 105px; pointer-events: none; transition: transform 200ms ease-out; will-change: transform; }
+.art-brush[data-follow='true'] { transition: none; }
+.art-brush-art { position: absolute; width: 100%; height: 100%; background: url('/art-studio/brush.webp') center / 100% 100% no-repeat; }
+.art-brush-tint { position: absolute; inset: 0; mask: url('/art-studio/brush-tip.webp') center / 100% 100% no-repeat; mix-blend-mode: multiply; }
+@media (hover: hover) { .art-paint { cursor: none; } }
+@media (prefers-reduced-motion: reduce) { .art-brush { transition: none; transition-duration: 0s !important; } }
+
+.art-board[data-finished] .art-board-inner { grid-template-columns: minmax(0, 1fr) minmax(200px, 300px); grid-template-rows: minmax(0, 1fr); gap: 20px; padding: 16px 24px; align-items: center; }
+.art-board[data-finished] .art-frame { grid-column: 1; width: min(100%, calc((100dvh - 32px) * 1.261)); }
+.art-result { display: flex; flex-direction: column; align-items: stretch; gap: 12px; text-align: center; }
+.art-result-nuri { align-self: center; width: clamp(84px, 16vh, 150px); height: auto; }
+.art-result h2 { margin: 0; color: #4b2a0d; font: 800 28px / 1.2 var(--font-display); outline: none; }
+.art-text-button { flex-direction: column; min-height: 64px; padding: 8px 14px; font-size: 17px; font-weight: 800; line-height: 1.2; }
+
+/* มือถือแนวตั้งบนหน้าเลือกรูป: เห็นรูปกลางรูปเดียว แล้วใช้ลูกศรเลื่อน */
+@media (max-width: 639px) and (orientation: portrait) {
+  .art-picker { min-height: 0; padding-top: 76px; }
+  .art-nuri { top: 4px; right: 4px; width: 84px; }
+  .art-sign { width: 58vw; }
+  .art-carousel { grid-template-columns: 64px minmax(0, 1fr) 64px; gap: 8px; }
+  .art-arrow { width: 64px; height: 64px; }
+  .art-pick[data-slot='0'], .art-pick[data-slot='2'] { display: none; }
+  .art-pick[data-slot='1'] .art-frame { transform: none; }
+}
+/* มือถือแนวนอน ความสูงน้อย */
+@media (orientation: landscape) and (max-height: 520px) {
+  /* เต็มจอเหมือนกระดาน ไม่งั้นหัวเว็บดันการ์ดรูปตกขอบจอ */
+  .art-picker { position: fixed; inset: 0; z-index: 60; min-height: 0; height: 100dvh; gap: 2px; padding: 6px 12px 8px; border-radius: 0; align-content: center; }
+  .art-sign { width: 210px; }
+  .art-sign h1 { font-size: 19px; }
+  .art-sign h1 small { display: none; }
+  .art-choose { display: none; }
+  /* ข้างป้าย ไม่ไปซ้อนแจกันพู่กันที่มุมขวาของฉาก */
+  .art-nuri { width: 76px; top: 2px; right: auto; left: calc(50% + 112px); }
+  .art-carousel { width: min(620px, 100%); grid-template-columns: 64px repeat(3, minmax(0, 1fr)) 64px; gap: 8px; margin-top: 4px; }
+  .art-arrow { width: 64px; height: 64px; }
+  .art-pick { gap: 4px; }
+  .art-pick-name { padding: 0 6px; font-size: 14px; }
+  .art-pick-name small { display: none; }
+  .art-tool { width: 64px; height: 64px; }
+  .art-done { width: 68px; height: 68px; }
+  .art-board-inner { grid-template-columns: 66px minmax(0, 1fr) 70px; gap: 4px; padding-block: 4px; }
+  .art-board-inner > .art-frame { width: min(100%, calc((100dvh - 84px) * 1.261)); }
+  .art-tray { height: 72px; width: min(680px, 100%); }
+  .art-color { width: 64px; height: 64px; }
+  .art-board[data-finished] .art-board-inner { gap: 10px; padding: 8px 14px; grid-template-columns: minmax(0, 1fr) minmax(180px, 230px); }
+  .art-board[data-finished] .art-frame { width: min(100%, calc((100dvh - 16px) * 1.261)); }
+  .art-result { gap: 6px; }
+  .art-result-nuri { width: 64px; }
+  .art-result h2 { font-size: 20px; }
+}
+
+.art-defs { position: absolute; width: 0; height: 0; }
