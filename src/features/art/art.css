@@ -84,6 +84,11 @@
 .art-done { color: #0f7a4a; width: 76px; height: 76px; }
 .art-board-inner > .art-frame { grid-column: 2; grid-row: 1; justify-self: center; align-self: center; width: min(100%, calc((100dvh - 122px) * 1.261)); height: auto; min-height: 0; }
 .art-rail { grid-row: 1; }
+.art-rail-end { grid-column: 3; align-self: end; }
+.art-board:not([data-finished]) .art-board-inner { grid-template-columns: 76px minmax(0, 1fr) clamp(140px, 17vw, 240px); }
+/* ภาพตัวอย่างให้เด็กระบายตาม ไม่ใช่ปุ่ม จึงไม่ต้องตามเกณฑ์ 64px ใช้แค่ 8 สีในถาด */
+.art-example { grid-column: 3; grid-row: 1; align-self: start; display: flex; flex-direction: column; gap: 4px; align-items: stretch; min-width: 0; margin: 0; pointer-events: none; }
+.art-example figcaption { padding: 0 8px; border: 6px solid transparent; border-image: url('/art-studio/plate.webp') 80 fill / 12px; font-size: 16px; font-weight: 800; line-height: 1.2; text-align: center; }
 .art-tray {
   position: relative; grid-column: 1 / -1; grid-row: 2; justify-self: center;
   width: min(780px, 100%); height: clamp(72px, 10vw, 98px);
@@ -118,6 +123,14 @@
 .art-result h2 { margin: 0; color: #4b2a0d; font: 800 28px / 1.2 var(--font-display); outline: none; }
 .art-text-button { flex-direction: column; min-height: 64px; padding: 8px 14px; font-size: 17px; font-weight: 800; line-height: 1.2; }
 
+/* จอตั้งที่ใช้เมาส์ (จอสัมผัสถูกบังให้หมุนก่อน): ไม่มีที่ข้างกรอบ ย้ายภาพตัวอย่างไปเหนือกรอบ */
+@media (orientation: portrait) {
+  .art-board:not([data-finished]) .art-board-inner { grid-template-columns: 76px minmax(0, 1fr) 76px; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .art-board:not([data-finished]) .art-board-inner > .art-frame, .art-board:not([data-finished]) .art-rail { grid-row: 2; }
+  .art-board:not([data-finished]) .art-board-inner > .art-frame { width: min(100%, calc((100dvh - 330px) * 1.261)); }
+  .art-board:not([data-finished]) .art-tray { grid-row: 3; }
+  .art-example { grid-column: 1 / -1; justify-self: center; width: 200px; }
+}
 /* มือถือแนวตั้งบนหน้าเลือกรูป: เห็นรูปกลางรูปเดียว แล้วใช้ลูกศรเลื่อน */
 @media (max-width: 639px) and (orientation: portrait) {
   .art-picker { min-height: 0; padding-top: 76px; }
@@ -145,7 +158,9 @@
   .art-pick-name small { display: none; }
   .art-tool { width: 64px; height: 64px; }
   .art-done { width: 68px; height: 68px; }
-  .art-board-inner { grid-template-columns: 66px minmax(0, 1fr) 70px; gap: 4px; padding-block: 4px; }
+  .art-board:not([data-finished]) .art-board-inner { grid-template-columns: 66px minmax(0, 1fr) clamp(130px, 17vw, 170px); gap: 4px; padding-block: 4px; }
+  .art-example figcaption { padding: 0 6px; font-size: 14px; }
+  .art-example figcaption small { display: none; }
   .art-board-inner > .art-frame { width: min(100%, calc((100dvh - 84px) * 1.261)); }
   .art-tray { height: 72px; width: min(680px, 100%); }
   .art-color { width: 64px; height: 64px; }

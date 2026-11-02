@@ -41,6 +41,10 @@ const SHAPES: Record<ArtColor['shape'], string> = {
   heart: 'M24 43C8 31 3 24 3 16C3 8 9 4 15 4C19 4 22 6 24 10C26 6 29 4 33 4C39 4 45 8 45 16C45 24 40 31 24 43Z',
 };
 
+function exampleFills(picture: ArtPicture): Fills {
+  return Object.fromEntries(Object.entries(picture.example).map(([region, id]) => [region, ART_COLORS.find(item => item.id === id)!.value]));
+}
+
 function ColorTile({ color, on, onPick }: { color: ArtColor; on: boolean; onPick: () => void }) {
   const { pick } = useDict();
   const well = PAINT_WELLS.find(item => item.id === color.id)!;
@@ -151,7 +155,11 @@ function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void })
             <button type="button" className="art-plate art-tool" aria-label={pick(ART_TEXT.back)} onClick={onExit}><ArrowLeftIcon /></button>
             <button type="button" className="art-plate art-tool" aria-label={pick(ART_TEXT.undo)} onClick={() => surface.current?.undo()} disabled={!historyCount}><ReplayIcon /></button>
           </div>
-          <div className="art-rail">
+          <figure className="art-example">
+            <figcaption><TwoLine text={ART_TEXT.example} /></figcaption>
+            <span className="art-frame"><PictureSvg picture={picture} fills={exampleFills(picture)} label={pick(picture.title)} /></span>
+          </figure>
+          <div className="art-rail art-rail-end">
             <button type="button" className="art-plate art-tool art-done" aria-label={pick(ART_TEXT.done)} onClick={finish}>
               <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M10 26l10 10 18-22" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>

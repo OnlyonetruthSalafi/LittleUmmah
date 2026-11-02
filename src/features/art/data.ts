@@ -6,10 +6,14 @@ import type { Text } from '@/i18n/config';
   SVG paths ใช้เป็นเส้นรูปและหน้ากาก canvas ระบายสีด้วยพู่กันใน paint.ts
 */
 export type ArtRegion = { id: string; d: string; label: Text; thin?: boolean };
-export type ArtPicture = { id: string; title: Text; regions: ArtRegion[]; lines?: string };
-export type ArtColor = { id: string; value: string; label: Text; shape: 'diamond' | 'hexagon' | 'triangle' | 'square' | 'circle' | 'drop' | 'star' | 'heart' };
+// example: สีของภาพตัวอย่าง (id ของ ART_COLORS) ชิ้นที่ไม่ระบุคือปล่อยเป็นสีกระดาษ เช่น ก้อนเมฆ
+export type ArtPicture = { id: string; title: Text; regions: ArtRegion[]; example: Record<string, ArtColorId>; lines?: string };
+export type ArtColorId = 'red' | 'orange' | 'yellow' | 'green' | 'turquoise' | 'blue' | 'purple' | 'pink';
+export type ArtColor = { id: ArtColorId; value: string; label: Text; shape: 'diamond' | 'hexagon' | 'triangle' | 'square' | 'circle' | 'drop' | 'star' | 'heart' };
 
 const BACKGROUND = 'M0 0H400V300H0Z';
+const alternate = (prefix: string, count: number, first: ArtColorId, second: ArtColorId) =>
+  Object.fromEntries(Array.from({ length: count }, (_, i) => [`${prefix}-${i + 1}`, i % 2 ? second : first])) as Record<string, ArtColorId>;
 const r = (id: string, th: string, en: string, d: string, thin = false): ArtRegion => ({ id, d, label: { th, en }, thin });
 
 // ดาวแปดแฉกจากสี่เหลี่ยมสองรูปซ้อนกัน (ลายเรขาคณิต) จุดยอดคำนวณจากรัศมี ไม่ได้กะด้วยตา
@@ -25,6 +29,7 @@ const octagon = `M${Array.from({ length: 8 }, (_, i) => polar(200, 150, INNER, i
 export const ART_PICTURES: ArtPicture[] = [
   {
     id: 'boat', title: { th: 'เรือใบ', en: 'Sailboat' },
+    example: { sky: 'turquoise', sun: 'yellow', sea: 'blue', hull: 'red', 'sail-left': 'pink', 'sail-right': 'yellow', mast: 'orange', flag: 'green' },
     regions: [
       r('sky', 'ท้องฟ้า', 'Sky', BACKGROUND),
       r('sun', 'ดวงอาทิตย์', 'Sun', 'M336 60a30 30 0 1 1-60 0a30 30 0 1 1 60 0Z'),
@@ -39,6 +44,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'lantern', title: { th: 'โคมไฟ', en: 'Lantern' },
+    example: { wall: 'purple', ring: 'yellow', dome: 'blue', band: 'orange', 'pane-left': 'turquoise', 'pane-middle': 'yellow', 'pane-right': 'turquoise', flame: 'orange', base: 'orange', foot: 'blue' },
     regions: [
       r('wall', 'พื้นหลัง', 'Background', BACKGROUND),
       r('ring', 'ห่วงแขวน', 'Ring', 'M200 10a18 18 0 1 1-.1 0ZM200 22a6 6 0 1 0 .1 0Z'),
@@ -54,6 +60,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'moon', title: { th: 'จันทร์เสี้ยวกับดาว', en: 'Moon and stars' },
+    example: { night: 'blue', moon: 'yellow', 'star-big': 'orange', 'star-small': 'yellow', 'star-low': 'yellow' },
     regions: [
       r('night', 'ท้องฟ้ายามค่ำ', 'Night sky', BACKGROUND),
       r('moon', 'จันทร์เสี้ยว', 'Crescent moon', 'M230 40A112 112 0 1 0 230 260A130 130 0 0 1 230 40Z'),
@@ -65,6 +72,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'palm', title: { th: 'ต้นอินทผลัม', en: 'Date palm' },
+    example: { sky: 'turquoise', sun: 'orange', dune: 'yellow', trunk: 'orange', 'frond-left-low': 'green', 'frond-right-low': 'green', 'frond-left': 'green', 'frond-right': 'green', 'frond-top': 'green', 'dates-left': 'red', 'dates-right': 'red' },
     regions: [
       r('sky', 'ท้องฟ้า', 'Sky', BACKGROUND),
       r('sun', 'ดวงอาทิตย์', 'Sun', 'M92 70a34 34 0 1 1-68 0a34 34 0 1 1 68 0Z'),
@@ -81,6 +89,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'flower', title: { th: 'กระถางดอกไม้', en: 'Flower pot' },
+    example: { wall: 'turquoise', table: 'yellow', stem: 'green', 'leaf-left': 'green', 'leaf-right': 'green', ...alternate('petal', 6, 'pink', 'red'), center: 'yellow', 'pot-rim': 'red', pot: 'orange' },
     regions: [
       r('wall', 'พื้นหลัง', 'Background', BACKGROUND),
       r('table', 'โต๊ะ', 'Table', 'M0 262H400V300H0Z'),
@@ -98,6 +107,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'pattern', title: { th: 'ลายดาวแปดแฉก', en: 'Eight-point star' },
+    example: { tile: 'turquoise', 'corner-1': 'blue', 'corner-2': 'blue', 'corner-3': 'blue', 'corner-4': 'blue', ...alternate('tip', 8, 'yellow', 'orange'), middle: 'purple' },
     regions: [
       r('tile', 'พื้นลาย', 'Background', BACKGROUND),
       r('corner-1', 'มุมซ้ายบน', 'Top left corner', 'M0 0H96L0 84Z'),
@@ -110,6 +120,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'house', title: { th: 'บ้านหลังคาโดม', en: 'Domed house' },
+    example: { sky: 'turquoise', ground: 'green', tower: 'orange', 'tower-top': 'blue', dome: 'blue', wall: 'yellow', door: 'purple', 'window-left': 'turquoise', 'window-right': 'turquoise' },
     regions: [
       r('sky', 'ท้องฟ้า', 'Sky', BACKGROUND),
       r('ground', 'พื้นดิน', 'Ground', 'M0 256H400V300H0Z'),
@@ -124,6 +135,7 @@ export const ART_PICTURES: ArtPicture[] = [
   },
   {
     id: 'pot', title: { th: 'กาน้ำชา', en: 'Teapot' },
+    example: { wall: 'yellow', table: 'orange', handle: 'blue', spout: 'blue', body: 'turquoise', stripe: 'pink', lid: 'blue', knob: 'red' },
     regions: [
       r('wall', 'พื้นหลัง', 'Background', BACKGROUND),
       r('table', 'โต๊ะ', 'Table', 'M0 258H400V300H0Z'),
@@ -161,4 +173,5 @@ export const ART_TEXT = {
   finished: { th: 'สวยมากเลย!', en: 'Beautiful!' },
   again: { th: 'ระบายรูปใหม่', en: 'Color a new picture' },
   keep: { th: 'ระบายต่อ', en: 'Keep coloring' },
+  example: { th: 'ภาพตัวอย่าง', en: 'Example' },
 } satisfies Record<string, Text>;

@@ -47,6 +47,7 @@ try {
     check(!(await overflow(page)).length,`${name} no interactive/frame overflow`,await overflow(page));
     check(await page.evaluate(()=>{const f=document.querySelector('.art-frame').getBoundingClientRect(),t=document.querySelector('.art-tray').getBoundingClientRect();return f.bottom<=t.top+1;}),`${name} tray does not overlap picture`);
     check(await page.evaluate(()=>document.querySelector('header')?.closest('[inert]')!==null),`${name} covered page is inert`);
+    check(await page.evaluate(()=>{const e=document.querySelector('.art-example').getBoundingClientRect(),hit=b=>!(e.right<=b.left+1||b.right<=e.left+1||e.bottom<=b.top+1||b.bottom<=e.top+1),rect=q=>document.querySelector(q).getBoundingClientRect();return e.width>=120&&e.left>=0&&e.top>=0&&e.right<=innerWidth&&e.bottom<=innerHeight&&!hit(rect('.art-board-inner > .art-frame'))&&!hit(rect('.art-done'))&&!hit(rect('.art-tray'));}),`${name} example picture visible beside the board`);
     const blank=await raster(page);await page.locator('.art-color').nth(0).click();await page.waitForTimeout(230);
     const homeError=await page.evaluate(anchor=>{const b=document.querySelector('.art-brush-art').getBoundingClientRect(),c=document.querySelector('.art-color[aria-pressed="true"]').getBoundingClientRect();return Math.hypot(b.left+b.width*anchor.x/100-c.left-c.width/2,b.top+b.height*anchor.y/100-c.top-c.height/2);},BRUSH_TIP);
     check(homeError<=3,`${name} brush rests in the selected measured well`,homeError);

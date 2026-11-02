@@ -58,3 +58,14 @@ test('แถวคีย์บอร์ดครอบคลุมภาพร�
   const rows=keyboardRows();assert.ok(rows[0][0].y<0&&rows.at(-1)[0].y>300);
   for(const row of rows){assert.ok(Math.min(row[0].x,row[1].x)<0);assert.ok(Math.max(row[0].x,row[1].x)>400);}
 });
+test('ภาพตัวอย่างใช้สีในถาดและชี้ชิ้นที่มีจริงทุกรูป', () => {
+  const colors = new Set(ART_COLORS.map(color => color.id));
+  for (const picture of ART_PICTURES) {
+    const regions = new Set(picture.regions.map(region => region.id));
+    assert.ok(Object.keys(picture.example).length >= regions.size - 2, picture.id);
+    for (const [region, color] of Object.entries(picture.example)) {
+      assert.ok(regions.has(region), `${picture.id}/${region}`);
+      assert.ok(colors.has(color), `${picture.id}/${region}`);
+    }
+  }
+});
