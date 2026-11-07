@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs scripts/speech.test.mjs"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --test tests/*.test.mjs scripts/speech.test.mjs",
+    "verify": "npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
     "next": "16.3.4",
