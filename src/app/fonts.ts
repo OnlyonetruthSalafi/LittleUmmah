@@ -21,7 +21,7 @@ export const baloo = Baloo_2({
 */
 export const thai = Noto_Sans_Thai_Looped({
   variable: "--font-thai",
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "600", "700", "800", "900"],
   subsets: ["thai", "latin"],
   display: "swap",
 });

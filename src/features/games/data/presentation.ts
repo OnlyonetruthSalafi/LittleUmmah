@@ -37,6 +37,13 @@ type GamePresentation = {
 };
 
 export const gamePresentation: Record<GameSlug, GamePresentation> = {
+  'block-builders': {
+    voiceIntro: true, ownVoice: true, journey: true, starsPerLevel: 1,
+    world: { th: 'เกาะช่างสร้างบ้าน', en: 'Block Builders Island' },
+    description: { th: 'ดูรูปทรงและสี ต่อฐานก่อนวางชั้นบน', en: 'Match shapes and colors. Build supports before the top.' },
+    levels: [{ th: 'บ้านน้อย', en: 'Little houses' }, { th: 'ประตูโค้ง', en: 'Arched doorways' }, { th: 'อาคารสองชั้น', en: 'Two-storey buildings' }],
+    destinations: { th: 'ช่องเงาแบบบ้าน', en: 'Building outlines' }, pieces: { th: 'บล็อกไม้', en: 'Wooden blocks' },
+  },
   'balance-scale': {
     voiceIntro: true, ownVoice: true, journey: true, starsPerLevel: 1,
     world: { th: 'เกาะตาชั่งสมดุล', en: 'Balance Scale Island' },

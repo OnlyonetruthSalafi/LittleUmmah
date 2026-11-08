@@ -9,6 +9,7 @@
   ภาพหน้าจอเก็บที่ output/games-hub-design/real-*.png
 */
 import { createRequire } from "node:module";
+import { inspectHomepage } from "./homepage-browser.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(
@@ -75,7 +76,7 @@ for (const view of VIEWPORTS) {
 
   check(m.scroll <= m.inner, `${tag} ไม่เลื่อนแนวนอน (${m.scroll}/${m.inner})`);
   check(m.columns === view.columns, `${tag} การ์ด ${view.columns} คอลัมน์ (${m.columns})`);
-  check(m.hrefs.length === 12 && new Set(m.hrefs).size === 12, `${tag} เกมครบ 12 ไม่ซ้ำ (${m.hrefs.length})`);
+  check(m.hrefs.length === 13 && new Set(m.hrefs).size === 13, `${tag} เกมครบ 13 ไม่ซ้ำ (${m.hrefs.length})`);
   check(m.minCard >= 64, `${tag} การ์ด ≥ 64px (${Math.round(m.minCard)})`);
   check(m.jumps.every((jump) => jump.height >= 64), `${tag} ปุ่มหมวด ≥ 64px`);
   check(m.guide >= 64, `${tag} หุ่นยนต์ ≥ 64px (${Math.round(m.guide)})`);
@@ -156,6 +157,12 @@ for (const [touch, viewport] of [[false, { width: 1280, height: 800 }], [true, {
 // เส้นทางอื่นต้องเหมือนเดิม
 {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  await page.goto(base, { waitUntil: "networkidle" });
+  await inspectHomepage(page, check);
+  await page.locator('[data-home-zone="play"] a[href="/learn/games"]').click();
+  await page.waitForURL("**/games");
+  await page.locator(".gh-page").waitFor();
+  check((await page.locator(".gh-page").count()) === 1, "home play island opens games hub");
   await page.goto(`${base}/games/memory`, { waitUntil: "domcontentloaded" });
   check((await page.locator(".gc-focus").count()) === 1, "/games/memory ยังเป็น focus mode");
   check((await page.locator(".gh-page").count()) === 0, "/games/memory ไม่มีหน้า hub");
@@ -163,7 +170,7 @@ for (const [touch, viewport] of [[false, { width: 1280, height: 800 }], [true, {
   check(new URL(page.url()).pathname === "/games", `/learn/games ไป /games (${new URL(page.url()).pathname})`);
   await page.goto(`${base}/en/games`, { waitUntil: "networkidle" });
   const hrefs = await page.locator("[data-game-link]").evaluateAll((links) => links.map((a) => a.getAttribute("href")));
-  check(hrefs.length === 12 && hrefs.every((href) => href.startsWith("/en/games/")), "/en ลิงก์เกมถูก");
+  check(hrefs.length === 13 && hrefs.every((href) => href.startsWith("/en/games/")), "/en ลิงก์เกมถูก");
   const text = await page.locator(".gh-page").innerText();
   check(!/[฀-๿]/.test(text), "/en ไม่มีตัวอักษรไทย");
   await page.close();

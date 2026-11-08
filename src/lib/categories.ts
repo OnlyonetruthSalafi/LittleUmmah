@@ -41,7 +41,7 @@ export const CATEGORIES: Category[] = [
       ภาพยังใช้ไฟล์เดิม (มุศฮัฟ) ชั่วคราว รอภาพเกาะใหม่ — ดู public/islands/README.md
     */
     slug: "arabic",
-    name: { th: "ภาษาอาหรับเบื้องต้น", en: "Basic Arabic" },
+    name: { th: "เรียนภาษาเบื้องต้น", en: "Basic Languages" },
     href: "/learn/arabic",
     image: "/islands/quran.webp",
   },
@@ -64,3 +64,19 @@ export const CATEGORIES: Category[] = [
     image: "/islands/art.webp",
   },
 ];
+
+// Homepage groups are separate from CATEGORIES: other pages still need the six
+// live category shortcuts, never links to subjects that have not opened yet.
+export type HomeIsland = Omit<Category, "href"> & { href?: string; comingSoon?: boolean };
+const upcoming: HomeIsland[] = [
+  { slug: "tajweed", name: { th: "ตัจวีดพื้นฐาน", en: "Tajweed Basics" }, image: "/islands/tajweed.webp", comingSoon: true },
+  { slug: "quran-reading", name: { th: "ฝึกอ่านอัลกุรอาน", en: "Qur'an Reading" }, image: "/islands/quran-reading.webp", comingSoon: true },
+  { slug: "faith-basics", name: { th: "เรียนรู้อิสลามพื้นฐานสำหรับเด็ก", en: "Islam Basics for Kids" }, image: "/islands/faith-basics.webp", comingSoon: true },
+  { slug: "numbers-math", name: { th: "ตัวเลขและคณิตคิดสนุก", en: "Numbers & Math" }, image: "/islands/numbers-math.webp", comingSoon: true },
+];
+const category = (slug: string) => CATEGORIES.find((entry) => entry.slug === slug)!;
+export const HOME_ISLANDS: { learn: HomeIsland[]; play: HomeIsland[] } = {
+  // Homepage grouping only; Arabic remains first in reading order.
+  learn: [category("arabic"), category("moral"), ...upcoming.filter((entry) => entry.slug !== "numbers-math")],
+  play: [category("stories"), category("art"), category("games"), upcoming.find((entry) => entry.slug === "numbers-math")!, category("explore")],
+};

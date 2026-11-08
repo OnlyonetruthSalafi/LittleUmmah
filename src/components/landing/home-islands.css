@@ -1,0 +1,101 @@
+/* Explicit Bézier samples in both homepage zones. */
+.home-zone-heading {
+  width: fit-content;
+  margin: 0 auto 1.25rem;
+  padding: .5rem 1.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-island-ink);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.4;
+  box-shadow: none;
+  /* ขอบขาวแบบ sticker: วงเงาหลายทิศแทน -webkit-text-stroke เพราะ Chrome วาด text-stroke แบบมุมแหลม (miter) ตั้งเป็น round ไม่ได้
+     ตัวอักษรโค้งจึงแตกเป็นเหลี่ยม (เจ้าของโปรเจกต์เห็นใน Chrome 8 พ.ย. 2026) เงาไม่เบลอทุกชั้นวาดด้วย antialias ขอบจึงมน */
+  color: #0f1d33;
+  -webkit-text-stroke: 1px #fff; paint-order: stroke fill; text-rendering: geometricPrecision; 
+  text-shadow: 3.50px 0.00px 0 #fff, 3.38px 0.91px 0 #fff, 3.03px 1.75px 0 #fff, 2.47px 2.47px 0 #fff, 1.75px 3.03px 0 #fff, 0.91px 3.38px 0 #fff, 0.00px 3.50px 0 #fff, -0.91px 3.38px 0 #fff, -1.75px 3.03px 0 #fff, -2.47px 2.47px 0 #fff, -3.03px 1.75px 0 #fff, -3.38px 0.91px 0 #fff, -3.50px 0.00px 0 #fff, -3.38px -0.91px 0 #fff, -3.03px -1.75px 0 #fff, -2.47px -2.47px 0 #fff, -1.75px -3.03px 0 #fff, -0.91px -3.38px 0 #fff, -0.00px -3.50px 0 #fff, 0.91px -3.38px 0 #fff, 1.75px -3.03px 0 #fff, 2.47px -2.47px 0 #fff, 3.03px -1.75px 0 #fff, 3.38px -0.91px 0 #fff, 1.75px 0.00px 0 #fff, 1.52px 0.87px 0 #fff, 0.88px 1.52px 0 #fff, 0.00px 1.75px 0 #fff, -0.87px 1.52px 0 #fff, -1.52px 0.87px 0 #fff, -1.75px 0.00px 0 #fff, -1.52px -0.87px 0 #fff, -0.88px -1.52px 0 #fff, -0.00px -1.75px 0 #fff, 0.88px -1.52px 0 #fff, 1.52px -0.88px 0 #fff, 0 3.3px 0 rgb(18 58 114 / 35%);
+}
+
+
+.home-zone-heading > span { display: block; font-size: 1rem; font-weight: 600; text-shadow: 2.00px 0.00px 0 #fff, 1.93px 0.52px 0 #fff, 1.73px 1.00px 0 #fff, 1.41px 1.41px 0 #fff, 1.00px 1.73px 0 #fff, 0.52px 1.93px 0 #fff, 0.00px 2.00px 0 #fff, -0.52px 1.93px 0 #fff, -1.00px 1.73px 0 #fff, -1.41px 1.41px 0 #fff, -1.73px 1.00px 0 #fff, -1.93px 0.52px 0 #fff, -2.00px 0.00px 0 #fff, -1.93px -0.52px 0 #fff, -1.73px -1.00px 0 #fff, -1.41px -1.41px 0 #fff, -1.00px -1.73px 0 #fff, -0.52px -1.93px 0 #fff, -0.00px -2.00px 0 #fff, 0.52px -1.93px 0 #fff, 1.00px -1.73px 0 #fff, 1.41px -1.41px 0 #fff, 1.73px -1.00px 0 #fff, 1.93px -0.52px 0 #fff, 1.00px 0.00px 0 #fff, 0.87px 0.50px 0 #fff, 0.50px 0.87px 0 #fff, 0.00px 1.00px 0 #fff, -0.50px 0.87px 0 #fff, -0.87px 0.50px 0 #fff, -1.00px 0.00px 0 #fff, -0.87px -0.50px 0 #fff, -0.50px -0.87px 0 #fff, -0.00px -1.00px 0 #fff, 0.50px -0.87px 0 #fff, 0.87px -0.50px 0 #fff, 0 2.0px 0 rgb(18 58 114 / 35%); }
+.home-islands .island-link { min-width: 64px; min-height: 64px; }
+.home-islands .island-link:focus-visible { outline: 4px solid #123a72; outline-offset: 4px; background: #ffffffd9; }
+/* ขอบขาวรอบชื่อเกาะเป็นวงเงาไม่เบลอ (ดู .home-zone-heading) ไม่ใช้ -webkit-text-stroke */
+.home-islands .island-caption { background: transparent; border: 0; box-shadow: none; padding: .375rem .5rem .5rem; }
+.home-islands .island-name, .home-islands .island-name-sub {
+  color: #0f1d33;
+  -webkit-text-stroke: 1px #fff; paint-order: stroke fill; text-rendering: geometricPrecision; 
+  text-shadow: 2.50px 0.00px 0 #fff, 2.41px 0.65px 0 #fff, 2.17px 1.25px 0 #fff, 1.77px 1.77px 0 #fff, 1.25px 2.17px 0 #fff, 0.65px 2.41px 0 #fff, 0.00px 2.50px 0 #fff, -0.65px 2.41px 0 #fff, -1.25px 2.17px 0 #fff, -1.77px 1.77px 0 #fff, -2.17px 1.25px 0 #fff, -2.41px 0.65px 0 #fff, -2.50px 0.00px 0 #fff, -2.41px -0.65px 0 #fff, -2.17px -1.25px 0 #fff, -1.77px -1.77px 0 #fff, -1.25px -2.17px 0 #fff, -0.65px -2.41px 0 #fff, -0.00px -2.50px 0 #fff, 0.65px -2.41px 0 #fff, 1.25px -2.17px 0 #fff, 1.77px -1.77px 0 #fff, 2.17px -1.25px 0 #fff, 2.41px -0.65px 0 #fff, 1.25px 0.00px 0 #fff, 1.08px 0.62px 0 #fff, 0.63px 1.08px 0 #fff, 0.00px 1.25px 0 #fff, -0.62px 1.08px 0 #fff, -1.08px 0.62px 0 #fff, -1.25px 0.00px 0 #fff, -1.08px -0.62px 0 #fff, -0.63px -1.08px 0 #fff, -0.00px -1.25px 0 #fff, 0.63px -1.08px 0 #fff, 1.08px -0.63px 0 #fff, 0 2.3px 0 rgb(18 58 114 / 35%);
+}
+.home-islands .island-name-sub { text-shadow: 1.75px 0.00px 0 #fff, 1.69px 0.45px 0 #fff, 1.52px 0.87px 0 #fff, 1.24px 1.24px 0 #fff, 0.88px 1.52px 0 #fff, 0.45px 1.69px 0 #fff, 0.00px 1.75px 0 #fff, -0.45px 1.69px 0 #fff, -0.87px 1.52px 0 #fff, -1.24px 1.24px 0 #fff, -1.52px 0.87px 0 #fff, -1.69px 0.45px 0 #fff, -1.75px 0.00px 0 #fff, -1.69px -0.45px 0 #fff, -1.52px -0.87px 0 #fff, -1.24px -1.24px 0 #fff, -0.88px -1.52px 0 #fff, -0.45px -1.69px 0 #fff, -0.00px -1.75px 0 #fff, 0.45px -1.69px 0 #fff, 0.88px -1.52px 0 #fff, 1.24px -1.24px 0 #fff, 1.52px -0.88px 0 #fff, 1.69px -0.45px 0 #fff, 0.88px 0.00px 0 #fff, 0.76px 0.44px 0 #fff, 0.44px 0.76px 0 #fff, 0.00px 0.88px 0 #fff, -0.44px 0.76px 0 #fff, -0.76px 0.44px 0 #fff, -0.88px 0.00px 0 #fff, -0.76px -0.44px 0 #fff, -0.44px -0.76px 0 #fff, -0.00px -0.88px 0 #fff, 0.44px -0.76px 0 #fff, 0.76px -0.44px 0 #fff, 0 1.9px 0 rgb(18 58 114 / 35%); }
+/* Locks stay anchored while only the island artwork moves on hover. */
+.island-lock { position: absolute; top: 10%; right: 8%; width: 40px; height: 40px; pointer-events: none; }
+.island-lock svg { display: block; width: 100%; height: 100%; }
+.island-notice { position: fixed; z-index: 100; bottom: max(16px, env(safe-area-inset-bottom)); left: 16px; right: 16px; margin-inline: auto; max-width: 560px; color: var(--color-ink); }
+.island-notice[data-visible="true"] { display: flex; align-items: center; gap: 8px; padding: 16px; border: 3px solid #123a72; border-radius: 24px; background: #fff; box-shadow: 0 4px 0 #123a72; }
+.island-notice p { font-weight: 700; line-height: 1.6; }
+.island-notice p[lang] { margin-top: 4px; font-size: .875rem; font-weight: 500; }
+.island-notice-close { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 50%; background: #eaf6ff; color: #123a72; font-size: 2rem; cursor: pointer; }
+.island-notice-close:focus-visible { outline: 4px solid #123a72; outline-offset: 3px; }
+@media (hover: hover) { .island-notice-close:hover { box-shadow: 0 3px 0 #8eabc3; } }
+
+/* Shared sizing; both B?zier equations are sampled in the TSX components. */
+.home-islands { --island-size: calc((100vw - 40px) / 2); }
+.learn-island-grid, .play-island-arc {
+  --center-size: calc(var(--island-size) * 1.2);
+  --step: calc(var(--island-size) + 170px);
+  --arc-rise: calc(var(--step) * 2);
+  position: relative;
+  margin: 0 auto;
+}
+/* ส่วนเผื่อใต้ภาพเกาะ = ป้ายชื่อ sticker เท่านั้น (ไม่มีการ์ด/ป้าย coming soon แล้ว) ลดจาก 190/230px — เจ้าของโปรเจกต์ทักว่าห่างคำ Learn, Play, Grow เกินไป 8 พ.ย. 2026 */
+.learn-island-grid { height: calc(var(--arc-rise) + var(--island-size) + 100px); }
+.play-island-arc { height: calc(var(--arc-rise) + var(--center-size) + 76px); }
+.learn-island-grid > li, .play-island-arc > li {
+  --sample-t: var(--portrait-column);
+  --sample-y: var(--portrait-y);
+  position: absolute;
+  width: var(--island-size);
+  left: calc((100% - var(--island-size)) * var(--sample-t));
+  top: calc(var(--arc-rise) * var(--sample-y));
+}
+.play-islands { padding-inline: 12px; padding-bottom: 24px; }
+.play-island-arc > li[data-slug="games"] { width: var(--center-size); left: calc((100% - var(--center-size)) / 2); }
+.home-islands .island-name { font-size: 1.125rem; }
+.home-islands .island-name-sub { font-size: .875rem; }
+.home-islands .island-caption { position: relative; z-index: 1; }
+/* Compensate for the transparent WebP margins; visible artwork stays ≥40vw
+   on portrait phones. Labels and hit areas keep their separate layout boxes. */
+.home-islands .island-glow { position: absolute; left: -2%; top: -2%; width: 104%; height: 104%; pointer-events: none; }
+.play-island-arc [data-slug="games"] .island-name { font-size: 1.5rem; }
+@media (width >= 40rem) {
+  .home-islands { --island-size: clamp(200px, 27vw, 240px); }
+  .play-islands { padding-inline: 24px; }
+  .learn-island-grid, .play-island-arc { max-width: 680px; }
+}
+@media (width >= 64rem) {
+  .home-islands { --island-size: calc((min(100vw, 1536px) - 48px) / 5.8); }
+  .learn-island-grid, .play-island-arc {
+    --arc-rise: clamp(110px, 12vw, 184px);
+    max-width: none;
+  }
+  .learn-island-grid > li, .play-island-arc > li { --sample-t: var(--arc-t); --sample-y: var(--arc-y); }
+  .home-islands .island-name { font-size: 1.25rem; }
+}
+
+/* A single LearnArc at tablet/desktop widths; phones fold into apex + pairs. */
+@media (width >= 48rem) {
+  /* Keep Claude's artwork/arc geometry; inset hit areas so adjacent buttons cannot overlap. */
+  .learn-island-grid .island-link { width: 94%; margin-inline: auto; }
+  .learn-island-grid .island-art-frame { width: calc(100% / .94); flex-shrink: 0; }
+  .home-islands[data-home-zone="learn"] { --island-size: calc((min(100vw, 1536px) - 48px) / 5.8); padding-bottom: 0; }
+  /* ปลายโค้งอยู่ที่ t=0.1/0.9 (CategoryGrid.tsx) จุดต่ำสุดจึงเป็น 0.64 ของ arc-rise */
+  .learn-island-grid { --arc-rise: clamp(110px, 12vw, 184px); max-width: none; height: calc(var(--arc-rise) * .64 + var(--island-size) + 170px); }
+  .learn-island-grid > li { --sample-t: var(--arc-t); --sample-y: var(--arc-y); }
+}
+@media (width >= 64rem) {
+  .learn-island-grid { height: calc(var(--arc-rise) * .64 + var(--island-size) + 100px); }
+}

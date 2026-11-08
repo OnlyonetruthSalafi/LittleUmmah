@@ -27,7 +27,7 @@ export const GAME_CATEGORIES: GameCategory[] = [
   {
     id: 'thinking', label: { th: 'ไหวพริบ', en: 'Think & Solve' },
     desc: { th: 'สังเกต จดจำ และค่อย ๆ หาคำตอบ', en: 'Observe, remember and solve at your own pace.' },
-    icon: 'search', theme: 'teal', order: ['balance-scale', 'coin-box', 'memory', 'find-object', 'puzzle', 'sequence', 'light-maze'],
+    icon: 'search', theme: 'teal', order: ['block-builders', 'balance-scale', 'coin-box', 'memory', 'find-object', 'puzzle', 'sequence', 'light-maze'],
     guide: {
       clip: 'hub-cat-thinking', pose: 'point', focus: 'thinking', ms: 8000,
       th: 'หมวดไหวพริบ มาจำ มาค้นหา แล้วคิดหาทางกันนะ เลือกเกมที่ชอบ แตะเลย!',

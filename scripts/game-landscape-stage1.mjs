@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { boardContent } from '../src/features/games/data/content.ts';
 import { gamePresentation } from '../src/features/games/data/presentation.ts';
+import { inspectHomepage } from './homepage-browser.mjs';
 
 export const stage1Slugs = ['color-match', 'arabic-match', 'sort', 'find-object', 'shape-match', 'sequence'];
 export const landscapeSizes = [[568,320],[667,375],[844,390],[932,430],[932,521],[932,540],[1024,600],[1100,700],[1101,521],[1280,600],[1366,640],[1024,768],[1180,820],[1280,720]];
@@ -184,6 +185,17 @@ export async function runLightMazeRegression(browser,base,check,out='output/game
 
 export async function runStage1Flow(browser,base,check,out='output/games-landscape-consult') {
   const results=[];
+  const home=await browser.newPage({viewport:{width:844,height:390}});
+  await home.goto(base,{waitUntil:'networkidle'});
+  await inspectHomepage(home,check);
+  // หน้าแรกไม่มีทางลัดเกมย่อยแล้ว (เจ้าของโปรเจกต์สั่ง 8 พ.ย. 2026) — เดินจากเกาะ "เกม" เข้าหน้ารวมเกม แล้วกดเกมรูปทรง
+  await home.locator('[data-home-zone="play"] a[href="/learn/games"]').click();
+  await home.waitForURL('**/learn/games');
+  await home.locator('a[href="/games/shape-match"]').first().click();
+  await home.waitForURL('**/games/shape-match');
+  await home.locator('.gc-focus').waitFor();
+  check(await home.locator('.gc-focus').count()===1,'home games island → hub → shape game');
+  await home.close();
   for(const slug of stage1Slugs.filter(s=>gamePresentation[s].fullscreen&&(!process.env.LANDSCAPE_GAMES||process.env.LANDSCAPE_GAMES.split(',').includes(s)))) {
     const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
     await context.addInitScript(()=>{

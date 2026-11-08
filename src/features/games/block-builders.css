@@ -1,0 +1,78 @@
+/* Header, progress, background and buttons use the existing GameShell. */
+.gc-focus[data-game='block-builders'][data-status='playing'] :is(.gc-instruction,.gc-feedback){display:none}
+.gc-focus[data-game='block-builders'] .gc-board{padding:0;border:0;background:transparent;box-shadow:none}
+.gc-focus[data-game='block-builders'] .gc-voice-scene{width:min(100%,460px,calc(100dvh - 250px))}
+.gc-focus[data-game='block-builders'] .gc-audio-note{margin-top:4px;padding:2px;font-size:10px;line-height:1.3;background:#fff8e4;color:#123a72;border-radius:8px}
+.bb-scene{color:var(--color-ink);width:100%;margin:auto;display:grid;gap:5px}
+.bb-scene small{display:block;font-size:10px;line-height:1.25;font-weight:500}
+.bb-goal{display:flex;align-items:center;gap:6px;padding:2px 6px;background:#fff;border-radius:16px;min-height:68px}
+.bb-goal>div{flex:1;min-width:0}.bb-goal p{font-size:11px;margin:0}.bb-goal p small{display:inline;margin-left:3px}
+.bb-goal h2{font-size:16px;line-height:1.3;font-weight:800;margin:0}.bb-goal .gc-button{min-width:70px;padding:3px 5px;font-size:11px;flex:none}
+/* The island keeps its measured aspect ratio; the contact plane is sampled from its cream wood. */
+.bb-stage{--bb-unit:64px;position:relative;width:100%;height:310px;max-width:590px;margin:auto;isolation:isolate}
+.bb-island{position:absolute;left:0;bottom:0;width:100%;aspect-ratio:var(--bb-island-aspect);z-index:-1}
+.bb-island>img{width:100%;height:100%;object-fit:contain}
+.bb-island:not(:has(img[data-ready="true"])){border-radius:50%;background:linear-gradient(#f8ecd5 55%,#e2b854 56% 60%,#21b8ad 61%);box-shadow:0 12px 0 #128c95}
+.bb-building{position:absolute;left:50%;bottom:calc(100cqw / var(--bb-island-aspect) * (1 - var(--bb-ground)));width:calc(var(--bb-columns) * var(--bb-unit));height:calc(3 * var(--bb-unit));translate:-50% 0}
+.bb-stage{container-type:inline-size}
+.bb-scene[data-plan="home-5"] .bb-placement{height:calc(1.1 * var(--bb-unit));bottom:calc(var(--bb-y) * 1.1 * var(--bb-unit))}
+.bb-scene[data-plan="home-5"] .bb-placement[data-shape="beam"]{height:var(--bb-unit)}
+.bb-scene[data-plan="home-5"] .bb-placement[data-shape="roof"]{bottom:calc(2.1 * var(--bb-unit))}
+.bb-paired img:first-of-type{height:51%;top:0}.bb-paired img:last-of-type{height:51%;top:49%}
+.bb-building::before{content:"";position:absolute;bottom:-8px;left:-4%;width:108%;height:20px;border-radius:50%;background:#69431a55;filter:blur(6px);pointer-events:none}
+.bb-slot{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent;border-radius:8px;cursor:pointer}
+.bb-placement{position:absolute;left:calc(var(--bb-x)*var(--bb-unit));bottom:calc(var(--bb-y)*var(--bb-unit));width:calc(var(--bb-w)*var(--bb-unit));height:var(--bb-unit);padding:0;border:0;border-radius:8px;background:transparent;cursor:pointer}
+.bb-placement .bb-block{opacity:.19;filter:saturate(.65)}
+.bb-placement[data-supported="true"]:not(.bb-filled) .bb-block{opacity:.43;filter:drop-shadow(0 0 5px #fff5bb)}
+.bb-placement.bb-filled{cursor:default}.bb-placement.bb-filled .bb-block{opacity:1;filter:drop-shadow(0 2px 1px #70481744)}
+.bb-placement.bb-matching:not(.bb-filled) .bb-block{opacity:.7;filter:drop-shadow(0 0 7px #fff3a0)}
+.bb-block{position:relative;display:block;width:100%;height:100%;pointer-events:none}
+.bb-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+/* The reference house has a shallow beam and tall roof. Their painted bounds
+   meet inside the generous, disjoint 64px+ interaction cells. */
+.bb-scene[data-plan="home-5"] .bb-placement[data-shape="beam"] .bb-block{position:absolute;bottom:0;height:calc(.55 * var(--bb-unit))}
+.bb-scene[data-plan="home-5"] .bb-placement[data-shape="roof"] .bb-block{position:absolute;top:0;height:calc(100% + .45 * var(--bb-unit))}
+.bb-fallback{position:absolute;inset:5%;border-radius:6px;background:#2f9fe5;border:1px solid #123a72}
+.bb-block:has(img[data-ready="true"]) .bb-fallback{visibility:hidden}.bb-beam .bb-fallback{background:#21b8ad}.bb-roof .bb-fallback{background:#e9b52f;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.bb-arch .bb-fallback{background:#fff;border-radius:5px;clip-path:polygon(0 0,100% 0,100% 100%,75% 100%,75% 52%,65% 35%,35% 35%,25% 52%,25% 100%,0 100%)}
+.bb-cylinder .bb-fallback{background:#dba86d;border-radius:50% / 20%}.bb-dome .bb-fallback{background:#e9b52f;border-radius:50% 50% 5% 5%}
+.bb-status{background:#fff8e4;border-radius:12px;text-align:center;font-size:13px;line-height:1.35;min-height:38px;padding:3px;color:#123a72}
+.bb-tray{position:relative;display:flex;justify-content:center;gap:8px;padding:12px 6px 8px;background:#fff8e4;border-radius:18px;isolation:isolate;max-width:590px;width:100%;margin:auto}
+.bb-tray-art{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.bb-piece{width:68px;flex:none;text-align:center}.bb-piece .gc-object-button{min-width:64px;width:68px;min-height:64px;height:64px;padding:0;border-radius:10px;background:transparent;border:0;box-shadow:none;filter:drop-shadow(0 5px 2px #70481755)}
+.bb-piece .gc-object-button[aria-pressed="true"]{outline:3px solid #123a72;outline-offset:2px;background:#fff8e466}
+.bb-piece .gc-object-button:hover{box-shadow:0 5px 8px #70481755}
+.bb-piece .bb-block img{object-fit:contain}
+.bb-piece>span{display:block;font-size:10px;line-height:1.25;font-weight:700;min-height:30px;margin-top:3px;padding:2px 0;background:#fff8e4;border-radius:5px}.bb-piece small{font-size:9px}
+.bb-scene button:focus-visible{outline:3px solid #123a72;outline-offset:3px}.bb-placement:has(.bb-slot:hover:not(:disabled)) .bb-block{filter:drop-shadow(0 3px 8px #123a7266)}
+@media(prefers-reduced-motion:no-preference){.bb-complete{animation:bb-gold 1100ms ease-out 1}.bb-piece .gc-drag:not([data-dragging]){transition:translate 220ms ease-out}.bb-placement:has(.bb-slot:active:not(:disabled)){scale:.98}}
+@keyframes bb-gold{0%,100%{filter:drop-shadow(0 0 0 transparent)}45%{filter:drop-shadow(0 0 10px #edba39)}}
+@media(min-width:640px) and (min-height:551px){.bb-stage{--bb-unit:84px;height:450px}.bb-goal h2{font-size:20px}.bb-piece{width:84px}.bb-piece .gc-object-button{width:84px;height:76px}.bb-piece>span{font-size:12px}.bb-piece small{font-size:10px}}
+@media(min-width:1100px) and (min-height:600px) and (max-height:850px) and (min-aspect-ratio:3/2){
+ .gc-focus[data-game='block-builders'] .gc-board,.bb-scene{display:contents}
+ .bb-goal{grid-area:instruction}.bb-stage{grid-area:board;--bb-unit:84px;height:430px;align-self:start}
+ .bb-status{grid-area:feedback}.bb-tray{grid-column:2;grid-row:7;align-self:start;margin:0 auto;width:500px}.bb-piece{width:84px}.bb-piece .gc-object-button{width:84px;height:72px}
+ .gc-focus[data-game='block-builders'] .gc-audio-note{grid-column:1;grid-row:7;align-self:start;margin-top:0}
+}
+@media(max-height:550px) and (orientation:landscape){
+ .gc-focus[data-game='block-builders']{padding:8px 12px}
+ .gc-focus[data-game='block-builders'][data-status='playing'] .gc-play-container{display:grid;grid-template-columns:1fr 1.15fr;grid-template-rows:72px 48px 68px 38px 102px;grid-template-areas:'header header';gap:4px 12px}
+ .gc-focus[data-game='block-builders'] .gc-play-container>header{grid-area:header}
+ .gc-focus[data-game='block-builders'] .gc-board,.bb-scene{display:contents}
+ .gc-focus[data-game='block-builders'] .gc-progress-row{grid-column:1;grid-row:2;width:100%;margin:0}
+ .bb-goal{grid-column:1;grid-row:3}.bb-goal h2{font-size:15px}
+ .bb-stage{grid-column:2;grid-row:2/6;--bb-unit:64px;height:280px;align-self:start;max-width:290px}
+ .bb-status{grid-column:1;grid-row:4;font-size:12px}.bb-tray{grid-column:1;grid-row:5;align-self:start;padding:4px;gap:4px}
+ .bb-piece{width:64px}.bb-piece .gc-object-button{width:64px;height:64px}.bb-piece>span{font-size:9px}.bb-piece small{font-size:9px}
+ .gc-focus[data-game='block-builders'] .gc-bottom-controls{grid-column:2;grid-row:5;justify-self:end;align-self:end;margin:0;z-index:3}
+ .gc-focus[data-game='block-builders'] .gc-audio-note{position:fixed;bottom:6px;right:12px;width:calc((100vw - 36px) * 1.15 / 2.15);margin:0;z-index:4}
+ .gc-focus[data-game='block-builders'] .gc-voice-intro{display:grid;grid-template-columns:1fr 1fr;align-items:center;margin:0}
+ .gc-focus[data-game='block-builders'] .gc-voice-scene{width:260px;margin:0 auto}
+ .gc-focus[data-game='block-builders'] .gc-result{padding:8px;display:grid;grid-template-columns:140px 1fr;align-items:center;margin:8px auto 0}
+ .gc-focus[data-game='block-builders'] .gc-result>img{grid-row:1/4;max-height:150px;width:auto}.gc-focus[data-game='block-builders'] .gc-result-actions{grid-column:2}
+}
+
+@media(max-width:639px) and (orientation:portrait){.gc-focus[data-game="block-builders"] .gc-bottom-controls{margin-top:0}.bb-tray{padding-top:6px;padding-bottom:4px}}
+@media(max-width:639px) and (orientation:portrait){.gc-focus[data-game="block-builders"] .gc-audio-note{position:fixed;right:12px;bottom:16px;width:110px;margin:0;padding:4px;z-index:4}}
+
+@media(max-height:550px) and (orientation:landscape){.bb-scene[data-plan="home-5"] .bb-placement{height:var(--bb-unit);bottom:calc(var(--bb-y)*var(--bb-unit))}.bb-scene[data-plan="home-5"] .bb-placement[data-shape="roof"]{bottom:calc(2 * var(--bb-unit))}}

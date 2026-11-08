@@ -5,10 +5,10 @@ import { resolve } from 'node:path';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
 const sharp = require('sharp');
-const base = process.argv[2] || process.env.BASE_URL || 'http://localhost:3133';
-const shots = 'output/g-3/shots-fix1';
+const base = process.argv[2] || process.env.BASE_URL || 'http://localhost:3142';
+const shots = 'output/vis-2/shots';
 await mkdir(shots, { recursive: true });
-process.env.CHROME_LOG_FILE = resolve('output/g-3/chromium-fix1.log');
+process.env.CHROME_LOG_FILE = resolve('output/vis-2/chromium.log');
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE || 'C:/Users/User/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe' });
 const results = [];
 const css = await readFile('src/features/games/balance-scale.css', 'utf8');
@@ -21,6 +21,7 @@ async function scaleGeometry(page, tag) {
   const g = await page.locator('.bs-scene').evaluate(scene => {
     const rect = el => { const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height}; };
     const pans = [...scene.querySelectorAll('.bs-pan')].map(el=>({ ...rect(el), art:rect(el.querySelector('.bs-pan-art') || el), transform:getComputedStyle(el).transform, transition:getComputedStyle(el).transitionProperty }));
+    const seats = [...scene.querySelectorAll('.bs-object,.bs-placed')].map(el=>({rect:rect(el),pan:rect(el.closest('.bs-pan')),fraction:parseFloat(getComputedStyle(scene.querySelector('.bs-stage')).getPropertyValue('--bs-seat'))/100}));
     const labels = [...scene.querySelectorAll('.bs-pan-label')].map(rect);
     const objects = [...scene.querySelectorAll('.bs-object>img,.bs-remove,.bs-pan-art')].map(rect);
     const luminance = c => c.slice(0,3).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);
@@ -28,16 +29,17 @@ async function scaleGeometry(page, tag) {
       const fg=getComputedStyle(text).color.match(/[\d.]+/g).map(Number),bg=getComputedStyle(el).backgroundColor.match(/[\d.]+/g).map(Number);
       return {text:text.textContent,alpha:bg[3]??1,ratio:(Math.max(luminance(fg),luminance(bg))+.05)/(Math.min(luminance(fg),luminance(bg))+.05)};
     }));
-    const stage=rect(scene.querySelector('.bs-stage')),beam=scene.querySelector('.bs-beam'),angle=parseFloat(getComputedStyle(beam).rotate);
-    return {pans,labels,objects,contrast,stage,angle,arm:parseFloat(getComputedStyle(scene.querySelector('.bs-stage')).getPropertyValue('--bs-arm-span')),left:Number(scene.dataset.left),right:Number(scene.dataset.right),reduced:matchMedia('(prefers-reduced-motion:reduce)').matches,drop:rect(scene.querySelector('[data-drop-id]'))};
+    const stage=rect(scene.querySelector('.bs-diorama')),beam=scene.querySelector('.bs-beam'),angle=parseFloat(getComputedStyle(beam).rotate);
+    return {pans,labels,objects,contrast,seats,stage,angle,pivot:parseFloat(getComputedStyle(scene.querySelector('.bs-stage')).getPropertyValue('--bs-pivot-y')),arm:parseFloat(getComputedStyle(scene.querySelector('.bs-stage')).getPropertyValue('--bs-arm-span')),left:Number(scene.dataset.left),right:Number(scene.dataset.right),reduced:matchMedia('(prefers-reduced-motion:reduce)').matches,drop:rect(scene.querySelector('[data-drop-id]'))};
   });
   results.push({tag,scale:g});
+  for(const seat of g.seats)assert.ok(Math.abs(seat.rect.bottom-(seat.pan.y+seat.pan.height*seat.fraction))<1,`${tag}: object rests at measured dish surface`);
   const difference=g.pans[0].art.y-g.pans[1].art.y;
   if(g.left===g.right)assert.ok(Math.abs(difference)<1,`${tag}: equal pans level`);
   else assert.ok((g.left>g.right?difference:-difference)>2,`${tag}: heavy pan must be lower: ${difference}`);
   for(const [i,pan] of g.pans.entries()) {
     const sign=i===0?-1:1,radius=g.stage.width*g.arm/200,angle=g.angle*Math.PI/180;
-    assert.ok(Math.abs(pan.y-(g.stage.y+g.stage.height*.15+13+sign*radius*Math.sin(angle)))<1,`${tag}: pan follows beam endpoint`);
+    assert.ok(Math.abs(pan.y-(g.stage.y+g.stage.height*g.pivot/100+sign*radius*Math.sin(angle)))<1,`${tag}: pan follows beam endpoint`);
     assert.ok(Math.abs(pan.x+pan.width/2-(g.stage.x+g.stage.width/2+sign*radius*Math.cos(angle)))<1,`${tag}: pan x follows beam endpoint`);
     const matrix=pan.transform.match(/matrix\(([^)]+)\)/)[1].split(',').map(Number);
     assert.ok(Math.abs(matrix[1])<.001&&Math.abs(matrix[2])<.001,`${tag}: pan stays upright`);
@@ -178,6 +180,20 @@ try {
     for(let i=0;i<left;i++)await keyboard(page,'.bs-remove');
     await journey(page,context,tag);assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${tag}: 3 levels, touch, keyboard, geometry, header`);
   }));
+  // Native viewport screenshots paired with the unchanged hub reference.
+  await mkdir('output/vis-2/compare',{recursive:true});
+  for(const [width,height] of [[360,780],[390,844],[844,390],[768,1024],[1280,720]].filter(([w])=>!process.env.BALANCE_RESILIENCE_ONLY&&(!process.env.BALANCE_WIDTH||w===Number(process.env.BALANCE_WIDTH)))) {
+    for(const state of ['balanced','left-heavy','right-heavy']) {
+      const tag=`${width}x${height}`,leftWidth=Math.min(width,height),header=36;
+      const hub=await sharp('public/games/hub/balance-scale.webp').resize(leftWidth-24,Math.min(height-24,leftWidth-24),{fit:'inside'}).toBuffer();
+      const meta=await sharp(hub).metadata();
+      try {
+        const shot=await readFile(`${shots}/${tag}-${state}.png`);
+        const title=Buffer.from(`<svg width="${leftWidth+width}" height="36"><rect width="100%" height="100%" fill="#fff8e4"/><g fill="#123a72" font-family="sans-serif" font-size="16"><text x="12" y="24">Hub reference</text><text x="${leftWidth+12}" y="24">Play: ${state} / ${tag}</text></g></svg>`);
+        await sharp({create:{width:leftWidth+width,height:height+header,channels:4,background:'#d9f2ff'}}).composite([{input:hub,left:Math.round((leftWidth-meta.width)/2),top:header+Math.round((height-meta.height)/2)},{input:shot,left:leftWidth,top:header},{input:title,left:0,top:0}]).png().toFile(`output/vis-2/compare/${tag}-${state}.png`);
+      } catch(error) { if(error.code!=='ENOENT')throw error; }
+    }
+  }
   const failures=runs.filter(r=>r.status==='rejected');
   if(failures.length)throw new AggregateError(failures.map(r=>r.reason),'Viewport checks failed');
   if(!process.env.BALANCE_WIDTH) {
@@ -205,4 +221,4 @@ try {
     }));
     const failed=resilience.filter(r=>r.status==='rejected');if(failed.length)throw new AggregateError(failed.map(r=>r.reason),'Resilience checks failed');
   }
-} finally {await writeFile(`output/g-3/browser-fix1${process.env.BALANCE_RESILIENCE_ONLY?'-resilience':''}-results.json`,JSON.stringify(results,null,2));await browser.close();}
+} finally {await writeFile(`output/vis-2/browser${process.env.BALANCE_RESILIENCE_ONLY?'-resilience':''}-results.json`,JSON.stringify(results,null,2));await browser.close();}

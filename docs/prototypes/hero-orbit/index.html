@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตัวอย่าง Hero เกาะโคจร</title>
+<style>
+  :root { --ink: #0f1d33; --gold: #f2b733; --learn: #2f7fd8; --play: #e98b1e; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: "Noto Sans Thai Looped", system-ui, sans-serif; color: var(--ink);
+    background: linear-gradient(#3d8fe0 0%, #8fc6f2 45%, #e9f6ff 100%); overflow-x: hidden; }
+  header { text-align: center; padding: 16px 16px 0; }
+  header h1 { margin: 0; font-size: clamp(1.4rem, 4vw, 2.2rem); color: #fff; text-shadow: 0 2px 0 #1d4f8f; }
+  header p { margin: 4px 0 0; color: #eaf5ff; font-size: .95rem; }
+  .note { max-width: 720px; margin: 8px auto 0; padding: 0 16px; font-size: .85rem; color: #eaf5ff; text-align: center; }
+
+  .stage { position: relative; height: clamp(380px, 68vh, 620px); max-width: 1200px; margin: 0 auto; touch-action: pan-y; user-select: none; overflow-x: clip; }
+  @media (width < 600px) { .stage { height: 440px; } }
+  .orbit-floor { position: absolute; left: 50%; top: 58%; width: min(92vw, 980px); height: min(26vw, 230px); transform: translate(-50%, -50%);
+    border-radius: 50%; border: 3px dashed rgb(255 255 255 / 55%); pointer-events: none; }
+  .island { position: absolute; left: 0; top: 0; width: var(--size); padding: 0; border: 0; background: none; cursor: pointer;
+    transform: translate(-50%, -50%); will-change: transform; text-align: center; }
+  .island img { display: block; width: 100%; height: auto; pointer-events: none;
+    filter: drop-shadow(0 10px 12px rgb(20 50 90 / 25%)); }
+  .island:focus-visible { outline: 4px solid #123a72; outline-offset: 4px; border-radius: 24px; }
+  .island .lock { position: absolute; top: 8%; right: 10%; width: 22%; aspect-ratio: 1; }
+  .island .name { display: block; margin-top: -4%; font-weight: 800; font-size: clamp(.9rem, 2.2vw, 1.35rem); line-height: 1.3;
+    -webkit-text-stroke: 1px #fff; paint-order: stroke fill;
+    text-shadow: 2.5px 0 0 #fff, -2.5px 0 0 #fff, 0 2.5px 0 #fff, 0 -2.5px 0 #fff, 1.8px 1.8px 0 #fff, -1.8px 1.8px 0 #fff, 1.8px -1.8px 0 #fff, -1.8px -1.8px 0 #fff, 0 4px 0 rgb(18 58 114 / 35%); }
+  .island .zone { display: inline-block; margin-top: 4px; padding: 2px 10px; border-radius: 99px; font-size: .75rem; font-weight: 700; color: #fff; }
+  .island .zone.learn { background: var(--learn); } .island .zone.play { background: var(--play); }
+  .island:not(.front) .name, .island:not(.front) .zone { opacity: 0; }
+
+  .controls { position: absolute; z-index: 200; left: 0; right: 0; top: 46%; padding: 0 8px; display: flex; justify-content: space-between; pointer-events: none; }
+  .controls > * { pointer-events: auto; }
+  .dots { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 200; }
+  .arrow { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #123a72; background: #fff; color: #123a72; font-size: 1.8rem; font-weight: 800;
+    cursor: pointer; box-shadow: 0 4px 0 #123a72; transition: transform .2s ease-out, box-shadow .2s ease-out; }
+  @media (hover: hover) { .arrow:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #123a72; } }
+  .arrow:active { transform: scale(.98); transition-duration: 75ms; }
+  .arrow:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 10px; height: 10px; border-radius: 50%; background: rgb(255 255 255 / 55%); }
+  .dots span.on { background: #123a72; }
+
+  .toast { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 520px; margin: auto; padding: 14px 16px; border: 3px solid #123a72;
+    border-radius: 20px; background: #fff; box-shadow: 0 4px 0 #123a72; font-weight: 700; display: none; }
+  .toast.on { display: block; }
+  .panel { max-width: 720px; margin: 8px auto 24px; padding: 12px 16px; background: rgb(255 255 255 / 85%); border-radius: 16px; font-size: .9rem; }
+  .panel label { display: flex; gap: 8px; align-items: center; min-height: 48px; cursor: pointer; }
+  .panel input { width: 22px; height: 22px; }
+  .hint { position: absolute; z-index: 200; left: 50%; top: 4px; transform: translateX(-50%); background: #fff; border-radius: 99px; padding: 6px 14px; font-size: .9rem; font-weight: 700; box-shadow: 0 3px 0 #123a72; white-space: nowrap; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Learn, Play, Grow</h1>
+  <p>ตัวอย่าง Hero แบบเกาะโคจร (ภาพเกาะของจริง โค้ดตัวอย่าง ยังไม่ได้ใส่ในเว็บ)</p>
+</header>
+
+<section class="stage" id="stage" aria-roledescription="วงเกาะ" aria-label="เลือกเกาะ">
+  <div class="orbit-floor" aria-hidden="true"></div>
+  <div class="hint" id="hint">ปัดซ้าย–ขวา หรือกดลูกศร เพื่อหมุนดูเกาะอื่น</div>
+  <div class="controls">
+    <button class="arrow" id="prev" type="button" aria-label="เกาะก่อนหน้า">‹</button>
+    <button class="arrow" id="next" type="button" aria-label="เกาะถัดไป">›</button>
+  </div>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+</section>
+
+<div class="panel">
+  <b>ตัวเลือกสำหรับทดลอง</b>
+  <label><input type="checkbox" id="auto"> หมุนเองช้าๆ เมื่อไม่มีคนแตะ <small>(ขัด AGENTS ข้อ 2.1 "ห้ามลอย/วนตลอดเวลา" — ใส่ไว้ให้ดูเปรียบเทียบเท่านั้น)</small></label>
+  <label><input type="checkbox" id="tilt"> หมุนภาพเกาะตามมุม (rotateY แบบตู้หนังสือ) — จะเห็นว่าเกาะด้านข้างบี้</label>
+  <label><input type="checkbox" id="reduce"> จำลองผู้ใช้ปิดการเคลื่อนไหว (prefers-reduced-motion) — กระโดดทันทีไม่มี animation</label>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const ISLANDS = [
+  { id: "quran", th: "เรียนภาษาเบื้องต้น", zone: "learn" },
+  { id: "tajweed", th: "ตัจวีดพื้นฐาน", zone: "learn", locked: true },
+  { id: "quran-reading", th: "ฝึกอ่านอัลกุรอาน", zone: "learn", locked: true },
+  { id: "faith-basics", th: "เรียนรู้อิสลามพื้นฐานสำหรับเด็ก", zone: "learn", locked: true },
+  { id: "moral", th: "มารยาทและศีลธรรม", zone: "learn" },
+  { id: "stories", th: "เรื่องเล่า", zone: "play" },
+  { id: "art", th: "ศิลปะ", zone: "play" },
+  { id: "games", th: "เกม", zone: "play" },
+  { id: "numbers-math", th: "ตัวเลขและคณิตคิดสนุก", zone: "play", locked: true },
+  { id: "explore", th: "สำรวจโลก", zone: "play" },
+];
+const N = ISLANDS.length, STEP = 360 / N;
+const stage = document.getElementById("stage"), dots = document.getElementById("dots"), toast = document.getElementById("toast");
+const LOCK = '<svg class="lock" viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="17" width="26" height="19" rx="5" fill="#f2b733" stroke="#fff" stroke-width="3"/><path d="M13 17v-5a7 7 0 0 1 14 0v5" fill="none" stroke="#123a72" stroke-width="4"/><circle cx="20" cy="26" r="3" fill="#123a72"/></svg>';
+const els = ISLANDS.map((it, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "island";
+  b.setAttribute("aria-label", it.th + (it.locked ? " — ยังไม่เปิด เร็วๆ นี้" : ""));
+  b.innerHTML = `<img src="../../../public/islands/${it.id}.webp" alt="">${it.locked ? LOCK : ""}<span class="name">${it.th}</span><br><span class="zone ${it.zone}">${it.zone === "learn" ? "โซนเรียนรู้" : "โซนผจญภัย"}</span>`;
+  b.addEventListener("click", () => { if (dragMoved) return; i === front() ? enter(it) : goTo(i); });
+  b.addEventListener("focus", () => { if (i !== front()) goTo(i); });
+  stage.appendChild(b);
+  const d = document.createElement("span"); dots.appendChild(d);
+  return b;
+});
+let rot = 0, anim = 0, dragMoved = false;
+const reduced = () => document.getElementById("reduce").checked || matchMedia("(prefers-reduced-motion: reduce)").matches;
+const norm = a => ((a % 360) + 540) % 360 - 180;           // -180..180
+const front = () => ((Math.round(-rot / STEP) % N) + N) % N;
+
+function layout() {
+  const W = stage.clientWidth, H = stage.clientHeight;
+  const phone = W < 600;
+  const rx = phone ? W * 0.34 : Math.min(W * 0.42, 470), ry = phone ? 46 : Math.min(W * 0.11, 105), cy = H * (phone ? 0.44 : 0.46);
+  const base = phone ? W * 0.62 : Math.min(W * 0.3, 290);
+  const tilt = document.getElementById("tilt").checked;
+  els.forEach((b, i) => {
+    const a = norm(i * STEP + rot), r = a * Math.PI / 180;
+    const depth = (Math.cos(r) + 1) / 2;                     // 1 = front, 0 = back
+    const x = W / 2 + rx * Math.sin(r), y = cy + ry * Math.cos(r) - 10;
+    const s = 0.42 + 0.58 * depth;
+    b.style.setProperty("--size", base + "px");
+    b.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${s})` + (tilt ? ` perspective(800px) rotateY(${-a * 0.6}deg)` : "");
+    b.style.zIndex = Math.round(depth * 100);
+    b.style.opacity = (0.35 + 0.65 * depth).toFixed(2);
+    b.querySelector("img").style.filter = `drop-shadow(0 10px 12px rgb(20 50 90 / 25%)) saturate(${0.6 + 0.4 * depth}) brightness(${0.85 + 0.15 * depth})`;
+    b.classList.toggle("front", Math.abs(a) < STEP / 2);
+    b.tabIndex = 0;
+  });
+  [...dots.children].forEach((d, i) => d.classList.toggle("on", i === front()));
+}
+function tweenTo(target) {
+  cancelAnimationFrame(anim);
+  if (reduced()) { rot = target; return layout(); }
+  const from = rot, t0 = performance.now(), dur = 520;
+  const step = now => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    rot = from + (target - from) * e; layout(); if (k < 1) anim = requestAnimationFrame(step); };
+  anim = requestAnimationFrame(step);
+}
+function goTo(i) { const cur = front(); let d = i - cur; if (d > N / 2) d -= N; if (d < -N / 2) d += N; tweenTo(Math.round(rot / STEP) * STEP - d * STEP); hideHint(); }
+const nudge = dir => { tweenTo(Math.round(rot / STEP) * STEP - dir * STEP); hideHint(); };
+function enter(it) {
+  toast.textContent = it.locked ? `เกาะ "${it.th}" ยังไม่เปิดนะ ครูกำลังเตรียมอยู่ เร็วๆ นี้!` : `(ตัวอย่าง) ไปที่เกาะ "${it.th}"`;
+  toast.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove("on"), 2600);
+}
+const hideHint = () => document.getElementById("hint").style.display = "none";
+document.getElementById("prev").onclick = () => nudge(-1);
+document.getElementById("next").onclick = () => nudge(1);
+stage.addEventListener("keydown", e => { if (e.key === "ArrowLeft") { nudge(-1); e.preventDefault(); } if (e.key === "ArrowRight") { nudge(1); e.preventDefault(); } });
+
+// ปัด/ลาก: หมุนตามนิ้ว ปล่อยแล้วหยุดที่เกาะใกล้สุด
+let drag = null;
+stage.addEventListener("pointerdown", e => { if (e.target.closest(".arrow")) return; drag = { x: e.clientX, rot }; dragMoved = false; cancelAnimationFrame(anim); });
+addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - drag.x; if (Math.abs(dx) > 6) dragMoved = true;
+  rot = drag.rot + dx * (360 / Math.max(stage.clientWidth * 1.6, 600)); layout(); });
+addEventListener("pointerup", () => { if (!drag) return; drag = null; if (dragMoved) { tweenTo(Math.round(rot / STEP) * STEP); hideHint(); } setTimeout(() => dragMoved = false, 0); });
+
+// ตัวเลือกหมุนเอง (ไว้เปรียบเทียบเท่านั้น)
+let idle = 0;
+setInterval(() => { if (document.getElementById("auto").checked && !drag && !reduced() && ++idle > 3) nudge(1); }, 1000);
+["pointerdown", "keydown"].forEach(t => addEventListener(t, () => idle = 0));
+["tilt", "reduce"].forEach(id => document.getElementById(id).addEventListener("change", layout));
+addEventListener("resize", layout);
+layout();
+</script>
+</body>
+</html>

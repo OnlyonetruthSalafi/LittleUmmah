@@ -1,0 +1,26 @@
+.brand-logo { display: flex; flex-direction: column; align-items: center; width: min(580px, 100%); }
+.brand-logo-art { display: block; width: 100%; aspect-ratio: 10 / 3; overflow: visible; }
+.brand-logo-tagline {
+  font-family: var(--font-thai), sans-serif;
+  display: block;
+  width: 100%;
+  aspect-ratio: 100 / 7;
+  overflow: visible;
+}
+.brand-logo-today { fill: #1760ab; }
+.brand-logo-future { fill: #087568; }
+.brand-logo-connector { fill: #946000; }
+.brand-header:has(.brand-logo) { position: relative; flex-direction: column; align-items: center; padding: 8px 16px 12px; gap: 12px; }
+.brand-header:has(.brand-logo) > a:first-child { width: min(464px, 80%); filter: none; }
+.brand-header:has(.brand-logo) > a:first-child:focus-visible { outline: 4px solid #12356b; outline-offset: 3px; background: #ffffff80; }
+.brand-header:has(.brand-logo) > div { align-self: center; }
+@media (min-width: 640px) and (max-width: 1023px) {
+  .brand-header:has(.brand-logo) > a:first-child { width: 416px; }
+}
+@media (max-height: 500px) and (min-width: 640px) {
+  .brand-header:has(.brand-logo) > a:first-child { width: 352px; }
+}
+@media (width >= 80rem) {
+  .brand-header:has(.brand-logo) { flex-direction: row; justify-content: center; }
+  .brand-header:has(.brand-logo) > div { position: absolute; right: 24px; top: 12px; }
+}

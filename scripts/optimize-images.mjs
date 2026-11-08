@@ -11,11 +11,15 @@ import { createHash } from "node:crypto";
 import { readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import { homeIslandNames, prepareHomeIsland, scanHomeAlpha } from "./home-island-alpha.mjs";
 
 /* เกาะแสดงกว้างสุดราว 230px จึงพอที่ 900px สำหรับจอ 3x
    ส่วนพื้นหลังกินเต็มความกว้างจอ จึงต้องใหญ่กว่า
    หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
+// Retired homepage PNGs are archived in output/home-2/unused-islands, outside JOBS.
 const JOBS = [
+  { dir: "public/games/block-builders", width: 1000, quality: 88 },
+  { dir: "public/brand", width: 800, quality: 90 },
   { dir: "public/games/balance-scale", width: 1000, quality: 88 },
   { dir: "public/games/coin-box", width: 1000, quality: 88 },
   { dir: "public/games/bead-lacing", width: 1100, quality: 88 },
@@ -137,7 +141,8 @@ for (const job of JOBS) {
     const digest = createHash("sha256").update(bytes).digest("hex");
     manifest[src.replaceAll("\\", "/")] = digest;
 
-    let pipeline = sharp(bytes);
+    const isHomeIsland = job.dir === "public/islands" && homeIslandNames.includes(file.replace(/\.png$/i, ""));
+    let pipeline = sharp(isHomeIsland ? await prepareHomeIsland(bytes) : bytes);
     if (job.trim) pipeline = pipeline.trim({ threshold: 10 });
     const isBackgroundDir = job.dir === "public/BG";
     const isPatchTarget = digest === CAT_FACE_PATCH.sha256;
@@ -173,10 +178,20 @@ for (const job of JOBS) {
       console.log("    (ลบตาและจมูกแมวออกแล้ว)");
     }
 
+    pipeline = pipeline.resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true });
+    // Resampling can reintroduce alpha=254 deep inside a solid surface.
+    // Normalize the final-resolution silhouette before lossless alpha encoding.
+    if (isHomeIsland) pipeline = sharp(await prepareHomeIsland(await pipeline.png().toBuffer()));
     await pipeline
-      .resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: job.quality, effort: 6 })
       .toFile(out);
+    if (isHomeIsland) {
+      const alpha = await scanHomeAlpha(out);
+      if (!alpha.transparent || !alpha.opaque || alpha.interiorTranslucent) {
+        throw new Error(`HOME-2 alpha scan failed: ${JSON.stringify(alpha)}`);
+      }
+      console.log(`    alpha: ${alpha.opaque} opaque, ${alpha.edge} edge, no translucent interior`);
+    }
     const outSize = (await stat(out)).size;
 
     before += srcSize;

@@ -41,7 +41,7 @@ export const th = {
   },
   arabic: {
     classroom: {
-      metadataTitle: "เกาะภาษาอาหรับเบื้องต้น",
+      metadataTitle: "เรียนภาษาเบื้องต้น",
       otherIslands: "ไปเกาะอื่นกัน",
       title: "ห้องเรียนภาษาอาหรับ",
       instructions: "ครูหุ่นยนต์อ่านให้ฟังก่อน แล้วเว้นจังหวะให้หนูอ่านตามออกเสียงดังๆ",
@@ -180,8 +180,9 @@ export const th = {
     speech: "เรียนรู้ เล่นสนุก เติบโต",
   },
   categoryGrid: {
-    heading: "หมวดการเรียนรู้",
+    heading: "โซนเรียนรู้",
   },
+  homePlay: { heading: "โซนผจญภัย", comingSoon: "เร็วๆ นี้" },
   ageGroupSelector: {
     kidsLabel: "วัย 3-6 ปี",
     kidsHint: "เรียนรู้ผ่านการเล่น",
@@ -198,7 +199,7 @@ export const th = {
   },
   logo: {
     brand: "Little Ummah",
-    today: "อุมมะตัวน้อยในวันนี้",
+    today: "อุมมะฮ์ตัวน้อยในวันนี้",
     tomorrow: "คือ ผู้ใหญ่ในวันหน้า",
   },
   ageHome: {

@@ -8,6 +8,8 @@ export type BeadId = `${keyof typeof BEAD_COLORS}-${keyof typeof BEAD_SHAPES}`;
 export const BEADS = Object.entries(BEAD_COLORS).flatMap(([color, name]) => Object.entries(BEAD_SHAPES).map(([shape, label]) => ({
   id: `${color}-${shape}` as BeadId, label: { th: `${name.th} รูป${label.th}`, en: `${name.en} ${label.en.toLowerCase()}` },
   src: `/games/bead-lacing/${color}-${shape}.webp`,
+  // มุมข้าง แกนรูขนานกับเชือก ใช้ตอนลูกปัดร้อยอยู่บนเชือกแล้ว (รูหน้าตรงจะดูเหมือนเชือกไม่ได้ลอดรู)
+  threaded: `/games/bead-lacing/threaded/${color}-${shape}.webp`,
 })));
 export const bead = (id: BeadId) => BEADS.find(b => b.id === id)!;
 export type BeadRound = { pattern: readonly BeadId[]; prefilled: number; choices: readonly BeadId[] };

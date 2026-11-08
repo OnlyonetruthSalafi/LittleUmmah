@@ -11,4 +11,5 @@ import '@/features/games/countdown.css';
 import '@/features/games/game-tutorial.css';
 import '@/features/games/coin-box.css';
 import '@/features/games/balance-scale.css';
+import '@/features/games/block-builders.css';
 export default function GamesLayout({ children }: { children: ReactNode }) { return children; }

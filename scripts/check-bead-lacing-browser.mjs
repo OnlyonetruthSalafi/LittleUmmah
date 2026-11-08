@@ -2,10 +2,12 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { BEAD_LEVELS } from '../src/features/games/data/beadLacing.ts';
+import sharp from 'sharp';
+const islandSize=await sharp('public/games/bead-lacing/island.webp').metadata();
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_EXECUTABLE||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
-const base=(process.argv[2]&&!process.argv[2].startsWith('-')?process.argv[2]:process.env.BASE_URL||'http://localhost:3132').replace(/\/+$/,''),out='output/g-2/shots-fix1';
+const base=(process.argv[2]&&!process.argv[2].startsWith('-')?process.argv[2]:process.env.BASE_URL||'http://localhost:3141').replace(/\/+$/,''),out='output/vis-1/shots';
 await mkdir(out,{recursive:true});const measurements=[],errors=[];
 // Navigate only through real keyboard events; never repair focus from the test.
 async function tabTo(page, selector) {
@@ -65,7 +67,12 @@ await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(asyn
    const rects=await page.locator('main button:visible, main a.ui-pill:visible').evaluateAll(els=>els.map(e=>({name:e.getAttribute('aria-label')||e.textContent, ...Object.fromEntries(['x','y','width','height'].map(k=>[k,e.getBoundingClientRect()[k]]))})));
    for(const r of rects){assert.ok(r.width>=63.9&&r.height>=63.9,`target under 64 ${w} ${JSON.stringify(r)}`);assert.ok(r.x>=0&&r.y>=0&&r.x+r.width<=w+1&&r.y+r.height<=h+1,`off screen ${JSON.stringify(r)}`);}
    measurements.push({w,h,level,round:ri+1,rects});
-   const ratio=await page.locator('.bl-island').boundingBox();assert.ok(Math.abs(ratio.width/ratio.height-1.5)<.01,'source aspect ratio preserved');
+   const ratio=await page.locator('.bl-island').boundingBox();assert.ok(Math.abs(ratio.width/ratio.height-islandSize.width/islandSize.height)<.01,'source aspect ratio preserved');
+   const tray=await page.locator('.bl-tray').boundingBox();
+   if(w>=640)assert.ok(tray.x>=ratio.x&&tray.x+tray.width<=ratio.x+ratio.width&&tray.y>=ratio.y&&tray.y+tray.height<=ratio.y+ratio.height,'tray stays on the island');
+   else assert.ok(tray.y>=ratio.y+ratio.height-6,'portrait tray directly below island');
+   const labels=await page.locator('.bl-piece-label').evaluateAll(els=>els.map(e=>({width:e.clientWidth,scroll:e.scrollWidth,font:parseFloat(getComputedStyle(e).fontSize)})));
+   for(const label of labels)assert.ok(label.scroll<=label.width+1&&label.font>=12,'readable bead labels without overflow');
    if(ri===0||ri===2)await page.screenshot({path:`${out}/${w}x${h}-level-${level}-round-${ri+1}.png`});
    if(level===3)assert.equal(await page.locator('.bl-question').count(),r.pattern.length-r.prefilled);
    const wrong=r.choices.find(id=>id!==r.pattern[r.prefilled]);await drag(page,context,wrong,w!==1280);
@@ -73,6 +80,7 @@ await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(asyn
    for(let i=r.prefilled;i<r.pattern.length;i++){
     await drag(page,context,r.pattern[i],w!==1280);
     assert.equal(await page.locator('.bl-scene').getAttribute('data-placed'),String(i+1),`drop ${w} ${level}/${ri}/${i}`);
+    if(level===1&&ri===0&&i===1){await page.waitForFunction(()=>!document.querySelector('.bl-tip').disabled);await page.screenshot({path:`${out}/${w}x${h}-two-beads.png`});}
    }
   }
   await page.locator('.gc-result').waitFor();
@@ -91,5 +99,6 @@ await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(asyn
 }));
 // Delayed artwork retains dimensions, targets and independent selection.
 const c=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});const p=await c.newPage();await p.route('**/games/bead-lacing/*.webp',async route=>{await new Promise(r=>setTimeout(r,2500));await route.continue();});await p.goto(`${base}/games/bead-lacing`);await p.locator('.gc-start-3d').click();await p.locator('.bl-scene').waitFor();const before=await p.locator('.bl-tip').boundingBox();await p.locator('.bl-scene img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));const after=await p.locator('.bl-tip').boundingBox();assert.deepEqual(after,before);await c.close();
-assert.deepEqual(errors,[]);await writeFile('output/g-2/browser-measurements-fix1.json',JSON.stringify(measurements,null,2));
+assert.deepEqual(errors,[]);await writeFile('output/vis-1/browser-measurements.json',JSON.stringify(measurements,null,2));
+console.log('PASS delayed artwork: exact target bounds preserved; no page errors; 45 round measurements saved');
 }finally{await browser.close();}

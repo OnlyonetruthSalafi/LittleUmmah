@@ -15,6 +15,11 @@ export function DragItem({ id, label, selected, disabled, onSelect, onDrop, chil
       const target = dropTargetAt(event.clientX, event.clientY);
       element.style.pointerEvents = '';
       if (target && !target.hasAttribute('disabled')) onDrop(id, target.dataset.dropId!);
+    } else if (event.pointerType === 'touch') {
+      // A captured touch does not always emit a compatibility click after a drag.
+      // Select on release; suppress a later click so each tap still selects once.
+      suppressClick.current = true;
+      onSelect();
     }
     reset(element);
   };

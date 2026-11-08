@@ -38,7 +38,7 @@ export const en: Dictionary = {
   },
   arabic: {
     classroom: {
-      metadataTitle: "Arabic Basics Island",
+      metadataTitle: "Basic Languages",
       otherIslands: "Visit other islands",
       title: "Arabic Classroom",
       instructions: "Listen to your robot teacher, then read aloud when it is your turn.",
@@ -177,8 +177,9 @@ export const en: Dictionary = {
     speech: "Learn, Play, Grow",
   },
   categoryGrid: {
-    heading: "Learning categories",
+    heading: "Learning Zone",
   },
+  homePlay: { heading: "Adventure Zone", comingSoon: "Coming soon" },
   ageGroupSelector: {
     kidsLabel: "Ages 3–6",
     kidsHint: "Learn through play",

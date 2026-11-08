@@ -37,6 +37,6 @@ test('all beads appear in actual rounds; completed levels earn one star each, re
 test('new text backgrounds meet contrast and all runtime assets and speech exist',async()=>{
  const lum=hex=>{const c=hex.match(/\w\w/g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return c[0]*.2126+c[1]*.7152+c[2]*.0722;};
  for(const bg of ['ffffff','eef8ff','fff9e9'])assert.ok((lum(bg)+.05)/(lum('1f2937')+.05)>4.5);
- for(const b of BEADS){assert.ok((await stat(`public${b.src}`)).size>100);assert.ok((await stat(`public/audio/th/bead-hint-${b.id}.mp3`)).size>1000);}
+ for(const b of BEADS){assert.ok((await stat(`public${b.src}`)).size>100);assert.ok((await stat(`public${b.threaded}`)).size>100);assert.ok((await stat(`public/audio/th/bead-hint-${b.id}.mp3`)).size>1000);}
  const p=await readFile('src/features/games/data/comingSoon.ts','utf8');assert.ok(!p.includes('bead-lacing'));
 });

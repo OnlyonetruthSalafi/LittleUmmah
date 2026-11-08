@@ -7,12 +7,6 @@ const BLUE = '#2f7fe0', DEEP = '#1e5fbf', TEAL = '#21b8ad', GOLD = '#f6b51e', AM
 const base = <ellipse cx="60" cy="80" rx="46" ry="8" fill={DEEP} opacity=".14" />;
 
 const art: Record<ComingSoonId, ReactNode> = {
-  'block-builders': <>
-    <path d="M60 12 92 36H28Z" fill={GOLD} stroke={AMBER} strokeWidth="2" strokeLinejoin="round" />
-    <rect x="34" y="36" width="25" height="22" rx="3" fill={BLUE} /><rect x="61" y="36" width="25" height="22" rx="3" fill={TEAL} />
-    <rect x="34" y="58" width="25" height="22" rx="3" fill={TEAL} /><rect x="61" y="58" width="25" height="22" rx="3" fill={BLUE} />
-    <path d="M38 41h14M65 41h14M38 63h14M65 63h14" stroke={WHITE} strokeWidth="3" strokeLinecap="round" opacity=".55" />
-  </>,
   'coin-box': <>
     <rect x="26" y="36" width="68" height="44" rx="9" fill={BLUE} /><rect x="26" y="36" width="68" height="13" rx="6.5" fill={TEAL} />
     <rect x="45" y="39.5" width="30" height="6" rx="3" fill={DEEP} />

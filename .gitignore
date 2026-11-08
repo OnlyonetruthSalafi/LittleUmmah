@@ -61,6 +61,8 @@ next-env.d.ts
 /public/games/coin-box/*.png
 /public/games/bead-lacing/*.png
 /public/games/balance-scale/*.png
+/public/games/block-builders/*.png
+/public/brand/*.png
 /public/games/light-maze/*.png
 /public/games/light-maze/v2/**/*.png
 /public/stories/**/*.png

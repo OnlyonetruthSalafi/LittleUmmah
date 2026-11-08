@@ -14,6 +14,8 @@ import type { Locale } from "@/i18n/config";
 
 /** key ที่มีไฟล์เสียงอัดไว้แล้ว เพิ่มชื่อที่นี่เมื่อวางไฟล์ลง public/audio/th/ */
 export const RECORDED_CLIPS = new Set<string>([
+  'name-block-builders', 'game-block-builders', 'howto-block-builders',
+  'build-support', 'build-retry', 'build-praise', 'build-cube', 'build-beam', 'build-roof', 'build-arch', 'build-cylinder', 'build-dome',
   'name-balance-scale', 'game-balance-scale', 'howto-balance-scale',
   'balance-left', 'balance-right', 'balance-equal', 'balance-retry', 'balance-correct', 'balance-compare',
   'name-coin-box', 'game-coin-box', 'howto-coin-box', 'coin-praise', 'coin-retry',
@@ -30,6 +32,7 @@ export const RECORDED_CLIPS = new Set<string>([
   "name-color-match", "name-shape-match", "name-memory", "name-puzzle",
   "name-arabic-match", "name-sequence", "name-find-object", "name-sort",
   // ชื่อเกาะหมวดหมู่ในหน้าแรก (IslandCard, ValueBar) ไทยอย่างเดียว
+  // cat-arabic อัดใหม่ 8 พ.ย. 2026 เป็น "เรียนภาษาเบื้องต้น" (ชื่อเกาะใหม่ หลังยุบเกาะภาษาไทย/อังกฤษเข้ามา)
   "cat-moral", "cat-stories", "cat-arabic", "cat-explore", "cat-games", "cat-art",
   // หัวข้อหน้าแรก อ่านเมื่อเลื่อนจอมาเจอ (HeroVoice)
   "hero-tagline",

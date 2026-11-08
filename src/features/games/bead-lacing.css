@@ -1,41 +1,55 @@
-/* Scoped to this game; portrait and landscape both support real play. */
+/* VIS-1: the game is built around the same bench, grass and jewelled island as the hub. */
 .gc-world[data-game="bead-lacing"]{padding:10px 12px;height:100dvh;min-height:0;overflow:hidden}
-[data-game="bead-lacing"] .gc-play-container{height:100%;max-width:1100px;display:flex;flex-direction:column;gap:8px}
+[data-game="bead-lacing"] .gc-play-container{height:100%;max-width:1100px;display:flex;flex-direction:column;gap:6px}
 [data-game="bead-lacing"] .gc-game-header{flex:none;margin:0;flex-wrap:nowrap;min-height:64px}
 [data-game="bead-lacing"] .gc-game-header h1{font-size:20px;width:auto;order:0;margin:0}
 [data-game="bead-lacing"] .gc-game-header .ui-pill{min-height:64px;min-width:64px}
-[data-game="bead-lacing"] .gc-progress-row{flex:none;padding:3px 12px;height:30px;font-size:13px}
+[data-game="bead-lacing"] .gc-progress-row{flex:none;padding:3px 12px;height:28px;font-size:13px}
 [data-game="bead-lacing"] .gc-progress-row small{display:none}
 [data-game="bead-lacing"] .gc-instruction,[data-game="bead-lacing"] .gc-feedback{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);margin:0;padding:0;white-space:nowrap}
-/* Like the compact shape/sequence layout, hidden controls must leave Tab order. */
 [data-game="bead-lacing"] .gc-instruction .gc-button{display:none}
-/* Restored focus stays visible even after a disabled button or round unmount. */
-.bl-scene button:focus{outline:3px solid #123a72;outline-offset:3px}
+.bl-scene button:focus-visible{outline:3px solid #123a72;outline-offset:3px}
 [data-game="bead-lacing"] .gc-board{flex:1;min-height:0;border:0;background:transparent;box-shadow:none;padding:0}
 [data-game="bead-lacing"] .gc-bottom-controls{margin:0;flex:none}
 [data-game="bead-lacing"] .gc-bottom-controls .gc-button{min-height:64px;padding:4px 20px}
-.bl-scene{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:6px;color:var(--color-ink)}
-.bl-pattern-card{width:min(100%,530px);margin:auto;padding:9px 12px 6px;border:2px solid #c9a457;border-radius:20px;background:#fff;box-shadow:0 4px 0 #d7bf8e}
-.bl-pattern-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}.bl-pattern-heading small{display:block;font-size:11px}
-.bl-pattern{display:flex;justify-content:center;gap:6px;padding-top:17px;list-style:none;margin:0}
-.bl-pattern li{position:relative;width:clamp(36px,7vw,55px);height:clamp(36px,7vw,55px);background:#eef8ff;border:2px solid #d3e3ed;border-radius:12px}
-.bl-pattern li img{width:100%;height:100%;object-fit:contain}.bl-pattern [data-current]{border:3px solid #1e5fbf}.bl-pattern [data-hint]{outline:3px solid #925008;outline-offset:2px}
-.bl-pointer{position:absolute;left:35%;top:-24px;color:#123a72;font-size:23px;font-weight:900}.bl-check{position:absolute;right:-4px;bottom:-4px;background:#fff;color:#123a72;border-radius:50%;font-weight:900;line-height:17px}.bl-question{display:grid;place-items:center;height:100%;font-size:24px;font-weight:800}
-.bl-island-wrap{min-height:0;display:flex;justify-content:center;align-items:center}.bl-island{position:relative;width:min(100%,690px);aspect-ratio:3/2;max-height:100%;container-type:inline-size}
-.bl-island-art{width:100%;height:100%;object-fit:fill}.bl-cord{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.bl-laced{position:absolute;width:9%;aspect-ratio:1;translate:-50% -50%;pointer-events:none}.bl-laced img{width:100%;height:100%;object-fit:contain}
-.bl-tip{position:absolute;translate:-50% -50%;width:74px;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #16455a;border-radius:18px;background:#ffffffd9;color:var(--color-ink);font-weight:700;cursor:pointer;box-shadow:0 3px 8px #14354c25}
-.bl-tip svg{width:62px;height:32px}.bl-tip span{font-size:10px;line-height:1.1}.bl-tip small{display:block;font-size:9px}.bl-tip:disabled{cursor:default}.bl-tip:focus-visible,.bl-scene button:focus-visible{outline:3px solid #123a72;outline-offset:3px}
-.bl-tray{position:relative;display:flex;justify-content:center;gap:10px;width:min(100%,530px);margin:auto;padding:10px 12px 2px;isolation:isolate}
-.bl-tray-art{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:fill;pointer-events:none}
-.bl-tray-cell{width:calc((100% - 30px)/4);max-width:106px;min-width:64px}.bl-tray .gc-object-button{width:100%;height:74px;min-width:64px;min-height:64px;padding:2px;border:0;background:transparent;box-shadow:none;overflow:visible;border-radius:16px}
-.bl-tray .gc-object-button img{width:68px;height:68px;object-fit:contain;pointer-events:none}.bl-tray .gc-object-button:hover{box-shadow:0 5px 12px #14354c30}.bl-piece-label{display:block;text-align:center;font-size:10px;font-weight:700;line-height:1.3;background:#fff9e9;border-radius:6px;min-height:31px}.bl-piece-label small{display:block;font-size:9px}
+.bl-scene{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:4px;color:var(--color-ink)}
+.bl-pattern-card{width:min(100%,440px);margin:auto;padding:8px 14px;border:3px solid #b87935;border-radius:16px;background:repeating-linear-gradient(2deg,#efd0a0 0 4px,#f5dcb5 5px 8px);box-shadow:inset 0 2px 0 #fff0cd,0 5px 0 #91602f,0 8px 12px #58401b20}
+.bl-pattern-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}.bl-pattern-heading small{display:block;font-size:11px}
+.bl-pattern{display:flex;justify-content:center;gap:8px;padding-top:15px;list-style:none;margin:0}
+.bl-pattern li{position:relative;width:clamp(34px,8vw,48px);height:clamp(34px,8vw,48px);border-bottom:3px solid transparent;border-radius:5px}
+.bl-pattern li img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(1px 3px 2px #62340740)}.bl-pattern [data-current]{border-bottom-color:#123a72}.bl-pattern [data-hint]{outline:3px solid #925008;outline-offset:2px}
+.bl-pointer{position:absolute;left:35%;top:-23px;color:#123a72;font-size:23px;font-weight:900}.bl-check{position:absolute;right:-4px;bottom:-4px;background:#fff9e9;color:#123a72;border-radius:50%;font-weight:900;line-height:17px}.bl-question{display:grid;place-items:center;height:100%;font-size:24px;font-weight:800}
+.bl-island-wrap{position:relative;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;container-type:size}
+.bl-island{position:relative;width:min(100cqw,calc((100cqh - 125px)*1.19876),650px);flex:none}
+.bl-island-art{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}.bl-cord{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.bl-laced{position:absolute;width:10%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;filter:drop-shadow(0 4px 2px #68380855)}.bl-laced img{width:100%;height:100%;object-fit:contain}
+.bl-tip{position:absolute;translate:-35% -50%;width:74px;height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:20px;background:transparent;color:var(--color-ink);font-weight:700;cursor:pointer;z-index:2}
+.bl-tip svg{width:74px;height:43px;filter:drop-shadow(0 3px 1px #58401b55)}.bl-tip span{padding:1px 5px;border-radius:6px;background:#fff1c9;font-size:11px;line-height:1.1}.bl-tip small{display:block;font-size:10px}.bl-tip:disabled{cursor:default}
+.bl-tray{position:relative;display:flex;justify-content:center;gap:4px;width:min(100%,370px);margin:-5px auto 0;padding:0 10px 5px;isolation:isolate;flex:none}
+.bl-tray-art{position:absolute;inset:0;top:23px;z-index:-1;width:100%;height:83px;object-fit:fill;pointer-events:none;filter:drop-shadow(0 5px 3px #53361240)}
+.bl-tray-cell{width:calc((100% - 12px)/4);min-width:64px}.bl-tray .gc-object-button{width:100%;height:74px;min-width:64px;min-height:64px;padding:3px;border:0;background:transparent;box-shadow:none;overflow:visible;border-radius:16px}
+.bl-tray .gc-object-button img{width:68px;height:68px;object-fit:contain;pointer-events:none;filter:drop-shadow(2px 5px 2px #58300c44)}.bl-tray .gc-object-button:hover{box-shadow:0 5px 12px #14354c30}.bl-tray .gc-object-button[aria-pressed="true"]{outline:3px solid #123a72}
+.bl-piece-label{display:block;text-align:center;font-size:12px;font-weight:700;line-height:1.25;background:#fff1c9;border-radius:5px;min-height:44px;padding:2px 0;white-space:pre-line}.bl-piece-label small{display:block;font-size:10px;white-space:nowrap}
 .bl-guide{display:flex;align-items:center;gap:7px;max-width:620px;width:100%;margin:auto;min-height:70px}.bl-guide>img{width:48px;height:64px;object-fit:contain}.bl-guide p{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.45}.bl-guide p small{display:block;font-size:11px}.bl-guide .gc-button{padding:4px 10px;flex:none;min-width:64px;min-height:64px}
 [data-game="bead-lacing"] .gc-voice-intro{min-height:0;flex:1;display:flex;flex-direction:column;justify-content:center}.gc-world[data-game="bead-lacing"] .gc-voice-scene{max-height:65dvh}
 [data-game="bead-lacing"] .gc-result{margin:auto;width:100%;padding:16px;max-height:100%;overflow:auto}
-@media(prefers-reduced-motion:no-preference){.bl-laced[data-new]{animation:bl-thread 500ms ease-out both}.bl-tray-cell[data-rejected] .gc-object-button{animation:bl-return 400ms ease-out}.bl-tip:active{transform:scale(.98)}}
-@keyframes bl-thread{from{transform:translateX(var(--bl-travel));opacity:.7}to{transform:translateX(0);opacity:1}}
+@media(prefers-reduced-motion:no-preference){.bl-tray-cell[data-rejected] .gc-object-button{animation:bl-return 400ms ease-out}.bl-tip:active{transform:scale(.98)}}
 @keyframes bl-return{0%{transform:translateY(-18px)}55%{transform:translateY(4px)}100%{transform:translateY(0)}}
+/* Wide screens: the tray sits on the grass directly in front of the bench. */
+@media(min-width:640px){
+ .bl-island{width:min(100cqw,119.876cqh,650px)}
+ .bl-tray{position:absolute;left:50%;top:52%;translate:-50% -10%;width:clamp(292px,63cqw,410px);margin:0}
+ .bl-tray .gc-object-button{height:clamp(64px,11cqw,90px)}
+ .bl-tray .gc-object-button img{width:clamp(64px,11cqw,85px);height:clamp(64px,11cqw,85px)}
+ .bl-tray-art{top:30px;height:90px}
+}
+@media(min-width:1000px) and (min-height:501px){
+ .bl-scene{grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:1fr 1fr;gap:18px}
+ .bl-island-wrap{grid-column:1;grid-row:1/3}
+ .bl-pattern-card{grid-column:2;grid-row:1;align-self:end}
+ .bl-guide{grid-column:2;grid-row:2;align-self:start;flex-wrap:wrap;padding-top:20px}.bl-guide .gc-button{margin-left:auto}
+ .bl-tray{top:52%}
+}
 @media(max-height:500px) and (min-width:640px){
  .gc-world[data-game="bead-lacing"]{padding:5px 10px}
  [data-game="bead-lacing"] .gc-play-container{gap:3px;position:relative;padding-left:74px}
@@ -44,20 +58,9 @@
  [data-game="bead-lacing"] .gc-bottom-controls{position:absolute;left:0;bottom:8px;width:68px}
  [data-game="bead-lacing"] .gc-bottom-controls .gc-button{font-size:11px;padding:3px}
  [data-game="bead-lacing"] .gc-progress-row{height:23px}
- .bl-scene{grid-template-columns:minmax(0,1fr) 295px;grid-template-rows:86px minmax(0,1fr);gap:4px 12px}
- .bl-pattern-card{grid-column:1;grid-row:1;padding:2px 10px}.bl-pattern-heading{font-size:12px}.bl-pattern-heading small{display:none}.bl-pattern li{width:38px;height:38px}.bl-pattern{padding-top:17px}
- .bl-island-wrap{grid-column:1;grid-row:2}.bl-island{width:min(100%,310px)}
- .bl-tray{grid-column:2;grid-row:1;gap:5px;padding:4px 3px;align-self:start}.bl-tray-cell{min-width:64px}.bl-tray .gc-object-button{height:64px}.bl-tray .gc-object-button img{width:64px;height:64px}.bl-piece-label{font-size:9px}.bl-piece-label small{display:none}
+ .bl-scene{grid-template-columns:minmax(0,1fr) 290px;grid-template-rows:110px minmax(0,1fr);gap:6px 10px}
+ .bl-island-wrap{grid-column:1;grid-row:1/3}.bl-pattern-card{grid-column:2;grid-row:1;padding:4px 10px}.bl-pattern-heading{font-size:12px}.bl-pattern-heading small{font-size:10px}.bl-pattern li{width:34px;height:34px}
+ .bl-tray{top:48%;padding:0 6px;width:292px}.bl-tray-art{top:20px;height:80px}.bl-tray .gc-object-button{height:64px}.bl-piece-label{font-size:12px;min-height:44px}.bl-piece-label small{font-size:10px}
  .bl-guide{grid-column:2;grid-row:2;align-self:center;flex-wrap:wrap;gap:3px}.bl-guide>img{width:40px}.bl-guide p{font-size:12px}.bl-guide p small{font-size:10px}.bl-guide .gc-button{margin-left:auto}
  [data-game="bead-lacing"] .gc-result>img{height:80px;width:75px}[data-game="bead-lacing"] .gc-result-actions{margin-top:6px;gap:8px}
-}
-/* Keep the source 3:2 ratio even when a short viewport constrains the island. */
-.bl-island-wrap{container-type:size}
-.bl-island{width:min(100cqw,150cqh,690px);max-height:none;flex:none}
-@media(min-width:1000px) and (min-height:501px){
- .bl-scene{grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:145px minmax(0,1fr) 100px;gap:12px 20px}
- .bl-island-wrap{grid-column:1;grid-row:1/4}
- .bl-pattern-card{grid-column:2;grid-row:1}
- .bl-tray{grid-column:2;grid-row:2}
- .bl-guide{grid-column:2;grid-row:3}
 }
