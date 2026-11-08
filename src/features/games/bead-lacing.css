@@ -1,66 +1,83 @@
-/* VIS-1: the game is built around the same bench, grass and jewelled island as the hub. */
-.gc-world[data-game="bead-lacing"]{padding:10px 12px;height:100dvh;min-height:0;overflow:hidden}
-[data-game="bead-lacing"] .gc-play-container{height:100%;max-width:1100px;display:flex;flex-direction:column;gap:6px}
+/* ร้อยลูกปัด — ฉากเดียวแบบภาพหน้าเกม เต็มจอแบบเกมเก็บแสง (เจ้าของโปรเจกต์ 8 พ.ย. 2026)
+   เกาะกว้าง (โต๊ะ + ถาดบนเกาะ) กินความสูงจอ · แบบที่ต้องร้อยเป็นเงาบนเชือก · ปุ่มควบคุมอยู่มุมจอ ไม่มีการ์ดบังฉาก */
+.gc-world[data-game="bead-lacing"]{padding:8px 12px;height:100dvh;min-height:0;overflow:hidden}
+[data-game="bead-lacing"] .gc-play-container{position:relative;height:100%;max-width:1280px;display:flex;flex-direction:column;gap:4px}
 [data-game="bead-lacing"] .gc-game-header{flex:none;margin:0;flex-wrap:nowrap;min-height:64px}
 [data-game="bead-lacing"] .gc-game-header h1{font-size:20px;width:auto;order:0;margin:0}
 [data-game="bead-lacing"] .gc-game-header .ui-pill{min-height:64px;min-width:64px}
-[data-game="bead-lacing"] .gc-progress-row{flex:none;padding:3px 12px;height:28px;font-size:13px}
+[data-game="bead-lacing"] .gc-progress-row{flex:none;padding:2px 12px;height:24px;font-size:13px;max-width:360px;margin:0 auto}
 [data-game="bead-lacing"] .gc-progress-row small{display:none}
 [data-game="bead-lacing"] .gc-instruction,[data-game="bead-lacing"] .gc-feedback{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);margin:0;padding:0;white-space:nowrap}
 [data-game="bead-lacing"] .gc-instruction .gc-button{display:none}
-.bl-scene button:focus-visible{outline:3px solid #123a72;outline-offset:3px}
 [data-game="bead-lacing"] .gc-board{flex:1;min-height:0;border:0;background:transparent;box-shadow:none;padding:0}
-[data-game="bead-lacing"] .gc-bottom-controls{margin:0;flex:none}
-[data-game="bead-lacing"] .gc-bottom-controls .gc-button{min-height:64px;padding:4px 20px}
-.bl-scene{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:4px;color:var(--color-ink)}
-.bl-pattern-card{width:min(100%,440px);margin:auto;padding:8px 14px;border:3px solid #b87935;border-radius:16px;background:repeating-linear-gradient(2deg,#efd0a0 0 4px,#f5dcb5 5px 8px);box-shadow:inset 0 2px 0 #fff0cd,0 5px 0 #91602f,0 8px 12px #58401b20}
-.bl-pattern-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}.bl-pattern-heading small{display:block;font-size:11px}
-.bl-pattern{display:flex;justify-content:center;gap:8px;padding-top:15px;list-style:none;margin:0}
-.bl-pattern li{position:relative;width:clamp(34px,8vw,48px);height:clamp(34px,8vw,48px);border-bottom:3px solid transparent;border-radius:5px}
-.bl-pattern li img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(1px 3px 2px #62340740)}.bl-pattern [data-current]{border-bottom-color:#123a72}.bl-pattern [data-hint]{outline:3px solid #925008;outline-offset:2px}
-.bl-pointer{position:absolute;left:35%;top:-23px;color:#123a72;font-size:23px;font-weight:900}.bl-check{position:absolute;right:-4px;bottom:-4px;background:#fff9e9;color:#123a72;border-radius:50%;font-weight:900;line-height:17px}.bl-question{display:grid;place-items:center;height:100%;font-size:24px;font-weight:800}
-.bl-island-wrap{position:relative;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;container-type:size}
-.bl-island{position:relative;width:min(100cqw,calc((100cqh - 125px)*1.19876),650px);flex:none}
-.bl-island-art{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}.bl-cord{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.bl-laced{position:absolute;width:10%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;filter:drop-shadow(0 4px 2px #68380855)}.bl-laced img{width:100%;height:100%;object-fit:contain}
-.bl-tip{position:absolute;translate:-35% -50%;width:74px;height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:20px;background:transparent;color:var(--color-ink);font-weight:700;cursor:pointer;z-index:2}
-.bl-tip svg{width:74px;height:43px;filter:drop-shadow(0 3px 1px #58401b55)}.bl-tip span{padding:1px 5px;border-radius:6px;background:#fff1c9;font-size:11px;line-height:1.1}.bl-tip small{display:block;font-size:10px}.bl-tip:disabled{cursor:default}
-.bl-tray{position:relative;display:flex;justify-content:center;gap:4px;width:min(100%,370px);margin:-5px auto 0;padding:0 10px 5px;isolation:isolate;flex:none}
-.bl-tray-art{position:absolute;inset:0;top:23px;z-index:-1;width:100%;height:83px;object-fit:fill;pointer-events:none;filter:drop-shadow(0 5px 3px #53361240)}
-.bl-tray-cell{width:calc((100% - 12px)/4);min-width:64px}.bl-tray .gc-object-button{width:100%;height:74px;min-width:64px;min-height:64px;padding:3px;border:0;background:transparent;box-shadow:none;overflow:visible;border-radius:16px}
-.bl-tray .gc-object-button img{width:68px;height:68px;object-fit:contain;pointer-events:none;filter:drop-shadow(2px 5px 2px #58300c44)}.bl-tray .gc-object-button:hover{box-shadow:0 5px 12px #14354c30}.bl-tray .gc-object-button[aria-pressed="true"]{outline:3px solid #123a72}
-.bl-piece-label{display:block;text-align:center;font-size:12px;font-weight:700;line-height:1.25;background:#fff1c9;border-radius:5px;min-height:44px;padding:2px 0;white-space:pre-line}.bl-piece-label small{display:block;font-size:10px;white-space:nowrap}
-.bl-guide{display:flex;align-items:center;gap:7px;max-width:620px;width:100%;margin:auto;min-height:70px}.bl-guide>img{width:48px;height:64px;object-fit:contain}.bl-guide p{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.45}.bl-guide p small{display:block;font-size:11px}.bl-guide .gc-button{padding:4px 10px;flex:none;min-width:64px;min-height:64px}
+[data-game="bead-lacing"] .gc-bottom-controls{position:absolute;left:0;bottom:4px;margin:0;z-index:5}
+[data-game="bead-lacing"] .gc-bottom-controls .gc-button{min-height:64px;min-width:64px;padding:4px 14px}
+.bl-scene button:focus-visible{outline:3px solid #123a72;outline-offset:3px}
+
+.bl-scene{position:relative;height:100%;color:var(--color-ink)}
+.bl-island-wrap{position:absolute;inset:0;display:grid;place-items:center;container-type:size}
+.bl-island{position:relative;width:min(100cqw,calc(100cqh * var(--bl-aspect,1.6)));flex:none}
+.bl-island-art{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.bl-cord{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ลูกปัดบนเชือก (ร้อยแล้ว) และเงาแบบที่ยังไม่ร้อย — ตำแหน่ง/มุมเดียวกัน */
+.bl-laced,.bl-ghost{position:absolute;aspect-ratio:1;translate:-50% -50%;pointer-events:none}
+.bl-laced{filter:drop-shadow(0 4px 2px #68380855)}
+.bl-laced img,.bl-ghost img{width:100%;height:100%;object-fit:contain}
+/* เงาบอกใบ้: เห็นชัดแต่ยังต่างจากลูกปัดจริง — ภาพจาง 62% + เส้นประสีกรมท่าตามรูปทรง (เจ้าของโปรเจกต์ 8 พ.ย. 2026) */
+.bl-ghost img{opacity:.62;filter:saturate(.85)}
+.bl-ghost::before{content:"";position:absolute;inset:3%;border:clamp(2px,.3cqw,3px) dashed #123a72;border-radius:50%;pointer-events:none}
+.bl-ghost[data-shape="square"]::before{border-radius:22%}
+.bl-ghost[data-shape="star"]::before{border:0;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 6 L62 37 L95 38 L69 58 L79 91 L50 72 L21 91 L31 58 L5 38 L38 37Z' fill='none' stroke='%23123a72' stroke-width='5' stroke-dasharray='9 7' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.bl-ghost[data-shape="unknown"]::before{display:none}
+.bl-ghost[data-current]{border-radius:50%;box-shadow:0 0 0 3px #fff,0 0 0 6px #123a72}
+.bl-ghost[data-current] img{opacity:.75}
+.bl-ghost[data-hint]{box-shadow:0 0 0 3px #fff,0 0 0 7px #c56a00}
+.bl-ghost-q{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#fffdf5d9;border:3px dashed #123a72;color:#123a72;font-weight:900;font-size:clamp(14px,2.4cqw,26px)}
+.bl-pointer{position:absolute;left:50%;bottom:calc(100% + 4px);translate:-50% 0;rotate:none;color:#123a72;font-size:clamp(14px,2cqw,22px);line-height:1;text-shadow:0 0 3px #fff,0 0 3px #fff}
+
+/* ปลายเชือก (เป้าหมายวางลูกปัด) */
+.bl-tip{position:absolute;translate:-35% -50%;width:72px;height:64px;display:grid;place-items:center;border:0;border-radius:20px;background:transparent;cursor:pointer;z-index:2}
+.bl-tip svg{width:72px;height:40px;filter:drop-shadow(0 3px 1px #58401b55)}
+.bl-tip:disabled{cursor:default}
+
+/* ถาดวาดติดภาพเกาะ: ลูกปัดวางตามจุด traySlots ที่วัดจากภาพ */
+.bl-tray{position:absolute;inset:0;pointer-events:none}
+/* ลูกปัดนั่งในถาด: ภาพเล็กกว่าปุ่ม (ปุ่มยัง ≥64px) ชิดล่างของปุ่ม ปุ่มยกขึ้นให้ฐานลูกปัดอยู่ใต้ขอบหน้าถาด (.bl-tray-front) */
+.bl-tray-cell{position:absolute;z-index:3;translate:-50% -86%;min-width:64px;aspect-ratio:1;pointer-events:auto}
+.bl-tray .gc-object-button{width:100%;height:100%;min-width:64px;min-height:64px;padding:0;border:0;background:transparent;box-shadow:none;overflow:visible;border-radius:50%;display:grid;place-items:end center}
+.bl-tray .gc-object-button img{width:92%;height:92%;object-fit:contain;object-position:bottom;pointer-events:none;filter:drop-shadow(1px 4px 2px #58300c66)}
+.bl-tray-front{position:absolute;inset:0;z-index:4;pointer-events:none}
+.bl-tray-front img{display:block;width:100%;height:100%;object-fit:contain}
+.bl-tray .gc-object-button[aria-pressed="true"]{outline:4px solid #123a72;outline-offset:2px;background:#ffffff8c}
+@media (hover:hover){.bl-tray .gc-object-button:hover{background:#ffffff59}}
+
+/* หุ่นนำทาง + คำใบ้: มุมขวาล่าง เล็ก ไม่บังเกาะ */
+.bl-guide{position:absolute;right:0;bottom:4px;display:flex;align-items:flex-end;gap:6px;max-width:min(340px,46%);z-index:5}
+.bl-guide>img{width:44px;height:56px;object-fit:contain;flex:none}
+.bl-guide p{flex:1;min-width:0;margin:0 0 6px;padding:6px 10px;border-radius:14px 14px 14px 4px;background:#fffffff0;box-shadow:0 3px 0 #123a7233;font-size:13px;font-weight:700;line-height:1.4}
+.bl-guide p small{display:block;font-size:11px;font-weight:500}
+.bl-hint{flex:none;width:64px;min-height:64px;border:3px solid #123a72;border-radius:22px;background:#fff6d6;color:#123a72;font-weight:800;font-size:14px;line-height:1.15;cursor:pointer;box-shadow:0 3px 0 #123a72}
+.bl-hint small{display:block;font-size:10px;font-weight:600}
+.bl-hint:disabled{opacity:.6;cursor:default}
+
 [data-game="bead-lacing"] .gc-voice-intro{min-height:0;flex:1;display:flex;flex-direction:column;justify-content:center}.gc-world[data-game="bead-lacing"] .gc-voice-scene{max-height:65dvh}
 [data-game="bead-lacing"] .gc-result{margin:auto;width:100%;padding:16px;max-height:100%;overflow:auto}
-@media(prefers-reduced-motion:no-preference){.bl-tray-cell[data-rejected] .gc-object-button{animation:bl-return 400ms ease-out}.bl-tip:active{transform:scale(.98)}}
+@media(prefers-reduced-motion:no-preference){.bl-tray-cell[data-rejected] .gc-object-button{animation:bl-return 400ms ease-out}.bl-tip:active,.bl-hint:active{transform:scale(.98)}}
 @keyframes bl-return{0%{transform:translateY(-18px)}55%{transform:translateY(4px)}100%{transform:translateY(0)}}
-/* Wide screens: the tray sits on the grass directly in front of the bench. */
-@media(min-width:640px){
- .bl-island{width:min(100cqw,119.876cqh,650px)}
- .bl-tray{position:absolute;left:50%;top:52%;translate:-50% -10%;width:clamp(292px,63cqw,410px);margin:0}
- .bl-tray .gc-object-button{height:clamp(64px,11cqw,90px)}
- .bl-tray .gc-object-button img{width:clamp(64px,11cqw,85px);height:clamp(64px,11cqw,85px)}
- .bl-tray-art{top:30px;height:90px}
-}
-@media(min-width:1000px) and (min-height:501px){
- .bl-scene{grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:1fr 1fr;gap:18px}
- .bl-island-wrap{grid-column:1;grid-row:1/3}
- .bl-pattern-card{grid-column:2;grid-row:1;align-self:end}
- .bl-guide{grid-column:2;grid-row:2;align-self:start;flex-wrap:wrap;padding-top:20px}.bl-guide .gc-button{margin-left:auto}
- .bl-tray{top:52%}
-}
-@media(max-height:500px) and (min-width:640px){
- .gc-world[data-game="bead-lacing"]{padding:5px 10px}
- [data-game="bead-lacing"] .gc-play-container{gap:3px;position:relative;padding-left:74px}
- [data-game="bead-lacing"] .gc-game-header{height:64px;min-height:64px}
- [data-game="bead-lacing"] .gc-game-header h1{font-size:18px}
- [data-game="bead-lacing"] .gc-bottom-controls{position:absolute;left:0;bottom:8px;width:68px}
- [data-game="bead-lacing"] .gc-bottom-controls .gc-button{font-size:11px;padding:3px}
- [data-game="bead-lacing"] .gc-progress-row{height:23px}
- .bl-scene{grid-template-columns:minmax(0,1fr) 290px;grid-template-rows:110px minmax(0,1fr);gap:6px 10px}
- .bl-island-wrap{grid-column:1;grid-row:1/3}.bl-pattern-card{grid-column:2;grid-row:1;padding:4px 10px}.bl-pattern-heading{font-size:12px}.bl-pattern-heading small{font-size:10px}.bl-pattern li{width:34px;height:34px}
- .bl-tray{top:48%;padding:0 6px;width:292px}.bl-tray-art{top:20px;height:80px}.bl-tray .gc-object-button{height:64px}.bl-piece-label{font-size:12px;min-height:44px}.bl-piece-label small{font-size:10px}
- .bl-guide{grid-column:2;grid-row:2;align-self:center;flex-wrap:wrap;gap:3px}.bl-guide>img{width:40px}.bl-guide p{font-size:12px}.bl-guide p small{font-size:10px}.bl-guide .gc-button{margin-left:auto}
- [data-game="bead-lacing"] .gc-result>img{height:80px;width:75px}[data-game="bead-lacing"] .gc-result-actions{margin-top:6px;gap:8px}
+
+/* จอเตี้ย (มือถือแนวนอน): หัวเกมลอยทับมุมบน เกาะได้ความสูงเต็มจอ */
+@media (max-height:560px){
+ .gc-world[data-game="bead-lacing"]{padding:4px 8px}
+ [data-game="bead-lacing"] .gc-game-header{position:absolute;inset:0 0 auto 0;z-index:6;pointer-events:none;align-items:flex-start}
+ [data-game="bead-lacing"] .gc-game-header > *{pointer-events:auto}
+ [data-game="bead-lacing"] .gc-game-header h1{font-size:15px;opacity:.9}
+ [data-game="bead-lacing"] .gc-game-header h1 small{display:none}
+ [data-game="bead-lacing"] .gc-board{padding-top:58px}
+ /* ช่องถาดห่าง 11.9% ของเกาะ: เกาะต้องกว้าง ≥560px ลูกปัดจึงได้ ≥64px ไม่ทับกัน — จอเตี้ยกว่านั้นให้ชิดบนแล้วตัดฐานหินด้านล่าง (ตกแต่งล้วน) แทนการย่อเกาะ */
+ .bl-island-wrap{place-items:start center}
+ .bl-island{width:min(100cqw,max(calc(100cqh * var(--bl-aspect,1.6)),560px))}
+ [data-game="bead-lacing"] .gc-progress-row{position:absolute;top:36px;left:50%;translate:-50% 0;z-index:6;width:min(220px,30%);height:20px}
+  [data-game="bead-lacing"] .gc-result{padding:8px}[data-game="bead-lacing"] .gc-result>img{height:80px;width:75px}[data-game="bead-lacing"] .gc-result-actions{margin-top:6px;gap:8px}
+ .bl-guide p{font-size:12px;padding:4px 8px}.bl-guide p small{display:none}.bl-guide>img{width:36px;height:46px}
 }

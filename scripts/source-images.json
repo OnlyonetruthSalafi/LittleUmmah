@@ -1018,14 +1018,12 @@
   "public/games/bead-lacing/gold-circle.png": "629c8a0c96ecb16602b7db42761b66547bc52a3d761473e1c28ada0b8b4e354a",
   "public/games/bead-lacing/gold-square.png": "9d6cad0e768570a4059c6b49f914a91da1fb5347c16d968995611eed4bd218ec",
   "public/games/bead-lacing/gold-star.png": "912bdb137d670bb5dbb79c1ff468a5df0bc11925d5e08ce642ad72e3fd09bdf8",
-  "public/games/bead-lacing/island.png": "673ec52fea35d62bc58c7b612cba326fd5b1ae06460bb71846a7ce7c797b0c1a",
   "public/games/bead-lacing/turquoise-circle.png": "b1b7182a6d3063e1ac61e464a2056c97f21cdaa5807810fb0f796bcb7ad004fb",
   "public/games/bead-lacing/turquoise-square.png": "128055234c1caaae6012cbb363a75f63e054176185a9933181ea8866fa2b69e2",
   "public/games/bead-lacing/turquoise-star.png": "99a13cf27e7369596b5024b70208765b22b8fe298e3347995a6fe456230395e0",
   "public/games/bead-lacing/white-circle.png": "a74111d853838cc740561e0ad78bad4da2895082aee673b6653c4d3378108550",
   "public/games/bead-lacing/white-square.png": "0df1e63dbf315d7404e88eecdd7d1a2840cd3a110eaf8eaeebafe5d91c13fa39",
   "public/games/bead-lacing/white-star.png": "3a8b173709ad82242c9730d30e0b35cfdea21847c9e71e941d76b1385e6737a5",
-  "public/games/bead-lacing/tray.png": "34fa079a16af031633430b90920fe315a65072c5e756608f7f3951314d077cbb",
   "public/games/hub/bead-lacing.png": "fc1473a924766cbc1fc715699ceb6c9d872b5ef78e142625d85f9d45e70d4c9f",
   "public/Character/celebrate.png": "6ae048f4cc9d695f390d1964f4d3abdf4742b7fa50a41c503f1e00a712bf09d6",
   "public/Character/encourage.png": "30ab8b0a68399676e7601cf12f44ac5a9b068212fbc946fcf57bfe072f8acae1",
@@ -1064,5 +1062,6 @@
   "public/islands/faith-basics.png": "0bfdc4433a9e09f92d4ef60e34ea54a595ea48606055baa2248cbe6cbcc0ab96",
   "public/islands/quran-reading.png": "7c2f96c092058d4cdce02b1dbc476e6890d91383d79005e736ef712fcd1bd565",
   "public/islands/tajweed.png": "f7bb3f549dc721a8443316feff4723b4117b4b4ccbfd1d8c76ccffcebee9d9c1",
-  "public/islands/numbers-math.png": "fce6f7878a99c72dfd2f52dbd90a6aa1daa5b347f76df9832bb16421c7106dfd"
+  "public/islands/numbers-math.png": "fce6f7878a99c72dfd2f52dbd90a6aa1daa5b347f76df9832bb16421c7106dfd",
+  "public/games/bead-lacing/island-tilt.png": "66579f739d2497feab7a39ffcec92a34207b4ca520d15999c75d420c9984d080"
 }

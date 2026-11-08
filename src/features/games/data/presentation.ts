@@ -60,6 +60,8 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
   },
   'bead-lacing': {
     voiceIntro: true, journey: true, starsPerLevel: 1,
+    // เต็มจอ + ล็อกแนวนอนบนจอสัมผัสแบบเกมเก็บแสง (เจ้าของโปรเจกต์สั่ง 8 พ.ย. 2026)
+    fullscreen: true,
     world: { th: 'เกาะร้อยลูกปัด', en: 'Bead Workshop Island' },
     description: { th: 'ดูสีและรูปทรง แล้วร้อยตามแบบ', en: 'Look at the colors and shapes, then lace the pattern.' },
     levels: [{ th: 'ร้อย 3 เม็ด', en: 'Lace three beads' }, { th: 'ร้อย 5 เม็ด', en: 'Lace five beads' }, { th: 'ต่อแบบซ้ำ', en: 'Continue a repeating pattern' }],

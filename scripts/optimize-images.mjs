@@ -178,7 +178,7 @@ for (const job of JOBS) {
       console.log("    (ลบตาและจมูกแมวออกแล้ว)");
     }
 
-    pipeline = pipeline.resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true });
+    pipeline = pipeline.resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png', 'island-tilt.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true });
     // Resampling can reintroduce alpha=254 deep inside a solid surface.
     // Normalize the final-resolution silhouette before lossless alpha encoding.
     if (isHomeIsland) pipeline = sharp(await prepareHomeIsland(await pipeline.png().toBuffer()));

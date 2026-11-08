@@ -3,11 +3,11 @@ import { createRequire } from 'node:module';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { BEAD_LEVELS } from '../src/features/games/data/beadLacing.ts';
 import sharp from 'sharp';
-const islandSize=await sharp('public/games/bead-lacing/island.webp').metadata();
+const islandSize=await sharp('public/games/bead-lacing/island-tilt.webp').metadata();
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_EXECUTABLE||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
-const base=(process.argv[2]&&!process.argv[2].startsWith('-')?process.argv[2]:process.env.BASE_URL||'http://localhost:3141').replace(/\/+$/,''),out='output/vis-1/shots';
+const base=(process.argv[2]&&!process.argv[2].startsWith('-')?process.argv[2]:process.env.BASE_URL||'http://localhost:3141').replace(/\/+$/,''),out='output/bead-wide/shots';
 await mkdir(out,{recursive:true});const measurements=[],errors=[];
 // Navigate only through real keyboard events; never repair focus from the test.
 async function tabTo(page, selector) {
@@ -43,8 +43,9 @@ async function drag(page,context,id,touch){
  if(!touch && await page.locator('.bl-scene').getAttribute('data-done')!=='true') await assertRoundFocus(page);
 }
 try{
-await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(async ([w,h])=>{
- const context=await browser.newContext({viewport:{width:w,height:h},hasTouch:w!==1280,reducedMotion:w===360?'reduce':'no-preference'});const page=await context.newPage();
+// เต็มจอแนวนอนแบบเกมเก็บแสง: จอสัมผัสแนวตั้งเห็นหน้าหมุนจอ จึงตรวจขนาดแนวนอน + เดสก์ท็อป
+await Promise.all([[740,360],[844,390],[932,430],[1024,768],[1280,720]].map(async ([w,h])=>{
+ const context=await browser.newContext({viewport:{width:w,height:h},hasTouch:w!==1280,reducedMotion:w===740?'reduce':'no-preference'});const page=await context.newPage();
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto(`${base}/games/bead-lacing`);
  await page.locator('.gc-voice-scene img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));
@@ -68,11 +69,12 @@ await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(asyn
    for(const r of rects){assert.ok(r.width>=63.9&&r.height>=63.9,`target under 64 ${w} ${JSON.stringify(r)}`);assert.ok(r.x>=0&&r.y>=0&&r.x+r.width<=w+1&&r.y+r.height<=h+1,`off screen ${JSON.stringify(r)}`);}
    measurements.push({w,h,level,round:ri+1,rects});
    const ratio=await page.locator('.bl-island').boundingBox();assert.ok(Math.abs(ratio.width/ratio.height-islandSize.width/islandSize.height)<.01,'source aspect ratio preserved');
-   const tray=await page.locator('.bl-tray').boundingBox();
-   if(w>=640)assert.ok(tray.x>=ratio.x&&tray.x+tray.width<=ratio.x+ratio.width&&tray.y>=ratio.y&&tray.y+tray.height<=ratio.y+ratio.height,'tray stays on the island');
-   else assert.ok(tray.y>=ratio.y+ratio.height-6,'portrait tray directly below island');
-   const labels=await page.locator('.bl-piece-label').evaluateAll(els=>els.map(e=>({width:e.clientWidth,scroll:e.scrollWidth,font:parseFloat(getComputedStyle(e).fontSize)})));
-   for(const label of labels)assert.ok(label.scroll<=label.width+1&&label.font>=12,'readable bead labels without overflow');
+   // ลูกปัดให้เลือกอยู่ในถาดที่วาดติดเกาะ ไม่ลอยออกนอกเกาะ และไม่ทับกัน
+   const cells=await page.locator('.bl-tray-cell').evaluateAll(els=>els.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}));
+   for(const c of cells)assert.ok(c.x>=ratio.x-1&&c.x+c.width<=ratio.x+ratio.width+1&&c.y>=ratio.y-1&&c.y+c.height<=ratio.y+ratio.height+1,`tray bead on island ${w} ${JSON.stringify(c)}`);
+   for(let a=0;a<cells.length;a++)for(let b=a+1;b<cells.length;b++){const A=cells[a],B=cells[b];assert.ok(A.x+A.width<=B.x+1||B.x+B.width<=A.x+1||A.y+A.height<=B.y+1||B.y+B.height<=A.y+1,`tray beads overlap ${w}`);}
+   assert.equal(await page.locator('.bl-piece-label').count(),0,'no per-bead label cards');
+   assert.ok(ratio.height>=h*0.62,`island fills the screen height ${w}x${h}: ${ratio.height}`);
    if(ri===0||ri===2)await page.screenshot({path:`${out}/${w}x${h}-level-${level}-round-${ri+1}.png`});
    if(level===3)assert.equal(await page.locator('.bl-question').count(),r.pattern.length-r.prefilled);
    const wrong=r.choices.find(id=>id!==r.pattern[r.prefilled]);await drag(page,context,wrong,w!==1280);
@@ -98,7 +100,7 @@ await Promise.all([[360,780],[390,844],[844,390],[768,1024],[1280,720]].map(asyn
  await context.close();console.log(`PASS ${w}x${h}: all 9 rounds, touch/keyboard, targets, 3 stars`);
 }));
 // Delayed artwork retains dimensions, targets and independent selection.
-const c=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});const p=await c.newPage();await p.route('**/games/bead-lacing/*.webp',async route=>{await new Promise(r=>setTimeout(r,2500));await route.continue();});await p.goto(`${base}/games/bead-lacing`);await p.locator('.gc-start-3d').click();await p.locator('.bl-scene').waitFor();const before=await p.locator('.bl-tip').boundingBox();await p.locator('.bl-scene img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));const after=await p.locator('.bl-tip').boundingBox();assert.deepEqual(after,before);await c.close();
-assert.deepEqual(errors,[]);await writeFile('output/vis-1/browser-measurements.json',JSON.stringify(measurements,null,2));
+const c=await browser.newContext({viewport:{width:844,height:390},hasTouch:true});const p=await c.newPage();await p.route('**/games/bead-lacing/*.webp',async route=>{await new Promise(r=>setTimeout(r,2500));await route.continue();});await p.goto(`${base}/games/bead-lacing`);await p.locator('.gc-start-3d').click();await p.locator('.bl-scene').waitFor();const before=await p.locator('.bl-tip').boundingBox();await p.locator('.bl-scene img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));const after=await p.locator('.bl-tip').boundingBox();assert.deepEqual(after,before);await c.close();
+assert.deepEqual(errors,[]);await writeFile('output/bead-wide/browser-measurements.json',JSON.stringify(measurements,null,2));
 console.log('PASS delayed artwork: exact target bounds preserved; no page errors; 45 round measurements saved');
 }finally{await browser.close();}
