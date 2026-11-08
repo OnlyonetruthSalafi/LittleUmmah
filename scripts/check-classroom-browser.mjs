@@ -38,6 +38,13 @@ try {
 
     await page.locator('.cls-stage').screenshot({ path: `${out}/${width}-idle.png` });
 
+    // วัย 3-6: เส้นทางเดียวครบ 28 ตัว ไม่มีแถวเลือกชุด · อะลิฟอยู่ขวาสุดของแถวแรก (อ่านขวาไปซ้าย)
+    assert.equal(await page.locator('.cls-units').count(), 0, `no set picker for kids ${width}`);
+    assert.equal(await page.locator('.cls-plaque').count(), 28, `28 plaques ${width}`);
+    const [first, second] = await page.locator('.cls-plaque').evaluateAll(els => els.slice(0, 2).map(el => el.getBoundingClientRect().left));
+    assert.ok(first > second, `alif is right of ba ${width}`);
+    await page.locator('.cls-path').screenshot({ path: `${out}/${width}-path.png` });
+
     // เริ่มเรียน -> ต้องเดินไปถึงจังหวะ "ตาหนูแล้ว" เอง แม้เบราว์เซอร์นี้เล่น mp3 ไม่ได้
     await page.getByRole('button', { name: /เริ่มเรียน/ }).click();
     await page.getByText('ตาหนูแล้ว').waitFor({ timeout: 20000 });
@@ -108,10 +115,12 @@ try {
     await page.goto(`${base}/learn/arabic`);
 
     // เริ่มที่บทสุดท้ายของวัยเล็ก เพื่อให้ได้ครบวงจร สอน -> อ่านนำ -> เว้นจังหวะ -> ชม -> จบคาบ ในเวลาไม่นาน
-    await page.locator('.cls-units button').last().click();
-    await page.getByRole('button', { name: /ยาอ์/ }).click();
+    // วัย 3-6 เป็นเส้นทางเดียว อะลิฟ → ยาอ์ กดแผ่นป้ายยาอ์ (ตัวที่ 28) แล้วต้องจบหลักสูตรพร้อมท่าฉลอง
+    await page.locator('.cls-plaque', { hasText: 'ยาอ์' }).click();
     await page.getByText('ตาหนูแล้ว').waitFor({ timeout: 40000 });
-    await page.getByText(/^เรียนครบทุกชุดแล้ว เก่งมากเลย/).waitFor({ timeout: 40000 });
+    await page.getByText(/^เก่งมาก! เรียนครบ 28 ตัว/).waitFor({ timeout: 40000 });
+    assert.match(await page.locator('.cls-teacher').getAttribute('src'), /celebrate/);
+    assert.equal(await page.locator('.cls-plaque', { hasText: 'ยาอ์' }).locator('.cls-plaque-star').count(), 1, 'ยาอ์ ได้ดาวเรียนแล้ว');
 
     const { synth, played } = await page.evaluate(() => ({ synth: window.__synth, played: window.__played }));
     assert.equal(synth, 0, `ต้องไม่ตกไปใช้เสียงสังเคราะห์เลย แต่ถูกเรียก ${synth} ครั้ง — แปลว่าไฟล์ MP3 เล่นไม่ได้`);

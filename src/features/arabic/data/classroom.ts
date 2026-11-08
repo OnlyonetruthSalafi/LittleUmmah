@@ -104,10 +104,13 @@ export const CLASS_STEPS: Record<AgeGroupId, ClassStep[]> = {
 
 /*
   ชุดบทเรียน (เจ้าของโปรเจกต์สั่งทำเกาะให้ครบ 8 ต.ค. 2026)
-  วัย 3-6 ปี: อักษร 28 ตัว แบ่งชุดละ 4 ตัวตามลำดับ — เรียนทีละน้อย จบชุดแล้วไปชุดถัดไป
+  วัย 3-6 ปี: อักษร 28 ตัว เส้นทางเดียวต่อเนื่องถึงยาอ์ (8 พ.ย. 2026) แสดงเป็นแถวละ 4 ตัว
   วัย 7+: 4 หมวด ตามรหัสบทใน lessons.ts
   preview = สิ่งที่แสดงบนปุ่มเลือกชุด (ตัวอักษรของชุด หรือตัวอย่างอาหรับสั้นๆ)
 */
+/** จำนวนตัวอักษรต่อแถวในเส้นทางอักษร (ชุดละ 4 ตัวเหมือนเดิม) */
+export const LETTER_ROW = 4;
+
 export type ClassUnit = { id: string; title: Text; preview: string; steps: ClassStep[] };
 
 const JUNIOR_UNITS: { id: string; title: Text; preview: string; ids: string[] }[] = [
@@ -120,15 +123,9 @@ const JUNIOR_UNITS: { id: string; title: Text; preview: string; ids: string[] }[
 function buildUnits(group: AgeGroupId): ClassUnit[] {
   const steps = CLASS_STEPS[group];
   if (group === "kids") {
-    return Array.from({ length: Math.ceil(steps.length / 4) }, (_, i) => {
-      const chunk = steps.slice(i * 4, i * 4 + 4);
-      return {
-        id: `letters-${i + 1}`,
-        title: { th: `ชุดที่ ${i + 1}`, en: `Set ${i + 1}` },
-        preview: chunk.map((s) => s.board).join(" "),
-        steps: chunk,
-      };
-    });
+    // เส้นทางเดียว อะลิฟ → ยาอ์ ครบ 28 ตัวต่อเนื่อง (เจ้าของโปรเจกต์ 8 พ.ย. 2026 "ให้จบหลักสูตรถึงยา")
+    // ยังจัดแสดงเป็นแถวละ LETTER_ROW ตัว ให้เด็กเห็นเป็นช่วงสั้นๆ แต่ไม่ต้องกดเปลี่ยนชุดเอง
+    return [{ id: "letters", title: { th: "อักษร 28 ตัว", en: "28 letters" }, preview: steps.map((s) => s.board).join(" "), steps }];
   }
   return JUNIOR_UNITS.map(({ ids, ...unit }) => ({
     ...unit,

@@ -231,3 +231,85 @@
 .cls-unit:focus-visible { outline: 4px solid var(--color-brand-blue); outline-offset: 3px; }
 .cls-unit-preview { flex: none; width: 5em; text-align: right; font-size: 1.5rem; line-height: 1.5; font-family: var(--font-arabic, serif); }
 .cls-unit-title { text-align: left; line-height: 1.15; }
+
+/* ── เส้นทางอักษร: แผ่นป้ายทองต่อบท (เจ้าของโปรเจกต์ 8 พ.ย. 2026 — แทนปุ่มเม็ดยาสีขาว) ──
+   แผงน้ำเงินเข้มขอบทองแบบกระดานในห้องเรียน · ตัวอักษรเป็นข้อความจริง (ข้อ 1.5)
+*/
+.cls-path {
+  --cls-gold: linear-gradient(140deg, #fff1b8 0%, #e9be4f 28%, #b07d1c 55%, #f3d27a 78%, #a8761a 100%);
+  position: relative;
+  padding: 22px 14px 26px;
+  border-radius: 32px;
+  border: 5px solid transparent;
+  background:
+    repeating-linear-gradient(45deg, #ffffff0d 0 1.5px, transparent 1.5px 34px) padding-box,
+    repeating-linear-gradient(-45deg, #ffffff0d 0 1.5px, transparent 1.5px 34px) padding-box,
+    radial-gradient(120% 80% at 50% 0%, #17689a 0%, #0f416e 55%, #0b2f55 100%) padding-box,
+    var(--cls-gold) border-box;
+  box-shadow: 0 18px 40px -18px #0b2a4a99, inset 0 2px 0 #ffffff26;
+  color: #fff;
+}
+@media (min-width: 640px) { .cls-path { padding: 28px 28px 32px; } }
+.cls-path-head { text-align: center; }
+.cls-path-head h2 { color: #fff; text-shadow: 0 3px 0 #0b2a4a; }
+.cls-path-count { margin-top: 4px; font-weight: 700; color: #ffe9a8; }
+.cls-path-meter { margin: 10px auto 0; width: min(420px, 90%); height: 14px; border-radius: 999px; background: #0b2a4a; box-shadow: inset 0 2px 4px #0008, 0 0 0 2px #e9be4f; overflow: hidden; }
+.cls-path-meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f6b51e, #ffe08a); transition: width 400ms ease-out; }
+
+.cls-path-rows { display: grid; gap: 18px; margin-top: 18px; }
+@media (min-width: 900px) { .cls-path[data-course] .cls-path-rows { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
+.cls-path-row { position: relative; padding: 22px 10px 12px; border-radius: 24px; background: #ffffff10; box-shadow: inset 0 0 0 2px #ffffff1f; }
+.cls-path:not([data-course]) .cls-path-row { padding-top: 12px; }
+/* ริบบิ้นทองบอกชุด — ข้อความสีน้ำเงินเข้มบนทอง */
+.cls-path-ribbon {
+  position: absolute; top: -13px; left: 50%; translate: -50% 0;
+  padding: 3px 18px; border-radius: 999px; white-space: nowrap;
+  background: linear-gradient(180deg, #ffe7a0, #e9be4f); color: #3a2600;
+  font-weight: 800; font-size: 14px; box-shadow: 0 3px 0 #9a6a12, 0 6px 10px -4px #0008;
+}
+.cls-path-plaques { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 640px) { .cls-path-plaques { gap: 14px; } }
+
+/* แผ่นป้ายทองจาก Codex (docs/briefs/IMG-6-letter-plaque.md, ตัวเลือก B) — พื้นเรียบกลางแผ่น 18–82% ขาวบนพื้น ≥ 5.2:1 */
+.cls-plaque {
+  position: relative; width: 100%; min-height: 64px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0; border: 0; background: none; cursor: pointer; color: #fff;
+  transition: transform 200ms ease-out, filter 200ms ease-out;
+}
+.cls-plaque-art {
+  width: 100%; aspect-ratio: 1; display: grid; place-items: center; padding: 18% 18% 21%;
+  background: url("/games/classroom/plaque.webp") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 7px 6px #0009);
+  transition: filter 200ms ease-out;
+}
+.cls-plaque-glyph { font-family: var(--font-arabic, serif); line-height: 1.1; font-size: clamp(28px, 8vw, 52px); color: #fff; text-shadow: 0 2px 0 #0b2a4a, 0 0 12px #ffe08a66; }
+@media (min-width: 900px) { .cls-plaque-glyph { font-size: 48px; } }
+.cls-plaque-glyph[data-size="phrase"] { font-size: clamp(16px, 3.6vw, 26px); text-align: center; line-height: 1.4; }
+/* ชื่อตัวอักษร: ป้ายครีม ตัวหนังสือสีหมึก (contrast สูง) */
+.cls-plaque-name { position: relative; margin-top: -13%; max-width: 100%; padding: 1px 8px; border-radius: 999px; background: #fff8e1; color: var(--color-ink); font-weight: 800; font-size: clamp(11px, 3vw, 15px); line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; box-shadow: 0 2px 0 #c89a3a; }
+.cls-plaque-star { position: absolute; top: -6px; right: -4px; width: 28px; height: 28px; filter: drop-shadow(0 2px 2px #0007); }
+.cls-plaque-star svg { width: 100%; height: 100%; }
+.cls-plaque[data-state="current"] .cls-plaque-art { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 12px #ffd56a) drop-shadow(0 0 22px #ffb81c); }
+.cls-plaque[data-state="current"] .cls-plaque-name { background: #f6b51e; box-shadow: 0 2px 0 #9a6a12; }
+.cls-plaque[data-state="learned"] .cls-plaque-glyph { color: #ffe08a; }
+.cls-plaque:focus-visible { outline: 4px solid #fff; outline-offset: 4px; }
+@media (hover: hover) { .cls-plaque:hover .cls-plaque-art { filter: drop-shadow(0 12px 10px #000b); } }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .cls-plaque:hover { transform: translateY(-3px); } }
+  .cls-plaque:active { transform: scale(0.98); transition-duration: 75ms; }
+  .cls-plaque[data-state="current"] { transform: translateY(-3px); }
+}
+/* เส้นชัยท้ายเส้นทาง — ดาวเทาจนกว่าจะเรียนครบ 28 ตัว แล้วเป็นดาวทอง (มีข้อความกำกับ ไม่บอกด้วยสีอย่างเดียว) */
+.cls-path-goal { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 16px; border-radius: 24px; border: 3px dashed #e9be4f99; color: #fff; text-align: start; }
+.cls-path-goal strong { display: block; font-size: 22px; font-weight: 900; color: #ffe08a; }
+.cls-path-goal small { display: block; font-size: 15px; font-weight: 600; }
+.cls-path-goal-star { flex: none; width: 64px; height: 64px; filter: drop-shadow(0 4px 4px #0008); }
+.cls-path-goal-star svg { width: 100%; height: 100%; }
+.cls-path-goal[data-reached] { border-style: solid; border-color: #f6b51e; background: radial-gradient(circle at 30% 50%, #f6b51e40, transparent 70%); }
+/* จอแคบมาก (<380px): แผงชิดขอบจอ ลดระยะขอบ ให้แผ่นป้ายยังกว้าง ≥ 64px ทั้ง 4 ช่อง (ข้อ 2) */
+@media (max-width: 379px) {
+  .cls-path { margin-inline: -16px; border-radius: 0; border-width: 4px 0; padding: 18px 6px 22px; }
+  .cls-path-row { padding: 20px 3px 10px; border-radius: 16px; }
+  .cls-path-plaques { gap: 5px; }
+}

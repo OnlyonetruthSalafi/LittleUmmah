@@ -39,7 +39,7 @@ test('ทุกบทเรียนมีคำอ่านไทยให้�
 test('ไฟล์เสียงครูมีครบทุกบท ทุกคำชม และเสียงจบคาบ', () => {
   const names = steps.flatMap(lesson => [`teach-${lesson.id}`, `say-${lesson.id}`]);
   for (let i = 1; i <= CHEER_COUNT; i += 1) names.push(`cheer-${i}`);
-  names.push('done');
+  names.push('done', 'course-done');
 
   for (const name of new Set(names)) {
     assert.ok(existsSync(clip(name)), `ไม่มีไฟล์เสียง ${clip(name)}`);

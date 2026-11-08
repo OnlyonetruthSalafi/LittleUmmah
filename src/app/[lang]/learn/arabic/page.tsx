@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 import { dict } from "@/i18n/dict";
 
-import { ValueBar } from "@/components/landing/ValueBar";
+import { OtherIslands } from "@/components/islands/OtherIslands";
 import { BackLink } from "@/components/ui/BackLink";
 import { Classroom } from "@/features/arabic/components/Classroom";
 import { getIslandContent } from "@/lib/lessons";
@@ -21,9 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return categoryMetadata(lang as Locale, "arabic", t.arabic.classroom.metadataTitle);
 }
 
-export default async function ArabicIslandPage({ params }: Props) {
-  const { lang } = await params;
-  const { t } = dict(lang as Locale);
+export default async function ArabicIslandPage() {
   const island = getIslandContent("arabic");
 
   return (
@@ -31,10 +29,8 @@ export default async function ArabicIslandPage({ params }: Props) {
       <BackLink />
       <Classroom intro={island?.intro ?? { th: "", en: "" }} />
 
-      <div className="mt-12">
-        <h2 className="font-display mb-4 text-center text-2xl font-bold">{t.arabic.classroom.otherIslands}</h2>
-        <ValueBar />
-      </div>
+      {/* ไปเกาะอื่นกัน: ภาพเกาะจริงแบบหน้าเกาะอื่น (เจ้าของโปรเจกต์ 8 พ.ย. 2026) */}
+      <OtherIslands current="arabic" />
     </>
   );
 }

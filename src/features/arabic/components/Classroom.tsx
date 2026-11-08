@@ -1,17 +1,18 @@
 "use client";
 
 import Image, { getImageProps } from "next/image";
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
+import { StarIcon } from "@/components/icons/StarIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
-import { CHEER_COUNT, CLASS_UNITS, classAudio, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
+import { CHEER_COUNT, CLASS_UNITS, LETTER_ROW, classAudio, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
 import "../classroom.css";
 import type { Text } from "@/i18n/config";
 import { fmt } from "@/i18n/dict";
@@ -48,6 +49,45 @@ const CLASSROOM_SCENE: { wide: string; tall: string } | null = {
 
 /** ท่าครูสอน — นูรีตัวเดิม ท่าใหม่ชี้กระดาน (เพิ่มท่าในดีไซน์เดิม ไม่ใช่ redesign ข้อ 1.5) */
 const TEACHER_POSE = "/Character/teach.webp";
+/** เรียนจบ 28 ตัว — ท่าฉลองของนูรีตัวเดิม */
+const CELEBRATE_POSE = "/Character/celebrate.webp";
+
+/*
+  ตัวอักษรที่เด็กเรียนผ่านแล้ว (ถึงช่วงคำชม) — เก็บในเบราว์เซอร์เครื่องนั้นเท่านั้น ไม่ส่งออกนอกเครื่อง
+  เป็นความสะดวกให้กลับมาเรียนต่อจากตัวที่ค้างไว้ ถ้าอ่าน/เขียนไม่ได้ (โหมดส่วนตัว) หน้ายังทำงานครบ
+*/
+const LEARNED_KEY = "lu-arabic-learned-v1";
+const learnedListeners = new Set<() => void>();
+function readLearned(): string {
+  try {
+    return window.localStorage.getItem(LEARNED_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+function markLearned(id: string) {
+  const ids = new Set(readLearned().split(",").filter(Boolean));
+  if (ids.has(id)) return;
+  ids.add(id);
+  try {
+    window.localStorage.setItem(LEARNED_KEY, [...ids].join(","));
+  } catch {
+    return;
+  }
+  learnedListeners.forEach((fn) => fn());
+}
+function subscribeLearned(fn: () => void) {
+  learnedListeners.add(fn);
+  window.addEventListener("storage", fn);
+  return () => {
+    learnedListeners.delete(fn);
+    window.removeEventListener("storage", fn);
+  };
+}
+function useLearned() {
+  const raw = useSyncExternalStore(subscribeLearned, readLearned, () => "");
+  return useMemo(() => new Set(raw.split(",").filter(Boolean)), [raw]);
+}
 
 function ClassroomScene({ wide, tall }: { wide: string; tall: string }) {
   const common = { alt: "", sizes: "(max-width: 1100px) 100vw, 1100px", priority: true } as const;
@@ -168,7 +208,7 @@ export function Classroom({ intro }: { intro: Text }) {
         เลือกชุด (วัย 3-6: ตัวอักษรชุดละ 4 ตัว / วัย 7+: หมวด) — ปุ่มสูง 64px ขึ้นไป (ข้อ 2)
         ชุดที่เลือกมีข้อความ "กำลังเรียน" กำกับสำหรับ screen reader และสีพื้นต่างกัน ไม่บอกด้วยสีอย่างเดียว (aria-pressed)
       */}
-      <div role="group" aria-label={group === "kids" ? t.arabic.classroom.chooseLetters : t.arabic.classroom.chooseCategory} className="cls-units mt-5">
+      {units.length > 1 && <div role="group" aria-label={group === "kids" ? t.arabic.classroom.chooseLetters : t.arabic.classroom.chooseCategory} className="cls-units mt-5">
         {units.map((u, i) => {
           const active = i === unitIndex;
           return (
@@ -195,7 +235,7 @@ export function Classroom({ intro }: { intro: Text }) {
             </button>
           );
         })}
-      </div>
+      </div>}
 
       {/* key = วัย+ชุด: เปลี่ยนแล้วบทเรียนเริ่มใหม่หมด ไม่มีเสียงหรือจังหวะของชุดเดิมค้างอยู่ */}
       <Lesson
@@ -222,6 +262,10 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
 
   const steps = unit.steps;
   const step: ClassStep | undefined = steps[index];
+  const learned = useLearned();
+  /** วัย 3-6: เส้นทางอักษรเดียว อะลิฟ → ยาอ์ */
+  const course = group === "kids";
+  const stageRef = useRef<HTMLDivElement>(null);
   const talking = !paused && (phase === "teach" || phase === "say" || phase === "cheer");
 
   useEffect(() => stopAllSpeech, []);
@@ -292,10 +336,12 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       }, 100);
       timer = setTimeout(() => go("cheer"), total);
     } else if (phase === "cheer") {
+      markLearned(step.id);
       // คำชมหมุนตามลำดับบท เด็กจึงไม่ได้ยินประโยคเดิมซ้ำทุกบท
       narrate(`cheer-${(index % CHEER_COUNT) + 1}`, t.arabic.classroom.cheerSpeech, "teach");
     } else if (phase === "done") {
-      narrate("done", t.arabic.classroom.doneSpeech, null);
+      if (course) narrate("course-done", t.arabic.classroom.courseDoneSpeech, null);
+      else narrate("done", t.arabic.classroom.doneSpeech, null);
     }
 
     return () => {
@@ -304,15 +350,19 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       if (ticker) clearInterval(ticker);
       cancelAudio?.();
     };
-  }, [phase, index, paused, soundOn, steps, step, replay, locale, t, pick]);
+  }, [phase, index, paused, soundOn, steps, step, replay, locale, t, pick, course]);
+
+  /** ตัวแรกที่ยังไม่ได้เรียน — เด็กกลับมาแล้วเรียนต่อได้เลย (เรียนครบแล้วเริ่มที่อะลิฟใหม่) */
+  const firstNew = course ? Math.max(0, steps.findIndex((s) => !learned.has(s.id))) : 0;
+  const resuming = course && firstNew > 0 && phase === "idle";
 
   const start = useCallback(() => {
     stopAllSpeech();
     setPaused(false);
-    setIndex(0);
+    setIndex(phase === "idle" ? firstNew : 0);
     setPhase("teach");
     setReplay((r) => r + 1);
-  }, []);
+  }, [phase, firstNew]);
 
   const goToStep = useCallback(
     (next: number) => {
@@ -350,7 +400,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
   return (
     <>
       {/* ── ฉากห้องเรียน ── */}
-      <div className="cls-stage mt-6">
+      <div ref={stageRef} className="cls-stage mt-6 scroll-mt-4">
         {CLASSROOM_SCENE ? (
           <ClassroomScene {...CLASSROOM_SCENE} />
         ) : (
@@ -382,7 +432,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
 
         {/* หุ่นยนต์ครู — ภาพตกแต่ง ข้อความบทเรียนอยู่ใต้ฉากแล้ว */}
         <Image
-          src={TEACHER_POSE}
+          src={finished && course ? CELEBRATE_POSE : TEACHER_POSE}
           alt=""
           width={512}
           height={512}
@@ -402,7 +452,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
           {running && !paused && phase === "say" && t.arabic.classroom.listen}
           {running && !paused && phase === "echo" && t.arabic.classroom.echo}
           {running && !paused && phase === "cheer" && t.arabic.classroom.great}
-          {running && !paused && finished && (onNextUnit ? t.arabic.classroom.unitDone : t.arabic.classroom.allDone)}
+          {running && !paused && finished && (course ? t.arabic.classroom.courseDone : onNextUnit ? t.arabic.classroom.unitDone : t.arabic.classroom.allDone)}
         </p>
 
         {/* วงแหวนนับถอยหลังของจังหวะอ่านตาม — มีคำอ่านเป็นข้อความกำกับ ไม่ได้บอกด้วยสีอย่างเดียว */}
@@ -444,9 +494,9 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
             <button type="button" onClick={start} className={`${CONTROL} ${finished && onNextUnit ? "" : "ui-pill-primary"}`}>
               <PlayIcon className="size-11 shrink-0" />
               <span>
-                {finished ? t.arabic.classroom.again : t.arabic.classroom.start}
+                {finished ? t.arabic.classroom.again : resuming ? t.arabic.classroom.resume : t.arabic.classroom.start}
                 {sub && <span lang="en" className="ui-sub">
-                  {finished ? sub.arabic.classroom.again : sub.arabic.classroom.start}
+                  {finished ? sub.arabic.classroom.again : resuming ? sub.arabic.classroom.resume : sub.arabic.classroom.start}
                 </span>}
               </span>
             </button>
@@ -505,27 +555,92 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
         </p>
       </div>
 
-      {/* รายการบททั้งหมด — กดข้ามไปบทที่ต้องการได้ */}
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s, i) => (
-          <li key={s.id}>
-            <button
-              type="button"
-              onClick={() => goToStep(i)}
-              aria-current={running && i === index ? "step" : undefined}
-              className={`${BUTTON} w-full ${running && i === index ? "bg-brand-blue text-cloud" : "bg-cloud text-ink"}`}
-            >
-              {s.boardSize === "glyph" && (
-                <span lang="ar" dir="rtl" className="text-2xl">
-                  {s.board}
-                </span>
-              )}
-              {pick(s.title)}
-              {running && i === index && <span className="sr-only">{t.arabic.classroom.activeStep}</span>}
-            </button>
+      {/* เส้นทางบทเรียน — แผ่นป้ายทองต่อบท กดข้ามไปบทไหนก็ได้ เรียนแล้วมีดาวกำกับ (ไม่บอกด้วยสีอย่างเดียว) */}
+      <StepPath
+        steps={steps}
+        course={course}
+        current={running && !finished ? index : -1}
+        learned={learned}
+        onPick={(i) => {
+          goToStep(i);
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          stageRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        }}
+      />
+    </>
+  );
+}
+
+function StepPath({ steps, course, current, learned, onPick }: { steps: ClassStep[]; course: boolean; current: number; learned: Set<string>; onPick: (i: number) => void }) {
+  const { t, pick } = useDict();
+  const done = steps.filter((s) => learned.has(s.id)).length;
+  const rows = course
+    ? Array.from({ length: Math.ceil(steps.length / LETTER_ROW) }, (_, r) => steps.slice(r * LETTER_ROW, r * LETTER_ROW + LETTER_ROW).map((s, k) => ({ s, i: r * LETTER_ROW + k })))
+    : [steps.map((s, i) => ({ s, i }))];
+
+  return (
+    <nav aria-labelledby="cls-path-heading" className="cls-path mt-8" data-course={course || undefined}>
+      <div className="cls-path-head">
+        <h2 id="cls-path-heading" className="font-display text-2xl font-extrabold sm:text-3xl">
+          {course ? t.arabic.classroom.pathLabel : t.arabic.classroom.chooseCategory}
+        </h2>
+        {course && (
+          <>
+            <p className="cls-path-count">{fmt(t.arabic.classroom.pathLearned, { count: done, total: steps.length })}</p>
+            <div className="cls-path-meter" aria-hidden="true">
+              <span style={{ width: `${(done / steps.length) * 100}%` }} />
+            </div>
+          </>
+        )}
+      </div>
+      {/* แถวชุดเรียงขวาไปซ้ายเหมือนการอ่านอาหรับ: ชุดที่ 1 อยู่ขวา (จอกว้างแบ่งสองคอลัมน์) */}
+      <ol dir={course ? "rtl" : undefined} className="cls-path-rows">
+        {rows.map((row, r) => (
+          <li key={r} className="cls-path-row">
+            {course && <span className="cls-path-ribbon">{fmt(t.arabic.classroom.pathRow, { n: r + 1 })}</span>}
+            {/* อาหรับอ่านขวาไปซ้าย: อะลิฟอยู่ขวาสุดของแถวแรก */}
+            <ol dir="rtl" className="cls-path-plaques">
+              {row.map(({ s, i }) => {
+                const isLearned = learned.has(s.id);
+                return (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onClick={() => onPick(i)}
+                      aria-current={i === current ? "step" : undefined}
+                      data-state={i === current ? "current" : isLearned ? "learned" : "new"}
+                      className="cls-plaque"
+                    >
+                      <span className="cls-plaque-art">
+                        <span lang="ar" dir="rtl" className="cls-plaque-glyph" data-size={s.boardSize}>
+                          {s.boardSize === "glyph" ? s.board : s.board.split(" ").slice(0, 2).join(" ")}
+                        </span>
+                      </span>
+                      <span dir="auto" className="cls-plaque-name">{pick(s.title)}</span>
+                      {isLearned && (
+                        <span className="cls-plaque-star">
+                          <StarIcon />
+                          <span className="sr-only">{t.arabic.classroom.learnedMark}</span>
+                        </span>
+                      )}
+                      {i === current && <span className="sr-only">{t.arabic.classroom.activeStep}</span>}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
           </li>
         ))}
-      </ul>
-    </>
+        {course && (
+          <li className="cls-path-goal" data-reached={done === steps.length || undefined}>
+            <span className="cls-path-goal-star"><StarIcon filled={done === steps.length} /></span>
+            <span dir="auto">
+              <strong>{t.arabic.classroom.goalTitle}</strong>
+              <small>{done === steps.length ? t.arabic.classroom.goalReached : t.arabic.classroom.goalHint}</small>
+            </span>
+          </li>
+        )}
+      </ol>
+    </nav>
   );
 }
