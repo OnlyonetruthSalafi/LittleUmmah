@@ -78,7 +78,10 @@
 .seq-scene[data-count='3'] .seq-tray { grid-template-columns: repeat(3, calc((100% - 6%) / 4)); }
 .seq-tray-cell { position: relative; aspect-ratio: 1 / 1.25; }
 .gc-focus[data-game='sequence'] .seq-tray .gc-drag {
-  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0;
+  /* Center a minimum 64px hit area in the existing cell. The 2% grid gap
+     leaves room for the ~2px expansion on short landscape screens. */
+  position: absolute; inset: 0; left: min(0px, calc(50% - 32px));
+  width: 100%; height: 100%; min-width: 64px; min-height: 64px; padding: 0;
   display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14%;
   background: none; border: 0; box-shadow: none; border-radius: 18px; transform: none;
   transition: box-shadow 200ms ease-out, background-color 200ms ease-out;
@@ -109,6 +112,19 @@
   z-index: calc(var(--block-row) * 2 + var(--block-col) + 1);
 }
 .seq-toy[data-kind='height'] img { width: 40%; left: 30%; bottom: calc(40% * -.188 + var(--block-index) * 40% * .553); z-index: calc(var(--block-index) + 1); }
+
+/* New sprites have a tight 512px canvas with a 4px transparent margin.
+   Keep their base at the same seat as the original; never resize the gold pads.
+   Cylinder groups form two short columns so every block can be counted. */
+.seq-toy[data-art='ball'] img { bottom: calc(var(--toy-size) * -.00625); }
+.seq-toy[data-art='cylinder'] img {
+  width: 44%; left: calc(3% + var(--block-col) * 50%);
+  bottom: calc(-.275% + var(--block-row) * 26%);
+}
+.seq-toy[data-art='wood'] img {
+  width: 36%; left: 32%;
+  bottom: calc(-.225% + var(--block-index) * 36% * .60);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .seq-tray .seq-toy { transition: transform 200ms ease-out; }

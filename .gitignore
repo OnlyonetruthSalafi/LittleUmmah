@@ -52,11 +52,15 @@ next-env.d.ts
 /public/games/common/objects/*.png
 /public/games/common/backgrounds/*.png
 /public/games/memorygame/*.png
+/public/games/memory/*.png
 /public/games/shapegame/*.png
 /public/moral/*.png
 /public/moral/guide/*.png
 /public/moral/scenes/*.png
 /public/games/sequence/*.png
+/public/games/coin-box/*.png
+/public/games/bead-lacing/*.png
+/public/games/balance-scale/*.png
 /public/games/light-maze/*.png
 /public/games/light-maze/v2/**/*.png
 /public/stories/**/*.png
@@ -68,3 +72,13 @@ next-env.d.ts
 # unlicensed sounds (D:\Effectsound) and drafts - do not commit
 /public/audio/sfx/IMPACTS/
 /output/
+
+# ภาพ/วิดีโออ้างอิงของเจ้าของโปรเจกต์ใน tests/ (ไม่ใช่ไฟล์ test) — เก็บในเครื่อง ไม่เข้า git
+/tests/**/*.png
+/tests/**/*.jpg
+/tests/**/*.jpeg
+/tests/**/*.webp
+/tests/**/*.gif
+/tests/**/*.mp4
+/tests/**/*.mov
+/tests/**/*.webm

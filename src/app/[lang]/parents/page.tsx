@@ -1,7 +1,9 @@
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
 import { PageShell } from "@/components/layout/PageShell";
 import { BackLink } from "@/components/ui/BackLink";
+import { ArabicText } from "@/components/ui/ArabicText";
 import type { Locale } from "@/i18n/config";
 import { dict, type Dict } from "@/i18n/dict";
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
@@ -11,7 +13,8 @@ import { PHOTO, SAHABA, SECTIONS, UI, ULAMA, type Evidence, type Section } from 
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/parents">): Promise<Metadata> {
   const { lang } = await params;
-  return { title: UI.title[lang as Locale] };
+  const { t } = dict(lang as Locale);
+  return pageMetadata(lang as Locale, "/parents", t.header.parents, t.seo.parentsDescription, "welcome");
 }
 
 /*
@@ -27,10 +30,10 @@ function EvidenceList({ items, d }: { items: Evidence[]; d: Dict }) {
             <p lang="ar" dir="rtl" className="text-ink text-xl leading-loose font-semibold">
               {item.arabic}
             </p>
-            <p className="mt-2 leading-relaxed">“{d.pick(item.tr)}”</p>
+            <p className="mt-2 leading-relaxed">“<ArabicText text={d.pick(item.tr)} />”</p>
           </blockquote>
           <p className="text-ink-soft mt-2 text-sm">
-            {d.pick(UI.source)} {d.pick(item.source)} <ShamelaLink href={item.href} d={d} />
+            {d.pick(UI.source)} <ArabicText text={d.pick(item.source)} /> <ShamelaLink href={item.href} d={d} />
           </p>
         </li>
       ))}

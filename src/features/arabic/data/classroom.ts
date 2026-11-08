@@ -91,7 +91,7 @@ function buildSteps(group: AgeGroupId): ClassStep[] {
     board: lesson.glyph ?? lesson.arabic ?? "",
     boardSize: lesson.glyph ? "glyph" : "phrase",
     title: lesson.title,
-    body: lesson.body,
+    body: typeof lesson.body === "string" ? lesson.body : lesson.body.th,
     say: SAY[lesson.id] ?? lesson.reading ?? lesson.title.th,
     meaning: lesson.meaning,
   }));

@@ -17,7 +17,7 @@ export const GAME_CATEGORIES: GameCategory[] = [
   {
     id: 'matching', label: { th: 'เสริมทักษะ', en: 'Build Skills' },
     desc: { th: 'จับคู่สี รูปทรง อักษร และแยกหมวด', en: 'Match colors, shapes, letters and groups.' },
-    icon: 'blocks', theme: 'gold', order: ['color-match', 'shape-match', 'arabic-match', 'sort'],
+    icon: 'blocks', theme: 'gold', order: ['color-match', 'shape-match', 'arabic-match', 'sort', 'bead-lacing'],
     guide: {
       clip: 'hub-cat-skills', pose: 'point', focus: 'matching', ms: 6500,
       th: 'หมวดเสริมทักษะ มาฝึกจับคู่ รูปทรง อักษร และแยกของกันนะ',
@@ -27,7 +27,7 @@ export const GAME_CATEGORIES: GameCategory[] = [
   {
     id: 'thinking', label: { th: 'ไหวพริบ', en: 'Think & Solve' },
     desc: { th: 'สังเกต จดจำ และค่อย ๆ หาคำตอบ', en: 'Observe, remember and solve at your own pace.' },
-    icon: 'search', theme: 'teal', order: ['memory', 'find-object', 'puzzle', 'sequence', 'light-maze'],
+    icon: 'search', theme: 'teal', order: ['balance-scale', 'coin-box', 'memory', 'find-object', 'puzzle', 'sequence', 'light-maze'],
     guide: {
       clip: 'hub-cat-thinking', pose: 'point', focus: 'thinking', ms: 8000,
       th: 'หมวดไหวพริบ มาจำ มาค้นหา แล้วคิดหาทางกันนะ เลือกเกมที่ชอบ แตะเลย!',

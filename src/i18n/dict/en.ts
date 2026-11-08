@@ -1,4 +1,5 @@
 import type { Dictionary } from "./index";
+import { errorText } from "./error";
 
 /*
   ข้อความหน้าเว็บภาษาอังกฤษ — key ต้องตรงกับ th.ts ทุกตัว
@@ -6,6 +7,35 @@ import type { Dictionary } from "./index";
   แก้คำที่นี่ หน้าไทยเปลี่ยนตามด้วย
 */
 export const en: Dictionary = {
+  seo: {
+    "homeTitle": "Free, ad-free Islamic learning for children | Little Ummah",
+    "description": "Little Ummah is a free, ad-free Islamic learning website for children aged 3–6 and 7+. Explore activities, games and stories together as a family.",
+    "kidsDescription": "Learn through play with Nuri and activities for ages 3–6 on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "juniorsDescription": "Explore activities and follow your interests from age 7 on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "parentsDescription": "Discover the approach to content, images and audio on Little Ummah, a free, ad-free Islamic learning website for children, and choose activities for your family.",
+    "learnDescription": "Choose activities, games and stories by interest and age on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "gamesDescription": "Explore memory, shape and thinking games on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "storyDescription": "Read and listen to {title} with your child on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "categoryDescription": "Explore {title} activities with your child on Little Ummah, a free, ad-free Islamic learning website for children.",
+    "categories": {
+      "moral": "Explore manners and morals through activities chosen for your child’s age on Little Ummah, a free, ad-free Islamic learning website for children.",
+      "stories": "Choose stories to read and listen to with your child by age group on Little Ummah, a free, ad-free Islamic learning website for children.",
+      "arabic": "Discover basic Arabic and practise reading with Nuri on Little Ummah, a free, ad-free Islamic learning website for children.",
+      "explore": "Explore everyday objects and nature through age-appropriate activities on Little Ummah, a free, ad-free Islamic learning website for children.",
+      "art": "Choose colours and colour pictures on Art Island at Little Ummah, a free, ad-free Islamic learning website for children."
+    },
+    "images": {
+      "welcome": "Nuri, a white, blue and gold robot, holds a globe to welcome children to Little Ummah",
+      "play": "Nuri, a white, blue and gold robot, holds a game controller for learning activities at Little Ummah"
+    }
+  },
+  error: {
+    title: errorText.title.en,
+    body: errorText.body.en,
+    retry: errorText.retry.en,
+    home: errorText.home.en,
+    reference: errorText.reference.en,
+  },
   arabic: {
     classroom: {
       metadataTitle: "Arabic Basics Island",
@@ -405,6 +435,8 @@ export const en: Dictionary = {
       pickedSecondary: "· {name} selected"
     },
     shape: {
+      loading: "Preparing the picture. Please wait.",
+      loadFailed: "Image could not load. Try placing the piece again.",
       hint: "Hint",
       island: "Shape sorter island",
       placed: " placed",

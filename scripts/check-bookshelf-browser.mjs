@@ -1,15 +1,21 @@
 // ตรวจตู้หนังสือเกาะเรื่องเล่าในเบราว์เซอร์จริง: ขนาดช่อง, ไม่ล้นจอ, หนังสือลอยแล้วเข้าหน้านิทานและเล่นเอง
-// รัน: node scripts/check-bookshelf-browser.mjs [baseUrl]  (ค่าเริ่มต้น http://localhost:3000)
+// รันหลังเปิด server: node scripts/check-bookshelf-browser.mjs [baseUrl] (หรือ BASE_URL; ค่าเริ่มต้น http://localhost:3104)
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
-const base = process.argv[2] ?? 'http://localhost:3000';
-const out = 'output/bookshelf';
+const base = (process.argv[2] ?? process.env.BASE_URL ?? 'http://localhost:3104').replace(/\/+$/, '');
+const out = process.env.BROWSER_CHECK_OUT ?? 'output/p0-3/bookshelf';
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE });
 const errors = [];
 const countPlays = () => {
   window.__plays = [];
+  window.__spoken = [];
+  const speak = window.speechSynthesis.speak.bind(window.speechSynthesis);
+  window.speechSynthesis.speak = function (utterance) {
+    window.__spoken.push(utterance.text);
+    return speak(utterance);
+  };
   const play = Audio.prototype.play;
   Audio.prototype.play = function () {
     window.__plays.push(new URL(this.src).pathname);
@@ -17,7 +23,7 @@ const countPlays = () => {
   };
 };
 try {
-  for (const [width, height] of [[360, 780], [768, 1024], [1280, 800]]) {
+  for (const [width, height] of [[360, 780], [844, 390], [768, 1024], [1280, 720]]) {
     const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 800 });
     await context.addInitScript(countPlays);
     const page = await context.newPage();
@@ -26,7 +32,15 @@ try {
     const cells = page.locator('.bs-shelf:visible .bs-cell');
     await cells.first().waitFor();
     await page.waitForTimeout(600);
-    assert.equal(await cells.count(), 8, `8 books ${width}`);
+    assert.equal(await cells.count(), 10, `10 books ${width}`);
+    for (const [slug, age] of [['garden-owners', 'kids'], ['two-gardens', 'juniors']]) {
+      const book = page.locator(`.bs-shelf:visible .bs-cell[href="/learn/stories/${slug}"]`);
+      assert.equal(await book.count(), 1, `${slug} available`);
+      const section = book.locator('xpath=ancestor::section[1]');
+      const labelId = await section.getAttribute('aria-labelledby');
+      const heading = await page.locator(`[id="${labelId}"]`).innerText();
+      assert.match(heading, age === 'kids' ? /3.?6/ : /7/, `${slug} age zone`);
+    }
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `no overflow ${width}`);
     for (const cell of await cells.all()) {
       const r = await cell.boundingBox();
@@ -34,11 +48,18 @@ try {
     }
     await page.locator('.bs-stage').screenshot({ path: `${out}/${width}-shelf.png` });
 
-    // หนังสือ "เร็วๆ นี้" แตะแล้วไม่ไปไหน ป้ายใต้ตู้บอกชื่อเรื่อง
-    // aria-disabled ทำให้ Playwright ไม่ยอมคลิกเอง แต่ในหน้าจริงแตะได้และต้องมีผลตอบรับ
-    await page.locator('.bs-shelf:visible .bs-cell[aria-disabled="true"]').first().click({ force: true });
+    // มีนิทานครบ 10 เรื่องแล้ว ป้ายใต้ตู้ถูกแทนด้วยเสียงอ่านชื่อเมื่อโฟกัส
+    // ยังตรวจ placeholder หากเพิ่มเรื่องที่ยังไม่พร้อมในอนาคต
+    const pending = page.locator('.bs-shelf:visible .bs-cell[aria-disabled="true"]');
+    const placeholder = pending.first();
+    const feedbackBook = await placeholder.count() ? placeholder : cells.first();
+    await feedbackBook.focus();
+    if (await placeholder.count()) await placeholder.click({ force: true });
     assert.match(page.url(), /\/learn\/stories$/);
-    assert.match(await page.locator('.bs-stage [aria-live="polite"]').innerText(), /เร็วๆ นี้/);
+    const label = (await feedbackBook.locator('.bs-label').textContent()).replace(/\s*เร็วๆ นี้\s*$/, '').trim();
+    await page.waitForFunction((title) => window.__spoken.some(text => text.includes(title)), label);
+    assert.ok(await page.evaluate(title => window.__spoken.some(text => text.includes(title)), label), 'focus reads book title');
+    assert.equal(await page.locator('.bs-shelf:visible a.bs-cell').count() + await pending.count(), 10, 'every book is readable or marked pending');
 
     // หนังสือนูห์: ลอยออกมากลางจอ แล้วเข้าหน้านิทานและเริ่มเล่นเอง
     await cells.first().scrollIntoViewIfNeeded();
@@ -70,6 +91,11 @@ try {
   await d.goto(`${base}/learn/stories/nuh`);
   await d.getByRole('button', { name: /เล่นนิทาน/ }).waitFor();
   await direct.close();
+} catch (error) {
+  for (const context of browser.contexts()) for (const page of context.pages()) {
+    await page.screenshot({ path: `${out}/failure-${page.viewportSize()?.width}.png`, fullPage: true }).catch(() => {});
+  }
+  throw error;
 } finally {
   await browser.close();
 }

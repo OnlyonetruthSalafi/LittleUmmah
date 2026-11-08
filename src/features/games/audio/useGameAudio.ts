@@ -20,7 +20,7 @@ const effects: Partial<Record<AudioCue, { file: string; volume: number }>> = {
   levelComplete: { file: '/audio/sfx/level-complete.mp3', volume: 0.7 },
 };
 
-export function useGameAudio() {
+export function useGameAudio(paused = false) {
   const { t } = useDict();
   const praise = useMemo<Partial<Record<AudioCue, { key: string; text: string }[]>>>(() => ({
     correct: [
@@ -46,6 +46,13 @@ export function useGameAudio() {
     return () => { for (const audio of pool.values()) audio.pause(); pool.clear(); };
   }, []);
 
+  useEffect(() => {
+    if (!paused) return;
+    clearTimeout(praiseTimer.current);
+    for (const player of players.current.values()) player.pause();
+    stopAllSpeech();
+  }, [paused]);
+
   const playEffect = useCallback((cue: AudioCue) => {
     const effect = effects[cue];
     if (!effect || typeof Audio === 'undefined') return;
@@ -63,10 +70,10 @@ export function useGameAudio() {
 
   /** instruction = คำสั่งเล่นเกม, key = ไฟล์เสียงหุ่นยนต์ของคำสั่งนั้น */
   const play = useCallback((cue: AudioCue, instruction?: string, key?: string) => {
-    if (!enabled) return;
+    if (!enabled || paused) return;
     playEffect(cue);
     if (cue === 'voiceInstruction') { if (instruction) speak(instruction, key); return; }
-    const lines = praise[cue];
+    const lines = instruction && key ? [{ text: instruction, key }] : praise[cue];
     if (!lines) return;
     // ไม่พูดประโยคเดิมซ้ำสองครั้งติดกัน
     const choices = lines.length > 1 ? lines.filter(line => line.key !== lastPraise.current.get(cue)) : lines;
@@ -74,10 +81,10 @@ export function useGameAudio() {
     lastPraise.current.set(cue, line.key);
     clearTimeout(praiseTimer.current);
     praiseTimer.current = setTimeout(() => speak(line.text, line.key), PRAISE_DELAY_MS);
-  }, [enabled, playEffect, speak, praise]);
+  }, [enabled, paused, playEffect, speak, praise]);
 
   /** เสียงเอฟเฟคอย่างเดียว ไม่มีคำชม — สำหรับเกมที่หุ่นยนต์พูดบทของตัวเอง (เช่น เขาวงกตแสงพูด อัลฮัมดุลิลลาฮ์ ตอนจบ) */
-  const effect = useCallback((cue: AudioCue) => { if (enabled) playEffect(cue); }, [enabled, playEffect]);
+  const effect = useCallback((cue: AudioCue) => { if (enabled && !paused) playEffect(cue); }, [enabled, paused, playEffect]);
 
   return { enabled, toggle, play, effect, speechBroken };
 }

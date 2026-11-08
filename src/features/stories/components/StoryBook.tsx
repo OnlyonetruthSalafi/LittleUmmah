@@ -8,6 +8,7 @@ import { PlayIcon } from "@/components/icons/PlayIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { BackLink } from "@/components/ui/BackLink";
+import { ArabicText } from "@/components/ui/ArabicText";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
@@ -601,9 +602,9 @@ export function StoryBook({ story }: { story: Story }) {
         <div className="sb-text min-w-0 flex-1">
           {page ? (
             <>
-              <p className="text-xl leading-relaxed font-semibold sm:text-2xl">{pick(page)}</p>
+              <p className="text-xl leading-relaxed font-semibold sm:text-2xl"><ArabicText text={pick(page)} /></p>
               {pickSub(page) && <p lang="en" className="text-ink-soft mt-2 text-sm sm:text-base">
-                {pickSub(page)}
+                <ArabicText text={pickSub(page)!} />
               </p>}
               {page.arabic ? (
                 <div className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3">

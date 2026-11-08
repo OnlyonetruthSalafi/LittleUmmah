@@ -14,6 +14,13 @@ export const shapes = [
   { id: 'triangle', th: 'สามเหลี่ยม', en: 'Triangle' }, { id: 'rectangle', th: 'สี่เหลี่ยมผืนผ้า', en: 'Rectangle' }, { id: 'star', th: 'ดาว', en: 'Star' },
 ];
 export const arabicLetters = ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ي'];
+// Same seven four-letter units and order as CLASS_UNITS.kids in classroom.ts.
+export const arabicLetterSets = Array.from({ length: 7 }, (_, index) => ({
+  id: `letters-${index + 1}`,
+  title: { th: `ชุดที่ ${index + 1}`, en: `Set ${index + 1}` },
+  letters: arabicLetters.slice(index * 4, index * 4 + 4),
+}));
+export const arabicSetPrompt: Label = { th: 'เลือกชุดอักษร', en: 'Choose a letter set' };
 export const symbols = [
   { id: 'moon', th: 'จันทร์เสี้ยว', en: 'Crescent' }, { id: 'sparkle', th: 'ดาว', en: 'Star' },
   { id: 'mushaf', th: 'มุศฮัฟ', en: 'Quran book' }, { id: 'lantern', th: 'โคมไฟ', en: 'Lantern' },
@@ -21,7 +28,7 @@ export const symbols = [
   { id: 'letters', th: 'บล็อกอักษร', en: 'Letter block' }, { id: 'maze', th: 'เขาวงกต', en: 'Maze' },
 ] as const;
 export const findScenes = [[0, 1, 2, 3], [0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5, 6, 7]];
-export function boardContent(slug: GameSlug, level: number): BoardContent {
+export function boardContent(slug: GameSlug, level: number, arabicSet = 0): BoardContent {
   if (slug === 'puzzle') {
     const columns = level === 1 ? 2 : 3;
     const rows = level === 3 ? 3 : 2;
@@ -34,7 +41,8 @@ export function boardContent(slug: GameSlug, level: number): BoardContent {
     return { items, targets: items.map((item, i) => ({ id: item.target, label: { th: `ช่อง ${i + 1}`, en: `Position ${i + 1}` } })), sequential: true };
   }
   if (slug === 'arabic-match') {
-    const letters = arabicLetters.slice(level === 1 ? 0 : level === 2 ? 3 : 0, level === 1 ? 3 : 7);
+    const unit = arabicLetterSets[arabicSet] ?? arabicLetterSets[0];
+    const letters = level === 1 ? unit.letters.slice(0, 2) : level === 2 ? unit.letters.slice(2) : unit.letters;
     const targets: Target[] = letters.map(value => ({ id: value, label: { th: `อักษร ${value}`, en: `Letter ${value}` }, visual: { kind: 'text', value } }));
     return { targets, items: targets.map(t => ({ ...t, target: t.id, visual: t.visual! })) };
   }

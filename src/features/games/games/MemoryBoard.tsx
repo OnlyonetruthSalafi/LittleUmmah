@@ -4,15 +4,17 @@ import { useDict } from '@/i18n/LocaleProvider';
 
 import { useEffect, useRef, useState } from 'react';
 import { GameImage as Image } from '../components/GameImage';
-import { createMemory, flipCard, memoryMatches, settleMemory } from '../engine/rules';
+import { createMemoryFromPool, flipCard, memoryMatches, settleMemory } from '../engine/rules';
 import { IslandBoard } from '../components/diorama/IslandBoard';
-import { CARD_ART, ISLAND_ART, memorySymbols } from '../data/memoryArt';
+import { CARD_ART, ISLAND_ART, MOBILE_ISLAND_ART, MOBILE_TALL_ISLAND_ART, memorySymbols } from '../data/memoryArt';
 import type { PlayProps } from '../components/GameShell';
 
 export default function MemoryBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   const { t, sub, pick, pickSub } = useDict();
   const count = [3, 6, 8][level - 1];
-  const [state, setState] = useState(() => createMemory(memorySymbols.slice(0, count).map(s => s.id)));
+  // GameShell mounts this board only after Start (never during SSR), and changes
+  // its session key for replay/level changes. Sample once per newly mounted round.
+  const [state, setState] = useState(() => createMemoryFromPool(memorySymbols.map(s => s.id), count));
   const stateRef = useRef(state);
   const firstCard = useRef<HTMLButtonElement>(null);
   useEffect(() => { firstCard.current?.focus({ preventScroll: true }); }, []);
@@ -27,7 +29,7 @@ export default function MemoryBoard({ level, onProgress, onFeedback, onComplete,
 
   return <div className="mem-scene" data-cards={count * 2}>
     <p className="mem-stats">{fmt(t.games.memory.moves, { moves: state.moves })}{sub && <span lang="en">{fmt(sub.games.memory.movesSecondary, { moves: state.moves })}</span>}</p>
-    <IslandBoard {...ISLAND_ART} label={t.games.memory.board}>
+    <IslandBoard {...ISLAND_ART} mobileArt={level === 3 ? MOBILE_TALL_ISLAND_ART : MOBILE_ISLAND_ART} label={t.games.memory.board}>
       <div className="mem-grid" data-count={count * 2}>{state.deck.map((card, i) => {
         const shown = state.open.includes(card.id) || state.matched.includes(card.value);
         const matched = state.matched.includes(card.value);

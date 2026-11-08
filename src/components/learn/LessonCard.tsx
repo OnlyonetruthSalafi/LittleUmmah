@@ -4,6 +4,7 @@ import { useDict } from "@/i18n/LocaleProvider";
 
 import { LessonIcon } from "@/components/icons/LessonIcon";
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
+import { ArabicText } from "@/components/ui/ArabicText";
 import { useSound } from "@/components/sound/SoundProvider";
 import type { Lesson } from "@/lib/lessons";
 
@@ -20,7 +21,7 @@ const TINTS = ["bg-sky", "bg-game-peach", "bg-game-mint", "bg-game-lilac"];
 export function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
   const { t, sub, pick, pickSub } = useDict();
   const { speak } = useSound();
-  const script = [pick(lesson.title), lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+  const script = [pick(lesson.title), typeof lesson.body === "string" ? lesson.body : pick(lesson.body), lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   return (
     <li className="scene-copy shadow-soft rounded-card flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
@@ -44,7 +45,8 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
             {pickSub(lesson.title)}
           </span>}
         </h3>
-        <p className="mt-2 leading-relaxed">{lesson.body}</p>
+        <p className="mt-2 leading-relaxed"><ArabicText text={typeof lesson.body === "string" ? lesson.body : pick(lesson.body)} /></p>
+        {sub && typeof lesson.body !== "string" && <p lang="en" className="text-ink-soft text-sm">{pickSub(lesson.body)}</p>}
 
         {lesson.arabic && (
           <div className="scene-copy rounded-card-sm mt-3 px-4 py-3">

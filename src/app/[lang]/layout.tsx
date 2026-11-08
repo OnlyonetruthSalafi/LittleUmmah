@@ -1,3 +1,4 @@
+import { siteUrl } from "@/lib/site-url";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
@@ -27,8 +28,10 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const { lang } = await params;
   const { t } = dict(lang as Locale);
   const metadata: Metadata = {
-    title: { default: t.layout.title, template: t.layout.titleTemplate },
-    description: t.layout.description,
+    metadataBase: siteUrl(),
+    title: { default: t.seo.homeTitle, template: t.layout.titleTemplate },
+    description: t.seo.description,
+    manifest: "/manifest.webmanifest",
   };
   return lang === "th" ? metadata : { ...metadata, robots: { index: false, follow: false } };
 }

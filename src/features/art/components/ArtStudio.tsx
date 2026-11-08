@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ChevronRightIcon } from '@/components/icons/ChevronRightIcon';
 import { ReplayIcon } from '@/components/icons/ReplayIcon';
@@ -11,7 +11,7 @@ import type { Text } from '@/i18n/config';
 import { useGameAudio } from '@/features/games/audio/useGameAudio';
 import { RotateGate, usePortraitGate } from '@/features/games/components/RotateGate';
 import { enterGameFullscreen, exitGameFullscreen, keepGameFullscreen } from '@/features/games/engine/fullscreen';
-import { ART_COLORS, ART_PICTURES, ART_TEXT, type ArtColor, type ArtPicture } from '../data';
+import { ART_COLORS, ART_DIFFICULTY, ART_PICTURES, ART_TEXT, type ArtColor, type ArtPicture } from '../data';
 import { BRUSH_TIP, PAINT_WELLS } from '../paint-assets';
 import type { Point } from '../paint';
 import { PaintSurface, type PaintSurfaceHandle } from './PaintSurface';
@@ -45,10 +45,10 @@ function exampleFills(picture: ArtPicture): Fills {
   return Object.fromEntries(Object.entries(picture.example).map(([region, id]) => [region, ART_COLORS.find(item => item.id === id)!.value]));
 }
 
-function ColorTile({ color, on, onPick }: { color: ArtColor; on: boolean; onPick: () => void }) {
+function ColorTile({ color, on, onPick, onDown }: { color: ArtColor; on: boolean; onPick: () => void; onDown: (event: PointerEvent<HTMLButtonElement>) => void }) {
   const { pick } = useDict();
   const well = PAINT_WELLS.find(item => item.id === color.id)!;
-  return <button type="button" className="art-color" style={{ left: `${well.xPercent}%`, top: `${well.yPercent}%` }} aria-pressed={on} aria-label={pick(color.label)} onClick={onPick}>
+  return <button type="button" className="art-color" style={{ left: `${well.xPercent}%`, top: `${well.yPercent}%` }} aria-pressed={on} aria-label={pick(color.label)} onClick={onPick} onPointerDown={onDown}>
     <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
       <path d={SHAPES[color.shape]} fill="#fffdf6" stroke="#17324f" strokeWidth="3" strokeLinejoin="round" />
     </svg>
@@ -88,10 +88,10 @@ function Picker({ onPick }: { onPick: (picture: ArtPicture) => void }) {
     <p className="art-choose"><TwoLine text={ART_TEXT.choose} /></p>
     <div className="art-carousel">
       <button type="button" className="art-plate art-arrow" aria-label={pick(ART_TEXT.previous)} onClick={() => setCenter(i => (i - 1 + size) % size)}><ArrowLeftIcon /></button>
-      {shown.map((picture, i) => <button type="button" key={picture.id} className="art-pick" data-slot={i} onClick={() => onPick(picture)}
-        aria-label={sub ? `${pick(picture.title)} / ${pickSub(picture.title)}` : pick(picture.title)}>
+      {shown.map((picture, i) => <button type="button" key={picture.id} className="art-pick" data-slot={i} data-picture={picture.id} onClick={() => onPick(picture)}
+        aria-label={`${sub ? `${pick(picture.title)} / ${pickSub(picture.title)}` : pick(picture.title)}${picture.difficulty ? ` — ${pick(ART_DIFFICULTY[picture.difficulty])}` : ''}`}>
         <span className="art-frame"><PictureSvg picture={picture} fills={{}} label="" /></span>
-        <span className="art-pick-name"><TwoLine text={picture.title} /></span>
+        <span className="art-pick-name"><TwoLine text={picture.title} />{picture.difficulty && <span className="art-difficulty"><TwoLine text={ART_DIFFICULTY[picture.difficulty]} /></span>}</span>
       </button>)}
       <button type="button" className="art-plate art-arrow" aria-label={pick(ART_TEXT.next)} onClick={() => setCenter(i => (i + 1) % size)}><ChevronRightIcon /></button>
     </div>
@@ -122,8 +122,8 @@ function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void })
   }, []);
   useEffect(() => {
     if (finished || gated) return;
-    moveBrush(null);
-    const observer = new ResizeObserver(() => moveBrush(null));
+    if (!surface.current?.isPainting()) moveBrush(null);
+    const observer = new ResizeObserver(() => { if (!surface.current?.isPainting()) moveBrush(null); });
     if (stage.current) observer.observe(stage.current);
     return () => observer.disconnect();
   }, [color, finished, gated, moveBrush]);
@@ -164,8 +164,13 @@ function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void })
               <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M10 26l10 10 18-22" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </div>
-          <div className="art-tray" role="group" aria-label={pick(ART_TEXT.colors)}>
-            {ART_COLORS.map(item => <ColorTile key={item.id} color={item} on={item.id === color.id} onPick={() => setColor(item)} />)}
+          <div className="art-tray" role="group" aria-label={pick(ART_TEXT.colors)}
+            onPointerMove={event => surface.current?.move(event)}
+            onPointerUp={event => surface.current?.release(event)}
+            onPointerCancel={event => surface.current?.release(event)}
+            onLostPointerCapture={event => surface.current?.release(event)}>
+            {ART_COLORS.map(item => <ColorTile key={item.id} color={item} on={item.id === color.id} onPick={() => setColor(item)}
+              onDown={event => { if (surface.current?.fromTray(event, item.value)) setColor(item); }} />)}
           </div>
         </>}
     </div>

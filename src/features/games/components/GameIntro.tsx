@@ -5,6 +5,7 @@ import { Thumbnail } from './Artwork';
 import { gameAssets, type GameDefinition } from '../data/catalog';
 import { gamePresentation } from '../data/presentation';
 import { BOARD, piecePath } from '../data/puzzleArt';
+import { PUZZLE_PICTURES, PUZZLE_CHOOSE, puzzlePicture } from '../data/puzzlePictures';
 import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
 
 /*
@@ -12,13 +13,15 @@ import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
   คำอธิบาย คำชวน และวิธีเล่นย้ายไปอยู่ใน sr-only ให้เครื่องอ่านหน้าจอ เด็กที่ยังอ่านไม่ออกกดฟังเอาได้
   แนวเดียวกับ VoiceIntro ที่เจ้าของโปรเจกต์กำหนดให้ไม่แสดงคำสั่งเป็นตัวหนังสือ
 */
-export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn }: {
+export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn, pictureId, onPicture }: {
+  pictureId?: string; onPicture?: (id: string) => void;
   game: GameDefinition; level: number; onLevel: (level: number) => void; onStart: () => void; onListen: () => void; soundOn: boolean;
 }) {
   const { t, sub, pick, pickSub } = useDict();
   const theme = gamePresentation[game.slug];
   const levels = theme.levels.slice(0, theme.levelCount ?? 3);
-  const art = theme.levelArt;
+  const selected = puzzlePicture(pictureId);
+  const art = game.slug === 'puzzle' && selected.src ? theme.levelArt?.map(a => ({ ...a, src: selected.src!, label: selected.label })) : theme.levelArt;
   const tapGame = game.slug === 'memory' || game.slug === 'find-object';
   return <section className="gc-adventure-intro" aria-labelledby="gc-adventure-title">
     <div className="gc-adventure-scene">
@@ -33,6 +36,14 @@ export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn }: 
         {soundOn && <button type="button" className="ui-round" onClick={onListen} aria-label={t.games.intro.listen}><SpeakerIcon /></button>}
       </div>
       <p className="sr-only">{pick(theme.world)}: {pick(theme.description)} {sub && <span lang="en">{pickSub(theme.description)!}</span>}</p>
+      {game.slug === 'puzzle' && <fieldset className="pz-picture-picker">
+        <legend>{pick(PUZZLE_CHOOSE)}{sub && <small lang="en">{pickSub(PUZZLE_CHOOSE)}</small>}</legend>
+        <div>{PUZZLE_PICTURES.map(picture => <button type="button" className="gc-button" key={picture.id} data-picture-id={picture.id} aria-pressed={selected.id === picture.id} onClick={() => onPicture?.(picture.id)}>
+          {picture.src && <span className="pz-picture-art"><Image src={picture.src} width={64} height={64} alt="" /></span>}
+          <span className="pz-picture-label">{pick(picture.label)}{sub && <small lang="en">{pickSub(picture.label)}</small>}</span>
+          {selected.id === picture.id && <span aria-hidden="true">✓</span>}
+        </button>)}</div>
+      </fieldset>}
       {levels.length > 1 && !theme.journey && <fieldset className="gc-level-path">
         <legend className="sr-only">{t.games.intro.choose} {sub && <span lang="en">{sub.games.intro.choose}</span>}</legend>
         <div className="gc-level-stones">{levels.map((label, i) => <button type="button" key={i} className="gc-level-stone" data-art={art ? '' : undefined} aria-pressed={level === i + 1} onClick={() => onLevel(i + 1)}>

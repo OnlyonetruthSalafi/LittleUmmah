@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react';
 import { HandTapIcon } from '@/components/icons/HandTapIcon';
 import type { GameSlug } from '../data/catalog';
+import { COIN_SLOT } from '../data/coinBoxArt';
+import { BEAD_DEMO_POINTS } from '../data/beadLacingDemo';
 
 /*
   ภาพสาธิตวิธีเล่น — มือขาวขยับให้เด็กดูเป็นตัวอย่าง วางทับภาพเกาะในหน้าแนะนำเกม
@@ -14,6 +16,8 @@ import type { GameSlug } from '../data/catalog';
 */
 type Point = { x: number; y: number };
 const DEMOS: Partial<Record<GameSlug, { variant: 'drag' | 'steps'; points: Point[] }>> = {
+  'coin-box': { variant: 'drag', points: [{ x: 50, y: 74 }, COIN_SLOT] },
+  'bead-lacing': { variant: 'drag', points: BEAD_DEMO_POINTS },
   'shape-match': { variant: 'drag', points: [{ x: 79, y: 55 }, { x: 50, y: 23 }] },
   sequence: { variant: 'steps', points: [{ x: 31, y: 49 }, { x: 51, y: 40 }, { x: 73, y: 27 }] },
 };

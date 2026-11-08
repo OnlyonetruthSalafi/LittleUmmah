@@ -21,7 +21,7 @@
 @media(max-width:359px){.gc-memory-grid{gap:5px}.gc-memory-card{border-width:2px}}
 .gc-diorama{position:relative;width:100%;height:100%;min-height:100px}
 .gc-diorama img{object-fit:contain;filter:drop-shadow(0 10px 7px #17659420)}
-.gc-art-letters{position:absolute;inset:0;color:#1e5fbf;font:700 clamp(30px,4vw,55px)/1 Georgia,serif}.gc-art-letters>span{position:absolute;display:grid;place-items:center;width:18%;height:17%;top:23%;left:40%}.gc-art-letters>span:nth-child(2){top:39%;left:31%}.gc-art-letters>span:nth-child(3){top:40%;left:51%}
+.gc-art-letters{position:absolute;inset:0;color:#1e5fbf;font:700 clamp(30px,4vw,55px)/1.6 var(--font-arabic,serif)}.gc-art-letters>span{position:absolute;display:grid;place-items:center;width:18%;height:17%;top:23%;left:40%}.gc-art-letters>span:nth-child(2){top:39%;left:31%}.gc-art-letters>span:nth-child(3){top:40%;left:51%}
 .gc-intro-art{position:relative;background:transparent;width:260px;height:230px;margin-bottom:5px}
 .gc-focus{background:linear-gradient(#eaf6ffdc,#eaf6fff2),url('/games/hub/game-hub-bg.webp') center top/cover fixed}
 .gc-game-header h1{background:#eaf6ff;border-radius:22px;padding:8px 20px}
@@ -38,3 +38,220 @@
 @media(max-width:639px){.gc-intro-art{width:190px;height:190px}}
 @media(hover:hover){.gc-focus[data-game='color-match'] .gc-drop:not(:disabled):hover,.gc-focus[data-game='sort'] .gc-drop:not(:disabled):hover{box-shadow:0 8px 0 #c1dce7,var(--shadow-float)}}
 .gc-focus[data-game='color-match'] .gc-drop:not(:disabled):active,.gc-focus[data-game='sort'] .gc-drop:not(:disabled):active{box-shadow:0 8px 0 #c1dce7,var(--shadow-float)}
+
+/* Arabic game glyphs use Naskh; Latin numerals retain the original font. */
+.gc-letter[lang="ar"]{font-family:var(--font-arabic,serif);line-height:1.6}
+/* Stage 1: opt-in landscape shell. Rails reserve real space; never scale controls.
+   Specificity deliberately exceeds legacy per-game rules loaded after games.css. */
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game][data-status] {
+    --gc-rail: 88px;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    height: 100dvh; min-height: 0;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-play-container {
+    position: relative; display: block; height: 100%; max-width: 1500px;
+    padding: 0 var(--gc-rail); isolation: isolate;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-game-header { display: contents; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-game-header > .ui-pill {
+    position: absolute; top: 0; left: 0; width: 72px; min-width: 64px; height: 72px; min-height: 64px; padding: 4px;
+    justify-content: center; z-index: 30;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-game-header > .gc-sound { left: auto; right: 0; }
+  /* Keep accessible names, including the BackLink destination, without tiny text. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-game-header .ui-label,
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-game-header h1, .gc-instruction h2, .gc-feedback, .gc-workbench-title, .gc-zone-heading, .gc-board-tools p, .shp-picked, .seq-picked) {
+    display: block; position: absolute; width: 1px; height: 1px; min-height: 0; padding: 0; margin: -1px; border: 0;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-instruction { display: contents; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-playing-guide { display: none; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-instruction > .gc-button {
+    position: absolute; left: 0; top: 88px; width: 72px; height: 72px; padding: 4px; font-size: 14px; z-index: 30;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls { display: contents; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls .gc-button {
+    position: absolute; right: 0; top: 88px; width: 72px; height: 72px; padding: 4px; font-size: 14px; z-index: 30;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls .gc-button:last-child:not(:first-child) { top: 176px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-progress-row {
+    position: absolute; right: 0; bottom: 4px; width: 72px; padding: 3px; margin: 0; border: 0;
+    display: flex; flex-direction: column; gap: 0; font-size: 13px; box-shadow: none; z-index: 30;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-progress-level { padding: 0; border: 0; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-progress-row :is(small, progress) { display: none; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-panel.gc-board {
+    position: static; display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;
+    padding: 0; border: 0; margin: 0; background: none; box-shadow: none; min-width: 0;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-board-tools, .seq-tools) { display: contents; }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-board-tools, .seq-tools) > .gc-button {
+    position: absolute; top: 176px; left: 0; width: 72px; height: 72px; padding: 4px; margin: 0; z-index: 30;
+    pointer-events: auto; font-size: 14px;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-audio-note {
+    position: absolute; bottom: 0; left: var(--gc-rail); right: var(--gc-rail); margin: 0; font-size: 12px;
+    background: white; border-radius: 8px; z-index: 31;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-instruction, .gc-bottom-controls, .gc-board-tools, .seq-tools) > .gc-button { font-size: 12px; line-height: 1.2; }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-instruction, .gc-bottom-controls, .gc-board-tools, .seq-tools) > .gc-button small { font-size: 10px; line-height: 1.1; }
+  /* Matching: homes and pieces side by side, with stable slots after placing. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace {
+    --gc-art-width: 85px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; align-items: center;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-targets, .gc-tray) {
+    display: grid; grid-template-columns: repeat(3, minmax(126px, 1fr)); gap: 14px;
+    padding: 12px; margin: 0; border: 3px solid white; border-radius: 24px; min-width: 0; align-content: center;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-targets { grid-column: 1; grid-row: 1; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-tray { grid-column: 2; grid-row: 1; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-tray-slot) {
+    width: 100%; min-width: 64px; max-width: none; min-height: 0; height: 158px; margin: 0;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-object-button) { padding: 4px; border-width: 3px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-object { max-width: 85px; max-height: 85px; margin: 0; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter { font-size: 48px; line-height: 1.1; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-item-label { padding: 1px 4px; }
+  /* Find: the prompt remains visible beside the garden. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-workspace { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 20px; width: 100%; align-items: center; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-prompt { width: 100%; margin: 0; padding: 12px; flex-direction: column; text-align: center; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-scene { min-height: 0; padding: 20px; gap: 24px 16px; grid-template-columns: repeat(4, minmax(64px, 1fr)); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-object { width: 155px; max-width: 100%; min-height: 64px; padding: 5px; align-self: center !important; }
+  /* Original island geometry, only the containing scene changes size. */
+  .gc-focus.gc-landscape[data-game][data-status] .shp-scene { position: static; width: min(100%, calc(100dvh - 16px)); }
+  .gc-focus.gc-landscape[data-game][data-status] .seq-scene { position: static; min-width: 0; width: min(100%, calc((100dvh - 24px) / 1.1)); }
+  /* Keep the island and pad coordinates intact. Bring only the waiting row
+     closer to the underside, leaving room for the toys' painted bases. */
+  .gc-focus.gc-landscape[data-game][data-status] .seq-tray { margin-top: -20%; }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.shp-island, .seq-island) { width: 100%; max-width: none; margin: 0; }
+  /* Intro and result use the same reserved rails; start/next never fall below the viewport. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-intro { height: 100%; min-height: 0; grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr); gap: 20px; align-items: center; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-scene { width: 100%; padding: 0; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-menu { padding: 16px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-intro { height: 100%; justify-content: center; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-scene { width: min(100%, calc(100dvh - 130px)); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-actions { margin: 0; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result { position: absolute; inset: 0 var(--gc-rail); margin: auto; padding: 16px; width: auto; height: fit-content; max-width: 760px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result-actions { flex-wrap: nowrap; margin-top: 16px; gap: 12px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result-actions > * { flex: 1; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-focus.gc-landscape[data-game][data-status] { --gc-rail: 76px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-game-header > .ui-pill,
+  .gc-focus.gc-landscape[data-game][data-status] .gc-instruction > .gc-button,
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls .gc-button,
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-board-tools, .seq-tools) > .gc-button { width: 64px; height: 64px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-instruction > .gc-button,
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls .gc-button { top: 80px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-bottom-controls .gc-button:last-child:not(:first-child),
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-board-tools, .seq-tools) > .gc-button { top: 160px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-progress-row { width: 64px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace { --gc-art-width: 42px; gap: 12px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-targets, .gc-tray) {
+    grid-template-columns: repeat(2, minmax(64px, 1fr)); gap: 8px; padding: 6px; border-width: 2px; border-radius: 16px;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-tray-slot) { height: 64px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-object-button) { flex-direction: row; gap: 2px; padding: 2px; border-width: 2px; border-radius: 12px; box-shadow: 0 3px 0 var(--gc-deep-edge); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-object { max-width: 42px; max-height: 42px; padding: 0; flex-shrink: 1; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter { font-size: 30px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-item-label { font-size: 11px; padding: 2px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-item-label small { font-size: 9px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-workspace { grid-template-columns: 96px minmax(0, 1fr); gap: 12px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-prompt { padding: 6px; gap: 4px; font-size: 14px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-prompt .gc-object { width: 64px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-scene { grid-template-columns: repeat(3, minmax(64px, 1fr)); padding: 8px; gap: 12px 8px; border-width: 3px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-find-object { width: 80px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-intro { grid-template-columns: minmax(0, .5fr) minmax(270px, 1fr); gap: 8px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-menu { padding: 8px; border-width: 3px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-menu h2 { font-size: 16px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-heading { gap: 4px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-level-path { margin: 10px 0; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-level-stone { min-height: 64px; padding: 3px; gap: 3px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-level-number { width: 26px; height: 26px; font-size: 18px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-level-stone strong { font-size: 11px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-adventure-start { min-height: 64px; font-size: 20px; padding: 4px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-intro { flex-direction: row; gap: 12px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-scene { width: min(60%, calc(100dvh - 24px)); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-voice-actions { flex-direction: column; gap: 16px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-start-3d { min-width: 120px; min-height: 64px; padding: 8px 14px; font-size: 22px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result { padding: 10px; border-width: 3px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result > img { width: 90px; height: 90px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result h2 { font-size: 22px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result-actions { gap: 8px; margin-top: 8px; }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-result-actions > * { padding: 4px; font-size: 14px; }
+}
+@media (orientation: landscape) and (min-height: 521px) and (max-width: 1100px) {
+  /* Reserve panel padding, gaps and viewport inset for the actual row count. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace {
+    --gc-match-row: clamp(64px, calc((100dvh - 54px - var(--gc-set-space, 0px) - (var(--gc-rows-two) - 1) * 14px) / var(--gc-rows-two)), 158px);
+    --gc-art-width: clamp(42px, calc(var(--gc-match-row) - 64px), 85px);
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-targets, .gc-tray) { grid-template-columns: repeat(2, minmax(126px, 1fr)); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-tray-slot) { height: var(--gc-match-row); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-object { max-width: var(--gc-art-width); max-height: var(--gc-art-width); }
+}
+@media (orientation: landscape) and (min-height: 521px) and (min-width: 1101px) {
+  /* Keep both hit boxes and the visible toys/letters at their baseline PC size.
+     104px is the original 126px toy button's inner width; size-sort uses .45 of it. */
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-tray-slot) { height: var(--gc-match-row); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace {
+    --gc-match-row: clamp(64px, calc((100dvh - 54px - var(--gc-set-space, 0px) - (var(--gc-rows-three) - 1) * 14px) / var(--gc-rows-three)), 180px);
+    --gc-art-width: clamp(42px, calc(var(--gc-match-row) - 76px), 104px);
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-object { max-width: min(100px, var(--gc-art-width)); max-height: min(100px, var(--gc-art-width)); }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter { font-size: 64px; line-height: 1.3; }
+}
+@media (orientation: landscape) and (max-height: 520px) and (hover: hover) {
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-object-button):not(:disabled):hover { box-shadow: 0 5px 0 var(--gc-deep-edge), 0 0 0 3px #ffffffcc; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace :is(.gc-drop, .gc-object-button):not(:disabled):active { box-shadow: 0 3px 0 var(--gc-deep-edge), 0 0 0 5px #ffffffee; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  /* Pads retain their approved geometry. Waiting toys are ordinary child controls:
+     keep four 64px-wide buttons under the island, including at 568x320. */
+  .gc-focus.gc-landscape[data-game][data-status] .seq-scene { width: min(100%, calc((100dvh - 100px) / .84)); }
+  .gc-focus.gc-landscape[data-game][data-status] .seq-tray { width: 280px; margin-inline: auto; }
+}
+/* C-6: letter-set controls only; keep shared matching/landscape styles intact. */
+.gc-arabic-sets{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 24px;padding:0;border:0}
+.gc-arabic-sets legend{width:100%;text-align:center;font-weight:700;margin-bottom:10px}
+.gc-arabic-sets legend small{display:block}
+.gc-arabic-sets .gc-button{position:relative;flex:0 1 88px;min-width:64px;min-height:64px}
+.gc-arabic-set-check{position:absolute;top:-7px;right:-3px;width:24px;height:24px;padding:3px;border:2px solid currentColor;border-radius:50%;background:#fff}
+
+/* Combined C-6/LS-1: set controls occupy their own row above the matching board. */
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game="arabic-match"][data-status] .gc-panel.gc-board { flex-direction: column; gap: 12px; }
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-arabic-sets { flex: 0 0 auto; display: grid; grid-template-columns: repeat(7, minmax(64px, 88px)); gap: 8px; width: 100%; justify-content: center; margin: 0; }
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-arabic-sets legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-arabic-sets .gc-button { padding: 3px; height: 64px; }
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-matching-workspace { --gc-set-space: 76px; }
+}
+@media (orientation: landscape) and (max-width: 679px) {
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-arabic-sets { grid-template-columns: repeat(4, minmax(64px, 88px)); }
+  .gc-focus.gc-landscape[data-game="arabic-match"] .gc-matching-workspace { --gc-set-space: 148px; }
+}
+/* Naskh text bounds are taller than the Latin line box; size from the actual row. */
+@media (orientation: landscape) and (min-height: 521px) and (max-width: 1100px) {
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter[lang="ar"] { font-size: clamp(24px, calc((var(--gc-match-row) - 42px) / 1.8), 48px); line-height: 1.8; }
+}
+@media (orientation: landscape) and (min-height: 521px) and (min-width: 1101px) {
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter[lang="ar"] { font-size: clamp(24px, calc((var(--gc-match-row) - 42px) / 1.8), 64px); line-height: 1.8; }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .gc-focus.gc-landscape[data-game][data-status] .gc-matching-workspace .gc-letter[lang="ar"] { font-size: 30px; line-height: 1.8; }
+}
+
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game='shape-match'][data-status='playing'] .gc-progress-row {
+    background: #fff; color: #123a72; border-radius: 12px; box-shadow: 0 2px 8px #123a7226;
+  }
+  .gc-focus.gc-landscape[data-game='shape-match'][data-status='playing'] .gc-board-tools .shp-load-status {
+    width: auto; height: auto; margin: 0; padding: 4px 8px; overflow: visible;
+    clip-path: none; white-space: normal; z-index: 35;
+    left: var(--gc-rail); right: var(--gc-rail); bottom: 4px;
+  }
+}

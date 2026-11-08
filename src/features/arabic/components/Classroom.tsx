@@ -36,7 +36,7 @@ const CONTROL = "ui-pill text-lg";
 */
 
 /*
-  ภาพฉากห้องเรียนจาก Codex (CODEX_CLASSROOM_BRIEF.md, 8 ต.ค. 2026) — สองอัตราส่วนตาม .cls-stage
+  ภาพฉากห้องเรียนจาก Codex (docs/briefs/archive/CODEX_CLASSROOM_BRIEF.md, 8 ต.ค. 2026) — สองอัตราส่วนตาม .cls-stage
   4:3 ที่จอแคบกว่า 640px และ 16:10 ตั้งแต่ 640px ใช้ <picture> สลับภาพ (art direction ตามเอกสาร next/image)
   ผนังตรงกระดานในภาพว่างเปล่า กระดานยังเป็น CSS + ข้อความจริงเสมอ (ข้อ 1.5)
   ตั้งเป็น null = กลับไปใช้ฉาก CSS เดิม
@@ -375,7 +375,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
               className="cls-board-text"
               data-size={finished ? "glyph" : (step?.boardSize ?? "glyph")}
             >
-              {finished ? "✦" : (step?.board ?? "")}
+              <span>{finished ? "✦" : (step?.board ?? "")}</span>
             </p>
           </div>
         </div>

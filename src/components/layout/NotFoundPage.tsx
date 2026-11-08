@@ -15,7 +15,7 @@ export function NotFoundPage() {
     <PageShell>
       <BackLink />
       <div className="scene-copy shadow-soft rounded-card mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 px-4 py-8 text-center">
-        <Image src="/Character/idea.webp" alt="" width={144} height={144} className="size-28 object-contain sm:size-36" />
+        <Image src="/Character/sign.webp" alt="" width={144} height={144} className="size-28 object-contain sm:size-36" />
         <h1 className="font-display text-3xl font-extrabold sm:text-4xl">
           {t.notFound.title}
           {sub && (

@@ -1,4 +1,4 @@
-/* ภาพประกอบเกมเรียงลำดับแบบ 2.5D — ภาพจาก Codex ตาม CODEX_SEQUENCE_BRIEF.md
+/* ภาพประกอบเกมเรียงลำดับแบบ 2.5D — ภาพจาก Codex ตาม docs/briefs/archive/CODEX_SEQUENCE_BRIEF.md
  * ภาพตัวอย่างคือ public/games/hub/sequence.png (ทางแผ่นทองขั้นบันได ลูกบาศก์ฟ้าเล็กไปใหญ่)
  *
  * แยกเป็นสามชิ้น: เกาะเปล่า · แผ่นทองหนึ่งแผ่น · ลูกบาศก์หนึ่งลูก
@@ -13,6 +13,12 @@
 export const SEQ_ISLAND = { src: '/games/sequence/island.webp', width: 1100, height: 1100 };
 export const SEQ_PAD = { src: '/games/sequence/pad.webp', width: 512, height: 512 };
 export const SEQ_BLOCK = { src: '/games/sequence/block.webp', width: 512, height: 512 };
+export const SEQ_TOYS = {
+  block: SEQ_BLOCK,
+  ball: { src: '/games/sequence/ball.webp', width: 512, height: 512 },
+  cylinder: { src: '/games/sequence/cylinder.webp', width: 512, height: 512 },
+  wood: { src: '/games/sequence/wood.webp', width: 512, height: 512 },
+};
 
 /* วัดจากภาพรอบ 1 ด้วย scripts/measure-sequence-art.mjs ก่อนแก้เป็นรอบ 2:
    ผิวเทอร์ควอยซ์ y 35–60% · preview-layouts รอบ 1 กลางหน้าบนแผ่นแรก ≈ (33%, 47.5%) แผ่นที่ 4 ≈ (74.3%, 39.4%)

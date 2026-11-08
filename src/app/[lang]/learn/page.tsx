@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/seo";
 import { dict } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
@@ -7,7 +8,8 @@ import { BackLink } from "@/components/ui/BackLink";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn">): Promise<Metadata> {
   const { lang } = await params;
-  return { title: dict(lang as Locale).t.learnIndex.metadataTitle };
+  const { t } = dict(lang as Locale);
+  return pageMetadata(lang as Locale, "/learn", t.learnIndex.metadataTitle, t.seo.learnDescription, "welcome");
 }
 
 /* /learn ไม่มีลิงก์ชี้มาตรงๆ แต่คนพิมพ์ URL ตัดท้ายได้ จึงแสดงเกาะทั้งหมดแทน 404 */

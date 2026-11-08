@@ -3,6 +3,34 @@
 > `output/sequence-art/measurements.json` และ `scripts/measure-sequence-art.mjs` ยังเป็นของรอบ 2 (บังคับลานหน้ากว้าง จึงรันกับรอบ 1 ไม่ผ่าน)
 > ค่าที่ใช้กับรอบ 1 บันทึกในคอมเมนต์ของ `src/features/games/data/sequenceArt.ts`
 
+# C-10 — ชุดของใหม่ (8 พ.ย. 2026)
+
+เพิ่ม `ball.webp`, `cylinder.webp`, `wood.webp` (512×512) ด้วย built-in imagegen เป็นภาพที่สร้างใหม่สำหรับโปรเจกต์ ไม่มี asset ภายนอก ไม่มีคน สัตว์ ใบหน้า ตัวหนังสือ หรือสัญลักษณ์ดนตรี ไม่แก้เกาะ แผ่นทอง และบล็อกเดิม
+
+- ด่าน 1: ลูกบอล 3 ขนาด ย่อภาพเดียวกันด้วยโค้ด (42%, 62%, 82%)
+- ด่าน 2: บล็อกทรงกระบอก 1–4 ชิ้น ใช้ภาพเดียวซ้ำ ซ้อนเป็นสองเสาสั้นให้เห็นจำนวนชัด
+- ด่าน 3: หอคอยไม้ 1–4 ชั้น ใช้ภาพบล็อกไม้เดียวซ้อนด้วยโค้ด
+- ทุกด่านสุ่มชุดเดิม/ใหม่ฝั่ง client หลัง mount โอกาสเท่ากัน ดาวยังบันทึกตามเกมและด่านเดิม
+- เตรียมด้วย `node scripts/prepare-sequence-sets.mjs` แล้ว `node scripts/optimize-images.mjs public/games/sequence` บันทึก sha256 ใน `scripts/source-images.json`
+- ต้นฉบับและค่าครอป: `output/C-10/originals/`, `output/C-10/preparation.json`; ขอบล่างวัตถุ y=507/512 โดยประมาณ เว้นโปร่งใสถึงขอบ canvas
+- การวัดสีสำหรับระยะซ้อน: `output/C-10/stack-measurements.json` — หน้าบนทรงกระบอกที่ x=256 อยู่ y=7–248 (กลาง 127.5), ขอบหน้าบล็อกไม้สีเทอร์ควอยซ์เริ่ม y=134 ใช้ฐานชิ้นบนอยู่ y≈124
+- Alpha: `node scripts/check-sequence-alpha.mjs` → `output/C-10/alpha-scan.json` (PNG และ WebP มี alpha เหมือนกัน) พื้นรอบโปร่งใสจริง เนื้อวัตถุจาก imagegen มี alpha ใกล้ทึบ 251–253/255 ไม่ได้อ้างว่าทึบ 255 ทั้งหมด คง alpha ต้นฉบับไว้
+- ภาพไม่มีสิ่งมีชีวิต จึงไม่มี head crops; ตรวจทั้งภาพแล้ว
+
+## Prompts จริง (หนึ่งคำสั่งต่อหนึ่งไฟล์)
+
+### ball
+
+Create one isolated toy ball asset for a premium colorful 3D preschool educational game. Smooth glossy turquoise ball with one broad ivory curved stripe and thin gold edging, no markings. Orthographic three-quarter view with lighting from upper left, softly rounded polished toy material, matching the saturated blue gold toy cube shown previously in conversation. One ball only, centered, fills about 85% of square canvas, complete silhouette, true transparent background, solid opaque object, no ground plane and no cast shadow. No text, numbers, letters, arrows, logos, watermark, people, animals, faces, eyes, nose, mouth, music symbols or instruments. This is a final game sprite, not a mockup.
+
+### cylinder
+
+Create ONE isolated solid toy cylinder building block for a premium colorful 3D preschool educational game. Squat cylindrical block about equally wide and tall, glossy rich turquoise blue sides, flat ivory circular top with a thin golden rim, flat bottom, no holes. Three-quarter orthographic camera looking down 30 degrees, upper left soft lighting. Rounded bevel edges, simple clear silhouette, polished plastic, matches a premium blue gold toy cube. Centered entire object filling 85% of square canvas. Actual transparent background with solid opaque object, no ground and no shadow outside object. No text, numbers, letters, arrows, logos, watermarks, people, animals, faces, eyes, mouth, nose, music symbols or instruments. Final isolated sprite, only one cylinder.
+
+### wood
+
+Create ONE isolated wooden cube building block for a premium colorful 3D preschool educational game. Golden pale honey wood cube with soft rounded bevel edges, simple subtle wood grain, thin turquoise inset border on front, broad flat top and flat base for stacking, no studs, no holes. Match the original blue toy cube camera: front dominant with top visible and narrower right side, orthographic looking down about 25 degrees, top left light. Premium polished toy material, complete cube silhouette centered filling 85% of a square canvas, actual transparent background, entirely opaque wooden object, no floor or cast shadow. No text, numbers, letters, arrows, logos, watermark, people, animals, faces, eyes, mouth, nose, music symbols or instruments. One cube only, final isolated game sprite.
+
 # Sequence — รอบ 2 (17 ก.ย. 2026)
 
 แก้ด้วย built-in imagegen แบบ image edit เริ่มจาก public/games/sequence/island.png เดิม และแก้ต่อเนื่อง 4 ครั้งจนได้ลานกว้างตามบรีฟ ไม่ใช้ CLI/API fallback ภาพก่อนแก้เก็บใน originals/island-before-round2.png; ภาพที่เลือกคือ originals/island-round2.png

@@ -1,6 +1,7 @@
 import type { GameSlug, Label } from './catalog';
 
 type GamePresentation = {
+  /** Learning-star award per completed level; omitted keeps existing game rewards. */
   world: Label;
   description: Label;
   levels: [Label, Label, Label];
@@ -26,20 +27,48 @@ type GamePresentation = {
     เปิดเฉพาะเกมที่มี layout แนวนอนบนมือถือแล้ว ทีละเกม หลังเจ้าของโปรเจกต์ตรวจ
   */
   fullscreen?: boolean;
+  /** Opt-in viewport layout; does not change games that retain the original shell. */
+  landscapeBoard?: boolean;
   /** จำนวนด่านที่เปิดให้เลือกจริง ไม่ใส่ = ครบสามด่าน */
   levelCount?: 1 | 2 | 3;
+  starsPerLevel?: 1 | 2 | 3;
   destinations: Label;
   pieces: Label;
 };
 
 export const gamePresentation: Record<GameSlug, GamePresentation> = {
+  'balance-scale': {
+    voiceIntro: true, ownVoice: true, journey: true, starsPerLevel: 1,
+    world: { th: 'เกาะตาชั่งสมดุล', en: 'Balance Scale Island' },
+    description: { th: 'นับจุด รวมบล็อก แล้วเปรียบเทียบน้ำหนัก', en: 'Count dots, add blocks and compare weights.' },
+    levels: [{ th: 'นับบล็อก', en: 'Count blocks' }, { th: 'รวมหน่วย', en: 'Add weights' }, { th: 'เปรียบเทียบ', en: 'Compare weights' }],
+    destinations: { th: 'จานตาชั่ง', en: 'Weighing pans' }, pieces: { th: 'บล็อกน้ำหนัก', en: 'Weight blocks' },
+  },
+  'coin-box': {
+    voiceIntro: true, ownVoice: true, journey: true, starsPerLevel: 1,
+    world: { th: 'เกาะกล่องเหรียญ', en: 'Coin Box Island' },
+    description: { th: 'ลากเหรียญทีละเหรียญ ครบแล้วผ่านรอบเอง', en: 'Drag one coin at a time. Each round ends when the box has enough.' },
+    levels: [{ th: 'นับ 1–3', en: 'Count 1–3' }, { th: 'นับ 1–5', en: 'Count 1–5' }, { th: 'นับ 1–10', en: 'Count 1–10' }],
+    destinations: { th: 'ช่องหยอดเหรียญ', en: 'Coin slot' }, pieces: { th: 'เหรียญทอง', en: 'Gold coins' },
+  },
+  'bead-lacing': {
+    voiceIntro: true, journey: true, starsPerLevel: 1,
+    world: { th: 'เกาะร้อยลูกปัด', en: 'Bead Workshop Island' },
+    description: { th: 'ดูสีและรูปทรง แล้วร้อยตามแบบ', en: 'Look at the colors and shapes, then lace the pattern.' },
+    levels: [{ th: 'ร้อย 3 เม็ด', en: 'Lace three beads' }, { th: 'ร้อย 5 เม็ด', en: 'Lace five beads' }, { th: 'ต่อแบบซ้ำ', en: 'Continue a repeating pattern' }],
+    destinations: { th: 'ปลายเชือก', en: 'Cord tip' }, pieces: { th: 'ถาดลูกปัด', en: 'Bead tray' },
+  },
   'color-match': {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'โรงงานสีแสนสนุก', en: 'The Color Workshop' },
     description: { th: 'พาของเล่นกลับบ้านสีของตัวเอง', en: 'Bring each toy to its color home.' },
     levels: [{ th: 'รู้จัก 4 สี', en: 'Meet four colors' }, { th: 'ลองจับคู่', en: 'Match the toys' }, { th: 'จำสีให้ได้', en: 'Know your colors' }],
     destinations: { th: 'บ้านของแต่ละสี', en: 'Color homes' }, pieces: { th: 'เลือกของเล่นไปวาง', en: 'Pick a toy' },
   },
   'shape-match': {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'ห้องของเล่นรูปทรง', en: 'The Shape Studio' },
     description: { th: 'ดูขอบรูป แล้วหาช่องที่พอดีกัน', en: 'Look at the outline. Find a perfect fit.' },
     voiceIntro: true,
@@ -63,19 +92,25 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     destinations: { th: 'มาสร้างภาพนี้ด้วยกัน', en: 'Let’s build this picture' }, pieces: { th: 'ชิ้นภาพที่รอเราอยู่', en: 'Your picture pieces' },
   },
   'arabic-match': {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'ห้องสมุดอักษร', en: 'The Letter Library' },
     description: { th: 'สังเกตรูปอักษรและจุด แล้วหาอักษรคู่กัน', en: 'Look at the letter and its dots. Find its twin.' },
-    levels: [{ th: 'อักษร 3 ตัว', en: 'Three letters' }, { th: 'อักษรอีก 4 ตัว', en: 'Four more letters' }, { th: 'รวม 7 ตัว', en: 'All seven letters' }],
+    levels: [{ th: 'สองตัวแรกในชุด', en: 'First two letters' }, { th: 'สองตัวหลังในชุด', en: 'Last two letters' }, { th: 'ครบสี่ตัวในชุด', en: 'All four letters' }],
     destinations: { th: 'บ้านของอักษร', en: 'Letter homes' }, pieces: { th: 'เลือกบล็อกอักษร', en: 'Pick a letter block' },
   },
   sequence: {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'เกาะนักเรียงตัวน้อย', en: 'Little Builders Island' },
     voiceIntro: true,
-    description: { th: 'พาบล็อกของเล่นขึ้นเกาะ เรียงขนาด จำนวน และความสูงจากน้อยไปมาก', en: 'Bring the toy blocks to the island. Order their size, number and height.' },
+    description: { th: 'พาของเล่นขึ้นเกาะ เรียงขนาด จำนวน และความสูงจากน้อยไปมาก', en: 'Bring the toys to the island. Order their size, number and height.' },
     levels: [{ th: 'เล็ก → ใหญ่', en: 'Small to large' }, { th: 'น้อย → มาก', en: 'Count 1 to 4' }, { th: 'เตี้ย → สูง', en: 'Short to tall' }],
     destinations: { th: 'เรียงไปตามทาง', en: 'Follow the trail' }, pieces: { th: 'ชิ้นไหนมาก่อนนะ?', en: 'Which comes first?' },
   },
   'find-object': {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'สวนสำรวจสมบัติ', en: 'The Discovery Garden' },
     description: { th: 'มองภาพตัวอย่าง แล้วค้นหาสิ่งเดียวกันในสวน', en: 'Look at the clue. Find the same treasure in the garden.' },
     levels: [{ th: 'ของ 4 อย่าง', en: 'Four treasures' }, { th: 'ของ 6 อย่าง', en: 'Six treasures' }, { th: 'ของ 8 อย่าง', en: 'Eight treasures' }],
@@ -91,6 +126,8 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     destinations: { th: 'เม็ดแสงบนเกาะ', en: 'Lights on the island' }, pieces: { th: 'พาหุ่นลูกกลมเดิน', en: 'Move the round robot' },
   },
   sort: {
+    landscapeBoard: true,
+    fullscreen: true,
     world: { th: 'สถานีจัดของเล่น', en: 'The Sorting Station' },
     description: { th: 'ช่วยจัดของเล่น ให้เพื่อนกลุ่มเดียวกันอยู่ด้วยกัน', en: 'Bring toys that belong together to the same basket.' },
     levels: [{ th: 'แยกตามสี', en: 'Sort by color' }, { th: 'แยกตามรูป', en: 'Sort by shape' }, { th: 'แยกตามขนาด', en: 'Sort by size' }],

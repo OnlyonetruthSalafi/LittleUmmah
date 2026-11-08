@@ -14,6 +14,12 @@ import type { Locale } from "@/i18n/config";
 
 /** key ที่มีไฟล์เสียงอัดไว้แล้ว เพิ่มชื่อที่นี่เมื่อวางไฟล์ลง public/audio/th/ */
 export const RECORDED_CLIPS = new Set<string>([
+  'name-balance-scale', 'game-balance-scale', 'howto-balance-scale',
+  'balance-left', 'balance-right', 'balance-equal', 'balance-retry', 'balance-correct', 'balance-compare',
+  'name-coin-box', 'game-coin-box', 'howto-coin-box', 'coin-praise', 'coin-retry',
+  ...Array.from({ length: 10 }, (_, i) => `coin-count-${i + 1}`),
+  ...Array.from({ length: 10 }, (_, i) => `coin-target-${i + 1}`),
+  'name-bead-lacing', 'game-bead-lacing', 'howto-bead-lacing', 'bead-praise', 'bead-complete', 'bead-repeat', 'bead-hint-blue-circle', 'bead-hint-blue-square', 'bead-hint-blue-star', 'bead-hint-turquoise-circle', 'bead-hint-turquoise-square', 'bead-hint-turquoise-star', 'bead-hint-gold-circle', 'bead-hint-gold-square', 'bead-hint-gold-star', 'bead-hint-white-circle', 'bead-hint-white-square', 'bead-hint-white-star',
   // เสียงหุ่นยนต์ (ElevenLabs เสียง Leo + เอฟเฟคหุ่นยนต์) พูดไทยแล้วต่อด้วยอังกฤษ
   "hub-intro", "hub-intro-touch",
   "game-color-match", "game-shape-match", "game-memory", "game-puzzle",

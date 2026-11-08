@@ -1,5 +1,48 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
+import sharp from 'sharp';
+import { PUZZLE_PICTURES, puzzleProgressId } from '../src/features/games/data/puzzlePictures.ts';
+import { createProgressRepository } from '../src/features/games/engine/progress.ts';
+
+test('three new square opaque pictures are optimized and source hashes match', async () => {
+  const manifest = JSON.parse(await readFile('scripts/source-images.json', 'utf8'));
+  assert.equal(PUZZLE_PICTURES.length, 4);
+  for (const picture of PUZZLE_PICTURES.filter(p => p.src)) {
+    const path = `public${picture.src}`;
+    const source = path.replace('.webp', '.png');
+    assert.match(manifest[source], /^[a-f0-9]{64}$/);
+    // Source PNGs are intentionally gitignored; validate them when available locally.
+    if (existsSync(source)) assert.equal(createHash('sha256').update(await readFile(source)).digest('hex'), manifest[source]);
+    const meta = await sharp(path).metadata();
+    assert.equal(meta.width, 900); assert.equal(meta.height, 900);
+    assert.equal((await sharp(path).stats()).isOpaque, true);
+    for (const [cols, rows] of [[2, 2], [3, 2], [3, 3]]) {
+      for (let i = 0; i < cols * rows; i++) {
+        const stats = await sharp(path).extract({ left: i % cols * (900 / cols), top: Math.floor(i / cols) * (900 / rows), width: 900 / cols, height: 900 / rows }).stats();
+        assert.ok(stats.channels.slice(0, 3).some(c => c.stdev > 10), `${picture.id} ${cols}x${rows} tile ${i} has visual detail`);
+      }
+    }
+  }
+});
+
+test('picture progress is separate by picture and level, preserves legacy stars and replay is idempotent', () => {
+  const data = new Map();
+  const storage = { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value) };
+  const repo = createProgressRepository(() => storage);
+  repo.complete('puzzle', 2, 2);
+  for (const picture of PUZZLE_PICTURES.slice(1)) {
+    const id = puzzleProgressId(picture.id);
+    assert.equal(repo.read(id).stars, 0);
+    for (const level of [1, 2, 3]) repo.complete(id, level, 3);
+    repo.complete(id, 1, 3);
+    assert.equal(repo.read(id).stars, 9);
+  }
+  assert.equal(createProgressRepository(() => storage).read('puzzle').stars, 2);
+  assert.equal(puzzleProgressId('original'), 'puzzle');
+});
 import { BOARD, TRAY, homography, project, trayMatrix, screenDown, piecePath, pieceBox, KNOB_DEPTH } from '../src/features/games/data/puzzleArt.ts';
 
 const close = (a, b, message) => assert.ok(Math.abs(a - b) < 1e-6, `${message}: ${a} vs ${b}`);

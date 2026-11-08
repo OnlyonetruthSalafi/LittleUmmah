@@ -65,4 +65,4 @@ The owner manually reviewed and accepted the earlier hub, then requested equally
 Latest verification: 34/34 tests, lint, typecheck and production build passed. Fresh production server on port 3001 passed all 14 route checks, all eight new introduction/level descriptions, legacy redirect/404 checks, all existing world assets and nine new interior assets. Object transparency/dimensions/budgets verified with Sharp. git diff --check passed.
 No connected-browser screenshot or actual touch playthrough was performed; owner can review the latest interiors in the browser. No commit made.
 
-CLAUDE_HANDOFF.md records current state for an optional agent handoff. Codex cannot inspect the 5-hour quota or directly dispatch Claude from this session.
+docs/briefs/archive/CLAUDE_HANDOFF.md records current state for an optional agent handoff. Codex cannot inspect the 5-hour quota or directly dispatch Claude from this session.

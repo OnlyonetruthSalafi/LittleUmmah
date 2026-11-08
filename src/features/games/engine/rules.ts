@@ -13,6 +13,12 @@ export type MemoryState = { deck: { id: string; value: string }[]; open: string[
 export function createMemory(values: readonly string[], random = Math.random): MemoryState {
   return { deck: shuffle(values.flatMap(value => [0, 1].map(copy => ({ id: `${value}-${copy}`, value }))), random), open: [], matched: [], moves: 0 };
 }
+/** Sample without replacement before making pairs; every library item can appear at every level. */
+export function createMemoryFromPool(values: readonly string[], count: number, random = Math.random): MemoryState {
+  const unique = [...new Set(values)];
+  if (!Number.isInteger(count) || count < 1 || count > unique.length) throw new RangeError('Invalid memory pair count');
+  return createMemory(shuffle(unique, random).slice(0, count), random);
+}
 export function flipCard(state: MemoryState, id: string): MemoryState {
   const card = state.deck.find(c => c.id === id);
   if (!card || state.open.length >= 2 || state.open.includes(id) || state.matched.includes(card.value)) return state;

@@ -12,14 +12,25 @@ const browser = await chromium.launch({
   executablePath: process.env.PLAYWRIGHT_EXECUTABLE,
 });
 const errors = [];
-const base = 'http://localhost:3001';
+const base = process.argv[2] ?? 'http://localhost:3121';
 await mkdir('output/shape-intro', { recursive: true });
 
 /* เข้าเกมด้วยการกดจากหน้ารวมเกม = ทางที่เด็กใช้จริง และเป็นทางเดียวที่เบราว์เซอร์ยอมให้เสียงเล่นเอง */
 async function enterFromHub(page) {
+  await page.addInitScript(() => sessionStorage.setItem('lu-games-guide-seen', '1'));
   await page.goto(`${base}/games`);
   await page.getByRole('link', { name: /รูปทรง/ }).first().click();
   await page.locator('.gc-voice-intro').waitFor();
+  if (await page.evaluate(() => matchMedia('(pointer: coarse) and (orientation: portrait)').matches)) {
+    await page.locator('.gc-rotate').waitFor();
+    assert.equal(await page.locator('.gc-play-container').getAttribute('inert'), '', 'portrait gate blocks play');
+    assert.equal(await page.locator('.gc-voice-wave').count(), 0, 'voice intro waits for rotation');
+    const portrait = page.viewportSize();
+    await page.screenshot({ path: `output/shape-intro/${portrait.width}-rotate.png` });
+    await page.setViewportSize({ width: portrait.height, height: portrait.width });
+    await page.locator('.gc-rotate').waitFor({ state: 'detached' });
+    assert.equal(await page.locator('.gc-play-container').getAttribute('inert'), null, 'rotation unlocks play');
+  }
 }
 
 try {
@@ -99,6 +110,7 @@ try {
     page.on('pageerror', error => errors.push(`muted: ${error.message}`));
     // ปิดเสียงไว้ก่อนเข้าเว็บ เหมือนเด็กที่เคยกดปิดไว้รอบก่อน (ค่าเก็บใน localStorage)
     await page.addInitScript(() => localStorage.setItem('little-ummah:sound', 'off'));
+    await page.addInitScript(() => sessionStorage.setItem('lu-games-guide-seen', '1'));
     await page.goto(`${base}/games`);
     await page.getByRole('link', { name: /รูปทรง/ }).first().click();
     await page.locator('.gc-voice-intro').waitFor();

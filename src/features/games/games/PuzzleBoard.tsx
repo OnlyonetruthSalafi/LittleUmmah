@@ -10,6 +10,7 @@ import { DragItem } from '../components/DragItem';
 import { boardContent } from '../data/content';
 import { gamePresentation } from '../data/presentation';
 import { canPlace, levelComplete, shuffle } from '../engine/rules';
+import { puzzlePicture } from '../data/puzzlePictures';
 import { BOARD, PUZZLE_ISLAND, TRAY, benchLayout, homography, pieceBox, piecePath, planeAffine, project, screenDown, trayMatrix } from '../data/puzzleArt';
 
 /* เกมจิ๊กซอว์แบบ 2.5D — ตามภาพเกาะตัวอย่าง public/games/hub/puzzle.png
@@ -71,12 +72,13 @@ function BenchTray({ S, pad, wall, uid }: { S: number; pad: number; wall: { x: n
   </svg>;
 }
 
-export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+export default function PuzzleBoard({ level, pictureId, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   const { t, sub, pick, pickSub } = useDict();
   const uid = useId().replace(/:/g, '');
   const [round] = useState(() => { const data = boardContent('puzzle', level); return { ...data, tray: shuffle(data.items) }; });
   const { columns: cols, rows } = round.puzzle!;
-  const art = gamePresentation.puzzle.levelArt!, picture = art[level - 1] ?? art[0], src = picture.src;
+  const art = gamePresentation.puzzle.levelArt!, selectedPicture = puzzlePicture(pictureId);
+  const picture = selectedPicture.src ? selectedPicture : art[level - 1] ?? art[0], src = picture.src!;
   const H = useMemo(() => homography(TRAY), []);
   const down = useMemo(() => screenDown(H, THICKNESS), [H]);
   const A = useMemo(() => planeAffine(H), [H]);
@@ -136,7 +138,7 @@ export default function PuzzleBoard({ level, onProgress, onFeedback, onComplete,
   const hintAt = hint === null ? null : project(H, ((hint % cols) + 0.5) / cols, (Math.floor(hint / cols) + 0.5) / rows);
   const done = placed.length === total;
 
-  return <div className="pz-scene" ref={scene} data-level={level} data-done={done || undefined} style={{ '--pz-cols': cols } as CSSProperties}>
+  return <div className="pz-scene" ref={scene} data-level={level} data-picture-id={selectedPicture.id} data-done={done || undefined} style={{ '--pz-cols': cols } as CSSProperties}>
     <div className="pz-tools">
       <button type="button" className="gc-button" aria-pressed={guide} onClick={() => { onTap(); setGuide(g => !g); }}>
         {guide ? t.games.puzzle.hide : t.games.puzzle.show}{sub && <small lang="en">{sub.games.puzzle.pictureGuide}</small>}

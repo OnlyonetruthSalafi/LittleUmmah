@@ -1,3 +1,4 @@
+import { categoryMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 import { dict } from "@/i18n/dict";
@@ -14,7 +15,8 @@ import { shelfBooks } from "@/features/stories/shelf";
 */
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn/stories">): Promise<Metadata> {
   const { lang } = await params;
-  return { title: dict(lang as Locale).t.stories.shelf.metadataTitle };
+  const { t } = dict(lang as Locale);
+  return categoryMetadata(lang as Locale, "stories", t.stories.shelf.metadataTitle);
 }
 
 export default async function StoriesIslandPage({ params }: PageProps<"/[lang]/learn/stories">) {

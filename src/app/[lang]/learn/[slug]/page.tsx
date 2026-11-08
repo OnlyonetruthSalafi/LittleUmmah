@@ -1,3 +1,4 @@
+import { categoryMetadata } from "@/lib/seo";
 import { dict, fmt } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
@@ -32,7 +33,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/learn/[slu
   const { slug, lang } = await params;
   const { t, pick } = dict(lang as Locale);
   const category = CATEGORIES.find((c) => c.slug === slug);
-  return { title: category ? fmt(t.islandPage.metadataTitle, { name: pick(category.name) }) : t.islandPage.metadataFallback };
+  if (!category) notFound();
+  return categoryMetadata(lang as Locale, slug, fmt(t.islandPage.metadataTitle, { name: pick(category.name) }));
 }
 
 export default async function IslandPage({ params }: PageProps<"/[lang]/learn/[slug]">) {

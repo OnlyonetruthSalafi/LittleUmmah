@@ -26,7 +26,7 @@ export const YUNUS_STORY: Story = {
   cover: "/stories/yunus/cover.webp",
   coverAlt: "เรือใบไม้ลำเล็กบนทะเลสีฟ้า มีแสงสีทองส่องขึ้นมาจากใต้น้ำ",
   robot: "/Character/faith.webp",
-  // นำร่องหนังสือแบบอลังการ (4–5 ต.ค. 2026) ภาพเล่ม/กระดาษ/ปกหนังจาก Codex (CODEX_STORYBOOK_BRIEF.md)
+  // นำร่องหนังสือแบบอลังการ (4–5 ต.ค. 2026) ภาพเล่ม/กระดาษ/ปกหนังจาก Codex (docs/briefs/archive/CODEX_STORYBOOK_BRIEF.md)
   deluxe: {
     cover: "/stories/yunus/cover-deluxe.webp",
     endpaper: "/stories/book/endpaper.webp",

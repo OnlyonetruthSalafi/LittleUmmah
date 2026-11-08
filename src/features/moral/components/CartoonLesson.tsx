@@ -8,6 +8,7 @@ import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
+import { ArabicText } from "@/components/ui/ArabicText";
 import type { Lesson } from "@/lib/lessons";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
@@ -78,7 +79,7 @@ export function CartoonLesson({
     const afterVoice = () => {
       if (scene.sayAlong) {
         setSayAlong(true);
-        timer = window.setTimeout(advance, SAY_ALONG_MS);
+        timer = window.setTimeout(advance, scene.sayAlongMs ?? SAY_ALONG_MS);
       } else {
         timer = window.setTimeout(advance, 500);
       }
@@ -163,6 +164,14 @@ export function CartoonLesson({
           </button>
         </div>
 
+        {/* ดุอาอ์ยาวยังใช้ป้ายคำและฟอนต์เดิม แต่ให้พื้นที่ตามข้อความจริง */}
+        {word && cartoon.wordPlacement === "above" && (
+          <p className="mrl-stage-word mrl-word-above" data-say={sayAlong || undefined}>
+            <span lang="ar" dir="rtl">{word.ar}</span>
+            {locale === "th" && <span className="mrl-stage-word-th">{word.th}</span>}
+          </p>
+        )}
+
         {/* เวที: ภาพฉากเป็นภาพตกแต่ง เรื่องราวอยู่ในข้อความใต้ภาพ */}
         <div className="mrl-stage" data-say={sayAlong || undefined}>
           {scenes.map((s, i) =>
@@ -174,7 +183,8 @@ export function CartoonLesson({
                 alt=""
                 fill
                 sizes="(max-width: 767px) 100vw, 860px"
-                priority={i === 0}
+                // ฉากซ้อนกันใน dialog: lazy อาจไม่โหลดภาพที่ยังโปร่งใส แม้เปลี่ยนฉากแล้ว
+                loading="eager"
                 className="mrl-stage-bg"
                 data-active={s.bg === scene.bg || undefined}
               />
@@ -198,7 +208,7 @@ export function CartoonLesson({
             </figure>
           )}
           {/* ป้ายคำที่สอน — ข้อความจริง ไม่ฝังในภาพ (ข้อ 1.5) */}
-          {word && (
+          {word && cartoon.wordPlacement !== "above" && (
             // ป้ายที่ระบุ compact (อายะฮ์ยาว) ใช้ตัวเล็กลง ป้ายจะได้ไม่บังทั้งฉากบนมือถือ
             <p className="mrl-stage-word" data-long={word.compact || undefined} key={`w-${index}-${take}`}>
               <span lang="ar" dir="rtl">
@@ -219,7 +229,7 @@ export function CartoonLesson({
               />
             ))}
           </div>
-          {sayAlong && word && (
+          {sayAlong && word && cartoon.wordPlacement !== "above" && (
             <p className="mrl-say" aria-hidden="true">
               {fmt(t.moral.cartoon.sayPrompt, { word: word.th })}
             </p>
@@ -228,12 +238,12 @@ export function CartoonLesson({
 
         {/* ข้อความของฉาก — role=status ให้ screen reader อ่านเมื่อเปลี่ยนฉาก */}
         <div className="mrl-cartoon-caption" role="status">
-          <p className="font-semibold">{pick(scene)}</p>
+          <p className="font-semibold"><ArabicText text={pick(scene)} /></p>
           {sub && <p lang="en" className="text-ink-soft text-sm">
-            {pickSub(scene)}
+            <ArabicText text={pickSub(scene)!} />
           </p>}
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
-          {sayAlong && word && <p className="mrl-say-caption">{fmt(t.moral.cartoon.sayPrompt, { word: word.th })}</p>}
+          {sayAlong && word && <p className="mrl-say-caption" data-above={cartoon.wordPlacement === "above" || undefined}>{fmt(t.moral.cartoon.sayPrompt, { word: locale === "th" ? word.th : word.ar })}</p>}
           {/* เครดิตภาพถ่าย — วางในกล่องข้อความ อ่านง่ายกว่าตัวเล็กบนกรอบภาพ */}
           {scene.photo && <p className="text-ink-soft mt-1 text-xs">{scene.photo.credit}</p>}
         </div>

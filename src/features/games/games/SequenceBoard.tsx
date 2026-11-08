@@ -9,7 +9,7 @@ import { IslandBoard } from '../components/diorama/IslandBoard';
 import { DragItem } from '../components/DragItem';
 import { dropTargetAt } from '../components/dropTarget';
 import { SequenceToy } from '../components/SequenceToy';
-import { mixSequence, placeSequence, sequenceLevel } from '../data/sequence';
+import { mixSequence, placeSequence, sequenceLevel, type SequenceLevel } from '../data/sequence';
 import { PAD_WIDTH, SEQ_ISLAND, SEQ_PAD, padAt } from '../data/sequenceArt';
 
 /* เกมเรียงลำดับแบบ 2.5D — ตามภาพเกาะตัวอย่าง public/games/hub/sequence.png
@@ -20,9 +20,25 @@ import { PAD_WIDTH, SEQ_ISLAND, SEQ_PAD, padAt } from '../data/sequenceArt';
  * ทิศของทางแผ่นทองบอกจุดเริ่มแทนเลขแท่น ชื่อชิ้นกับเลขแท่นยังอยู่ใน aria-label
  * ข้อความแนะนำย้ายไปเป็น sr-only role=status ให้เครื่องอ่านหน้าจอ
  */
-export default function SequenceBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+type Round = SequenceLevel & { tray: SequenceLevel['pieces'] };
+
+export default function SequenceBoard(props: PlayProps) {
+  const [round, setRound] = useState<Round | null>(null);
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+    // GameShell remounts the board for every level/replay/restart. Randomness runs
+    // only on the client; GameShell still awards stars once per level, not per set.
+    const data = sequenceLevel(props.level, Math.random() < .5 ? 0 : 1);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- choose and shuffle only after mount
+    setRound({ ...data, tray: mixSequence(data.pieces) });
+  }, [props.level]);
+  return round && <SequenceRound {...props} round={round} />;
+}
+
+function SequenceRound({ paused, round, onProgress, onFeedback, onComplete, onTap }: PlayProps & { round: Round }) {
   const { t, sub, pick, pickSub } = useDict();
-  const [round] = useState(() => { const data = sequenceLevel(level); return { ...data, tray: mixSequence(data.pieces) }; });
   const [placed, setPlaced] = useState<string[]>([]);
   const current = useRef<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -33,10 +49,10 @@ export default function SequenceBoard({ level, onProgress, onFeedback, onComplet
   const total = round.pieces.length;
   useEffect(() => { onProgress(placed.length, total); }, [placed.length, total, onProgress]);
   useEffect(() => {
-    if (placed.length !== total) return;
+    if (paused || placed.length !== total) return;
     const timer = setTimeout(onComplete, 1100);
     return () => clearTimeout(timer);
-  }, [placed.length, total, onComplete]);
+  }, [paused, placed.length, total, onComplete]);
 
   function place(id: string, target: string) {
     if (current.current.includes(id)) return;
@@ -53,7 +69,7 @@ export default function SequenceBoard({ level, onProgress, onFeedback, onComplet
   }
 
   const picked = round.pieces.find(p => p.id === selected);
-  return <div className="seq-scene" data-count={total} ref={board} style={{ '--seq-count': total, '--pad-w': `${PAD_WIDTH}%` } as CSSProperties}>
+  return <div className="seq-scene" data-count={total} data-set={`${round.kind}-${round.art}`} ref={board} style={{ '--seq-count': total, '--pad-w': `${PAD_WIDTH}%` } as CSSProperties}>
     <div className="seq-tools">
       {picked && <p className="seq-picked">{fmt(t.games.sequence.picked, { name: pick(picked) })}{sub && <span lang="en">{fmt(sub.games.sequence.pickedSecondary, { name: pickSub(picked)! })}</span>}</p>}
       <button type="button" className="gc-button" disabled={placed.length === total} onClick={() => {
@@ -83,7 +99,7 @@ export default function SequenceBoard({ level, onProgress, onFeedback, onComplet
               if (target && !target.hasAttribute('disabled')) place(selected, target.dataset.dropId!);
             }}>
             <Image className="seq-pad" src={SEQ_PAD.src} width={SEQ_PAD.width} height={SEQ_PAD.height} alt="" unoptimized draggable={false} />
-            {filled && <span className="seq-home-object"><SequenceToy kind={round.kind} rank={piece.rank} /></span>}
+            {filled && <span className="seq-home-object"><SequenceToy kind={round.kind} rank={piece.rank} art={round.art} /></span>}
             {hint === piece.rank && <span className="gc-hint-arrow" aria-hidden="true">↓</span>}
             {filled && <span className="shp-spark" aria-hidden="true"><i /><i /><i /></span>}
           </button>;
@@ -97,7 +113,7 @@ export default function SequenceBoard({ level, onProgress, onFeedback, onComplet
         {!placed.includes(piece.id) &&
           <DragItem id={piece.id} label={(pickSub(piece) ? `${pick(piece)} / ${pickSub(piece)}` : pick(piece))} selected={selected === piece.id}
             onSelect={() => { onTap(); setSelected(piece.id); setHint(null); setNotice(fmt(t.games.sequence.selected, { name: pick(piece) })); }} onDrop={place}>
-            <SequenceToy kind={round.kind} rank={piece.rank} />
+            <SequenceToy kind={round.kind} rank={piece.rank} art={round.art} />
           </DragItem>}
       </div>)}
     </div>

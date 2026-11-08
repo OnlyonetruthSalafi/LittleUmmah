@@ -1,3 +1,4 @@
+import { categoryMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 import { dict } from "@/i18n/dict";
@@ -30,7 +31,8 @@ type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
-  return { title: dict(lang as Locale).t.explore.metadataTitle };
+  const { t } = dict(lang as Locale);
+  return categoryMetadata(lang as Locale, "explore", t.explore.metadataTitle);
 }
 
 export default function ExploreIslandPage({ params }: Props) {

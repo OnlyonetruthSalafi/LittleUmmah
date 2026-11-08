@@ -1,5 +1,31 @@
 # Puzzle art — 27 กันยายน 2026
 
+## C-5 — ภาพใหม่ 8 พฤศจิกายน 2026
+
+สร้างด้วย built-in imagegen หนึ่งรอบต่อภาพ ไม่มีคน สัตว์ ตัวหนังสือ หรือสัญลักษณ์ดนตรี ตรวจภาพเต็มทั้งสามแล้ว ไม่มีศีรษะที่ต้อง crop
+ต้นฉบับเครื่องมือ 1254×1254 อยู่ใน `output/C-5/originals/` เตรียม PNG 1024×1024 ด้วย `node scripts/prepare-puzzle-art.mjs --new-pictures`
+แล้วใช้ `node scripts/optimize-images.mjs public/games/puzzle` ได้ WebP 900×900 quality 86 effort 6 ตาม pipeline ปัจจุบัน และบันทึก sha256 ใน `scripts/source-images.json`
+ผลสแกน alpha: ทุกภาพ nonOpaquePixels = 0/1572516 (`output/C-5/alpha-scan.json`)
+
+| ภาพ | ชื่อไทย / English | ขนาด WebP โดยประมาณ |
+|---|---|---|
+| `flower-garden.webp` | สวนกระถางดอกไม้ / Potted flower garden | 235 KiB |
+| `sailboat-bay.webp` | เรือใบในอ่าว / Sailboat bay | 206 KiB |
+| `toy-station.webp` | สถานีรถไฟของเล่น / Toy train station | 175 KiB |
+
+เลือกภาพก่อนเล่นในกระดานเดิม ทุกภาพใหม่ใช้ได้กับ 4/6/9 ชิ้น ภาพชุดเดิมคงเดิมทั้งสามด่าน
+ดาวภาพใหม่เก็บผ่าน repository เดิมใน `puzzle:<picture-id>` แยกด่านภายใน ภาพเดิมคง `puzzle` ไม่มี migration หรือการเขียนทับ
+ไม่เปลี่ยน TRAY, homography, ภาพเกาะ หรือ geometry ของชิ้น มุมซ้ายบนของภาพยังตรงมุมซ้ายของถาดตามเดิม
+
+### Prompt จริง (หนึ่งรอบต่อภาพ)
+
+Use case: stylized-concept. Create one square 1024x1024 full-bleed premium colorful 3D children's jigsaw illustration of a potted flower garden. Blue, turquoise, white and gold ceramic pots, lush leaves, large pink yellow and white flowers, white marble garden steps. Upper left tall yellow flowers; upper middle pink flowers on raised step; upper right hanging turquoise pot with white flowers; middle left broad leaves, middle center large blue pot and pink flowers, middle right golden watering can; bottom left white flower pot, bottom center patterned turquoise paving, bottom right small terracotta flower pot. One coherent garden scene, distinct landmarks in every region for 2x2, 3x2 and 3x3 cuts, large simple readable forms. Soft sunlight upper left, polished rounded materials, rich tactile 3D detail. No people, animals, birds, insects, faces, text, letters, numbers, arrows, logos, watermarks, musical symbols or instruments, religious people, third party characters. No border, no jigsaw lines. Opaque background.
+
+Use case: stylized-concept. One square full-bleed 1024x1024 premium colorful 3D children's jigsaw illustration: a large toy-like sailboat in a turquoise bay, blue white and gold palette with warm coral accents, polished rounded materials and soft upper-left sunlight. Big white and turquoise sail and golden mast central, blue hull across middle. Upper left white lighthouse with blue cap on lush rocky shore, upper middle mast and sail peak against small clouds, upper right rocky green headland; middle left lighthouse steps and sea, middle center sailboat, middle right orange buoy; bottom left wooden jetty and rope coil, bottom center clear water ripples and reflection, bottom right smooth white shoreline rocks with green plants. Coherent scene, distinct easy landmarks in all nine regions, readable when cut 2x2, 3x2 or 3x3. Boat fills most of scene, no empty sky regions. No people, animals, birds, fish, insects, faces, text, letters, numbers, arrows, logos, watermarks, musical symbols or instruments, religious people or third party artwork. No border or jigsaw lines. Opaque background.
+
+Use case: stylized-concept. One square full-bleed 1024x1024 premium colorful 3D children's jigsaw illustration of a TOY TRAIN STATION. Beautiful tactile miniature play set, rounded chunky wooden and polished painted toy materials in blue turquoise white gold, small coral accents, soft upper-left sunlight. Upper left leafy toy tree, upper middle small white station building with blue pitched roof and gold trim, upper right turquoise canopy and hanging gold lantern. Middle left blue toy locomotive with gold chimney and NO FACE, middle center turquoise passenger carriage, middle right coral luggage stacked on platform. Bottom left curved wooden train track entering picture, bottom center gold and blue track switch with sleepers, bottom right small flower planter and white picket fence. Close view of one coherent toy train scene, interesting recognizable landmarks in all nine regions for 2x2, 3x2 and 3x3 cuts, no large empty areas. No people, animals, birds, insects, faces, eyes, mouths, text, station signs, letters, numbers, clocks, arrows, logos, watermarks, musical symbols or instruments, religious people, third party characters. No border or puzzle lines. Opaque background.
+
+
 ใช้ built-in image_gen ตามสกิล imagegen สร้างภาพและแก้ภาพจริง ตรวจด้วยการเปิดดูภาพทุกผลลัพธ์ที่สำเร็จ รวมภาพวัดและ composite ทั้งสามด่านที่ 1100px และ 390px
 
 ## ภาพที่เลือก

@@ -143,14 +143,10 @@
   100% { opacity: 0; translate: var(--mem-x) -46px; scale: 1.1; }
 }
 
-/* ── มือถือ ───────────────────────────────────────────────────────────
-   ผิวครีมของเกาะแคบเกินกว่าจะใส่ตาราง 4x4 ที่การ์ดใหญ่ 64px ได้ในสัดส่วนเดิม
-   จึงครอบภาพเกาะให้เต็มกล่อง (เห็นผิวครีมกับขอบทองเป็นหลัก) แล้วขยายพื้นที่วางการ์ด
-   tap target 64px สำคัญกว่าการเห็นขอบเกาะครบ (AGENTS.md ข้อ 2) */
+/* Compact spacing; portrait artwork and measured surfaces are selected below. */
 @media (max-width: 639px) {
-  /* ไม่ขยายกรอบผิวเกาะอีกต่อไป — การขยายคือสาเหตุที่การ์ดล้นออกนอกเกาะ
-     ใช้กรอบเดียวกับจอใหญ่ แล้วปล่อยให้การ์ดย่อตามสูตรด้านบน
-     เจ้าของโปรเจกต์อนุมัติให้การ์ดเล็กกว่า 64px บนมือถือได้ (ดูข้อยกเว้นใน AGENTS.md ข้อ 2) */
+  /* Keep the original surface for the original island. Portrait overrides below
+     use the separately measured mobile artwork, never an enlarged surface alone. */
   /* ยกเลิก padding ซ้ายขวาของ .gc-focus ให้เกาะเต็มความกว้างจอ ได้พื้นที่การ์ดคืนมา 24px
      ต้องปลด width:100% ด้วย ไม่งั้น margin ลบจะแค่เลื่อนกล่อง ไม่ได้ขยาย */
   .isl-board { width: auto; margin-inline: -12px; }
@@ -161,6 +157,52 @@
   /* คงช่องว่างซ้ายให้หุ่นยนต์ ไม่งั้นข้อความจะทับตัวหุ่น */
   .gc-focus[data-game='memory'] .gc-instruction { padding: 7px 9px 7px 58px; min-height: 66px; }
   .gc-focus[data-game='memory'] .gc-playing-guide { width: 54px; height: 72px; }
+}
+
+/* MEM-1: only phone portrait uses the new islands. Every surface percentage
+   comes from the supplied measurements; scaling applies to the entire artwork. */
+@media (max-width: 639px) and (orientation: portrait) {
+  .gc-focus[data-game='memory'][data-status='playing'] { padding: 4px 12px 8px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-game-header {
+    flex-wrap: nowrap; gap: 4px; margin: 0; min-height: 64px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-game-header h1 {
+    order: 0; width: auto; margin: 0; padding: 2px 4px; font-size: 18px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-game-header h1 small { font-size: 11px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-game-header > .ui-pill {
+    min-width: 64px; min-height: 64px; height: 64px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-progress-row {
+    min-height: 30px; padding: 1px 8px; margin: 2px 0; gap: 8px; font-size: 12px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-progress-level { padding: 0 6px 0 0; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-progress-row small { font-size: 10px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-instruction {
+    min-height: 64px; margin: 0; padding: 0 0 0 46px; gap: 4px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-playing-guide { width: 42px; height: 56px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-instruction h2 { font-size: 14px; line-height: 1.4; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-instruction h2 small { font-size: 10px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-instruction .gc-button { flex-shrink: 0; padding: 3px 6px; }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-feedback {
+    min-height: 24px; margin: 0; padding: 0; font-size: 13px;
+  }
+  .gc-focus[data-game='memory'][data-status='playing'] .gc-bottom-controls { margin: 0; padding: 0; gap: 12px; }
+  .mem-scene { position: relative; margin: 0 -12px; overflow: clip; }
+  .mem-stats { position: absolute; top: 0; left: 50%; translate: -50% 0; z-index: 2; white-space: nowrap; }
+  .mem-scene .isl-board {
+    width: 100%; max-width: none; margin: 0; aspect-ratio: var(--mobile-aspect);
+    --surface-l: var(--mobile-l); --surface-r: var(--mobile-r);
+    --surface-t: var(--mobile-t); --surface-b: var(--mobile-b);
+  }
+  /* At 360px, level 2 needs 202px of cream for 3 × 64px + two 5px gaps.
+     386px × 1365/1296 × 49.964% = 203.1px. Crop only the outer 13px
+     of artwork; the measured surface and all focus outlines remain in view. */
+  .mem-scene[data-cards='12'] .isl-board { width: max(100%, 386px); margin-left: min(0px, calc((100% - 386px) / 2)); }
+  .mem-scene .isl-art { animation: none; }
+  .mem-grid[data-count='16'] { --cols: 4; --rows: 4; }
+  .mem-grid[data-count='16'] > :nth-child(13) { grid-column-start: auto; }
 }
 
 /* จอแคบมาก — บีบระยะห่างเล็กน้อย ได้พื้นที่การ์ดคืนมาอีกนิด */

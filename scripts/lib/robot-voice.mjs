@@ -33,6 +33,9 @@ const SAY_AS_ENGLISH = [
   ["การ์ด", "Card"],
   ["ก๊าด", "Card"],
   ["เฟนเนค", "Fennec"],
+  ["มาร์มอต", "Marmot"],
+  ["ซิลเวอร์", "Silver"],
+  ["แคริบเบียน", "Caribbean"],
 ];
 
 export function voiceText(text) {

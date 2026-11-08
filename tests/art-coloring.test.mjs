@@ -7,20 +7,58 @@ import { PAINT_WELLS } from '../src/features/art/paint-assets.ts';
 // กันการเติมรูปสิ่งมีชีวิตเข้ามาโดยไม่ตั้งใจ รูประบายต้องเป็นสิ่งของหรือพืช (เจ้าของโปรเจกต์ย้ำ 1 พ.ย. 2026)
 const LIVING = /คน|เด็ก|ใบหน้า|ตา$|ปาก|แมว|หมา|นก|ปลา|อูฐ|ม้า|แพะ|แกะ|ผึ้ง|ผีเสื้อ|person|child|face|\beye|mouth|\bcat\b|\bdog\b|bird|fish|camel|horse|goat|sheep|bee\b|butterfly/i;
 
-test('รูประบายมี 8 รูป id ไม่ซ้ำ และเป็นสิ่งของหรือพืชเท่านั้น', () => {
-  assert.equal(ART_PICTURES.length, 8);
-  assert.equal(new Set(ART_PICTURES.map(picture => picture.id)).size, 8);
+test('รูประบายมี 20 รูป id ไม่ซ้ำ และเป็นสิ่งของหรือพืชเท่านั้น', () => {
+  assert.equal(ART_PICTURES.length, 20);
+  assert.equal(new Set(ART_PICTURES.map(picture => picture.id)).size, 20);
   for (const picture of ART_PICTURES) {
     assert.doesNotMatch(`${picture.title.th} ${picture.title.en}`, LIVING, picture.id);
     for (const region of picture.regions) assert.doesNotMatch(`${region.label.th} ${region.label.en}`, LIVING, `${picture.id}/${region.id}`);
   }
 });
 
+test('รูปใหม่มีระดับง่าย 3 รูปและละเอียด 3 รูป จำนวนชิ้นไม่นับพื้นหลัง', () => {
+  const added = ART_PICTURES.slice(8, 14);
+  assert.deepEqual(added.map(p => p.id), ['umbrella', 'ball', 'seedling', 'toy-truck', 'watering-can', 'vegetable-garden']);
+  for (const [level, min, max] of [['easy', 5, 8], ['detailed', 10, 16]]) {
+    const pictures = added.filter(p => p.difficulty === level);
+    assert.equal(pictures.length, 3);
+    for (const picture of pictures) {
+      assert.ok(picture.regions.length - 1 >= min && picture.regions.length - 1 <= max, picture.id);
+      for (const region of picture.regions) {
+        assert.ok(region.label.th && region.label.en, `${picture.id}/${region.id}`);
+        assert.ok(picture.example[region.id], `${picture.id}/${region.id} example`);
+      }
+    }
+  }
+  assert.ok(added.find(p => p.id === 'umbrella').regions.find(r => r.id === 'shaft').thin);
+  assert.ok(added.find(p => p.id === 'seedling').regions.find(r => r.id === 'stem').thin);
+});
+
+test('C-13 มีรูปง่าย 3 ละเอียด 3 พร้อมชื่อและสีครบทุกชิ้น', () => {
+  const added = ART_PICTURES.slice(14);
+  assert.deepEqual(added.map(p => p.id), ['moon-stars', 'date-plate', 'geometric-kite', 'geometric-rug', 'date-palm', 'arched-house']);
+  for (const [level, min, max] of [['easy', 5, 8], ['detailed', 10, 16]]) {
+    const pictures = added.filter(p => p.difficulty === level);
+    assert.equal(pictures.length, 3);
+    for (const p of pictures) {
+      assert.ok(p.title.th && p.title.en);
+      assert.ok(p.regions.length - 1 >= min && p.regions.length - 1 <= max, p.id);
+      assert.deepEqual(Object.keys(p.example).sort(), p.regions.map(r => r.id).sort(), p.id);
+      for (const r of p.regions) assert.ok(r.label.th && r.label.en, `${p.id}/${r.id}`);
+    }
+  }
+  assert.ok(added.find(p => p.id === 'geometric-kite').regions.find(r => r.id === 'string').thin);
+  for (const id of ['sill-left', 'sill-right']) assert.ok(added.find(p => p.id === 'arched-house').regions.find(r => r.id === id).thin);
+});
+
 test('ทุกชิ้นมี id ไม่ซ้ำในรูป path ปิด และชิ้นแรกคือพื้นหลังเต็มภาพ', () => {
   for (const picture of ART_PICTURES) {
     assert.equal(new Set(picture.regions.map(region => region.id)).size, picture.regions.length, picture.id);
     assert.equal(picture.regions[0].d, 'M0 0H400V300H0Z', picture.id);
-    for (const region of picture.regions) assert.match(region.d, /Z$/, `${picture.id}/${region.id}`);
+    for (const region of picture.regions) {
+      assert.match(region.d, /^M.*Z$/, `${picture.id}/${region.id}`);
+      for (const subpath of region.d.match(/[Mm][^Mm]*/g)) assert.match(subpath.trim(), /[Zz]$/, `${picture.id}/${region.id} closed subpath`);
+    }
   }
 });
 

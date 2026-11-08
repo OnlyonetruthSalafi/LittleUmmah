@@ -54,9 +54,16 @@
   /* ละตินใช้ Baloo 2 ก่อน แล้วตกไปฟอนต์ไทยอัตโนมัติเมื่อเจอตัวอักษรไทย */
   --font-display: var(--font-baloo), var(--font-thai), "Trebuchet MS", ui-rounded, sans-serif;
   --font-body: var(--font-thai), "Segoe UI", system-ui, sans-serif;
+  --font-arabic: var(--font-arabic-source), serif;
 }
 
 @layer base {
+  /* จำกัดเฉพาะข้อความอาหรับ ฟอนต์ไทยและละตินยังใช้ stack เดิม */
+  [lang="ar"] {
+    font-family: var(--font-arabic, serif);
+    font-synthesis: none;
+  }
+
   body {
     background-color: var(--color-sky-pale);
     color: var(--color-ink);

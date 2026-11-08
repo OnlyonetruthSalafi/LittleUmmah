@@ -12,4 +12,7 @@ const FindBoard = dynamic(() => import('../games/FindBoard'), { loading: Loading
 const SequenceBoard = dynamic(() => import('../games/SequenceBoard'), { loading: Loading });
 const PuzzleBoard = dynamic(() => import('../games/PuzzleBoard'), { loading: Loading });
 const LightMazeBoard = dynamic(() => import('../games/LightMazeBoard'), { loading: Loading });
-export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'memory' ? MemoryBoard : game.slug === 'sequence' ? SequenceBoard : game.slug === 'puzzle' ? PuzzleBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : game.slug === 'light-maze' ? LightMazeBoard : MatchingBoard} />; }
+const CoinBoxBoard = dynamic(() => import('../games/CoinBoxBoard'), { loading: Loading });
+const BeadLacingBoard = dynamic(() => import('../games/BeadLacingBoard'), { loading: Loading });
+const BalanceScaleBoard = dynamic(() => import('../games/BalanceScaleBoard'), { loading: Loading });
+export function GamePlayer({ game }: { game: GameDefinition }) { return <GameShell key={game.slug} game={game} Board={game.slug === 'balance-scale' ? BalanceScaleBoard : game.slug === 'coin-box' ? CoinBoxBoard : game.slug === 'bead-lacing' ? BeadLacingBoard : game.slug === 'memory' ? MemoryBoard : game.slug === 'sequence' ? SequenceBoard : game.slug === 'puzzle' ? PuzzleBoard : game.slug === 'shape-match' ? ShapeBoard : game.slug === 'find-object' ? FindBoard : game.slug === 'light-maze' ? LightMazeBoard : MatchingBoard} />; }

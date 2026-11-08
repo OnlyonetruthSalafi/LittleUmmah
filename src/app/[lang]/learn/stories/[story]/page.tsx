@@ -1,6 +1,7 @@
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
-import { dict } from "@/i18n/dict";
+import { dict, fmt } from "@/i18n/dict";
 import { notFound } from "next/navigation";
 
 import { BackLink } from "@/components/ui/BackLink";
@@ -21,7 +22,9 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/learn/stor
   const { story, lang } = await params;
   const { t, pick } = dict(lang as Locale);
   const book = getStory(story);
-  return { title: book ? pick(book.title) : t.stories.book.metadataTitle };
+  if (!book) notFound();
+  const title = pick(book.title);
+  return pageMetadata(lang as Locale, `/learn/stories/${story}`, title, fmt(t.seo.storyDescription, { title }));
 }
 
 export default async function StoryPage({ params }: PageProps<"/[lang]/learn/stories/[story]">) {

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { games } from '../src/features/games/data/catalog.ts';
 import { gamePresentation } from '../src/features/games/data/presentation.ts';
-const base = process.env.GAME_TEST_URL ?? 'http://localhost:3001';
+import { GAME_TUTORIALS } from '../src/features/games/data/gameTutorials.ts';
+const base = process.argv[2] ?? process.env.BASE_URL ?? process.env.GAME_TEST_URL ?? 'http://localhost:3001';
 const routes = ['/', '/kids', '/juniors', '/learn/games/memory/easy', '/learn/games/memory/hard', '/games', ...games.map(game => `/games/${game.slug}`)];
 for (const route of routes) {
   const response = await fetch(`${base}${route}`);
@@ -13,7 +14,13 @@ for (const route of routes) {
   if (game) {
     const theme = gamePresentation[game.slug];
     assert.ok(html.includes(game.title.th), `${route} Thai title rendered`);
-    if (theme.voiceIntro) {
+    const tutorial = GAME_TUTORIALS[game.slug];
+    if (tutorial) {
+      assert.ok(html.includes('class="lmt"'), `${route} tutorial rendered`);
+      assert.ok(html.includes('lmt-skip'), `${route} tutorial skip button rendered`);
+      assert.ok(html.includes(tutorial[0].text.th), `${route} first tutorial instruction rendered`);
+      assert.ok(!html.includes('gc-adventure-intro'), `${route} old introduction replaced by tutorial`);
+    } else if (theme.voiceIntro) {
       // เกมที่หุ่นยนต์สอนด้วยเสียง: หน้าแนะนำเหลือคำสั่งบรรทัดเดียวกับปุ่มเริ่มเล่น
       // ข้อความชุดเดิม (ชื่อโลก คำโปรย ชื่อด่าน) ต้องหายไปจริง ไม่ใช่แค่ซ่อนด้วย CSS
       assert.ok(html.includes('gc-voice-intro'), `${route} voice introduction rendered`);
@@ -44,7 +51,7 @@ for (const name of ['game-hub-bg', ...games.map(game => game.slug)]) {
   assert.ok(asset.headers.get('content-type').includes('image/webp'), name);
   assert.ok((await asset.arrayBuffer()).byteLength < 200_000, `${name} image budget`);
 }
-console.log('PASS all nine world assets and per-image 200KB budget');
+console.log(`PASS ${games.length} game assets, hub background and per-image 200KB budget`);
 for (const object of ['moon', 'sparkle', 'mushaf', 'lantern', 'jug', 'mat', 'letters', 'maze']) {
   const asset = await fetch(`${base}/games/common/objects/${object}.webp`);
   assert.equal(asset.status, 200, object);
@@ -55,4 +62,4 @@ const garden = await fetch(`${base}/games/common/backgrounds/garden.webp`);
 assert.equal(garden.status, 200);
 assert.ok(garden.headers.get('content-type').includes('image/webp'));
 assert.ok((await garden.arrayBuffer()).byteLength < 200_000);
-console.log('PASS eight object images, garden scene and all eight illustrated introductions');
+console.log(`PASS eight object images, garden scene and ${games.length} game introductions`);

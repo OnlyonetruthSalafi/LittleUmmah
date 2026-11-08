@@ -1,15 +1,16 @@
 import type { CSSProperties } from 'react';
 import { GameImage } from './GameImage';
 import type { SequenceLevel } from '../data/sequence';
-import { SEQ_BLOCK } from '../data/sequenceArt';
+import { SEQ_TOYS } from '../data/sequenceArt';
 
 /** ลูกบาศก์ภาพเดียวกันทั้งในแถวรอเรียงและบนแท่น เด็กจึงเทียบได้ว่าเป็นชิ้นเดียวกัน
  *  size = ลูกเดียวขยายตามลำดับ · count = กองแบบ 2×2 · height = ซ้อนเป็นหอคอย */
-export function SequenceToy({ kind, rank }: { kind: SequenceLevel['kind']; rank: number }) {
+export function SequenceToy({ kind, rank, art = 'block' }: { kind: SequenceLevel['kind']; rank: number; art?: SequenceLevel['art'] }) {
+  const image = SEQ_TOYS[art];
   const blocks = kind === 'size' ? 1 : rank + 1;
-  return <span className="seq-toy" data-kind={kind} style={{ '--toy-size': `${42 + rank * 20}%` } as CSSProperties} aria-hidden="true">
+  return <span className="seq-toy" data-kind={kind} data-art={art} style={{ '--toy-size': `${42 + rank * 20}%` } as CSSProperties} aria-hidden="true">
     {Array.from({ length: blocks }, (_, index) =>
-      <GameImage key={index} src={SEQ_BLOCK.src} alt="" width={SEQ_BLOCK.width} height={SEQ_BLOCK.height} draggable={false} unoptimized
+      <GameImage key={index} src={image.src} alt="" width={image.width} height={image.height} draggable={false} unoptimized
         style={{ '--block-index': index, '--block-col': index % 2, '--block-row': Math.floor(index / 2) } as CSSProperties} />)}
   </span>;
 }

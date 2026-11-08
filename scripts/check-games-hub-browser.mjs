@@ -75,7 +75,7 @@ for (const view of VIEWPORTS) {
 
   check(m.scroll <= m.inner, `${tag} ไม่เลื่อนแนวนอน (${m.scroll}/${m.inner})`);
   check(m.columns === view.columns, `${tag} การ์ด ${view.columns} คอลัมน์ (${m.columns})`);
-  check(m.hrefs.length === 9 && new Set(m.hrefs).size === 9, `${tag} เกมครบ 9 ไม่ซ้ำ`);
+  check(m.hrefs.length === 12 && new Set(m.hrefs).size === 12, `${tag} เกมครบ 12 ไม่ซ้ำ (${m.hrefs.length})`);
   check(m.minCard >= 64, `${tag} การ์ด ≥ 64px (${Math.round(m.minCard)})`);
   check(m.jumps.every((jump) => jump.height >= 64), `${tag} ปุ่มหมวด ≥ 64px`);
   check(m.guide >= 64, `${tag} หุ่นยนต์ ≥ 64px (${Math.round(m.guide)})`);
@@ -163,7 +163,7 @@ for (const [touch, viewport] of [[false, { width: 1280, height: 800 }], [true, {
   check(new URL(page.url()).pathname === "/games", `/learn/games ไป /games (${new URL(page.url()).pathname})`);
   await page.goto(`${base}/en/games`, { waitUntil: "networkidle" });
   const hrefs = await page.locator("[data-game-link]").evaluateAll((links) => links.map((a) => a.getAttribute("href")));
-  check(hrefs.length === 9 && hrefs.every((href) => href.startsWith("/en/games/")), "/en ลิงก์เกมถูก");
+  check(hrefs.length === 12 && hrefs.every((href) => href.startsWith("/en/games/")), "/en ลิงก์เกมถูก");
   const text = await page.locator(".gh-page").innerText();
   check(!/[฀-๿]/.test(text), "/en ไม่มีตัวอักษรไทย");
   await page.close();

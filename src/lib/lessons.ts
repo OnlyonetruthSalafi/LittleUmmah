@@ -1,3 +1,5 @@
+import { GARDEN_OWNERS_STORY } from "../features/stories/data/garden-owners.ts";
+import { TWO_GARDENS_STORY } from "../features/stories/data/two-gardens.ts";
 import type { LessonIconName } from "@/components/icons/LessonIcon";
 import type { Text } from "@/i18n/config";
 
@@ -7,7 +9,8 @@ export type Lesson = {
   /** ตัวอักษรอาหรับขนาดใหญ่แทนไอคอน ใช้กับบทเรียนตัวอักษร */
   glyph?: string;
   title: Text;
-  body: string;
+  /** บทใหม่ใช้ Text; รองรับ string ของบทเดิมระหว่างทยอยแปล */
+  body: string | Text;
   /** ข้อความภาษาอาหรับ แสดงเป็นตัวอักษร แต่ไม่ส่งให้เสียงอ่าน (เสียงไทยอ่านอาหรับไม่ได้) */
   arabic?: string;
   /** คำอ่านเป็นภาษาไทย — ส่งให้เสียงอ่านแทนตัวอาหรับ */
@@ -382,6 +385,19 @@ export const ISLAND_CONTENT: IslandContent[] = [
     robot: "/Character/welcome.webp",
     intro: { th: "มุสลิมที่ดีมีมารยาทงาม ใจดีกับทุกคน มาฝึกไปด้วยกันทุกวัน", en: "A good Muslim has beautiful manners. Let’s practise together every day." },
     kids: [
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
+      {
+        "id": "dua-sleep",
+        "icon": "home",
+        "title": {
+          "th": "ดุอาอ์ก่อนนอน",
+          "en": "Dua before sleeping"
+        },
+        "body": "ท่านนบี ﷺ เมื่อจะนอนกล่าวว่า…",
+        "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        "reading": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
+        "meaning": "ด้วยพระนามของพระองค์ โอ้อัลลอฮ์ ข้าพเจ้าตายและข้าพเจ้ามีชีวิต"
+      },
       {
         id: "bismillah",
         icon: "dates",
@@ -427,8 +443,71 @@ export const ISLAND_CONTENT: IslandContent[] = [
         title: { th: "แบ่งปันของเล่น", en: "Share your toys" },
         body: "เล่นด้วยกัน แบ่งของเล่นให้เพื่อน ไม่แย่งกัน เพื่อนก็มีความสุข เราก็มีความสุข",
       },
+      {
+        id: "say-sorry",
+        icon: "heart",
+        title: { th: "ขอโทษเมื่อทำผิด", en: "Say sorry when you make a mistake" },
+        body: { th: "ทำของเพื่อนล้ม ขอโทษแล้วช่วยเก็บนะ", en: "If you knock something over, say sorry and help pick it up." },
+      },
+      {
+        id: "help-friend",
+        icon: "heart",
+        title: { th: "ช่วยเพื่อนที่ต้องการความช่วยเหลือ", en: "Help a friend who needs help" },
+        body: { th: "ถามก่อนช่วย ของหนักให้ผู้ใหญ่ช่วยนะ", en: "Ask before helping. Get an adult for heavy things." },
+      },
+      {
+        id: "wait-turn",
+        icon: "heart",
+        title: { th: "รอคิว", en: "Wait your turn" },
+        body: { th: "ต่อท้ายแถว รอให้ถึงตาเรา", en: "Join the end of the line and wait your turn." },
+      },
+      {
+        id: "tidy-toys",
+        icon: "heart",
+        title: { th: "เก็บของเล่นหลังเล่น", en: "Put toys away" },
+        body: { th: "เล่นเสร็จแล้ว เก็บของเล่นเข้าที่", en: "When playtime ends, put the toys away." },
+      },
     ],
     juniors: [
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)
+      {
+        "id": "dua-wake",
+        "icon": "home",
+        "title": {
+          "th": "ดุอาอ์ตื่นนอน",
+          "en": "Dua when waking up"
+        },
+        "body": "เมื่อตื่นนอนท่านนบี ﷺ กล่าวว่า…",
+        "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+        "reading": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร",
+        "meaning": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้เรามีชีวิตหลังจากที่ทรงให้เราตาย และยังพระองค์คือการฟื้นคืนชีพ"
+      },
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 5095 (อัลบานีย์: เศาะฮีห์) https://shamela.ws/book/1726/6957 · ติรมิซีย์ 3426 https://shamela.ws/book/1435/5650
+      {
+        "id": "dua-leave-home",
+        "icon": "home",
+        "title": {
+          "th": "ดุอาอ์ออกจากบ้าน",
+          "en": "Dua when leaving home"
+        },
+        "body": "ท่านนบี ﷺ สอนว่า เมื่อออกจากบ้านให้กล่าวว่า…",
+        "arabic": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+        "reading": "บิสมิลลาฮ์ ตะวักกัลตุ อะลัลลอฮ์ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์",
+        "meaning": "ด้วยพระนามของอัลลอฮ์ ข้าพเจ้ามอบหมายต่ออัลลอฮ์ ไม่มีพลังและไม่มีกำลังใดๆ นอกจากด้วยอัลลอฮ์"
+      },
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 4023 (อัลบานีย์: หะซัน) https://shamela.ws/book/1726/5556
+      {
+        "id": "dua-after-eating",
+        "icon": "dates",
+        "title": {
+          "th": "ดุอาอ์หลังกินเสร็จ",
+          "en": "Dua after eating"
+        },
+        "body": "ท่านนบี ﷺ สอนว่า เมื่อกินอาหารเสร็จให้กล่าวว่า…",
+        "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+        "reading": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์",
+        "meaning": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้อาหารนี้แก่ข้าพเจ้า และประทานมันแก่ข้าพเจ้า โดยไม่มีพลังและกำลังใดๆ จากตัวข้าพเจ้าเลย"
+      },
       {
         id: "parents",
         icon: "home",
@@ -474,6 +553,30 @@ export const ISLAND_CONTENT: IslandContent[] = [
         reading: "อะอูซุบิลลาฮิมินัชชัยฏอนิรรอญีม",
         meaning: "ฉันขอความคุ้มครองต่ออัลลอฮ์ ให้พ้นจากชัยฏอนที่ถูกขับไล่",
       },
+      {
+        id: "keep-promise",
+        icon: "heart",
+        title: { th: "ทำตามที่รับปากไว้", en: "Keep your promises" },
+        body: { th: "มาตามนัด คืนของตามที่บอก ถ้าทำไม่ได้รีบบอกเพื่อน", en: "Meet as agreed and return things on time. Tell your friend promptly if you cannot." },
+      },
+      {
+        id: "save-water-power",
+        icon: "heart",
+        title: { th: "ใช้น้ำและไฟไม่สิ้นเปลือง", en: "Save water and electricity" },
+        body: { th: "ใช้น้ำพอดี ปิดก๊อกและปิดไฟเมื่อไม่ใช้", en: "Use only the water you need. Turn off taps and lights when finished." },
+      },
+      {
+        id: "listen-friend",
+        icon: "chat",
+        title: { th: "ฟังเพื่อนพูดจนจบ", en: "Let your friend finish" },
+        body: { th: "ฟังให้จบ แล้วค่อยพูดหรือถาม", en: "Listen to the end, then speak or ask a question." },
+      },
+      {
+        id: "shared-things",
+        icon: "heart",
+        title: { th: "ดูแลของส่วนรวม", en: "Care for shared things" },
+        body: { th: "ใช้หนังสืออย่างเบามือ ให้เพื่อนคนถัดไปได้อ่านด้วย", en: "Handle books gently so the next reader can enjoy them too." },
+      },
     ],
   },
   {
@@ -511,6 +614,12 @@ export const ISLAND_CONTENT: IslandContent[] = [
         reading: "ยา นารุ กูนี บัรดัน วะสะลามัน อะลา อิบรอฮีม",
         meaning: "โอ้ไฟเอ๋ย จงเย็นและปลอดภัยแก่อิบรอฮีมเถิด",
       },
+      {
+        id: GARDEN_OWNERS_STORY.slug,
+        icon: "tree",
+        title: GARDEN_OWNERS_STORY.title,
+        body: GARDEN_OWNERS_STORY.pages[0].th,
+      },
     ],
     juniors: [
       {
@@ -545,6 +654,12 @@ export const ISLAND_CONTENT: IslandContent[] = [
         arabic: "لَا تَثْرِيبَ عَلَيْكُمُ الْيَوْمَ",
         reading: "ลา ตัษรีบะ อะลัยกุมุล เยาม์",
         meaning: "วันนี้ไม่มีการตำหนิพวกท่านแล้ว",
+      },
+      {
+        id: TWO_GARDENS_STORY.slug,
+        icon: "tree",
+        title: TWO_GARDENS_STORY.title,
+        body: TWO_GARDENS_STORY.pages[0].th,
       },
     ],
   },

@@ -3,8 +3,44 @@ import test from 'node:test';
 import { readFile } from 'node:fs/promises';
 import { shuffle, canPlace, levelComplete, createMemory, flipCard, memoryMatches, settleMemory } from '../src/features/games/engine/rules.ts';
 import { createProgressRepository } from '../src/features/games/engine/progress.ts';
-import { boardContent, arabicLetters } from '../src/features/games/data/content.ts';
+import { boardContent, arabicLetters, arabicLetterSets } from '../src/features/games/data/content.ts';
+import { getIslandContent } from '../src/lib/lessons.ts';
 import { games } from '../src/features/games/data/catalog.ts';
+
+test('seven Arabic sets cover all 28 classroom glyphs once, in classroom order', () => {
+  // classroom.ts builds kids' board text from these same lesson.glyph values.
+  const classroomGlyphs = getIslandContent('arabic').kids.map(lesson => lesson.glyph);
+  assert.equal(arabicLetterSets.length, 7);
+  const glyphs = arabicLetterSets.flatMap(unit => unit.letters);
+  assert.equal(glyphs.length, 28);
+  assert.equal(new Set(glyphs).size, 28);
+  assert.deepEqual(glyphs, classroomGlyphs);
+  assert.deepEqual(glyphs, arabicLetters);
+  for (const [index, unit] of arabicLetterSets.entries()) {
+    assert.equal(unit.id, `letters-${index + 1}`);
+    assert.deepEqual(unit.letters, classroomGlyphs.slice(index * 4, index * 4 + 4));
+    const rounds = [1, 2, 3].map(level => boardContent('arabic-match', level, index));
+    assert.deepEqual(rounds.map(round => round.items.length), [2, 2, 4]);
+    assert.deepEqual(rounds.slice(0, 2).flatMap(round => round.items.map(item => item.visual.value)), unit.letters);
+    assert.deepEqual(rounds[2].items.map(item => item.visual.value), unit.letters);
+    for (const { items, targets } of rounds) {
+      const placed = [];
+      for (const item of items) {
+        assert.equal(canPlace(items, targets, placed, item.id, targets.find(target => target.id !== item.target).id), false);
+        assert.equal(canPlace(items, targets, placed, item.id, item.target), true);
+        assert.deepEqual(targets.find(target => target.id === item.target).visual, item.visual);
+        placed.push(item.id);
+      }
+      assert.ok(levelComplete(items.length, placed.length));
+    }
+  }
+});
+
+test('Arabic set choice does not change color or sorting boards', () => {
+  for (const slug of ['color-match', 'sort']) for (const level of [1, 2, 3]) {
+    for (let set = 0; set < 7; set++) assert.deepEqual(boardContent(slug, level, set), boardContent(slug, level));
+  }
+});
 
 test('shuffle is reproducible, preserves inputs, identities and multiplicities', () => {
   const input = ['a', 'b', 'c', 'a'];

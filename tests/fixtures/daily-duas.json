@@ -1,0 +1,56 @@
+[
+  {
+    "id": "dua-sleep",
+    "age": "kids",
+    "title": { "th": "ดุอาอ์ก่อนนอน", "en": "Dua before sleeping" },
+    "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+    "reading": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
+    "meaning": "ด้วยพระนามของพระองค์ โอ้อัลลอฮ์ ข้าพเจ้าตายและข้าพเจ้ามีชีวิต",
+    "meaningEn": "In Your name, O Allah, I die and I live.",
+    "source": "บุคอรี 6324 https://shamela.ws/book/1681/9484",
+    "intro": { "th": "ท่านนบี ﷺ เมื่อจะนอนกล่าวว่า…", "en": "When the Prophet ﷺ went to sleep, he said…" },
+    "explain": { "th": "การนอนเหมือนการตายชั่วคราว อัลลอฮ์ทรงให้เราตื่นขึ้นมาใหม่", "en": "Sleep is like a temporary death. Allah lets us wake up again." },
+    "bg": "bismillah-bed"
+  },
+  {
+    "id": "dua-wake",
+    "age": "juniors",
+    "title": { "th": "ดุอาอ์ตื่นนอน", "en": "Dua when waking up" },
+    "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+    "reading": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร",
+    "meaning": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้เรามีชีวิตหลังจากที่ทรงให้เราตาย และยังพระองค์คือการฟื้นคืนชีพ",
+    "meaningEn": "Praise belongs to Allah, who gave us life after causing us to die, and to Him is the resurrection.",
+    "source": "บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)",
+    "intro": { "th": "เมื่อตื่นนอนท่านนบี ﷺ กล่าวว่า…", "en": "When the Prophet ﷺ woke up, he said…" },
+    "explain": { "th": "การนอนเหมือนการตายชั่วคราว อัลลอฮ์ทรงให้เราตื่นขึ้นมาใหม่ เราจึงขอบคุณพระองค์", "en": "Sleep is like a temporary death. Allah lets us wake up again, so we thank Him." },
+    "bg": "dua-wake"
+  },
+  {
+    "id": "dua-leave-home",
+    "age": "juniors",
+    "title": { "th": "ดุอาอ์ออกจากบ้าน", "en": "Dua when leaving home" },
+    "arabic": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+    "reading": "บิสมิลลาฮ์ ตะวักกัลตุ อะลัลลอฮ์ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์",
+    "meaning": "ด้วยพระนามของอัลลอฮ์ ข้าพเจ้ามอบหมายต่ออัลลอฮ์ ไม่มีพลังและไม่มีกำลังใดๆ นอกจากด้วยอัลลอฮ์",
+    "meaningEn": "In the name of Allah. I put my trust in Allah. There is no power and no strength except through Allah.",
+    "source": "อบูดาวูด 5095 (อัลบานีย์: เศาะฮีห์) https://shamela.ws/book/1726/6957 · ติรมิซีย์ 3426 https://shamela.ws/book/1435/5650",
+    "intro": { "th": "ท่านนบี ﷺ สอนว่า เมื่อออกจากบ้านให้กล่าวว่า…", "en": "The Prophet ﷺ taught us to say this when leaving home…" },
+    "explain": { "th": "คนที่กล่าว จะมีเสียงบอกเขาว่า ท่านได้รับการชี้นำ ได้รับความพอเพียง และได้รับการคุ้มครองแล้ว", "en": "The person who says this will be told: You have been guided, given what you need, and protected." },
+    "parts": ["บิสมิลลาฮ์", "ตะวักกัลตุ อะลัลลอฮ์", "ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์"],
+    "bg": "dua-leave-home"
+  },
+  {
+    "id": "dua-after-eating",
+    "age": "juniors",
+    "title": { "th": "ดุอาอ์หลังกินเสร็จ", "en": "Dua after eating" },
+    "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+    "reading": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์",
+    "meaning": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้อาหารนี้แก่ข้าพเจ้า และประทานมันแก่ข้าพเจ้า โดยไม่มีพลังและกำลังใดๆ จากตัวข้าพเจ้าเลย",
+    "meaningEn": "Praise belongs to Allah, who fed me this food and provided it for me without any power or strength of my own.",
+    "source": "อบูดาวูด 4023 (อัลบานีย์: หะซัน) https://shamela.ws/book/1726/5556",
+    "intro": { "th": "ท่านนบี ﷺ สอนว่า เมื่อกินอาหารเสร็จให้กล่าวว่า…", "en": "The Prophet ﷺ taught us to say this after finishing a meal…" },
+    "explain": { "th": "อาหารมาจากอัลลอฮ์ เราไม่มีพลังหามาได้เองถ้าพระองค์ไม่ประทาน", "en": "Food comes from Allah. We have no power to obtain it ourselves unless He provides it." },
+    "parts": ["อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม", "วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์"],
+    "bg": "dua-after-eating"
+  }
+]

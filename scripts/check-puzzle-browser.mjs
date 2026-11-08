@@ -7,7 +7,7 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright')
 const base = process.env.BASE_URL ?? 'http://localhost:3001';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE });
 const errors = [];
-await mkdir('output/puzzle', { recursive: true });
+await mkdir('output/C-5/shots', { recursive: true });
 
 /* ช่องในถาดเอียงเป็นทรงข้าวหลามตัด กล่อง boundingBox จึงใหญ่เกินจริง
    วัด "ความกว้างที่นิ้วแตะได้" เป็นระยะระหว่างจุดกลางของขอบตรงข้าม ทั้งสองแนว บนจอจริง */
@@ -37,14 +37,43 @@ const knobPoint = () => {
 };
 
 try {
+  // Regression: picture cards move only their artwork, with a shadow-only reduced-motion fallback.
+  for (const reducedMotion of ['no-preference', 'reduce']) {
+    const context = await browser.newContext({ viewport: { width: 1536, height: 770 }, reducedMotion });
+    const page = await context.newPage();
+    await page.goto(`${base}/games/puzzle`);
+    const card = page.locator('[data-picture-id="flower-garden"]');
+    await card.scrollIntoViewIfNeeded();
+    await page.mouse.move(0, 0);
+    const label = card.locator('.pz-picture-label');
+    const before = await label.boundingBox();
+    const shadow = await card.evaluate(el => getComputedStyle(el).boxShadow);
+    await card.hover();
+    await page.waitForTimeout(250);
+    assert.deepEqual(await label.boundingBox(), before, `stationary label on hover: ${reducedMotion}`);
+    assert.equal(await card.evaluate(el => getComputedStyle(el).transform), 'none');
+    assert.notEqual(await card.evaluate(el => getComputedStyle(el).boxShadow), shadow, 'hover shadow grows even with reduced motion');
+    const artwork = card.locator('.pz-picture-art');
+    const hoverTransform = await artwork.evaluate(el => getComputedStyle(el).transform);
+    assert.equal(hoverTransform, reducedMotion === 'reduce' ? 'none' : 'matrix(1.03, 0, 0, 1.03, 0, -4)');
+    await page.mouse.down();
+    await page.waitForTimeout(100);
+    assert.deepEqual(await label.boundingBox(), before, `stationary label on press: ${reducedMotion}`);
+    assert.equal(await artwork.evaluate(el => getComputedStyle(el).transform), reducedMotion === 'reduce' ? 'none' : 'matrix(0.98, 0, 0, 0.98, 0, 0)');
+    await page.mouse.up();
+    console.log(`PASS picture-card motion: ${reducedMotion}`);
+    await context.close();
+  }
   for (const width of (process.env.WIDTHS ?? '360,390,768,1536').split(',').map(Number)) {
     const context = await browser.newContext({ viewport: { width, height: width === 1536 ? 770 : width === 768 ? 1024 : 844 }, reducedMotion: width === 360 ? 'reduce' : 'no-preference', hasTouch: width < 800 });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
-    for (const level of [1, 2, 3]) {
+    for (const pictureId of ['original', 'flower-garden', 'sailboat-bay', 'toy-station']) for (const level of [1, 2, 3]) {
       await page.goto(`${base}/games/puzzle`);
+      await page.locator(`[data-picture-id="${pictureId}"]`).click();
+      for (const button of await page.locator('.pz-picture-picker button').all()) { const rect = await button.boundingBox(); assert.ok(rect.width >= 64 && rect.height >= 64, 'picture choice target'); }
       await page.locator('.gc-level-stone').nth(level - 1).click();
-      if (level === 1) await page.locator('.gc-adventure-intro').screenshot({ path: `output/puzzle/${width}-intro.png` });
+      if (level === 1) await page.locator('.gc-adventure-intro').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-intro.png` });
       await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
       await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
       await page.locator('.pz-cell').first().waitFor();
@@ -60,11 +89,13 @@ try {
       // หัวจิ๊กซอว์ของช่องแรกยื่นเข้าไปในช่องขวา แตะที่ปลายหัวต้องได้ช่องแรก ไม่ใช่ช่องข้างเคียง
       const knob = await page.evaluate(knobPoint);
       assert.equal(knob.id, 'slot-0', `knob hit-test ${width}/${level}`);
+      assert.equal(await page.locator('.pz-scene').getAttribute('data-picture-id'), pictureId);
+      if (pictureId !== 'original') assert.ok((await page.locator('.pz-ghost').getAttribute('src')).includes(pictureId), 'selected image rendered');
       assert.equal(await page.locator('.gc-image-fallback').count(), 0, 'island image loaded');
       await page.waitForFunction(() => { const img = document.querySelector('.pz-ghost'); return img?.complete && img.naturalWidth > 0; }, null, { timeout: 10000 });
       console.log(`SIZE ${width}px level ${level}: cells ${cells.map(c => c.join('x')).join(' ')} | pieces ${pieces.join(' ')}`);
-      await page.locator('.pz-scene').screenshot({ path: `output/puzzle/${width}-level-${level}.png` });
-      await page.screenshot({ path: `output/puzzle/${width}-level-${level}-page.png` });
+      await page.locator('.pz-scene').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-level-${level}.png` });
+      await page.screenshot({ path: `output/C-5/shots/${pictureId}-${width}-level-${level}-page.png` });
 
       // วางผิดช่อง → ไม่ติด, คำใบ้ชี้ช่องที่ถูก
       const first = page.locator('.pz-tray [data-item-id]').first();
@@ -109,11 +140,14 @@ try {
           await page.locator(`.pz-cell[data-drop-id="${slot}"]`).focus(); await page.keyboard.press('Enter');
         }
         placedCount++;
-        if (placedCount === Math.ceil(total / 2)) await page.locator('.pz-scene').screenshot({ path: `output/puzzle/${width}-level-${level}-half.png` });
+        if (placedCount === Math.ceil(total / 2)) await page.locator('.pz-scene').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-level-${level}-half.png` });
       }
-      await page.locator('.pz-scene').screenshot({ path: `output/puzzle/${width}-level-${level}-done.png` });
+      await page.locator('.pz-scene').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-level-${level}-done.png` });
       await page.getByRole('heading', { name: 'เก่งมาก ผ่านด่านแล้ว!' }).waitFor();
-      console.log(`PASS ${width}px level ${level}: retry, hint, ${width === 1536 ? 'pointer drag' : width === 768 ? 'keyboard + drag' : 'keyboard'}, completion`);
+      const storageId = pictureId === 'original' ? 'puzzle' : `puzzle:${pictureId}`;
+      const saved = await page.evaluate(id => JSON.parse(localStorage.getItem(`little-ummah:games:v1:${id}`)), storageId);
+      assert.equal(saved.levelStars[level], 3, 'completion saved under selected picture');
+      console.log(`PASS ${pictureId} ${width}px level ${level}: retry, hint, ${width === 1536 ? 'pointer drag' : width === 768 ? 'keyboard + drag' : 'keyboard'}, completion`);
     }
     await context.close();
   }

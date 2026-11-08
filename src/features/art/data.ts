@@ -7,7 +7,11 @@ import type { Text } from '@/i18n/config';
 */
 export type ArtRegion = { id: string; d: string; label: Text; thin?: boolean };
 // example: สีของภาพตัวอย่าง (id ของ ART_COLORS) ชิ้นที่ไม่ระบุคือปล่อยเป็นสีกระดาษ เช่น ก้อนเมฆ
-export type ArtPicture = { id: string; title: Text; regions: ArtRegion[]; example: Record<string, ArtColorId>; lines?: string };
+export type ArtPicture = { id: string; title: Text; difficulty?: 'easy' | 'detailed'; regions: ArtRegion[]; example: Record<string, ArtColorId>; lines?: string };
+export const ART_DIFFICULTY = {
+  easy: { th: 'ง่าย', en: 'Easy' },
+  detailed: { th: 'ละเอียด', en: 'Detailed' },
+} satisfies Record<string, Text>;
 export type ArtColorId = 'red' | 'orange' | 'yellow' | 'green' | 'turquoise' | 'blue' | 'purple' | 'pink';
 export type ArtColor = { id: ArtColorId; value: string; label: Text; shape: 'diamond' | 'hexagon' | 'triangle' | 'square' | 'circle' | 'drop' | 'star' | 'heart' };
 
@@ -145,6 +149,189 @@ export const ART_PICTURES: ArtPicture[] = [
       r('stripe', 'ลายกลาง', 'Middle stripe', 'M114 164H286C288 174 288 186 286 196H114C112 186 112 174 114 164Z'),
       r('lid', 'ฝากา', 'Lid', 'M142 112C158 80 242 80 258 112C226 102 174 102 142 112Z'),
       r('knob', 'จุกฝา', 'Lid knob', 'M180 70a20 20 0 1 1 40 0a20 20 0 0 1-40 0Z'),
+    ],
+  },
+  // C-1: counts exclude the background; large pieces first, then smaller details.
+  {
+    id: 'umbrella', title: { th: 'ร่ม', en: 'Umbrella' }, difficulty: 'easy',
+    example: { background: 'turquoise', shaft: 'orange', handle: 'purple', left: 'yellow', middle: 'pink', right: 'blue' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('shaft', 'ก้านร่ม', 'Umbrella shaft', 'M194 38H206V234H194Z', true),
+      r('handle', 'ด้ามจับ', 'Handle', 'M194 228H206V244C206 280 150 280 150 244H166C166 260 194 260 194 244Z'),
+      r('left', 'ผ้าร่มซ้าย', 'Left canopy', 'M200 48C126 48 70 94 48 164Q94 140 140 164C142 114 162 70 200 48Z'),
+      r('middle', 'ผ้าร่มกลาง', 'Middle canopy', 'M200 48C162 70 142 114 140 164Q200 138 260 164C258 114 238 70 200 48Z'),
+      r('right', 'ผ้าร่มขวา', 'Right canopy', 'M200 48C238 70 258 114 260 164Q306 140 352 164C330 94 274 48 200 48Z'),
+    ],
+  },
+  {
+    id: 'ball', title: { th: 'ลูกบอล', en: 'Ball' }, difficulty: 'easy',
+    example: { background: 'turquoise', ...alternate('panel', 6, 'yellow', 'red') },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      ...Array.from({ length: 6 }, (_, i) => r(`panel-${i + 1}`, `แถบที่ ${i + 1}`, `Panel ${i + 1}`,
+        `M200 150L${polar(200, 150, 116, i * 60 - 90)}A116 116 0 0 1 ${polar(200, 150, 116, (i + 1) * 60 - 90)}Z`)),
+    ],
+  },
+  {
+    id: 'seedling', title: { th: 'กระถางต้นอ่อน', en: 'Seedling pot' }, difficulty: 'easy',
+    example: { background: 'turquoise', stem: 'green', left: 'green', right: 'green', pot: 'orange', rim: 'yellow', saucer: 'purple' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('stem', 'ลำต้น', 'Stem', 'M193 92H207V192H193Z', true),
+      r('left', 'ใบซ้าย', 'Left leaf', 'M200 142C132 148 98 116 100 60C158 58 196 88 200 142Z'),
+      r('right', 'ใบขวา', 'Right leaf', 'M200 112C202 58 242 30 300 38C296 92 258 124 200 112Z'),
+      r('saucer', 'จานรอง', 'Saucer', 'M122 254H278L264 278H136Z'),
+      r('pot', 'กระถาง', 'Pot', 'M132 196H268L250 260H150Z'),
+      r('rim', 'ขอบกระถาง', 'Pot rim', 'M122 176H278V202H122Z'),
+    ],
+  },
+  {
+    id: 'toy-truck', title: { th: 'รถบรรทุกของเล่น', en: 'Toy truck' }, difficulty: 'detailed',
+    example: { background: 'turquoise', ground: 'green', cargo: 'yellow', bed: 'blue', rail: 'purple', cab: 'red', window: 'turquoise', chassis: 'orange', bumper: 'yellow', 'wheel-left': 'purple', 'wheel-right': 'purple', 'hub-left': 'pink', 'hub-right': 'pink' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('ground', 'พื้นดิน', 'Ground', 'M0 260H400V300H0Z'),
+      r('cargo', 'กล่องสินค้า', 'Cargo box', 'M70 76H174V148H70Z'),
+      r('bed', 'กระบะ', 'Truck bed', 'M44 132H222V208H44Z'),
+      r('rail', 'ขอบกระบะ', 'Bed rail', 'M36 126H230V146H36Z'),
+      r('cab', 'ห้องขับ', 'Cab', 'M230 96H300L344 158V214H230Z'),
+      r('window', 'หน้าต่าง', 'Window', 'M246 112H290L318 154H246Z'),
+      r('chassis', 'ฐานรถ', 'Chassis', 'M40 208H350V234H40Z'),
+      r('bumper', 'กันชน', 'Bumper', 'M330 202H366V228H330Z'),
+      r('wheel-left', 'ล้อซ้าย', 'Left wheel', 'M126 234a34 34 0 1 1-68 0a34 34 0 1 1 68 0Z'),
+      r('wheel-right', 'ล้อขวา', 'Right wheel', 'M326 234a34 34 0 1 1-68 0a34 34 0 1 1 68 0Z'),
+      r('hub-left', 'ดุมล้อซ้าย', 'Left wheel hub', 'M106 234a14 14 0 1 1-28 0a14 14 0 1 1 28 0Z'),
+      r('hub-right', 'ดุมล้อขวา', 'Right wheel hub', 'M306 234a14 14 0 1 1-28 0a14 14 0 1 1 28 0Z'),
+    ],
+  },
+  {
+    id: 'watering-can', title: { th: 'บัวรดน้ำ', en: 'Watering can' }, difficulty: 'detailed',
+    example: { background: 'turquoise', handle: 'purple', spout: 'yellow', body: 'green', band: 'yellow', rim: 'orange', rose: 'purple', 'drop-1': 'blue', 'drop-2': 'blue', 'drop-3': 'blue', base: 'orange' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('handle', 'หูจับ', 'Handle', 'M126 114C38 54 22 216 128 218V194C62 192 72 104 126 138Z'),
+      r('spout', 'ท่อรดน้ำ', 'Spout', 'M244 174L314 106L328 122L258 226Z'),
+      r('body', 'ตัวบัวรดน้ำ', 'Can body', 'M112 112H258L246 246H124Z'),
+      r('band', 'แถบกลาง', 'Middle band', 'M116 164H254L251 194H119Z'),
+      r('rim', 'ขอบบน', 'Top rim', 'M104 102H266V124H104Z'),
+      r('rose', 'หัวฝักบัว', 'Sprinkler head', 'M302 102L330 80L354 120L326 136Z'),
+      r('drop-1', 'หยดน้ำที่หนึ่ง', 'Water drop one', 'M354 148C334 174 340 186 354 186C368 186 374 174 354 148Z'),
+      r('drop-2', 'หยดน้ำที่สอง', 'Water drop two', 'M322 198C302 224 308 236 322 236C336 236 342 224 322 198Z'),
+      r('drop-3', 'หยดน้ำที่สาม', 'Water drop three', 'M366 230C346 256 352 268 366 268C380 268 386 256 366 230Z'),
+      r('base', 'ฐานบัวรดน้ำ', 'Can base', 'M118 240H252V260H118Z'),
+    ],
+  },
+  {
+    id: 'vegetable-garden', title: { th: 'สวนผัก', en: 'Vegetable garden' }, difficulty: 'detailed',
+    // Raised soil bed, tapered carrots with three-lobed tops, round overlapping cabbage leaves,
+    // and a branching tomato plant beside its support. 16 pieces, excluding background.
+    example: { background: 'turquoise', bed: 'orange', soil: 'yellow', 'carrot-left': 'orange', 'carrot-right': 'orange', 'leaves-left': 'green', 'leaves-right': 'green', cabbage: 'green', 'cabbage-fold': 'green', 'cabbage-middle': 'green', stake: 'orange', stem: 'green', 'tomato-leaf-left': 'green', 'tomato-leaf-right': 'green', 'tomato-left': 'red', 'tomato-right': 'red', calyx: 'green' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('bed', 'กระบะปลูกผัก', 'Raised garden bed', 'M24 177H350L378 222V268H52L24 223Z'),
+      r('soil', 'ดินปลูกผัก', 'Soil in the bed', 'M24 177H350L378 222H52Z'),
+      r('carrot-left', 'แครอทซ้าย', 'Left carrot', 'M55 156Q74 141 94 156C92 176 82 201 74 216C66 201 57 176 55 156Z'),
+      r('carrot-right', 'แครอทขวา', 'Right carrot', 'M108 166Q126 151 145 166C143 185 134 207 126 221C118 207 110 185 108 166Z'),
+      r('leaves-left', 'ใบแครอทซ้ายสามแฉก', 'Three-lobed left carrot top', 'M74 150C58 145 44 127 43 109C59 109 68 119 70 130C62 110 62 91 74 79C86 91 86 110 78 130C82 116 93 106 107 108C105 128 91 145 74 150Z'),
+      r('leaves-right', 'ใบแครอทขวาสามแฉก', 'Three-lobed right carrot top', 'M126 160C110 155 98 139 98 124C112 123 120 134 122 141C115 122 115 106 126 94C137 106 137 122 130 141C134 128 144 120 157 122C155 141 142 155 126 160Z'),
+      r('cabbage', 'กะหล่ำปลี', 'Cabbage', 'M244 184C244 211 226 233 200 233C173 233 155 213 155 188C155 162 173 145 198 145C224 145 244 160 244 184Z'),
+      r('cabbage-fold', 'ใบกะหล่ำชั้นนอก', 'Outer cabbage leaf', 'M158 180C180 173 203 191 207 226C181 234 160 215 158 180Z'),
+      r('cabbage-middle', 'ใบกะหล่ำชั้นใน', 'Inner cabbage leaf', 'M234 180C234 198 222 211 208 211C193 211 183 198 183 181C183 164 195 156 208 157C225 158 234 168 234 180Z'),
+      r('stake', 'ไม้ค้ำมะเขือเทศ', 'Tomato support stake', 'M312 40L318 30L324 40V211H312Z', true),
+      r('stem', 'ลำต้นและกิ่งมะเขือเทศ', 'Tomato stem and branches', 'M291 208V132L270 118L275 110L291 120V62H301V145L330 130L335 139L301 158V208Z', true),
+      r('tomato-leaf-left', 'ใบมะเขือเทศซ้าย', 'Left tomato leaf', 'M293 102C271 106 247 90 247 69C271 64 292 77 293 102Z'),
+      r('tomato-leaf-right', 'ใบมะเขือเทศขวา', 'Right tomato leaf', 'M300 86C305 62 326 52 349 59C348 81 325 96 300 86Z'),
+      r('tomato-left', 'มะเขือเทศซ้าย', 'Left tomato', 'M294 140a21 21 0 1 1-42 0a21 21 0 1 1 42 0Z'),
+      r('tomato-right', 'มะเขือเทศขวา', 'Right tomato', 'M354 160a22 22 0 1 1-44 0a22 22 0 1 1 44 0Z'),
+      r('calyx', 'ขั้วมะเขือเทศ', 'Tomato calyxes', 'M273 119L263 114L267 122L259 127L271 126L277 132L279 124L287 120L277 121ZM332 138L322 133L326 141L318 146L330 145L336 151L338 143L346 139L336 140Z', true),
+    ],
+  },
+  // C-13: original objects and plants, with 3 easy and 3 detailed pictures.
+  {
+    id: 'moon-stars', title: { th: 'ดวงจันทร์กับดาว', en: 'Moon and stars' }, difficulty: 'easy',
+    example: { background: 'blue', moon: 'yellow', ...alternate('star', 4, 'orange', 'pink') },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('moon', 'ดวงจันทร์เสี้ยว', 'Crescent moon', 'M222 34C110 16 60 156 136 230C178 270 244 264 282 218C206 244 142 174 166 104C176 74 196 50 222 34Z'),
+      ...[[300, 64], [334, 156], [64, 62], [70, 250]].map(([x, y], i) => r(`star-${i + 1}`, `ดาวที่ ${i + 1}`, `Star ${i + 1}`,
+        `M${x} ${y - 26}L${x + 8} ${y - 8}L${x + 28} ${y - 6}L${x + 13} ${y + 8}L${x + 17} ${y + 28}L${x} ${y + 18}L${x - 17} ${y + 28}L${x - 13} ${y + 8}L${x - 28} ${y - 6}L${x - 8} ${y - 8}Z`)),
+    ],
+  },
+  {
+    id: 'date-plate', title: { th: 'จานอินทผลัม', en: 'Plate of dates' }, difficulty: 'easy',
+    example: { background: 'turquoise', plate: 'blue', center: 'yellow', ...alternate('date', 4, 'orange', 'red') },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('plate', 'ขอบจาน', 'Plate rim', 'M366 158a166 108 0 1 1-332 0a166 108 0 1 1 332 0Z'),
+      r('center', 'กลางจาน', 'Plate center', 'M338 158a138 80 0 1 1-276 0a138 80 0 1 1 276 0Z'),
+      ...[[123, 122], [236, 122], [160, 185], [274, 185]].map(([x, y], i) => r(`date-${i + 1}`, `อินทผลัมที่ ${i + 1}`, `Date ${i + 1}`,
+        `M${x - 38} ${y}C${x - 38} ${y - 34} ${x + 38} ${y - 34} ${x + 38} ${y}C${x + 38} ${y + 34} ${x - 38} ${y + 34} ${x - 38} ${y}Z`)),
+    ],
+  },
+  {
+    id: 'geometric-kite', title: { th: 'ว่าวลายเรขาคณิต', en: 'Geometric kite' }, difficulty: 'easy',
+    example: { background: 'turquoise', string: 'purple', left: 'yellow', top: 'red', right: 'blue', bottom: 'green', bow: 'pink' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('string', 'สายว่าว', 'Kite string', 'M190 206H202C202 232 242 224 258 242C272 260 254 282 230 284L228 274C244 272 256 260 248 250C234 236 188 248 190 206Z', true),
+      r('left', 'ช่องซ้าย', 'Left panel', 'M196 30L88 110L196 110Z'),
+      r('top', 'ช่องบนขวา', 'Upper right panel', 'M196 30L304 110H196Z'),
+      r('right', 'ช่องล่างขวา', 'Lower right panel', 'M304 110L196 216V110Z'),
+      r('bottom', 'ช่องล่างซ้าย', 'Lower left panel', 'M196 216L88 110H196Z'),
+      r('bow', 'โบว์สายว่าว', 'Kite tail bow', 'M232 242L204 226V258L232 242L260 226V258Z'),
+    ],
+  },
+  {
+    id: 'geometric-rug', title: { th: 'พรมลายเรขาคณิต', en: 'Geometric rug' }, difficulty: 'detailed',
+    example: { background: 'turquoise', rug: 'purple', field: 'blue', 'band-top': 'yellow', 'band-bottom': 'yellow', center: 'pink', ...alternate('corner', 4, 'orange', 'green'), 'fringe-top': 'orange', 'fringe-bottom': 'orange' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('fringe-top', 'ชายพรมด้านบน', 'Top fringe', 'M90 18H310V44H90Z'),
+      r('fringe-bottom', 'ชายพรมด้านล่าง', 'Bottom fringe', 'M90 256H310V282H90Z'),
+      r('rug', 'ขอบพรม', 'Rug border', 'M76 40H324V260H76Z'),
+      r('field', 'พื้นพรม', 'Rug field', 'M102 66H298V234H102Z'),
+      r('band-top', 'แถบบน', 'Top band', 'M102 66H298V88H102Z'),
+      r('band-bottom', 'แถบล่าง', 'Bottom band', 'M102 212H298V234H102Z'),
+      r('center', 'สี่เหลี่ยมกลางพรม', 'Center diamond', 'M200 94L254 150L200 206L146 150Z'),
+      ...[[125, 112], [275, 112], [125, 188], [275, 188]].map(([x, y], i) => r(`corner-${i + 1}`, `ลายมุมที่ ${i + 1}`, `Corner motif ${i + 1}`,
+        `M${x} ${y - 18}L${x + 17} ${y}L${x} ${y + 18}L${x - 17} ${y}Z`)),
+    ],
+  },
+  {
+    id: 'date-palm', title: { th: 'ต้นปาล์มอินทผลัม', en: 'Date palm' }, difficulty: 'detailed',
+    example: { background: 'turquoise', ground: 'yellow', trunk: 'orange', 'trunk-band': 'yellow', ...alternate('frond', 6, 'green', 'green'), 'dates-left': 'orange', 'dates-right': 'red' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('ground', 'พื้นทราย', 'Sandy ground', 'M0 264Q100 238 200 264Q300 240 400 264V300H0Z'),
+      r('trunk', 'ลำต้น', 'Trunk', 'M188 98H212L224 268H176Z'),
+      r('trunk-band', 'ลายลำต้น', 'Trunk band', 'M183 186H217L219 212H181Z'),
+      r('frond-1', 'ใบที่ 1', 'Frond 1', 'M200 100C124 50 58 82 32 132C94 106 138 118 200 100Z'),
+      r('frond-2', 'ใบที่ 2', 'Frond 2', 'M200 100C144 82 88 120 70 190C108 150 160 148 200 100Z'),
+      r('frond-3', 'ใบที่ 3', 'Frond 3', 'M200 100C198 42 138 14 96 32C140 46 150 84 200 100Z'),
+      r('frond-4', 'ใบที่ 4', 'Frond 4', 'M200 100C276 50 342 82 368 132C306 106 262 118 200 100Z'),
+      r('frond-5', 'ใบที่ 5', 'Frond 5', 'M200 100C256 82 312 120 330 190C292 150 240 148 200 100Z'),
+      r('frond-6', 'ใบที่ 6', 'Frond 6', 'M200 100C202 42 262 14 304 32C260 46 250 84 200 100Z'),
+      r('dates-left', 'ช่ออินทผลัมซ้าย', 'Left date bunch', 'M174 110C152 100 138 122 146 138C130 154 146 178 162 168C184 180 198 154 186 140C200 124 188 108 174 110Z'),
+      r('dates-right', 'ช่ออินทผลัมขวา', 'Right date bunch', 'M226 110C248 100 262 122 254 138C270 154 254 178 238 168C216 180 202 154 214 140C200 124 212 108 226 110Z'),
+    ],
+  },
+  {
+    id: 'arched-house', title: { th: 'บ้านหน้าต่างโค้ง', en: 'House with arched windows' }, difficulty: 'detailed',
+    example: { background: 'turquoise', ground: 'green', chimney: 'orange', wall: 'yellow', roof: 'red', door: 'blue', 'window-left': 'purple', 'window-right': 'purple', 'sill-left': 'orange', 'sill-right': 'orange', step: 'pink', path: 'orange' },
+    regions: [
+      r('background', 'พื้นหลัง', 'Background', BACKGROUND),
+      r('ground', 'สนามหญ้า', 'Lawn', 'M0 250H400V300H0Z'),
+      r('path', 'ทางเดิน', 'Path', 'M174 250H226L252 300H148Z'),
+      r('chimney', 'ปล่องไฟ', 'Chimney', 'M270 40H310V108H270Z'),
+      r('wall', 'ผนังบ้าน', 'House wall', 'M78 124H322V250H78Z'),
+      r('roof', 'หลังคา', 'Roof', 'M48 126L200 26L352 126Z'),
+      r('door', 'ประตู', 'Door', 'M174 250V192Q200 160 226 192V250Z'),
+      r('window-left', 'หน้าต่างซ้าย', 'Left window', 'M102 210V166C102 138 148 138 148 166V210Z'),
+      r('window-right', 'หน้าต่างขวา', 'Right window', 'M252 210V166C252 138 298 138 298 166V210Z'),
+      r('sill-left', 'ขอบหน้าต่างซ้าย', 'Left windowsill', 'M94 210H156V224H94Z', true),
+      r('sill-right', 'ขอบหน้าต่างขวา', 'Right windowsill', 'M244 210H306V224H244Z', true),
+      r('step', 'ขั้นบันได', 'Doorstep', 'M164 246H236V266H164Z'),
     ],
   },
 ];

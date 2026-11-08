@@ -4,12 +4,13 @@ import type { GuidePose } from "./data";
   การ์ตูนบทเรียนบนเกาะมารยาท — ครูหุ่นยนต์ "นูรี" (หุ่นยนต์ตัวหลักของเว็บ) พาไปดูเหตุการณ์ทีละฉาก
 
   ตัวละครในฉาก = หุ่นยนต์ทั้งหมด ไม่มีเด็กหรือคนเลย แม้หันหลัง (เจ้าของโปรเจกต์ตัดสิน 2 ต.ค. 2026)
-  หุ่นยนต์ในฉากมาจากแผ่นตัวละครที่เจ้าของโปรเจกต์อนุมัติ (CODEX_MORAL_CAST_BRIEF.md):
+  หุ่นยนต์ในฉากมาจากแผ่นตัวละครที่เจ้าของโปรเจกต์อนุมัติ (docs/briefs/archive/CODEX_MORAL_CAST_BRIEF.md):
   น้องหุ่นส้ม (ตัวเดินเรื่อง) น้องหุ่นเขียว (เพื่อน) พ่อหุ่น (น้ำเงิน) แม่หุ่น (ม่วง)
-  ส่วนนูรีวางด้วยโค้ดทางขวาเสมอ ภาพฉาก (CODEX_MORAL_SCENES_BRIEF.md) เว้นพื้นด้านขวาไว้ให้ ไม่มีตัวหนังสือในภาพ
+  ส่วนนูรีวางด้วยโค้ดทางขวาเสมอ ภาพฉาก (docs/briefs/archive/CODEX_MORAL_SCENES_BRIEF.md) เว้นพื้นด้านขวาไว้ให้ ไม่มีตัวหนังสือในภาพ
   สัตว์ในเรื่องเมตตาต่อสัตว์ใบหน้าว่างตามข้อ 1.1 (เจ้าของโปรเจกต์เลือก 2 ต.ค. 2026)
 
-  วัย 3-6 ปี: สอนแค่สิ่งที่ต้องทำและคำที่ต้องพูด ไม่ให้หุ่นยนต์เล่าหะดีษ ไม่สอนดุอาอ์ยาว
+  วัย 3-6 ปี: สอนแค่สิ่งที่ต้องทำและคำที่ต้องพูด ไม่สอนดุอาอ์ยาว
+  C-8 (8 พ.ย. 2026): เจ้าของอนุมัติดุอาอ์ก่อนนอนสั้นๆ พร้อมคำเกริ่นท่านนบีตาม brief
   วัย 7 ปีขึ้นไป: เล่าหะดีษเศาะฮีห์สั้นๆ ได้ (เจ้าของโปรเจกต์อนุญาต 2 ต.ค. 2026) หลักฐานกำกับไว้ใน lib/lessons.ts
 
   หนึ่งฉาก = ภาพฉาก + คลิปเสียง + ท่าของนูรี + ข้อความใต้ภาพ (ไทยนำ อังกฤษรอง)
@@ -43,6 +44,8 @@ export type CartoonScene = {
   th: string;
   en: string;
   sayAlong?: boolean;
+  /** ดุอาอ์เต็มบทยาวต้องเผื่อเวลาให้เด็กพูดตามมากกว่าคำสั้นๆ */
+  sayAlongMs?: number;
   /** ป้ายคำเฉพาะฉากนี้ แทนป้ายของบท (null = ไม่แสดงป้ายในฉากนี้) */
   word?: Word | null;
   /** เวลาแสดงเมื่อไม่มีเสียง (ปิดเสียง หรือเล่นเสียงไม่ได้) */
@@ -50,6 +53,8 @@ export type CartoonScene = {
 };
 
 export type Cartoon = {
+  /** ดุอาอ์ยาว: วางป้ายคำเหนือภาพเพื่อคงขนาดอ่านง่าย ไม่บังหุ่นยนต์ */
+  wordPlacement?: "above";
   /** ป้ายคำที่สอนกลางฉาก (ข้อความจริง ไม่ฝังในภาพ ข้อ 1.5) ไม่แสดงในฉากแรก — บทที่ไม่มีคำให้พูดตามไม่ต้องใส่ */
   word?: Word;
   scenes: CartoonScene[];
@@ -65,6 +70,561 @@ const YAHDI: Word = { ar: "يَهْدِيكُمُ اللَّهُ وَيُصْل�
 const AUDHU: Word = { ar: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ", th: "อะอูซุบิลลาฮิมินัชชัยฏอนิรรอญีม" };
 
 export const CARTOONS: Record<string, Cartoon> = {
+  // C-15: มารยาททั่วไป ไม่มีตัวบทหรือคำกล่าวอ้างทางศาสนา
+  "say-sorry": {
+    "scenes": [
+      {
+        "bg": "/moral/scenes/sorry-oops.webp",
+        "clip": "c15-say-sorry-1",
+        "pose": "wave",
+        "th": "น้องหุ่นเขียวต่อบล็อกไว้ น้องหุ่นส้มเผลอชนล้มเลย",
+        "en": "Little Green built a block tower. Little Orange accidentally knocked it over.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/sorry-oops.webp",
+        "clip": "c15-say-sorry-2",
+        "pose": "point",
+        "th": "น้องหุ่นส้มหยุดมอง ยังไม่รู้จะพูดอะไร",
+        "en": "Little Orange stops and looks, unsure what to say.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/sorry-oops.webp",
+        "clip": "c15-say-sorry-3",
+        "pose": "point",
+        "th": "ครูชวนคิดนะ เราจะขอโทษ แล้วช่วยเพื่อนได้ไหม",
+        "en": "Let’s think. Can we say sorry and help our friend?",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/sorry-help.webp",
+        "clip": "c15-say-sorry-4",
+        "pose": "point",
+        "th": "น้องหุ่นส้มบอก ขอโทษนะ แล้วช่วยเพื่อนเก็บบล็อก",
+        "en": "Little Orange says, “I’m sorry,” and helps pick up the blocks.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/sorry-help.webp",
+        "clip": "c15-say-sorry-5",
+        "pose": "wave",
+        "th": "ทำผิด ขอโทษ แล้วช่วยแก้ไขนะ",
+        "en": "When you make a mistake, say sorry and help make it right.",
+        "ms": 7500
+      }
+    ]
+  },
+  "help-friend": {
+    "scenes": [
+      {
+        "bg": "/moral/scenes/help-dropped.webp",
+        "clip": "c15-help-friend-1",
+        "pose": "wave",
+        "th": "ของเพื่อนหล่นจากกล่อง น้องหุ่นส้มเห็นพอดี",
+        "en": "Things fall out of a friend’s box. Little Orange sees them.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/help-dropped.webp",
+        "clip": "c15-help-friend-2",
+        "pose": "point",
+        "th": "เพื่อนยกกล่องไม่ไหว น้องหุ่นส้มลังเลจะไปเล่น",
+        "en": "The friend cannot lift the box. Little Orange wonders whether to go and play.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/help-dropped.webp",
+        "clip": "c15-help-friend-3",
+        "pose": "point",
+        "th": "ครูชวนคิดนะ ลองถามเพื่อนว่า ให้ช่วยไหม",
+        "en": "Let’s think. Try asking your friend, “Would you like some help?”",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/help-together.webp",
+        "clip": "c15-help-friend-4",
+        "pose": "point",
+        "th": "เพื่อนบอกให้ช่วยเก็บ เราเก็บของเบา ของหนักให้ผู้ใหญ่ช่วย",
+        "en": "The friend asks for help picking things up. We pick up light things and ask an adult to help with heavy things.",
+        "ms": 7500
+      },
+      {
+        "bg": "/moral/scenes/help-together.webp",
+        "clip": "c15-help-friend-5",
+        "pose": "wave",
+        "th": "เห็นเพื่อนลำบาก ถามก่อนช่วย ช่วยเท่าที่ไหวนะ",
+        "en": "When a friend needs help, ask first and help with what you can manage.",
+        "ms": 7500
+      }
+    ]
+  },
+  "keep-promise": {
+    "scenes": [
+      {
+        "bg": "/moral/scenes/promise-meet.webp",
+        "clip": "c15-keep-promise-1",
+        "pose": "wave",
+        "th": "น้องหุ่นส้มรับปากว่าจะมาเจอเพื่อนหลังเก็บของ และนำหนังสือที่ยืมมาคืน",
+        "en": "Little Orange promised to meet a friend after tidying up and return a borrowed book.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/promise-hesitate.webp",
+        "clip": "c15-keep-promise-2",
+        "pose": "point",
+        "th": "ถึงเวลานัดแล้ว แต่น้องหุ่นส้มยังอยากเล่นต่อ หนังสือก็ยังไม่ได้คืน",
+        "en": "It is time to meet, but Little Orange wants to keep playing. The book has not been returned yet.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/promise-hesitate.webp",
+        "clip": "c15-keep-promise-3",
+        "pose": "point",
+        "th": "ครูชวนคิดนะ เพื่อนกำลังรอสิ่งที่เรารับปากไว้ เราจะทำอย่างไรดี",
+        "en": "Let’s think. Our friend is waiting for us to do what we promised. What could we do?",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/promise-meet.webp",
+        "clip": "c15-keep-promise-4",
+        "pose": "point",
+        "th": "น้องหุ่นส้มเก็บของเล่น แล้วไปหาเพื่อนพร้อมหนังสือ คืนให้ตามที่บอกไว้",
+        "en": "Little Orange puts the toys away, meets the friend, and returns the book as promised.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/promise-meet.webp",
+        "clip": "c15-keep-promise-5",
+        "pose": "wave",
+        "th": "รับปากแล้วทำตาม ถ้ารู้ว่าทำไม่ได้ รีบบอกเพื่อน และตกลงกันใหม่",
+        "en": "Do what you promised. If you know you cannot, tell your friend promptly and agree on a new plan.",
+        "ms": 10000
+      }
+    ]
+  },
+  "save-water-power": {
+    "scenes": [
+      {
+        "bg": "/moral/scenes/save-running.webp",
+        "clip": "c15-save-water-power-1",
+        "pose": "wave",
+        "th": "น้องหุ่นส้มใช้ก๊อกน้ำเสร็จแล้ว ห้องข้างๆ ก็เปิดไฟไว้ทั้งที่ไม่มีใครอยู่",
+        "en": "Little Orange has finished using the tap. The light is also on in the empty room next door.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/save-running.webp",
+        "clip": "c15-save-water-power-2",
+        "pose": "point",
+        "th": "น้องหุ่นส้มกำลังจะไปเล่น แต่ลืมปิดก๊อก น้ำยังไหลอยู่เลย",
+        "en": "Little Orange is about to go and play but has forgotten to turn off the tap. Water is still running.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/save-running.webp",
+        "clip": "c15-save-water-power-3",
+        "pose": "point",
+        "th": "ครูชวนคิดนะ เมื่อไม่ใช้แล้ว เราจะหยุดน้ำและไฟที่เปิดทิ้งไว้ได้อย่างไร",
+        "en": "Let’s think. When we have finished, how can we stop leaving water running and lights on?",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/save-off.webp",
+        "clip": "c15-save-water-power-4",
+        "pose": "point",
+        "th": "น้องหุ่นส้มปิดก๊อกจนสนิท เช็ดมือให้แห้ง แล้วปิดสวิตช์ไฟห้องที่ไม่มีใครใช้",
+        "en": "Little Orange closes the tap, dries both hands, and switches off the light in the unused room.",
+        "ms": 10000
+      },
+      {
+        "bg": "/moral/scenes/save-off.webp",
+        "clip": "c15-save-water-power-5",
+        "pose": "wave",
+        "th": "ใช้น้ำพอดี ใช้เสร็จปิดก๊อก ออกจากห้องที่ไม่มีคนใช้แล้วปิดไฟนะ",
+        "en": "Use only the water you need and turn off the tap. Switch off the light when leaving an unused room.",
+        "ms": 10000
+      }
+    ]
+  },
+  // C-3: มารยาททั่วไป ไม่มีตัวบทหรือคำกล่าวอ้างทางศาสนา
+  "wait-turn": {
+    scenes: [
+      { bg: BG("wait-turn-eager"), clip: "wait-scene", pose: "wave", ms: 5500,
+        th: "น้องหุ่นเขียวมาก่อน น้องหุ่นส้มอยากเล่นด้วย",
+        en: "Little Green came first. Little Orange wants to play too." },
+      { bg: BG("wait-turn-eager"), clip: "wait-eager", pose: "point", ms: 5500,
+        th: "น้องหุ่นส้มอยากไปก่อน แต่เพื่อนยังรออยู่",
+        en: "Little Orange wants to go first, but a friend is still waiting." },
+      { bg: BG("wait-turn-eager"), clip: "wait-think", pose: "point", ms: 6000,
+        th: "ครูชวนคิดนะ ใครมาก่อน เราต่อท้ายเพื่อนได้ไหม",
+        en: "Let's think together. Who came first? Can we join behind our friend?" },
+      { bg: BG("wait-turn-patient"), clip: "wait-do", pose: "point", ms: 6500,
+        th: "น้องหุ่นส้มต่อท้ายแถว รอให้ถึงตา ไม่แซง ไม่ผลัก",
+        en: "Little Orange joins the end of the line and waits. No cutting in or pushing." },
+      { bg: BG("wait-turn-patient"), clip: "wait-remember", pose: "wave", ms: 5000,
+        th: "ต่อท้ายแถว รอตาเรา ผลัดกันเล่นนะ",
+        en: "Join the line, wait your turn, and take turns playing." },
+    ],
+  },
+  "tidy-toys": {
+    scenes: [
+      { bg: BG("tidy-toys-left"), clip: "tidy-scene", pose: "wave", ms: 5500,
+        th: "เล่นเสร็จแล้ว ของเล่นยังอยู่บนพื้นเลย",
+        en: "Playtime is over. The toys are still on the floor." },
+      { bg: BG("tidy-toys-left"), clip: "tidy-oops", pose: "point", ms: 5500,
+        th: "น้องหุ่นส้มจะไปแล้ว อ๊ะ ยังไม่ได้เก็บของเล่น",
+        en: "Little Orange is about to leave. Oops! The toys have not been put away." },
+      { bg: BG("tidy-toys-left"), clip: "tidy-think", pose: "point", ms: 5500,
+        th: "ครูชวนคิดนะ ของเล่นอยู่ตรงไหน ถึงจะไม่ขวางทาง",
+        en: "Let's think. Where can the toys go so the path stays clear?" },
+      { bg: BG("tidy-toys-box"), clip: "tidy-do", pose: "point", ms: 6000,
+        th: "ช่วยกันเก็บทีละชิ้น ใส่กล่องของเล่น พื้นก็โล่งแล้ว",
+        en: "They put the toys in the box, one by one. Now the floor is clear." },
+      { bg: BG("tidy-toys-box"), clip: "tidy-remember", pose: "wave", ms: 5000,
+        th: "เล่นแล้วเก็บ เข้าที่ทุกครั้งนะ",
+        en: "After playing, put the toys away every time." },
+    ],
+  },
+  "listen-friend": {
+    scenes: [
+      { bg: BG("listen-friend-interrupt"), clip: "listen-scene", pose: "wave", ms: 6500,
+        th: "น้องหุ่นเขียวกำลังเล่าเรื่องสะพานที่ต่อจากบล็อก น้องหุ่นส้มก็มีเรื่องอยากเล่า",
+        en: "Little Green is talking about a block bridge. Little Orange has something to share too." },
+      { bg: BG("listen-friend-interrupt"), clip: "listen-oops", pose: "point", ms: 6500,
+        th: "น้องหุ่นส้มตื่นเต้นจนเผลอพูดแทรก เพื่อนเลยยังเล่าไม่จบ",
+        en: "Little Orange gets excited and interrupts. The friend has not finished yet." },
+      { bg: BG("listen-friend-interrupt"), clip: "listen-think", pose: "point", ms: 7000,
+        th: "ครูชวนคิดนะ ถ้าเราพูดพร้อมกัน จะฟังรู้เรื่องไหม ลองให้เพื่อนเล่าจบก่อนดีไหม",
+        en: "Let's think. Can we follow the story if we speak at the same time? Shall we let our friend finish?" },
+      { bg: BG("listen-friend-patient"), clip: "listen-do", pose: "point", ms: 7500,
+        th: "น้องหุ่นส้มหยุดฟัง ให้เพื่อนเล่าจบ แล้วค่อยถามเรื่องสะพาน ตอนนี้ได้ฟังกันทั้งคู่",
+        en: "Little Orange listens until the friend finishes, then asks about the bridge. Now both get a turn." },
+      { bg: BG("listen-friend-patient"), clip: "listen-remember", pose: "wave", ms: 5500,
+        th: "ฟังให้จบ แล้วค่อยพูด ถ้าไม่เข้าใจ ค่อยถามนะ",
+        en: "Listen to the end, then speak. If something is unclear, ask a question." },
+    ],
+  },
+  "shared-things": {
+    scenes: [
+      { bg: BG("shared-things-corner"), clip: "shared-scene", pose: "wave", ms: 6500,
+        th: "วันนี้น้องหุ่นส้มกับเพื่อนอ่านหนังสือห้องสมุด หนังสือเล่มนี้มีคนอื่นใช้ด้วย",
+        en: "Little Orange and a friend are reading library books. Other people use these books too." },
+      { bg: BG("shared-things-corner"), clip: "shared-oops", pose: "point", ms: 6500,
+        th: "น้องหุ่นส้มอยากจำหน้าที่อ่านไว้ จึงจับมุมกระดาษ แล้วลังเลว่าจะพับดีไหม",
+        en: "Little Orange wants to remember the page, holds its corner, and wonders whether to fold it." },
+      { bg: BG("shared-things-corner"), clip: "shared-think", pose: "point", ms: 7000,
+        th: "ครูชวนคิดนะ เพื่อนคนถัดไปก็อยากอ่านหนังสือที่ไม่ยับ เราใช้อะไรคั่นหน้าแทนได้บ้าง",
+        en: "Let's think. The next reader would like smooth pages too. What could we use to mark the page instead?" },
+      { bg: BG("shared-things-bookmark"), clip: "shared-do", pose: "point", ms: 7500,
+        th: "น้องหุ่นส้มใช้ที่คั่นหน้า ไม่พับกระดาษ อ่านเสร็จแล้วจะนำหนังสือไปวางที่จุดคืน",
+        en: "Little Orange uses a bookmark without folding the paper. After reading, the book will go to the return point." },
+      { bg: BG("shared-things-bookmark"), clip: "shared-remember", pose: "wave", ms: 6500,
+        th: "ใช้เบามือ คืนให้ถูกที่ ของส่วนรวมก็พร้อมให้เพื่อนใช้ต่อ",
+        en: "Handle shared things gently and return them to the right place, ready for the next person." },
+    ],
+  },
+  // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
+  "dua-sleep": {
+    "wordPlacement": "above",
+    "word": {
+      "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+      "th": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา"
+    },
+    "scenes": [
+      {
+        "bg": "/moral/scenes/bismillah-bed.webp",
+        "clip": "dua-sleep-intro",
+        "pose": "wave",
+        "th": "ท่านนบี ﷺ เมื่อจะนอนกล่าวว่า…",
+        "en": "When the Prophet ﷺ went to sleep, he said…",
+        "word": null,
+        "ms": 6000
+      },
+      {
+        "bg": "/moral/scenes/bismillah-bed.webp",
+        "clip": "dua-sleep-say-1",
+        "pose": "point",
+        "th": "พูดตามครูนะ บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
+        "en": "Say this dua with me.",
+        "word": {
+          "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+          "th": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา"
+        },
+        "ms": 6000,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/bismillah-bed.webp",
+        "clip": "dua-sleep-meaning",
+        "pose": "point",
+        "th": "ด้วยพระนามของพระองค์ โอ้อัลลอฮ์ ข้าพเจ้าตายและข้าพเจ้ามีชีวิต",
+        "en": "In Your name, O Allah, I die and I live.",
+        "word": {
+          "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+          "th": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา"
+        },
+        "ms": 7015
+      },
+      {
+        "bg": "/moral/scenes/bismillah-bed.webp",
+        "clip": "dua-sleep-explain",
+        "pose": "point",
+        "th": "การนอนเหมือนการตายชั่วคราว อัลลอฮ์ทรงให้เราตื่นขึ้นมาใหม่",
+        "en": "Sleep is like a temporary death. Allah lets us wake up again.",
+        "word": {
+          "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+          "th": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา"
+        },
+        "ms": 6555
+      },
+      {
+        "bg": "/moral/scenes/bismillah-bed.webp",
+        "clip": "dua-sleep-again",
+        "pose": "wave",
+        "th": "ลองพูดตามครูอีกครั้งนะ บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
+        "en": "Say this dua with me once more.",
+        "word": {
+          "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+          "th": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา"
+        },
+        "ms": 6210,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      }
+    ]
+  },
+
+  // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)
+  "dua-wake": {
+    "wordPlacement": "above",
+    "word": {
+      "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+      "th": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร"
+    },
+    "scenes": [
+      {
+        "bg": "/moral/scenes/dua-wake.webp",
+        "clip": "dua-wake-intro",
+        "pose": "wave",
+        "th": "เมื่อตื่นนอนท่านนบี ﷺ กล่าวว่า…",
+        "en": "When the Prophet ﷺ woke up, he said…",
+        "word": null,
+        "ms": 6000
+      },
+      {
+        "bg": "/moral/scenes/dua-wake.webp",
+        "clip": "dua-wake-say-1",
+        "pose": "point",
+        "th": "พูดตามครูนะ อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร",
+        "en": "Say this dua with me.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร"
+        },
+        "ms": 8625,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-wake.webp",
+        "clip": "dua-wake-meaning",
+        "pose": "point",
+        "th": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้เรามีชีวิตหลังจากที่ทรงให้เราตาย และยังพระองค์คือการฟื้นคืนชีพ",
+        "en": "Praise belongs to Allah, who gave us life after causing us to die, and to Him is the resurrection.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร"
+        },
+        "ms": 11155
+      },
+      {
+        "bg": "/moral/scenes/dua-wake.webp",
+        "clip": "dua-wake-explain",
+        "pose": "point",
+        "th": "การนอนเหมือนการตายชั่วคราว อัลลอฮ์ทรงให้เราตื่นขึ้นมาใหม่ เราจึงขอบคุณพระองค์",
+        "en": "Sleep is like a temporary death. Allah lets us wake up again, so we thank Him.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร"
+        },
+        "ms": 8855
+      },
+      {
+        "bg": "/moral/scenes/dua-wake.webp",
+        "clip": "dua-wake-again",
+        "pose": "wave",
+        "th": "ลองพูดตามครูอีกครั้งนะ อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร",
+        "en": "Say this dua with me once more.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อะห์ยานา บะอ์ดะมา อะมาตะนา วะอิลัยฮินนุชูร"
+        },
+        "ms": 9890,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      }
+    ]
+  },
+
+  // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 5095 (อัลบานีย์: เศาะฮีห์) https://shamela.ws/book/1726/6957 · ติรมิซีย์ 3426 https://shamela.ws/book/1435/5650
+  "dua-leave-home": {
+    "wordPlacement": "above",
+    "word": {
+      "ar": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+      "th": "บิสมิลลาฮ์ ตะวักกัลตุ อะลัลลอฮ์ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์"
+    },
+    "scenes": [
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-intro",
+        "pose": "wave",
+        "th": "ท่านนบี ﷺ สอนว่า เมื่อออกจากบ้านให้กล่าวว่า…",
+        "en": "The Prophet ﷺ taught us to say this when leaving home…",
+        "word": null,
+        "ms": 6000
+      },
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-say-1",
+        "pose": "point",
+        "th": "พูดตามครูนะ บิสมิลลาฮ์",
+        "en": "Say part 1 with me.",
+        "word": {
+          "ar": "بِسْمِ اللَّهِ،",
+          "th": "บิสมิลลาฮ์"
+        },
+        "ms": 6000,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-say-2",
+        "pose": "point",
+        "th": "พูดตามครูนะ ตะวักกัลตุ อะลัลลอฮ์",
+        "en": "Say part 2 with me.",
+        "word": {
+          "ar": "تَوَكَّلْتُ عَلَى اللَّهِ،",
+          "th": "ตะวักกัลตุ อะลัลลอฮ์"
+        },
+        "ms": 6000,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-say-3",
+        "pose": "point",
+        "th": "พูดตามครูนะ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์",
+        "en": "Say part 3 with me.",
+        "word": {
+          "ar": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+          "th": "ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์"
+        },
+        "ms": 6000,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-meaning",
+        "pose": "point",
+        "th": "ด้วยพระนามของอัลลอฮ์ ข้าพเจ้ามอบหมายต่ออัลลอฮ์ ไม่มีพลังและไม่มีกำลังใดๆ นอกจากด้วยอัลลอฮ์",
+        "en": "In the name of Allah. I put my trust in Allah. There is no power and no strength except through Allah.",
+        "word": {
+          "ar": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+          "th": "บิสมิลลาฮ์ ตะวักกัลตุ อะลัลลอฮ์ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์"
+        },
+        "ms": 10350
+      },
+      {
+        "bg": "/moral/scenes/dua-leave-home.webp",
+        "clip": "dua-leave-home-explain",
+        "pose": "point",
+        "th": "คนที่กล่าว จะมีเสียงบอกเขาว่า ท่านได้รับการชี้นำ ได้รับความพอเพียง และได้รับการคุ้มครองแล้ว",
+        "en": "The person who says this will be told: You have been guided, given what you need, and protected.",
+        "word": {
+          "ar": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+          "th": "บิสมิลลาฮ์ ตะวักกัลตุ อะลัลลอฮ์ ลาเหาละ วะลา กุววะตะ อิลลา บิลลาฮ์"
+        },
+        "ms": 10465
+      }
+    ]
+  },
+
+  // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 4023 (อัลบานีย์: หะซัน) https://shamela.ws/book/1726/5556
+  "dua-after-eating": {
+    "wordPlacement": "above",
+    "word": {
+      "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+      "th": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์"
+    },
+    "scenes": [
+      {
+        "bg": "/moral/scenes/dua-after-eating.webp",
+        "clip": "dua-after-eating-intro",
+        "pose": "wave",
+        "th": "ท่านนบี ﷺ สอนว่า เมื่อกินอาหารเสร็จให้กล่าวว่า…",
+        "en": "The Prophet ﷺ taught us to say this after finishing a meal…",
+        "word": null,
+        "ms": 6000
+      },
+      {
+        "bg": "/moral/scenes/dua-after-eating.webp",
+        "clip": "dua-after-eating-say-1",
+        "pose": "point",
+        "th": "พูดตามครูนะ อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม",
+        "en": "Say part 1 with me.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ،",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม"
+        },
+        "ms": 6325,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-after-eating.webp",
+        "clip": "dua-after-eating-say-2",
+        "pose": "point",
+        "th": "พูดตามครูนะ วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์",
+        "en": "Say part 2 with me.",
+        "word": {
+          "ar": "وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+          "th": "วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์"
+        },
+        "ms": 7475,
+        "sayAlong": true,
+        sayAlongMs: 12000
+      },
+      {
+        "bg": "/moral/scenes/dua-after-eating.webp",
+        "clip": "dua-after-eating-meaning",
+        "pose": "point",
+        "th": "การสรรเสริญเป็นของอัลลอฮ์ ผู้ทรงให้อาหารนี้แก่ข้าพเจ้า และประทานมันแก่ข้าพเจ้า โดยไม่มีพลังและกำลังใดๆ จากตัวข้าพเจ้าเลย",
+        "en": "Praise belongs to Allah, who fed me this food and provided it for me without any power or strength of my own.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์"
+        },
+        "ms": 13800
+      },
+      {
+        "bg": "/moral/scenes/dua-after-eating.webp",
+        "clip": "dua-after-eating-explain",
+        "pose": "point",
+        "th": "อาหารมาจากอัลลอฮ์ เราไม่มีพลังหามาได้เองถ้าพระองค์ไม่ประทาน",
+        "en": "Food comes from Allah. We have no power to obtain it ourselves unless He provides it.",
+        "word": {
+          "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+          "th": "อัลฮัมดุลิลลาฮิลละซี อัฏอะมะนี ฮาซัฏเฏาะอาม วะเราะซะเกาะนีฮิ มิน ฆ็อยริ เหาลิน มินนี วะลา กุววะฮ์"
+        },
+        "ms": 6785
+      }
+    ],
+  },
   // ---------- วัย 3-6 ปี ----------
   bismillah: {
     word: { ar: "بِسْمِ اللَّهِ", th: "บิสมิลลาฮ์" },

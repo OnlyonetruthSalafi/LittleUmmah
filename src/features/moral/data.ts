@@ -4,7 +4,7 @@ import type { Text } from "@/i18n/config";
   ไฟล์นี้เก็บเฉพาะสิ่งที่หน้าตาใหม่ (ตาม mock tests/MoralPage.png) ต้องใช้เพิ่ม:
   ภาพการ์ด, คำอธิบายช่วงวัย, และบทพูดของหุ่นยนต์นำทาง
 
-  ภาพทุกใบจาก Codex (CODEX_MORAL_BRIEF.md) ไม่มีตัวหนังสือฝังในภาพ (AGENTS.md ข้อ 1.5)
+  ภาพทุกใบจาก Codex (docs/briefs/archive/CODEX_MORAL_BRIEF.md) ไม่มีตัวหนังสือฝังในภาพ (AGENTS.md ข้อ 1.5)
   ข้อความ الحمد لله บนการ์ด "เมื่อจาม" จึงเป็นข้อความจริงที่วางทับบอลลูนว่างในภาพ
 */
 
@@ -12,6 +12,18 @@ export type AgeId = "kids" | "juniors";
 
 /** ภาพประกอบการ์ดของแต่ละบทเรียน (key = id ใน lib/lessons.ts) */
 export const CARD_ART: Record<string, string> = {
+  "say-sorry": "/moral/card-say-sorry.webp",
+  "help-friend": "/moral/card-help-friend.webp",
+  "keep-promise": "/moral/card-keep-promise.webp",
+  "save-water-power": "/moral/card-save-water-power.webp",
+  "wait-turn": "/moral/card-wait-turn.webp",
+  "tidy-toys": "/moral/card-tidy-toys.webp",
+  "listen-friend": "/moral/card-listen-friend.webp",
+  "shared-things": "/moral/card-shared-things.webp",
+  "dua-sleep": "/moral/card-dua-sleep.webp",
+  "dua-wake": "/moral/card-dua-wake.webp",
+  "dua-leave-home": "/moral/card-dua-leave-home.webp",
+  "dua-after-eating": "/moral/card-dua-after-eating.webp",
   bismillah: "/moral/card-bismillah.webp",
   salam: "/moral/card-salam.webp",
   smile: "/moral/card-smile.webp",

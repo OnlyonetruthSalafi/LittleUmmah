@@ -31,12 +31,12 @@ import { useLocale } from "@/i18n/LocaleProvider";
 /** เพดานเวลา เผื่อ event 'ended' ไม่มาเลย ปุ่มจะได้ไม่หายไปตลอดกาล */
 const VOICE_CEILING_MS = 45000;
 
-export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
-  game: GameDefinition; soundOn: boolean; speechBroken: boolean; onStart: () => void;
+export function VoiceIntro({ game, soundOn, speechBroken, paused = false, onStart }: {
+  paused?: boolean; game: GameDefinition; soundOn: boolean; speechBroken: boolean; onStart: () => void;
 }) {
   const { t, sub, pick, pickSub } = useDict();
   const locale = useLocale();
-  const voiceReady = soundOn && !speechBroken;
+  const voiceReady = soundOn && !speechBroken && !paused;
   /** พูดอยู่ไหม ใช้แค่โชว์คลื่นเสียง ไม่มีผลกับการกดปุ่ม */
   const [talking, setTalking] = useState(voiceReady);
   /** หุ่นยนต์พูดจบหรือยัง ใช้แค่เน้นปุ่มตอนพูดจบ ไม่ได้กั้นการกด */
@@ -53,16 +53,22 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
   }, []);
 
   useEffect(() => {
-    if (!voiceReady) return;
-    clearTimeout(ceiling.current);
-    ceiling.current = setTimeout(finish, VOICE_CEILING_MS);
-    cancel.current = playNarration(`/audio/${locale}/howto-${game.slug}.mp3`, {
-      onEnded: finish,
-      // เด็กกดปิดเสียงกลางคัน หรือมีเสียงอื่นแทรก — ให้ปุ่มโผล่เลย จะได้ไม่ค้างรอเสียงที่ไม่มีวันจบ
-      onStopped: finish,
-      onFail: finish,
+    let disposed = false;
+    queueMicrotask(() => {
+      if (disposed) return;
+      if (!voiceReady) { finish(); return; }
+      setTalking(true);
+      setReady(false);
+      clearTimeout(ceiling.current);
+      ceiling.current = setTimeout(finish, VOICE_CEILING_MS);
+      cancel.current = playNarration(`/audio/${locale}/howto-${game.slug}.mp3`, {
+        onEnded: finish,
+        onStopped: finish,
+        onFail: finish,
+      });
     });
     return () => {
+      disposed = true;
       cancel.current?.();
       clearTimeout(ceiling.current);
       stopAllSpeech();
@@ -71,7 +77,6 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
 
   const listenAgain = () => {
     if (!voiceReady) return;
-    setTalking(true);
     setReplay(r => r + 1);
   };
 
@@ -89,7 +94,7 @@ export function VoiceIntro({ game, soundOn, speechBroken, onStart }: {
       </div>
       <Image src={gameAssets.guide} width={200} height={240} alt="" className="gc-voice-robot" />
       {/* คลื่นเสียงตอนหุ่นยนต์พูด — เป็นภาพประกอบเสียงพูด ไม่ใช่สัญลักษณ์ดนตรี (ข้อ 1.3) */}
-      {talking && <span className="gc-voice-wave" aria-hidden="true"><i /><i /><i /></span>}
+      {talking && voiceReady && <span className="gc-voice-wave" aria-hidden="true"><i /><i /><i /></span>}
     </div>
 
     <div className="gc-voice-actions">

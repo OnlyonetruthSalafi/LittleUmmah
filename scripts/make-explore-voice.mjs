@@ -11,9 +11,10 @@
 
   วิธีใช้
     FFMPEG=<path ของ ffmpeg.exe> node scripts/make-explore-voice.mjs [ชื่อคลิป ...]
-    node scripts/make-explore-voice.mjs --list     แสดงบทและจำนวนตัวอักษร ไม่เรียก ElevenLabs
+    node scripts/make-explore-voice.mjs --list     แสดงบท/จำนวนตัวอักษร/ไฟล์ขาด (exit 1 ถ้าขาด) ไม่เรียก ElevenLabs
 */
 import path from "node:path";
+import { existsSync, statSync } from "node:fs";
 
 import { renderRobotLines, voiceText } from "./lib/robot-voice.mjs";
 import { CARTOONS, GUIDE_STEPS } from "../src/features/explore/data.ts";
@@ -32,11 +33,17 @@ for (const cartoon of Object.values(CARTOONS)) {
 const args = process.argv.slice(2);
 if (args.includes("--list")) {
   let total = 0;
+  const missing = [];
   for (const [clip, text] of Object.entries(LINES)) {
     total += text.length;
-    console.log(`${clip.padEnd(20)} ${voiceText(text)}`);
+    const file = path.join(process.cwd(), "public", "audio", "th", `${clip}.mp3`);
+    const present = existsSync(file) && statSync(file).size > 0;
+    if (!present) missing.push(clip);
+    console.log(`${present ? "OK" : "MISSING"} ${clip.padEnd(20)} ${voiceText(text)}`);
   }
   console.log(`\n${Object.keys(LINES).length} คลิป รวม ${total} ตัวอักษร`);
+  console.log(`ไฟล์ขาด: ${missing.length}${missing.length ? ` (${missing.join(", ")})` : ""}`);
+  if (missing.length) process.exitCode = 1;
 } else {
   await renderRobotLines(LINES, path.join(process.cwd(), "public", "audio", "th"), args);
 }

@@ -1,3 +1,5 @@
+import { pageMetadata } from "@/lib/seo";
+import { dict } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
 import { AgeGroupSelector } from "@/components/landing/AgeGroupSelector";
 import { CategoryGrid } from "@/components/landing/CategoryGrid";
@@ -7,6 +9,12 @@ import { ObeyArc } from "@/components/landing/ObeyArc";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { ValueBar } from "@/components/landing/ValueBar";
 import { SkyScene } from "@/components/landing/SkyScene";
+
+export async function generateMetadata({ params }: PageProps<"/[lang]">) {
+  const { lang } = await params;
+  const { t } = dict(lang as Locale);
+  return pageMetadata(lang as Locale, "/", t.seo.homeTitle, t.seo.description);
+}
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;

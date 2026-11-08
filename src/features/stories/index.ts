@@ -1,3 +1,5 @@
+import { GARDEN_OWNERS_STORY } from "./data/garden-owners";
+import { TWO_GARDENS_STORY } from "./data/two-gardens";
 import { ANTS_STORY } from "./data/ants";
 import { CAVE_STORY } from "./data/cave";
 import { IBRAHIM_FIRE_STORY } from "./data/ibrahim-fire";
@@ -19,6 +21,8 @@ export const STORIES: Story[] = [
   MUSA_STORY,
   CAVE_STORY,
   YUSUF_STORY,
+  GARDEN_OWNERS_STORY,
+  TWO_GARDENS_STORY,
 ];
 
 export function getStory(slug: string) {

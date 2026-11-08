@@ -8,6 +8,7 @@
   ค่ามุมด้านล่างได้จากการหามุมที่ทำให้กรอบสี่เหลี่ยมของภาพเล็กที่สุด (minimum-area bounding box)
 
   รันซ้ำได้:  node scripts/prepare-memory-art.mjs
+  เฉพาะภาพสิ่งของ C-4 (ไม่ต้องมี PNG ชุดเก่า): node scripts/prepare-memory-art.mjs --new-only
 */
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -23,6 +24,9 @@ const CARD_W = 384;
 const CARD_H = 356;
 
 const TILES = [
+  // C-4: generated upright cards. --new-only rebuilds these without old PNG sources.
+  ...['toy-car', 'ball', 'umbrella', 'watering-can', 'cup', 'basket', 'plant-pot', 'wooden-blocks']
+    .map(id => ({ src: `${id}.png`, out: `face-${id}`, rotate: 0, card: true, added: true })),
   // การ์ดหลัง
   { src: 'backcard.png', out: 'card-back', rotate: 0, card: true },
   // หน้าการ์ดทั้งแปด — rotate คือองศาที่ต้องหมุนให้ตรงแนวเดียวกับ backcard
@@ -51,12 +55,20 @@ try { manifest = JSON.parse(await readFile(manifestPath, 'utf8')); } catch { /* 
 
 let before = 0, after = 0;
 for (const tile of TILES) {
+  if (process.argv.includes('--new-only') && !tile.added) continue;
   const src = path.join(SRC, tile.src);
   const bytes = await readFile(src);
   before += bytes.length;
   manifest[src.replaceAll('\\', '/')] = createHash('sha256').update(bytes).digest('hex');
 
   let pipeline = sharp(bytes);
+  if (tile.added) {
+    // Generated cutouts sometimes leave almost-opaque pixels inside solid toys.
+    // Restore those pixels while preserving the transparent outer silhouette.
+    const { data, info } = await pipeline.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    for (let i = 3; i < data.length; i += 4) if (data[i] >= 240) data[i] = 255;
+    pipeline = sharp(data, { raw: info });
+  }
   if (tile.rotate) {
     // พื้นหลังโปร่งใส ไม่ใช่ดำ ไม่งั้นจะได้ขอบดำรอบภาพหลังหมุน
     pipeline = sharp(await pipeline.rotate(tile.rotate, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer());

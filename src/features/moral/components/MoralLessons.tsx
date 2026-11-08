@@ -5,6 +5,7 @@ import { fmt } from "@/i18n/dict";
 import { useEffect, useRef, useState } from "react";
 
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
+import { ArabicText } from "@/components/ui/ArabicText";
 import { StarIcon } from "@/components/icons/StarIcon";
 import { SHOW_REWARD_STARS } from "@/lib/rewardStars";
 import { useSound } from "@/components/sound/SoundProvider";
@@ -78,7 +79,7 @@ export function MoralSection({
   const listened = useRef(false);
   const listenTimer = useRef(0);
   const scriptOf = (lesson: Lesson) =>
-    [pick(lesson.title), lesson.body, lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+    [pick(lesson.title), typeof lesson.body === "string" ? lesson.body : pick(lesson.body), lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
@@ -241,7 +242,8 @@ export function MoralSection({
                 {pickSub(open.title)}
               </span>}
             </h3>
-            <p className="mt-2 text-lg leading-relaxed">{open.body}</p>
+            <p className="mt-2 text-lg leading-relaxed"><ArabicText text={typeof open.body === "string" ? open.body : pick(open.body)} /></p>
+            {sub && typeof open.body !== "string" && <p lang="en" className="text-ink-soft text-sm">{pickSub(open.body)}</p>}
             {open.arabic && (
               <div className="mrl-dialog-arabic">
                 <p lang="ar" dir="rtl" className="text-ink text-2xl leading-loose font-semibold sm:text-3xl">

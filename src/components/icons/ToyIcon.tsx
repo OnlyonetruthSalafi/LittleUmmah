@@ -13,26 +13,12 @@ const art: Record<ComingSoonId, ReactNode> = {
     <rect x="34" y="58" width="25" height="22" rx="3" fill={TEAL} /><rect x="61" y="58" width="25" height="22" rx="3" fill={BLUE} />
     <path d="M38 41h14M65 41h14M38 63h14M65 63h14" stroke={WHITE} strokeWidth="3" strokeLinecap="round" opacity=".55" />
   </>,
-  'bead-lacing': <>
-    <path d="M10 22c24-12 30 40 52 30s18-34 46-16" fill="none" stroke={DEEP} strokeWidth="3.5" strokeLinecap="round" />
-    <circle cx="24" cy="20" r="11" fill={GOLD} stroke={AMBER} strokeWidth="2" /><rect x="35" y="30" width="20" height="20" rx="5" fill={TEAL} />
-    <circle cx="64" cy="51" r="11" fill={BLUE} /><path d="M78 26l14 8v14l-14 8-14-8V34Z" fill={GOLD} stroke={AMBER} strokeWidth="2" strokeLinejoin="round" />
-    <circle cx="24" cy="20" r="3" fill={WHITE} /><circle cx="64" cy="51" r="3" fill={WHITE} /><circle cx="45" cy="40" r="3" fill={WHITE} /><circle cx="78" cy="41" r="3" fill={WHITE} />
-  </>,
   'coin-box': <>
     <rect x="26" y="36" width="68" height="44" rx="9" fill={BLUE} /><rect x="26" y="36" width="68" height="13" rx="6.5" fill={TEAL} />
     <rect x="45" y="39.5" width="30" height="6" rx="3" fill={DEEP} />
     <rect x="38" y="58" width="44" height="14" rx="4" fill={WHITE} opacity=".85" />
     <circle cx="48" cy="65" r="4" fill={GOLD} /><circle cx="60" cy="65" r="4" fill={GOLD} /><circle cx="72" cy="65" r="4" fill={GOLD} />
     <circle cx="60" cy="20" r="14" fill={GOLD} stroke={AMBER} strokeWidth="2.5" /><circle cx="60" cy="20" r="8" fill="none" stroke={AMBER} strokeWidth="2" />
-  </>,
-  'balance-scale': <>
-    <rect x="56" y="18" width="8" height="58" rx="4" fill={DEEP} /><rect x="38" y="72" width="44" height="9" rx="4.5" fill={BLUE} />
-    <path d="M18 24 102 34" stroke={GOLD} strokeWidth="6" strokeLinecap="round" />
-    <circle cx="60" cy="29" r="6" fill={GOLD} stroke={AMBER} strokeWidth="2" />
-    <path d="M18 24 8 54M18 24l10 30M102 34 92 62M102 34l10 28" stroke={DEEP} strokeWidth="1.8" />
-    <path d="M4 54h28c-1 9-27 9-28 0ZM88 62h28c-1 9-27 9-28 0Z" fill={TEAL} />
-    <rect x="11" y="42" width="14" height="12" rx="3" fill={BLUE} /><circle cx="102" cy="55" r="7" fill={GOLD} stroke={AMBER} strokeWidth="1.5" />
   </>,
   'marble-run': <>
     <path d="M12 18h52q10 0 10 10t-10 10H36q-10 0-10 10t10 10h60" fill="none" stroke={TEAL} strokeWidth="12" strokeLinecap="round" />

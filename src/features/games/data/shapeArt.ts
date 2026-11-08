@@ -32,11 +32,17 @@ export const HOLES: Record<ShapeId, { x: number; y: number; w: number; h: number
 };
 
 export const PLATE = { width: 900, height: 748 };
+/** Same measured sockets and shape IDs; a palette never changes progress or rewards. */
+export const shapePalettes = ['classic', 'pastel'] as const;
+export type ShapePalette = typeof shapePalettes[number];
+export const pickShapePalette = (random: number): ShapePalette => random < 0.5 ? 'classic' : 'pastel';
+export const nextShapePalette = (previous: ShapePalette): ShapePalette => previous === 'classic' ? 'pastel' : 'classic';
+const artDirectory = (palette: ShapePalette) => `/games/shape${palette === 'classic' ? '' : '/pastel'}`;
 /** ภาพแผ่นฐานที่ตรงกับชุดรูปทรงที่หยอดไปแล้ว */
-export const plateFor = (placed: readonly ShapeId[]) =>
-  `/games/shape/plate-${shapeOrder.map(shape => (placed.includes(shape) ? '1' : '0')).join('')}.webp`;
+export const plateFor = (placed: readonly ShapeId[], palette: ShapePalette = 'classic') =>
+  `${artDirectory(palette)}/plate-${shapeOrder.map(shape => (placed.includes(shape) ? '1' : '0')).join('')}.webp`;
 
-export const blockArt = (shape: ShapeId) => `/games/shape/block-${shape}.webp`;
+export const blockArt = (shape: ShapeId, palette: ShapePalette = 'classic') => `${artDirectory(palette)}/block-${shape}.webp`;
 export const BLOCK = { width: 420, height: 420 };
 
 export const SHAPE_ISLAND = { src: '/games/shape/island.webp', width: 1100, height: 1100 };

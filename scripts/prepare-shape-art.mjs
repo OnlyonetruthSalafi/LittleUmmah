@@ -3,6 +3,11 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { measureShapeHoles } from './shape-art-masks.mjs';
 
+// Palette edits reuse the original measured socket compositor, never guessed coordinates.
+if (process.argv.includes('--pastel')) {
+  await import('./prepare-shape-palette.mjs');
+} else {
+
 // One empty plate + one edited filled plate. Only socket masks ever change.
 const SRC = 'public/games/shape match', OUT = 'public/games/shape';
 const PLATE_W = 900, BLOCK = 420, ISLAND_W = 1100;
@@ -89,6 +94,7 @@ const manifestFile = 'scripts/source-images.json';
 const manifest = JSON.parse(await readFile(manifestFile, 'utf8'));
 await writeFile(manifestFile, JSON.stringify({ ...manifest, ...hashes }, null, 2) + '\n');
 console.log(JSON.stringify({ states: 32, outsideChanges, measurements }, null, 2));
+}
 
 async function cutBlackBackground(raw) {
   const { data, info } = await sharp(raw).ensureAlpha().raw().toBuffer({ resolveWithObject: true });

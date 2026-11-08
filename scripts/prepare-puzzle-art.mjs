@@ -3,6 +3,22 @@ import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 const dir = 'public/games/puzzle';
+// C-5: prepare only new full-bleed pictures; never rewrite the measured island.
+if (process.argv.includes('--new-pictures')) {
+  const assets = [];
+  for (const name of ['flower-garden', 'sailboat-bay', 'toy-station']) {
+    const original = `output/C-5/originals/${name}.png`;
+    const { data, info } = await sharp(original).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    let nonOpaque = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i] !== 255) nonOpaque++;
+    assets.push({ original, width: info.width, height: info.height, nonOpaquePixels: nonOpaque, totalPixels: info.width * info.height });
+    if (nonOpaque) throw new Error(`Picture must be opaque: ${original}`);
+    await sharp(original).resize(1024, 1024).png().toFile(`${dir}/${name}.png`);
+  }
+  await writeFile('output/C-5/alpha-scan.json', JSON.stringify(assets, null, 2) + '\n');
+  console.log('Prepared new PNGs. Run node scripts/optimize-images.mjs public/games/puzzle');
+  process.exit(0);
+}
 const out = 'output/puzzle-art';
 await mkdir(out, { recursive: true });
 const hash = async p => createHash('sha256').update(await readFile(p)).digest('hex');

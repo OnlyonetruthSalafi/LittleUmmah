@@ -1,4 +1,6 @@
 import { Baloo_2, Noto_Sans_Thai_Looped } from "next/font/google";
+// D2: เปลี่ยนตระกูลอาหรับที่บรรทัดนี้ (ตัวเลือกต้องรองรับน้ำหนัก 400/600/700)
+import { Noto_Naskh_Arabic as ArabicFont } from "next/font/google";
 
 /* ใช้ร่วมกันระหว่าง [lang]/layout.tsx และ global-not-found.tsx (หน้า 404 ไม่ผ่าน layout) */
 
@@ -24,5 +26,14 @@ export const thai = Noto_Sans_Thai_Looped({
   display: "swap",
 });
 
-/** className ของ <html> ทุกหน้า */
-export const fontClasses = `${baloo.variable} ${thai.variable}`;
+/* Naskh สำหรับอักษรเดี่ยวและข้อความมีฮะเราะกาต — ไม่เปลี่ยนฟอนต์ไทย/ละติน */
+export const arabic = ArabicFont({
+  variable: "--font-arabic-source",
+  subsets: ["arabic"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+  adjustFontFallback: true,
+});
+
+/** className ของ <html> ทุกหน้า รวม global-not-found */
+export const fontClasses = `${baloo.variable} ${thai.variable} ${arabic.variable}`;

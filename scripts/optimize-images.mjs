@@ -16,6 +16,14 @@ import sharp from "sharp";
    ส่วนพื้นหลังกินเต็มความกว้างจอ จึงต้องใหญ่กว่า
    หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
 const JOBS = [
+  { dir: "public/games/balance-scale", width: 1000, quality: 88 },
+  { dir: "public/games/coin-box", width: 1000, quality: 88 },
+  { dir: "public/games/bead-lacing", width: 1100, quality: 88 },
+  // Selected MEM-1 islands: keep source dimensions so measured cream bounds stay exact.
+  { dir: "public/games/memory", width: 1400, quality: 88 },
+  { dir: "public/games/shape/pastel", width: 900, quality: 88 },
+  { dir: "public/stories/garden-owners", width: 1200, quality: 82 },
+  { dir: "public/stories/two-gardens", width: 1200, quality: 82 },
   { dir: "public/games/sequence", width: 1100, quality: 88 },
   // หนังสือนิทาน: ภาพหน้าคู่แสดงกว้างสุด 1100px (ครึ่งละ ~550px) 1200 พอ และไฟล์เล็กลงราวครึ่ง ปกกว้าง 1024 อยู่แล้ว
   { dir: "public/stories/nuh", width: 1200, quality: 82 },
@@ -28,20 +36,20 @@ const JOBS = [
   { dir: "public/stories/yusuf", width: 1200, quality: 82 },
   { dir: "public/games/classroom", width: 1920, quality: 82 },
   { dir: "public/stories/shelf", width: 1400, quality: 84 },
-  // หนังสือนิทานแบบสมจริง (CODEX_STORYBOOK_BRIEF.md): เล่มเปิดหน้าว่างแสดงกว้างสุด ~1250px คมบนจอ 2x ที่ 2400, กระดาษ/ลายปกใน 1024 ไม่ขยาย
+  // หนังสือนิทานแบบสมจริง (docs/briefs/archive/CODEX_STORYBOOK_BRIEF.md): เล่มเปิดหน้าว่างแสดงกว้างสุด ~1250px คมบนจอ 2x ที่ 2400, กระดาษ/ลายปกใน 1024 ไม่ขยาย
   { dir: "public/stories/book", width: 2400, quality: 86 },
   { dir: "public/islands", width: 900, quality: 86 },
   { dir: "public/Character", width: 400, quality: 86 },
   { dir: "public/Character/run", width: 640, quality: 86, trim: true },
   // หุ่นหน้าตรงโบกมือ/ยืนถือจอย ต่อท้ายการวิ่งในหน้ารวมเกม — ไม่ trim สามเฟรมจะได้ตำแหน่งตรงกันเป๊ะ (ตัวหุ่นกึ่งกลางภาพ)
   { dir: "public/Character/greet", width: 640, quality: 86 },
-  // เกาะมารยาท: ภาพการ์ดแสดงกว้างสุด ~260px, ภาพเกาะหัวหน้า ~560px, ป้ายวัย ~60px (ภาพจาก Codex, CODEX_MORAL_BRIEF.md)
+  // เกาะมารยาท: ภาพการ์ดแสดงกว้างสุด ~260px, ภาพเกาะหัวหน้า ~560px, ป้ายวัย ~60px (ภาพจาก Codex, docs/briefs/archive/CODEX_MORAL_BRIEF.md)
   { dir: "public/moral", width: 1100, quality: 84 },
   // หุ่นยนต์นำทางเกาะมารยาท สี่ท่า ไม่ trim ให้ตำแหน่งตรงกันทุกเฟรม แสดงกว้างสุด ~190px
   { dir: "public/moral/guide", width: 512, quality: 86 },
-  // ฉากการ์ตูนครูนูรี (ทุกบท ตัวละครหุ่นยนต์ CODEX_MORAL_SCENES_BRIEF.md) แสดงกว้างสุด ~860px ในหน้าต่างการ์ตูน
+  // ฉากการ์ตูนครูนูรี (ทุกบท ตัวละครหุ่นยนต์ docs/briefs/archive/CODEX_MORAL_SCENES_BRIEF.md) แสดงกว้างสุด ~860px ในหน้าต่างการ์ตูน
   { dir: "public/moral/scenes", width: 1600, quality: 80 },
-  // เกาะสำรวจโลก: การ์ดและภาพเกาะหัวหน้าแบบเดียวกับเกาะมารยาท, ฉากการ์ตูนถิ่นที่อยู่ของสัตว์ (CODEX_EXPLORE_BRIEF.md)
+  // เกาะสำรวจโลก: การ์ดและภาพเกาะหัวหน้าแบบเดียวกับเกาะมารยาท, ฉากการ์ตูนถิ่นที่อยู่ของสัตว์ (docs/briefs/archive/CODEX_EXPLORE_BRIEF.md)
   // ภาพถ่ายสัตว์จริงใน public/explore/photos เป็น WebP จาก Wikimedia Commons อยู่แล้ว ไม่ผ่านขั้นนี้
   { dir: "public/explore", width: 1100, quality: 84 },
   { dir: "public/explore/scenes", width: 1600, quality: 80 },
@@ -166,7 +174,7 @@ for (const job of JOBS) {
     }
 
     await pipeline
-      .resize(file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true })
+      .resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: job.quality, effort: 6 })
       .toFile(out);
     const outSize = (await stat(out)).size;

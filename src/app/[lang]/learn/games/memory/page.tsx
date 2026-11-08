@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/seo";
 import { dict } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
@@ -8,7 +9,8 @@ import { AGE_GROUPS, GAMES } from "@/lib/games";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn/games/memory">): Promise<Metadata> {
   const { lang } = await params;
-  return { title: dict(lang as Locale).t.memoryPage.metadataTitle };
+  const { t } = dict(lang as Locale);
+  return pageMetadata(lang as Locale, "/learn/games/memory", t.memoryPage.metadataTitle, t.seo.gamesDescription, "play");
 }
 
 /*

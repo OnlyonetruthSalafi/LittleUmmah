@@ -1,4 +1,4 @@
-/* ภาพของเกมเขาวงกตแสง 2.5D — ภาพจาก Codex ดู output/orbmaze-art/README.md และ CODEX_ORBMAZE_ART_BRIEF.md
+/* ภาพของเกมเขาวงกตแสง 2.5D — ภาพจาก Codex ดู output/orbmaze-art/README.md และ docs/briefs/archive/CODEX_ORBMAZE_ART_BRIEF.md
  * ผนังและพื้นวาดด้วยโค้ด (render/lightMazeRenderer.ts) แล้ว map texture หน้าตรงลงแต่ละหน้าของปริซึม
  * จุดยึดของ sprite และมุมข้าวหลามตัดบนเกาะ วัดด้วย scripts/measure-orbmaze-art.mjs → v2/manifest.json ห้ามกะด้วยตา
  */

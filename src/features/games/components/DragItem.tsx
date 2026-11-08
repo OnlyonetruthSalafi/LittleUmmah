@@ -19,7 +19,7 @@ export function DragItem({ id, label, selected, disabled, onSelect, onDrop, chil
     reset(element);
   };
   return <button type="button" className="gc-drag gc-object-button" disabled={disabled} aria-label={label} aria-pressed={selected} data-item-id={id}
-    onClick={() => { if (suppressClick.current) { suppressClick.current = false; return; } onSelect(); }}
+    onClick={event => { const suppress = suppressClick.current; suppressClick.current = false; if (suppress && event.detail !== 0) return; onSelect(); }}
     onPointerDown={event => { if (event.button !== 0 || !event.isPrimary) return; suppressClick.current = false; drag.current = { x: event.clientX, y: event.clientY, moved: false, pointerId: event.pointerId }; event.currentTarget.setPointerCapture(event.pointerId); }}
     onPointerMove={event => { const current = drag.current; if (!current || current.pointerId !== event.pointerId) return; const dx = event.clientX - current.x, dy = event.clientY - current.y; if (Math.hypot(dx, dy) > 7) current.moved = true; if (current.moved) { event.currentTarget.style.translate = `${dx}px ${dy}px`; event.currentTarget.style.zIndex = '30'; event.currentTarget.dataset.dragging = 'true'; } }}
     onPointerUp={finish} onPointerCancel={event => reset(event.currentTarget)} onLostPointerCapture={event => { if (drag.current) reset(event.currentTarget); }}>

@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
 import { measureShapeHoles } from '../scripts/shape-art-masks.mjs';
-import { HOLES, PLATE, shapeOrder } from '../src/features/games/data/shapeArt.ts';
+import { HOLES, PLATE, shapeOrder, shapePalettes, plateFor, blockArt, pickShapePalette, nextShapePalette } from '../src/features/games/data/shapeArt.ts';
 import { nearestDropTarget } from '../src/features/games/engine/rules.ts';
 
 /* ภาพถาด 32 สถานะเข้ารหัสแบบ lossy จึงเทียบทีละพิกเซลไม่ได้
    ตรวจแทนว่าในแต่ละหลุม สีเฉลี่ยใกล้ "ถาดครบ" เมื่อหยอดแล้ว และใกล้ "ถาดเปล่า" เมื่อยังไม่หยอด
    และพื้นที่นอกหลุมทั้งหมดยังเหมือนถาดเปล่า (ต่างกันแค่ระดับ noise ของการบีบอัด) */
-test('32 shape plates accumulate exactly the requested sockets', async () => {
-  const path = mask => `public/games/shape/plate-${mask}.webp`;
+for (const palette of shapePalettes) test(`${palette}: 32 shape plates accumulate exactly the requested sockets`, async () => {
+  const path = mask => `public${plateFor(shapeOrder.filter((_, i) => mask[i] === '1'), palette)}`;
   const read = async mask => sharp(path(mask)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const base = await read('00000');
   assert.equal(base.info.width, 900);
@@ -37,6 +37,44 @@ test('32 shape plates accumulate exactly the requested sockets', async () => {
       diff += Math.abs(data[p] - base.data[p]) + Math.abs(data[p + 1] - base.data[p + 1]) + Math.abs(data[p + 2] - base.data[p + 2]); n++;
     }
     assert.ok(diff / n / 3 < 4, `${mask}: พื้นที่นอกหลุมต้องเหมือนถาดเปล่า (ต่างเฉลี่ย ${(diff / n / 3).toFixed(2)})`);
+  }
+});
+
+test('palette selection preserves original assets and alternates without changing shape IDs', () => {
+  assert.equal(pickShapePalette(0), 'classic');
+  assert.equal(pickShapePalette(0.4999), 'classic');
+  assert.equal(pickShapePalette(0.5), 'pastel');
+  assert.equal(pickShapePalette(0.9999), 'pastel');
+  for (const palette of shapePalettes) {
+    assert.notEqual(nextShapePalette(palette), palette);
+    assert.equal(nextShapePalette(nextShapePalette(palette)), palette);
+    assert.match(plateFor(['star', 'circle'], palette), /plate-10001.webp$/);
+    assert.match(blockArt('star', palette), /block-star.webp$/);
+  }
+  assert.equal(blockArt('circle'), '/games/shape/block-circle.webp');
+  assert.equal(plateFor([]), '/games/shape/plate-00000.webp');
+});
+
+test('new palette has transparent blocks, solid interiors, matching filled colors and unchanged tray alpha', async () => {
+  const base = await sharp(`public${plateFor([])}`).ensureAlpha().raw().toBuffer();
+  const full = await sharp(`public${plateFor(shapeOrder, 'pastel')}`).ensureAlpha().raw().toBuffer();
+  const sockets = await measureShapeHoles(`public${plateFor([])}`);
+  const hue = ([r, g, b]) => {
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    return ((max === r ? (g - b) / d : max === g ? (b - r) / d + 2 : (r - g) / d + 4) * 60 + 360) % 360;
+  };
+  for (let i = 3; i < base.length; i += 4) assert.equal(full[i], base[i], `tray alpha at ${i}`);
+  for (const shape of shapeOrder) {
+    const { data, info } = await sharp(`public${blockArt(shape, 'pastel')}`).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    assert.equal(info.width, 420); assert.equal(info.height, 420);
+    assert.equal(data[3], 0, `${shape}: transparent corner`);
+    const center = (210 * 420 + 210) * 4;
+    assert.equal(data[center + 3], 255, `${shape}: solid center`);
+    const mask = await sharp(sockets[shape].mask).raw().toBuffer();
+    const mean = [0, 0, 0]; let n = 0;
+    for (let p = 0; p < full.length; p += 4) if (mask[p + 3]) { for (let c = 0; c < 3; c++) mean[c] += full[p + c]; n++; }
+    const diff = Math.abs(hue(mean.map(v => v / n)) - hue([...data.subarray(center, center + 3)]));
+    assert.ok(Math.min(diff, 360 - diff) < 20, `${shape}: block color matches filled socket`);
   }
 });
 

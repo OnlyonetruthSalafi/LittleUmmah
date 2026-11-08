@@ -525,6 +525,7 @@
   gap: 12px;
   margin-bottom: 10px;
 }
+.mrl-cartoon-head .ui-pill { flex-shrink: 0; min-width: 64px; }
 .mrl-stage {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -559,6 +560,16 @@
 }
 .mrl-stage-word [lang="ar"] { font-size: clamp(1.4rem, 4.5vw, 2.4rem); font-weight: 700; line-height: 1.5; }
 .mrl-stage-word-th { font-family: var(--font-display); font-size: clamp(0.85rem, 2.2vw, 1.1rem); font-weight: 800; }
+/* C-8: ป้ายดุอาอ์เต็มบทต้องไม่ถูกตัดหรือบังภาพ ไม่ย่อตัวอาหรับเพื่อยัดลงภาพ */
+.mrl-word-above {
+  position: static;
+  transform: none;
+  width: 100%;
+  margin-bottom: 12px;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.mrl-word-above[data-say] { box-shadow: 0 0 0 4px rgb(255 214 92 / 0.55), var(--shadow-float); }
 /* อายะฮ์ยาว: บรรทัดเดียวบนจอกว้าง ตัวเล็กลงบนจอแคบ ไม่บังสัตว์ในฉาก */
 .mrl-stage-word[data-long] { width: max-content; max-width: 86%; padding-inline: 14px; text-align: center; }
 .mrl-stage-word[data-long] [lang="ar"] { font-size: clamp(0.95rem, 3vw, 1.7rem); line-height: 1.7; }
@@ -675,6 +686,12 @@
   margin-top: 12px;
 }
 .mrl-cartoon-controls button:disabled { opacity: 0.4; cursor: default; }
+/* ข้อความเล่นต่อสองภาษาต้องไม่บีบปุ่มย้อน/ถัดไปให้เล็กกว่า 64px */
+.mrl-cartoon-controls .ui-round { flex-shrink: 0; }
+@media (max-width: 639px) {
+  .mrl-cartoon-controls { gap: 8px; }
+  .mrl-cartoon-controls .ui-pill { padding-inline: 12px; }
+}
 .mrl-dots {
   display: flex;
   justify-content: center;
@@ -697,13 +714,15 @@
   font-weight: 800;
 }
 @media (max-width: 639px) {
+  .mrl-cartoon-controls { gap: 8px; }
+  .mrl-cartoon-controls .ui-pill { min-width: 0; padding-inline: 8px; flex: 1; }
   .mrl-say { display: none; }
   .mrl-stage-word { top: 3%; padding: 2px 14px 4px; border-width: 2px; }
   .mrl-cartoon-head .ui-pill { padding-inline: 14px; }
 }
 @media (min-width: 640px) {
   /* จอกว้างบอกบนฉากแล้ว บรรทัดนี้เหลือไว้ให้ screen reader */
-  .mrl-say-caption {
+  .mrl-say-caption:not([data-above]) {
     position: absolute;
     width: 1px;
     height: 1px;

@@ -2,14 +2,19 @@
   ตรวจขั้นตอนเข้าเกมแนวนอน (เขาวงกตแสง): แตะการ์ด → เต็มจอ → บังคับหมุนจอ → สอนเล่น → ข้ามได้ → นับถอยหลัง → เล่น
 
   วิธีใช้
-    npx next start -p 3210
-    node scripts/check-game-landscape-browser.mjs http://localhost:3210
+    npx next start -p 3101
+    node scripts/check-game-landscape-browser.mjs
+
+  ต้องมี baseline main ที่พอร์ต 3102 (หรือ LANDSCAPE_BASELINE_URL)
+  LANDSCAPE_GAMES เลือกเกมสำหรับตรวจระหว่างพัฒนา; ไม่ตั้งเมื่อตรวจรับ
 
   ตั้ง PLAYWRIGHT_MODULE และ PLAYWRIGHT_EXECUTABLE ถ้าเครื่องเก็บไว้คนละที่
   ภาพหน้าจอเก็บที่ output/game-landscape/
 */
-import { mkdir } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
+import { checkMemoryBrowser } from './check-memory-browser.mjs';
+import { runStage1Matrix, runComingSoon, runLightMazeRegression, runStage1Flow, runStage1Input, runDesktopArtworkRegression } from "./game-landscape-stage1.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(
@@ -19,10 +24,14 @@ const { chromium } = require(
 const executablePath =
   process.env.PLAYWRIGHT_EXECUTABLE ||
   "C:/Users/User/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe";
-const base = process.argv[2] ?? "http://localhost:3210";
+const base = process.argv[2] ?? "http://localhost:3101";
 
+const out = process.env.BROWSER_CHECK_OUT ?? 'output/games-landscape-consult';
+await mkdir(out, { recursive: true });
 const failures = [];
+let checks = 0;
 const check = (ok, label) => {
+  checks++;
   console.log(`${ok ? "ok  " : "FAIL"} ${label}`);
   if (!ok) failures.push(label);
 };
@@ -32,6 +41,7 @@ const browser = await chromium.launch({ headless: true, executablePath });
 const noOverflow = page => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth && document.documentElement.scrollHeight <= innerHeight);
 const box = (page, selector) => page.locator(selector).first().boundingBox();
 
+try {
 // มือถือ: แตะการ์ดตอนจอตั้ง
 {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
@@ -44,6 +54,9 @@ const box = (page, selector) => page.locator(selector).first().boundingBox();
   await page.goto(`${base}/games`, { waitUntil: "networkidle" });
   await page.locator('a[href$="/games/light-maze"]').first().tap();
   await page.waitForSelector(".gc-rotate", { timeout: 20000 });
+  // Fullscreen is asynchronous and can settle after the route's rotate gate.
+  // Keep the assertion below; allow the browser to finish the request first.
+  await page.waitForFunction(() => !!document.fullscreenElement, null, { timeout: 3000 }).catch(() => {});
   check(await page.evaluate(() => !!document.fullscreenElement), "แตะการ์ดแล้วเต็มจอ และยังเต็มจออยู่ในหน้าเกม");
   await page.waitForTimeout(1300);
   check(clips.includes("rotate-phone.mp3"), "หน้าหมุนจอมีเสียงบอก");
@@ -128,6 +141,20 @@ const box = (page, selector) => page.locator(selector).first().boundingBox();
   await context.close();
 }
 
-await browser.close();
-console.log(failures.length ? `\nไม่ผ่าน ${failures.length} ข้อ` : "\nผ่านทุกข้อ");
+await checkMemoryBrowser(browser, base);
+await runStage1Matrix(browser, base, check, out);
+await runComingSoon(browser, base, check, out);
+await runLightMazeRegression(browser, base, check, out);
+await runStage1Flow(browser, base, check, out);
+await runStage1Input(browser, base, check, out);
+await runDesktopArtworkRegression(browser, base, check, out);
+const { runArabicMatchBrowser } = await import('./check-arabic-match-browser.mjs');
+await runArabicMatchBrowser(base);
+} catch (error) {
+  check(false, error.stack ?? String(error));
+} finally {
+  await browser.close();
+}
+await writeFile(`${out}/stage1-browser-summary.json`, JSON.stringify({base, checks, passed: checks-failures.length, failures, selectedGames: process.env.LANDSCAPE_GAMES??'all', at: new Date().toISOString()}, null, 2));
+console.log(failures.length ? `\nไม่ผ่าน ${failures.length}/${checks} ข้อ` : `\nผ่านทุกข้อ (${checks})`);
 process.exit(failures.length ? 1 : 0);
