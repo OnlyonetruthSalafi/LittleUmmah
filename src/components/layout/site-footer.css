@@ -1,0 +1,77 @@
+/* ท้ายเว็บ — ฟ้ากลางคืนกรมท่า ขอบบนเป็นเมฆโค้งสองชั้น ดาวทองนิ่ง (ไม่กระพริบ ข้อ 2.1)
+   contrast: ขาวบน #123a72 = 11.2:1 · #cfe0f5 บน #0f2d52 ≈ 10:1 · ลิงก์ทอง #ffd56a บนกรมท่า ≈ 10:1 */
+.site-footer { --sf-navy: #123a72; --sf-deep: #0b2142; position: relative; margin-top: 96px; color: #fff; isolation: isolate; }
+/* หน้าแรก: Footer อยู่ใน LowerScene ภาพเมืองลอยฟ้าจึงต่อลงมาหลังเมฆ ไม่เหลือแถบฟ้าอ่อน */
+
+/* ขอบเมฆ: ก้อนวงกลมสีกรมท่าหลายขนาดเรียงซ้อนกัน (ไม่ใช่คลื่นเท่ากันทุกลูก) */
+.sf-clouds {
+  position: absolute; left: 0; right: 0; bottom: 100%; height: 90px; pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 100%, var(--sf-navy) 0 46px, transparent 47px) 0 100% / 132px 60px repeat-x,
+    radial-gradient(circle at 50% 100%, #1a4a88 0 64px, transparent 65px) 58px 100% / 196px 86px repeat-x;
+}
+.sf-nuri { position: absolute; z-index: 1; right: max(16px, 7vw); bottom: calc(100% + 12px); width: clamp(84px, 9vw, 124px); height: auto; filter: drop-shadow(0 6px 6px #0b214266); pointer-events: none; }
+
+.sf-sky {
+  background:
+    radial-gradient(1.6px 1.6px at 12% 18%, #ffe08a 98%, transparent) ,
+    radial-gradient(1.2px 1.2px at 27% 62%, #fff 98%, transparent),
+    radial-gradient(2px 2px at 44% 30%, #ffe08a 98%, transparent),
+    radial-gradient(1.2px 1.2px at 63% 74%, #fff 98%, transparent),
+    radial-gradient(1.8px 1.8px at 78% 22%, #ffe08a 98%, transparent),
+    radial-gradient(1.2px 1.2px at 91% 56%, #fff 98%, transparent),
+    radial-gradient(1.4px 1.4px at 6% 82%, #fff 98%, transparent),
+    linear-gradient(180deg, var(--sf-navy) 0%, #0f2d5c 45%, var(--sf-deep) 100%);
+  padding: 28px 16px calc(16px + env(safe-area-inset-bottom));
+}
+@media (width >= 40rem) { .sf-sky { padding-inline: 32px; } }
+
+.sf-inner { max-width: 1200px; margin: 0 auto; display: grid; gap: 28px; }
+@media (width >= 48rem) { .sf-inner { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+@media (width >= 72rem) {
+  .sf-inner { grid-template-columns: 1fr 1.1fr 1.7fr .9fr; column-gap: 32px; }
+  .sf-sponsor-card { flex-direction: column; align-items: flex-start; }
+}
+
+.sf-heading { margin: 0 0 10px; font-family: var(--font-display); font-size: 1.125rem; font-weight: 800; color: #ffd56a; }
+.sf-sub { display: block; font-size: .8125rem; font-weight: 500; color: #cfe0f5; }
+
+.sf-name { margin: 0; white-space: nowrap; font-size: clamp(1.75rem, 2.4vw, 2.1rem); font-weight: 800; line-height: 1.1; color: #fff; text-shadow: 0 3px 0 #0b2142; }
+.sf-motto { margin: 8px 0 0; font-weight: 700; line-height: 1.6; }
+.sf-motto-sub { margin: 2px 0 0; font-size: .875rem; color: #cfe0f5; }
+
+.sf-promise ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.sf-promise li { display: flex; align-items: flex-start; gap: 10px; font-weight: 700; line-height: 1.45; }
+.sf-check { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #f5c451; color: var(--sf-deep); box-shadow: 0 2px 0 #b07d1c; }
+.sf-check svg { width: 18px; height: 18px; }
+.sf-sources { margin: 14px 0 0; font-size: .9rem; line-height: 1.6; color: #cfe0f5; }
+
+.sf-text-link { display: inline-flex; align-items: center; gap: 6px; min-height: 48px; color: #ffd56a; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.sf-sources .sf-text-link { min-height: 0; padding-block: 12px; } /* ลิงก์กลางประโยค: ขยายพื้นที่แตะด้วย padding */
+@media (hover: hover) { .sf-text-link:hover { color: #fff; } }
+.sf-text-link:focus-visible, .sf-island:focus-visible { outline: 3px solid #fff; outline-offset: 3px; border-radius: 12px; }
+
+/* ลิงก์เกาะ: ภาพเกาะจริงขนาดเล็ก + ชื่อ · ปุ่มที่เด็กกด สูง 64px (ข้อ 2) */
+.sf-islands ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.sf-island {
+  display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 6px 10px 6px 6px;
+  border-radius: 18px; background: #ffffff12; box-shadow: inset 0 0 0 1px #ffffff24;
+  color: #fff; font-weight: 700; font-size: .95rem; line-height: 1.3; text-decoration: none; text-wrap: balance;
+  transition: background-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.sf-island-art { flex: none; width: 48px; height: 48px; object-fit: contain; transition: translate 200ms ease-out, scale 200ms ease-out; }
+@media (hover: hover) { .sf-island:hover { background: #ffffff21; box-shadow: inset 0 0 0 1px #ffd56a99, 0 6px 14px -6px #0009; } }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .sf-island:hover .sf-island-art { translate: 0 -3px; scale: 1.06; } }
+  .sf-island:active { scale: .98; transition-duration: 75ms; }
+}
+
+.sf-sponsor-card { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 20px; background: #ffffff0d; box-shadow: inset 0 0 0 1px #e9be4f59; }
+.sf-sponsor-card p { margin: 0; font-size: .95rem; font-weight: 600; line-height: 1.5; }
+.sf-sponsor-logo { flex: none; width: 76px; height: 76px; object-fit: contain; }
+.sf-sponsor-word { flex: none; font-size: 1.4rem; font-weight: 800; color: #f5c451; }
+
+.sf-bottom { max-width: 1200px; margin: 28px auto 0; padding-top: 8px; border-top: 1px solid #ffffff26; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; font-size: .875rem; color: #cfe0f5; }
+.sf-bottom p { margin: 0; }
+.sf-bottom ul { display: flex; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.sf-parents svg { width: 20px; height: 20px; }

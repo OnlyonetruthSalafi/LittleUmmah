@@ -49,6 +49,7 @@ next-env.d.ts
 /public/games/puzzle/*.png
 /public/games/hub/*.png
 /public/games/classroom/*.png
+/public/sponsors/*.png
 /public/games/common/objects/*.png
 /public/games/common/backgrounds/*.png
 /public/games/memorygame/*.png

@@ -159,7 +159,12 @@ for (const [touch, viewport] of [[false, { width: 1280, height: 800 }], [true, {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
   await page.goto(base, { waitUntil: "networkidle" });
   await inspectHomepage(page, check);
-  await page.locator('[data-home-zone="play"] a[href="/learn/games"]').click();
+  // หน้าแรกเป็นวงเกาะโคจร: แตะครั้งแรกหมุนเกาะเกมมาหน้า แตะซ้ำเข้าเกาะ
+  const gamesIsland = page.locator('.orbit-island[data-slug="games"] a');
+  await gamesIsland.dispatchEvent('click');
+  await page.locator('.orbit-island[data-slug="games"][data-front]').waitFor();
+  await page.waitForTimeout(600);
+  await gamesIsland.click();
   await page.waitForURL("**/games");
   await page.locator(".gh-page").waitFor();
   check((await page.locator(".gh-page").count()) === 1, "home play island opens games hub");

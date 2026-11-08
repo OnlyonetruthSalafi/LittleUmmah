@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { SkyScene } from "@/components/landing/SkyScene";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 /*
@@ -12,6 +13,7 @@ export function PageShell({ children }: { children: ReactNode }) {
     <SkyScene>
       <SiteHeader />
       <main className="mx-auto w-full max-w-6xl px-4 pt-4 pb-16 sm:px-8">{children}</main>
+      <SiteFooter />
     </SkyScene>
   );
 }

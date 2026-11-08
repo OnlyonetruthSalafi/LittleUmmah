@@ -189,7 +189,12 @@ export async function runStage1Flow(browser,base,check,out='output/games-landsca
   await home.goto(base,{waitUntil:'networkidle'});
   await inspectHomepage(home,check);
   // หน้าแรกไม่มีทางลัดเกมย่อยแล้ว (เจ้าของโปรเจกต์สั่ง 8 พ.ย. 2026) — เดินจากเกาะ "เกม" เข้าหน้ารวมเกม แล้วกดเกมรูปทรง
-  await home.locator('[data-home-zone="play"] a[href="/learn/games"]').click();
+  // หน้าแรกเป็นวงเกาะโคจร: แตะครั้งแรกหมุนเกาะเกมมาหน้า แตะซ้ำเข้าเกาะ
+  const gamesIsland = home.locator('.orbit-island[data-slug="games"] a');
+  await gamesIsland.dispatchEvent('click');
+  await home.locator('.orbit-island[data-slug="games"][data-front]').waitFor();
+  await home.waitForTimeout(600);
+  await gamesIsland.click();
   await home.waitForURL('**/learn/games');
   await home.locator('a[href="/games/shape-match"]').first().click();
   await home.waitForURL('**/games/shape-match');

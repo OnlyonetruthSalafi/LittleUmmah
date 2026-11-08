@@ -39,6 +39,8 @@ const JOBS = [
   { dir: "public/stories/cave", width: 1200, quality: 82 },
   { dir: "public/stories/yusuf", width: 1200, quality: 82 },
   { dir: "public/games/classroom", width: 1920, quality: 82 },
+  // โลโก้ผู้สนับสนุนใน Footer (แสดง ~76px, จอ 2x = 152) — IMG-7 วาดใหม่จากโลโก้ Shuhada ที่เจ้าของโปรเจกต์ให้มา
+  { dir: "public/sponsors", width: 256, quality: 90 },
   { dir: "public/stories/shelf", width: 1400, quality: 84 },
   // หนังสือนิทานแบบสมจริง (docs/briefs/archive/CODEX_STORYBOOK_BRIEF.md): เล่มเปิดหน้าว่างแสดงกว้างสุด ~1250px คมบนจอ 2x ที่ 2400, กระดาษ/ลายปกใน 1024 ไม่ขยาย
   { dir: "public/stories/book", width: 2400, quality: 86 },

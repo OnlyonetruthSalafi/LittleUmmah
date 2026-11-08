@@ -1,0 +1,97 @@
+/* วงเกาะโคจร (IslandOrbit.tsx) — ระยะจริงทั้งหมดอยู่ที่นี่ JS ส่งมาแค่ sin/cos/scale ไร้หน่วย
+   มือถือเกาะเล็กลง (เจ้าของโปรเจกต์ 9 พ.ย. 2026): เกาะหน้ากว้าง 44vw เห็นเกาะข้างเคียงชัดสองฝั่ง */
+.orbit-stage {
+  --size: 44vw;          /* ความกว้างเกาะหน้าสุด */
+  --rx: 60vw;            /* รัศมีแนวนอน — มือถือกว้างเกินจอ: เกาะข้างโผล่ครึ่งเกาะที่ขอบจอ ไม่อัดซ้อนเกาะหน้า (เจ้าของโปรเจกต์ 9 พ.ย. 2026) */
+  --ry: 90px;            /* รัศมีแนวลึก — เกาะครึ่งวงหลังยกขึ้นไปลางๆ เหนือเกาะหน้า ไม่ซ้อนกัน */
+  --cyc: 38%;            /* จุดศูนย์กลางวงในแนวตั้ง */
+  position: relative;
+  height: 440px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-x: clip;
+}
+/* แท็บเล็ต: แบบเดียวกับมือถือ (เกาะหน้า + เกาะข้างโผล่ขอบจอ) เกาะใหญ่ขึ้น */
+@media (width >= 40rem) {
+  .orbit-stage { --size: min(34vw, 290px); --rx: 50vw; --ry: 100px; --cyc: 37%; height: 545px; }
+}
+/* จอใหญ่: เห็นทั้งวง 10 เกาะ เกาะหลังเล็กและจาง */
+@media (width >= 64rem) {
+  .orbit-island { transform: translate(-50%, -50%) scale(calc(.38 + .62 * var(--d))); opacity: calc(.35 + .65 * var(--d)); }
+  .orbit-stage { --size: min(21vw, 280px); --rx: min(38vw, 520px); --ry: min(8vw, 100px); --cyc: 38%; height: clamp(540px, 72vh, 660px); }
+}
+
+/* ไม่มีเส้นประวงโคจร (เจ้าของโปรเจกต์ขอเอาออก 9 พ.ย. 2026) */
+.orbit-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.orbit-island {
+  position: absolute;
+  left: calc(50% + var(--sx) * var(--rx));
+  top: calc(var(--cyc) + var(--cy) * var(--ry));
+  width: var(--size);
+  /* --d = ความใกล้กล้อง 1 (หน้าสุด) → 0 (หลังสุด)
+     มือถือ/แท็บเล็ต: ย่อแบบกำลังสอง — เกาะข้างยังใหญ่ เกาะครึ่งวงหลังเล็กและจางลางๆ อยู่สูงเหนือเกาะหน้า (เจ้าของโปรเจกต์ 9 พ.ย. 2026) */
+  transform: translate(-50%, -50%) scale(calc(.3 + .7 * var(--d) * var(--d)));
+  opacity: calc(.3 + .7 * var(--d));
+  will-change: transform;
+}
+.orbit-hit {
+  display: flex; flex-direction: column; align-items: center; width: 100%;
+  min-width: 64px; min-height: 64px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: inherit; text-decoration: none; border-radius: 24px;
+  -webkit-tap-highlight-color: transparent;
+}
+.orbit-hit:focus-visible { outline: 4px solid #123a72; outline-offset: 4px; background: #ffffffb3; }
+.orbit-art { position: relative; display: block; width: 100%; aspect-ratio: 1; }
+.orbit-art img {
+  display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none;
+  filter: drop-shadow(0 10px 12px rgb(20 50 90 / 25%)) saturate(calc(.6 + .4 * var(--d))) brightness(calc(.85 + .15 * var(--d)));
+  transition: translate 200ms ease-out, scale 200ms ease-out;
+}
+.orbit-lock { position: absolute; top: 10%; right: 10%; width: 22%; aspect-ratio: 1; pointer-events: none; }
+.orbit-lock svg { display: block; width: 100%; height: 100%; }
+
+/* ชื่อเกาะ เฉพาะเกาะหน้าสุด — ขอบขาวแบบ sticker เหมือนหน้าแรกเดิม (วงเงาไม่เบลอ ไม่ใช้ text-stroke มุมแหลม) */
+.orbit-caption {
+  position: relative; z-index: 1; /* อยู่เหนือภาพเกาะ (.orbit-art เป็น position:relative จึงวาดทับข้อความที่ไม่ได้ position) */
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  margin-top: -6%; padding: 0 4px 4px; text-align: center;
+  opacity: 0; transition: opacity 200ms ease-out;
+}
+.orbit-island[data-front] .orbit-caption { opacity: 1; }
+.orbit-name, .orbit-name-sub {
+  color: #0f1d33; font-weight: 800; line-height: 1.3; text-wrap: balance;
+  text-shadow: 2.5px 0 0 #fff, -2.5px 0 0 #fff, 0 2.5px 0 #fff, 0 -2.5px 0 #fff, 1.8px 1.8px 0 #fff, -1.8px 1.8px 0 #fff, 1.8px -1.8px 0 #fff, -1.8px -1.8px 0 #fff, 2.3px 1px 0 #fff, -2.3px 1px 0 #fff, 2.3px -1px 0 #fff, -2.3px -1px 0 #fff, 1px 2.3px 0 #fff, -1px 2.3px 0 #fff, 1px -2.3px 0 #fff, -1px -2.3px 0 #fff, 0 4px 0 rgb(18 58 114 / 35%);
+}
+.orbit-name { font-size: clamp(1.05rem, 4.6vw, 1.6rem); }
+.orbit-name-sub { font-size: .875rem; font-weight: 600; }
+
+/* hover เกาะหน้า: ขยับเฉพาะภาพ ชื่ออยู่นิ่ง (ข้อ 2.1) */
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .orbit-island[data-front] .orbit-hit:hover .orbit-art img { translate: 0 -4px; scale: 1.03; } }
+  .orbit-island[data-front] .orbit-hit:active .orbit-art img { scale: .98; transition-duration: 75ms; }
+}
+
+/* ลูกศร 64px สองข้าง */
+.orbit-controls { position: absolute; z-index: 200; left: 0; right: 0; top: var(--cyc); translate: 0 -50%; display: flex; justify-content: space-between; padding: 0 8px; pointer-events: none; }
+.orbit-arrow {
+  pointer-events: auto; display: grid; place-items: center; width: 64px; height: 64px;
+  border-radius: 50%; border: 3px solid #123a72; background: #fff; color: #123a72; cursor: pointer;
+  box-shadow: 0 4px 0 #123a72; transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+@media (hover: hover) { .orbit-arrow:hover { box-shadow: 0 6px 0 #123a72; } }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) { .orbit-arrow:hover { transform: translateY(-2px); } }
+  .orbit-arrow:active { transform: scale(.98); transition-duration: 75ms; }
+}
+.orbit-arrow:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+
+.orbit-hint {
+  position: absolute; z-index: 200; left: 50%; top: 4px; translate: -50% 0; max-width: calc(100% - 32px);
+  padding: 6px 14px; border-radius: 999px; background: #fff; color: #0f1d33; font-size: .875rem; font-weight: 700;
+  box-shadow: 0 3px 0 #123a72; text-align: center; transition: opacity 300ms ease-out;
+}
+.orbit-stage[data-touched] .orbit-hint { opacity: 0; pointer-events: none; }
+.orbit-dots { position: absolute; z-index: 200; left: 50%; bottom: 8px; translate: -50% 0; display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.orbit-dots li { width: 10px; height: 10px; border-radius: 50%; background: rgb(255 255 255 / 70%); box-shadow: 0 0 0 1px #123a7233; }
+.orbit-dots li[data-on] { background: #123a72; }
