@@ -10,7 +10,7 @@
 
 | เกาะ | เส้นทาง |
 |---|---|
-| ภาษาอาหรับ | `/learn/arabic` |
+| ภาษาอาหรับ | `/learn/languages` |
 | มารยาท | `/learn/moral` |
 | เรื่องเล่า (หนังสือนิทาน) | `/learn/stories` |
 | สำรวจโลก | `/learn/explore` |

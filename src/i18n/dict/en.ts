@@ -1,5 +1,7 @@
 import type { Dictionary } from "./index";
 import { errorText } from "./error";
+import { ENGLISH_COURSE_DONE } from "../../features/languages/data/english";
+import { THAI_COURSE_DONE } from "../../features/languages/data/thai";
 
 /*
   ข้อความหน้าเว็บภาษาอังกฤษ — key ต้องตรงกับ th.ts ทุกตัว
@@ -35,6 +37,47 @@ export const en: Dictionary = {
     retry: errorText.retry.en,
     home: errorText.home.en,
     reference: errorText.reference.en,
+  },
+  languages: {
+    title: "Language island",
+    subtitle: "Choose your classroom",
+    welcome: "Nuri is ready. Choose a language and come read together.",
+    enter: "Enter classroom",
+    soon: "Coming soon",
+    closedHeading: "Classrooms on the way",
+    names: { english: "English", thai: "Thai", arabic: "Arabic", bengali: "Bengali", indonesian: "Indonesian" },
+    courses: {
+      arabic: {
+        title: "Arabic classroom",
+        intro: "Discover Arabic letters. Listen to Nuri and read along, one letter at a time.",
+        courseDone: "Well done! You learned all 28 letters, from Alif to Ya.",
+        courseDoneSpeech: "Well done! You learned all twenty-eight Arabic letters. Come back and practise with me any day.",
+        pathLabel: "The 28-letter path",
+        pathLearned: "{count} of {total} letters learned",
+        goalHint: "Reach Ya, all 28 letters, for the big gold star",
+        goalReached: "All 28 letters done. Well done!",
+      },
+      english: {
+        title: "English classroom",
+        intro: "Learn letters A–Z, words and simple phrases with Nuri.",
+        courseDone: "Well done! You learned all 26 letters, from A to Z.",
+        courseDoneSpeech: ENGLISH_COURSE_DONE.en,
+        pathLabel: "The 26-letter path · A–Z",
+        pathLearned: "{count} of {total} letters learned",
+        goalHint: "Reach Z, all 26 letters, for the big gold star",
+        goalReached: "All 26 letters done. Well done!",
+      },
+      thai: {
+        title: "Thai classroom",
+        intro: "Learn consonants ก–ฮ, vowels, tones and easy words with Nuri.",
+        courseDone: "Well done! You learned all 44 consonants, from ก to ฮ.",
+        courseDoneSpeech: THAI_COURSE_DONE.en,
+        pathLabel: "The 44-consonant path · ก–ฮ",
+        pathLearned: "{count} of {total} letters learned",
+        goalHint: "Reach ฮ, all 44 consonants, for the big gold star",
+        goalReached: "All 44 consonants done. Well done!",
+      },
+    },
   },
   arabic: {
     classroom: {

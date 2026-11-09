@@ -21,7 +21,7 @@ try {
     const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: width === 320 ? 'reduce' : 'no-preference', hasTouch: width < 800 });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${width}: ${error.message}`));
-    await page.goto(`${base}/learn/arabic`);
+    await page.goto(`${base}/learn/languages/arabic`);
     await page.locator('.cls-stage').waitFor();
 
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}`);
@@ -89,7 +89,7 @@ try {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`anchor: ${error.message}`));
-    await page.goto(`${base}/learn/arabic#juniors`);
+    await page.goto(`${base}/learn/languages/arabic#juniors`);
     await page.waitForFunction(() => document.querySelector('.cls-board-text')?.getAttribute('data-size') === 'phrase');
     assert.equal(await page.getByRole('button', { name: /7 ปีขึ้นไป/ }).getAttribute('aria-pressed'), 'true');
     await context.close();
@@ -112,7 +112,7 @@ try {
       const play = HTMLMediaElement.prototype.play;
       HTMLMediaElement.prototype.play = function (...args) { window.__played += 1; return play.apply(this, args); };
     });
-    await page.goto(`${base}/learn/arabic`);
+    await page.goto(`${base}/learn/languages/arabic`);
 
     // เริ่มที่บทสุดท้ายของวัยเล็ก เพื่อให้ได้ครบวงจร สอน -> อ่านนำ -> เว้นจังหวะ -> ชม -> จบคาบ ในเวลาไม่นาน
     // วัย 3-6 เป็นเส้นทางเดียว อะลิฟ → ยาอ์ กดแผ่นป้ายยาอ์ (ตัวที่ 28) แล้วต้องจบหลักสูตรพร้อมท่าฉลอง

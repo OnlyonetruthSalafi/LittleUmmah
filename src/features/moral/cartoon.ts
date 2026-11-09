@@ -1,3 +1,6 @@
+import type { Text } from "@/i18n/config";
+import type { FriendId, FriendPose } from "@/lib/friends";
+
 import type { GuidePose } from "./data";
 
 /*
@@ -29,11 +32,11 @@ export type ScenePhoto = {
   width: number;
   height: number;
   /** alt ภาษาไทย บอกว่าเป็นสัตว์อะไร ทำอะไร — ภาพนี้สื่อความหมาย ไม่ใช่ภาพตกแต่ง */
-  alt: string;
+  alt: Text;
   /** ป้ายชื่อใต้ภาพ */
   label: { th: string; en: string };
   /** เครดิตสั้นใต้ภาพ เช่น "ภาพ: Drew Avery (CC BY 2.0)" */
-  credit: string;
+  credit: Text;
 };
 
 export type CartoonScene = {
@@ -50,6 +53,10 @@ export type CartoonScene = {
   word?: Word | null;
   /** เวลาแสดงเมื่อไม่มีเสียง (ปิดเสียง หรือเล่นเสียงไม่ได้) */
   ms: number;
+  /** ผองเพื่อนนูรีที่ยืนในฉาก (วางด้วยโค้ดทางซ้าย/กลาง นูรียืนขวาเสมอ) — ใช้เฉพาะบท meet-friends */
+  cast?: { id: FriendId; pose: FriendPose }[];
+  /** เพื่อนที่พูดในฉากนี้ (เสียงของเพื่อนตัวนั้น) แสดงชื่อเป็นข้อความเหนือคำบรรยาย ไม่มี = ครูนูรีพูด */
+  speaker?: FriendId;
 };
 
 export type Cartoon = {
@@ -70,6 +77,105 @@ const YAHDI: Word = { ar: "يَهْدِيكُمُ اللَّهُ وَيُصْل�
 const AUDHU: Word = { ar: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ", th: "อะอูซุบิลลาฮิมินัชชัยฏอนิรรอญีม" };
 
 export const CARTOONS: Record<string, Cartoon> = {
+  /*
+    รู้จักเพื่อนใหม่ (9 พ.ย. 2026) — เจ้าของโปรเจกต์ขอเนื้อหาแนะนำครูนูรีและผองเพื่อน ใช้เสียงต่างกันได้
+    มารยาทเมื่อเจอเพื่อนใหม่: ทักสลาม บอกชื่อ ถามชื่อเพื่อน ยิ้มให้กัน — วัย 3-6 ปี ไม่เล่าหะดีษ ไม่มีตัวบท
+    เพื่อนพูดภาษาไทยล้วน (เสียงของเพื่อนยังไม่ได้ทดสอบการอ่านอาหรับ) ครูนูรีเป็นคนสอนสลามเหมือนบท salam
+    ภาพฉาก = class.webp (ลานว่าง ไม่มีหุ่นชุดน้องหุ่นส้ม/เขียว จะได้ไม่ปนสองชุดตัวละคร) เพื่อนวางด้วยโค้ดจากภาพที่อนุมัติแล้ว
+  */
+  "meet-friends": {
+    // ป้ายสลามขึ้นเฉพาะฉากที่ครูสอนสลาม (ไม่ใส่ word ระดับบท จะได้ไม่ขึ้นตอนเพื่อนแนะนำตัว)
+    scenes: [
+      {
+        bg: CLASS,
+        clip: "meet-hello",
+        pose: "wave",
+        cast: [{ id: "hadi", pose: "stand" }, { id: "sabir", pose: "stand" }, { id: "rassam", pose: "stand" }, { id: "qalam", pose: "stand" }, { id: "safi", pose: "stand" }],
+        th: "วันนี้ครูนูรีพาเพื่อนหุ่นยนต์ห้าตัวมาให้รู้จัก เวลาเจอเพื่อนใหม่ เพื่อนๆ แนะนำตัวกันอย่างไร มาฟังกันนะ",
+        en: "Today Teacher Nuri brings five robot friends for you to meet. How do they introduce themselves? Let's listen.",
+        ms: 7000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-hadi",
+        pose: "stand",
+        speaker: "hadi",
+        cast: [{ id: "hadi", pose: "action" }],
+        th: "เราชื่อฮาดี เป็นนักสำรวจ ชอบส่องกล้องดูท้องฟ้าและภูเขาที่อัลลอฮ์ทรงสร้าง ยินดีที่ได้รู้จักนะ",
+        en: "My name is Hadi, the explorer. I love looking at the sky and the mountains Allah created. Nice to meet you!",
+        ms: 6500,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-sabir",
+        pose: "stand",
+        speaker: "sabir",
+        cast: [{ id: "sabir", pose: "action" }],
+        th: "เราชื่อซาบิร เป็นนักสร้าง ชอบต่อบล็อกให้สูงๆ ถ้าล้มก็ค่อยๆ ต่อใหม่ ไม่ต้องรีบ",
+        en: "My name is Sabir, the builder. I love stacking blocks up high. If they fall, I build again, slowly. No rush!",
+        ms: 6000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-rassam",
+        pose: "stand",
+        speaker: "rassam",
+        cast: [{ id: "rassam", pose: "action" }],
+        th: "เราชื่อรอสซาม เป็นนักวาด ชอบระบายสีดอกไม้ ท้องฟ้า และสายรุ้ง",
+        en: "My name is Rassam, the painter. I love colouring flowers, the sky and rainbows.",
+        ms: 5000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-qalam",
+        pose: "stand",
+        speaker: "qalam",
+        cast: [{ id: "qalam", pose: "action" }],
+        th: "เราชื่อฟาฮีม เป็นนักอ่าน ชอบอ่านหนังสือ และหัดอ่านตัวอักษรอาหรับทุกวัน",
+        en: "My name is Faheem, the reader. I love reading books, and I practise Arabic letters every day.",
+        ms: 5500,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-safi",
+        pose: "stand",
+        speaker: "safi",
+        cast: [{ id: "safi", pose: "action" }],
+        th: "เราชื่อซาฟี เป็นน้องเล็กสุดในแก๊ง กำลังหัดมารยาทอยู่เหมือนกัน มาเป็นเพื่อนกันนะ",
+        en: "My name is Safi, the littlest in the gang. I'm learning good manners too. Let's be friends!",
+        ms: 6000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-salam",
+        pose: "point",
+        th: "ทีนี้ถึงตาหนูแล้ว เจอเพื่อนใหม่ เราทักสลามก่อน พูดว่า อัสสะลามุอะลัยกุม",
+        en: "Now it's your turn. When you meet a new friend, greet them first: Assalamu alaikum.",
+        sayAlong: true,
+        word: SALAM,
+        ms: 6000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-name",
+        pose: "point",
+        cast: [{ id: "hadi", pose: "think" }, { id: "safi", pose: "think" }],
+        th: "แล้วบอกชื่อของเรา ถ้าอยากรู้ชื่อเพื่อน ก็ถามดีๆ ว่า เธอชื่ออะไร",
+        en: "Then tell them your name. If you want to know your friend's name, ask nicely: What's your name?",
+        ms: 6000,
+      },
+      {
+        bg: CLASS,
+        clip: "meet-bye",
+        pose: "wave",
+        cast: [{ id: "hadi", pose: "cheer" }, { id: "sabir", pose: "cheer" }, { id: "rassam", pose: "cheer" }, { id: "qalam", pose: "cheer" }, { id: "safi", pose: "cheer" }],
+        th: "เก่งมาก เจอเพื่อนใหม่ ทักสลาม บอกชื่อ แล้วยิ้มให้กันนะ",
+        en: "Well done! Meet a new friend: say Salam, tell your name, and share a smile.",
+        ms: 5000,
+      },
+    ],
+  },
+
   // C-15: มารยาททั่วไป ไม่มีตัวบทหรือคำกล่าวอ้างทางศาสนา
   "say-sorry": {
     "scenes": [

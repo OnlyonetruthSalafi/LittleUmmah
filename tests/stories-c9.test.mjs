@@ -31,7 +31,9 @@ for (const [slug, count] of [['garden-owners', 8], ['two-gardens', 10]]) {
     assert.equal(story.pages.length, count);
     for (let i = 0; i < count; i++) {
       for (const field of ['th', 'en', 'meaning']) {
-        assert.equal(story.pages[i][field], draft.pages[i][field], `${slug} p${i + 1} ${field}`);
+        // meaning ของเล่มจริงเป็น Text สองภาษาแล้ว (9 พ.ย. 2026) ตรวจท่อนไทยกับร่างที่อนุมัติ
+        const actual = field === 'meaning' ? story.pages[i].meaning?.th : story.pages[i][field];
+        assert.equal(actual, draft.pages[i][field], `${slug} p${i + 1} ${field}`);
       }
       assert.equal(story.pages[i].arabic, undefined);
       assert.equal(story.pages[i].reading, undefined);

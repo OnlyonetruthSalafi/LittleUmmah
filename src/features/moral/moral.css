@@ -731,3 +731,39 @@
     white-space: nowrap;
   }
 }
+
+/* ผองเพื่อนนูรีในบท "รู้จักเพื่อนใหม่" — ยืนพื้นทางซ้าย/กลาง เว้นขวาไว้ให้นูรี (30%) ภาพสเกลเดียวกับนูรี ไม่ trim */
+.mrl-cast {
+  position: absolute;
+  left: 2%;
+  right: 31%;
+  bottom: 1%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.mrl-cast-friend { flex: none; width: 56%; height: auto; filter: drop-shadow(0 10px 10px rgb(30 95 191 / 0.28)); }
+.mrl-cast[data-count="2"] .mrl-cast-friend { width: 44%; }
+.mrl-cast[data-count="5"] .mrl-cast-friend { width: 25%; margin-inline: -2.5%; }
+/* ชื่อผู้พูด: สีประจำตัวบนพื้นขาว (ทุกสี ≥ 4.5:1) และเป็นข้อความเสมอ ไม่สื่อด้วยสีอย่างเดียว */
+.mrl-speaker {
+  display: inline-block;
+  margin: 0 0 4px;
+  padding: 1px 12px;
+  border: 2px solid;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 800;
+  line-height: 1.5;
+}
+.mrl-speaker [lang="en"] { font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) {
+  /* เข้าฉากครั้งเดียว ไม่ลอยวน (ข้อ 2.1) */
+  .mrl-cast { animation: mrl-cast-in 450ms ease-out both; }
+}
+@keyframes mrl-cast-in {
+  from { opacity: 0; transform: translateY(6%); }
+  to { opacity: 1; transform: none; }
+}

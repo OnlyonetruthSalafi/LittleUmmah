@@ -79,7 +79,7 @@ export function MoralSection({
   const listened = useRef(false);
   const listenTimer = useRef(0);
   const scriptOf = (lesson: Lesson) =>
-    [pick(lesson.title), typeof lesson.body === "string" ? lesson.body : pick(lesson.body), lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+    [pick(lesson.title), pick(lesson.body), lesson.reading, lesson.meaning && pick(lesson.meaning)].filter(Boolean).join(" ... ");
 
   const openLesson = (lesson: Lesson) => {
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
@@ -242,15 +242,15 @@ export function MoralSection({
                 {pickSub(open.title)}
               </span>}
             </h3>
-            <p className="mt-2 text-lg leading-relaxed"><ArabicText text={typeof open.body === "string" ? open.body : pick(open.body)} /></p>
-            {sub && typeof open.body !== "string" && <p lang="en" className="text-ink-soft text-sm">{pickSub(open.body)}</p>}
+            <p className="mt-2 text-lg leading-relaxed"><ArabicText text={pick(open.body)} /></p>
+            {sub && <p lang="en" className="text-ink-soft text-sm">{pickSub(open.body)}</p>}
             {open.arabic && (
               <div className="mrl-dialog-arabic">
                 <p lang="ar" dir="rtl" className="text-ink text-2xl leading-loose font-semibold sm:text-3xl">
                   {open.arabic}
                 </p>
                 {open.reading && <p className="mt-1 font-semibold">{t.lessonCard.reading} {open.reading}</p>}
-                {open.meaning && <p className="text-ink-soft text-sm">{t.lessonCard.meaning} {open.meaning}</p>}
+                {open.meaning && <p className="text-ink-soft text-sm">{t.lessonCard.meaning} {pick(open.meaning)}</p>}
               </div>
             )}
             <div className="mt-5 flex flex-wrap gap-3">

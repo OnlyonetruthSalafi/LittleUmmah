@@ -11,6 +11,20 @@
     radial-gradient(circle at 50% 100%, #1a4a88 0 64px, transparent 65px) 58px 100% / 196px 86px repeat-x;
 }
 .sf-nuri { position: absolute; z-index: 1; right: max(16px, 7vw); bottom: calc(100% + 12px); width: clamp(84px, 9vw, 124px); height: auto; filter: drop-shadow(0 6px 6px #0b214266); pointer-events: none; }
+/* ผองเพื่อน: ภาพ 480×480 สเกลเดียวกับนูรี เท้าอยู่ที่ 442/480 จึงดึงลง 8% ของความกว้างให้ยืนบนเมฆ */
+.sf-friends {
+  --sf-fw: 72px;
+  position: absolute; z-index: 1; bottom: calc(100% + 10px);
+  left: max(12px, 4vw); right: calc(max(16px, 7vw) + clamp(84px, 9vw, 124px));
+  display: flex; align-items: flex-end; justify-content: space-around; pointer-events: none;
+}
+.sf-friend { flex: none; width: var(--sf-fw); height: auto; margin-bottom: calc(var(--sf-fw) * -0.08); filter: drop-shadow(0 6px 6px #0b214266); }
+.sf-friend-safi { translate: 0 -10px; } /* ซาฟีเป็นยานลอย */
+.sf-friend-wide { display: none; }
+@media (width >= 40rem) {
+  .sf-friends { --sf-fw: clamp(80px, 9vw, 116px); justify-content: space-evenly; }
+  .sf-friend-wide { display: block; }
+}
 
 .sf-sky {
   background:

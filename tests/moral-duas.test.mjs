@@ -17,7 +17,7 @@ for (const dua of expected) {
     assert.equal(moral[dua.age === 'kids' ? 'juniors' : 'kids'].some(l => l.id === dua.id), false);
     assert.equal(lesson.arabic, dua.arabic);
     assert.equal(lesson.reading, dua.reading);
-    assert.equal(lesson.meaning, dua.meaning);
+    assert.deepEqual(lesson.meaning, { th: dua.meaning, en: dua.meaningEn });
     assert.deepEqual(CARTOONS[dua.id].word, { ar: dua.arabic, th: dua.reading });
     for (const file of ['src/lib/lessons.ts', 'src/features/moral/cartoon.ts']) {
       const source = readFileSync(file, 'utf8');

@@ -35,13 +35,14 @@ export type Cue = "canteen";
 export type StoryPage = {
   /** ภาพเต็มสองหน้า (1536x1024) แบ่งซ้าย-ขวาตรงสันหนังสือ */
   image: string;
-  alt: string;
+  alt: Text;
   th: string;
   en: string;
   /** ข้อความภาษาอาหรับ แสดงเป็นตัวอักษร เสียงพากย์อ่านจาก reading แทน */
   arabic?: string;
   reading?: string;
-  meaning?: string;
+  /** อายะฮ์ภาษาอังกฤษ = Saheeh International ยกเฉพาะท่อน (ข้อ 1.6 + i18n) */
+  meaning?: Text;
   fx?: SceneFx;
   /** บริเวณผิวน้ำในภาพ (% ของภาพหน้าคู่: ซ้าย บน กว้าง สูง) ที่จะมีประกายแสงระยิบ */
   water?: [number, number, number, number];
@@ -63,7 +64,7 @@ export type Story = {
   title: Text;
   /** ภาพปกแนวตั้ง */
   cover: string;
-  coverAlt: string;
+  coverAlt: Text;
   /** หุ่นยนต์ผู้เล่าเรื่อง (ข้อ 1.2) */
   robot: string;
   pages: StoryPage[];

@@ -18,6 +18,7 @@ import { homeIslandNames, prepareHomeIsland, scanHomeAlpha } from "./home-island
    หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
 // Retired homepage PNGs are archived in output/home-2/unused-islands, outside JOBS.
 const JOBS = [
+  { dir: "public/languages", width: 1024, quality: 88 },
   { dir: "public/games/block-builders", width: 1000, quality: 88 },
   { dir: "public/brand", width: 800, quality: 90 },
   { dir: "public/games/balance-scale", width: 1000, quality: 88 },
@@ -49,6 +50,8 @@ const JOBS = [
   { dir: "public/Character/run", width: 640, quality: 86, trim: true },
   // หุ่นหน้าตรงโบกมือ/ยืนถือจอย ต่อท้ายการวิ่งในหน้ารวมเกม — ไม่ trim สามเฟรมจะได้ตำแหน่งตรงกันเป๊ะ (ตัวหุ่นกึ่งกลางภาพ)
   { dir: "public/Character/greet", width: 640, quality: 86 },
+  // ผองเพื่อนนูรี (IMG-8 เจ้าของโปรเจกต์อนุมัติ 9 พ.ย. 2026) — ทุกไฟล์สเกลเดียวกัน (นูรีอ้างอิง 829px บนแคนวาส 1024) ห้าม trim ไม่งั้นสัดส่วนความสูงเพี้ยน
+  { dir: "public/Character/friends", width: 480, quality: 86 },
   // เกาะมารยาท: ภาพการ์ดแสดงกว้างสุด ~260px, ภาพเกาะหัวหน้า ~560px, ป้ายวัย ~60px (ภาพจาก Codex, docs/briefs/archive/CODEX_MORAL_BRIEF.md)
   { dir: "public/moral", width: 1100, quality: 84 },
   // หุ่นยนต์นำทางเกาะมารยาท สี่ท่า ไม่ trim ให้ตำแหน่งตรงกันทุกเฟรม แสดงกว้างสุด ~190px
@@ -144,7 +147,8 @@ for (const job of JOBS) {
     manifest[src.replaceAll("\\", "/")] = digest;
 
     const isHomeIsland = job.dir === "public/islands" && homeIslandNames.includes(file.replace(/\.png$/i, ""));
-    let pipeline = sharp(isHomeIsland ? await prepareHomeIsland(bytes) : bytes);
+    const normalizeAlpha = isHomeIsland || job.dir === "public/languages";
+    let pipeline = sharp(normalizeAlpha ? await prepareHomeIsland(bytes) : bytes);
     if (job.trim) pipeline = pipeline.trim({ threshold: 10 });
     const isBackgroundDir = job.dir === "public/BG";
     const isPatchTarget = digest === CAT_FACE_PATCH.sha256;
@@ -183,11 +187,11 @@ for (const job of JOBS) {
     pipeline = pipeline.resize(job.dir === 'public/games/bead-lacing' && !['island.png', 'tray.png', 'island-tilt.png'].includes(file) ? 320 : file === 'game-hub-bg.png' ? 1536 : job.dir === 'public/games/sequence' && file === 'block.png' ? 320 : job.width, null, { fit: "inside", withoutEnlargement: true });
     // Resampling can reintroduce alpha=254 deep inside a solid surface.
     // Normalize the final-resolution silhouette before lossless alpha encoding.
-    if (isHomeIsland) pipeline = sharp(await prepareHomeIsland(await pipeline.png().toBuffer()));
+    if (normalizeAlpha) pipeline = sharp(await prepareHomeIsland(await pipeline.png().toBuffer()));
     await pipeline
       .webp({ quality: job.quality, effort: 6 })
       .toFile(out);
-    if (isHomeIsland) {
+    if (normalizeAlpha) {
       const alpha = await scanHomeAlpha(out);
       if (!alpha.transparent || !alpha.opaque || alpha.interiorTranslucent) {
         throw new Error(`HOME-2 alpha scan failed: ${JSON.stringify(alpha)}`);

@@ -8,6 +8,8 @@
   - หน้าไทยแสดงคำจากไฟล์นี้เป็นหลัก และคำจาก en.ts เป็นบรรทัดรอง (ไทยนำ อังกฤษรอง)
 */
 import { errorText } from "./error";
+import { ENGLISH_COURSE_DONE } from "../../features/languages/data/english";
+import { THAI_COURSE_DONE } from "../../features/languages/data/thai";
 
 export const th = {
   seo: {
@@ -38,6 +40,47 @@ export const th = {
     retry: errorText.retry.th,
     home: errorText.home.th,
     reference: errorText.reference.th,
+  },
+  languages: {
+    title: "เกาะภาษา",
+    subtitle: "เลือกห้องเรียนของหนู",
+    welcome: "ครูนูรีรออยู่ เลือกภาษาที่อยากเรียน แล้วมาอ่านไปด้วยกันนะ",
+    enter: "เข้าห้องเรียน",
+    soon: "เร็วๆ นี้",
+    closedHeading: "ห้องเรียนที่กำลังเตรียม",
+    names: { english: "ภาษาอังกฤษ", thai: "ภาษาไทย", arabic: "ภาษาอาหรับ", bengali: "ภาษาเบงกาลี", indonesian: "ภาษาอินโดนีเซีย" },
+    courses: {
+      arabic: {
+        title: "ห้องเรียนภาษาอาหรับ",
+        intro: "รู้จักอักษรอาหรับ ฟังครูนูรีและฝึกอ่านตามทีละตัว",
+        courseDone: "เก่งมาก! เรียนครบ 28 ตัว ตั้งแต่อะลิฟถึงยาอ์แล้ว",
+        courseDoneSpeech: "เก่งมากเลย หนูเรียนอักษรอาหรับครบทั้งยี่สิบแปดตัวแล้ว กลับมาทบทวนกับครูได้ทุกวันนะ",
+        pathLabel: "เส้นทาง 28 อักษร",
+        pathLearned: "เรียนแล้ว {count} จาก {total} ตัว",
+        goalHint: "เรียนถึงยาอ์ ครบ 28 ตัว รับดาวทองดวงใหญ่",
+        goalReached: "ครบ 28 ตัวแล้ว เก่งมาก!",
+      },
+      english: {
+        title: "ห้องเรียนภาษาอังกฤษ",
+        intro: "เรียนตัวอักษร A–Z คำศัพท์ และประโยคง่ายๆ ไปกับครูนูรี",
+        courseDone: "เก่งมาก! เรียนครบ 26 ตัว ตั้งแต่ A ถึง Z แล้ว",
+        courseDoneSpeech: ENGLISH_COURSE_DONE.th,
+        pathLabel: "เส้นทาง 26 ตัวอักษร A–Z",
+        pathLearned: "เรียนแล้ว {count} จาก {total} ตัว",
+        goalHint: "เรียนถึง Z ครบ 26 ตัว รับดาวทองดวงใหญ่",
+        goalReached: "ครบ 26 ตัวแล้ว เก่งมาก!",
+      },
+      thai: {
+        title: "ห้องเรียนภาษาไทย",
+        intro: "เรียนพยัญชนะ ก–ฮ สระ วรรณยุกต์ และคำง่ายๆ ไปกับครูนูรี",
+        courseDone: "เก่งมาก! เรียนครบ 44 ตัว ตั้งแต่ ก ถึง ฮ แล้ว",
+        courseDoneSpeech: THAI_COURSE_DONE.th,
+        pathLabel: "เส้นทาง 44 พยัญชนะ ก–ฮ",
+        pathLearned: "เรียนแล้ว {count} จาก {total} ตัว",
+        goalHint: "เรียนถึง ฮ ครบ 44 ตัว รับดาวทองดวงใหญ่",
+        goalReached: "ครบ 44 ตัวแล้ว เก่งมาก!",
+      },
+    },
   },
   arabic: {
     classroom: {

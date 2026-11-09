@@ -12,8 +12,9 @@ import { StarIcon } from "@/components/icons/StarIcon";
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, speakWithSynth, stopAllSpeech } from "@/lib/speech";
 
-import { CHEER_COUNT, CLASS_UNITS, LETTER_ROW, classAudio, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
+import { CHEER_COUNT, LETTER_ROW, type AgeGroupId, type ClassStep, type ClassUnit } from "../data/classroom";
 import "../classroom.css";
+import { COURSES, courseAudio, type Course } from "../../languages/courses";
 import type { Text } from "@/i18n/config";
 import { fmt } from "@/i18n/dict";
 import { useDict } from "@/i18n/LocaleProvider";
@@ -56,21 +57,20 @@ const CELEBRATE_POSE = "/Character/celebrate.webp";
   ตัวอักษรที่เด็กเรียนผ่านแล้ว (ถึงช่วงคำชม) — เก็บในเบราว์เซอร์เครื่องนั้นเท่านั้น ไม่ส่งออกนอกเครื่อง
   เป็นความสะดวกให้กลับมาเรียนต่อจากตัวที่ค้างไว้ ถ้าอ่าน/เขียนไม่ได้ (โหมดส่วนตัว) หน้ายังทำงานครบ
 */
-const LEARNED_KEY = "lu-arabic-learned-v1";
 const learnedListeners = new Set<() => void>();
-function readLearned(): string {
+function readLearned(key: string): string {
   try {
-    return window.localStorage.getItem(LEARNED_KEY) ?? "";
+    return window.localStorage.getItem(key) ?? "";
   } catch {
     return "";
   }
 }
-function markLearned(id: string) {
-  const ids = new Set(readLearned().split(",").filter(Boolean));
+function markLearned(key: string, id: string) {
+  const ids = new Set(readLearned(key).split(",").filter(Boolean));
   if (ids.has(id)) return;
   ids.add(id);
   try {
-    window.localStorage.setItem(LEARNED_KEY, [...ids].join(","));
+    window.localStorage.setItem(key, [...ids].join(","));
   } catch {
     return;
   }
@@ -84,8 +84,9 @@ function subscribeLearned(fn: () => void) {
     window.removeEventListener("storage", fn);
   };
 }
-function useLearned() {
-  const raw = useSyncExternalStore(subscribeLearned, readLearned, () => "");
+function useLearned(key: string) {
+  const read = useCallback(() => readLearned(key), [key]);
+  const raw = useSyncExternalStore(subscribeLearned, read, () => "");
   return useMemo(() => new Set(raw.split(",").filter(Boolean)), [raw]);
 }
 
@@ -126,7 +127,7 @@ const BUTTON =
   "shadow-soft hover:shadow-float inline-flex min-h-16 items-center justify-center gap-2 rounded-full px-6 text-lg font-bold transition-[transform,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] motion-safe:active:duration-75";
 
 /*
-  หน้า /kids และ /juniors ลิงก์มาที่ /learn/arabic#kids และ #juniors (ดู IslandPicker)
+  หน้า /kids และ /juniors ลิงก์มาที่ /learn/languages#kids และ #juniors (ดู IslandPicker)
   ห้องเรียนจึงต้องเปิดตรงช่วงวัยที่เด็กกดมา ไม่ใช่เริ่มที่ 3–6 ปีเสมอ
   อ่านผ่าน useSyncExternalStore เพราะ location เป็นระบบภายนอกของ React
   และ server snapshot ต้องเป็น "kids" เสมอ ไม่งั้น HTML ที่ prerender ไว้จะไม่ตรงกับตอน hydrate
@@ -144,15 +145,24 @@ function getHashGroupOnServer(): AgeGroupId {
   return "kids";
 }
 
-export function Classroom({ intro }: { intro: Text }) {
-  const { t, sub, pick, pickSub } = useDict();
+function useCourseDict(config: Course) {
+  const d = useDict();
+  return useMemo(() => {
+    if (config.id === "arabic") return d;
+    const merge = (base: typeof d.t) => ({ ...base, arabic: { classroom: { ...base.arabic.classroom, ...base.languages.courses[config.dictionaryKey] } } });
+    return { ...d, t: merge(d.t), sub: d.sub ? merge(d.sub) : null };
+  }, [d, config]);
+}
+
+export function Classroom({ intro, config = COURSES.arabic }: { intro: Text; config?: Course }) {
+  const { t, sub, pick, pickSub } = useCourseDict(config);
   const hashGroup = useSyncExternalStore(subscribeHash, getHashGroup, getHashGroupOnServer);
   /** null = ยังไม่ได้กดเลือกเอง ให้ยึดตาม anchor ที่ลิงก์มา */
   const [chosen, setChosen] = useState<AgeGroupId | null>(null);
   const group = chosen ?? hashGroup;
   /** ชุด/หมวดที่กำลังเรียน แยกตามช่วงวัย เปลี่ยนวัยแล้วกลับมาจะยังอยู่ชุดเดิม */
   const [unitByGroup, setUnitByGroup] = useState<Record<AgeGroupId, number>>({ kids: 0, juniors: 0 });
-  const units = CLASS_UNITS[group];
+  const units = config.units[group];
   const unitIndex = Math.min(unitByGroup[group], units.length - 1);
   const unit = units[unitIndex];
   const chooseUnit = (i: number) => setUnitByGroup((u) => ({ ...u, [group]: i }));
@@ -166,7 +176,7 @@ export function Classroom({ intro }: { intro: Text }) {
   };
 
   return (
-    <section aria-labelledby="classroom-heading" className="mt-6">
+    <section aria-labelledby="classroom-heading" className="mt-6" data-language={config.id}>
       <div className="scene-copy shadow-soft rounded-card px-4 py-6 sm:px-6">
         <h1 id="classroom-heading" className="font-display text-3xl leading-snug font-extrabold sm:text-5xl">
           {t.arabic.classroom.title}
@@ -222,7 +232,7 @@ export function Classroom({ intro }: { intro: Text }) {
               onClick={() => chooseUnit(i)}
               className={`cls-unit ${active ? "bg-brand-blue text-cloud" : "bg-cloud text-ink"}`}
             >
-              <span lang="ar" dir="rtl" className="cls-unit-preview">
+              <span lang={config.lang} dir={config.dir} className={`cls-unit-preview ${config.fontClass}`}>
                 {u.preview}
               </span>
               <span className="cls-unit-title">
@@ -239,7 +249,8 @@ export function Classroom({ intro }: { intro: Text }) {
 
       {/* key = วัย+ชุด: เปลี่ยนแล้วบทเรียนเริ่มใหม่หมด ไม่มีเสียงหรือจังหวะของชุดเดิมค้างอยู่ */}
       <Lesson
-        key={`${group}-${unit.id}`}
+        key={`${config.id}-${group}-${unit.id}`}
+        config={config}
         group={group}
         unit={unit}
         onNextUnit={unitIndex + 1 < units.length ? goNextUnit : undefined}
@@ -248,8 +259,8 @@ export function Classroom({ intro }: { intro: Text }) {
   );
 }
 
-function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUnit; onNextUnit?: () => void }) {
-  const { locale, t, sub, pick, pickSub } = useDict();
+function Lesson({ config, group, unit, onNextUnit }: { config: Course; group: AgeGroupId; unit: ClassUnit; onNextUnit?: () => void }) {
+  const { locale, t, sub, pick, pickSub } = useCourseDict(config);
   const { enabled: soundOn } = useSound();
 
   const [index, setIndex] = useState(0);
@@ -262,7 +273,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
 
   const steps = unit.steps;
   const step: ClassStep | undefined = steps[index];
-  const learned = useLearned();
+  const learned = useLearned(config.progressKey);
   /** วัย 3-6: เส้นทางอักษรเดียว อะลิฟ → ยาอ์ */
   const course = group === "kids";
   const stageRef = useRef<HTMLDivElement>(null);
@@ -306,7 +317,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
         if (next) timer = setTimeout(() => go(next), readingMs(fallbackText));
         return;
       }
-      cancelAudio = playNarration(classAudio(locale, key), {
+      cancelAudio = playNarration(courseAudio(config, locale, key), {
         onEnded: () => {
           if (next) go(next);
         },
@@ -324,7 +335,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
     };
 
     if (phase === "teach") {
-      narrate(`teach-${step.id}`, `${pick(step.title)} ... ${step.body}`, "say");
+      narrate(`teach-${step.id}`, `${pick(step.title)} ... ${pick(step.body)}`, "say");
     } else if (phase === "say") {
       narrate(`say-${step.id}`, fmt(t.arabic.classroom.echoSpeech, { say: step.say }), "echo");
     } else if (phase === "echo") {
@@ -336,7 +347,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       }, 100);
       timer = setTimeout(() => go("cheer"), total);
     } else if (phase === "cheer") {
-      markLearned(step.id);
+      markLearned(config.progressKey, step.id);
       // คำชมหมุนตามลำดับบท เด็กจึงไม่ได้ยินประโยคเดิมซ้ำทุกบท
       narrate(`cheer-${(index % CHEER_COUNT) + 1}`, t.arabic.classroom.cheerSpeech, "teach");
     } else if (phase === "done") {
@@ -350,7 +361,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
       if (ticker) clearInterval(ticker);
       cancelAudio?.();
     };
-  }, [phase, index, paused, soundOn, steps, step, replay, locale, t, pick, course]);
+  }, [phase, index, paused, soundOn, steps, step, replay, locale, t, pick, course, config]);
 
   /** ตัวแรกที่ยังไม่ได้เรียน — เด็กกลับมาแล้วเรียนต่อได้เลย (เรียนครบแล้วเริ่มที่อะลิฟใหม่) */
   const firstNew = course ? Math.max(0, steps.findIndex((s) => !learned.has(s.id))) : 0;
@@ -420,9 +431,9 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
           <div className="cls-board-face">
             <p
               key={`${group}-${unit.id}-${index}-${finished}`}
-              lang="ar"
-              dir="rtl"
-              className="cls-board-text"
+              lang={config.lang}
+              dir={config.dir}
+              className={`cls-board-text ${config.fontClass}`}
               data-size={finished ? "glyph" : (step?.boardSize ?? "glyph")}
             >
               <span>{finished ? "✦" : (step?.board ?? "")}</span>
@@ -473,9 +484,10 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
                 {pickSub(step.title)}
               </span>}
             </p>
-            <p className="mt-1">{step.body}</p>
+            <p className="mt-1">{pick(step.body)}</p>
+            {pickSub(step.body) && <p lang="en" className="text-ink-soft text-sm">{pickSub(step.body)}</p>}
             <p className="mt-1 font-semibold">{fmt(t.arabic.classroom.pronunciation, { say: step.say })}</p>
-            {step.meaning && <p className="text-ink-soft mt-1 text-sm">{fmt(t.arabic.classroom.meaning, { meaning: step.meaning })}</p>}
+            {step.meaning && <p className="text-ink-soft mt-1 text-sm">{fmt(t.arabic.classroom.meaning, { meaning: pick(step.meaning) })}</p>}
           </div>
         )}
 
@@ -557,6 +569,7 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
 
       {/* เส้นทางบทเรียน — แผ่นป้ายทองต่อบท กดข้ามไปบทไหนก็ได้ เรียนแล้วมีดาวกำกับ (ไม่บอกด้วยสีอย่างเดียว) */}
       <StepPath
+        config={config}
         steps={steps}
         course={course}
         current={running && !finished ? index : -1}
@@ -571,8 +584,8 @@ function Lesson({ group, unit, onNextUnit }: { group: AgeGroupId; unit: ClassUni
   );
 }
 
-function StepPath({ steps, course, current, learned, onPick }: { steps: ClassStep[]; course: boolean; current: number; learned: Set<string>; onPick: (i: number) => void }) {
-  const { t, pick } = useDict();
+function StepPath({ config, steps, course, current, learned, onPick }: { config: Course; steps: ClassStep[]; course: boolean; current: number; learned: Set<string>; onPick: (i: number) => void }) {
+  const { t, pick } = useCourseDict(config);
   const done = steps.filter((s) => learned.has(s.id)).length;
   const rows = course
     ? Array.from({ length: Math.ceil(steps.length / LETTER_ROW) }, (_, r) => steps.slice(r * LETTER_ROW, r * LETTER_ROW + LETTER_ROW).map((s, k) => ({ s, i: r * LETTER_ROW + k })))
@@ -594,12 +607,12 @@ function StepPath({ steps, course, current, learned, onPick }: { steps: ClassSte
         )}
       </div>
       {/* แถวชุดเรียงขวาไปซ้ายเหมือนการอ่านอาหรับ: ชุดที่ 1 อยู่ขวา (จอกว้างแบ่งสองคอลัมน์) */}
-      <ol dir={course ? "rtl" : undefined} className="cls-path-rows">
+      <ol dir={course ? config.dir : undefined} className="cls-path-rows">
         {rows.map((row, r) => (
           <li key={r} className="cls-path-row">
             {course && <span className="cls-path-ribbon">{fmt(t.arabic.classroom.pathRow, { n: r + 1 })}</span>}
             {/* อาหรับอ่านขวาไปซ้าย: อะลิฟอยู่ขวาสุดของแถวแรก */}
-            <ol dir="rtl" className="cls-path-plaques">
+            <ol dir={config.dir} className="cls-path-plaques">
               {row.map(({ s, i }) => {
                 const isLearned = learned.has(s.id);
                 return (
@@ -612,7 +625,7 @@ function StepPath({ steps, course, current, learned, onPick }: { steps: ClassSte
                       className="cls-plaque"
                     >
                       <span className="cls-plaque-art">
-                        <span lang="ar" dir="rtl" className="cls-plaque-glyph" data-size={s.boardSize}>
+                        <span lang={config.lang} dir={config.dir} className={`cls-plaque-glyph ${config.fontClass}`} data-size={s.boardSize}>
                           {s.boardSize === "glyph" ? s.board : s.board.split(" ").slice(0, 2).join(" ")}
                         </span>
                       </span>

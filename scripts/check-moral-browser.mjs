@@ -16,7 +16,7 @@ const NEW_LESSONS = {
 const island = getIslandContent('moral');
 const voiceScript = await readFile('scripts/make-moral-cartoon-voice.mjs', 'utf8');
 for (const [age, ids] of Object.entries(NEW_LESSONS)) {
-  assert.equal(island[age].length, age === 'kids' ? 11 : 13, `${age}: combined lessons`);
+  assert.equal(island[age].length, age === 'kids' ? 12 : 13, `${age}: combined lessons`);
   for (const id of ids) {
     assert.ok(island[age].some(l => l.id === id));
     assert.equal(CARTOONS[id].scenes.length, 5);
@@ -49,7 +49,7 @@ try {
       page.on('response', (r) => { if (r.status() >= 400) errors.push(`${width}: ${r.status()} ${r.url()}`); });
       await page.goto(`${BASE}/learn/moral`);
       await page.locator('.mrl-hero').waitFor();
-      assert.equal(await page.locator('#kids .mrl-card').count(), 11);
+      assert.equal(await page.locator('#kids .mrl-card').count(), 12);
       assert.equal(await page.locator('#juniors .mrl-card').count(), 13);
 
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}`);
@@ -243,7 +243,7 @@ try {
     page.on('pageerror', e => errors.push(`${width}: ${e.message}`));
     page.on('response', r => { if (r.status() >= 400) errors.push(`${width}: ${r.status()} ${r.url()}`); });
     await page.goto(`${BASE}/learn/moral`);
-    assert.equal(await page.locator('#kids .mrl-card').count(), 11);
+    assert.equal(await page.locator('#kids .mrl-card').count(), 12);
     assert.equal(await page.locator('#juniors .mrl-card').count(), 13);
     for (const dua of expected) {
       console.log(`daily dua ${width}x${height} ${dua.id}`);

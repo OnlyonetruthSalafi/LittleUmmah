@@ -42,7 +42,7 @@ export const CATEGORIES: Category[] = [
     */
     slug: "arabic",
     name: { th: "เรียนภาษาเบื้องต้น", en: "Basic Languages" },
-    href: "/learn/arabic",
+    href: "/learn/languages",
     image: "/islands/quran.webp",
   },
   {

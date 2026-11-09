@@ -76,7 +76,7 @@ type PhotoSource = {
   file: string;
   width: number;
   height: number;
-  alt: string;
+  alt: Text;
   label: { th: string; en: string };
   author: string;
   license: "สาธารณสมบัติ" | "CC0";
@@ -91,7 +91,7 @@ const PHOTOS = {
     file: "mountain-goat",
     width: 1200,
     height: 800,
-    alt: "ภาพถ่ายแพะภูเขาตัวจริง ขนสีขาว มีเขา ฉากหลังเป็นโขดหิน",
+    alt: { th: "ภาพถ่ายแพะภูเขาตัวจริง ขนสีขาว มีเขา ฉากหลังเป็นโขดหิน", en: "Photo of a real mountain goat with white fur and horns, in front of rocks" },
     label: {
       th: "แพะภูเขาตัวจริง",
       en: "A real mountain goat",
@@ -105,7 +105,7 @@ const PHOTOS = {
     file: "mountain-marmot",
     width: 1200,
     height: 800,
-    alt: "ภาพถ่ายมาร์มอตท้องเหลืองตัวจริง พักอยู่บนขอนไม้",
+    alt: { th: "ภาพถ่ายมาร์มอตท้องเหลืองตัวจริง พักอยู่บนขอนไม้", en: "Photo of a real yellow-bellied marmot resting on a log" },
     label: {
       th: "มาร์มอตตัวจริง",
       en: "A real marmot",
@@ -119,7 +119,7 @@ const PHOTOS = {
     file: "beach-hermit",
     width: 1200,
     height: 900,
-    alt: "ภาพถ่ายปูเสฉวนบกแคริบเบียนตัวจริง อยู่ในเปลือกหอยบนพื้นดิน",
+    alt: { th: "ภาพถ่ายปูเสฉวนบกแคริบเบียนตัวจริง อยู่ในเปลือกหอยบนพื้นดิน", en: "Photo of a real Caribbean hermit crab in its shell on the ground" },
     label: {
       th: "ปูเสฉวนตัวจริง",
       en: "A real hermit crab",
@@ -133,7 +133,7 @@ const PHOTOS = {
     file: "beach-gull",
     width: 1200,
     height: 900,
-    alt: "ภาพถ่ายนกนางนวลซิลเวอร์ตัวจริง ยืนอยู่บนหญ้า",
+    alt: { th: "ภาพถ่ายนกนางนวลซิลเวอร์ตัวจริง ยืนอยู่บนหญ้า", en: "Photo of a real silver gull standing on grass" },
     label: {
       th: "นกนางนวลตัวจริง",
       en: "A real silver gull",
@@ -147,7 +147,7 @@ const PHOTOS = {
   // C-7: ตรวจ extmetadata และภาพจริง 8 พ.ย. 2026 — หลักฐาน output/C-7/metadata/
   mallard: {
     file: "mallard", width: 1200, height: 1054,
-    alt: "ภาพถ่ายเป็ดมัลลาร์ดตัวจริง ยืนอยู่บนหญ้าริมบึง",
+    alt: { th: "ภาพถ่ายเป็ดมัลลาร์ดตัวจริง ยืนอยู่บนหญ้าริมบึง", en: "Photo of a real mallard duck standing on grass by a pond" },
     label: { th: "เป็ดมัลลาร์ดตัวจริง", en: "Real mallards" },
     author: "Bruxton", license: "CC0",
     title: "Male Mallard by pond",
@@ -155,7 +155,7 @@ const PHOTOS = {
   },
   frog: {
     file: "frog", width: 1200, height: 803,
-    alt: "ภาพถ่ายกบสีน้ำตาลยุโรปตัวจริง อยู่บนมอสสีเขียว",
+    alt: { th: "ภาพถ่ายกบสีน้ำตาลยุโรปตัวจริง อยู่บนมอสสีเขียว", en: "Photo of a real European common frog on green moss" },
     label: { th: "กบตัวจริง", en: "A real common frog" },
     author: "Ernie", license: "สาธารณสมบัติ",
     title: "AD2009Sep13 Rana temporaria 01",
@@ -163,7 +163,7 @@ const PHOTOS = {
   },
   zebra: {
     file: "zebra", width: 1200, height: 675,
-    alt: "ภาพถ่ายม้าลายตัวจริงในทุ่งหญ้ามาไซมารา",
+    alt: { th: "ภาพถ่ายม้าลายตัวจริงในทุ่งหญ้ามาไซมารา", en: "Photo of a real zebra on the grasslands of the Maasai Mara" },
     label: { th: "ม้าลายตัวจริง", en: "A real zebra" },
     author: "HasselbladWhisperer", license: "CC0",
     title: "Masai Mara Zebra",
@@ -171,7 +171,7 @@ const PHOTOS = {
   },
   giraffe: {
     file: "giraffe", width: 1200, height: 1500,
-    alt: "ภาพถ่ายยีราฟตัวจริง ยืนอยู่ท่ามกลางต้นไม้ในเขตอนุรักษ์บันเดีย",
+    alt: { th: "ภาพถ่ายยีราฟตัวจริง ยืนอยู่ท่ามกลางต้นไม้ในเขตอนุรักษ์บันเดีย", en: "Photo of a real giraffe standing among trees in the Bandia reserve" },
     label: { th: "ยีราฟตัวจริง", en: "A real giraffe" },
     author: "Gromane", license: "CC0",
     title: "Giraffe in Bandia reserve near Dakar Senegal",
@@ -179,7 +179,7 @@ const PHOTOS = {
   },
   farmCow: {
     file: "farm-cow", width: 1200, height: 900,
-    alt: "ภาพถ่ายวัวตัวจริงสีน้ำตาล ยืนในทุ่งหญ้า",
+    alt: { th: "ภาพถ่ายวัวตัวจริงสีน้ำตาล ยืนในทุ่งหญ้า", en: "Photo of a real brown cow standing in a meadow" },
     label: { th: "วัวตัวจริง", en: "A real cow" },
     author: "Gerda Arendt", license: "CC0",
     title: "Cow on pasture, Ehrenbach",
@@ -187,7 +187,7 @@ const PHOTOS = {
   },
   farmSheep: {
     file: "farm-sheep", width: 1200, height: 898,
-    alt: "ภาพถ่ายแกะตัวจริงเป็นฝูง อยู่บนเนินหญ้า",
+    alt: { th: "ภาพถ่ายแกะตัวจริงเป็นฝูง อยู่บนเนินหญ้า", en: "Photo of a real flock of sheep on a grassy hill" },
     label: { th: "แกะตัวจริง", en: "Real sheep" },
     author: "Ajznponar", license: "CC0",
     title: "Sheep grazing at Begunjscica 03",
@@ -195,7 +195,7 @@ const PHOTOS = {
   },
   gardenButterfly: {
     file: "garden-butterfly", width: 1200, height: 863,
-    alt: "ภาพถ่ายผีเสื้อตัวจริงปีกสีเหลืองดำ เกาะดอกไม้",
+    alt: { th: "ภาพถ่ายผีเสื้อตัวจริงปีกสีเหลืองดำ เกาะดอกไม้", en: "Photo of a real butterfly with yellow and black wings on a flower" },
     label: { th: "ผีเสื้อตัวจริง", en: "A real butterfly" },
     author: "Bruce Emmerling", license: "CC0",
     title: "A butterfly on a flower",
@@ -203,7 +203,7 @@ const PHOTOS = {
   },
   gardenBee: {
     file: "garden-bee", width: 1200, height: 1063,
-    alt: "ภาพถ่ายผึ้งตัวจริงเกาะดอกไม้สีฟ้า มีเกสรติดที่ขาหลัง",
+    alt: { th: "ภาพถ่ายผึ้งตัวจริงเกาะดอกไม้สีฟ้า มีเกสรติดที่ขาหลัง", en: "Photo of a real bee on a blue flower, with pollen on its back legs" },
     label: { th: "ผึ้งตัวจริง", en: "A real honey bee" },
     author: "Dinkum", license: "CC0",
     title: "Apis mellifera on centaurea cyanus 3",
@@ -213,7 +213,7 @@ const PHOTOS = {
     file: "camel",
     width: 1200,
     height: 800,
-    alt: "ภาพถ่ายอูฐโหนกเดียวตัวจริง ยืนอยู่บนพื้นทรายในทะเลทราย",
+    alt: { th: "ภาพถ่ายอูฐโหนกเดียวตัวจริง ยืนอยู่บนพื้นทรายในทะเลทราย", en: "Photo of a real one-humped camel standing on desert sand" },
     label: { th: "อูฐตัวจริง", en: "A real camel" },
     author: "Tamar Assaf",
     license: "สาธารณสมบัติ",
@@ -224,7 +224,7 @@ const PHOTOS = {
     file: "fennec",
     width: 1200,
     height: 800,
-    alt: "ภาพถ่ายจิ้งจอกเฟนเนคตัวจริง ขนสีทราย นอนขดตัว หูใหญ่มาก",
+    alt: { th: "ภาพถ่ายจิ้งจอกเฟนเนคตัวจริง ขนสีทราย นอนขดตัว หูใหญ่มาก", en: "Photo of a real fennec fox with sandy fur, curled up, with very big ears" },
     label: { th: "จิ้งจอกเฟนเนคตัวจริง", en: "A real fennec fox" },
     author: "Marco Almbauer",
     license: "สาธารณสมบัติ",
@@ -235,7 +235,7 @@ const PHOTOS = {
     file: "fennec-burrow",
     width: 1200,
     height: 596,
-    alt: "ภาพถ่ายจิ้งจอกเฟนเนคตัวจริง นอนหลับพักตอนกลางวัน หูใหญ่ตั้งขึ้น",
+    alt: { th: "ภาพถ่ายจิ้งจอกเฟนเนคตัวจริง นอนหลับพักตอนกลางวัน หูใหญ่ตั้งขึ้น", en: "Photo of a real fennec fox napping in the daytime, its big ears standing up" },
     label: { th: "จิ้งจอกเฟนเนคตัวจริง", en: "A real fennec fox" },
     author: "LadyofHats",
     license: "สาธารณสมบัติ",
@@ -246,7 +246,7 @@ const PHOTOS = {
     file: "elephant-khaoyai",
     width: 1200,
     height: 921,
-    alt: "ภาพถ่ายช้างเอเชียตัวจริงสองตัว ในป่าอุทยานแห่งชาติเขาใหญ่",
+    alt: { th: "ภาพถ่ายช้างเอเชียตัวจริงสองตัว ในป่าอุทยานแห่งชาติเขาใหญ่", en: "Photo of two real Asian elephants in the forest of Khao Yai National Park" },
     label: { th: "ช้างตัวจริง", en: "Real elephants" },
     author: "Mammalwatcher",
     license: "CC0",
@@ -257,7 +257,7 @@ const PHOTOS = {
     file: "squirrel",
     width: 1200,
     height: 800,
-    alt: "ภาพถ่ายกระรอกตัวจริง ห้อยตัวอยู่บนกิ่งไม้ หางเป็นพวง",
+    alt: { th: "ภาพถ่ายกระรอกตัวจริง ห้อยตัวอยู่บนกิ่งไม้ หางเป็นพวง", en: "Photo of a real squirrel hanging from a branch, with a bushy tail" },
     label: { th: "กระรอกตัวจริง", en: "A real squirrel" },
     author: "Andrew Holle",
     license: "CC0",
@@ -268,7 +268,7 @@ const PHOTOS = {
     file: "turtle",
     width: 1200,
     height: 900,
-    alt: "ภาพถ่ายเต่าตนุตัวจริง ว่ายน้ำอยู่เหนือแนวปะการัง",
+    alt: { th: "ภาพถ่ายเต่าตนุตัวจริง ว่ายน้ำอยู่เหนือแนวปะการัง", en: "Photo of a real green sea turtle swimming above a coral reef" },
     label: { th: "เต่าทะเลตัวจริง", en: "A real sea turtle" },
     author: "kfa",
     license: "CC0",
@@ -279,7 +279,7 @@ const PHOTOS = {
     file: "turtle-reef",
     width: 1200,
     height: 900,
-    alt: "ภาพถ่ายเต่าตนุตัวจริง พักอยู่บนแนวปะการัง",
+    alt: { th: "ภาพถ่ายเต่าตนุตัวจริง พักอยู่บนแนวปะการัง", en: "Photo of a real green sea turtle resting on a coral reef" },
     label: { th: "เต่าทะเลตัวจริง", en: "A real sea turtle" },
     author: "Anne Laudisoit",
     license: "CC0",
@@ -290,7 +290,7 @@ const PHOTOS = {
     file: "dolphin",
     width: 1200,
     height: 776,
-    alt: "ภาพถ่ายโลมาตัวจริง กระโดดขึ้นเหนือผิวน้ำทะเล",
+    alt: { th: "ภาพถ่ายโลมาตัวจริง กระโดดขึ้นเหนือผิวน้ำทะเล", en: "Photo of a real dolphin leaping above the sea" },
     label: { th: "โลมาตัวจริง", en: "A real dolphin" },
     author: "Kiloueka",
     license: "CC0",
@@ -301,7 +301,7 @@ const PHOTOS = {
     file: "polar-bear",
     width: 1200,
     height: 805,
-    alt: "ภาพถ่ายแม่หมีขั้วโลกกับลูกตัวจริง นอนพักบนหิมะ",
+    alt: { th: "ภาพถ่ายแม่หมีขั้วโลกกับลูกตัวจริง นอนพักบนหิมะ", en: "Photo of a real polar bear mother and cub resting on the snow" },
     label: { th: "หมีขั้วโลกตัวจริง", en: "Real polar bears" },
     author: "Scott Schliebe (U.S. Fish and Wildlife Service)",
     license: "สาธารณสมบัติ",
@@ -312,7 +312,7 @@ const PHOTOS = {
     file: "seal",
     width: 1200,
     height: 901,
-    alt: "ภาพถ่ายลูกแมวน้ำวงแหวนตัวจริง อยู่บนน้ำแข็งที่ขั้วโลกเหนือ",
+    alt: { th: "ภาพถ่ายลูกแมวน้ำวงแหวนตัวจริง อยู่บนน้ำแข็งที่ขั้วโลกเหนือ", en: "Photo of a real ringed seal pup on the Arctic ice" },
     label: { th: "แมวน้ำตัวจริง", en: "A real seal" },
     author: "Shawn Dahle (NOAA)",
     license: "สาธารณสมบัติ",
@@ -322,6 +322,7 @@ const PHOTOS = {
 } satisfies Record<string, PhotoSource>;
 
 type PhotoId = keyof typeof PHOTOS;
+const LICENSE_EN: Record<PhotoSource["license"], string> = { "สาธารณสมบัติ": "Public domain", CC0: "CC0" };
 
 function photo(id: PhotoId): ScenePhoto {
   const s: PhotoSource = PHOTOS[id];
@@ -331,7 +332,7 @@ function photo(id: PhotoId): ScenePhoto {
     height: s.height,
     alt: s.alt,
     label: s.label,
-    credit: `ภาพ: ${s.author} — ${s.license} (Wikimedia Commons)`,
+    credit: { th: `ภาพ: ${s.author} — ${s.license} (Wikimedia Commons)`, en: `Photo: ${s.author} — ${LICENSE_EN[s.license]} (Wikimedia Commons)` },
   };
 }
 
@@ -339,7 +340,7 @@ function photo(id: PhotoId): ScenePhoto {
 export const PHOTO_CREDITS = Object.values(PHOTOS).map((s: PhotoSource) => ({
   title: s.title,
   author: s.author,
-  license: s.license,
+  license: { th: s.license, en: LICENSE_EN[s.license] } as Text,
   page: s.page,
 }));
 
@@ -363,28 +364,28 @@ export const HABITAT_SUMMARIES: Record<string, Text> = {
 /* id ไม่ซ้ำกับบทของเกาะอื่น (ดาวเก็บแยกเกาะอยู่แล้ว แต่กันสับสน) — body ใช้เมื่อไม่มีการ์ตูนเท่านั้น */
 export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
   kids: [
-    { id: "mountain-home", icon: "mountain", title: { th: "ภูเขา", en: "The mountains" }, body: HABITAT_SUMMARIES["mountain-home"].th },
-    { id: "beach-home", icon: "wave", title: { th: "ชายหาด", en: "The beach" }, body: HABITAT_SUMMARIES["beach-home"].th },
-    { id: "farm-home", icon: "tree", title: { th: "ฟาร์ม", en: "The farm" }, body: "วัวและแกะกินหญ้า และต้องการน้ำสะอาด" },
-    { id: "garden-home", icon: "tree", title: { th: "สวนดอกไม้", en: "The flower garden" }, body: "ดอกไม้เป็นแหล่งอาหารของผีเสื้อและผึ้ง" },
-    { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย", en: "The desert" }, body: "อูฐและจิ้งจอกเฟนเนคอยู่ในทะเลทรายที่ร้อนและแห้งได้" },
-    { id: "forest-home", icon: "tree", title: { th: "ป่าไม้", en: "The forest" }, body: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่" },
-    { id: "sea-home", icon: "wave", title: { th: "ทะเล", en: "The sea" }, body: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง" },
-    { id: "polar-home", icon: "mountain", title: { th: "ขั้วโลก", en: "The polar lands" }, body: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด" },
-    { id: "pond-home", icon: "drop", title: { th: "ริมบึง", en: "The freshwater pond" }, body: HABITAT_SUMMARIES["pond-home"].th },
-    { id: "savanna-home", icon: "tree", title: { th: "ทุ่งหญ้าสะวันนา", en: "The savanna" }, body: HABITAT_SUMMARIES["savanna-home"].th },
+    { id: "mountain-home", icon: "mountain", title: { th: "ภูเขา", en: "The mountains" }, body: HABITAT_SUMMARIES["mountain-home"] },
+    { id: "beach-home", icon: "wave", title: { th: "ชายหาด", en: "The beach" }, body: HABITAT_SUMMARIES["beach-home"] },
+    { id: "farm-home", icon: "tree", title: { th: "ฟาร์ม", en: "The farm" }, body: { th: "วัวและแกะกินหญ้า และต้องการน้ำสะอาด", en: "Cows and sheep eat grass, and they need clean water." } },
+    { id: "garden-home", icon: "tree", title: { th: "สวนดอกไม้", en: "The flower garden" }, body: { th: "ดอกไม้เป็นแหล่งอาหารของผีเสื้อและผึ้ง", en: "Flowers are food for butterflies and bees." } },
+    { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย", en: "The desert" }, body: { th: "อูฐและจิ้งจอกเฟนเนคอยู่ในทะเลทรายที่ร้อนและแห้งได้", en: "Camels and fennec foxes can live in the hot, dry desert." } },
+    { id: "forest-home", icon: "tree", title: { th: "ป่าไม้", en: "The forest" }, body: { th: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่", en: "Elephants and squirrels live in forests full of tall trees." } },
+    { id: "sea-home", icon: "wave", title: { th: "ทะเล", en: "The sea" }, body: { th: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง", en: "Sea turtles and dolphins swim in the wide sea." } },
+    { id: "polar-home", icon: "mountain", title: { th: "ขั้วโลก", en: "The polar lands" }, body: { th: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด", en: "Polar bears and seals live in the coldest places." } },
+    { id: "pond-home", icon: "drop", title: { th: "ริมบึง", en: "The freshwater pond" }, body: HABITAT_SUMMARIES["pond-home"] },
+    { id: "savanna-home", icon: "tree", title: { th: "ทุ่งหญ้าสะวันนา", en: "The savanna" }, body: HABITAT_SUMMARIES["savanna-home"] },
   ],
   juniors: [
-    { id: "mountain-life", icon: "mountain", title: { th: "ชีวิตบนภูเขา", en: "Life in the mountains" }, body: HABITAT_SUMMARIES["mountain-life"].th },
-    { id: "beach-life", icon: "wave", title: { th: "ชีวิตริมชายหาด", en: "Life by the beach" }, body: HABITAT_SUMMARIES["beach-life"].th },
-    { id: "farm-life", icon: "tree", title: { th: "ชีวิตในฟาร์ม", en: "Life on the farm" }, body: "วัวและแกะเคี้ยวเอื้อง ช่วยย่อยอาหารจากพืช" },
-    { id: "garden-life", icon: "tree", title: { th: "ชีวิตในสวนดอกไม้", en: "Life in the flower garden" }, body: "ผีเสื้อเติบโตผ่านสี่ระยะ และผึ้งช่วยถ่ายละอองเรณู" },
-    { id: "desert-life", icon: "sun", title: { th: "ชีวิตในทะเลทราย", en: "Life in the desert" }, body: "อูฐและจิ้งจอกเฟนเนคปรับตัวให้อยู่ในความร้อนได้" },
-    { id: "forest-life", icon: "tree", title: { th: "ชีวิตในป่า", en: "Life in the forest" }, body: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต" },
-    { id: "sea-life", icon: "wave", title: { th: "ชีวิตในทะเล", en: "Life in the sea" }, body: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล" },
-    { id: "polar-life", icon: "mountain", title: { th: "ชีวิตที่ขั้วโลก", en: "Life at the poles" }, body: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว" },
-    { id: "pond-life", icon: "drop", title: { th: "ชีวิตริมบึง", en: "Life at the pond" }, body: HABITAT_SUMMARIES["pond-life"].th },
-    { id: "savanna-life", icon: "tree", title: { th: "ชีวิตในสะวันนา", en: "Life in the savanna" }, body: HABITAT_SUMMARIES["savanna-life"].th },
+    { id: "mountain-life", icon: "mountain", title: { th: "ชีวิตบนภูเขา", en: "Life in the mountains" }, body: HABITAT_SUMMARIES["mountain-life"] },
+    { id: "beach-life", icon: "wave", title: { th: "ชีวิตริมชายหาด", en: "Life by the beach" }, body: HABITAT_SUMMARIES["beach-life"] },
+    { id: "farm-life", icon: "tree", title: { th: "ชีวิตในฟาร์ม", en: "Life on the farm" }, body: { th: "วัวและแกะเคี้ยวเอื้อง ช่วยย่อยอาหารจากพืช", en: "Cows and sheep chew the cud, which helps them digest plants." } },
+    { id: "garden-life", icon: "tree", title: { th: "ชีวิตในสวนดอกไม้", en: "Life in the flower garden" }, body: { th: "ผีเสื้อเติบโตผ่านสี่ระยะ และผึ้งช่วยถ่ายละอองเรณู", en: "Butterflies grow through four stages, and bees help carry pollen." } },
+    { id: "desert-life", icon: "sun", title: { th: "ชีวิตในทะเลทราย", en: "Life in the desert" }, body: { th: "อูฐและจิ้งจอกเฟนเนคปรับตัวให้อยู่ในความร้อนได้", en: "Camels and fennec foxes are made to cope with the heat." } },
+    { id: "forest-life", icon: "tree", title: { th: "ชีวิตในป่า", en: "Life in the forest" }, body: { th: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต", en: "A forest has many layers, and elephants and squirrels help it grow." } },
+    { id: "sea-life", icon: "wave", title: { th: "ชีวิตในทะเล", en: "Life in the sea" }, body: { th: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล", en: "Sea turtles and dolphins breathe with lungs, but they live in the sea." } },
+    { id: "polar-life", icon: "mountain", title: { th: "ชีวิตที่ขั้วโลก", en: "Life at the poles" }, body: { th: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว", en: "Polar bears and seals have thick fat to keep out the cold." } },
+    { id: "pond-life", icon: "drop", title: { th: "ชีวิตริมบึง", en: "Life at the pond" }, body: HABITAT_SUMMARIES["pond-life"] },
+    { id: "savanna-life", icon: "tree", title: { th: "ชีวิตในสะวันนา", en: "Life in the savanna" }, body: HABITAT_SUMMARIES["savanna-life"] },
   ],
 };
 

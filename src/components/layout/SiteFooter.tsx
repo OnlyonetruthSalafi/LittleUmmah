@@ -8,6 +8,7 @@ import { useSound } from "@/components/sound/SoundProvider";
 import { fmt } from "@/i18n/dict";
 import { LocaleLink as Link, useDict } from "@/i18n/LocaleProvider";
 import { CATEGORIES } from "@/lib/categories";
+import { friendImage, type FriendId, type FriendPose } from "@/lib/friends";
 
 import "./site-footer.css";
 
@@ -22,6 +23,18 @@ import "./site-footer.css";
   **ไม่เป็นลิงก์ ไม่มีภาพสินค้า ราคา หรือปุ่มซื้อ** เด็กกดออกไปร้านไม่ได้
 */
 const SPONSOR_LOGO: string | null = "/sponsors/shuhada.webp";
+
+/*
+  ผองเพื่อนนูรียืนบนเมฆเหนือ Footer (เจ้าของโปรเจกต์สั่ง 9 พ.ย. 2026) คนละท่า ภาพตกแต่ง alt=""
+  นิ่ง ไม่ลอย/เด้งวน (ข้อ 2.1) · มือถือแนวตั้งแสดง 3 ตัว (ตัวที่มี sf-friend-wide ซ่อนไว้)
+*/
+const FOOTER_FRIENDS: { id: FriendId; pose: FriendPose; wide?: boolean }[] = [
+  { id: "hadi", pose: "stand" },
+  { id: "rassam", pose: "action", wide: true },
+  { id: "sabir", pose: "cheer" },
+  { id: "qalam", pose: "stand", wide: true },
+  { id: "safi", pose: "action" },
+];
 
 export function SiteFooter() {
   const { t, sub, pick, pickSub } = useDict();
@@ -38,6 +51,19 @@ export function SiteFooter() {
     <footer aria-label={t.footer.label} className="site-footer">
       <div className="sf-clouds" aria-hidden="true" />
       <Image src="/Character/greet/wave-1.webp" alt="" width={640} height={640} sizes="120px" className="sf-nuri" />
+      <div className="sf-friends" aria-hidden="true">
+        {FOOTER_FRIENDS.map((f) => (
+          <Image
+            key={f.id}
+            src={friendImage(f.id, f.pose)}
+            alt=""
+            width={480}
+            height={480}
+            sizes="112px"
+            className={`sf-friend sf-friend-${f.id}${f.wide ? " sf-friend-wide" : ""}`}
+          />
+        ))}
+      </div>
 
       <div className="sf-sky">
         <div className="sf-inner">

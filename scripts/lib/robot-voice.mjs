@@ -97,9 +97,9 @@ export function readApiKey() {
   return match[1].trim();
 }
 
-async function synth(key, text, apiKey, languageCode) {
+async function synth(key, text, apiKey, languageCode, voiceId = VOICE_ID) {
   const response = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`,
+    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
     {
       method: "POST",
       headers: { "xi-api-key": apiKey, "content-type": "application/json" },
@@ -121,7 +121,18 @@ async function synth(key, text, apiKey, languageCode) {
   lines = { ชื่อไฟล์ (ไม่มีนามสกุล): บทพูดภาษาไทย }
   only  = รายชื่อที่จะสร้างเฉพาะบางไฟล์ (ว่าง = ทั้งหมด)
 */
-export async function renderRobotLines(lines, outDir, only = [], { languageCode = "th" } = {}) {
+/*
+  ผองเพื่อนนูรี (src/lib/friends.ts): เจ้าของโปรเจกต์ให้ใช้เสียง ElevenLabs คนละเสียงได้ (9 พ.ย. 2026)
+  voiceId = เสียงของเพื่อนแต่ละตัว · pitch = ปรับระดับเสียง (semitones) เพิ่มเติม · ฟิลเตอร์หุ่นยนต์ใช้ชุดเดิมทุกตัว
+  นูรีใช้ค่าเริ่มต้น (Leo, pitch 0) เหมือนเดิมทุกไฟล์
+*/
+function pitchFilter(semitones) {
+  if (!semitones) return "";
+  const r = 2 ** (semitones / 12);
+  return `asetrate=44100*${r.toFixed(5)},aresample=44100,atempo=${(1 / r).toFixed(5)},`;
+}
+
+export async function renderRobotLines(lines, outDir, only = [], { languageCode = "th", pitch = 0, voiceId = VOICE_ID } = {}) {
   const ffmpeg = process.env.FFMPEG ?? "ffmpeg";
   const keys = only.length > 0 ? only : Object.keys(lines);
   const apiKey = readApiKey();
@@ -132,10 +143,10 @@ export async function renderRobotLines(lines, outDir, only = [], { languageCode 
     const text = lines[key];
     if (!text) throw new Error(`ไม่รู้จักคลิปชื่อ ${key}`);
     const spoken = voiceText(text);
-    const raw = await synth(key, spoken, apiKey, hasArabic(spoken) ? null : languageCode);
+    const raw = await synth(key, spoken, apiKey, hasArabic(spoken) ? null : languageCode, voiceId);
     const outFile = path.join(outDir, `${key}.mp3`);
     // mono + 64k พอสำหรับเสียงพูด และทำให้ไฟล์เล็กพอจะ commit ได้
-    execFileSync(ffmpeg, ["-y", "-i", raw, "-af", ROBOT_FILTER, "-ac", "1", "-b:a", "64k", outFile], {
+    execFileSync(ffmpeg, ["-y", "-i", raw, "-af", pitchFilter(pitch) + ROBOT_FILTER, "-ac", "1", "-b:a", "64k", outFile], {
       stdio: "ignore",
     });
     rmSync(raw, { force: true });

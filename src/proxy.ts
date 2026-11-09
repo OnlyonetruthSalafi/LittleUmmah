@@ -27,6 +27,15 @@ function prefersEnglish(request: NextRequest): boolean {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Redirect before locale handling so Thai rewrites cannot hide the legacy URL.
+  const legacy = pathname.match(/^(\/en|\/th)?\/learn\/arabic(\/.*)?$/);
+  if (legacy) {
+    const url = request.nextUrl.clone();
+    url.pathname = `${legacy[1] === "/en" ? "/en" : ""}/learn/languages${legacy[2] ?? ""}`;
+    // No fragment in Location: the browser inherits #kids / #juniors.
+    return NextResponse.redirect(url, 308);
+  }
+
   if (pathname === "/en" || pathname.startsWith("/en/")) return NextResponse.next();
 
   if (pathname === "/th" || pathname.startsWith("/th/")) {

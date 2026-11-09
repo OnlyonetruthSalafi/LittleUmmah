@@ -21,7 +21,7 @@ const TINTS = ["bg-sky", "bg-game-peach", "bg-game-mint", "bg-game-lilac"];
 export function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
   const { t, sub, pick, pickSub } = useDict();
   const { speak } = useSound();
-  const script = [pick(lesson.title), typeof lesson.body === "string" ? lesson.body : pick(lesson.body), lesson.reading, lesson.meaning].filter(Boolean).join(" ... ");
+  const script = [pick(lesson.title), pick(lesson.body), lesson.reading, lesson.meaning && pick(lesson.meaning)].filter(Boolean).join(" ... ");
 
   return (
     <li className="scene-copy shadow-soft rounded-card flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
@@ -45,8 +45,8 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
             {pickSub(lesson.title)}
           </span>}
         </h3>
-        <p className="mt-2 leading-relaxed"><ArabicText text={typeof lesson.body === "string" ? lesson.body : pick(lesson.body)} /></p>
-        {sub && typeof lesson.body !== "string" && <p lang="en" className="text-ink-soft text-sm">{pickSub(lesson.body)}</p>}
+        <p className="mt-2 leading-relaxed"><ArabicText text={pick(lesson.body)} /></p>
+        {sub && <p lang="en" className="text-ink-soft text-sm">{pickSub(lesson.body)}</p>}
 
         {lesson.arabic && (
           <div className="scene-copy rounded-card-sm mt-3 px-4 py-3">
@@ -54,7 +54,7 @@ export function LessonCard({ lesson, index }: { lesson: Lesson; index: number })
               {lesson.arabic}
             </p>
             {lesson.reading && <p className="mt-1 font-semibold">{t.lessonCard.reading} {lesson.reading}</p>}
-            {lesson.meaning && <p className="text-ink-soft text-sm">{t.lessonCard.meaning} {lesson.meaning}</p>}
+            {lesson.meaning && <p className="text-ink-soft text-sm">{t.lessonCard.meaning} {pick(lesson.meaning)}</p>}
           </div>
         )}
 

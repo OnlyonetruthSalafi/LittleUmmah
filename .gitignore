@@ -45,6 +45,7 @@ next-env.d.ts
 /public/BG/*.png
 /public/Character/*.png
 /public/Character/greet/*.png
+/public/Character/friends/*.png
 /public/Character/run/*.png
 /public/games/puzzle/*.png
 /public/games/hub/*.png
@@ -85,3 +86,4 @@ next-env.d.ts
 /tests/**/*.mp4
 /tests/**/*.mov
 /tests/**/*.webm
+public/languages/*.png

@@ -1,4 +1,4 @@
-import { getIslandContent } from "@/lib/lessons";
+import { getIslandContent } from "../../../lib/lessons.ts";
 import type { Text } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 
@@ -24,10 +24,10 @@ export type ClassStep = {
   boardSize: "glyph" | "phrase";
   title: Text;
   /** สิ่งที่ครูสอน อ่านเป็นเสียงในคลิป teach- */
-  body: string;
+  body: Text;
   /** คำที่เด็กอ่านตามในจังหวะเว้นว่าง */
   say: string;
-  meaning?: string;
+  meaning?: Text;
 };
 
 /*
@@ -91,7 +91,7 @@ function buildSteps(group: AgeGroupId): ClassStep[] {
     board: lesson.glyph ?? lesson.arabic ?? "",
     boardSize: lesson.glyph ? "glyph" : "phrase",
     title: lesson.title,
-    body: typeof lesson.body === "string" ? lesson.body : lesson.body.th,
+    body: lesson.body,
     say: SAY[lesson.id] ?? lesson.reading ?? lesson.title.th,
     meaning: lesson.meaning,
   }));

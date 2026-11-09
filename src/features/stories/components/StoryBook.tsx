@@ -256,7 +256,7 @@ export function StoryBook({ story }: { story: Story }) {
   useEffect(() => {
     // กดพักระหว่างพลิก: พลิกให้จบ แต่ไม่เริ่มพากย์หน้าใหม่ จนกว่าจะกดเล่นหรือพลิกอีก
     if (!started || turn || userPaused) return;
-    const text = spread < 0 ? pick(story.title) : [page && pick(page), page?.reading, page?.meaning].filter(Boolean).join(" ... ");
+    const text = spread < 0 ? pick(story.title) : [page && pick(page), page?.reading, page?.meaning && pick(page.meaning)].filter(Boolean).join(" ... ");
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancel: (() => void) | undefined;
     let usedSynth = false;
@@ -450,7 +450,7 @@ export function StoryBook({ story }: { story: Story }) {
           data-closed={closed || undefined}
           data-turning={turn ? (forward ? "fwd" : "back") : undefined}
           role="img"
-          aria-label={page ? page.alt : story.coverAlt}
+          aria-label={pick(page ? page.alt : story.coverAlt)}
         >
           <div className="sb-board" aria-hidden="true" />
           {deluxe?.book && <BookShell book={deluxe.book} />}
@@ -612,13 +612,13 @@ export function StoryBook({ story }: { story: Story }) {
                     {page.arabic}
                   </p>
                   {page.reading && <p className="mt-1 font-semibold">{fmt(t.stories.book.reading, { reading: page.reading })}</p>}
-                  {page.meaning && <p className="text-ink-soft text-sm">{fmt(t.stories.book.meaning, { meaning: page.meaning })}</p>}
+                  {page.meaning && <p className="text-ink-soft text-sm">{fmt(t.stories.book.meaning, { meaning: pick(page.meaning) })}</p>}
                 </div>
               ) : (
                 /* อายะฮ์อัลกุรอาน: แสดงเฉพาะความหมายภาษาไทย ไม่ยกตัวอาหรับ (เจ้าของโปรเจกต์ 8 ต.ค. 2026 — AGENTS.md ข้อ 1.6) */
                 page.meaning && (
                   <blockquote className="bg-sky-pale rounded-card-sm mt-3 px-4 py-3 text-lg leading-relaxed font-semibold">
-                    “{page.meaning}”
+                    “{pick(page.meaning)}”
                   </blockquote>
                 )
               )}

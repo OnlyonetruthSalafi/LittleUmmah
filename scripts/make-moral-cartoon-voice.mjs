@@ -16,8 +16,19 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { renderRobotLines } from "./lib/robot-voice.mjs";
+import { FRIENDS } from "../src/lib/friends.ts";
 
 export const LINES = {
+  // รู้จักเพื่อนใหม่ (meet-friends) — คลิปที่เพื่อนพูดอัดด้วยเสียงของเพื่อนตัวนั้น (FRIEND_CLIPS ข้างล่าง)
+  "meet-hello": "วันนี้ครูนูรีพาเพื่อนหุ่นยนต์ห้าตัวมาให้รู้จัก เวลาเจอเพื่อนใหม่ เพื่อนๆ แนะนำตัวกันอย่างไร มาฟังกันนะ",
+  "meet-hadi": "เราชื่อฮาดี เป็นนักสำรวจ ชอบส่องกล้องดูท้องฟ้าและภูเขาที่อัลลอฮ์ทรงสร้าง ยินดีที่ได้รู้จักนะ",
+  "meet-sabir": "เราชื่อซาบิร เป็นนักสร้าง ชอบต่อบล็อกให้สูงๆ ถ้าล้มก็ค่อยๆ ต่อใหม่ ไม่ต้องรีบ",
+  "meet-rassam": "เราชื่อรอสซาม เป็นนักวาด ชอบระบายสีดอกไม้ ท้องฟ้า และสายรุ้ง",
+  "meet-qalam": "เราชื่อฟาฮีม เป็นนักอ่าน ชอบอ่านหนังสือ และหัดอ่านตัวอักษรอาหรับทุกวัน",
+  "meet-safi": "เราชื่อซาฟี เป็นน้องเล็กสุดในแก๊ง กำลังหัดมารยาทอยู่เหมือนกัน มาเป็นเพื่อนกันนะ",
+  "meet-salam": "ทีนี้ถึงตาหนูแล้ว เจอเพื่อนใหม่ เราทักสลามก่อน พูดว่า อัสสะลามุอะลัยกุม พูดตามครู อัสสะลามุอะลัยกุม",
+  "meet-name": "แล้วบอกชื่อของเรา ถ้าอยากรู้ชื่อเพื่อน ก็ถามดีๆ ว่า เธอชื่ออะไร",
+  "meet-bye": "เก่งมาก เจอเพื่อนใหม่ ทักสลาม บอกชื่อ แล้วยิ้มให้กันนะ",
   "c15-say-sorry-1": "น้องหุ่นเขียวต่อบล็อกไว้ น้องหุ่นส้มเผลอชนล้มเลย",
   "c15-say-sorry-2": "น้องหุ่นส้มหยุดมอง ยังไม่รู้จะพูดอะไร",
   "c15-say-sorry-3": "ครูชวนคิดนะ เราจะขอโทษ แล้วช่วยเพื่อนได้ไหม",
@@ -153,7 +164,17 @@ export const LINES = {
   "calm-bye": "เก่งมาก เมื่อโกรธ พูดอะอูซุบิลลาฮ์ แล้วนั่งลง ใจเย็นๆ นะ",
 };
 
+/** คลิปที่เพื่อนเป็นคนพูด -> อัดด้วยเสียงของเพื่อนตัวนั้น (src/lib/friends.ts) ที่เหลือเป็นเสียงครูนูรี */
+export const FRIEND_CLIPS = { "meet-hadi": "hadi", "meet-sabir": "sabir", "meet-rassam": "rassam", "meet-qalam": "qalam", "meet-safi": "safi" };
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const only = process.argv.includes("--daily-duas") ? Object.keys(LINES).filter(key => key.startsWith("dua-")) : process.argv.slice(2);
-  await renderRobotLines(LINES, path.join(process.cwd(), "public", "audio", "th"), only);
+  const out = path.join(process.cwd(), "public", "audio", "th");
+  const keys = only.length > 0 ? only : Object.keys(LINES);
+  const nuri = keys.filter((key) => !FRIEND_CLIPS[key]);
+  if (nuri.length) await renderRobotLines(LINES, out, nuri);
+  for (const key of keys.filter((k) => FRIEND_CLIPS[k])) {
+    const friend = FRIENDS[FRIEND_CLIPS[key]];
+    await renderRobotLines(LINES, out, [key], { voiceId: friend.voiceId, pitch: friend.pitch });
+  }
 }

@@ -78,7 +78,7 @@ export default function ExploreIslandPage({ params }: Props) {
 
 async function PhotoCredits({ params }: Props) {
   const { lang } = await params;
-  const { t, sub } = dict(lang as Locale);
+  const { t, sub, pick } = dict(lang as Locale);
   return (
       <details className="mrl-credits">
         <summary className="mrl-credits-summary">
@@ -90,7 +90,7 @@ async function PhotoCredits({ params }: Props) {
               <a href={credit.page} target="_blank" rel="noopener noreferrer" className="mrl-credit-link">
                 “{credit.title}”<span className="sr-only">{t.explore.newTab}</span>
               </a>{" "}
-              {t.explore.by} {credit.author} — {credit.license}
+              {t.explore.by} {credit.author} — {pick(credit.license)}
             </li>
           ))}
         </ul>

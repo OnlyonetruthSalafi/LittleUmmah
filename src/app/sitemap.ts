@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Public Thai URLs only. /learn/games redirects to /games; do not list redirects.
   const paths = [
     "/", "/kids", "/juniors", "/learn", "/games", "/parents",
+    "/learn/languages/arabic", "/learn/languages/english", "/learn/languages/thai",
     ...CATEGORIES.filter((category) => category.slug !== "games").map((category) => category.href),
     ...STORIES.map((story) => `/learn/stories/${story.slug}`),
     ...games.filter((game) => game.enabled).map((game) => `/games/${game.slug}`),

@@ -9,6 +9,7 @@ import { PauseIcon } from "@/components/icons/PauseIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { ArabicText } from "@/components/ui/ArabicText";
+import { FRIENDS, friendImage } from "@/lib/friends";
 import type { Lesson } from "@/lib/lessons";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
@@ -196,7 +197,7 @@ export function CartoonLesson({
               <span className="mrl-photo-img">
                 <Image
                   src={scene.photo.src}
-                  alt={scene.photo.alt}
+                  alt={pick(scene.photo.alt)}
                   width={scene.photo.width}
                   height={scene.photo.height}
                   sizes="(max-width: 767px) 62vw, 540px"
@@ -216,6 +217,23 @@ export function CartoonLesson({
               </span>
               <span className="mrl-stage-word-th">{word.th}</span>
             </p>
+          )}
+          {/* ผองเพื่อนนูรี (บท meet-friends) — ภาพตกแต่ง ชื่อผู้พูดอยู่ในข้อความใต้ภาพ */}
+          {scene.cast && (
+            <div className="mrl-cast" data-count={scene.cast.length} key={`c-${index}-${take}`}>
+              {scene.cast.map((member) => (
+                <Image
+                  key={member.id}
+                  src={friendImage(member.id, member.pose)}
+                  alt=""
+                  width={480}
+                  height={480}
+                  sizes="(max-width: 767px) 40vw, 320px"
+                  className="mrl-cast-friend"
+                  data-friend={member.id}
+                />
+              ))}
+            </div>
           )}
           <div className="mrl-nuri" data-enter={firstScene || undefined} data-pose={scene.pose} key={`n-${scene.pose}-${index}-${take}`}>
             {(["stand", "wave-1", "wave-2", "point"] as const).map((frame) => (
@@ -238,6 +256,11 @@ export function CartoonLesson({
 
         {/* ข้อความของฉาก — role=status ให้ screen reader อ่านเมื่อเปลี่ยนฉาก */}
         <div className="mrl-cartoon-caption" role="status">
+          {scene.speaker && (
+            <p className="mrl-speaker font-display" style={{ borderColor: FRIENDS[scene.speaker].color, color: FRIENDS[scene.speaker].color }}>
+              {pick(FRIENDS[scene.speaker].name)} {sub && <span lang="en">{pickSub(FRIENDS[scene.speaker].name)}</span>}
+            </p>
+          )}
           <p className="font-semibold"><ArabicText text={pick(scene)} /></p>
           {sub && <p lang="en" className="text-ink-soft text-sm">
             <ArabicText text={pickSub(scene)!} />
@@ -245,7 +268,7 @@ export function CartoonLesson({
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
           {sayAlong && word && <p className="mrl-say-caption" data-above={cartoon.wordPlacement === "above" || undefined}>{fmt(t.moral.cartoon.sayPrompt, { word: locale === "th" ? word.th : word.ar })}</p>}
           {/* เครดิตภาพถ่าย — วางในกล่องข้อความ อ่านง่ายกว่าตัวเล็กบนกรอบภาพ */}
-          {scene.photo && <p className="text-ink-soft mt-1 text-xs">{scene.photo.credit}</p>}
+          {scene.photo && <p className="text-ink-soft mt-1 text-xs">{pick(scene.photo.credit)}</p>}
         </div>
 
         <div className="mrl-cartoon-controls">

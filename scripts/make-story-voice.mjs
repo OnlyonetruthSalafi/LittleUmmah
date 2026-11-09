@@ -64,7 +64,7 @@ const applyFixes = text => SPEECH_FIXES.reduce((out, [from, to]) => out.replaceA
   ป้อนตัวอักษรอาหรับมีสระ (page.arabic) แทนคำอ่านไทย และไม่ล็อก language_code ให้โมเดลอ่านท่อนนั้นเป็นอาหรับ
 */
 const arabicMode = process.argv.includes("--arabic");
-const pageLine = page => [page.th, arabicMode ? page.arabic : page.reading, page.meaning].filter(Boolean).join(" ... ");
+const pageLine = page => [page.th, arabicMode ? page.arabic : page.reading, page.meaning?.th].filter(Boolean).join(" ... ");
 
 /** ชื่อไฟล์เสียงผูกกับชื่อไฟล์ภาพ ตรงกับ narrationSrc ใน features/stories/index.ts */
 const pageKey = page => page.image.split("/").pop().replace(/\.\w+$/, "");

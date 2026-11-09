@@ -19,6 +19,7 @@ for (const [width, height] of [[360, 780], [390, 844], [430, 932], [844, 390], [
   const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce', hasTouch: width < 800 });
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   await page.goto(base, { waitUntil: 'networkidle' });
+  check(await page.locator('.orbit-island[data-slug="arabic"] a').getAttribute('href') === '/learn/languages', 'language island uses the new picker URL');
   // ภาพ lazy นอกจอ decode() จะค้างจนกว่าจะโหลด: สั่ง eager แล้วรอไม่เกิน 5 วินาทีต่อภาพ
   await page.evaluate(async () => { await document.fonts.ready; const imgs = [...document.querySelectorAll('.orbit-island img')]; imgs.forEach(i => { i.loading = 'eager'; }); await Promise.all(imgs.map(i => Promise.race([i.decode().catch(() => {}), new Promise(r => setTimeout(r, 5000))]))); });
   const m = await page.evaluate(() => {

@@ -1,0 +1,65 @@
+/* LANG-2: floating school pavilions. All lettering sits on opaque CSS signs,
+   never on the illustration, so artwork can move independently of reading. */
+.language-picker { margin: 24px auto 0; padding: 24px 12px 28px; border-radius: 36px; background: #eaf6ff; color: var(--color-ink); }
+.language-welcome { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 880px; margin: 0 auto 24px; }
+.language-welcome > div { min-width: 0; }
+.language-eyebrow { color: #245777; font-size: .875rem; font-weight: 700; }
+.language-eyebrow span { display: block; font-size: .75rem; font-weight: 500; }
+.language-welcome h1 { margin-top: 8px; font-family: var(--font-display); font-size: clamp(1.65rem, 3.6vw, 3rem); font-weight: 800; line-height: 1.3; }
+.language-welcome h1 > span { display: block; margin-top: 6px; font-size: .52em; font-weight: 600; color: #245777; }
+.language-invitation { margin-top: 14px; font-size: .9375rem; max-width: 35em; }
+.language-invitation-sub { margin-top: 4px; font-size: .8125rem; color: #4b5563; max-width: 38em; }
+.language-nuri { width: 82px; height: auto; flex: none; filter: drop-shadow(0 8px 6px #143e5b25); }
+.language-open { display: grid; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.language-open > li { min-width: 0; }
+.language-room { --board: #123d5e; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); grid-template-rows: auto auto auto; align-items: center; column-gap: 6px; min-height: 206px; padding: 10px 8px; border-radius: 24px; background: #dceefa; box-shadow: 0 3px 0 #bbd5e7; transition: box-shadow 200ms ease-out, transform 200ms ease-out; }
+.language-room[data-room="thai"] { --board: #164c48; background: #ddf2ed; }
+.language-room[data-room="arabic"] { --board: #443b24; background: #f9edcf; }
+.language-room:focus-visible { outline: 4px solid #156ec0; outline-offset: 5px; }
+@media (hover: hover) { .language-room:hover { box-shadow: 0 5px 0 #a3bec9, 0 16px 28px #143e5b35; } }
+.language-room-art { grid-column: 1; grid-row: 1 / 4; overflow: hidden; aspect-ratio: 1; width: 100%; }
+.language-school { width: 100%; height: auto; transition: transform 200ms ease-out; }
+.language-sample { grid-column: 2; display: block; justify-self: start; padding: 5px 16px; border: 2px solid #d6b56b; border-radius: 16px 16px 5px 5px; background: var(--board); color: #fff; font-size: 1.7rem; font-weight: 600; line-height: 1.65; white-space: nowrap; box-shadow: 0 3px 0 #9f7938; }
+.language-sample[lang="ar"] { font-family: var(--font-arabic, serif); }
+.language-nameplate { grid-column: 2; display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-top: 10px; }
+.language-nameplate strong { display: block; font-size: 1.125rem; font-weight: 800; line-height: 1.5; }
+.language-secondary { display: block; font-family: var(--font-display); font-size: 1rem; color: #245777; }
+.language-nameplate > svg { width: 20px; }
+.language-enter { grid-column: 2; justify-self: start; margin-top: 8px; padding: 5px 10px; border-radius: 8px; background: #fff4d3; color: #1f2937; font-size: .8125rem; font-weight: 700; box-shadow: 0 2px 0 #c7a359; }
+.language-enter > span { display: block; font-size: .6875rem; font-weight: 500; }
+.language-future { margin-top: 36px; padding-top: 24px; border-top: 1px solid #b4cfdf; }
+.language-future h2 { font-size: 1.125rem; font-weight: 700; text-align: center; }
+.language-future h2 > span { display: block; margin-top: 3px; font-size: .875rem; font-weight: 500; color: #4b5563; }
+.language-closed-list { display: grid; gap: 16px; max-width: 760px; margin: 18px auto 0; }
+.language-closed { display: flex; align-items: center; gap: 16px; min-height: 148px; padding: 14px; border: 1px solid #b4cfdf; border-radius: 20px; background: #f5f9fa; }
+.language-closed-board { display: grid; place-items: center; position: relative; flex: none; width: 90px; min-height: 108px; padding: 8px; border: 5px solid #c7a359; border-radius: 38px 38px 5px 5px; background: #294b5d; color: #fff; text-align: center; font-size: 1.125rem; line-height: 1.5; box-shadow: inset 0 -6px 0 #183342, 0 3px 0 #916c2f; }
+.language-closed-board::after { content: ''; position: absolute; bottom: 10px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: #f5cf7c; }
+.language-closed-name { min-width: 0; }
+.language-closed-name h3 { font-weight: 700; }
+.language-closed-name > p { font-size: .875rem; }
+.language-lock { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-weight: 700; color: #245777; }
+.language-lock span > span { display: block; font-size: .75rem; font-weight: 500; }
+@media (min-width: 640px) {
+  .language-picker { padding: 32px 24px; }
+  .language-welcome { gap: 32px; margin-bottom: 16px; }
+  .language-nuri { width: 164px; }
+  .language-eyebrow span { display: inline; margin-left: 10px; }
+  .language-open { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; padding-top: 22px; }
+  .language-open > li:nth-child(2) { margin-top: 36px; }
+  .language-room { display: flex; flex-direction: column; padding: 12px 10px 20px; border-radius: 100px 100px 28px 28px; }
+  .language-open .language-room { background: transparent; box-shadow: none; }
+  .language-open .language-room:hover { box-shadow: 0 12px 24px #143e5b20; }
+  .language-room-art { width: calc(100% + 20px); }
+  .language-sample { align-self: center; margin-top: -6px; z-index: 1; font-size: clamp(1.75rem, 3vw, 2.5rem); padding-inline: 22px; }
+  .language-nameplate { min-height: 76px; width: 100%; justify-content: center; text-align: center; padding: 8px; background: #fff4d3; border: 2px solid #c7a359; border-radius: 14px; box-shadow: inset 0 2px 0 #fff, 0 3px 0 #c7a359; }
+  .language-nameplate strong { font-size: clamp(1.125rem, 1.8vw, 1.5rem); }
+  .language-nameplate > svg { display: none; }
+  .language-enter { margin-top: 12px; text-align: center; padding: 6px 20px; }
+  .language-closed-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .language-picker { padding: 40px 40px 36px; }
+  .language-open { gap: 28px; }
+  .language-nuri { width: 190px; }
+  .language-room { padding-bottom: 24px; }
+}
