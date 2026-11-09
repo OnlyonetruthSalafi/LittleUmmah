@@ -8,6 +8,7 @@ import { MUSA_STORY } from "./data/musa";
 import { NUH_STORY } from "./data/nuh";
 import { YUNUS_STORY } from "./data/yunus";
 import { YUSUF_STORY } from "./data/yusuf";
+import { READY_HADITH_STORIES } from "./data/hadith";
 import type { Story } from "./types";
 import type { Locale } from "@/i18n/config";
 
@@ -23,6 +24,8 @@ export const STORIES: Story[] = [
   YUSUF_STORY,
   GARDEN_OWNERS_STORY,
   TWO_GARDENS_STORY,
+  // ตู้เรื่องจริงจากหะดีษ: เฉพาะเล่มที่ภาพและเสียงครบ (data/hadith/index.ts)
+  ...READY_HADITH_STORIES,
 ];
 
 export function getStory(slug: string) {

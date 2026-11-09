@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test tests/*.test.mjs scripts/speech.test.mjs",
     "verify": "npm run typecheck && npm run lint && npm test && npm run build",
-    "verify:browser": "node scripts/verify-browser.mjs"
+    "verify:browser": "node scripts/verify-browser.mjs",
+    "check:ipad": "node scripts/check-ipad-webkit.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

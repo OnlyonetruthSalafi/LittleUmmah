@@ -131,7 +131,8 @@ export const th = {
   stories: {
     shelf: {
       metadataTitle: "เกาะเรื่องเล่า",
-      title: "เรื่องเล่า",
+      title: "เรื่องจริงจากอัลกุรอาน",
+      hadithTitle: "เรื่องจริงจากหะดีษ",
       back: "เกาะเรื่องเล่า",
       label: "ตู้หนังสือนิทาน",
       soon: "เร็วๆ นี้",

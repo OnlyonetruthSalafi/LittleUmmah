@@ -1,7 +1,7 @@
 import type { Story } from "../types";
 
 /*
-  นิทานมดตัวน้อยกับนบีสุลัยมาน (วัย 3-6 ปี)
+  นิทานนบีสุลัยมานกับมด (วัย 3-6 ปี)
 
   เนื้อหามาจากอัลกุรอานเท่านั้น (ตรวจตัวบทกับ Shamela 7 ต.ค. 2026 — ตัฟซีรอิบนุ กะษีร https://shamela.ws/book/8473/3086)
   - อัลลอฮ์ประทานความรู้แก่ดาวูดและสุลัยมาน ทั้งสองกล่าวสรรเสริญอัลลอฮ์ (อันนัมล์ 15)
@@ -17,7 +17,7 @@ import type { Story } from "../types";
 */
 export const ANTS_STORY: Story = {
   slug: "ants",
-  title: { th: "มดตัวน้อยกับนบีสุลัยมาน", en: "The ant and Prophet Sulayman" },
+  title: { th: "นบีสุลัยมานกับมด", en: "Prophet Sulayman and the ant" },
   cover: "/stories/ants/cover.webp",
   coverAlt: { th: "หุบเขาสีทองยามเช้า มีจอมปลวกรังมดเล็กๆ เรียงรายอยู่บนพื้น", en: "A golden valley in the morning, with little ant hills dotted across the ground" },
   robot: "/Character/faith.webp",

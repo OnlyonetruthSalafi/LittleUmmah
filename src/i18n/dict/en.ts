@@ -128,7 +128,8 @@ export const en: Dictionary = {
   stories: {
     shelf: {
       metadataTitle: "Stories Island",
-      title: "Stories",
+      title: "True Stories from the Quran",
+      hadithTitle: "True Stories from the Hadith",
       back: "Stories",
       label: "Story bookshelf",
       soon: "Coming soon",

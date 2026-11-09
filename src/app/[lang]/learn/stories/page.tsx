@@ -7,7 +7,7 @@ import { OtherIslands } from "@/components/islands/OtherIslands";
 import { BackLink } from "@/components/ui/BackLink";
 import { Bookshelf } from "@/features/stories/components/Bookshelf";
 import { StoryGuide } from "@/features/stories/components/StoryGuide";
-import { shelfBooks } from "@/features/stories/shelf";
+import { hadithShelfBooks, shelfBooks } from "@/features/stories/shelf";
 
 /*
   เกาะเรื่องเล่า = ตู้หนังสือ
@@ -23,15 +23,18 @@ export default async function StoriesIslandPage({ params }: PageProps<"/[lang]/l
   const { lang } = await params;
   const { t, sub } = dict(lang as Locale);
   const { kids, juniors } = shelfBooks();
+  const hadith = hadithShelfBooks();
 
   return (
     <>
       <BackLink />
       <h1 className="sr-only">
-        {t.stories.shelf.title}{" "}{sub && <span lang="en">{sub.stories.shelf.title}</span>}
+        {t.stories.shelf.metadataTitle}{" "}{sub && <span lang="en">{sub.stories.shelf.metadataTitle}</span>}
       </h1>
       <StoryGuide />
       <Bookshelf kids={kids} juniors={juniors} />
+      {/* ตู้ที่สอง: เรื่องจริงจากหะดีษ (เจ้าของโปรเจกต์สั่ง 9 พ.ย. 2026) */}
+      <Bookshelf kids={hadith.kids} juniors={hadith.juniors} shelf="hadith" />
 
       <OtherIslands current="stories" />
     </>

@@ -589,7 +589,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
   {
     slug: "stories",
     robot: "/Character/faith.webp",
-    intro: { th: "เรื่องจริงจากอัลกุรอาน สอนให้เรารักและเชื่อฟังอัลลอฮ์", en: "True stories from the Quran that teach us to love and obey Allah." },
+    intro: { th: "เรื่องจริงจากอัลกุรอานและหะดีษ สอนให้เรารักและเชื่อฟังอัลลอฮ์", en: "True stories from the Quran and the Hadith that teach us to love and obey Allah." },
     kids: [
       {
         id: "nuh",
@@ -609,7 +609,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
       {
         id: "ants",
         icon: "home",
-        title: { th: "มดตัวน้อยกับนบีสุลัยมาน", en: "The ant and Prophet Sulayman" },
+        title: { th: "นบีสุลัยมานกับมด", en: "Prophet Sulayman and the ant" },
         body: { th: "มดตัวหนึ่งร้องเตือนเพื่อนๆ ให้รีบเข้ารัง จะได้ไม่ถูกกองทัพของนบีสุลัยมานเหยียบโดยไม่รู้ตัว นบีสุลัยมานได้ยินก็ยิ้ม และขอบคุณอัลลอฮ์", en: "An ant called out to the other ants to hurry into their homes, so that Sulayman's army would not crush them without noticing. Prophet Sulayman heard it, smiled, and thanked Allah." },
       },
       {

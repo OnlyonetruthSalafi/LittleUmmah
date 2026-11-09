@@ -14,9 +14,17 @@
 /* ตู้เดียว: จอกว้างใช้ตู้กว้าง 2 ชั้น จอแคบใช้ตู้สูง 4 ชั้น (ซ่อนอีกตู้ด้วย display:none จึงไม่ถูกอ่านซ้ำ) */
 .bs-shelf { position: relative; width: 100%; margin-inline: auto; container-type: inline-size; overflow-x: clip; }
 .bs-shelf[data-variant="tall"] { display: none; width: min(100%, 460px); }
-@media (max-width: 639px) {
+/*
+  ตู้กว้างต้องให้ทุกช่องกว้าง ≥ 64px ไม่ทับกัน (วัด DOM 10 พ.ย. 2026): ชั้นละ 5 เล่มลงได้ตั้งแต่ 660px
+  ชั้นที่มี 6 เล่ม (data-crowded) ลงได้ตั้งแต่ 780px
+*/
+@media (max-width: 659px) {
   .bs-shelf[data-variant="wide"] { display: none; }
   .bs-shelf[data-variant="tall"] { display: block; }
+}
+@media (max-width: 779px) {
+  .bs-stage[data-crowded] .bs-shelf[data-variant="wide"] { display: none; }
+  .bs-stage[data-crowded] .bs-shelf[data-variant="tall"] { display: block; }
 }
 /* ภาพเต็มกว้างกว่ากรอบได้ (ตู้สูงตัดพื้นหลังข้างเสา) พิกัดลูกทุกตัวเป็น % ของภาพเต็ม */
 .bs-canvas { position: absolute; top: 0; bottom: 0; }
@@ -121,6 +129,8 @@
 
 /* ตัวอักษรบนตู้ใช้หน่วย cqw ให้โตตามความกว้างตู้ ไม่ใช่ตามจอ */
 .bs-plaque {
+  margin: 0;
+  font-size: inherit;
   position: absolute;
   display: grid;
   place-content: center;
@@ -146,32 +156,55 @@
   cursor: pointer;
 }
 .bs-cell[aria-disabled="true"] { cursor: default; }
-/* ป้ายชื่อเรื่องติดขอบชั้นใต้เล่ม แบบป้ายห้องสมุด ไม่บังปก */
+/*
+  ป้ายชื่อเรื่อง = สติ๊กเกอร์ไดคัตเหนือหนังสือ (เจ้าของโปรเจกต์สั่ง 9 พ.ย. 2026 แทนการ์ดขาวใต้เล่ม)
+  พื้นสีเดียวกับสันเล่ม (--tint) เข้มขึ้นให้ตัวอักษรขาวผ่าน 4.5:1 ขอบขาวหนาแบบสติ๊กเกอร์ เอียงสลับซ้ายขวาเล็กน้อย
+  เป็นพี่น้องกับ .bs-book ไม่ได้อยู่ในเล่ม ตอน hover หนังสือขยับ แต่ป้ายอยู่นิ่ง (ข้อ 2.1)
+  ตู้ใหม่ใช้ class เดียวกัน
+*/
 .bs-label {
   position: absolute;
-  top: calc(100% + 0.3cqw);
+  z-index: 2;
+  top: 0;
   left: 50%;
   translate: -50% 0;
+  rotate: -2.5deg;
   width: max-content;
-  max-width: 150%;
-  padding: 0.15em 0.5em;
-  border-radius: 6px;
-  background: #fffaf0;
-  box-shadow: inset 0 0 0 1.5px #d9a93b, 0 2px 3px rgb(60 30 0 / 0.35);
-  color: var(--color-island-ink);
-  font-weight: 700;
+  max-width: 108%;
+  padding: 0.22em 0.6em 0.26em;
+  border-radius: 0.7em;
+  background: color-mix(in srgb, var(--tint, #0f7c93) 72%, #000);
+  box-shadow: 0 0 0 0.2em #fff, 0 0.32em 0.4em 0.08em rgb(50 25 0 / 0.38);
+  color: #fff;
+  font-weight: 800;
   font-size: max(11px, 1.05cqw);
-  line-height: 1.25;
+  line-height: 1.22;
   text-align: center;
+  /* รับการแตะได้ — ป้ายอยู่ในลิงก์ของเล่มนั้น ส่วนที่ยื่นพ้นช่อง (ตู้สูงชั้นบน) จึงยังเปิดหนังสือ */
+}
+/* ประกายมันเงาบนสติ๊กเกอร์ */
+.bs-label::before {
+  content: "";
+  position: absolute;
+  inset: 0.18em 0.4em auto;
+  height: 38%;
+  border-radius: 0.5em 0.5em 0.3em 0.3em;
+  background: linear-gradient(rgb(255 255 255 / 0.28), rgb(255 255 255 / 0));
   pointer-events: none;
 }
-/* ตู้แนวตั้ง (มือถือ) ป้ายช่วงวัยวางทับขอบชั้น ป้ายชื่อจึงติดที่ขอบล่างของปกแทน */
+.bs-cell:nth-child(even) .bs-label { rotate: 2deg; }
+/* หนังสือเตี้ยลงให้มีที่ว่างเหนือเล่มสำหรับสติ๊กเกอร์ */
+.bs-cell .bs-book { height: 72%; }
+/* ตู้แคบช่องเตี้ย สติ๊กเกอร์คร่อมขอบบนของปก เหมือนติดไว้ที่หัวเล่ม */
 .bs-shelf[data-variant="tall"] .bs-label {
-  top: auto;
-  bottom: 1%;
-  max-width: calc(100% + 8px);
+  max-width: calc(100% + 6px);
   font-size: max(11px, 2.9cqw);
 }
+.bs-shelf[data-variant="tall"] .bs-cell .bs-book { height: 84%; }
+.bs-shelf[data-variant="tall"] .bs-label { rotate: -1.5deg; padding-inline: 0.45em; }
+.bs-shelf[data-variant="tall"] .bs-cell:nth-child(even) .bs-label { rotate: 1.5deg; }
+/* สองชั้นบน (วัย 3-6 ปี) มีที่ว่างเหนือช่อง หลังย้ายป้ายวัยขึ้นสันตู้ — ยกสติ๊กเกอร์ขึ้นไม่ให้ทับปก */
+.bs-shelf[data-variant="tall"] section:first-of-type > .bs-row .bs-label { top: -5.5cqw; }
 .bs-cell:focus-visible { outline: 4px solid #fff; box-shadow: 0 0 0 8px var(--color-brand-blue); }
 .bs-cell[data-flying] .bs-book { visibility: hidden; }
 
@@ -272,6 +305,4 @@
 .bs-fly { position: fixed; transform-origin: 0 0; transform-style: preserve-3d; }
 .bs-fly .bs-book { height: 100%; width: 100%; transform: none; filter: drop-shadow(0 30px 30px rgb(0 0 0 / 0.45)); }
 
-@media (max-width: 639px) {
-  .bs-row { padding-inline: 4%; column-gap: 6%; }
-}
+.bs-shelf[data-variant="tall"] .bs-row { padding-inline: 4%; column-gap: 6%; }

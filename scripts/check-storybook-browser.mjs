@@ -8,7 +8,10 @@ const args = process.argv.slice(2);
 const base = (args.find((a) => !a.startsWith('--')) ?? process.env.BASE_URL ?? 'http://localhost:3104').replace(/\/+$/, '');
 const slug = args.find((a) => a.startsWith('--story='))?.slice('--story='.length) ?? 'nuh';
 // ไฟล์ข้อมูลนิทานมี export เดียว (import แค่ type) Node จึงโหลด .ts ได้ตรงๆ
-const story = Object.values(await import(`../src/features/stories/data/${slug}.ts`))[0];
+// เล่มตู้หะดีษอยู่ใน data/hadith/ (9 พ.ย. 2026)
+const { existsSync } = await import('node:fs');
+const dataFile = existsSync(new URL(`../src/features/stories/data/${slug}.ts`, import.meta.url)) ? `${slug}.ts` : `hadith/${slug}.ts`;
+const story = Object.values(await import(`../src/features/stories/data/${dataFile}`))[0];
 const url = `${base}/learn/stories/${slug}`;
 const snippet = (i) => story.pages[i].th.slice(0, 12);
 const out = process.env.BROWSER_CHECK_OUT ?? `output/p0-3/storybook/${slug}`;

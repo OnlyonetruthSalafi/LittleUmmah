@@ -124,7 +124,7 @@ function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: st
   const { pick, pickSub } = useDict();
   const label = ageLabel(id);
   return (
-    <h2 id={headingId} className={className} data-zone={id} style={style}>
+    <h3 id={headingId} className={className} data-zone={id} style={style}>
       <span className="bs-mark" aria-hidden="true" />
       <span className="bs-sign-text">
         <span className="bs-sign-th">{pick(label)}</span>
@@ -132,16 +132,23 @@ function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: st
           {pickSub(label)}
         </span>}
       </span>
-    </h2>
+    </h3>
   );
 }
 
 /*
-  จุดขึ้นบรรทัดใหม่ของป้ายชื่อบนตู้แคบ — ตัวตัดคำของเบราว์เซอร์ตัดชื่อนบีผิด (เช่น "นบีอิ|บรอฮี|มกับ")
-  จึงให้ขึ้นบรรทัดได้เฉพาะหน้าคำเชื่อม "กับ" และ "ของ" ที่เหลืออยู่ติดกันเสมอ
+  จุดขึ้นบรรทัดใหม่ของป้ายชื่อ — ตัวตัดคำของเบราว์เซอร์ตัดชื่อนบีผิด (เช่น "นบีอิ|บรอฮี|มกับ")
+  จึงให้ขึ้นบรรทัดได้เฉพาะหน้าคำที่กำหนด (ไม่ตัดหน้าคำแรกของชื่อ และไม่แยก "เจ้า|ของ")
+  ชื่อหนังสือใหม่ที่ยาวแต่ไม่มีคำเหล่านี้ ให้เพิ่มคำในรายการ
 */
+const BREAK_BEFORE = /(?<=.)(?=กับ|(?<!เจ้า)ของ|ใน|บน|ข้าม|ผู้|เจ้า|สอง|ลำ|นบี|ที่|จาก|ให้|ร้อง|สำหรับ|ตัดสิน)/;
 function labelParts(title: string) {
-  return title.split(/(?=กับ|ของ)/);
+  return title.split(BREAK_BEFORE);
+}
+
+/** ตู้กว้าง: ช่องป้ายวัยกว้างตามจำนวนเล่ม แถวที่มีเกิน 5 เล่มป้ายจะได้ไม่บีบจน "3-6" ตกบรรทัด */
+function signFr(books: number) {
+  return Math.max(1.45, (1.45 * books) / 5);
 }
 
 function BookCell({
@@ -158,7 +165,7 @@ function BookCell({
   onPick: (book: ShelfBook) => void;
 }) {
   const { locale, t, pick } = useDict();
-  // ป้ายชื่อบนขอบชั้นใต้เล่ม — คนที่ปิดเสียงก็รู้ว่าเล่มไหนเรื่องอะไร (เจ้าของโปรเจกต์อนุมัติ 15 ต.ค. 2026)
+  // ป้ายชื่อเป็นสติ๊กเกอร์เหนือเล่ม — คนที่ปิดเสียงก็รู้ว่าเล่มไหนเรื่องอะไร (อนุมัติ 15 ต.ค. 2026, ย้ายเหนือเล่ม 9 พ.ย. 2026)
   // ป้ายนี้เป็นชื่อที่ screen reader อ่านด้วย "เร็วๆ นี้" อ่านเฉพาะ screen reader
   const label = (
     <span className="bs-label">
@@ -175,6 +182,7 @@ function BookCell({
     <Link
       href={book.href}
       className="bs-cell"
+      style={{ "--tint": tint } as CSSProperties}
       data-flying={flyingId === book.id || undefined}
       onClick={(e) => onOpen(e, book, tint)}
       onPointerEnter={() => onPick(book)}
@@ -187,6 +195,7 @@ function BookCell({
     <button
       type="button"
       className="bs-cell"
+      style={{ "--tint": tint } as CSSProperties}
       aria-disabled="true"
       onClick={() => onPick(book)}
       onPointerEnter={() => onPick(book)}
@@ -201,19 +210,20 @@ function BookCell({
 function Shelf({
   art,
   variant,
+  title,
   zones,
   onOpen,
   onPick,
   flyingId,
 }: {
   art: ShelfArt;
+  title: { th: string; en?: string };
   variant: "wide" | "tall";
   zones: Zone[];
   onOpen: OpenFn;
   onPick: (book: ShelfBook) => void;
   flyingId?: string;
 }) {
-  const { t, sub } = useDict();
   const uid = useId();
   const crop = art.crop ?? { l: 0, r: 0 };
   const keep = 100 - crop.l - crop.r;
@@ -237,15 +247,16 @@ function Shelf({
         {/* lazy + fetchPriority แทน preload: ตู้ที่ถูก display:none จะไม่โหลด (ตามเอกสาร next/image เรื่อง art direction) */}
         <Image src={art.src} alt="" fill fetchPriority="high" sizes="(max-width: 639px) 130vw, 1100px" className="bs-art" />
 
-        <div
+        {/* ป้ายชื่อตู้เป็นหัวข้อ h2 (ป้ายช่วงวัยเป็น h3) ตู้กว้าง/ตู้แคบสลับกันด้วย display:none จึงไม่ถูกอ่านซ้ำ */}
+        <h2
           className="bs-plaque"
           style={{ left: `${art.plaque.l}%`, right: `${art.plaque.r}%`, top: `${art.plaque.t}%`, bottom: `${art.plaque.b}%` }}
         >
-          <span className="bs-plaque-th">{t.stories.shelf.title}</span>
-          {sub && <span className="bs-plaque-en" lang="en">
-            {sub.stories.shelf.title}
+          <span className="bs-plaque-th">{title.th}</span>
+          {title.en && <span className="bs-plaque-en" lang="en">
+            {title.en}
           </span>}
-        </div>
+        </h2>
 
         {/* ผนังหลังตู้ย้อมสีตามช่วงวัย (ทองอุ่น = 3-6 ปี, น้ำเงิน = 7+) อยู่ใต้หนังสือและป้าย */}
         {art.walls.map((wall, r) => (
@@ -269,7 +280,7 @@ function Shelf({
                 aria-labelledby={headingId}
                 className="bs-row"
                 data-zone={zone.id}
-                style={{ ...pos(first), gridTemplateColumns: `1.45fr repeat(${zone.books.length}, minmax(0, 1fr))` }}
+                style={{ ...pos(first), gridTemplateColumns: `${signFr(zone.books.length)}fr repeat(${zone.books.length}, minmax(0, 1fr))` }}
               >
                 <AgeSign id={zone.id} headingId={headingId} className="bs-sign" />
                 {zone.books.map((book, i) => (
@@ -324,8 +335,14 @@ function Shelf({
   );
 }
 
-export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: ShelfBook[] }) {
-  const { t, pick: pickText } = useDict();
+/*
+  ใช้ได้หลายตู้บนหน้าเดียว (เรื่องจริงจากอัลกุรอาน / เรื่องจริงจากหะดีษ — เจ้าของโปรเจกต์สั่งแยกตู้ 9 พ.ย. 2026)
+  shelf = ชื่อตู้ใน dict (t.stories.shelf.title / hadithTitle)
+*/
+export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[]; juniors: ShelfBook[]; shelf?: "quran" | "hadith" }) {
+  const { t, sub, pick: pickText } = useDict();
+  const key = shelf === "hadith" ? "hadithTitle" : "title";
+  const title = { th: t.stories.shelf[key], en: sub?.stories.shelf[key] };
   const router = useRouter();
   const toLocale = useLocalePath();
   const { speak } = useSound();
@@ -365,11 +382,17 @@ export function Bookshelf({ kids, juniors }: { kids: ShelfBook[]; juniors: Shelf
 
 
   return (
-    <section aria-label={t.stories.shelf.label} className="bs-stage">
+    <section
+      aria-label={`${t.stories.shelf.label} ${title.th}`}
+      className="bs-stage"
+      data-shelf={shelf}
+      // ชั้นที่มีเกิน 5 เล่ม ช่องในตู้กว้างแคบกว่า 64px จนทับกันบนจอ 640–779px จึงใช้ตู้สูงนานกว่า (bookshelf.css)
+      data-crowded={Math.max(kids.length, juniors.length) > 5 || undefined}
+    >
       <div className="bs-glow" aria-hidden="true" />
 
-      <Shelf art={SHELF_WIDE} variant="wide" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
-      <Shelf art={SHELF_TALL} variant="tall" zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
+      <Shelf art={SHELF_WIDE} variant="wide" title={title} zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
+      <Shelf art={SHELF_TALL} variant="tall" title={title} zones={zones} onOpen={open} onPick={pick} flyingId={flying?.book.id} />
 
       {flying && <FlyingBook flying={flying} onDone={() => router.push(toLocale(`${flying.book.href}?play=1`))} />}
     </section>

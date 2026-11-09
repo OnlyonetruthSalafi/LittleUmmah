@@ -1,6 +1,7 @@
 import type { LessonIconName } from "@/components/icons/LessonIcon";
 import { ISLAND_CONTENT } from "@/lib/lessons";
 
+import { HADITH_SHELF, type HadithShelfEntry } from "./data/hadith";
 import { STORIES } from "./index";
 import type { Text } from "@/i18n/config";
 
@@ -31,6 +32,18 @@ export function shelfBooks() {
     };
   };
   return { kids: island.kids.map(toBook), juniors: island.juniors.map(toBook) };
+}
+
+/* ตู้ "เรื่องจริงจากหะดีษ" — เล่มที่ยังไม่ ready เป็นปก CSS พร้อมแถบ "เร็วๆ นี้" */
+export function hadithShelfBooks() {
+  const toBook = ({ story, icon, ready }: HadithShelfEntry): ShelfBook => ({
+    id: story.slug,
+    title: story.title,
+    icon,
+    cover: ready ? story.cover : undefined,
+    href: ready ? `/learn/stories/${story.slug}` : undefined,
+  });
+  return { kids: HADITH_SHELF.kids.map(toBook), juniors: HADITH_SHELF.juniors.map(toBook) };
 }
 
 type Rect = { l: number; r: number; t: number; b: number };
@@ -77,14 +90,15 @@ export const SHELF_WIDE: ShelfArt = {
 
 /*
   ตู้สูง 4 ชั้นสำหรับจอแคบ: สองชั้นบน = วัย 3-6 ปี สองชั้นล่าง = วัย 7 ปีขึ้นไป
-  ป้ายหัวโซนวางบนไม้คานบนสุด และบนไม้ชั้นกลางตู้ซึ่งเป็นรอยต่อระหว่างสองวัยพอดี
+  ป้ายหัวโซนวางบนสันตู้ใต้ป้ายชื่อตู้ (เจ้าของโปรเจกต์สั่ง 9 พ.ย. 2026) และบนไม้ชั้นกลางตู้ซึ่งเป็นรอยต่อระหว่างสองวัยพอดี
+  ป้ายชื่อตู้วางในส่วนกว้างของแผ่นครีม (y 7.6–13%) ใต้ยอดโค้ง ไม่ให้ข้อความยาวล้นกรอบทอง
   crop ตัดพื้นหลังสีทองข้างเสาออกให้ตู้ใหญ่ขึ้น เสาตู้อยู่ราว x 14–86% จึงตัดไม่ถึงเสา
 */
 export const SHELF_TALL: ShelfArt = {
   src: "/stories/shelf/shelf-tall.webp",
   width: 1024,
   height: 1536,
-  plaque: { l: 30, r: 29.5, t: 4.2, b: 87.6 },
+  plaque: { l: 30, r: 29.5, t: 7.6, b: 87 },
   l: 25.5,
   r: 25.3,
   rows: [
@@ -94,7 +108,7 @@ export const SHELF_TALL: ShelfArt = {
     { t: 72, b: 86.4 },
   ],
   crop: { l: 13, r: 13 },
-  zoneTags: [18.8, 54.4],
+  zoneTags: [16, 54.4],
   walls: [
     { t: 17.4, b: 32.1 },
     { t: 34.6, b: 50.4 },

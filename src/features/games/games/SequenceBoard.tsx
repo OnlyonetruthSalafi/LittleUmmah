@@ -31,7 +31,7 @@ export default function SequenceBoard(props: PlayProps) {
     // GameShell remounts the board for every level/replay/restart. Randomness runs
     // only on the client; GameShell still awards stars once per level, not per set.
     const data = sequenceLevel(props.level, Math.random() < .5 ? 0 : 1);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- choose and shuffle only after mount
+    // choose and shuffle only after mount (client-only randomness)
     setRound({ ...data, tray: mixSequence(data.pieces) });
   }, [props.level]);
   return round && <SequenceRound {...props} round={round} />;
