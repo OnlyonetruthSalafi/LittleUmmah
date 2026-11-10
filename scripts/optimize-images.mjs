@@ -18,6 +18,12 @@ import { homeIslandNames, prepareHomeIsland, scanHomeAlpha } from "./home-island
    หุ่นยนต์ในการ์ดช่วงวัยแสดงราว 112px จึงพอที่ 400px */
 // Retired homepage PNGs are archived in output/home-2/unused-islands, outside JOBS.
 const JOBS = [
+  { dir: "public/stories/little-bird", width: 1200, quality: 82 },
+  { dir: "public/stories/palm-riddle", width: 1200, quality: 82 },
+  { dir: "public/stories/mother-bird", width: 1200, quality: 82 },
+  { dir: "public/stories/camel-complaint", width: 1200, quality: 82 },
+  { dir: "public/stories/sea-plank", width: 1200, quality: 82 },
+  { dir: "public/stories/visit-brother", width: 1200, quality: 82 },
   { dir: "public/stories/crying-trunk", width: 1200, quality: 82 },
   { dir: "public/stories/water-fingers", width: 1200, quality: 82 },
   { dir: "public/stories/talking-cow", width: 1200, quality: 82 },

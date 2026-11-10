@@ -42,7 +42,7 @@ export const PALM_RIDDLE_STORY: Story = {
       image: "/stories/palm-riddle/p02.webp",
       fx: "clouds",
       ambience: "land",
-      alt: { th: "ต้นไม้หลายแบบเรียงกันบนเนินทราย มีเครื่องหมายคำถามทำจากใบไม้", en: "Different trees on a sandy hill with a question mark made of leaves" },
+      alt: { th: "ต้นไม้หลายแบบบนเนินทราย มีใบไม้กระจายอยู่บนพื้น", en: "Different trees on sandy hills with leaves scattered on the ground" },
       th: "ท่านนบี ﷺ ถามบรรดาเศาะหาบะฮ์ว่า \"มีต้นไม้ต้นหนึ่งที่ใบไม่ร่วง และเหมือนกับมุสลิม บอกฉันหน่อยว่าเป็นต้นอะไร\"",
       en: "The Prophet ﷺ asked his Companions, \"There is a tree whose leaves do not fall, and it is like a Muslim. Tell me, which tree is it?\"",
     },
