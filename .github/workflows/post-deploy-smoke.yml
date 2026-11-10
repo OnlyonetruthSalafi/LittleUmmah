@@ -1,7 +1,9 @@
 name: Post-deploy smoke
 
+# Paused 10 Nov 2026 (owner): auto-run on deploy is off until the limited beta.
+# To re-enable, add `deployment_status:` back under `on:` and set SMOKE_BASE_URL,
+# VERCEL_PROJECT_SLUG, VERCEL_TEAM_SLUG and the VERCEL_AUTOMATION_BYPASS_SECRET secret.
 on:
-  deployment_status:
   workflow_dispatch:
 
 permissions:
