@@ -18,7 +18,7 @@
 }
 /* จอใหญ่: เห็นทั้งวง 10 เกาะ เกาะหลังเล็กและจาง */
 @media (width >= 64rem) {
-  .orbit-island { transform: translate(-50%, -50%) scale(calc(.38 + .62 * var(--d))); opacity: calc(.35 + .65 * var(--d)); }
+  .orbit-island { transform: translate(calc(-50% + var(--sx) * var(--rx)), calc(-50% + var(--cy) * var(--ry))) scale(calc(.38 + .62 * var(--d))); opacity: calc(.35 + .65 * var(--d)); }
   .orbit-stage { --size: min(21vw, 280px); --rx: min(38vw, 520px); --ry: min(8vw, 100px); --cyc: 38%; height: clamp(540px, 72vh, 660px); }
 }
 
@@ -26,12 +26,14 @@
 .orbit-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
 .orbit-island {
   position: absolute;
-  left: calc(50% + var(--sx) * var(--rx));
-  top: calc(var(--cyc) + var(--cy) * var(--ry));
+  /* ตำแหน่งบนวงอยู่ใน transform ไม่ใช่ left/top — ขยับแล้วไม่ต้องจัด layout/วาดใหม่ทุกเฟรม
+     (บั๊กเกาะกระพริบหายตอนปัดบนมือถือ เจ้าของโปรเจกต์ส่งวิดีโอ 10 พ.ย. 2026) */
+  left: 50%;
+  top: var(--cyc);
   width: var(--size);
   /* --d = ความใกล้กล้อง 1 (หน้าสุด) → 0 (หลังสุด)
      มือถือ/แท็บเล็ต: ย่อแบบกำลังสอง — เกาะข้างยังใหญ่ เกาะครึ่งวงหลังเล็กและจางลางๆ อยู่สูงเหนือเกาะหน้า (เจ้าของโปรเจกต์ 9 พ.ย. 2026) */
-  transform: translate(-50%, -50%) scale(calc(.3 + .7 * var(--d) * var(--d)));
+  transform: translate(calc(-50% + var(--sx) * var(--rx)), calc(-50% + var(--cy) * var(--ry))) scale(calc(.3 + .7 * var(--d) * var(--d)));
   opacity: calc(.3 + .7 * var(--d));
   will-change: transform;
 }
@@ -45,7 +47,9 @@
 .orbit-art { position: relative; display: block; width: 100%; aspect-ratio: 1; }
 .orbit-art img {
   display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none;
-  filter: drop-shadow(0 10px 12px rgb(20 50 90 / 25%)) saturate(calc(.6 + .4 * var(--d))) brightness(calc(.85 + .15 * var(--d)));
+  /* filter คงที่: เดิม saturate/brightness ผูกกับ --d เปลี่ยนทุกเฟรมที่หมุน มือถือต้องวาดภาพเกาะใหม่ทั้ง 10 ภาพ
+     วาดไม่ทันจึงเห็นเกาะหายวูบ — เกาะหลังยังจางลงด้วย opacity ของ .orbit-island */
+  filter: drop-shadow(0 10px 12px rgb(20 50 90 / 25%));
   transition: translate 200ms ease-out, scale 200ms ease-out;
 }
 .orbit-lock { position: absolute; top: 10%; right: 10%; width: 22%; aspect-ratio: 1; pointer-events: none; }

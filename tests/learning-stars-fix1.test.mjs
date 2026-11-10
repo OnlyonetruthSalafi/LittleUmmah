@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { initial, seed, startRound, completeRound, isLastStar, starsOut, MINUTE } from '../src/features/learning-stars/model.ts';
+import { initial, seed, startRound, completeRound, isLastStar, starsOut, tick, MINUTE } from '../src/features/learning-stars/model.ts';
 const now = new Date(2026,10,10,12).getTime();
 const play = s => { const r = startRound(s, now); assert.equal(r.blocked, undefined); return r.state; };
 test('last-star warning only when this start spends the final star', () => {
@@ -27,4 +27,10 @@ test('restarting the same unpassed level keeps the 5-minute grace; a new level d
   assert.equal(startRound(s, now, true).blocked, undefined);
   s = { ...s, time: { ...s.time, used: 20 * MINUTE + 1 } };
   assert.equal(startRound(s, now, true).blocked, 'time');
+});
+test('play time is counted only while the parent limit is on', () => {
+  const off = seed(initial(now));
+  assert.equal(tick(off, MINUTE, true, now).time.used, 0);
+  const on = { ...off, settings: { ...off.settings, timeEnabled: true } };
+  assert.equal(tick(on, MINUTE, true, now).time.used, MINUTE);
 });

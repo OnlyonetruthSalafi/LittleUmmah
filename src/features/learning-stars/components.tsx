@@ -9,6 +9,7 @@ import { LS } from './content';
 import { giveStars, trackPlayTime, unlockTime, useLearningState, useNotice } from './store';
 import { starsOut, timeLocked } from './model';
 import { queueVoice } from './voice';
+import { CATEGORIES } from '@/lib/categories';
 import './learning-stars.css';
 
 export function Copy({ text }: { text: Text }) { const { pick, pickSub } = useDict(); return <span className="ls-copy">{pick(text)}{pickSub(text) && <small lang="en">{pickSub(text)}</small>}</span>; }
@@ -47,18 +48,26 @@ export function LockScreen({ reason, onClose }: { reason: 'time' | 'stars'; onCl
     <Image className="ls-robot" src="/Character/read.webp" width={160} height={160} alt="" />
     <h2 id="ls-lock-title" ref={heading} tabIndex={-1}><Copy text={reason === 'time' ? LS.time : LS.empty} /></h2>
     <p><Copy text={reason === 'time' ? LS.timeHelp : LS.emptyHelp} /></p>
-    <div className="ls-actions"><LocaleLink href={LEARN_HREF} className="ls-button"><Copy text={reason === 'time' ? LS.timeLearn : LS.learn} /></LocaleLink><button className="ls-button" onClick={() => setGate(true)}><Copy text={LS.parents} /></button></div>
+    <LearnChoices /><div className="ls-actions"><button className="ls-button" onClick={() => setGate(true)}><Copy text={LS.parents} /></button></div>
     {parent && <div className="ls-actions">{reason === 'stars' ? <><GatedAction action={() => action(() => giveStars(1))}><Copy text={LS.addOne} /></GatedAction><GatedAction action={() => action(() => giveStars(3))}><Copy text={LS.addThree} /></GatedAction></> : <>{([15,30,'day'] as const).map(n => <GatedAction key={n} action={() => action(() => unlockTime(n))}><Copy text={n === 15 ? LS.add15 : n === 30 ? LS.add30 : LS.day} /></GatedAction>)}</>}<LocaleLink href="/parents/settings" className="ls-button"><Copy text={LS.settings} /></LocaleLink></div>}
   </div></div>{gate && <ParentGate onClose={() => setGate(false)} onPass={() => { setGate(false); setParent(true); }} />}</>;
 }
 /** ปลายทางปุ่ม "ไปเรียนเก็บดาว" / "ไปเกาะเรียนรู้" ทุกจุดใช้ค่าเดียวกัน */
-export const LEARN_HREF = '/learn/moral';
+export const LEARN_HREF = '/'; // หน้าแรก: โซนเกาะเรียนรู้อยู่บนสุด
+/** ให้เด็กเลือกเกาะเรียนรู้เองได้ 4 เกาะ (ภาพเกาะเป็นภาพตกแต่ง alt="" เพราะชื่อเกาะเป็นข้อความอยู่แล้ว) */
+// ชื่อสั้นในกล่องเล็ก (ชื่อเต็มยาวจนคำไทยถูกตัดกลางคำบนจอ 360px)
+const SHORT: Record<string, Text> = { moral: { th: 'มารยาท', en: 'Manners' }, stories: { th: 'เรื่องเล่า', en: 'Stories' }, explore: { th: 'สำรวจโลก', en: 'Explore' }, arabic: { th: 'เรียนภาษา', en: 'Languages' } };
+const LEARN_ISLANDS = ['moral', 'stories', 'explore', 'arabic'].map(slug => ({ ...CATEGORIES.find(c => c.slug === slug)!, name: SHORT[slug] }));
+export function LearnChoices() {
+  const { pick } = useDict();
+  return <nav className="ls-learn" aria-label={pick(LS.timeLearn)}>{LEARN_ISLANDS.map(c => <LocaleLink key={c.slug} href={c.href} className="ls-learn-tile"><Image src={c.image} width={64} height={64} alt="" /><Copy text={c.name} /></LocaleLink>)}</nav>;
+}
 export function useStarsOut() { return starsOut(useLearningState()); }
 /** ป้ายระหว่างเล่นเมื่อรอบนี้ใช้ดาวดวงสุดท้าย — ไม่บังเกม ไม่กระพริบ */
 export function LastStarBadge() { return <div role="status" className="ls-badge ls-last" data-ls-last><LearningStarIcon /><Copy text={LS.last} /></div>; }
 /** หน้าผ่านด่านเมื่อดาวหมด: บอกก่อนว่าต้องไปเรียนเก็บดาว แทนปุ่มด่านต่อไป */
 export function StarsOutPanel() {
-  return <div className="ls-out" data-ls-out><p className="ls-out-title"><LearningStarIcon /><Copy text={LS.empty} /></p><p><Copy text={LS.emptyHelp} /></p><LocaleLink href={LEARN_HREF} className="ls-button ls-primary"><Copy text={LS.learn} /></LocaleLink></div>;
+  return <div className="ls-out" data-ls-out><p className="ls-out-title"><LearningStarIcon /><Copy text={LS.empty} /></p><p><Copy text={LS.emptyHelp} /></p><LearnChoices /></div>;
 }
 /** แถบหัวเกาะเกม: ดาวหมด → ต้องไปเรียนก่อน, เหลือ 1 → บอกจำนวน */
 export function HubStarsHint() {

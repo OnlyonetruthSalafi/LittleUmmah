@@ -55,7 +55,8 @@ export function starsOut(s: State) {
 export function completeRound(state: State): State { return { ...state, stars: { ...state.stars, activeRound: false } }; }
 export function tick(state: State, elapsed: number, visible: boolean, now: number): State {
   const s = rollover(state, now);
-  if (!visible || !s.available) return s;
+  // นับเฉพาะตอนผู้ปกครองเปิดจำกัดเวลา: เปิดกลางวันแล้วเริ่มนับจากตอนนั้น ไม่ย้อนนับเวลาที่เล่นไปก่อน
+  if (!visible || !s.available || !s.settings.timeEnabled) return s;
   return { ...s, time: { ...s.time, used: s.time.used + Math.max(0, elapsed) } };
 }
 export function visibleInterval(from: number, now: number, watermark: number, visible: boolean) {

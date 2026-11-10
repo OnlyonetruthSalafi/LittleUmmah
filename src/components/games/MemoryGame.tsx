@@ -131,8 +131,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         <h2 ref={winHeading} tabIndex={-1} className="mt-2 font-display text-3xl font-extrabold">
           {t.memoryGame.wellDone}{sub && <span lang="en" className="block text-2xl">{sub.memoryGame.wellDone}</span>}
         </h2>
-        <p className="mt-3">{t.memoryGame.complete}</p>
-        {sub && <p lang="en" className="text-sm">{sub.memoryGame.complete}</p>}
+        {!outOfStars && <><p className="mt-3">{t.memoryGame.complete}</p>
+        {sub && <p lang="en" className="text-sm">{sub.memoryGame.complete}</p>}</>}
         {outOfStars && <StarsOutPanel />}
         <div className="mt-6 flex flex-wrap justify-center gap-4">
           {!outOfStars && <button onClick={start} className={gameButtonClass}>

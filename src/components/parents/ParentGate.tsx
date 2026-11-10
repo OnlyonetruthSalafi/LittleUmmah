@@ -5,8 +5,10 @@ import { LS } from '@/features/learning-stars/content';
 import '@/features/learning-stars/learning-stars.css';
 
 let passedUntil = 0;
+// โจทย์ผู้ใหญ่: เลข 12–19 คูณ 6–9 เขียนเป็นคำ (สูตรคูณแม่ 6–9 ล้วนเด็กโตท่องได้ — Claude ปรับ 10 พ.ย. 2026 ตามที่เจ้าของโปรเจกต์อนุมัติ)
+const tens = { th: ['สิบสอง','สิบสาม','สิบสี่','สิบห้า','สิบหก','สิบเจ็ด','สิบแปด','สิบเก้า'], en: ['twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'] };
 const words = { th: ['หก','เจ็ด','แปด','เก้า'], en: ['six','seven','eight','nine'] };
-function question(previous = -1) { let n = Math.floor(Math.random() * 16); if (n === previous) n = (n + 1) % 16; return n; }
+function question(previous = -1) { let n = Math.floor(Math.random() * 32); if (n === previous) n = (n + 1) % 32; return n; }
 export function ParentGate({ onPass, onClose }: { onPass: () => void; onClose: () => void }) {
   const { pick, pickSub } = useDict();
   const [q, setQ] = useState(() => question());
@@ -24,7 +26,7 @@ export function ParentGate({ onPass, onClose }: { onPass: () => void; onClose: (
     return () => previous?.focus();
   }, []);
   const a = Math.floor(q / 4), b = q % 4;
-  const text = { th: `${words.th[a]} คูณ ${words.th[b]}`, en: `${words.en[a]} times ${words.en[b]}` };
+  const text = { th: `${tens.th[a]} คูณ ${words.th[b]}`, en: `${tens.en[a]} times ${words.en[b]}` };
   return <div className="ls-overlay ls-parent" onKeyDown={e => {
     e.stopPropagation();
     if (e.key === 'Escape') onClose();
@@ -38,7 +40,7 @@ export function ParentGate({ onPass, onClose }: { onPass: () => void; onClose: (
   }}><div ref={panel} className="ls-dialog" role="dialog" aria-modal="true" aria-labelledby="ls-parent-title">
     <h2 id="ls-parent-title">{pick(LS.gateTitle)}</h2>
     <p id="ls-question" className="ls-copy">{pick(text)}{pickSub(text) && <small lang="en">{pickSub(text)}</small>}</p>
-    <form onSubmit={e => { e.preventDefault(); if (Number(answer) === (a + 6) * (b + 6)) { passedUntil = Date.now() + 600_000; onPass(); } else { setWrong(true); setAnswer(''); setQ(question(q)); input.current?.focus(); } }}>
+    <form onSubmit={e => { e.preventDefault(); if (Number(answer) === (a + 12) * (b + 6)) { passedUntil = Date.now() + 600_000; onPass(); } else { setWrong(true); setAnswer(''); setQ(question(q)); input.current?.focus(); } }}>
       <label htmlFor="ls-answer">{pick(LS.answer)}</label><input ref={input} id="ls-answer" className="ls-input" inputMode="numeric" autoComplete="off" pattern="[0-9]*" value={answer} onChange={e => setAnswer(e.target.value)} aria-describedby="ls-question ls-error" />
       <p id="ls-error" role="status">{wrong ? pick(LS.wrong) : ''}</p>
       <div className="ls-actions"><button className="ls-button" type="submit">{pick(LS.submit)}</button><button className="ls-button" type="button" onClick={onClose}>{pick(LS.cancel)}</button></div>

@@ -165,7 +165,7 @@ export function IslandOrbit() {
             const body = (
               <>
                 <span className="orbit-art">
-                  <Image src={island.image} alt="" width={900} height={900} sizes="(max-width: 639px) 50vw, 300px" priority={i < 3 || i > N - 3} draggable={false} />
+                  <Image src={island.image} alt="" width={900} height={900} sizes="(max-width: 639px) 50vw, 300px" priority={i < 3 || i > N - 3} loading={i < 3 || i > N - 3 ? undefined : "eager"} draggable={false} />
                   {island.comingSoon && <span className="orbit-lock"><IslandLockIcon /></span>}
                 </span>
                 <span className="orbit-caption" aria-hidden="true">

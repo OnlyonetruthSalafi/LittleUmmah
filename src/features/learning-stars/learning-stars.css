@@ -40,3 +40,14 @@
 .ls-hub-hint { margin:8px auto 0; width:max-content; max-width:calc(100% - 32px); }
 .gc-landscape[data-status='playing'] .ls-last { position:absolute; top:4px; left:50%; transform:translateX(-50%); z-index:30; pointer-events:none; }
 .ls-used { display:flex; align-items:center; gap:12px; } .ls-used strong { font-size:24px; }
+/* เลือกเกาะเรียนรู้ 4 เกาะ (หน้าล็อก/ดาวหมด) — การ์ด: ขยับเฉพาะภาพ ข้อความนิ่ง (AGENTS 2.1) */
+.ls-learn { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; width:100%; max-width:480px; margin:12px auto 0; }
+.ls-learn-tile { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:2px; min-height:72px; padding:6px 8px; text-align:center !important; border:2px solid #17364d; border-radius:16px; background:#e6f5fc; color:#17364d; font-weight:700; line-height:1.35; text-align:left; text-decoration:none; box-shadow:0 2px 4px #17364d26; transition:box-shadow 200ms ease-out; }
+.ls-learn-tile img { flex:none; width:48px; height:48px; object-fit:contain; transition:transform 200ms ease-out; }
+.ls-learn-tile:focus-visible { outline:4px solid #126395; outline-offset:4px; }
+@media (hover:hover) { .ls-learn-tile:hover { box-shadow:0 6px 14px #17364d40; } }
+@media (hover:hover) and (prefers-reduced-motion:no-preference) { .ls-learn-tile:hover img { transform:translateY(-4px) scale(1.03); } }
+@media (prefers-reduced-motion:no-preference) { .ls-learn-tile:active img { transform:scale(0.98); transition-duration:75ms; } }
+@media (min-width:700px) { .ls-learn { grid-template-columns:repeat(4,minmax(0,1fr)); max-width:620px; } .ls-learn-tile { flex-direction:column; text-align:center; } }
+@media (max-height:500px) and (orientation:landscape) { .ls-learn { grid-template-columns:repeat(4,minmax(0,1fr)); } .ls-learn-tile { min-height:64px; flex-direction:column; text-align:center; padding:4px; } .ls-learn-tile img { width:40px; height:40px; } }
+.ls-dialog h2:focus { outline:none; } /* หัวเรื่องรับโฟกัสด้วยโค้ดเพื่อให้ screen reader อ่าน ไม่ใช่ปุ่ม */

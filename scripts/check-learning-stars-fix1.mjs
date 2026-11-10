@@ -50,7 +50,7 @@ try {
       if (!done) await page.waitForTimeout(1100);
     }
     await page.locator('[data-ls-out]').waitFor({ timeout: 8000 });
-    check(`${w}: legacy memory win without stars shows go-learn panel, no play-again`, await page.locator('[data-ls-out] a').count() === 1 && await page.getByRole('button', { name: /เล่นอีกครั้ง/ }).count() === 0);
+    check(`${w}: legacy memory win without stars shows go-learn panel, no play-again`, await page.locator('[data-ls-out] .ls-learn-tile').count() === 4 && await page.getByText('มาเล่นกันอีกนะ').count() === 0 && await page.getByRole('button', { name: /เล่นอีกครั้ง/ }).count() === 0);
     await page.screenshot({ path: `${out}/legacy-out-${w}x${h}.png`, fullPage: true });
     await ctx.close();
   }

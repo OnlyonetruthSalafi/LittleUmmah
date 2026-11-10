@@ -36,8 +36,8 @@ async function gate(wrong=false) {
   const input=page.locator('#ls-answer');
   if(wrong) { const old=await page.locator('#ls-question').textContent();await input.fill('1');await page.locator('.ls-parent button[type=submit]').click();check('ParentGate wrong answer changes question',old!==await page.locator('#ls-question').textContent()); }
   const text=await page.locator('#ls-question').textContent();
-  const words=['หก','เจ็ด','แปด','เก้า'];const th=text.split(/six|seven|eight|nine/)[0];const pair=th.trim().split(' คูณ ');
-  await input.fill(String((words.indexOf(pair[0])+6)*(words.indexOf(pair[1])+6)));await page.locator('.ls-parent button[type=submit]').click();
+  const tens=['สิบสอง','สิบสาม','สิบสี่','สิบห้า','สิบหก','สิบเจ็ด','สิบแปด','สิบเก้า'],words=['หก','เจ็ด','แปด','เก้า'];const th=text.split(/twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen/)[0];const pair=th.trim().split(' คูณ ');
+  await input.fill(String((tens.indexOf(pair[0])+12)*(words.indexOf(pair[1])+6)));await page.locator('.ls-parent button[type=submit]').click();
 }
 try {
   await goto('/games/memory');check('starter stars = 3',(await state()).stars.balance===3);
@@ -53,7 +53,7 @@ try {
   await solve();check('result without stars shows go-learn panel and hides next/again',await page.locator('[data-ls-out]').isVisible()&&await page.locator('.gc-result-actions button').count()===0);await shot1('fix1-result-out');
   await goto('/games');check('hub says go learn first when out of stars',await page.locator('[data-ls-hub=empty] a').count()===1);await shot1('fix1-hub-empty');
   await goto('/games/memory');await page.locator('.gc-adventure-start').click();
-  await page.locator('[data-ls-lock=stars]').waitFor();check('empty-stars screen tells the child to go learn first',(await page.locator('[data-ls-lock=stars]').textContent()).includes('ไปเรียนที่เกาะเรียนรู้เพื่อเก็บดาวก่อน'));check('empty stars show Nuri and learning/parent actions',await page.locator('[data-ls-lock=stars] .ls-button').count()===2);
+  await page.locator('[data-ls-lock=stars]').waitFor();check('empty-stars screen tells the child to go learn first',(await page.locator('[data-ls-lock=stars]').textContent()).includes('ไปเรียนที่เกาะเรียนรู้เพื่อเก็บดาวก่อน'));check('empty stars show Nuri, 4 learning islands and a parent button',await page.locator('[data-ls-lock=stars] .ls-learn-tile').count()===4&&await page.locator('[data-ls-lock=stars] .ls-button').count()===1);
   // Real lesson finish, muted narration advances by its built-in reading durations.
   await goto('/learn/moral');
   await page.locator('.mrl-card').first().click();
@@ -89,7 +89,7 @@ try {
   check('no page JS errors',errors.length===0);
   await context.close();
   const shared=await browser.newContext({reducedMotion:'reduce'});
-  await shared.addInitScript(()=>{localStorage.setItem('little-ummah:sound','off');Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});});
+  await shared.addInitScript(()=>{localStorage.setItem('little-ummah:sound','off');localStorage.setItem('lu-settings',JSON.stringify({starsEnabled:true,timeEnabled:true,minutes:90,seeded:true}));Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});});
   const tabs=await Promise.all([shared.newPage(),shared.newPage()]);
   for(const p of tabs) {await p.clock.install({time:new Date(2026,10,10,12)});await p.clock.pauseAt(new Date(2026,10,10,12,0,1));await p.goto(base+'/games');await p.locator('[data-ls-balance]').waitFor();}
   await tabs[0].clock.runFor(60000);await tabs[0].waitForTimeout(100);
@@ -134,7 +134,7 @@ try {
       localStorage.setItem('lu-ls-stars',JSON.stringify({balance:mode==='empty'?0:mode==='one'?1:3,earnedDay:'2026-11-10',earned:[],activeRound:mode==='credit',freeDay:mode==='free'?'':'2026-11-10'}));
       localStorage.setItem('lu-ls-time',JSON.stringify({day:'2026-11-10',used:mode==='time'?900000:0,extra:0,unlimited:false,warned:false}));
     },mode);};
-    const shot=async(name)=>{await p.clock.runFor(200); await p.screenshot({path:`${out}/shots/${name}-${width}x${height}.png`,fullPage:true}); const m=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,buttons:[...document.querySelectorAll('.ls-button,.ls-input,.ls-settings select')].filter(e=>e.getClientRects().length).map(e=>({w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height,parent:!!e.closest('.ls-parent')}))}));check(`${name} ${width}x${height}: no horizontal overflow`,!m.overflow);for(const b of m.buttons)check(`${name} button ${b.parent?48:64}px`,Math.min(b.w,b.h)>=(b.parent?48:64)-.5);};
+    const shot=async(name)=>{await p.clock.runFor(200); await p.screenshot({path:`${out}/shots/${name}-${width}x${height}.png`,fullPage:true}); const m=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,buttons:[...document.querySelectorAll('.ls-button,.ls-learn-tile,.ls-input,.ls-settings select')].filter(e=>e.getClientRects().length).map(e=>({w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height,parent:!!e.closest('.ls-parent')}))}));check(`${name} ${width}x${height}: no horizontal overflow`,!m.overflow);for(const b of m.buttons)check(`${name} button ${b.parent?48:64}px`,Math.min(b.w,b.h)>=(b.parent?48:64)-.5);};
     await set('free');await p.goto(base+'/games');await shot('hub');
     for(const mode of ['free','star','credit']) {await set(mode);await p.goto(base+'/games/memory');await shot('intro-'+mode);}
     await set('empty');await p.goto(base+'/games/memory');await p.locator('.gc-adventure-start').click();await shot('empty');
