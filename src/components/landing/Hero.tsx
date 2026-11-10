@@ -52,6 +52,7 @@ export function Hero({ locale }: { locale: Locale }) {
           width={400}
           height={400}
           sizes="(max-width: 639px) 96px, 144px"
+          fetchPriority="low"
           className="logo-mark-glow size-24 shrink-0 object-contain sm:size-36"
         />
 

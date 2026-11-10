@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties, type Focu
 
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { IslandLockIcon } from "@/components/icons/IslandLockIcon";
+import { afterScenePaint } from "@/components/performance/afterScenePaint";
 import { useSound } from "@/components/sound/SoundProvider";
 import { fmt } from "@/i18n/dict";
 import { LocaleLink as Link, useDict } from "@/i18n/LocaleProvider";
@@ -44,17 +45,48 @@ export function IslandOrbit() {
   const [touched, setTouched] = useState(false);
   const rotRef = useRef(0);
   const anim = useRef(0);
-  const drag = useRef<{ x: number; rot: number; moved: boolean } | null>(null);
+  const drag = useRef<{ x: number; dx: number; rot: number; moved: boolean } | null>(null);
   const suppressClick = useRef(false);
   const stage = useRef<HTMLDivElement>(null);
+  const imagesReady = useRef(false);
+  const preparingImages = useRef<Promise<void> | null>(null);
+  const pendingTurn = useRef(0);
   const front = frontOf(rot);
+
+  useEffect(() => afterScenePaint(() => {
+    imagesReady.current = true;
+  }, ".orbit-island img"), []);
 
   const apply = useCallback((value: number) => {
     rotRef.current = value;
     setRot(value);
   }, []);
 
-  useEffect(() => () => cancelAnimationFrame(anim.current), []);
+  useEffect(() => () => {
+    cancelAnimationFrame(anim.current);
+    pendingTurn.current++;
+    drag.current = null;
+  }, []);
+
+  // Cold loads can hydrate before the rear islands arrive. Promote them on
+  // intent and decode once before moving; keep every existing img mounted.
+  const prepareImages = useCallback(() => {
+    if (imagesReady.current) return null;
+    if (!preparingImages.current) {
+      const images = [...(stage.current?.querySelectorAll("img") ?? [])];
+      images.forEach(image => { image.fetchPriority = "high"; });
+      // รอภาพไม่เกิน 2 วินาที ภาพที่ค้างต้องไม่ทำให้เด็กหมุนเกาะไม่ได้
+      const waitAtMost = new Promise<void>(resolve => setTimeout(resolve, 2000));
+      preparingImages.current = Promise.race([
+        Promise.all(images.map(image => image.decode().catch(() => {}))).then(() => {}),
+        waitAtMost,
+      ]).then(() => { imagesReady.current = true; });
+    }
+    return preparingImages.current;
+  }, []);
+
+  const dragRotation = (d: { rot: number; dx: number }) =>
+    d.rot + d.dx * (360 / Math.max((stage.current?.clientWidth ?? 600) * 1.6, 600));
 
   const tweenTo = useCallback(
     (target: number, onDone?: () => void) => {
@@ -80,8 +112,14 @@ export function IslandOrbit() {
 
   /** หมุนให้เกาะ i มาอยู่หน้า แล้วอ่านชื่อเกาะ (เฉพาะเกาะที่เปิดแล้วมีไฟล์เสียง cat-*) */
   const goTo = useCallback(
-    (i: number) => {
+    function turnTo(i: number) {
       setTouched(true);
+      const ready = prepareImages();
+      const intent = ++pendingTurn.current;
+      if (ready) {
+        void ready.then(() => { if (pendingTurn.current === intent) turnTo(i); });
+        return;
+      }
       const cur = frontOf(rotRef.current);
       let d = i - cur;
       if (d > N / 2) d -= N;
@@ -91,7 +129,7 @@ export function IslandOrbit() {
         if (!island.comingSoon) speak(pick(island.name), `cat-${island.slug}`);
       });
     },
-    [tweenTo, speak, pick],
+    [tweenTo, speak, pick, prepareImages],
   );
   const nudge = (dir: 1 | -1) => goTo((frontOf(rotRef.current) + dir + N) % N);
 
@@ -105,17 +143,24 @@ export function IslandOrbit() {
     if ((event.target as HTMLElement).closest(".orbit-arrow")) return;
     if (event.pointerType === "mouse" && event.button !== 0) return;
     cancelAnimationFrame(anim.current);
-    drag.current = { x: event.clientX, rot: rotRef.current, moved: false };
+    pendingTurn.current++;
+    const d = { x: event.clientX, dx: 0, rot: rotRef.current, moved: false };
+    drag.current = d;
   };
   const onPointerMove = (event: PointerEvent) => {
     const d = drag.current;
     if (!d) return;
     const dx = event.clientX - d.x;
+    d.dx = dx;
     if (!d.moved && Math.abs(dx) > 6) {
       d.moved = true;
       stage.current?.setPointerCapture(event.pointerId);
+      const ready = prepareImages();
+      if (ready) void ready.then(() => {
+        if (drag.current === d && d.moved) apply(dragRotation(d));
+      });
     }
-    if (d.moved) apply(d.rot + dx * (360 / Math.max((stage.current?.clientWidth ?? 600) * 1.6, 600)));
+    if (d.moved && imagesReady.current) apply(dragRotation(d));
   };
   const onPointerUp = () => {
     const d = drag.current;
@@ -123,7 +168,7 @@ export function IslandOrbit() {
     if (!d?.moved) return;
     suppressClick.current = true;
     setTimeout(() => (suppressClick.current = false), 0);
-    goTo(frontOf(rotRef.current));
+    goTo(frontOf(imagesReady.current ? rotRef.current : dragRotation(d)));
   };
 
   return (
@@ -160,12 +205,14 @@ export function IslandOrbit() {
             };
             const onFocus = (event: FocusEvent<HTMLElement>) => {
               // Tab ถึงเกาะไหน หมุนเกาะนั้นมาหน้า (เฉพาะโฟกัสจากคีย์บอร์ด การแตะจัดการใน onClick)
-              if (!isFront && event.currentTarget.matches(":focus-visible")) goTo(i);
+              if (!event.currentTarget.matches(":focus-visible")) return;
+              if (!isFront) goTo(i);
+              else pendingTurn.current++; // โฟกัสกลับเกาะหน้า = ยกเลิกการหมุนที่ยังรอภาพอยู่
             };
             const body = (
               <>
                 <span className="orbit-art">
-                  <Image src={island.image} alt="" width={900} height={900} sizes="(max-width: 639px) 50vw, 300px" priority={i < 3 || i > N - 3} loading={i < 3 || i > N - 3 ? undefined : "eager"} draggable={false} />
+                  <Image src={island.image} alt="" width={900} height={900} sizes="(max-width: 639px) 50vw, 300px" loading="eager" fetchPriority="low" draggable={false} />
                   {island.comingSoon && <span className="orbit-lock"><IslandLockIcon /></span>}
                 </span>
                 <span className="orbit-caption" aria-hidden="true">
@@ -177,7 +224,7 @@ export function IslandOrbit() {
             return (
               <li key={island.slug} className="orbit-island" data-slug={island.slug} data-front={isFront || undefined} style={style}>
                 {island.href && !island.comingSoon ? (
-                  <Link href={island.href} aria-label={label} onClick={onClick} onFocus={onFocus} draggable={false} className="orbit-hit">
+                  <Link href={island.href} prefetchOnIntent aria-label={label} onClick={onClick} onFocus={onFocus} draggable={false} className="orbit-hit">
                     {body}
                   </Link>
                 ) : (

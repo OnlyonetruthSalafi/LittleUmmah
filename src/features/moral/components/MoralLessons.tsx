@@ -3,6 +3,7 @@
 import { awardLesson } from '@/features/learning-stars/store';
 import { LearningNotice } from '@/features/learning-stars/components';
 import Image from "next/image";
+import { NearArtwork } from "@/components/performance/NearArtwork";
 import { fmt } from "@/i18n/dict";
 import { useEffect, useRef, useState } from "react";
 
@@ -169,7 +170,7 @@ export function MoralSection({
           return (
             <li key={lesson.id} className="flex">
               <button type="button" className="mrl-card group" onClick={() => openLesson(lesson)}>
-                <span className="mrl-card-art">
+                <NearArtwork className="mrl-card-art">
                   <Image
                     src={cardArt[lesson.id]}
                     alt=""
@@ -188,7 +189,7 @@ export function MoralSection({
                       {bubble.text}
                     </span>
                   )}
-                </span>
+                </NearArtwork>
                 <span className="mrl-card-title font-display">
                   {pick(lesson.title)}
                   {sub && <span lang="en">{pickSub(lesson.title)}</span>}

@@ -39,7 +39,9 @@ export function IslandCard({ category, style }: { category: HomeIsland; style?: 
               alt=""
               width={900}
               height={900}
-              sizes="(max-width: 639px) 55vw, (max-width: 1023px) 33vw, 310px"
+              // PageShell: 32/64px padding; grid: 16/24px gaps, 2/3 columns.
+              // Include the 1.03 hover scale, including the widest desktop grid.
+              sizes="(min-width: 1152px) 358px, (min-width: 640px) calc(34.34vw - 38.46px), calc(51.5vw - 24.72px)"
               className="size-full object-contain"
             />
           </span>
@@ -59,6 +61,7 @@ export function IslandCard({ category, style }: { category: HomeIsland; style?: 
     <li className="flex" data-slug={category.slug} style={style}>
       {category.href && !category.comingSoon ? <Link
         href={category.href}
+        prefetchOnIntent
         onPointerEnter={(event) => {
           if (event.pointerType === "mouse" && !isScrollHover()) speak(pick(category.name), `cat-${category.slug}`);
         }}

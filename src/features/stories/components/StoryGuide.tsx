@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { afterScenePaint } from "@/components/performance/afterScenePaint";
 
 import { useSound } from "@/components/sound/SoundProvider";
 import { playNarration, stopAllSpeech } from "@/lib/speech";
@@ -25,10 +26,13 @@ export function StoryGuide() {
   const { locale, t, sub } = useDict();
   const { enabled: soundOn } = useSound();
   const stop = useRef<() => void>(() => {});
+  const cancelAuto = useRef<() => void>(() => {});
 
   const say = () => {
+    cancelAuto.current();
     // ปิดเสียงเว็บอยู่ = ไม่เล่น ข้อความในบอลลูนยังอ่านได้
     if (!soundOn) return;
+    try { window.sessionStorage.setItem(SEEN_KEY, "1"); } catch {}
     stop.current();
     stop.current = playNarration(`/audio/${locale}/${CLIP}.mp3`, { onEnded: () => {}, onStopped: () => {}, onFail: () => {} });
   };
@@ -38,11 +42,22 @@ export function StoryGuide() {
     let seen = false;
     try {
       seen = window.sessionStorage.getItem(SEEN_KEY) === "1";
-      if (!seen) window.sessionStorage.setItem(SEEN_KEY, "1");
     } catch {
       // อ่าน sessionStorage ไม่ได้ ก็พูดเหมือนเปิดครั้งแรก
     }
-    if (!seen) say();
+    if (seen) return;
+    const cancel = afterScenePaint(() => {
+      say();
+    });
+    cancelAuto.current = cancel;
+    // A child choosing a book takes precedence over a delayed introduction.
+    document.addEventListener("pointerdown", cancel, { once: true, capture: true });
+    document.addEventListener("keydown", cancel, { once: true, capture: true });
+    return () => {
+      cancel();
+      document.removeEventListener("pointerdown", cancel, true);
+      document.removeEventListener("keydown", cancel, true);
+    };
     // พูดเองแค่ตอนเข้าหน้า ไม่พูดซ้ำเมื่อเปิดเสียงทีหลัง
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,7 +65,7 @@ export function StoryGuide() {
   // ออกจากหน้า = หยุดเสียงครู
   useEffect(() => () => stop.current(), []);
   useEffect(() => {
-    if (!soundOn) stopAllSpeech();
+    if (!soundOn) { cancelAuto.current(); stopAllSpeech(); }
   }, [soundOn]);
 
   return (

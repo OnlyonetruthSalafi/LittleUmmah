@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, type ComponentProps } from "react";
 
 import { setSpeechLocale } from "@/lib/speech";
@@ -42,7 +43,17 @@ export function useLocalePath() {
   ลิงก์ภายในเว็บที่คงภาษาปัจจุบันไว้ — ใช้แทน next/link ทุกที่ที่ชี้ไปหน้าในเว็บ
   href ที่เป็น string และขึ้นต้นด้วย "/" จะได้ prefix ของภาษา (ไทยไม่มี prefix จึงเหมือนเดิม)
 */
-export function LocaleLink({ href, ...props }: ComponentProps<typeof Link>) {
+export function LocaleLink({ href, prefetchOnIntent = false, onPointerEnter, onPointerDown, onFocus, ...props }: ComponentProps<typeof Link> & { prefetchOnIntent?: boolean }) {
   const locale = useLocale();
-  return <Link href={typeof href === "string" ? localePath(locale, href) : href} {...props} />;
+  const router = useRouter();
+  const target = typeof href === "string" ? localePath(locale, href) : href;
+  const prepare = () => {
+    if (prefetchOnIntent && typeof target === "string") router.prefetch(target);
+  };
+  return <Link href={target} {...props}
+    prefetch={prefetchOnIntent ? false : props.prefetch}
+    onPointerEnter={event => { if (event.pointerType === "mouse") prepare(); onPointerEnter?.(event); }}
+    onPointerDown={event => { prepare(); onPointerDown?.(event); }}
+    onFocus={event => { prepare(); onFocus?.(event); }}
+  />;
 }

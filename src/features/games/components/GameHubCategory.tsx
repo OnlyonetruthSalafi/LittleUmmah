@@ -10,6 +10,7 @@ import type { GameDefinition } from '../data/catalog';
 import { comingSoonGames } from '../data/comingSoon';
 import type { GameCategory } from '../data/hubCategories';
 import { Thumbnail } from './Artwork';
+import { NearArtwork } from '@/components/performance/NearArtwork';
 import { ComingSoonCard } from './ComingSoonCard';
 import { HubTileLink } from './HubTileLink';
 import { useHubStars } from './HubProgress';
@@ -40,9 +41,10 @@ function GameCard({ game }: { game: GameDefinition }) {
   const label = SHOW_REWARD_STARS ? fmt(t.games.hub.playLabel, { name: pick(game.title), stars }) : pick(game.title);
   return <li><HubTileLink href={`/games/${game.slug}`} slug={game.slug} name={pick(game.title)}
     ariaLabel={sub ? `${label} / ${SHOW_REWARD_STARS ? fmt(sub.games.hub.playLabel, { name: pickSub(game.title)!, stars }) : pickSub(game.title)}` : label} className="gh-card">
-    <div className="gh-card-art"><Thumbnail slug={game.slug} />
-      <span className="gh-age">{game.ageGroup} {t.games.hub.ageUnit}{sub && <span lang="en"> / {sub.games.hub.ageUnit}</span>}</span>
-    </div>
+    <NearArtwork as="div" className="gh-card-art"
+      overlay={<span className="gh-age">{game.ageGroup} {t.games.hub.ageUnit}{sub && <span lang="en"> / {sub.games.hub.ageUnit}</span>}</span>}>
+      <Thumbnail slug={game.slug} />
+    </NearArtwork>
     <div className="gh-card-copy"><h3 className="gh-card-title">{pick(game.title)}</h3>
       {sub && <span className="gh-card-en" lang="en">{pickSub(game.title)}</span>}
     </div>

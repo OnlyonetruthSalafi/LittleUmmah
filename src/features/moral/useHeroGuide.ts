@@ -5,6 +5,7 @@ import type { Text } from "@/i18n/config";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { playNarration } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
+import { afterScenePaint } from "@/components/performance/afterScenePaint";
 
 // ทัวร์ร่วมของเกาะ: หนึ่งคลิปต่อจังหวะ ถ้าเปิดเสียงไม่ได้ใช้เวลาแทน
 // แยกจาก MoralHero โดยคงการเข้าฉาก ท่าทาง และ session เดิม
@@ -31,8 +32,10 @@ export function useHeroGuide({ steps, seenKey, stopEvent, stopSelector }: {
 
   const cancelStep = useRef<() => void>(() => {});
   const autoTimer = useRef(0);
+  const cancelAuto = useRef<() => void>(() => {});
 
   const finish = useCallback(() => {
+    cancelAuto.current();
     cancelEnter.current();
     cancelStep.current();
     window.clearTimeout(autoTimer.current);
@@ -72,9 +75,15 @@ export function useHeroGuide({ steps, seenKey, stopEvent, stopSelector }: {
     return cancel;
   }, [phase, step, finish, steps, locale]);
 
-  const start = useCallback(() => {
+  const start = useCallback(function startGuide() {
+    cancelAuto.current();
     cancelEnter.current();
     window.clearTimeout(autoTimer.current);
+    // A replay tapped during a cold load must also wait for all poses.
+    if ([...document.querySelectorAll<HTMLImageElement>(".mrl-guide-frame, .gh-guide img")].some(image => !image.complete)) {
+      cancelEnter.current = afterScenePaint(startGuide, ".mrl-guide-frame, .gh-guide img");
+      return;
+    }
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setPhase("tour");
@@ -109,16 +118,18 @@ export function useHeroGuide({ steps, seenKey, stopEvent, stopSelector }: {
     }
     if (seen) return;
     // จดว่าเล่นแล้วตอนเริ่มจริง ไม่ใช่ตอน effect รัน (StrictMode รัน effect สองรอบ)
-    const timer = window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem(seenKey, "1");
-      } catch {
-        // จดไม่ได้ = รอบหน้าเล่นอีก ไม่เป็นไร
-      }
-      start();
-    }, 500);
-    autoTimer.current = timer;
-    return () => window.clearTimeout(timer);
+    const cancel = afterScenePaint(() => {
+      autoTimer.current = window.setTimeout(() => {
+        try {
+          window.sessionStorage.setItem(seenKey, "1");
+        } catch {
+          // จดไม่ได้ = รอบหน้าเล่นอีก ไม่เป็นไร
+        }
+        start();
+      }, 500);
+    }, ".mrl-guide-frame, .gh-guide img");
+    cancelAuto.current = cancel;
+    return () => { cancel(); window.clearTimeout(autoTimer.current); };
   }, [start, seenKey]);
 
   // สลับแท็บ = หยุดพูดแล้วกลับไปยืนมุมขวา

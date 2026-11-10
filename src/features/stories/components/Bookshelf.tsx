@@ -186,6 +186,7 @@ function BookCell({
   return book.href ? (
     <Link
       href={book.href}
+      prefetch={false}
       className="bs-cell"
       style={{ "--tint": tint } as CSSProperties}
       data-flying={flyingId === book.id || undefined}
@@ -359,17 +360,13 @@ export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[
     { id: "juniors", books: juniors, offset: 4 },
   ];
 
-  useEffect(() => {
-    for (const b of [...kids, ...juniors]) if (b.href) router.prefetch(toLocale(b.href));
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- toLocale เปลี่ยนเมื่อเปลี่ยนภาษาเท่านั้น ซึ่งโหลดหน้าใหม่ทั้งหน้าอยู่แล้ว
-  }, [kids, juniors, router]);
-
   const open: OpenFn = (e, book, tint) => {
     // ปุ่มพิเศษ (เปิดแท็บใหม่) ปล่อยให้เบราว์เซอร์จัดการเอง
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
     if (flying || !book.href) return;
     const href = toLocale(`${book.href}?play=1`);
+    router.prefetch(href);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       router.push(href);
       return;
@@ -380,6 +377,7 @@ export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[
   };
 
   const pick = (book: ShelfBook) => {
+    if (book.href) router.prefetch(toLocale(`${book.href}?play=1`));
     if (picked?.id === book.id) return;
     setPicked(book);
     speak(book.href ? pickText(book.title) : fmt(t.stories.shelf.soonSpeech, { title: pickText(book.title) }));

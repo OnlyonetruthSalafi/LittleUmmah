@@ -3,6 +3,7 @@
 import { useDict } from "@/i18n/LocaleProvider";
 
 import Image from "next/image";
+import { NearArtwork } from "@/components/performance/NearArtwork";
 import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
@@ -41,12 +42,13 @@ export function OtherIslands({ current }: { current: string }) {
           <li key={island.slug} className="flex">
             <Link
               href={island.href}
+              prefetchOnIntent
               onClick={() => speak(pick(island.name), `cat-${island.slug}`)}
               className="oi-island group"
             >
-              <span className="oi-island-art">
+              <NearArtwork className="oi-island-art">
                 <Image src={island.image} alt="" width={320} height={320} sizes="(max-width: 639px) 45vw, 190px" />
-              </span>
+              </NearArtwork>
               <span className="oi-island-label">
                 <span className="min-w-0 flex-1">
                   <span className="font-display block leading-snug font-extrabold">{pick(island.name)}</span>

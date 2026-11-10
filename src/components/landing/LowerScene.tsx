@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AfterSceneArtwork } from "@/components/performance/AfterSceneArtwork";
 import type { ReactNode } from "react";
 
 /*
@@ -18,7 +19,7 @@ import type { ReactNode } from "react";
 export function LowerScene({ children }: { children: ReactNode }) {
   return (
     <div className="relative isolate">
-      <div
+      <AfterSceneArtwork
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,transparent_6rem,black_20rem)] sm:[mask-image:linear-gradient(to_bottom,transparent_8rem,black_24rem)]"
       >
@@ -29,7 +30,7 @@ export function LowerScene({ children }: { children: ReactNode }) {
           sizes="100vw"
           className="object-cover object-[center_65%]"
         />
-      </div>
+      </AfterSceneArtwork>
       {children}
     </div>
   );

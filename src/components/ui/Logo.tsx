@@ -1,4 +1,5 @@
 import { useId } from "react";
+import Image from "next/image";
 import { dict } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
 import "./logo.css";
@@ -23,7 +24,11 @@ export function Logo({ locale }: { locale: Locale }) {
           </linearGradient>
           <path id={`${id}-arc`} d="M 40 169 Q 300 136 560 169" />
         </defs>
-        <image href="/brand/logo-book.webp" x="165" y="0" width="270" height="155" preserveAspectRatio="xMidYMin meet" />
+        <foreignObject x="165" y="0" width="270" height="155">
+          <Image src="/brand/logo-book.webp" alt="" width={800} height={393}
+            sizes="(max-height: 500px) and (min-width: 640px) and (max-width: 1023px) 108px, (min-width: 1024px) 209px, (min-width: 640px) 188px, calc(36vw - 11.52px)"
+            loading="eager" fetchPriority="low" style={{ width: "100%", height: "auto" }} />
+        </foreignObject>
         <g transform="translate(0 -10)">
           <path d="M18 111 L42 128 Q300 97 558 128 L582 111 L574 178 L554 169 Q300 145 46 179 L24 184Z" fill={`url(#${id}-ribbon)`} stroke="#ffde78" strokeWidth="6" />
           {(["depth", "edge", "color"] as const).map(layer => (
