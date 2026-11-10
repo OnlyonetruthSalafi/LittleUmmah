@@ -14,6 +14,7 @@ import type { Story } from "../../types";
   alt และชื่ออังกฤษ Codex ร่างจาก PROMPT แล้ว Claude ตัดข้อกำหนดภาพออกและตรวจรับ 10 พ.ย. 2026 — ปรับให้ตรงภาพจริงเมื่อทำภาพ
 */
 export const VISIT_BROTHER_STORY: Story = {
+  evidence: ["muslim-2567"],
   slug: "visit-brother",
   title: { th: "ไปเยี่ยมพี่น้องเพราะรักเพื่ออัลลอฮ์", en: "Visiting a brother for the sake of Allah" },
   cover: "/stories/visit-brother/cover.webp",

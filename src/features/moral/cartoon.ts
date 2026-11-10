@@ -40,6 +40,7 @@ export type ScenePhoto = {
 };
 
 export type CartoonScene = {
+  evidence?: string[];
   bg: string;
   photo?: ScenePhoto;
   clip: string;
@@ -60,6 +61,7 @@ export type CartoonScene = {
 };
 
 export type Cartoon = {
+  evidence?: string[];
   /** ดุอาอ์ยาว: วางป้ายคำเหนือภาพเพื่อคงขนาดอ่านง่าย ไม่บังหุ่นยนต์ */
   wordPlacement?: "above";
   /** ป้ายคำที่สอนกลางฉาก (ข้อความจริง ไม่ฝังในภาพ ข้อ 1.5) ไม่แสดงในฉากแรก — บทที่ไม่มีคำให้พูดตามไม่ต้องใส่ */
@@ -432,6 +434,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
   // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
   "dua-sleep": {
+    evidence: ["bukhari-6324"],
     "wordPlacement": "above",
     "word": {
       "ar": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
@@ -504,6 +507,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)
   "dua-wake": {
+    evidence: ["bukhari-6324"],
     "wordPlacement": "above",
     "word": {
       "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
@@ -576,6 +580,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 5095 (อัลบานีย์: เศาะฮีห์) https://shamela.ws/book/1726/6957 · ติรมิซีย์ 3426 https://shamela.ws/book/1435/5650
   "dua-leave-home": {
+    evidence: ["abu-dawud-5095","tirmidhi-3426"],
     "wordPlacement": "above",
     "word": {
       "ar": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
@@ -662,6 +667,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 4023 (อัลบานีย์: หะซัน) https://shamela.ws/book/1726/5556
   "dua-after-eating": {
+    evidence: ["abu-dawud-4023"],
     "wordPlacement": "above",
     "word": {
       "ar": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا الطَّعَامَ، وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
@@ -926,6 +932,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
 
   thanks: {
+    evidence: ["tirmidhi-2035"],
     word: { ar: "جَزَاكَ اللَّهُ خَيْرًا", th: "ญะซากัลลอฮุค็อยร็อน" },
     scenes: [
       {
@@ -1104,6 +1111,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
 
   sneeze: {
+    evidence: ["bukhari-6224"],
     scenes: [
       {
         bg: CLASS,
@@ -1201,6 +1209,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
 
   permission: {
+    evidence: ["quran-24-27","bukhari-6245"],
     word: SALAM,
     scenes: [
       {
@@ -1250,6 +1259,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   },
 
   calm: {
+    evidence: ["bukhari-6116","bukhari-6115","abu-dawud-4782"],
     word: AUDHU,
     scenes: [
       {

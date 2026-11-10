@@ -9,6 +9,7 @@ import type { Story } from "../../types";
   ภาพ: ห้ามวาดท่านนบี ﷺ และเศาะหาบะฮ์ เล่าด้วยลำต้นอินทผลัม มิมบัรไม้ และแสง
 */
 export const CRYING_TRUNK_STORY: Story = {
+  evidence: ["bukhari-3584"],
   slug: "crying-trunk",
   title: { th: "ต้นอินทผลัมร้องไห้", en: "The palm trunk that cried" },
   cover: "/stories/crying-trunk/cover.webp",

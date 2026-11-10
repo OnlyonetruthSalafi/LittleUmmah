@@ -9,6 +9,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน วัวการ์ตูนใบหน้าว่าง ทุ่งนา คันไถ
 */
 export const TALKING_COW_STORY: Story = {
+  evidence: ["bukhari-3471"],
   slug: "talking-cow",
   title: { th: "วัวที่พูดได้", en: "The cow that spoke" },
   cover: "/stories/talking-cow/cover.webp",

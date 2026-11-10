@@ -100,20 +100,20 @@ export const CARD_ART: Record<string, string> = {
 
 export const LESSONS: Record<AgeId, Lesson[]> = {
   kids: [
-    { id: "faith-rabbi", icon: "globe", title: { th: "ใครคือพระเจ้าของหนู", en: "Who is your Lord?" }, body: { th: "พระเจ้าของหนูคืออัลลอฮ์ ผู้ทรงสร้างและดูแลทุกสิ่ง", en: "My Lord is Allah, who created and cares for everything." } },
-    { id: "faith-dini", icon: "mat", title: { th: "ศาสนาของหนูคืออะไร", en: "What is your religion?" }, body: { th: "ศาสนาของหนูคืออิสลาม", en: "My religion is Islam." } },
-    { id: "faith-nabiyyi", icon: "mushaf", title: { th: "นบีของหนูคือใคร", en: "Who is your Prophet?" }, body: { th: "นบีของหนูคือท่านนบีมุฮัมมัด ﷺ", en: "My Prophet is Muhammad ﷺ." } },
-    { id: "faith-aina", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล และทรงเห็นหนูเสมอ", en: "Allah is above, over all the heavens, and He always sees you." } },
-    { id: "faith-khaliq", icon: "mountain", title: { th: "ใครสร้างทุกสิ่ง", en: "Who created everything?" }, body: { th: "อัลลอฮ์ทรงสร้างทุกสิ่ง เรากราบอัลลอฮ์องค์เดียว", en: "Allah created everything, so we prostrate to Allah alone." } },
-    { id: "faith-dua", icon: "lantern", title: { th: "เราขอดุอาอ์จากใคร", en: "Whom do we ask in du'a?" }, body: { th: "เราขอดุอาอ์จากอัลลอฮ์องค์เดียว พระองค์ทรงได้ยินเราเสมอ", en: "We make du'a to Allah alone. He always hears us." } },
+    { evidence: ["scholar-thalathat-al-usul-9"], id: "faith-rabbi", icon: "globe", title: { th: "ใครคือพระเจ้าของหนู", en: "Who is your Lord?" }, body: { th: "พระเจ้าของหนูคืออัลลอฮ์ ผู้ทรงสร้างและดูแลทุกสิ่ง", en: "My Lord is Allah, who created and cares for everything." } },
+    { evidence: ["scholar-thalathat-al-usul-14"], id: "faith-dini", icon: "mat", title: { th: "ศาสนาของหนูคืออะไร", en: "What is your religion?" }, body: { th: "ศาสนาของหนูคืออิสลาม", en: "My religion is Islam." } },
+    { evidence: ["quran-48-29"], id: "faith-nabiyyi", icon: "mushaf", title: { th: "นบีของหนูคือใคร", en: "Who is your Prophet?" }, body: { th: "นบีของหนูคือท่านนบีมุฮัมมัด ﷺ", en: "My Prophet is Muhammad ﷺ." } },
+    { evidence: ["muslim-537","quran-16-50","quran-67-16","quran-42-11","quran-20-46"], id: "faith-aina", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล และทรงเห็นหนูเสมอ", en: "Allah is above, over all the heavens, and He always sees you." } },
+    { evidence: ["quran-39-62","quran-41-37"], id: "faith-khaliq", icon: "mountain", title: { th: "ใครสร้างทุกสิ่ง", en: "Who created everything?" }, body: { th: "อัลลอฮ์ทรงสร้างทุกสิ่ง เรากราบอัลลอฮ์องค์เดียว", en: "Allah created everything, so we prostrate to Allah alone." } },
+    { evidence: ["quran-40-60","scholar-thalathat-al-usul-10"], id: "faith-dua", icon: "lantern", title: { th: "เราขอดุอาอ์จากใคร", en: "Whom do we ask in du'a?" }, body: { th: "เราขอดุอาอ์จากอัลลอฮ์องค์เดียว พระองค์ทรงได้ยินเราเสมอ", en: "We make du'a to Allah alone. He always hears us." } },
   ],
   juniors: [
-    { id: "faith-usul", icon: "mushaf", title: { th: "หลักพื้นฐานสามประการ", en: "The three fundamentals" }, body: { th: "รู้จักพระเจ้าของเรา ศาสนาของเรา และนบีของเรา", en: "Knowing our Lord, our religion and our Prophet." } },
-    { id: "faith-aina-j", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง ทรงสถิตอยู่บนบัลลังก์ ไม่มีสิ่งใดเสมอเหมือนพระองค์", en: "Allah is above, established over the Throne. There is nothing like Him." } },
-    { id: "faith-shahada", icon: "heart", title: { th: "ความหมายของลาอิลาฮะอิลลัลลอฮ์", en: "The meaning of La ilaha illallah" }, body: { th: "ไม่มีผู้ใดสมควรได้รับการเคารพภักดีโดยชอบธรรม นอกจากอัลลอฮ์", en: "None has the right to be worshipped except Allah." } },
-    { id: "faith-islam", icon: "kaaba", title: { th: "รุก่นอิสลามห้าประการ", en: "The five pillars of Islam" }, body: { th: "ปฏิญาณตน ละหมาด ซะกาต ถือศีลอด และฮัจญ์", en: "The testimony, prayer, zakah, fasting and Hajj." } },
-    { id: "faith-iman", icon: "moon", title: { th: "รุก่นอีมานหกประการ", en: "The six pillars of iman" }, body: { th: "ศรัทธาต่ออัลลอฮ์ มลาอิกะฮ์ คัมภีร์ ร่อซูล วันสุดท้าย และกอดัร", en: "Belief in Allah, His angels, books, messengers, the Last Day and the decree." } },
-    { id: "faith-ihsan", icon: "heart", title: { th: "เอี๊ยะซาน", en: "Ihsan" }, body: { th: "เคารพภักดีอัลลอฮ์เสมือนว่าเราเห็นพระองค์", en: "Worshipping Allah as though we see Him." } },
+    { evidence: ["scholar-thalathat-al-usul-9","scholar-thalathat-al-usul-14"], id: "faith-usul", icon: "mushaf", title: { th: "หลักพื้นฐานสามประการ", en: "The three fundamentals" }, body: { th: "รู้จักพระเจ้าของเรา ศาสนาของเรา และนบีของเรา", en: "Knowing our Lord, our religion and our Prophet." } },
+    { evidence: ["muslim-537","quran-20-5","quran-42-11"], id: "faith-aina-j", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง ทรงสถิตอยู่บนบัลลังก์ ไม่มีสิ่งใดเสมอเหมือนพระองค์", en: "Allah is above, established over the Throne. There is nothing like Him." } },
+    { evidence: ["scholar-thalathat-al-usul-14","scholar-thalathat-al-usul-10","bukhari-8","quran-48-29"], id: "faith-shahada", icon: "heart", title: { th: "ความหมายของลาอิลาฮะอิลลัลลอฮ์", en: "The meaning of La ilaha illallah" }, body: { th: "ไม่มีผู้ใดสมควรได้รับการเคารพภักดีโดยชอบธรรม นอกจากอัลลอฮ์", en: "None has the right to be worshipped except Allah." } },
+    { evidence: ["bukhari-8","bukhari-46","muslim-8"], id: "faith-islam", icon: "kaaba", title: { th: "รุก่นอิสลามห้าประการ", en: "The five pillars of Islam" }, body: { th: "ปฏิญาณตน ละหมาด ซะกาต ถือศีลอด และฮัจญ์", en: "The testimony, prayer, zakah, fasting and Hajj." } },
+    { evidence: ["muslim-8","muslim-2996","muslim-2653","quran-81-29","quran-39-7"], id: "faith-iman", icon: "moon", title: { th: "รุก่นอีมานหกประการ", en: "The six pillars of iman" }, body: { th: "ศรัทธาต่ออัลลอฮ์ มลาอิกะฮ์ คัมภีร์ ร่อซูล วันสุดท้าย และกอดัร", en: "Belief in Allah, His angels, books, messengers, the Last Day and the decree." } },
+    { evidence: ["muslim-8"], id: "faith-ihsan", icon: "heart", title: { th: "เอี๊ยะซาน", en: "Ihsan" }, body: { th: "เคารพภักดีอัลลอฮ์เสมือนว่าเราเห็นพระองค์", en: "Worshipping Allah as though we see Him." } },
   ],
 };
 
@@ -157,6 +157,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // ثلاثة الأصول หน้า 9 «من ربك؟ فقل: ربي الله الذي رباني ...»
   "faith-rabbi": {
+    evidence: ["scholar-thalathat-al-usul-9"],
     scenes: [
       scene(CLASS, "faith-k-rabbi-1", "wave",
         "อัสสะลามุอะลัยกุม วันนี้ครูมีคำถามสำคัญมาถามหนูนะ",
@@ -175,6 +176,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // ثلاثة الأصول หน้า 14 — อิสลาม = ยอมจำนนต่ออัลลอฮ์ด้วยเตาฮีด เชื่อฟังพระองค์ และพ้นจากชิริก
   "faith-dini": {
+    evidence: ["scholar-thalathat-al-usul-14"],
     scenes: [
       scene(CLASS, "faith-k-dini-1", "wave",
         "คำถามที่สองนะ ศาสนาของหนูคืออะไร",
@@ -193,6 +195,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // ثلاثة الأصول (ونبيه محمدا ﷺ) · 48:29 มุฮัมมัดเป็นร่อซูลของอัลลอฮ์ · ห้ามวาดอะไรแทนตัวท่าน
   "faith-nabiyyi": {
+    evidence: ["quran-48-29"],
     scenes: [
       scene(CLASS, "faith-k-nabiyyi-1", "wave",
         "คำถามที่สามนะ นบีของหนูคือใคร",
@@ -215,6 +218,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   // มุสลิม 537 «أين الله؟» قالت: في السماء ... «فإنها مؤمنة» · 16:50/67:16 เบื้องสูง · 42:11, 20:46 ทรงได้ยิน ทรงเห็น
   // ห้าม "ในท้องฟ้า" และห้าม "อยู่ทุกที่" (handoff 2.3)
   "faith-aina": {
+    evidence: ["muslim-537","quran-16-50","quran-67-16","quran-42-11","quran-20-46"],
     scenes: [
       scene(CLASS, "faith-k-aina-1", "wave",
         "หนูรู้ไหม อัลลอฮ์ทรงอยู่ที่ไหน",
@@ -236,6 +240,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // 39:62 ผู้ทรงสร้างทุกสิ่ง · 41:37 อย่ากราบดวงอาทิตย์และดวงจันทร์ จงกราบอัลลอฮ์ผู้ทรงสร้างพวกมัน (ไม่วาดใครกราบ)
   "faith-khaliq": {
+    evidence: ["quran-39-62","quran-41-37"],
     scenes: [
       scene(SEA, "faith-k-khaliq-1", "wave",
         "ดูสิ ทะเล ภูเขา ต้นไม้ และสัตว์มากมาย ใครเป็นผู้สร้าง",
@@ -255,6 +260,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   // 40:60 จงวิงวอนขอต่อข้า ข้าจะตอบรับ · ثلاثة الأصول หน้า 10 ดุอาอ์เป็นอิบาดะฮ์ (ไม่วาดสิ่งที่คนขอผิดๆ)
   // ห้ามสื่อว่าขอให้คนที่อยู่ตรงหน้าช่วยในสิ่งที่เขาทำได้เป็นเรื่องผิด — ชิริกคือการขอดุอาอ์ต่อสิ่งอื่นนอกจากอัลลอฮ์ (รีวิว Fable 10 พ.ย.)
   "faith-dua": {
+    evidence: ["quran-40-60","scholar-thalathat-al-usul-10"],
     scenes: [
       scene(DUA, "faith-k-dua-1", "wave",
         "เวลาหนูกลัว หรือไม่สบาย หรืออยากให้อัลลอฮ์ช่วย หนูขอดุอาอ์จากใคร",
@@ -275,6 +281,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // ثلاثة الأصول หน้า 9 และ 14
   "faith-usul": {
+    evidence: ["scholar-thalathat-al-usul-9","scholar-thalathat-al-usul-14"],
     scenes: [
       scene(CLASS, "faith-j-usul-1", "wave",
         "วันนี้เราจะเรียนหลักพื้นฐานสามประการ ที่มุสลิมทุกคนต้องรู้",
@@ -299,6 +306,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // มุสลิม 537 · 20:5 (คำแปลไทย quran.com 51) · 42:11 · بلا كيف ไม่ตีความ ไม่เปรียบเทียบ · ห้าม "อยู่ทุกที่"
   "faith-aina-j": {
+    evidence: ["muslim-537","quran-20-5","quran-42-11"],
     scenes: [
       scene(CLASS, "faith-j-aina-1", "wave",
         "มีคำถามหนึ่งที่ท่านนบี ﷺ เคยถาม คือ อัลลอฮ์อยู่ที่ไหน",
@@ -326,6 +334,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // ثلاثة الأصول หน้า 14 (معنى الشهادة) และหน้า 10 (أنواع العبادة) · บุคอรี 8 · 48:29
   "faith-shahada": {
+    evidence: ["scholar-thalathat-al-usul-14","scholar-thalathat-al-usul-10","bukhari-8","quran-48-29"],
     scenes: [
       scene(CLASS, "faith-j-shahada-1", "wave",
         "ประโยคที่ยิ่งใหญ่ที่สุดของอิสลาม คือ ลาอิลาฮะอิลลัลลอฮ์",
@@ -350,6 +359,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // บุคอรี 8 «بني الإسلام على خمس» · บุคอรี 46 ละหมาดห้าเวลา · มุสลิม 8 ฮัจญ์ «إن استطعت إليه سبيلا»
   "faith-islam": {
+    evidence: ["bukhari-8","bukhari-46","muslim-8"],
     scenes: [
       scene(PILLARS, "faith-j-islam-1", "wave",
         "อิสลามตั้งอยู่บนรากฐานห้าประการ เหมือนอาคารที่มีเสาห้าต้น",
@@ -377,6 +387,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // มุสลิม 8 (อีมาน 6, «وتؤمن بالقدر خيره وشره») · มุสลิม 2996 «خلقت الملائكة من نور» (ไม่วาดมลาอิกะฮ์)
   "faith-iman": {
+    evidence: ["muslim-8","muslim-2996","muslim-2653","quran-81-29","quran-39-7"],
     scenes: [
       scene(NIGHT, "faith-j-iman-1", "wave",
         "เมื่อญิบรีลมาถามท่านนบี ﷺ เรื่องอีมาน ท่านนบี ﷺ ตอบว่า มีหกประการ",
@@ -413,6 +424,7 @@ export const CARTOONS: Record<string, Cartoon> = {
 
   // มุสลิม 8 «أن تعبد الله كأنك تراه فإن لم تكن تراه فإنه يراك» · «فإنه جبريل أتاكم يعلمكم دينكم»
   "faith-ihsan": {
+    evidence: ["muslim-8"],
     scenes: [
       scene(CLASS, "faith-j-ihsan-1", "wave",
         "ญิบรีลถามท่านนบี ﷺ อีกข้อหนึ่งว่า เอี๊ยะซานคืออะไร",

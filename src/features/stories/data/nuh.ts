@@ -22,6 +22,7 @@ import type { Story } from "../types";
   ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
 */
 export const NUH_STORY: Story = {
+  evidence: ["bukhari-4920","bukhari-3340","muslim-194","ahmad-6583","al-adab-al-mufrad-548","al-silsilah-al-sahihah-134"],
   slug: "nuh",
   title: { th: "นบีนูห์กับเรือลำใหญ่", en: "Prophet Nuh and the Ark" },
   cover: "/stories/nuh/cover.webp",
@@ -73,6 +74,7 @@ export const NUH_STORY: Story = {
       en: "Allah told him to bring onto the ship a pair of every kind of animal, with his family and the believers.",
     },
     {
+      evidence: ["quran-11-41"],
       image: "/stories/nuh/p06.webp",
       fx: "clouds",
       ambience: "wind",
@@ -127,6 +129,7 @@ export const NUH_STORY: Story = {
       en: "Those who obeyed Allah were kept safe. Let's obey Allah and be patient, just like Prophet Nuh!",
     },
     {
+      evidence: ["ahmad-6583","al-adab-al-mufrad-548","al-silsilah-al-sahihah-134"],
       image: "/stories/nuh/p11.webp",
       fx: "night",
       moon: [86, 23],

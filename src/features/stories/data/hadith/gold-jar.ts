@@ -9,6 +9,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน เล่าด้วยที่ดิน ไหดินเผา ทองคำ และบ้านสองหลัง
 */
 export const GOLD_JAR_STORY: Story = {
+  evidence: ["bukhari-3472","muslim-1721"],
   slug: "gold-jar",
   title: { th: "ไหทองคำในที่ดิน", en: "The jar of gold in the land" },
   cover: "/stories/gold-jar/cover.webp",

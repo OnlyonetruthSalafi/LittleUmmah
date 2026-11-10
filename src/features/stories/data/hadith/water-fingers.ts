@@ -8,6 +8,7 @@ import type { Story } from "../../types";
   ภาพ: ห้ามวาดท่านนบี ﷺ รวมถึงมือของท่าน และห้ามวาดเศาะหาบะฮ์ เล่าด้วยภาชนะน้ำ แสง ถุงน้ำ และค่ายพัก
 */
 export const WATER_FINGERS_STORY: Story = {
+  evidence: ["bukhari-3576"],
   slug: "water-fingers",
   title: { th: "น้ำที่พอสำหรับทุกคน", en: "Water enough for everyone" },
   cover: "/stories/water-fingers/cover.webp",

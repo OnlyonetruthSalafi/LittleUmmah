@@ -22,6 +22,7 @@ import type { Story } from "../types";
   ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
 */
 export const KAABA_STORY: Story = {
+  evidence: ["quran-ibrahim-37","quran-al-baqarah-127","quran-al-baqarah-144","bukhari-3364"],
   slug: "kaaba",
   title: { th: "สร้างบ้านของอัลลอฮ์", en: "Building the Kaaba" },
   cover: "/stories/kaaba/cover.webp",
@@ -51,6 +52,7 @@ export const KAABA_STORY: Story = {
       en: "The mother of Isma'il followed him and asked many times. Then she asked: Did Allah command you to do this? He said: Yes. She said: Then He will not let us be lost.",
     },
     {
+      evidence: ["quran-ibrahim-37","bukhari-3364"],
       image: "/stories/kaaba/p03.webp",
       fx: "dawn",
       ambience: "kaaba-heat",
@@ -117,6 +119,7 @@ export const KAABA_STORY: Story = {
       en: "Ibrahim said: Allah has commanded me to build a House here. Will you help me? Isma'il said: Do what your Lord has commanded. I will help you.",
     },
     {
+      evidence: ["quran-al-baqarah-127","bukhari-3364"],
       image: "/stories/kaaba/p11.webp",
       fx: "dust",
       ambience: "kaaba-heat",

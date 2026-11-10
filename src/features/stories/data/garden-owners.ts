@@ -15,6 +15,7 @@ import type { Story } from "../types";
  * REVIEW-RELIGIOUS: R1–R5 ใน report.md
  */
 export const GARDEN_OWNERS_STORY: Story = {
+  evidence: ["quran-68-17-33"],
   slug: "garden-owners",
   title: { th: "เจ้าของสวน", en: "The owners of the garden" },
   cover: "/stories/garden-owners/cover.webp",
@@ -28,6 +29,7 @@ export const GARDEN_OWNERS_STORY: Story = {
   },
   pages: [
     {
+      evidence: ["quran-68-17-18"],
       // หน้า 1 — อัลก็อลัม 68:17–18; meaning = 68:18 ตัดเฉพาะช่องว่างท้ายข้อความ
       // REVIEW-RELIGIOUS R1: คำว่า อินชาอัลลอฮฺ อยู่ในคำแปลไทย แต่ไม่เพิ่มคำถอดเสียงอายะฮ์
       // PROMPT: สวนอุดมสมบูรณ์ มุมกว้าง เห็นต้นไม้และผลทรงเรียบง่ายไม่ระบุชนิด ใช้กฎภาพร่วมด้านบน
@@ -38,6 +40,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       meaning: { th: "และพวกเขามิได้กล่าวคำว่า “อินชาอัลลอฮฺ”", en: "Without making exception." },
     },
     {
+      evidence: ["quran-68-19-20"],
       // หน้า 2 — อัลก็อลัม 68:19–20; ไม่ระบุวิธีทำลายสวนหรือเหตุการณ์กับร่างกายคน
       // REVIEW-RELIGIOUS R2: เล่าเรื่องการลงโทษอย่างนุ่มนวล แต่คงผู้ส่งการลงโทษตามคำแปล
       // PROMPT: สวนหลังถูกทำลาย เหลือพื้นโล่งและพืชล้มราบใต้แสงเช้าอ่อน ไม่มีผลให้เก็บ ไม่แสดงช่วงทำลาย ใช้กฎภาพร่วม
@@ -47,6 +50,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       en: "While they slept, a punishment from Allah came upon the garden. By morning, it was as though its plants had been cut down.",
     },
     {
+      evidence: ["quran-68-21-25"],
       // หน้า 3 — อัลก็อลัม 68:21–25; คำเล่าทางอ้อม ไม่แต่งบทสนทนา
       // PROMPT: มองตามพื้นดินไปยังสวนยามเช้า ต้นไม้ที่เหลืออยู่ไกลๆ ไม่ใส่รอยเท้าหรือเงาบุคคล ใช้กฎภาพร่วม
       image: "/stories/garden-owners/p03.webp",
@@ -55,6 +59,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       en: "They called one another early and set out to gather the fruit. They whispered about keeping poor people out of the garden.",
     },
     {
+      evidence: ["quran-68-26-27"],
       // หน้า 4 — อัลก็อลัม 68:26–27; ไม่ยืนยันว่าหลงทางจริง
       // REVIEW-RELIGIOUS R2: สรุป ถูกหวงห้ามสิทธิ์ เป็น ไม่มีผลไม้ให้เก็บ บนบริบท 68:20,26–27
       // PROMPT: มุมกว้างสวนเดิมที่โล่ง เหลือพืชล้มราบและกิ่งว่าง ภาพสงบ ไม่เพิ่มชนิดภัย ใช้กฎภาพร่วม
@@ -64,6 +69,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       en: "When they saw the garden, they thought they had come the wrong way. But they had not. Their garden had no fruit left for them to gather.",
     },
     {
+      evidence: ["quran-68-28-29"],
       // หน้า 5 — อัลก็อลัม 68:28–29; meaning = ท่อนคำพูดใน 68:29 ตามตัวอักษร
       // REVIEW-RELIGIOUS R1: ผู้อธรรม เป็นคำยาก คงไว้ในคำแปล; คำเล่าใช้ ยอมรับว่าทำผิด
       // PROMPT: สวนเดิมที่เสียหาย ใต้ท้องฟ้าเปิด จัดภาพนิ่งสงบ ไม่มีแสงเหนือธรรมชาติ ไม่มีสวนฟื้น ใช้กฎภาพร่วม
@@ -74,6 +80,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       meaning: { th: "มหาบริสุทธิ์แห่งพระเจ้าของเรา แท้จริงเรานั้นเป็นผู้อธรรม", en: "Exalted is our Lord! Indeed, we were wrongdoers." },
     },
     {
+      evidence: ["quran-68-30-31"],
       // หน้า 6 — อัลก็อลัม 68:30–31; สรุปความ ไม่ทำคำพูดที่แต่งขึ้นเป็นคำอ้างตรง
       // PROMPT: มองใกล้พืชที่ล้มอยู่บนพื้นสวน ภาพเรียบง่ายไม่หวาดกลัว ไม่ใส่ของใหม่แทนการทะเลาะ ใช้กฎภาพร่วม
       image: "/stories/garden-owners/p06.webp",
@@ -82,6 +89,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       en: "They began blaming one another. Then they admitted that they had gone too far and done wrong.",
     },
     {
+      evidence: ["quran-68-32"],
       // หน้า 7 — อัลก็อลัม 68:32; meaning = ท่อนท้ายตามตัวอักษร
       // REVIEW-RELIGIOUS R3: เป็นความหวัง ไม่ใช่การรับรองว่าได้รับสวนใหม่หรือได้รับอภัยแล้ว
       // PROMPT: สวนที่เสียหายเดิมกับท้องฟ้ากว้าง องค์ประกอบนุ่มนวล ไม่มีต้นอ่อนงอกใหม่ ไม่มีผลหรือสวนทดแทน ใช้กฎภาพร่วม
@@ -92,6 +100,7 @@ export const GARDEN_OWNERS_STORY: Story = {
       meaning: { th: "แท้จริงเราหวังในความอภัยต่อพระเจ้าของเรา", en: "Indeed, we are toward our Lord desirous." },
     },
     {
+      evidence: ["quran-68-33"],
       // หน้า 8 — อัลก็อลัม 68:33 (คำเตือน); ข้อคิดผู้เขียนจาก 68:24–25,29–32 ไม่ใช่ตัวบท
       // REVIEW-RELIGIOUS R2/R3: ตรวจน้ำเสียงเรื่องโลกหน้าสำหรับวัย 3–6 และการแยกข้อคิดออกจากเหตุการณ์
       // PROMPT: ภาพสวนที่เสียหายเดิมอย่างสงบ เว้นที่ว่างกว้าง ไม่วาดปรโลก ไม่วาดสวนฟื้น ไม่ฝังข้อความ ใช้กฎภาพร่วม

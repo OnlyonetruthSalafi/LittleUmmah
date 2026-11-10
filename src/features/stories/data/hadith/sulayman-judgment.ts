@@ -10,6 +10,7 @@ import type { Story } from "../../types";
   ภาพ: ห้ามวาดนบีดาวูด นบีสุลัยมาน ผู้หญิง เด็ก และหมาป่า ไม่มีมีด เล่าด้วยเปลเด็ก ห้องตัดสินความ ตาชั่ง และแสง
 */
 export const SULAYMAN_JUDGMENT_STORY: Story = {
+  evidence: ["bukhari-3427"],
   slug: "sulayman-judgment",
   title: { th: "นบีสุลัยมานตัดสินความ", en: "Prophet Sulayman's judgment" },
   cover: "/stories/sulayman-judgment/cover.webp",

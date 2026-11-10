@@ -13,6 +13,7 @@ import type { Story } from "../../types";
   ภาพ: ห้ามวาดมะลัก ไม่มีคน สัตว์ใบหน้าว่าง เล่าด้วยหุบเขาเต็มไปด้วยฝูงสัตว์ ทางเดิน ไม้เท้าและย่ามของคนเดินทาง
 */
 export const THREE_MEN_STORY: Story = {
+  evidence: ["bukhari-3464"],
   slug: "three-men",
   title: { th: "ชายสามคนกับการทดสอบ", en: "Three men and a test" },
   cover: "/stories/three-men/cover.webp",

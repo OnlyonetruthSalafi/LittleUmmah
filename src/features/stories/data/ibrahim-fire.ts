@@ -19,6 +19,7 @@ import type { Story } from "../types";
   ตัวใหญ่ที่สุดคลุมผ้าไว้ทั้งตัว ไฟเป็นกองไฟว่างๆ ไม่มีใครอยู่ในนั้น (ข้อ 1.1, 1.4)
 */
 export const IBRAHIM_FIRE_STORY: Story = {
+  evidence: ["quran-al-anbiya-52-53","quran-al-anbiya-56","quran-al-anbiya-57-58","quran-al-anbiya-59-65","quran-al-anbiya-66","quran-al-anbiya-68","quran-al-anbiya-69","quran-as-saffat-97","quran-al-anbiya-70","bukhari-4563"],
   slug: "ibrahim-fire",
   title: { th: "นบีอิบรอฮีมกับกองไฟ", en: "Prophet Ibrahim and the fire" },
   cover: "/stories/ibrahim-fire/cover.webp",
@@ -80,6 +81,7 @@ export const IBRAHIM_FIRE_STORY: Story = {
       en: "So he asked: Then do you worship things that cannot help you or harm you at all?",
     },
     {
+      evidence: ["quran-3-173","bukhari-4563"],
       image: "/stories/ibrahim-fire/p07.webp",
       fx: "night",
       moon: null,
@@ -91,6 +93,7 @@ export const IBRAHIM_FIRE_STORY: Story = {
       meaning: { th: "อัลลอฮ์นั้นเป็นผู้ที่พอเพียงแก่เราแล้ว และเป็นผู้รับมอบหมายที่ดีเยี่ยม", en: "Sufficient for us is Allāh, and [He is] the best Disposer of affairs." },
     },
     {
+      evidence: ["quran-al-anbiya-69"],
       image: "/stories/ibrahim-fire/p08.webp",
       fx: "rays",
       ambience: "land",

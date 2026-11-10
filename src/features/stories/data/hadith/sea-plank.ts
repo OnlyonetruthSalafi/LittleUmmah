@@ -17,6 +17,7 @@ import type { Story } from "../../types";
   alt และชื่ออังกฤษ Codex ร่างจาก PROMPT แล้ว Claude ตัดข้อกำหนดภาพออกและตรวจรับ 10 พ.ย. 2026 — ปรับให้ตรงภาพจริงเมื่อทำภาพ
 */
 export const SEA_PLANK_STORY: Story = {
+  evidence: ["bukhari-2291","ahmad-8587","bukhari-1498"],
   slug: "sea-plank",
   title: { th: "ขอนไม้กลางทะเล", en: "A piece of wood at sea" },
   cover: "/stories/sea-plank/cover.webp",

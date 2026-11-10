@@ -21,6 +21,7 @@ import type { Story } from "../types";
   ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
 */
 export const YUNUS_STORY: Story = {
+  evidence: ["quran-as-saffat-139","quran-as-saffat-140","quran-as-saffat-141","quran-as-saffat-142","quran-as-saffat-143-144","quran-as-saffat-145-146","quran-as-saffat-147-148","quran-yunus-98","quran-al-anbiya-87","quran-al-anbiya-88"],
   slug: "yunus",
   title: { th: "นบียูนุสในท้องปลา", en: "Prophet Yunus" },
   cover: "/stories/yunus/cover.webp",
@@ -81,6 +82,7 @@ export const YUNUS_STORY: Story = {
       en: "Yunus went into the sea, and a huge fish swallowed him whole.",
     },
     {
+      evidence: ["quran-al-anbiya-87"],
       image: "/stories/yunus/p06.webp",
       fx: "deep",
       // ปลาใหญ่ทั้งตัวในหน้าขวาที่มืด
@@ -127,6 +129,7 @@ export const YUNUS_STORY: Story = {
       en: "Then Allah sent him to a hundred thousand people or more. They believed, so Allah let them live on happily.",
     },
     {
+      evidence: ["quran-al-anbiya-87"],
       image: "/stories/yunus/p11.webp",
       fx: "night",
       water: [45, 60, 55, 14],

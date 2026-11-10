@@ -394,7 +394,7 @@ export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
 const BG = (name: string) => `/explore/scenes/${name}.webp`;
 const SUBHANALLAH: Word = { ar: "سُبْحَانَ اللَّهِ", th: "ซุบฮานัลลอฮ์" };
 
-type SceneExtra = Partial<Pick<CartoonScene, "photo" | "word" | "sayAlong">> & {
+type SceneExtra = Partial<Pick<CartoonScene, "photo" | "word" | "sayAlong" | "evidence">> & {
   /** ข้อความที่ส่งให้เสียงสังเคราะห์ แทน th (เช่น ชื่อที่ต้องเขียนอังกฤษให้อ่านถูก) */
   voice?: string;
 };
@@ -782,7 +782,7 @@ export const CARTOONS: Record<string, Cartoon & { scenes: ExploreScene[] }> = {
       scene("desert-oasis", "dsj-ayah", "point",
         "อัลลอฮ์ตรัสในอัลกุรอานว่า พวกเขาไม่มองดูอูฐหรือว่า มันถูกสร้างขึ้นมาอย่างไร",
         "Allah says in the Quran: Do they not look at the camels, how they are created?",
-        { word: { ar: "أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ", th: "ซูเราะฮ์อัลฆอชิยะฮ์", compact: true } }),
+        { evidence: ["quran-88-17"], word: { ar: "أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ", th: "ซูเราะฮ์อัลฆอชิยะฮ์", compact: true } }),
       scene("desert-fox", "dsj-fox", "point",
         "จิ้งจอกเฟนเนคเป็นจิ้งจอกที่ตัวเล็กที่สุดในโลก หูที่ใหญ่ช่วยระบายความร้อนออกจากตัว และได้ยินเสียงแมลงที่ซ่อนอยู่ใต้ทราย",
         "The fennec is the smallest fox in the world. Its big ears let out heat and hear insects hiding under the sand."),
@@ -851,7 +851,7 @@ export const CARTOONS: Record<string, Cartoon & { scenes: ExploreScene[] }> = {
       scene("forest-canopy", "frj-ayah", "point",
         "อัลลอฮ์ตรัสในอัลกุรอานว่า ไม่มีสัตว์ใดบนแผ่นดิน และไม่มีนกใดที่บินด้วยปีกทั้งสองของมัน เว้นแต่เป็นประชาชาติเหมือนกับพวกเจ้า",
         "Allah says in the Quran: There is no creature on earth, nor bird flying with its wings, but they are communities like you.",
-        { word: { ar: "وَمَا مِن دَابَّةٍ فِي الْأَرْضِ وَلَا طَائِرٍ يَطِيرُ بِجَنَاحَيْهِ إِلَّا أُمَمٌ أَمْثَالُكُم", th: "ซูเราะฮ์อัลอันอาม", compact: true } }),
+        { evidence: ["quran-6-38"], word: { ar: "وَمَا مِن دَابَّةٍ فِي الْأَرْضِ وَلَا طَائِرٍ يَطِيرُ بِجَنَاحَيْهِ إِلَّا أُمَمٌ أَمْثَالُكُم", th: "ซูเราะฮ์อัลอันอาม", compact: true } }),
       bye("forest-arrive", "frj-bye",
         "สัตว์ทุกชนิดในป่าก็เป็นประชาชาติหนึ่งเหมือนเรา อัลลอฮ์ทรงดูแลพวกมันทั้งหมด เราพูดว่า ซุบฮานัลลอฮ์",
         "Every forest animal is a community like us, and Allah cares for them all. We say SubhanAllah!"),
@@ -909,7 +909,7 @@ export const CARTOONS: Record<string, Cartoon & { scenes: ExploreScene[] }> = {
       scene("sea-arrive", "sej-ayah", "point",
         "อัลลอฮ์ตรัสในอัลกุรอานว่า และอัลลอฮ์ทรงสร้างสัตว์ทุกชนิดมาจากน้ำ",
         "Allah says in the Quran: And Allah created every living creature from water.",
-        { word: { ar: "وَاللَّهُ خَلَقَ كُلَّ دَابَّةٍ مِّن مَّاءٍ", th: "ซูเราะฮ์อันนูร", compact: true } }),
+        { evidence: ["quran-24-45"], word: { ar: "وَاللَّهُ خَلَقَ كُلَّ دَابَّةٍ مِّن مَّاءٍ", th: "ซูเราะฮ์อันนูร", compact: true } }),
       bye("sea-arrive", "sej-bye",
         "ทุกชีวิตต้องการน้ำ และทะเลก็เต็มไปด้วยสิ่งที่อัลลอฮ์ทรงสร้าง เราพูดว่า ซุบฮานัลลอฮ์",
         "Every life needs water, and the sea is full of Allah's creation. We say SubhanAllah!"),

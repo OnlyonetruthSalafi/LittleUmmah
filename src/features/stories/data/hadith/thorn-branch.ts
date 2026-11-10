@@ -10,6 +10,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน เล่าด้วยทาง กิ่งหนาม และแสง
 */
 export const THORN_BRANCH_STORY: Story = {
+  evidence: ["bukhari-652","muslim-35"],
   slug: "thorn-branch",
   title: { th: "กิ่งหนามบนทางเดิน", en: "The thorny branch on the path" },
   cover: "/stories/thorn-branch/cover.webp",

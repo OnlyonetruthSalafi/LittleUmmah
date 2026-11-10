@@ -23,6 +23,7 @@ import type { Story } from "../types";
   ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
 */
 export const MUSA_STORY: Story = {
+  evidence: ["quran-al-qasas-4","quran-an-naziat-24","quran-ta-ha-29-30-47","quran-ash-shuara-52","quran-ash-shuara-53-56","quran-ash-shuara-60-62","quran-ash-shuara-63","quran-ash-shuara-64-66","quran-ta-ha-77","quran-ta-ha-78","quran-yunus-90-92","quran-at-talaq-2"],
   slug: "musa",
   title: { th: "นบีมูซาข้ามทะเล", en: "Prophet Musa and the sea" },
   cover: "/stories/musa/cover.webp",
@@ -80,6 +81,7 @@ export const MUSA_STORY: Story = {
       en: "Fir'awn's army chased them at sunrise. When the two groups saw each other, the people with Musa were frightened and cried: We will surely be caught!",
     },
     {
+      evidence: ["quran-ash-shuara-60-62"],
       image: "/stories/musa/p06.webp",
       fx: "dawn",
       water: [0, 38, 100, 40],
@@ -132,6 +134,7 @@ export const MUSA_STORY: Story = {
       en: "Musa and the believers were safe on the other side of the sea. Allah saved every one of them.",
     },
     {
+      evidence: ["quran-at-talaq-2"],
       image: "/stories/musa/p12.webp",
       fx: "night",
       moon: [77, 16],

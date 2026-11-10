@@ -17,6 +17,7 @@ import type { Story } from "../types";
  * REVIEW-RELIGIOUS: R1, R3–R5 ใน report.md
  */
 export const TWO_GARDENS_STORY: Story = {
+  evidence: ["quran-18-32-44"],
   slug: "two-gardens",
   title: { th: "ชายเจ้าของสวนสองแห่ง", en: "The man with two gardens" },
   cover: "/stories/two-gardens/cover.webp",
@@ -30,6 +31,7 @@ export const TWO_GARDENS_STORY: Story = {
   },
   pages: [
     {
+      evidence: ["quran-18-32-33"],
       // หน้า 1 — อัลกะฮ์ฟิ 18:32–33; เรียกว่าอุทาหรณ์ ไม่เติมชื่อคนหรือสถานที่
       // PROMPT: มุมกว้างเห็นสวนองุ่นสองแห่ง มีอินทผลัมล้อมรอบ พืชไม่ระบุชนิดระหว่างสวน และลำน้ำท่ามกลางสวน ใช้กฎภาพร่วม
       image: "/stories/two-gardens/p01.webp",
@@ -38,6 +40,7 @@ export const TWO_GARDENS_STORY: Story = {
       en: "The Quran gives an example of two men. Allah gave one of them two gardens of grapevines, surrounded by date palms, with crops between them and a river flowing through. Both gardens produced their fruit in full.",
     },
     {
+      evidence: ["quran-18-34"],
       // หน้า 2 — อัลกะฮ์ฟิ 18:34; meaning = คำพูดตรงตัว ไม่เอาคำอวดมาเป็นข้อเท็จจริงที่ผู้เล่ารับรอง
       // REVIEW-RELIGIOUS R1/R4: ข้าบริพาร เป็นคำยาก และเรื่องมีมากกว่าความภูมิใจในทรัพย์สิน
       // PROMPT: พวงองุ่นในสวนอุดมสมบูรณ์ มีต้นอินทผลัมอยู่ด้านหลัง ไม่แสดงคน ทรัพย์สินกองโตหรือจำนวนบริวาร ใช้กฎภาพร่วม
@@ -48,6 +51,7 @@ export const TWO_GARDENS_STORY: Story = {
       meaning: { th: "ฉันมีทรัพย์สินมากกว่าท่าน และมีข้าบริพารมากกว่า", en: "I am greater than you in wealth and mightier in [numbers of] men." },
     },
     {
+      evidence: ["quran-18-35-36"],
       // หน้า 3 — อัลกะฮ์ฟิ 18:35–36; คำเล่าทางอ้อม แสดงชัดว่าเป็นความเชื่อที่ผิดของชาย ไม่ใช่คำรับรองของผู้เล่า
       // REVIEW-RELIGIOUS R4: คงการไม่เชื่อวันอวสาน ไม่ลดเรื่องเหลือเพียงลืมขอบคุณ
       // PROMPT: มองเข้าไปในสวนองุ่นที่ยังอุดมสมบูรณ์ คงฉากเดิม ไม่วาดสวนสวรรค์หรือสัญลักษณ์ความเป็นนิรันดร์ ใช้กฎภาพร่วม
@@ -57,6 +61,7 @@ export const TWO_GARDENS_STORY: Story = {
       en: "He entered his garden while wronging himself. He thought it would never perish and did not think the Last Hour would come. He even thought that, if he returned to his Lord, he would receive something better.",
     },
     {
+      evidence: ["quran-18-37"],
       // หน้า 4 — อัลกะฮ์ฟิ 18:37; สรุปคำเตือน ไม่ยกคำถามที่แต่งขึ้น
       // REVIEW-RELIGIOUS R1/R4: ย่อรายละเอียดการสร้างเหลือพระผู้สร้างเขา ไม่เปลี่ยนลำดับหรืออ้างวิทยาศาสตร์
       // PROMPT: พื้นดินและพืชในสวนเดียวกัน มุมสงบ ไม่มีร่างกายคน อวัยวะหรือภาพกระบวนการสร้าง ใช้กฎภาพร่วม
@@ -66,6 +71,7 @@ export const TWO_GARDENS_STORY: Story = {
       en: "His companion reminded him of Allah, who had created him. He challenged the man's disbelief in his Creator.",
     },
     {
+      evidence: ["quran-18-38"],
       // หน้า 5 — อัลกะฮ์ฟิ 18:38; meaning ยกเฉพาะท่อนแรกที่ไม่มีคำพิมพ์ผิด ผู้เป้น
       // REVIEW-RELIGIOUS R4: เคารพภักดีพระองค์เพียงผู้เดียว เป็นคำสรุปของไม่ตั้งภาคี ไม่ใช่คำแปลอ้างตรง
       // PROMPT: ใบองุ่นและต้นอินทผลัมในสวนเดิมใต้ท้องฟ้าธรรมดา ไม่ใช้ลำแสงหรือวัตถุแทนพระเจ้า ใช้กฎภาพร่วม
@@ -76,6 +82,7 @@ export const TWO_GARDENS_STORY: Story = {
       meaning: { th: "แต่ฉันเชื่อว่าพระองค์คืออัลลอฮ์ พระผู้เป็นเจ้าของฉัน", en: "But as for me, He is Allāh, my Lord" },
     },
     {
+      evidence: ["quran-18-39"],
       // หน้า 6 — อัลกะฮ์ฟิ 18:39; meaning ยกท่อนตรงตัว รวมวงเล็บและเว้นวรรคเดิม
       // REVIEW-RELIGIOUS R1: ไม่เพิ่มเสียงอ่านอาหรับของอายะฮ์ และไม่แก้วงเล็บในคำแปล
       // PROMPT: สวนองุ่น อินทผลัมและลำน้ำเดิม รายละเอียดผลไม้และน้ำชัดเจน ไม่ฝังคำกล่าวในภาพ ใช้กฎภาพร่วม
@@ -86,6 +93,7 @@ export const TWO_GARDENS_STORY: Story = {
       meaning: { th: "สิ่งที่อัลลอฮ์ทรงประสงค์(ย่อมเกิดขึ้น) ไม่มีพลังใด ๆ(ที่จะช่วยเราได้) นอกจากที่อัลลอฮ์", en: "What Allāh willed [has occurred]; there is no power except in Allāh" },
     },
     {
+      evidence: ["quran-18-40-41"],
       // หน้า 7 — อัลกะฮ์ฟิ 18:40–41; ทั้งหมดเป็นคำเตือนถึงสิ่งที่อาจเกิด ไม่ใช่รายงานสาเหตุจริง
       // REVIEW-RELIGIOUS R4: ไทย 51 ระบุสายฟ้า อังกฤษ 20 ใช้ penalty from the sky; ไม่เลือกชนิดภัยเป็นข้อเท็จจริง
       // PROMPT: คงสวนเดิมและลำน้ำที่ยังมีน้ำ ไม่วาดฟ้าผ่า ไม่ทำดินแห้งในฉากนี้ เพราะเป็นเพียงคำเตือน ใช้กฎภาพร่วม
@@ -95,6 +103,7 @@ export const TWO_GARDENS_STORY: Story = {
       en: "His companion said that Allah might give him something better than this garden. The man's garden could be struck by punishment and become bare ground, or its water could disappear beyond reach. This was his companion's warning.",
     },
     {
+      evidence: ["quran-18-42"],
       // หน้า 8 — อัลกะฮ์ฟิ 18:42; ไม่ระบุว่าฟ้าผ่า น้ำแห้ง หรือใช้เวลานานเท่าใด
       // REVIEW-RELIGIOUS R1/R4: ต้นฉบับไทยมีข้อความซ้ำช่วงฝ่ามือ ใช้คำเล่าสรุปความเสียใจ; meaning ยกท้ายตรงตัว
       // PROMPT: สวนองุ่นหลังเสียหาย เถาและค้างล้มพัง ผลผลิตเสียหาย ภาพสงบ ไม่แสดงช่วงทำลายหรือสาเหตุ ใช้กฎภาพร่วม
@@ -105,6 +114,7 @@ export const TWO_GARDENS_STORY: Story = {
       meaning: { th: "โอ้ ! หากฉันไม่เอาผู้ใดมาตั้งภาคีกับพระผู้เป็นเจ้าของฉัน", en: "Oh, I wish I had not associated with my Lord anyone." },
     },
     {
+      evidence: ["quran-18-43-44"],
       // หน้า 9 — อัลกะฮ์ฟิ 18:43–44; meaning = ท่อน 18:44 ตามตัวอักษร
       // REVIEW-RELIGIOUS R4: ไม่มีใครช่วยในเหตุการณ์นี้ ไม่สอนว่ามนุษย์ช่วยเหลือกันไม่ได้โดยทั่วไป
       // PROMPT: มุมกว้างของสวนที่พังเดิม ค้างองุ่นล้ม พื้นว่าง ท้องฟ้าปกติ ไม่เพิ่มผู้ช่วยหรือการฟื้นสวน ใช้กฎภาพร่วม
@@ -115,6 +125,7 @@ export const TWO_GARDENS_STORY: Story = {
       meaning: { th: "การคุ้มครองช่วยเหลือเป็นของอัลลอฮ์ผู้ทรงสัจจะ", en: "the authority is [completely] for Allāh, the Truth." },
     },
     {
+      evidence: ["quran-18-34-38-39-42-44"],
       // หน้า 10 — ข้อคิดผู้เขียนจากอัลกะฮ์ฟิ 18:34,38–39,42–44 ไม่ใช่ตัวบท ไม่ใช่เหตุการณ์ใหม่
       // REVIEW-RELIGIOUS R3/R4: ไม่สรุปว่าเขากลับใจสำเร็จ ได้รับอภัย หรือได้รับสวนคืน
       // PROMPT: ภาพนิ่งของสวนที่เสียหายเดิม เว้นพื้นที่ให้พักสายตา ไม่แสดงสวนเขียวฟื้น ไม่มีต้นอ่อนหรือผลผลิตใหม่ ใช้กฎภาพร่วม

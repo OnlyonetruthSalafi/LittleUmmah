@@ -16,6 +16,7 @@ import type { Story } from "../../types";
   alt และชื่ออังกฤษ Codex ร่างจาก PROMPT แล้ว Claude ตัดข้อกำหนดภาพออกและตรวจรับ 10 พ.ย. 2026 — ปรับให้ตรงภาพจริงเมื่อทำภาพ
 */
 export const MOTHER_BIRD_STORY: Story = {
+  evidence: ["abu-dawud-2675"],
   slug: "mother-bird",
   title: { th: "แม่นกกับลูกนกสองตัว", en: "The mother bird and her two chicks" },
   cover: "/stories/mother-bird/cover.webp",

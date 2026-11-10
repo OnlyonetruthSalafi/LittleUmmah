@@ -33,6 +33,7 @@ export type Ambience =
 export type Cue = "canteen";
 
 export type StoryPage = {
+  evidence?: string[];
   /** ภาพเต็มสองหน้า (1536x1024) แบ่งซ้าย-ขวาตรงสันหนังสือ */
   image: string;
   alt: Text;
@@ -60,6 +61,7 @@ export type StoryPage = {
 };
 
 export type Story = {
+  evidence?: string[];
   slug: string;
   title: Text;
   /** ภาพปกแนวตั้ง */

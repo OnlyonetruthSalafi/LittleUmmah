@@ -20,6 +20,7 @@ import type { Story } from "../types";
   สุนัขเห็นแค่ขาหน้าที่ปากถ้ำ ไม่เห็นหัว (ข้อ 1.1 — ส่วนของร่างกายที่ไม่ใช่ใบหน้า)
 */
 export const CAVE_STORY: Story = {
+  evidence: ["quran-al-kahf-9-26"],
   slug: "cave",
   title: { th: "ชาวถ้ำ", en: "The people of the cave" },
   cover: "/stories/cave/cover.webp",
@@ -57,6 +58,7 @@ export const CAVE_STORY: Story = {
       en: "To protect their faith, they left their people and took shelter in a cave in the mountains.",
     },
     {
+      evidence: ["quran-al-kahf-9-26"],
       image: "/stories/cave/p04.webp",
       fx: "night",
       moon: null,

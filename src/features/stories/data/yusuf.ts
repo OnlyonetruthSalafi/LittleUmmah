@@ -20,6 +20,7 @@ import type { Story } from "../types";
   ภาพไม่มีคน ไม่มีศาสดา ไม่มีหมาป่าหรือวัว (ข้อ 1.1, 1.4) ใช้ดวงดาว บ่อน้ำ รวงข้าว คลังอาหาร แทน
 */
 export const YUSUF_STORY: Story = {
+  evidence: ["quran-yusuf"],
   slug: "yusuf",
   title: { th: "นบียูซุฟผู้อดทน", en: "Patient Prophet Yusuf" },
   cover: "/stories/yusuf/cover.webp",
@@ -69,6 +70,7 @@ export const YUSUF_STORY: Story = {
       en: "In the well, Allah told Yusuf: One day you will tell them about what they did today.",
     },
     {
+      evidence: ["quran-12-18"],
       image: "/stories/yusuf/p05.webp",
       fx: "night",
       moon: null,
@@ -128,6 +130,7 @@ export const YUSUF_STORY: Story = {
       en: "When the dry years came, his brothers travelled to ask for food. Yusuf knew them, but they did not know him. At last he said: I am Yusuf. His brothers admitted they had done wrong.",
     },
     {
+      evidence: ["quran-12-92"],
       image: "/stories/yusuf/p12.webp",
       fx: "rays",
       ambience: "land",

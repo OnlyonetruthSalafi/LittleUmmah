@@ -16,6 +16,7 @@ import type { Story } from "../types";
   มดเป็นการ์ตูนตัวเล็กใบหน้าว่าง ไม่มีตา ปาก (ข้อ 1.1) ข้อความอยู่ในหน้าเว็บทั้งหมด ไม่ฝังในภาพ (ข้อ 1.5)
 */
 export const ANTS_STORY: Story = {
+  evidence: ["quran-an-naml-15","quran-an-naml-16","quran-an-naml-17","quran-an-naml-18","quran-an-naml-19"],
   slug: "ants",
   title: { th: "นบีสุลัยมานกับมด", en: "Prophet Sulayman and the ant" },
   cover: "/stories/ants/cover.webp",
@@ -61,6 +62,7 @@ export const ANTS_STORY: Story = {
       en: "The army came to a valley where many ants lived.",
     },
     {
+      evidence: ["quran-an-naml-18"],
       image: "/stories/ants/p05.webp",
       fx: "dust",
       ambience: "land",
@@ -85,6 +87,7 @@ export const ANTS_STORY: Story = {
       en: "Prophet Sulayman heard what the little ant said. He smiled, and laughed at her words.",
     },
     {
+      evidence: ["quran-an-naml-19"],
       image: "/stories/ants/p08.webp",
       fx: "rays",
       ambience: "land",

@@ -17,6 +17,7 @@ import type { Story } from "../../types";
   alt และชื่ออังกฤษ Codex ร่างจาก PROMPT แล้ว Claude ตัดข้อกำหนดภาพออกและตรวจรับ 10 พ.ย. 2026 — ปรับให้ตรงภาพจริงเมื่อทำภาพ
 */
 export const CAMEL_COMPLAINT_STORY: Story = {
+  evidence: ["abu-dawud-2549","al-silsilah-al-sahihah-20"],
   slug: "camel-complaint",
   title: { th: "อูฐที่มาฟ้องท่านนบี ﷺ", en: "The camel that complained to the Prophet ﷺ" },
   cover: "/stories/camel-complaint/cover.webp",

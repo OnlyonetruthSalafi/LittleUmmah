@@ -9,6 +9,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน เล่าด้วยบ่อน้ำ เชือก รองเท้าหนัง (ขุฟ) สุนัขการ์ตูนใบหน้าว่าง
 */
 export const WATER_DOG_STORY: Story = {
+  evidence: ["bukhari-2363"],
   slug: "water-dog",
   title: { th: "ชายผู้ให้น้ำสุนัข", en: "The man who gave water to a dog" },
   cover: "/stories/water-dog/cover.webp",

@@ -4,6 +4,7 @@ import type { LessonIconName } from "@/components/icons/LessonIcon";
 import type { Text } from "@/i18n/config";
 
 export type Lesson = {
+  evidence?: string[];
   id: string;
   icon: LessonIconName;
   /** ตัวอักษรอาหรับขนาดใหญ่แทนไอคอน ใช้กับบทเรียนตัวอักษร */
@@ -394,6 +395,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
       },
       // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
       {
+        evidence: ["bukhari-6324"],
         "id": "dua-sleep",
         "icon": "home",
         "title": {
@@ -435,6 +437,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
         body: { th: "ล้างมือก่อนกินและหลังเข้าห้องน้ำ อิสลามรักความสะอาด", en: "Wash your hands before eating and after using the toilet. Islam loves cleanliness." },
       },
       {
+        evidence: ["tirmidhi-2035"],
         // ติรมิซีย์ 2035 อัลบานีย์ตัดสินเศาะฮีห์ (ตรวจกับ Shamela 2 ต.ค. 2026)
         id: "thanks",
         icon: "heart",
@@ -478,6 +481,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
     juniors: [
       // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)
       {
+        evidence: ["bukhari-6324"],
         "id": "dua-wake",
         "icon": "home",
         "title": {
@@ -491,6 +495,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
       },
       // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 5095 (อัลบานีย์: เศาะฮีห์) https://shamela.ws/book/1726/6957 · ติรมิซีย์ 3426 https://shamela.ws/book/1435/5650
       {
+        evidence: ["abu-dawud-5095","tirmidhi-3426"],
         "id": "dua-leave-home",
         "icon": "home",
         "title": {
@@ -504,6 +509,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
       },
       // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — อบูดาวูด 4023 (อัลบานีย์: หะซัน) https://shamela.ws/book/1726/5556
       {
+        evidence: ["abu-dawud-4023"],
         "id": "dua-after-eating",
         "icon": "dates",
         "title": {
@@ -528,6 +534,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
         body: { th: "ท่านนบี ﷺ สอนว่า ความสัตย์จริงนำไปสู่ความดี และความดีนำไปสู่สวรรค์ แม้พูดความจริงแล้วจะโดนดุ ก็ยังดีกว่าโกหก", en: "The Prophet ﷺ taught that truthfulness leads to goodness, and goodness leads to Paradise. Even if telling the truth gets you a telling-off, it is still better than lying." },
       },
       {
+        evidence: ["bukhari-6224"],
         id: "sneeze",
         icon: "chat",
         title: { th: "เมื่อจาม", en: "When you sneeze" },
@@ -544,6 +551,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
         body: { th: "ท่านนบี ﷺ เล่าถึงชายคนหนึ่งที่ตักน้ำให้สุนัขที่กระหายน้ำ อัลลอฮ์จึงทรงอภัยให้เขา เราจึงให้น้ำและอาหารสัตว์ และไม่ทำร้ายพวกมัน", en: "The Prophet ﷺ told of a man who gave water to a thirsty dog, and Allah forgave him. So we give animals water and food, and we never hurt them." },
       },
       {
+        evidence: ["quran-24-27","bukhari-6245"],
         // อันนูร 24:27, บุคอรี 6245
         id: "permission",
         icon: "home",
@@ -551,6 +559,7 @@ export const ISLAND_CONTENT: IslandContent[] = [
         body: { th: "ก่อนเข้าห้องหรือบ้านคนอื่น เคาะประตู กล่าวสลาม แล้วรอให้อนุญาตก่อน ท่านนบี ﷺ สอนว่า ถ้าขออนุญาตสามครั้งแล้วไม่ได้รับอนุญาต ก็ให้กลับไปก่อน", en: "Before entering someone else's room or home, knock on the door, say Salam, and wait for permission. The Prophet ﷺ taught that if you ask three times and are not given permission, you should go back." },
       },
       {
+        evidence: ["bukhari-6116","bukhari-6115","abu-dawud-4782"],
         // บุคอรี 6116, 6115 และอบูดาวูด 4782 (อัลบานีย์: เศาะฮีห์)
         id: "calm",
         icon: "heart",

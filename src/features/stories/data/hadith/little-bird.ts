@@ -14,6 +14,7 @@ import type { Story } from "../../types";
   alt และชื่ออังกฤษ Codex ร่างจาก PROMPT แล้ว Claude ตัดข้อกำหนดภาพออกและตรวจรับ 10 พ.ย. 2026 — ปรับให้ตรงภาพจริงเมื่อทำภาพ
 */
 export const LITTLE_BIRD_STORY: Story = {
+  evidence: ["bukhari-6129"],
   slug: "little-bird",
   title: { th: "นกน้อยของอบูอุมัยร์", en: "The little bird of Abu Umayr" },
   cover: "/stories/little-bird/cover.webp",

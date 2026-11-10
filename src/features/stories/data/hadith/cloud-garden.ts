@@ -9,6 +9,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน เล่าด้วยเมฆ พื้นหินสีดำ ลำธาร สวน และจอบ
 */
 export const CLOUD_GARDEN_STORY: Story = {
+  evidence: ["muslim-2984"],
   slug: "cloud-garden",
   title: { th: "เมฆรดสวน", en: "The cloud that watered a garden" },
   cover: "/stories/cloud-garden/cover.webp",

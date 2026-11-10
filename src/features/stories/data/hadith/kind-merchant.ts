@@ -8,6 +8,7 @@ import type { Story } from "../../types";
   ภาพ: ไม่มีคน เล่าด้วยร้านค้า สมุดบัญชี (ไม่มีตัวหนังสือ) ถุงเงิน และบ้านหลังเล็ก
 */
 export const KIND_MERCHANT_STORY: Story = {
+  evidence: ["bukhari-2078"],
   slug: "kind-merchant",
   title: { th: "พ่อค้าผู้ใจดี", en: "The kind merchant" },
   cover: "/stories/kind-merchant/cover.webp",
