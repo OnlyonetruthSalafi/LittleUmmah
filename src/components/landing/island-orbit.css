@@ -21,6 +21,13 @@
   .orbit-island { transform: translate(calc(-50% + var(--sx) * var(--rx)), calc(-50% + var(--cy) * var(--ry))) scale(calc(.38 + .62 * var(--d))); opacity: calc(.35 + .65 * var(--d)); }
   .orbit-stage { --size: min(21vw, 280px); --rx: min(38vw, 520px); --ry: min(8vw, 100px); --cyc: 38%; height: clamp(540px, 72vh, 660px); }
 }
+/* Short phone landscape: show a complete front island below the compact header. */
+@media (orientation: landscape) and (max-height: 500px) and (width < 64rem) {
+  .orbit-stage { --size: 190px; --ry: 45px; --cyc: 38%; height: 300px; }
+  /* ชื่อเกาะบรรทัดเดียว (กว้างกว่าเกาะได้) ไม่ให้ตกสองบรรทัดจนทับจุดบอกตำแหน่ง */
+  .orbit-stage .orbit-name { text-wrap: nowrap; white-space: nowrap; font-size: 1.05rem; }
+  .orbit-stage .orbit-caption { margin-top: -10%; }
+}
 
 /* ไม่มีเส้นประวงโคจร (เจ้าของโปรเจกต์ขอเอาออก 9 พ.ย. 2026) */
 .orbit-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
