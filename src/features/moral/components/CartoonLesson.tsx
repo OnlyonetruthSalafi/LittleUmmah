@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { LearningNotice } from '@/features/learning-stars/components';
 import { fmt } from "@/i18n/dict";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -153,6 +154,7 @@ export function CartoonLesson({
       }}
     >
       <div className="mrl-cartoon-body">
+        <LearningNotice />
         <div className="mrl-cartoon-head">
           <h3 id="cartoon-title" className="font-display text-xl leading-snug font-extrabold sm:text-2xl">
             {pick(lesson.title)}

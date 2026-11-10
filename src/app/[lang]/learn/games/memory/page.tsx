@@ -1,3 +1,4 @@
+import { PlayArea, LearningBalance } from '@/features/learning-stars/components';
 import { pageMetadata } from "@/lib/seo";
 import { dict } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
@@ -21,7 +22,7 @@ export default async function MemoryPage({ params }: PageProps<"/[lang]/learn/ga
   const { lang } = await params;
   const { t, sub, pick, pickSub } = dict(lang as Locale);
   return (
-    <>
+    <PlayArea><LearningBalance />
       <GameNavigation />
       <section className="scene-copy shadow-soft rounded-card mx-auto mt-6 max-w-2xl p-6">
         <h1 className="font-display text-3xl font-bold">
@@ -55,6 +56,6 @@ export default async function MemoryPage({ params }: PageProps<"/[lang]/learn/ga
           ))}
         </div>
       </section>
-    </>
+    </PlayArea>
   );
 }

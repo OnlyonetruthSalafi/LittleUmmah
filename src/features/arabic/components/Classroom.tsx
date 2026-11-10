@@ -1,5 +1,7 @@
 "use client";
 
+import { awardLesson } from '@/features/learning-stars/store';
+import { LearningNotice } from '@/features/learning-stars/components';
 import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 
@@ -348,6 +350,7 @@ function Lesson({ config, group, unit, onNextUnit }: { config: Course; group: Ag
       timer = setTimeout(() => go("cheer"), total);
     } else if (phase === "cheer") {
       markLearned(config.progressKey, step.id);
+      awardLesson(config.id === 'arabic' ? `arabic:${step.id}` : `lang:${config.id}:${step.id}`);
       // คำชมหมุนตามลำดับบท เด็กจึงไม่ได้ยินประโยคเดิมซ้ำทุกบท
       narrate(`cheer-${(index % CHEER_COUNT) + 1}`, t.arabic.classroom.cheerSpeech, "teach");
     } else if (phase === "done") {
@@ -410,6 +413,7 @@ function Lesson({ config, group, unit, onNextUnit }: { config: Course; group: Ag
 
   return (
     <>
+      <LearningNotice />
       {/* ── ฉากห้องเรียน ── */}
       <div ref={stageRef} className="cls-stage mt-6 scroll-mt-4">
         {CLASSROOM_SCENE ? (

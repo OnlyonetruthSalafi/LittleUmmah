@@ -1,0 +1,42 @@
+.ls-badge { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; padding:8px 12px; color:#17364d; background:#fff8dc; border:2px solid #795312; border-radius:18px; font-size:16px; line-height:1.5; }
+.ls-copy small { display:block; font-size: .8em; }
+.ls-overlay { position:fixed; inset:0; z-index:100000; display:flex; align-items:center; justify-content:center; padding:12px; overflow:auto; background:rgba(10,30,45,.78); color:#17364d; }
+.ls-dialog { background:#fff; border:3px solid #c28a20; border-radius:24px; padding:20px; width:min(100%,620px); max-height:100%; overflow:auto; box-shadow:0 8px 32px #0004; text-align:center; }
+.ls-dialog h2 { font-size:24px; font-weight:800; }
+.ls-robot { width:130px; height:130px; object-fit:contain; margin:auto; }
+.ls-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; justify-content:center; }
+.ls-button { display:inline-flex; flex-direction:column; align-items:center; justify-content:center; min-height:64px; min-width:64px; padding:10px 18px; border:2px solid #17364d; border-radius:16px; color:#17364d; background:#e6f5fc; font-weight:700; line-height:1.5; cursor:pointer; text-decoration:none; }
+.ls-button { box-shadow:0 2px 4px #17364d26; transition:box-shadow 200ms ease-out, transform 200ms ease-out; }
+@media (hover:hover) { .ls-button:hover { box-shadow:0 6px 14px #17364d40; } }
+@media (prefers-reduced-motion:no-preference) and (hover:hover) { .ls-button:hover { transform:translateY(-2px); } }
+@media (prefers-reduced-motion:no-preference) { .ls-button:active { transform:scale(0.98); transition-duration:75ms; } }
+.ls-button:focus-visible,.ls-input:focus-visible,.ls-settings select:focus-visible { outline:4px solid #126395; outline-offset:4px; }
+.ls-parent .ls-button { min-height:48px; min-width:48px; }
+.ls-input { display:block; width:100%; min-height:48px; border:2px solid #17364d; border-radius:12px; padding:8px; text-align:center; margin-top:10px; }
+.ls-notice { position:fixed; bottom:12px; left:50%; transform:translateX(-50%); z-index:99999; width:max-content; max-width:calc(100vw - 24px); pointer-events:none; box-shadow:0 4px 16px #17364d30; }
+.ls-settings { color:#17364d; }
+.ls-settings section { margin-top:24px; padding:20px; border:2px solid #a5c6d8; border-radius:18px; background:#fff; }
+.ls-settings h2 { font-size:24px; font-weight:800; }
+.ls-settings p { margin:12px 0; line-height:1.7; }
+.ls-settings select { min-height:48px; border:2px solid #17364d; padding:8px; border-radius:12px; }
+/* Reserve room for the new round summary without pushing the start button off
+   small portrait screens. The original artwork and hit targets stay intact. */
+@media (max-width:639px) and (orientation:portrait) {
+  .gc-focus[data-status='idle'] .gc-adventure-scene { width:min(100%,230px); }
+  .gc-focus[data-status='idle'] .ls-badge { font-size:14px; padding:6px 8px; gap:4px 8px; }
+  .gc-focus[data-status='idle'] .ls-badge > .ls-copy:last-child { flex-basis:100%; text-align:center; }
+}
+@media (orientation:landscape) {
+  .gc-focus.gc-landscape[data-status='idle'] .gc-play-container > .ls-badge { position:absolute; top:0; left:var(--gc-rail); right:var(--gc-rail); z-index:35; font-size:14px; padding:4px 8px; }
+  .gc-focus.gc-landscape[data-status='idle'] .gc-adventure-intro { padding-top:76px; }
+}
+@media (max-height:500px) and (orientation:landscape) { .ls-dialog { padding:12px; } .ls-robot { width:72px; height:72px; float:left; } .ls-dialog h2 { font-size:20px; } .ls-actions { margin-top:10px; } }
+/* LS-2-fix1: ดาวหมด / ดาวดวงสุดท้าย / แถบหัวเกาะเกม */
+.ls-primary { background:#ffe7a3; border-color:#795312; }
+.ls-out { margin:12px auto 4px; max-width:520px; padding:14px 16px; border:2px solid #795312; border-radius:18px; background:#fff8dc; color:#17364d; text-align:center; display:grid; gap:8px; justify-items:center; }
+.ls-out-title { display:flex; align-items:center; gap:8px; font-size:20px; font-weight:800; }
+.ls-last { margin:6px auto; width:max-content; max-width:calc(100% - 24px); font-size:14px; line-height:1.4; padding:4px 10px; flex-wrap:nowrap; text-align:left; }
+.ls-last svg { flex:none; width:28px; height:28px; }
+.ls-hub-hint { margin:8px auto 0; width:max-content; max-width:calc(100% - 32px); }
+.gc-landscape[data-status='playing'] .ls-last { position:absolute; top:4px; left:50%; transform:translateX(-50%); z-index:30; pointer-events:none; }
+.ls-used { display:flex; align-items:center; gap:12px; } .ls-used strong { font-size:24px; }

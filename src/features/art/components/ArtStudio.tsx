@@ -1,5 +1,8 @@
 'use client';
 
+import { PlayArea } from '@/features/learning-stars/components';
+import { useLearningState } from '@/features/learning-stars/store';
+import { timeLocked } from '@/features/learning-stars/model';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
@@ -60,7 +63,7 @@ function coverPage(cover: HTMLElement) {
   const hidden: HTMLElement[] = [];
   for (let el: HTMLElement | null = cover; el && el !== document.body; el = el.parentElement) {
     for (const sibling of el.parentElement?.children ?? []) {
-      if (sibling !== el && sibling instanceof HTMLElement && !sibling.inert) { sibling.setAttribute('inert', ''); hidden.push(sibling); }
+      if (sibling !== el && sibling instanceof HTMLElement && !sibling.inert && !sibling.matches('.ls-overlay,.ls-notice')) { sibling.setAttribute('inert', ''); hidden.push(sibling); }
     }
   }
   return () => hidden.forEach(el => { el.removeAttribute('inert'); });
@@ -99,6 +102,8 @@ function Picker({ onPick }: { onPick: (picture: ArtPicture) => void }) {
 }
 
 function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void }) {
+  const learningState = useLearningState();
+  const timeUp = timeLocked(learningState);
   const { pick } = useDict();
   const audio = useGameAudio();
   const gated = usePortraitGate(true);
@@ -108,6 +113,7 @@ function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void })
   const heading = useRef<HTMLHeadingElement>(null);
   const stage = useRef<HTMLElement>(null);
   const surface = useRef<PaintSurfaceHandle>(null);
+  useEffect(() => { if (timeUp) surface.current?.end(); }, [timeUp]);
   const brush = useRef<HTMLDivElement>(null);
   const brushOrigin = useRef({ left: 0, top: 0 });
   const moveBrush = useCallback((point: Point | null) => {
@@ -140,7 +146,7 @@ function Board({ picture, onExit }: { picture: ArtPicture; onExit: () => void })
   return <section ref={stage} tabIndex={-1} className="art-stage art-board" aria-label={pick(picture.title)} data-finished={finished || undefined}
     onClickCapture={event => { if (surface.current?.isPainting()) { event.preventDefault(); event.stopPropagation(); } }}>
     <div className="art-board-inner" inert={gated}>
-      <span className="art-frame"><PaintSurface ref={surface} picture={picture} color={color.value} readOnly={finished || gated} onHistory={setHistoryCount} onBrush={moveBrush} /></span>
+      <span className="art-frame"><PaintSurface ref={surface} picture={picture} color={color.value} readOnly={finished || gated || timeUp} onHistory={setHistoryCount} onBrush={moveBrush} /></span>
       {finished
         ? <>
           <div className="art-result">
@@ -187,5 +193,5 @@ export function ArtStudio() {
   const [picture, setPicture] = useState<ArtPicture | null>(null);
   // การแตะรูปคือจังหวะเดียวที่เบราว์เซอร์ยอมให้เต็มจอ PC ไม่เปลี่ยน
   const open = (next: ArtPicture) => { enterGameFullscreen(); setPicture(next); };
-  return picture ? <Board key={picture.id} picture={picture} onExit={() => setPicture(null)} /> : <Picker onPick={open} />;
+  return <PlayArea>{picture ? <Board key={picture.id} picture={picture} onExit={() => setPicture(null)} /> : <Picker onPick={open} />}</PlayArea>;
 }

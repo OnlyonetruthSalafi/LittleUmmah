@@ -1,3 +1,4 @@
+import { HubStarsHint, LearningBalance, PlayArea } from '@/features/learning-stars/components';
 import { BackLink } from '@/components/ui/BackLink';
 import { OtherIslands } from '@/components/islands/OtherIslands';
 import { games } from '../data/catalog';
@@ -11,12 +12,13 @@ import '../games-hub.css';
 export function GameHub() {
   // เพิ่มหมวดได้จากข้อมูล หมวดว่างไม่ขึ้นทั้งใน Hero และรายการเกม
   const categories = GAME_CATEGORIES.filter(category => games.some(game => game.enabled && game.category === category.id));
-  return <div className="gh-page">
-    <div className="gh-utility"><BackLink />{SHOW_REWARD_STARS && <HubProgress />}</div>
+  return <PlayArea><div className="gh-page">
+    <div className="gh-utility"><BackLink /><LearningBalance />{SHOW_REWARD_STARS && <HubProgress />}</div>
+    <HubStarsHint />
     <GamesHero categories={categories} />
     {categories.map(category => <GameHubCategory key={category.id} category={category}
       games={games.filter(game => game.enabled && game.category === category.id)
         .sort((a, b) => category.order.indexOf(a.slug) - category.order.indexOf(b.slug))} />)}
     <OtherIslands current="games" />
-  </div>;
+  </div></PlayArea>;
 }

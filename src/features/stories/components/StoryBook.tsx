@@ -1,5 +1,7 @@
 "use client";
 
+import { awardLesson } from '@/features/learning-stars/store';
+import { LearningNotice } from '@/features/learning-stars/components';
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -134,6 +136,7 @@ export function StoryBook({ story }: { story: Story }) {
   const count = story.pages.length;
 
   const [spread, setSpread] = useState(-1);
+  useEffect(() => { if (spread === story.pages.length - 1) awardLesson(`story:${story.slug}`); }, [spread, story.slug, story.pages.length]);
   const [turn, setTurn] = useState<Turn | null>(null);
   const [auto, setAuto] = useState(false);
   /** นับว่าเด็กกดอะไรแล้วหรือยัง เบราว์เซอร์ไม่ให้เล่นเสียงก่อนผู้ใช้แตะจอ */
@@ -443,6 +446,7 @@ export function StoryBook({ story }: { story: Story }) {
       data-real={deluxe?.book ? "" : undefined}
       style={deluxe?.paper ? ({ "--sb-paper": `url(${deluxe.paper})` } as React.CSSProperties) : undefined}
     >
+      <LearningNotice />
       <div className="sb-stage">
         <div
           ref={bookRef}

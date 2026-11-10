@@ -16,12 +16,12 @@ export const SECTIONS: Section[] = [
     title: { th: "Little Ummah คืออะไร", en: "What is Little Ummah?" },
     body: [
       {
-        th: "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก แบ่งเป็นหกเกาะ: ภาษาอาหรับเบื้องต้น มารยาทและศีลธรรม เรื่องเล่า สำรวจโลก เกม และศิลปะ",
-        en: "An Islamic learning website for children, divided into six islands: Basic Arabic, Manners & Morals, Stories, Explore, Games, and Art.",
+        th: "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก มีหกเกาะที่เปิดใช้งาน: เรียนภาษาเบื้องต้น (อาหรับ อังกฤษ ไทย) มารยาทและศีลธรรม เรื่องเล่า สำรวจโลก เกม และศิลปะ",
+        en: "An Islamic learning website for children, with six available islands: Basic Languages (Arabic, English and Thai), Manners & Morals, Stories, Explore, Games, and Art.",
       },
       {
-        th: "ทุกเกาะมีเนื้อหาแยกสองช่วงวัย คือ 3-6 ปี (เรียนรู้ผ่านการเล่น ประโยคสั้น) และ 7 ปีขึ้นไป (อ่านเองได้ มีรายละเอียดมากขึ้น)",
-        en: "Every island has content for two age groups: 3–6 (learning through play, short sentences) and 7+ (reading on their own, with more detail).",
+        th: "มีเนื้อหาสำหรับวัย 3-6 ปี และวัย 7 ปีขึ้นไป บางเกาะแยกเนื้อหาตามวัย และบางกิจกรรมใช้ร่วมกันได้",
+        en: "Content is available for ages 3–6 and 7+. Some islands separate content by age, while some activities are shared.",
       },
     ],
   },
@@ -29,20 +29,20 @@ export const SECTIONS: Section[] = [
     title: { th: "แนวทางเนื้อหา", en: "Our content guidelines" },
     body: [
       {
-        th: "ไม่มีภาพใบหน้าของคนหรือสัตว์ ตัวละครนำทางเป็นหุ่นยนต์ และภาพประกอบส่วนใหญ่เป็นสิ่งของหรือธรรมชาติ ถ้ามีคนหรือสัตว์ในภาพ ใบหน้าจะว่างเปล่า ไม่มีตา จมูก ปาก (ดูหลักฐานในหัวข้อถัดไป)",
-        en: "There are no pictures of human or animal faces. Our guide character is a robot, and most illustrations show objects or nature. If a person or animal appears, the face is left blank, with no eyes, nose or mouth (see the evidence in the next section).",
+        th: "ภาพการ์ตูนของคนหรือสัตว์ใช้ใบหน้าว่าง ไม่มีตา จมูก ปาก และไม่มีส่วนที่สื่อสีหน้า ตัวละครนำทางคือหุ่นยนต์นูรี ดูตัวบท คำแปล และทัศนะที่ต่างได้ที่หน้าหลักฐาน",
+        en: "Cartoon people and animals have blank faces, with no eyes, nose, mouth or features that express a face. Our guide is Nuri the robot. See the evidence page for the original texts, translations and differing views.",
       },
       {
-        th: "ภาพถ่ายจริงใช้เฉพาะภาพสัตว์บนเกาะสำรวจโลก ในช่วงที่หุ่นยนต์สอนว่า “นี่คือสัตว์จริงๆ” เพื่อให้เด็กรู้จักสิ่งที่อัลลอฮ์ทรงสร้าง ไม่มีภาพถ่ายคน และไม่ใช้ภาพถ่ายเป็นภาพตกแต่ง (ดูหลักฐานในหัวข้อถัดไป)",
-        en: "Real photographs are used only for animals on Explore Island, at the moment the robot teaches “this is the real animal”, so children come to know what Allah has created. There are no photos of people, and photos are never used as decoration (see the evidence in the next section).",
+        th: "ภาพถ่ายจริงใช้เฉพาะภาพสัตว์บนเกาะสำรวจโลก ในช่วงที่หุ่นยนต์สอนว่า “นี่คือสัตว์จริงๆ” เพื่อให้เด็กรู้จักสิ่งที่อัลลอฮ์ทรงสร้าง ไม่มีภาพถ่ายคน และไม่ใช้ภาพถ่ายเป็นภาพตกแต่ง (ดูหลักฐานทั้งหมดได้ที่หน้าหลักฐาน)",
+        en: "Real photographs are used only for animals on Explore Island, at the moment the robot teaches “this is the real animal”, so children come to know what Allah has created. There are no photos of people, and photos are never used as decoration (see the full evidence on the evidence page).",
       },
       {
         th: "ไม่มีเสียงดนตรีหรือเพลงบรรเลง เสียงในเว็บมีเฉพาะเสียงพูด และเสียงประกอบสั้นๆ เช่น เสียงกดปุ่ม เสียงพลิกหน้าหนังสือ เสียงคลื่นและเสียงฝนในนิทาน",
         en: "There is no music or instrumental sound. The only sounds are speech and short sound effects, such as button taps, page turns, and waves and rain in the stories.",
       },
       {
-        th: "เรื่องเล่าใช้เนื้อหาจากอัลกุรอาน และไม่วาดภาพศาสดาหรือเศาะหาบะฮ์",
-        en: "The stories come from the Quran, and we never draw the Prophets or the Companions.",
+        th: "เรื่องเล่าใช้เนื้อหาจากอัลกุรอานและหะดีษเศาะฮีห์ และไม่วาดภาพศาสดาหรือเศาะหาบะฮ์",
+        en: "The stories come from the Quran and authentic hadith, and we never draw the Prophets or the Companions.",
       },
     ],
   },
@@ -58,21 +58,22 @@ export const SECTIONS: Section[] = [
         en: "Most audio is pre-recorded narration. The voice of Nuri the robot is made with speech-synthesis software (AI). Text without a recording uses your device's built-in English synthetic voice. If you hear nothing, check that an English voice is installed on the device.",
       },
       {
-        th: "คำภาษาอาหรับแสดงคำอ่านภาษาไทยกำกับไว้ เพราะเสียงสังเคราะห์อ่านอักษรอาหรับไม่ได้ ควรฝึกออกเสียงไปพร้อมกับลูก",
-        en: "Arabic words come with a reading guide, because synthetic voices cannot read Arabic script. Practise the pronunciation together with your child.",
+        th: "คำภาษาอาหรับบางส่วนมีคำอ่านภาษาไทยกำกับไว้ ควรฟังเสียงและฝึกออกเสียงไปพร้อมกับลูก",
+        en: "Some Arabic words have reading guides. Listen and practise pronunciation together with your child.",
       },
     ],
   },
   {
     title: { th: "ข้อมูลส่วนตัว", en: "Privacy" },
     body: [
+      { th: "ข้อมูลดาวเรียนรู้ใช้ lu-ls-stars เวลาและการปลดล็อกใช้ lu-ls-time ตัวนับเวลาร่วมใช้ lu-ls-clock และการตั้งค่าใช้ lu-settings การล้างความคืบหน้าไม่คืนดาวตั้งต้น ไม่คืนรอบฟรี และไม่ล้างเวลาใช้วันนี้หรือการตั้งค่า", en: "Learning Stars use lu-ls-stars, time and unlocks use lu-ls-time, the shared clock uses lu-ls-clock, and settings use lu-settings. Clearing progress does not restore starter stars or the free round, or clear today’s usage or settings." },
       {
         th: "เว็บนี้ใช้ฟรี ไม่มีโฆษณา ไม่มีการสมัครสมาชิก ไม่มีคุกกี้ และไม่มีระบบติดตามพฤติกรรม (analytics) ข้อมูลของเด็กไม่ถูกส่งออกจากเครื่อง",
         en: "This website is free, with no ads, no sign-up, no cookies and no behaviour tracking (analytics). Your child's data never leaves this device.",
       },
       {
-        th: "สิ่งที่เว็บจำไว้ในเบราว์เซอร์ของเครื่องนี้มีเท่านี้: การตั้งค่าเปิด/ปิดเสียง, ดาวจากการฝึกบนเกาะมารยาทและเกาะสำรวจโลก (วันที่ฝึก), ด่านเกมที่ผ่านแล้วพร้อมดาวและเวลาที่เล่นล่าสุด และสถานะ “ฟังคำแนะนำของหุ่นยนต์แล้ว” ซึ่งหายเองเมื่อปิดเบราว์เซอร์",
-        en: "The only things this website remembers in this device's browser are: the sound on/off setting, stars from practice on Manners Island and Explore Island (practice dates), game levels passed with their stars and the last time played, and the “robot guide already heard” status, which clears itself when the browser is closed.",
+        th: "สิ่งที่เว็บจำไว้ในเบราว์เซอร์ของเครื่องนี้: การตั้งค่าเปิด/ปิดเสียง, ดาวจากการฝึกบนเกาะมารยาทและเกาะสำรวจโลก (วันที่ฝึก), ด่านเกมที่ผ่านแล้วพร้อมดาวและเวลาที่เล่นล่าสุด อักษรที่เรียนแล้ว ดาวเรียนรู้และบทที่ได้ดาววันนี้ เครดิตรอบเล่น วันเล่นฟรี เวลาเล่นและการปลดล็อกวันนี้ การตั้งค่าดาวและเวลา รวมถึงสถานะให้ดาวตั้งต้นแล้ว และสถานะ “ฟังคำแนะนำของหุ่นยนต์แล้ว” ซึ่งหายเองเมื่อปิดเบราว์เซอร์",
+        en: "The things this website remembers in this device's browser are: the sound on/off setting, stars from practice on Manners Island and Explore Island (practice dates), game levels passed with their stars and the last time played, learned letters, Learning Stars and today’s rewarded lessons, round credit, free-round date, today’s play time and unlocks, star/time settings and the starter-star flag, and the “robot guide already heard” status, which clears itself when the browser is closed.",
       },
       {
         th: "เมื่อเปิดเว็บ ผู้ให้บริการเซิร์ฟเวอร์อาจบันทึกข้อมูลทางเทคนิคตามปกติของเว็บไซต์ทั่วไป เช่น หมายเลข IP และเวลาที่เข้าใช้ เว็บนี้ไม่ได้นำข้อมูลนั้นมาใช้ระบุตัวเด็ก",
@@ -83,6 +84,7 @@ export const SECTIONS: Section[] = [
   {
     title: { th: "คำแนะนำ", en: "Tips" },
     body: [
+      { th: "ชวนลูกเรียนก่อนเล่นเพื่อเก็บดาวเรียนรู้ ตั้งค่าเวลาเกาะเกมและศิลปะได้ตามที่ครอบครัวตกลงกัน และไปเกาะเรียนรู้ต่อได้เมื่อครบเวลา", en: "Encourage learning before play to collect Learning Stars. Agree on time for Games and Art as a family. Learning islands remain available when time is up." },
       {
         th: "นั่งเรียนไปพร้อมกับลูก ถามคำถามและชวนคุยต่อจากเนื้อหาในแต่ละการ์ด",
         en: "Sit and learn together with your child. Ask questions and keep the conversation going from each card.",

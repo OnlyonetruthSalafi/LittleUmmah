@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { ParentGate } from '@/components/parents/ParentGate';
+import { clearLearningProgress } from '@/features/learning-stars/store';
+import { STARS_KEY, SETTINGS_KEY, TIME_KEY, CLOCK_KEY } from '@/features/learning-stars/model';
 
 import { useDict } from "@/i18n/LocaleProvider";
 
@@ -17,8 +20,12 @@ import { UI } from "./content";
 const LOCAL_KEYS = ["lu-moral-progress", "lu-explore-progress"];
 const LOCAL_PREFIXES = ["little-ummah:games:"];
 const SESSION_KEYS = ["lu-moral-guide-seen", "lu-explore-guide-seen", "lu-stories-guide-seen"];
+// STARS_KEY is cleared through the store, preserving freeDay. Never remove the
+// once-only starter flag, today's play/free-round usage, or parental settings.
+export const LEARNING_STORAGE = { clear: [STARS_KEY], preserve: [SETTINGS_KEY, TIME_KEY, CLOCK_KEY] };
 
 function clearAll() {
+  clearLearningProgress();
   try {
     const local = window.localStorage;
     const keys = Array.from({ length: local.length }, (_, i) => local.key(i)).filter((k): k is string => k !== null);
@@ -33,6 +40,7 @@ function clearAll() {
 
 export function ClearProgress() {
   const [armed, setArmed] = useState(false);
+  const [gate, setGate] = useState(false);
   const { pick } = useDict();
   return (
     <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -44,8 +52,7 @@ export function ClearProgress() {
             setArmed(true);
             return;
           }
-          clearAll();
-          window.location.reload();
+          setGate(true);
         }}
         onBlur={() => setArmed(false)}
       >
@@ -54,6 +61,7 @@ export function ClearProgress() {
       <p className="text-ink-soft text-sm" aria-live="polite">
         {armed ? pick(UI.clearWarn) : ""}
       </p>
+      {gate && <ParentGate onClose={() => setGate(false)} onPass={() => { clearAll(); window.location.reload(); }} />}
     </div>
   );
 }

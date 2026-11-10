@@ -1,5 +1,8 @@
 "use client";
 
+import { beginRound, finishRound, read, useLearningState } from "@/features/learning-stars/store";
+import { isLastStar } from "@/features/learning-stars/model";
+import { LastStarBadge, LearningBalance, LearningNotice, LockScreen, StarsOutPanel, useBlockedReason, usePlayLimit, useStarsOut } from "@/features/learning-stars/components";
 import { fmt } from "@/i18n/dict";
 import { useDict } from "@/i18n/LocaleProvider";
 
@@ -29,6 +32,13 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
   const firstCard = useRef<HTMLButtonElement>(null);
   const winHeading = useRef<HTMLHeadingElement>(null);
   const won = matched.length === group.pairs;
+  const timeLocked = usePlayLimit(started && !won);
+  const [blocked, setBlocked] = useState<'time' | 'stars' | undefined>();
+  const denial = useBlockedReason(blocked);
+  const locked = timeLocked || !!denial;
+  const outOfStars = useStarsOut();
+  const learning = useLearningState();
+  const [lastStar, setLastStar] = useState(false);
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -41,6 +51,8 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
   }, [started]);
 
   function start() {
+    const before = read(); const denied = beginRound(); if (denied) { setBlocked(denied); return; } setBlocked(undefined);
+    setLastStar(previous => isLastStar(before, read()) || (previous && before.stars.activeRound));
     if (timer.current) clearTimeout(timer.current);
     // สุ่มตอนกดเริ่มเท่านั้น HTML จากเซิร์ฟเวอร์จึงตรงกับการแสดงผลครั้งแรก
     setRound(startMemoryRound(round));
@@ -68,6 +80,7 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
     timer.current = setTimeout(() => {
       if (isMatch) {
         const found = settleMemoryTurn(next).matched;
+        if (found.length === group.pairs) finishRound();
         speak(t.memoryGame.praise);
         setAnnouncement(found.length === group.pairs
           ? fmt(t.memoryGame.wonAnnouncement, { pairs: group.pairs, moves: next.moves })
@@ -80,9 +93,11 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
     }, 900);
   }
 
-  return <>
+  return <><div inert={locked}>
     <GameNavigation />
     <section className="mt-6 rounded-card scene-copy p-4 shadow-soft sm:p-8" aria-labelledby="memory-title">
+      {!started && <LearningBalance intro />}
+      {started && !won && lastStar && learning.available && learning.settings.starsEnabled && <LastStarBadge />}
       <div className="text-center">
         <h1 id="memory-title" className="font-display text-3xl font-extrabold sm:text-4xl">
           {t.memoryGame.title}
@@ -118,10 +133,11 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         </h2>
         <p className="mt-3">{t.memoryGame.complete}</p>
         {sub && <p lang="en" className="text-sm">{sub.memoryGame.complete}</p>}
+        {outOfStars && <StarsOutPanel />}
         <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <button onClick={start} className={gameButtonClass}>
+          {!outOfStars && <button onClick={start} className={gameButtonClass}>
             <span>{t.memoryGame.again}{sub && <span lang="en" className="ui-sub">{sub.memoryGame.again}</span>}</span>
-          </button>
+          </button>}
           <GameNavigation />
         </div>
       </div> : <div
@@ -159,5 +175,5 @@ export function MemoryGame({ ageGroup }: { ageGroup: AgeGroup }) {
         })}
       </div>}
     </section>
-  </>;
+  </div><LearningNotice />{locked && <LockScreen reason={timeLocked ? 'time' : denial!} onClose={() => setBlocked(undefined)} />}</>;
 }

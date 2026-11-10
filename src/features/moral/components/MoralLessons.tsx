@@ -1,5 +1,7 @@
 "use client";
 
+import { awardLesson } from '@/features/learning-stars/store';
+import { LearningNotice } from '@/features/learning-stars/components';
 import Image from "next/image";
 import { fmt } from "@/i18n/dict";
 import { useEffect, useRef, useState } from "react";
@@ -65,7 +67,7 @@ export function MoralSection({
   const { t, sub, pick, pickSub } = useDict();
   const lessons = groups.flatMap((group) => group.lessons);
   const progress = progressStore(progressKey);
-  const { markPractised } = progress;
+  const markPractised = (id: string) => { awardLesson(`${progressKey.includes('explore') ? 'explore' : 'moral'}:${id}`); progress.markPractised(id); };
   const { stars, doneToday, maxStars } = progress.useProgress();
   const { speak } = useSound();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -114,6 +116,7 @@ export function MoralSection({
 
   return (
     <section id={age} aria-labelledby={`age-${age}`} className={`mrl-section mrl-section-${age} scroll-mt-4`}>
+      {age === 'kids' && !cartoon && <LearningNotice />}
       <div className="mrl-section-head">
         <h2 id={`age-${age}`} className="mrl-age-badge font-display">
           <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-badge-art" />
