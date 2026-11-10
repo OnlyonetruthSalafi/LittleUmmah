@@ -48,13 +48,18 @@ function ageLabel(id: AgeId) {
   return g ? { th: g.name.th, en: g.name.en } : { th: id, en: id };
 }
 
-function BookFace({ book, tint }: { book: ShelfBook; tint: string }) {
+function BookFace({ book, tint, flying = false }: { book: ShelfBook; tint: string; flying?: boolean }) {
   const { t } = useDict();
   return (
     <span className="bs-book" style={{ "--tint": tint } as CSSProperties}>
       <span className="bs-cover">
         {book.cover ? (
-          <Image src={book.cover} alt="" fill sizes="(max-width: 639px) 120px, 200px" className="object-cover" />
+          <>
+            {/* ขนาดบนชั้นจริง (~46×63px บนมือถือ) — P1-4 ลดภาพปกจาก w256 */}
+            <Image src={book.cover} alt="" fill sizes="(max-width: 639px) 72px, (max-width: 1023px) 120px, 200px" className="object-cover" />
+            {/* ปกที่บินขยาย (~190px มือถือ, ~370px แท็บเล็ต): ภาพเล็กด้านล่างมีใน cache แล้วจึงไม่กระพริบ ภาพใหญ่ทับเมื่อโหลดเสร็จ */}
+            {flying && <Image src={book.cover} alt="" fill sizes="(max-width: 639px) 200px, 380px" className="object-cover" />}
+          </>
         ) : (
           <span className="bs-cover-art">
             <LessonIcon name={book.icon} className="bs-cover-icon" />
@@ -113,7 +118,7 @@ function FlyingBook({ flying, onDone }: { flying: Flying; onDone: () => void }) 
         className="bs-fly"
         style={{ left: from.left, top: from.top, width: from.width, height: from.height }}
       >
-        <BookFace book={flying.book} tint={flying.tint} />
+        <BookFace book={flying.book} tint={flying.tint} flying />
       </div>
     </div>
   );

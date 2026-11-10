@@ -33,6 +33,9 @@ export const arabic = ArabicFont({
   weight: ["400", "600", "700"],
   display: "swap",
   adjustFontFallback: true,
+  /* P1-4 (10 พ.ย. 2026): หน้าส่วนใหญ่ไม่มีอักษรอาหรับ preload ทุกหน้าแย่งเน็ตกับภาพ LCP 92KB
+     หน้าที่มีอาหรับยังโหลดเองเมื่อเจอตัวอักษร (display: swap) */
+  preload: false,
 });
 
 /** className ของ <html> ทุกหน้า รวม global-not-found */

@@ -131,7 +131,9 @@ export function MoralHero({
               alt=""
               width={512}
               height={512}
-              priority
+              sizes="(max-width: 1152px) 36vw, 420px"
+              /* ไม่ใช่ภาพ LCP (ภาพ LCP คือท้องฟ้า) — eager เพื่อไม่ให้ท่าโบกมือกระพริบตอนเริ่มทัวร์ แต่ไม่ preload แย่งคิว (P1-4) */
+              loading="eager"
               className={`mrl-guide-frame mrl-guide-${frame}`}
             />
           ))}
