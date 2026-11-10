@@ -20,6 +20,11 @@
 @media (max-height: 500px) and (min-width: 640px) {
   .brand-header:has(.brand-logo) > a:first-child { width: 352px; }
 }
+@media (orientation: landscape) and (max-height: 500px) and (width < 64rem) {
+  .brand-header:has(.brand-logo) { flex-direction: row; justify-content: space-between; gap: 12px; padding: 4px 16px 8px; }
+  .brand-header:has(.brand-logo) > a:first-child { width: min(240px, 32vw); }
+  .brand-header:has(.brand-logo) > div { position: static; align-self: center; }
+}
 @media (width >= 80rem) {
   .brand-header:has(.brand-logo) { flex-direction: row; justify-content: center; }
   .brand-header:has(.brand-logo) > div { position: absolute; right: 24px; top: 12px; }

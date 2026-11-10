@@ -1,0 +1,80 @@
+name: Post-deploy smoke
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      DEPLOYMENT_URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+      SMOKE_BASE_URL: ${{ vars.SMOKE_BASE_URL }}
+      VERCEL_PROJECT_SLUG: ${{ vars.VERCEL_PROJECT_SLUG }}
+      VERCEL_TEAM_SLUG: ${{ vars.VERCEL_TEAM_SLUG }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+    steps:
+      # No checkout or deployment-provided code runs with the optional secret.
+      - name: Check proxy, status and public metadata on five deployed pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          from urllib.parse import urlsplit
+          url = os.environ.get('DEPLOYMENT_URL') or os.environ.get('SMOKE_BASE_URL', '')
+          parsed = urlsplit(url)
+          allowed = urlsplit(os.environ.get('SMOKE_BASE_URL', '')).netloc
+          # Only this project's deployments may receive the bypass secret:
+          # the exact SMOKE_BASE_URL origin, or a preview host shaped
+          # <VERCEL_PROJECT_SLUG>-<hash>-<VERCEL_TEAM_SLUG>.vercel.app when both vars are set.
+          project = os.environ.get('VERCEL_PROJECT_SLUG', '').strip().lower()
+          team = os.environ.get('VERCEL_TEAM_SLUG', '').strip().lower()
+          host = (parsed.hostname or '').lower()
+          own_preview = bool(project and team and host.endswith('.vercel.app')
+              and host.startswith(project + '-') and host.endswith('-' + team + '.vercel.app'))
+          if (parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password
+              or parsed.query or parsed.fragment or parsed.path not in ('', '/')
+              or not (parsed.netloc == allowed or own_preview)):
+              raise SystemExit('Expected a Vercel deployment origin of this project or the configured SMOKE_BASE_URL origin')
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+              f.write('BASE_URL=' + url.rstrip('/') + '\n')
+          PY
+          args=()
+          if [[ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]]; then
+            args+=(-H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
+          fi
+          for route in / /learn/moral /learn/stories /parents /en; do
+            status=$(curl --silent --show-error --fail-with-body --retry 3 --retry-delay 2 \
+              --connect-timeout 10 --max-time 30 --proto '=https' \
+              "${args[@]}" --output page.html --write-out '%{http_code}' "$BASE_URL$route")
+            [[ "$status" == 200 ]] || { echo "Expected 200 for $route, got $status"; exit 1; }
+            ROUTE="$route" python3 - <<'PY'
+          import os
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit
+          class Metadata(HTMLParser):
+              lang = None
+              canonical = []
+              og = []
+              def handle_starttag(self, tag, attrs):
+                  a = dict(attrs)
+                  if tag == 'html': self.lang = a.get('lang')
+                  if tag == 'link' and 'canonical' in a.get('rel', '').split(): self.canonical.append(a.get('href', ''))
+                  if tag == 'meta' and a.get('property') == 'og:url': self.og.append(a.get('content', ''))
+          m = Metadata()
+          with open('page.html', encoding='utf-8') as f: m.feed(f.read())
+          route = os.environ['ROUTE']
+          assert m.lang == ('en' if route == '/en' else 'th'), f'{route}: incorrect html lang: {m.lang}'
+          assert len(m.canonical) == 1 and len(m.og) == 1, f'{route}: missing or duplicate canonical/og:url'
+          for url in m.canonical + m.og:
+              p = urlsplit(url)
+              assert p.scheme == 'https' and p.hostname and 'localhost' not in url.lower(), f'{route}: invalid public metadata'
+          print(f'PASS {route}: HTTP 200, lang={m.lang}, canonical/OG are public HTTPS URLs')
+          PY
+          done
