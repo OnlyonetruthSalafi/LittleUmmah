@@ -193,6 +193,8 @@
   pointer-events: none;
 }
 .bs-cell:nth-child(even) .bs-label { rotate: 2deg; }
+/* ชื่ออังกฤษชุดที่ 2 ยาว ให้ตัดตามช่องว่างโดยไม่เปลี่ยนการตัดชื่อไทยและตู้เดิม */
+.bs-stage[data-shelf="hadith2"] .bs-label[lang="en"] > .whitespace-nowrap { white-space: normal; }
 /* หนังสือเตี้ยลงให้มีที่ว่างเหนือเล่มสำหรับสติ๊กเกอร์ */
 .bs-cell .bs-book { height: 72%; }
 /* ตู้แคบช่องเตี้ย สติ๊กเกอร์คร่อมขอบบนของปก เหมือนติดไว้ที่หัวเล่ม */

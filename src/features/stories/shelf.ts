@@ -1,7 +1,7 @@
 import type { LessonIconName } from "@/components/icons/LessonIcon";
 import { ISLAND_CONTENT } from "@/lib/lessons";
 
-import { HADITH_SHELF, type HadithShelfEntry } from "./data/hadith";
+import { HADITH_SHELF, HADITH_SHELF_2, type HadithShelfEntry } from "./data/hadith";
 import { STORIES } from "./index";
 import type { Text } from "@/i18n/config";
 
@@ -35,7 +35,7 @@ export function shelfBooks() {
 }
 
 /* ตู้ "เรื่องจริงจากหะดีษ" — เล่มที่ยังไม่ ready เป็นปก CSS พร้อมแถบ "เร็วๆ นี้" */
-export function hadithShelfBooks() {
+function hadithBooks(shelf: typeof HADITH_SHELF) {
   const toBook = ({ story, icon, ready }: HadithShelfEntry): ShelfBook => ({
     id: story.slug,
     title: story.title,
@@ -43,7 +43,15 @@ export function hadithShelfBooks() {
     cover: ready ? story.cover : undefined,
     href: ready ? `/learn/stories/${story.slug}` : undefined,
   });
-  return { kids: HADITH_SHELF.kids.map(toBook), juniors: HADITH_SHELF.juniors.map(toBook) };
+  return { kids: shelf.kids.map(toBook), juniors: shelf.juniors.map(toBook) };
+}
+
+export function hadithShelfBooks() {
+  return hadithBooks(HADITH_SHELF);
+}
+
+export function hadithShelf2Books() {
+  return hadithBooks(HADITH_SHELF_2);
 }
 
 type Rect = { l: number; r: number; t: number; b: number };

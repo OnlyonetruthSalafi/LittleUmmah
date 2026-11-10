@@ -139,6 +139,7 @@ export async function renderRobotLines(lines, outDir, only = [], { languageCode 
   mkdirSync(outDir, { recursive: true });
 
   let chars = 0;
+  const nabi = [];
   for (const key of keys) {
     const text = lines[key];
     if (!text) throw new Error(`ไม่รู้จักคลิปชื่อ ${key}`);
@@ -152,8 +153,24 @@ export async function renderRobotLines(lines, outDir, only = [], { languageCode 
     rmSync(raw, { force: true });
     chars += text.length;
     console.log(`${key}.mp3  (${text.length} ตัวอักษร)`);
+    const count = text.split("ท่านนบี ﷺ").length - 1;
+    const rel = path.relative(path.join(process.cwd(), "public/audio/th"), outFile).replaceAll("\\", "/");
+    // เทคทดลอง (--takes ลง output/) ยังไม่ใช่ไฟล์จริง: เลือกเทคแล้วก๊อปเข้า public/audio/th ก่อนค่อยต่อเสียง
+    if (count) nabi.push(rel.startsWith("..") ? { trial: outFile } : rel + (count > 1 ? `:${count}` : ""));
   }
 
   console.log(`\nเสร็จ ${keys.length} ไฟล์ รวม ${chars} ตัวอักษรของโควตา ElevenLabs`);
   console.log("ต้องให้เจ้าของโปรเจกต์ฟังและอนุมัติก่อน commit (AGENTS.md ข้อ 1.3)");
+  if (nabi.length) {
+    // เจ้าของโปรเจกต์สั่ง 10 พ.ย. 2026: ทุกที่ที่อ่าน "ท่านนบี ﷺ" ใช้เสียงเดียวกัน คือ scripts/voice-assets/nabi-salawat.wav
+    // (ตัดจากเทค ar3 ของ stories/water-fingers/p02.mp3) ห้ามใช้ท่อนที่ TTS อ่านใหม่
+    const real = nabi.filter((n) => typeof n === "string");
+    const trial = nabi.filter((n) => typeof n !== "string");
+    console.log(`\nมี "ท่านนบี ﷺ" ใน ${nabi.length} คลิป ต้องต่อเสียงมาตรฐานแทนก่อน commit:`);
+    if (real.length) {
+      console.log(`  D:/tools/thai-asr/.venv/Scripts/python D:/tools/thai-asr/nabi_splice.py . output/nabi-splice ${real.join(" ")}`);
+      console.log("  แล้วก๊อปไฟล์จาก output/nabi-splice/ ไปทับ public/audio/th/");
+    }
+    if (trial.length) console.log("  เทคทดลองต่อไปนี้ เลือกเทคแล้วก๊อปเข้า public/audio/th ก่อน จึงค่อยต่อเสียง:\n    " + trial.map((n) => n.trial).join("\n    "));
+  }
 }

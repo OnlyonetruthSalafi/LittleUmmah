@@ -53,8 +53,8 @@ export const WATER_FINGERS_STORY: Story = {
       fx: "rays",
       ambience: "spring",
       alt: { th: "น้ำใสพุ่งขึ้นจากภาชนะใบเล็กเป็นหลายสาย เปล่งประกาย", en: "Clear water rising from the small vessel in many sparkling streams" },
-      th: "ท่านนบีวางมือลงในภาชนะ แล้วน้ำก็พุ่งออกมาจากระหว่างนิ้วของท่าน เหมือนตาน้ำหลายๆ ตา",
-      en: "The Prophet placed his hand in the vessel, and water began to gush out from between his fingers, like many springs.",
+      th: "ท่านนบี ﷺ วางมือลงในภาชนะ แล้วน้ำก็พุ่งออกมาจากระหว่างนิ้วของท่าน เหมือนตาน้ำหลายๆ ตา",
+      en: "The Prophet ﷺ placed his hand in the vessel, and water began to gush out from between his fingers, like many springs.",
     },
     {
       // PROMPT: ถ้วยและถุงน้ำหนังหลายใบเต็มไปด้วยน้ำ หยดน้ำระยิบ เต็นท์ด้านหลัง ไม่มีคน

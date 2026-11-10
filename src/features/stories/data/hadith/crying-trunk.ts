@@ -54,8 +54,8 @@ export const CRYING_TRUNK_STORY: Story = {
       fx: "shade",
       ambience: "wind",
       alt: { th: "ลำต้นอินทผลัมมีแสงสั่นไหวรอบๆ อยู่ห่างจากมิมบัร", en: "The palm trunk with light trembling around it, a little away from the minbar" },
-      th: "เมื่อถึงวันศุกร์ ท่านนบีขึ้นไปยืนบนมิมบัร ต้นอินทผลัมก็ร้องเสียงดัง เหมือนเด็กเล็กๆ ร้องไห้",
-      en: "When Friday came, the Prophet stood on the minbar, and the palm trunk cried out loudly, like a little child crying.",
+      th: "เมื่อถึงวันศุกร์ ท่านนบี ﷺ ขึ้นไปยืนบนมิมบัร ต้นอินทผลัมก็ร้องเสียงดัง เหมือนเด็กเล็กๆ ร้องไห้",
+      en: "When Friday came, the Prophet ﷺ stood on the minbar, and the palm trunk cried out loudly, like a little child crying.",
     },
     {
       // PROMPT: ลำต้นอินทผลัมห่อหุ้มด้วยแสงอุ่นนุ่มนวล สงบลง ไม่มีคน ไม่มีมือ ไม่มีแขน

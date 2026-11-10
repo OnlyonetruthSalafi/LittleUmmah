@@ -141,7 +141,7 @@ function AgeSign({ id, headingId, className, style }: { id: AgeId; headingId: st
   จึงให้ขึ้นบรรทัดได้เฉพาะหน้าคำที่กำหนด (ไม่ตัดหน้าคำแรกของชื่อ และไม่แยก "เจ้า|ของ")
   ชื่อหนังสือใหม่ที่ยาวแต่ไม่มีคำเหล่านี้ ให้เพิ่มคำในรายการ
 */
-const BREAK_BEFORE = /(?<=.)(?=กับ|(?<!เจ้า)ของ|ใน|บน|ข้าม|ผู้|เจ้า|สอง|ลำ|นบี|ที่|จาก|ให้|ร้อง|สำหรับ|ตัดสิน)/;
+const BREAK_BEFORE = /(?<=.)(?=กับ|(?<!เจ้า)ของ|ใน|บน|ข้าม|ผู้|เจ้า|สอง|ลำ|นบี|ที่|จาก|ให้|ร้อง|สำหรับ|ตัดสิน|เพราะ|เพื่อ)/;
 function labelParts(title: string) {
   return title.split(BREAK_BEFORE);
 }
@@ -168,7 +168,7 @@ function BookCell({
   // ป้ายชื่อเป็นสติ๊กเกอร์เหนือเล่ม — คนที่ปิดเสียงก็รู้ว่าเล่มไหนเรื่องอะไร (อนุมัติ 15 ต.ค. 2026, ย้ายเหนือเล่ม 9 พ.ย. 2026)
   // ป้ายนี้เป็นชื่อที่ screen reader อ่านด้วย "เร็วๆ นี้" อ่านเฉพาะ screen reader
   const label = (
-    <span className="bs-label">
+    <span className="bs-label" lang={locale}>
       {(locale === "th" ? labelParts(pick(book.title)) : [pick(book.title)]).map((part, i) => (
         <Fragment key={i}>
           {i > 0 && <wbr />}
@@ -337,11 +337,11 @@ function Shelf({
 
 /*
   ใช้ได้หลายตู้บนหน้าเดียว (เรื่องจริงจากอัลกุรอาน / เรื่องจริงจากหะดีษ — เจ้าของโปรเจกต์สั่งแยกตู้ 9 พ.ย. 2026)
-  shelf = ชื่อตู้ใน dict (t.stories.shelf.title / hadithTitle)
+  shelf = ชื่อตู้ใน dict (t.stories.shelf.title / hadithTitle / hadith2Title)
 */
-export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[]; juniors: ShelfBook[]; shelf?: "quran" | "hadith" }) {
+export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[]; juniors: ShelfBook[]; shelf?: "quran" | "hadith" | "hadith2" }) {
   const { t, sub, pick: pickText } = useDict();
-  const key = shelf === "hadith" ? "hadithTitle" : "title";
+  const key = shelf === "hadith2" ? "hadith2Title" : shelf === "hadith" ? "hadithTitle" : "title";
   const title = { th: t.stories.shelf[key], en: sub?.stories.shelf[key] };
   const router = useRouter();
   const toLocale = useLocalePath();

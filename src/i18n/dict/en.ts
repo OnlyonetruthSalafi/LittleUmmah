@@ -130,6 +130,7 @@ export const en: Dictionary = {
       metadataTitle: "Stories Island",
       title: "True Stories from the Quran",
       hadithTitle: "True Stories from the Hadith",
+      hadith2Title: "True Stories from the Hadith 2",
       back: "Stories",
       label: "Story bookshelf",
       soon: "Coming soon",
