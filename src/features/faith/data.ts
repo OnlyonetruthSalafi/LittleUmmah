@@ -18,7 +18,7 @@ import type { Lesson } from "@/lib/lessons";
   - ثلاثة الأصول https://shamela.ws/book/239/10 — أنواع العبادة: الدعاء والخوف والرجاء والتوكل ...
   - มุสลิม 537 https://shamela.ws/book/1727/1146 — «أين الله؟» قالت: في السماء. قال: «من أنا؟» قالت: أنت رسول الله. قال: «أعتقها فإنها مؤمنة»
   - มุสลิม 8 (หะดีษญิบรีล) https://shamela.ws/book/1727/62 — อิสลาม 5 (ฮัจญ์ «إن استطعت إليه سبيلا»), อีมาน 6
-    («وتؤمن بالقدر خيره وشره»), อิหสาน «أن تعبد الله كأنك تراه فإن لم تكن تراه فإنه يراك», ท้ายหะดีษ «فإنه جبريل أتاكم يعلمكم دينكم»
+    («وتؤمن بالقدر خيره وشره»), เอี๊ยะซาน «أن تعبد الله كأنك تراه فإن لم تكن تراه فإنه يراك», ท้ายหะดีษ «فإنه جبريل أتاكم يعلمكم دينكم»
   - บุคอรี 8 https://shamela.ws/book/1681/19 — «بني الإسلام على خمس»
   - บุคอรี 46 https://shamela.ws/book/1681/89 — «خمس صلوات في اليوم والليلة»
   - มุสลิม 2996 https://shamela.ws/book/1727/7427 — «خلقت الملائكة من نور»
@@ -29,7 +29,7 @@ import type { Lesson } from "@/lib/lessons";
     16:50 คำแปลไทยฉบับนี้แปลว่า "ผู้ทรงอำนาจเหนือ" ซึ่งเป็นการตีความ จึงใช้เป็นหลักฐานของคำว่า "เหนือ" เท่านั้น ไม่ยกคำแปล
 
   ถ้อยคำอะกีดะฮ์ (handoff 2026-11-10 ข้อ 2.3):
-  - في السماء = "เบื้องสูง เหนือฟ้า" ห้ามเขียน "ในท้องฟ้า" · ห้าม "อัลลอฮ์อยู่ทุกที่" ทุกกรณี
+  - في السماء = "เบื้องสูง เหนือชั้นฟ้าทั้งมวล" ห้ามเขียน "ในท้องฟ้า" · ห้าม "อัลลอฮ์อยู่ทุกที่" ทุกกรณี
     คำถาม "อัลลอฮ์เห็นหนูไหม" ตอบด้วยการรู้ การเห็น การได้ยิน · อิสติวาอ์: "ในแบบที่เหมาะสมกับพระองค์ ไม่ถามว่าเป็นอย่างไร" + 42:11
   - ชะฮาดะฮ์ = "ไม่มีผู้ใดสมควรได้รับการเคารพภักดีโดยชอบธรรม นอกจากอัลลอฮ์" · สรรพนามของอัลลอฮ์ = "พระองค์" ("ท่าน" ใช้กับนบี)
   - ชื่อนบีมุฮัมมัดมี ﷺ ทุกครั้ง (เสียง: ต่อคลิปมาตรฐาน scripts/voice-assets — memory nabi-salawat-standard-clip)
@@ -76,7 +76,7 @@ export const GUIDE_STEPS: GuideStep[] = [
     clip: "faith-juniors",
     pose: "point",
     focus: "juniors",
-    th: "พี่ๆ 7 ขวบขึ้นไป กดปุ่มสีเขียว ไปเรียนหลักพื้นฐานของอิสลาม อีมาน และอิหสาน",
+    th: "พี่ๆ 7 ขวบขึ้นไป กดปุ่มสีเขียว ไปเรียนหลักพื้นฐานของอิสลาม อีมาน และเอี๊ยะซาน",
     en: "Ages 7+: tap the green button to learn the foundations of Islam, iman and ihsan.",
     ms: 6000,
   },
@@ -103,7 +103,7 @@ export const LESSONS: Record<AgeId, Lesson[]> = {
     { id: "faith-rabbi", icon: "globe", title: { th: "ใครคือพระเจ้าของหนู", en: "Who is your Lord?" }, body: { th: "พระเจ้าของหนูคืออัลลอฮ์ ผู้ทรงสร้างและดูแลทุกสิ่ง", en: "My Lord is Allah, who created and cares for everything." } },
     { id: "faith-dini", icon: "mat", title: { th: "ศาสนาของหนูคืออะไร", en: "What is your religion?" }, body: { th: "ศาสนาของหนูคืออิสลาม", en: "My religion is Islam." } },
     { id: "faith-nabiyyi", icon: "mushaf", title: { th: "นบีของหนูคือใคร", en: "Who is your Prophet?" }, body: { th: "นบีของหนูคือท่านนบีมุฮัมมัด ﷺ", en: "My Prophet is Muhammad ﷺ." } },
-    { id: "faith-aina", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือฟ้า และทรงเห็นหนูเสมอ", en: "Allah is above, over the heavens, and He always sees you." } },
+    { id: "faith-aina", icon: "cloud", title: { th: "อัลลอฮ์ทรงอยู่ที่ไหน", en: "Where is Allah?" }, body: { th: "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล และทรงเห็นหนูเสมอ", en: "Allah is above, over all the heavens, and He always sees you." } },
     { id: "faith-khaliq", icon: "mountain", title: { th: "ใครสร้างทุกสิ่ง", en: "Who created everything?" }, body: { th: "อัลลอฮ์ทรงสร้างทุกสิ่ง เรากราบอัลลอฮ์องค์เดียว", en: "Allah created everything, so we prostrate to Allah alone." } },
     { id: "faith-dua", icon: "lantern", title: { th: "เราขอดุอาอ์จากใคร", en: "Whom do we ask in du'a?" }, body: { th: "เราขอดุอาอ์จากอัลลอฮ์องค์เดียว พระองค์ทรงได้ยินเราเสมอ", en: "We make du'a to Allah alone. He always hears us." } },
   ],
@@ -113,7 +113,7 @@ export const LESSONS: Record<AgeId, Lesson[]> = {
     { id: "faith-shahada", icon: "heart", title: { th: "ความหมายของลาอิลาฮะอิลลัลลอฮ์", en: "The meaning of La ilaha illallah" }, body: { th: "ไม่มีผู้ใดสมควรได้รับการเคารพภักดีโดยชอบธรรม นอกจากอัลลอฮ์", en: "None has the right to be worshipped except Allah." } },
     { id: "faith-islam", icon: "kaaba", title: { th: "รุก่นอิสลามห้าประการ", en: "The five pillars of Islam" }, body: { th: "ปฏิญาณตน ละหมาด ซะกาต ถือศีลอด และฮัจญ์", en: "The testimony, prayer, zakah, fasting and Hajj." } },
     { id: "faith-iman", icon: "moon", title: { th: "รุก่นอีมานหกประการ", en: "The six pillars of iman" }, body: { th: "ศรัทธาต่ออัลลอฮ์ มลาอิกะฮ์ คัมภีร์ ร่อซูล วันสุดท้าย และกอดัร", en: "Belief in Allah, His angels, books, messengers, the Last Day and the decree." } },
-    { id: "faith-ihsan", icon: "heart", title: { th: "อิหสาน", en: "Ihsan" }, body: { th: "เคารพภักดีอัลลอฮ์เสมือนว่าเราเห็นพระองค์", en: "Worshipping Allah as though we see Him." } },
+    { id: "faith-ihsan", icon: "heart", title: { th: "เอี๊ยะซาน", en: "Ihsan" }, body: { th: "เคารพภักดีอัลลอฮ์เสมือนว่าเราเห็นพระองค์", en: "Worshipping Allah as though we see Him." } },
   ],
 };
 
@@ -220,17 +220,17 @@ export const CARTOONS: Record<string, Cartoon> = {
         "หนูรู้ไหม อัลลอฮ์ทรงอยู่ที่ไหน",
         "Do you know where Allah is?"),
       scene(SKY, "faith-k-aina-2", "point",
-        "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือฟ้าทั้งหมด สูงกว่าทุกสิ่ง",
+        "อัลลอฮ์ทรงอยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล สูงกว่าทุกสิ่ง",
         "Allah is above, over all the heavens, higher than everything."),
       scene(SKY, "faith-k-aina-3", "point",
-        "ท่านนบี ﷺ เคยถามผู้หญิงคนหนึ่งว่า อัลลอฮ์อยู่ที่ไหน นางตอบว่า อยู่เบื้องสูง เหนือฟ้า ท่านนบี ﷺ บอกว่า นางเป็นผู้ศรัทธา",
-        "The Prophet ﷺ once asked a woman, \"Where is Allah?\" She said, \"Above the heavens.\" The Prophet ﷺ said she was a believer."),
+        "ท่านนบี ﷺ เคยถามผู้หญิงคนหนึ่งว่า อัลลอฮ์อยู่ที่ไหน นางตอบว่า อยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล ท่านนบี ﷺ บอกว่า นางเป็นผู้ศรัทธา",
+        "The Prophet ﷺ once asked a woman, \"Where is Allah?\" She said, \"Above all the heavens.\" The Prophet ﷺ said she was a believer."),
       scene(GARDEN, "faith-k-aina-4", "point",
         "อัลลอฮ์ทรงอยู่เบื้องสูง แต่ทรงเห็นและทรงได้ยินหนูเสมอ ไม่มีอะไรซ่อนจากพระองค์ได้",
         "Allah is above, yet He always sees you and hears you. Nothing is hidden from Him."),
       say(CLASS, "faith-k-aina-5", FISSAMA,
-        "ถ้ามีคนถามว่า อัลลอฮ์อยู่ที่ไหน ให้ตอบว่า ฟิสสะมาอ์ แปลว่า อยู่เบื้องสูง เหนือฟ้า มาพูดตามครูนะ",
-        "If someone asks where Allah is, answer: Fis-sama, meaning \"above the heavens\". Say it with me."),
+        "ถ้ามีคนถามว่า อัลลอฮ์อยู่ที่ไหน ให้ตอบว่า ฟิสสะมาอ์ แปลว่า อยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล มาพูดตามครูนะ",
+        "If someone asks where Allah is, answer: Fis-sama, meaning \"above all the heavens\". Say it with me."),
     ],
   },
 
@@ -304,8 +304,8 @@ export const CARTOONS: Record<string, Cartoon> = {
         "มีคำถามหนึ่งที่ท่านนบี ﷺ เคยถาม คือ อัลลอฮ์อยู่ที่ไหน",
         "There is a question the Prophet ﷺ once asked: where is Allah?"),
       scene(SKY, "faith-j-aina-2", "point",
-        "ผู้หญิงคนหนึ่งตอบว่า ฟิสสะมาอ์ คืออยู่เบื้องสูง เหนือฟ้า ท่านนบี ﷺ บอกว่า นางเป็นผู้ศรัทธา",
-        "A woman answered, \"Fis-sama\", meaning above the heavens. The Prophet ﷺ said she was a believer."),
+        "ผู้หญิงคนหนึ่งตอบว่า ฟิสสะมาอ์ คืออยู่เบื้องสูง เหนือชั้นฟ้าทั้งมวล ท่านนบี ﷺ บอกว่า นางเป็นผู้ศรัทธา",
+        "A woman answered, \"Fis-sama\", meaning above all the heavens. The Prophet ﷺ said she was a believer."),
       scene(SKY, "faith-j-aina-3", "point",
         "อัลกุรอานบอกว่า ผู้ทรงกรุณาปรานี ทรงสถิตอยู่บนบัลลังก์",
         "The Quran says: \"The Most Merciful above the Throne established.\""),
@@ -361,8 +361,11 @@ export const CARTOONS: Record<string, Cartoon> = {
         "สอง ดำรงการละหมาด วันละห้าเวลา",
         "Two: establishing the prayer, five times every day and night."),
       scene(PILLARS, "faith-j-islam-4", "point",
-        "สาม จ่ายซะกาต และสี่ ถือศีลอดในเดือนเราะมะฎอน",
-        "Three: giving zakah. Four: fasting in Ramadan."),
+        "สาม จ่ายซะกาต",
+        "Three: giving zakah."),
+      scene(PILLARS, "faith-j-islam-4b", "point",
+        "สี่ ถือศีลอดในเดือนเราะมะฎอน",
+        "Four: fasting in Ramadan."),
       scene(PILLARS, "faith-j-islam-5", "point",
         "ห้า ไปทำฮัจญ์ที่บัยตุลลอฮ์ สำหรับคนที่มีความสามารถ",
         "Five: performing Hajj to the House of Allah, for those who are able."),
@@ -387,9 +390,21 @@ export const CARTOONS: Record<string, Cartoon> = {
       scene(NIGHT, "faith-j-iman-4", "point",
         "มลาอิกะฮ์ถูกสร้างจากแสง ตามปกติเรามองไม่เห็นพวกเขา แต่เราเชื่อตามที่อัลลอฮ์และท่านนบี ﷺ บอก",
         "The angels were created from light. Normally we cannot see them, but we believe what Allah and the Prophet ﷺ told us."),
+      // เจ้าของโปรเจกต์ 10 พ.ย. 2026: เพิ่ม "ทรงรู้ และให้เกิดขึ้นตามความประสงค์ของพระองค์" + ความประสงค์สองแบบ
+      // ใช้ "ทรงให้เกิดขึ้น" ไม่ใช้ "ทรงอนุญาต" — ภาษาไทย "อนุญาต" ฟังเหมือนทรงยินยอม/รับรองความชั่ว (ปนกับ إرادة شرعية)
+      // ระดับของกอดัร: ทรงรู้ (علم) ทรงบันทึก (كتابة) ทรงประสงค์ (مشيئة) ทรงสร้าง (خلق) — มุสลิม 2653 «كتب الله مقادير الخلائق قبل أن يخلق السماوات والأرض بخمسين ألف سنة»
+      // ความประสงค์สองแบบ: الإرادة الكونية (ทุกสิ่งที่เกิดขึ้น ทั้งดีและไม่ดี) / الإرادة الشرعية (สิ่งที่ทรงรักและทรงสั่งใช้)
+      //   อัลกุรอาน 81:29 (ความประสงค์ที่ครอบคลุมทุกสิ่ง) · 39:7 (ไม่ทรงพอพระทัยการปฏิเสธศรัทธา) — ไม่ยกคำแปลในฉาก
+      //   อิบนุ ตัยมิยะฮ์ อัลอะกีดะฮ์ อัลวาสิฏิยะฮ์ / อิบนุ อุษัยมีน ชัรห์ — TODO(Claude): ยืนยันหน้าใน Shamela (MCP โดน rate limit 10 พ.ย.) ก่อนใส่ทะเบียนหลักฐาน
       scene(GARDEN, "faith-j-iman-5", "point",
-        "กอดัร คือ ทุกสิ่งเกิดขึ้นตามที่อัลลอฮ์ทรงรู้และทรงกำหนดไว้",
-        "The decree means everything happens as Allah knows and has decreed."),
+        "การศรัทธาต่อกอดัร คือเชื่อว่า ทุกสิ่งที่เกิดขึ้น เกิดตามที่อัลลอฮ์ทรงรู้และทรงบันทึกไว้ และพระองค์ทรงให้มันเกิดขึ้นตามความประสงค์ของพระองค์ ไม่มีสิ่งใดเกิดขึ้นได้ ถ้าพระองค์ไม่ทรงประสงค์",
+        "Believing in the decree means believing that everything that happens, happens as Allah knows and has written, and He makes it happen by His will. Nothing can happen unless He wills it."),
+      scene(SKY, "faith-j-iman-5b", "point",
+        "ความประสงค์ของอัลลอฮ์มีสองแบบ แบบแรก คือสิ่งที่พระองค์ทรงให้เกิดขึ้นในโลก ทั้งสิ่งดีและสิ่งไม่ดี แบบที่สอง คือสิ่งที่พระองค์ทรงรักและทรงสั่งใช้ นั่นคือความดีเท่านั้น",
+        "Allah's will is of two kinds. The first is what He makes happen in the world, both good and bad. The second is what He loves and commands, and that is only good."),
+      scene(GARDEN, "faith-j-iman-5c", "wave",
+        "อัลลอฮ์ไม่ทรงรักความชั่ว แม้มันจะเกิดขึ้นได้ เมื่อเจอเรื่องไม่ดี เราอดทน และเราเลือกทำความดีที่อัลลอฮ์ทรงรัก",
+        "Allah does not love evil, even though it can happen. When something bad happens, we are patient, and we choose the good that Allah loves."),
       scene(CLASS, "faith-j-iman-6", "wave",
         "หกข้อนี้คือรุก่นอีมาน",
         "These six are the pillars of iman."),
@@ -400,7 +415,7 @@ export const CARTOONS: Record<string, Cartoon> = {
   "faith-ihsan": {
     scenes: [
       scene(CLASS, "faith-j-ihsan-1", "wave",
-        "ญิบรีลถามท่านนบี ﷺ อีกข้อหนึ่งว่า อิหสานคืออะไร",
+        "ญิบรีลถามท่านนบี ﷺ อีกข้อหนึ่งว่า เอี๊ยะซานคืออะไร",
         "Jibril asked the Prophet ﷺ another question: what is ihsan?"),
       scene(CLASS, "faith-j-ihsan-2", "point",
         "ท่านนบี ﷺ ตอบว่า คือการเคารพภักดีอัลลอฮ์เสมือนว่าเธอเห็นพระองค์ ถ้าเธอไม่เห็นพระองค์ แท้จริงพระองค์ทรงเห็นเธอ",
@@ -412,7 +427,7 @@ export const CARTOONS: Record<string, Cartoon> = {
         "เราทำความดีแม้ไม่มีใครเห็น เพราะอัลลอฮ์ทรงเห็นเราเสมอ",
         "We do good even when no one is watching, because Allah always sees us."),
       scene(CLASS, "faith-j-ihsan-5", "wave",
-        "อิสลาม อีมาน และอิหสาน คือศาสนาที่ญิบรีลมาสอนเรา",
+        "อิสลาม อีมาน และเอี๊ยะซาน คือศาสนาที่ญิบรีลมาสอนเรา",
         "Islam, iman and ihsan: this is the religion Jibril came to teach us."),
     ],
   },
