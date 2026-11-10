@@ -67,7 +67,7 @@ export function MoralSection({
   const { t, sub, pick, pickSub } = useDict();
   const lessons = groups.flatMap((group) => group.lessons);
   const progress = progressStore(progressKey);
-  const markPractised = (id: string) => { awardLesson(`${progressKey.includes('explore') ? 'explore' : 'moral'}:${id}`); progress.markPractised(id); };
+  const markPractised = (id: string) => { awardLesson(`${progressKey.includes('explore') ? 'explore' : progressKey === 'lu-faith-progress' ? 'faith' : 'moral'}:${id}`); progress.markPractised(id); };
   const { stars, doneToday, maxStars } = progress.useProgress();
   const { speak } = useSound();
   const dialogRef = useRef<HTMLDialogElement>(null);

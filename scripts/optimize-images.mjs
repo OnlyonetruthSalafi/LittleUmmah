@@ -70,6 +70,8 @@ const JOBS = [
   { dir: "public/moral/scenes", width: 1600, quality: 80 },
   // เกาะสำรวจโลก: การ์ดและภาพเกาะหัวหน้าแบบเดียวกับเกาะมารยาท, ฉากการ์ตูนถิ่นที่อยู่ของสัตว์ (docs/briefs/archive/CODEX_EXPLORE_BRIEF.md)
   // ภาพถ่ายสัตว์จริงใน public/explore/photos เป็น WebP จาก Wikimedia Commons อยู่แล้ว ไม่ผ่านขั้นนี้
+  { dir: "public/faith", width: 1100, quality: 84 },
+  { dir: "public/faith/scenes", width: 1536, quality: 80 },
   { dir: "public/explore", width: 1100, quality: 84 },
   { dir: "public/explore/scenes", width: 1600, quality: 80 },
   { dir: "public/BG", width: 1920, quality: 80 },

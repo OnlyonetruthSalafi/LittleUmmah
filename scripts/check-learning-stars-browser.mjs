@@ -53,7 +53,7 @@ try {
   await solve();check('result without stars shows go-learn panel and hides next/again',await page.locator('[data-ls-out]').isVisible()&&await page.locator('.gc-result-actions button').count()===0);await shot1('fix1-result-out');
   await goto('/games');check('hub says go learn first when out of stars',await page.locator('[data-ls-hub=empty] a').count()===1);await shot1('fix1-hub-empty');
   await goto('/games/memory');await page.locator('.gc-adventure-start').click();
-  await page.locator('[data-ls-lock=stars]').waitFor();check('empty-stars screen tells the child to go learn first',(await page.locator('[data-ls-lock=stars]').textContent()).includes('ไปเรียนที่เกาะเรียนรู้เพื่อเก็บดาวก่อน'));check('empty stars show Nuri, 4 learning islands and a parent button',await page.locator('[data-ls-lock=stars] .ls-learn-tile').count()===4&&await page.locator('[data-ls-lock=stars] .ls-button').count()===1);
+  await page.locator('[data-ls-lock=stars]').waitFor();check('empty-stars screen tells the child to go learn first',(await page.locator('[data-ls-lock=stars]').textContent()).includes('ไปเรียนที่เกาะเรียนรู้เพื่อเก็บดาวก่อน'));check('empty stars show Nuri, 5 learning islands and a parent button',await page.locator('[data-ls-lock=stars] .ls-learn-tile').count()===5&&await page.locator('[data-ls-lock=stars] .ls-button').count()===1);
   // Real lesson finish, muted narration advances by its built-in reading durations.
   await goto('/learn/moral');
   await page.locator('.mrl-card').first().click();

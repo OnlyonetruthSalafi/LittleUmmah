@@ -20,6 +20,7 @@ export const en: Dictionary = {
     "storyDescription": "Read and listen to {title} with your child on Little Ummah, a free, ad-free Islamic learning website for children.",
     "categoryDescription": "Explore {title} activities with your child on Little Ummah, a free, ad-free Islamic learning website for children.",
     "categories": {
+      "faith-basics": "Learn the basics of Islam through questions and answers with Nuri, for ages 3–6 and 7+. Free and ad-free.",
       "moral": "Explore manners and morals through activities chosen for your child’s age on Little Ummah, a free, ad-free Islamic learning website for children.",
       "stories": "Choose stories to read and listen to with your child by age group on Little Ummah, a free, ad-free Islamic learning website for children.",
       "arabic": "Discover basic Arabic and practise reading with Nuri on Little Ummah, a free, ad-free Islamic learning website for children.",

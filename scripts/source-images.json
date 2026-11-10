@@ -1178,5 +1178,22 @@
   "public/stories/sulayman-judgment/p04.png": "47285fbc3269c13522ae06c2ca185135e940d252474e025dfce14109790949d8",
   "public/stories/sulayman-judgment/p05.png": "3a29e46719bd96731faab6f3732c22340760b9e1c713b958b7a8e1381eacb1e3",
   "public/stories/sulayman-judgment/p06.png": "0d050fc23ec8ccfc9cdc947ee61a31da2b1f7c7c32ad5f464649b3a9e1302af6",
-  "public/stories/sulayman-judgment/p07.png": "b72cac9a6f64cbd66b147371139dc1687851c5a3fc6d69c9cdd1fe246e2c27cd"
+  "public/stories/sulayman-judgment/p07.png": "b72cac9a6f64cbd66b147371139dc1687851c5a3fc6d69c9cdd1fe246e2c27cd",
+  "public/faith/card-aina-j.png": "9fcec2224126a5c5246ddab1a4b5e25b856349c51415b80c016d05a45e889055",
+  "public/faith/card-aina.png": "9a00ccd1baddbf65c4b9df22444d7bdba25f8b9a2d76cacbc3cd2c2f937a3501",
+  "public/faith/card-dini.png": "91ad8185bcece924cd3f3588cad99e1c5621ae8c941771d380d1e0431863d2dc",
+  "public/faith/card-dua.png": "8b2f54e6149162c672c857ac96d578c2d441cb7fa3fea479844c9c43b48b2476",
+  "public/faith/card-ihsan.png": "626a8c24bee9bde8df4a736815a0fbe5146799c9fae35edacd7bcb290c7d7664",
+  "public/faith/card-iman.png": "57e7cae33a1a811c311badcd2c0833fb649fde628a0c5cea88ad22f55d0610db",
+  "public/faith/card-islam.png": "3b25f18f5ed797519bfc4191134e456450785e2b9c3e38ef60f31a561f816b26",
+  "public/faith/card-khaliq.png": "20c8452ed93cfc2b65881e2cabf226feda60d619be5186974acccf2944d36ef6",
+  "public/faith/card-nabiyyi.png": "f29eddffed08d589de17f3986b18563fe8bbc78db783bb484fe7f2f358ea22ab",
+  "public/faith/card-rabbi.png": "496d1d5045b639925221f92209d26d6b783bede25a9577ac7a8182236398f609",
+  "public/faith/card-shahada.png": "29d7c5a3b47b12e0b73f4123075b2e5eef01ad0e4d8d23f60b0435b70828a310",
+  "public/faith/card-usul.png": "1489a67802e7447f1321399070aedac32e671af42eca7764c3b8a9df3186aa4a",
+  "public/faith/scenes/dua.png": "a4f7be44a0af1f2065a0f0e826d07dc2a8991534a55f1182c99f5510fbe5d708",
+  "public/faith/scenes/pillars.png": "d33e13fd300cff593960c32a6db3536f97fca6978bb3450af1eaa23f957eeedb",
+  "public/faith/scenes/prayer.png": "5f251d900dd19bbc3004c7a449e3fbd7e7ffd6665ce719543e8a75aa258e5fd9",
+  "public/faith/scenes/quran.png": "1f4eca8c07c1a54dc0b6684d8feb5b4044fa39d2809d7a0ffd7f78c412ec9c95",
+  "public/faith/scenes/sky.png": "8a80132d031efa39f779109481973d10fedf692a4811bfe95765689502a4484d"
 }

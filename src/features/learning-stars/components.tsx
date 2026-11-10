@@ -54,10 +54,10 @@ export function LockScreen({ reason, onClose }: { reason: 'time' | 'stars'; onCl
 }
 /** ปลายทางปุ่ม "ไปเรียนเก็บดาว" / "ไปเกาะเรียนรู้" ทุกจุดใช้ค่าเดียวกัน */
 export const LEARN_HREF = '/'; // หน้าแรก: โซนเกาะเรียนรู้อยู่บนสุด
-/** ให้เด็กเลือกเกาะเรียนรู้เองได้ 4 เกาะ (ภาพเกาะเป็นภาพตกแต่ง alt="" เพราะชื่อเกาะเป็นข้อความอยู่แล้ว) */
+/** ให้เด็กเลือกเกาะเรียนรู้เองได้ 5 เกาะ (ภาพเกาะเป็นภาพตกแต่ง alt="" เพราะชื่อเกาะเป็นข้อความอยู่แล้ว) */
 // ชื่อสั้นในกล่องเล็ก (ชื่อเต็มยาวจนคำไทยถูกตัดกลางคำบนจอ 360px)
-const SHORT: Record<string, Text> = { moral: { th: 'มารยาท', en: 'Manners' }, stories: { th: 'เรื่องเล่า', en: 'Stories' }, explore: { th: 'สำรวจโลก', en: 'Explore' }, arabic: { th: 'เรียนภาษา', en: 'Languages' } };
-const LEARN_ISLANDS = ['moral', 'stories', 'explore', 'arabic'].map(slug => ({ ...CATEGORIES.find(c => c.slug === slug)!, name: SHORT[slug] }));
+const SHORT: Record<string, Text> = { 'faith-basics': { th: 'อิสลาม', en: 'Islam' }, moral: { th: 'มารยาท', en: 'Manners' }, stories: { th: 'เรื่องเล่า', en: 'Stories' }, explore: { th: 'สำรวจโลก', en: 'Explore' }, arabic: { th: 'เรียนภาษา', en: 'Languages' } };
+const LEARN_ISLANDS = ['moral', 'stories', 'explore', 'arabic', 'faith-basics'].map(slug => ({ ...CATEGORIES.find(c => c.slug === slug)!, name: SHORT[slug] }));
 export function LearnChoices() {
   const { pick } = useDict();
   return <nav className="ls-learn" aria-label={pick(LS.timeLearn)}>{LEARN_ISLANDS.map(c => <LocaleLink key={c.slug} href={c.href} className="ls-learn-tile"><Image src={c.image} width={64} height={64} alt="" /><Copy text={c.name} /></LocaleLink>)}</nav>;

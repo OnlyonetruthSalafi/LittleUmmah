@@ -16,8 +16,8 @@ export const SECTIONS: Section[] = [
     title: { th: "Little Ummah คืออะไร", en: "What is Little Ummah?" },
     body: [
       {
-        th: "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก มีหกเกาะที่เปิดใช้งาน: เรียนภาษาเบื้องต้น (อาหรับ อังกฤษ ไทย) มารยาทและศีลธรรม เรื่องเล่า สำรวจโลก เกม และศิลปะ",
-        en: "An Islamic learning website for children, with six available islands: Basic Languages (Arabic, English and Thai), Manners & Morals, Stories, Explore, Games, and Art.",
+        th: "เว็บไซต์เรียนรู้อิสลามสำหรับเด็ก มีเจ็ดเกาะที่เปิดใช้งาน: เรียนรู้อิสลามพื้นฐานสำหรับเด็ก เรียนภาษาเบื้องต้น (อาหรับ อังกฤษ ไทย) มารยาทและศีลธรรม เรื่องเล่า สำรวจโลก เกม และศิลปะ",
+        en: "An Islamic learning website for children, with seven available islands: Islam Basics for Kids, Basic Languages (Arabic, English and Thai), Manners & Morals, Stories, Explore, Games, and Art.",
       },
       {
         th: "มีเนื้อหาสำหรับวัย 3-6 ปี และวัย 7 ปีขึ้นไป บางเกาะแยกเนื้อหาตามวัย และบางกิจกรรมใช้ร่วมกันได้",
@@ -72,8 +72,13 @@ export const SECTIONS: Section[] = [
         en: "This website is free, with no ads, no sign-up, no cookies and no behaviour tracking (analytics). Your child's data never leaves this device.",
       },
       {
-        th: "สิ่งที่เว็บจำไว้ในเบราว์เซอร์ของเครื่องนี้: การตั้งค่าเปิด/ปิดเสียง, ดาวจากการฝึกบนเกาะมารยาทและเกาะสำรวจโลก (วันที่ฝึก), ด่านเกมที่ผ่านแล้วพร้อมดาวและเวลาที่เล่นล่าสุด อักษรที่เรียนแล้ว ดาวเรียนรู้และบทที่ได้ดาววันนี้ เครดิตรอบเล่น วันเล่นฟรี เวลาเล่นและการปลดล็อกวันนี้ การตั้งค่าดาวและเวลา รวมถึงสถานะให้ดาวตั้งต้นแล้ว และสถานะ “ฟังคำแนะนำของหุ่นยนต์แล้ว” ซึ่งหายเองเมื่อปิดเบราว์เซอร์",
-        en: "The things this website remembers in this device's browser are: the sound on/off setting, stars from practice on Manners Island and Explore Island (practice dates), game levels passed with their stars and the last time played, learned letters, Learning Stars and today’s rewarded lessons, round credit, free-round date, today’s play time and unlocks, star/time settings and the starter-star flag, and the “robot guide already heard” status, which clears itself when the browser is closed.",
+        // เจ้าของโปรเจกต์ 10 พ.ย. 2026: ผู้สนับสนุนจะทำ Freemium แน่นอน — คง Footer ไว้ และแจ้งผู้ปกครองที่นี่ (เขียนเฉพาะที่แน่ชัดแล้ว)
+        th: "เกี่ยวกับคำว่า Freemium ใน Footer: ผู้สนับสนุนวางแผนให้ในอนาคตมีส่วนเสริมสำหรับสมาชิก ส่วนเนื้อหาพื้นฐานยังใช้ฟรี ตอนนี้ทุกส่วนของเว็บยังใช้ฟรีทั้งหมดโดยไม่ต้องสมัคร เมื่อจะเริ่มใช้ เราจะแจ้งรายละเอียดในหน้านี้ก่อน",
+        en: "About the word Freemium in the footer: our sponsor plans to add extra features for members in the future, while the basic content stays free. Right now every part of the website is free with no sign-up. We will explain the details on this page before anything changes.",
+      },
+      {
+        th: "สิ่งที่เว็บจำไว้ในเบราว์เซอร์ของเครื่องนี้: การตั้งค่าเปิด/ปิดเสียง, ดาวจากการฝึกบนเกาะมารยาท เกาะสำรวจโลก และเกาะอิสลามพื้นฐาน (lu-faith-progress; วันที่ฝึก), ด่านเกมที่ผ่านแล้วพร้อมดาวและเวลาที่เล่นล่าสุด อักษรที่เรียนแล้ว ดาวเรียนรู้และบทที่ได้ดาววันนี้ เครดิตรอบเล่น วันเล่นฟรี เวลาเล่นและการปลดล็อกวันนี้ การตั้งค่าดาวและเวลา รวมถึงสถานะให้ดาวตั้งต้นแล้ว และสถานะ “ฟังคำแนะนำของหุ่นยนต์แล้ว” ซึ่งหายเองเมื่อปิดเบราว์เซอร์",
+        en: "The things this website remembers in this device's browser are: the sound on/off setting, stars from practice on Manners Island, Explore Island and Islam Basics Island (lu-faith-progress; practice dates), game levels passed with their stars and the last time played, learned letters, Learning Stars and today’s rewarded lessons, round credit, free-round date, today’s play time and unlocks, star/time settings and the starter-star flag, and the “robot guide already heard” status, which clears itself when the browser is closed.",
       },
       {
         th: "เมื่อเปิดเว็บ ผู้ให้บริการเซิร์ฟเวอร์อาจบันทึกข้อมูลทางเทคนิคตามปกติของเว็บไซต์ทั่วไป เช่น หมายเลข IP และเวลาที่เข้าใช้ เว็บนี้ไม่ได้นำข้อมูลนั้นมาใช้ระบุตัวเด็ก",

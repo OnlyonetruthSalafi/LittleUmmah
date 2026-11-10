@@ -7,7 +7,7 @@ export type Category = {
 };
 
 /*
-  หมวดหมู่ทั้งหกของหน้าแรก
+  หมวดหมู่ที่เปิดใช้งานของหน้าแรก
   ภาพเกาะเป็นงานวาดจริง แปลงเป็น WebP ด้วย scripts/optimize-images.mjs
 
   mockup เดิมมีหมวด "ดนตรี" ซึ่งขัดข้อกำหนดข้อ 1.3 โดยตรง
@@ -63,20 +63,20 @@ export const CATEGORIES: Category[] = [
     href: "/learn/art",
     image: "/islands/art.webp",
   },
+  { slug: "faith-basics", name: { th: "เรียนรู้อิสลามพื้นฐานสำหรับเด็ก", en: "Islam Basics for Kids" }, href: "/learn/faith-basics", image: "/islands/faith-basics.webp" },
 ];
 
-// Homepage groups are separate from CATEGORIES: other pages still need the six
+// Homepage groups are separate from CATEGORIES: other pages still need the
 // live category shortcuts, never links to subjects that have not opened yet.
 export type HomeIsland = Omit<Category, "href"> & { href?: string; comingSoon?: boolean };
 const upcoming: HomeIsland[] = [
   { slug: "tajweed", name: { th: "ตัจวีดพื้นฐาน", en: "Tajweed Basics" }, image: "/islands/tajweed.webp", comingSoon: true },
   { slug: "quran-reading", name: { th: "ฝึกอ่านอัลกุรอาน", en: "Qur'an Reading" }, image: "/islands/quran-reading.webp", comingSoon: true },
-  { slug: "faith-basics", name: { th: "เรียนรู้อิสลามพื้นฐานสำหรับเด็ก", en: "Islam Basics for Kids" }, image: "/islands/faith-basics.webp", comingSoon: true },
   { slug: "numbers-math", name: { th: "ตัวเลขและคณิตคิดสนุก", en: "Numbers & Math" }, image: "/islands/numbers-math.webp", comingSoon: true },
 ];
 const category = (slug: string) => CATEGORIES.find((entry) => entry.slug === slug)!;
 export const HOME_ISLANDS: { learn: HomeIsland[]; play: HomeIsland[] } = {
   // Homepage grouping only; Arabic remains first in reading order.
-  learn: [category("arabic"), category("moral"), ...upcoming.filter((entry) => entry.slug !== "numbers-math")],
+  learn: [category("arabic"), category("moral"), ...upcoming.filter((entry) => entry.slug !== "numbers-math"), category("faith-basics")],
   play: [category("stories"), category("art"), category("games"), upcoming.find((entry) => entry.slug === "numbers-math")!, category("explore")],
 };

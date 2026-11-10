@@ -25,7 +25,7 @@ export function generateStaticParams() {
   // เกาะที่มีหน้าของตัวเอง: เรื่องเล่า = ตู้หนังสือ, ภาษาอาหรับ = ห้องเรียนหุ่นยนต์ (เหมือนเกาะเกม)
   // มารยาท = หน้าตาม mock พร้อมหุ่นยนต์นำทาง (learn/moral), สำรวจโลก = หน้าแบบเดียวกัน (learn/explore), ศิลปะ = เกมระบายสี (learn/art)
   // ถ้าไม่ตัดออกจากที่นี่ Next จะสร้างสองหน้าที่เส้นทางเดียวกัน แล้ว build จะพัง
-  const OWN_PAGE = new Set(["stories", "arabic", "moral", "explore", "art"]);
+  const OWN_PAGE = new Set(["stories", "arabic", "moral", "explore", "art", "faith-basics"]);
   return ISLAND_CONTENT.filter((island) => !OWN_PAGE.has(island.slug)).map((island) => ({ slug: island.slug }));
 }
 

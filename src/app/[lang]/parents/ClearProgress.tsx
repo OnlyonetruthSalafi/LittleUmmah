@@ -17,9 +17,9 @@ import { UI } from "./content";
   ล้างแล้วโหลดหน้าใหม่ เพราะที่เก็บดาว/ด่านมี cache ในหน่วยความจำ ถ้าไม่โหลดใหม่ หน้าอื่นจะยังเห็นค่าเก่า
   ถ้าเพิ่ม key ใหม่ใน localStorage/sessionStorage ต้องเพิ่มที่นี่และในรายการบนหน้าผู้ปกครองด้วย
 */
-const LOCAL_KEYS = ["lu-moral-progress", "lu-explore-progress"];
+const LOCAL_KEYS = ["lu-moral-progress", "lu-explore-progress", "lu-faith-progress"];
 const LOCAL_PREFIXES = ["little-ummah:games:"];
-const SESSION_KEYS = ["lu-moral-guide-seen", "lu-explore-guide-seen", "lu-stories-guide-seen"];
+const SESSION_KEYS = ["lu-moral-guide-seen", "lu-explore-guide-seen", "lu-stories-guide-seen", "lu-faith-guide-seen"];
 // STARS_KEY is cleared through the store, preserving freeDay. Never remove the
 // once-only starter flag, today's play/free-round usage, or parental settings.
 export const LEARNING_STORAGE = { clear: [STARS_KEY], preserve: [SETTINGS_KEY, TIME_KEY, CLOCK_KEY] };
