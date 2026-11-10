@@ -43,17 +43,17 @@ export const HADITH_SHELF: { kids: HadithShelfEntry[]; juniors: HadithShelfEntry
   ],
 };
 
-/** ชุดที่ 2 — รอภาพและเสียง ทุกเล่มแสดงเป็นปก CSS พร้อมแถบ "เร็วๆ นี้" */
+/** ชุดที่ 2 — ภาพ (HAD-3) และเสียงครบ 10 พ.ย. 2026 เปิดอ่านได้ทุกเล่ม */
 export const HADITH_SHELF_2: { kids: HadithShelfEntry[]; juniors: HadithShelfEntry[] } = {
   kids: [
-    { story: LITTLE_BIRD_STORY, icon: "heart", ready: false },
-    { story: PALM_RIDDLE_STORY, icon: "tree", ready: false },
-    { story: MOTHER_BIRD_STORY, icon: "home", ready: false },
-    { story: CAMEL_COMPLAINT_STORY, icon: "sun", ready: false },
+    { story: LITTLE_BIRD_STORY, icon: "heart", ready: true },
+    { story: PALM_RIDDLE_STORY, icon: "tree", ready: true },
+    { story: MOTHER_BIRD_STORY, icon: "home", ready: true },
+    { story: CAMEL_COMPLAINT_STORY, icon: "sun", ready: true },
   ],
   juniors: [
-    { story: SEA_PLANK_STORY, icon: "boat", ready: false },
-    { story: VISIT_BROTHER_STORY, icon: "heart", ready: false },
+    { story: SEA_PLANK_STORY, icon: "boat", ready: true },
+    { story: VISIT_BROTHER_STORY, icon: "heart", ready: true },
   ],
 };
 
