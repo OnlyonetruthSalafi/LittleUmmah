@@ -122,17 +122,26 @@ const matches = (text, ids) => {
   return chunks.length > 0 && chunks.filter(c => !full.includes(normTh(c))).length <= 1;
 };
 
+// วิธีที่สอง (เจ้าของโปรเจกต์ตกลง 12 พ.ย. 2026): อายะฮ์ที่บทอ้างแค่เลข ไม่ได้ยกคำแปล — Claude เปิดตัฟซีรอิบนุกะษีร (Shamela 8473)
+// เจอ ayah marker บนหน้า และตัวบทตรงกับหัวข้อที่บทใช้ บันทึกลิงก์หน้าใน how
+const TAFSIR_HOW = /^ตัฟซีรอิบนุกะษีร \(Shamela 8473\) (มี ayah marker|ยกตัวบท) .+https:\/\/shamela\.ws\/book\/8473\/\d+/;
+const tafsirVerified = e => e.kind === 'quran' && !!e.verified && TAFSIR_HOW.test(e.verified.how) && !QURAN_TH[e.id];
+
+test('tafsir-verified Quran entries carry a Shamela 8473 page link in how', () => {
+  for (const e of EVIDENCE) if (e.kind === 'quran' && e.verified?.how.startsWith('ตัฟซีรอิบนุกะษีร')) assert.ok(TAFSIR_HOW.test(e.verified.how), e.id);
+});
+
 test('verified Quran evidence: each page meaning is found in the verses its own evidence points to', () => {
   const supported = new Set();
   const wrong = [];
   for (const { value, path } of meaningNodes) {
     const text = typeof value.meaning === 'string' ? value.meaning : value.meaning?.th;
-    const ids = (value.evidence ?? []).filter(id => byId.get(id)?.kind === 'quran' && byId.get(id).verified);
+    const ids = (value.evidence ?? []).filter(id => byId.get(id)?.kind === 'quran' && byId.get(id).verified && !tafsirVerified(byId.get(id)));
     if (!text || !ids.length) continue;
     if (!matches(text, ids)) wrong.push(path + ' -> ' + ids.join(','));
     for (const id of ids) if (matches(text, [id])) supported.add(id);
   }
   assert.deepEqual(wrong, [], 'page evidence points to verses that do not contain its meaning');
-  const unsupported = EVIDENCE.filter(e => e.kind === 'quran' && e.verified && !supported.has(e.id)).map(e => e.id);
+  const unsupported = EVIDENCE.filter(e => e.kind === 'quran' && e.verified && !tafsirVerified(e) && !supported.has(e.id)).map(e => e.id);
   assert.deepEqual(unsupported, [], 'verified Quran entries must be backed by a page meaning found in their verses');
 });

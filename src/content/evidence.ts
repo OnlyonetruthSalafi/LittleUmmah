@@ -37,32 +37,52 @@ export const EVIDENCE: Evidence[] = [
     "id": "bukhari-4920",
     "kind": "athar",
     "ref": "ศ่อฮีห์อัลบุคอรี 4920",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 4920 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/7296) เนื้อหาตรงกับที่ใช้ — อิบนุอับบาสเล่าที่มาของรูปปั้นวัดด์ สุวาอ์ ยะฆูษ ยะอูก นัสร์ (นิทานนบีนูห์ หน้า 1)"
+    }
   },
   {
     "id": "bukhari-3340",
     "kind": "hadith",
     "ref": "อัลบุคอรี 3340",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 3340 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/5194) เนื้อหาตรงกับที่ใช้ — หะดีษชะฟาอะฮ์ «أنت أول الرسل إلى أهل الأرض» (นิทานนบีนูห์ หน้า 2)"
+    }
   },
   {
     "id": "muslim-194",
     "kind": "hadith",
     "ref": "มุสลิม 194",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์มุสลิม (1727) เลข 194 มี marker ตรงบนหน้า (https://shamela.ws/book/1727/427) เนื้อหาตรงกับที่ใช้ — หะดีษชะฟาอะฮ์ «أنت أول الرسل إلى الأرض» (นิทานนบีนูห์ หน้า 2)"
+    }
   },
   {
     "id": "ahmad-6583",
     "kind": "hadith",
     "ref": "อะหมัด 6583",
-    "verified": null,
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: มุสนัดอะห์มัด ฉบับอัรริซาละฮ์ (25794) เลข 6583 มี marker ตรงบนหน้า (https://shamela.ws/book/25794/5041) เนื้อหาตรงกับที่ใช้ — คำสั่งเสียของนบีนูห์แก่ลูก (لا إله إلا الله، سبحان الله وبحمده، ห้ามชิริกและความหยิ่ง) · คำตัดสินของอัลบานีย์ตรวจแล้วที่ al-silsilah-al-sahihah-134"
+    },
     "grade": "อัลอัลบานีย์ว่าเศาะฮีห์"
   },
   {
     "id": "al-adab-al-mufrad-548",
     "kind": "hadith",
     "ref": "อัลอะดับอัลมุฟร็อด 548",
-    "verified": null,
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "Shamela MCP get_hadith_by_number: อัลอะดับอัลมุฟร็อด ฉบับอับดุลบากี (12991) เลข 548 มี marker ตรงบนหน้า (https://shamela.ws/book/12991/817) คำสั่งเสียของนบีนูห์แก่ลูก ตรงกับนิทานนบีนูห์ หน้า 11 · ท้ายหะดีษบนหน้าเดียวกันระบุ \"صحيح\""
+    },
     "grade": "อัลอัลบานีย์ว่าเศาะฮีห์"
   },
   {
@@ -115,7 +135,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "muslim-1721",
     "kind": "hadith",
     "ref": "มุสลิม 1721",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์มุสลิม (1727) เลข 1721 มี marker ตรงบนหน้า (https://shamela.ws/book/1727/4436) เนื้อหาตรงกับที่ใช้ — เรื่องไหทองคำในที่ดินที่ซื้อขาย (นิทานไหทอง)"
+    }
   },
   {
     "id": "bukhari-2078",
@@ -343,7 +367,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "muslim-2653",
     "kind": "hadith",
     "ref": "มุสลิม 2653",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์มุสลิม (1727) เลข 2653 มี marker ตรงบนหน้า (https://shamela.ws/book/1727/6683) เนื้อหาตรงกับที่ใช้ — «كتب الله مقادير الخلائق قبل أن يخلق السماوات والأرض بخمسين ألف سنة» (บทรุก่นอีมาน — กอดัร)"
+    }
   },
   {
     "id": "bukhari-6324",
@@ -361,7 +389,11 @@ export const EVIDENCE: Evidence[] = [
     "kind": "hadith",
     "ref": "ติรมิซีย์ 2035",
     "grade": "อัลบานีย์ตัดสินเศาะฮีห์",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: สุนันอัตติรมิซีย์ (1435) เลข 2035 มี marker ตรงบนหน้า (https://shamela.ws/book/1435/3515) เนื้อหาตรงกับที่ใช้ — «جزاك الله خيرا فقد أبلغ في الثناء» (บทขอบคุณ) · เชิงอรรถหน้าเดียวกัน [حكم الألباني] : صحيح"
+    }
   },
   {
     "id": "abu-dawud-5095",
@@ -402,32 +434,52 @@ export const EVIDENCE: Evidence[] = [
     "id": "bukhari-6224",
     "kind": "hadith",
     "ref": "บุคอรี 6224",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 6224 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/9316) เนื้อหาตรงกับที่ใช้ — จามแล้วกล่าว อัลฮัมดุลิลลาฮ์ ตอบ ยัรหะมุกัลลอฮ์ และ ยะฮ์ดีกุมุลลอฮ์ (บทเมื่อจาม)"
+    }
   },
   {
     "id": "bukhari-6245",
     "kind": "hadith",
     "ref": "บุคอรี 6245",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 6245 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/9351) เนื้อหาตรงกับที่ใช้ — ขออนุญาตสามครั้ง ไม่ได้รับอนุญาตให้กลับ (บทขออนุญาตก่อนเข้า)"
+    }
   },
   {
     "id": "bukhari-6116",
     "kind": "hadith",
     "ref": "บุคอรี 6116, 6115",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 6116 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/9158) เนื้อหาตรงกับที่ใช้ — «لا تغضب» (บทไม่โกรธ)"
+    }
   },
   {
     "id": "bukhari-6115",
     "kind": "hadith",
     "ref": "บุคอรี 6116, 6115",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 6115 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/9157) เนื้อหาตรงกับที่ใช้ — โกรธแล้วกล่าว อะอูซุบิลลาฮิมินัชชัยฏอนิรรอญีม (บทไม่โกรธ)"
+    }
   },
   {
     "id": "abu-dawud-4782",
     "kind": "hadith",
     "ref": "อบูดาวูด 4782",
     "grade": "อัลบานีย์: เศาะฮีห์",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: สุนันอบูดาวูด (1726) เลข 4782 มี marker ตรงบนหน้า (https://shamela.ws/book/1726/6536) เนื้อหาตรงกับที่ใช้ — โกรธขณะยืนให้นั่ง ถ้ายังไม่หายให้นอน (บทไม่โกรธ) · เชิงอรรถหน้าเดียวกัน [حكم الألباني] : صحيح"
+    }
   },
   {
     "id": "al-silsilah-al-sahihah-20",
@@ -446,7 +498,11 @@ export const EVIDENCE: Evidence[] = [
     "kind": "hadith",
     "ref": "รายงานแบบสั้นอยู่ใน 1498 ด้วย",
     "note": "comment ต่อจากบุคอรี 2291; ไม่มีลิงก์แยก",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "Shamela MCP get_hadith_by_number: ศ่อฮีห์อัลบุคอรี (1681) เลข 1498 มี marker ตรงบนหน้า (https://shamela.ws/book/1681/2409) เนื้อหาตรงกับที่ใช้ — รายงานแบบสั้นเรื่องชายยืมพันดีนาร์แล้วส่งเงินในท่อนไม้ทางทะเล (นิทานแผ่นไม้กลางทะเล)"
+    }
   },
   {
     "id": "al-silsilah-al-sahihah-134",
@@ -454,28 +510,44 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัสสิลสิละฮ์อัศเศาะฮีหะฮ์ 134",
     "grade": "อัลอัลบานีย์ว่าเศาะฮีห์",
     "note": "comment ให้เจ้าของโปรเจกต์ตรวจเลขอ้างอิงก่อน commit",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "Shamela MCP get_hadith_by_number: อัสสิลสิละฮ์อัศเศาะฮีหะฮ์ (9442) เลข 134 มี marker ตรงบนหน้า (https://shamela.ws/book/9442/259) คือหะดีษคำสั่งเสียของนบีนูห์ อ้าง อัลอะดับอัลมุฟร็อด (548) และอะหมัด อัลบานีย์กล่าว «وهذا سند صحيح»"
+    }
   },
   {
     "id": "quran-an-naml-15",
     "kind": "quran",
     "ref": "อันนัมล์ 15",
     "url": "https://shamela.ws/book/8473/3086",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 27:15 บนหน้า https://shamela.ws/book/8473/3086 ตัวบทตรงกับที่บทใช้ — อัลลอฮ์ประทานความรู้แก่ดาวูดและสุลัยมาน ทั้งสองกล่าวสรรเสริญ (นิทานมด)"
+    }
   },
   {
     "id": "quran-an-naml-16",
     "kind": "quran",
     "ref": "อันนัมล์ 16",
     "url": "https://shamela.ws/book/8473/3086",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 27:16 บนหน้า https://shamela.ws/book/8473/3086 ตัวบทตรงกับที่บทใช้ — สุลัยมานได้รับความรู้ภาษานก และได้รับจากทุกสิ่ง (นิทานมด)"
+    }
   },
   {
     "id": "quran-an-naml-17",
     "kind": "quran",
     "ref": "อันนัมล์ 17",
     "url": "https://shamela.ws/book/8473/3086",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 27:17 บนหน้า https://shamela.ws/book/8473/3086 ตัวบทตรงกับที่บทใช้ — กองทัพญิน มนุษย์ และนก ถูกรวบรวมเป็นแถว (นิทานมด)"
+    }
   },
   {
     "id": "quran-an-naml-18",
@@ -517,7 +589,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลก็อลัม 68:17–33",
     "url": "https://shamela.ws/book/8473/4241",
     "translation": "Quran.com Thai 51 / Saheeh International 20",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:17–33 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — เรื่องเจ้าของสวน (นิทานเจ้าของสวน)"
+    }
   },
   {
     "id": "quran-18-32-44",
@@ -526,7 +602,11 @@ export const EVIDENCE: Evidence[] = [
     "url": "https://shamela.ws/book/8473/2567",
     "translation": "Quran.com Thai 51 / Saheeh International 20",
     "note": "comment ระบุ /2568 (37–41), /2570 (42–44); ไม่ขยายลิงก์ย่อ",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:32–44 บนหน้า https://shamela.ws/book/8473/2567 , https://shamela.ws/book/8473/2568 , https://shamela.ws/book/8473/2570 ตัวบทตรงกับที่บทใช้ — อุปมาชายสองคนกับสวนสองแห่ง (นิทานสวนสองแห่ง)"
+    }
   },
   {
     "id": "quran-al-anbiya-52-53",
@@ -534,7 +614,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 52-53",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) ยกตัวบท 21:52–53 ในคำอธิบายบนหน้า https://shamela.ws/book/8473/2757 ตัวบทตรงกับที่บทใช้ — \"รูปปั้นพวกนี้คืออะไร\" / \"เราเห็นบรรพบุรุษกราบไหว้\" (นิทานอิบรอฮีม)"
+    }
   },
   {
     "id": "quran-al-anbiya-56",
@@ -542,7 +626,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 56",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) ยกตัวบท 21:56 ในคำอธิบายบนหน้า https://shamela.ws/book/8473/2757 ตัวบทตรงกับที่บทใช้ — \"พระเจ้าของพวกท่านคือพระเจ้าแห่งฟ้าและแผ่นดิน ผู้ทรงสร้าง\""
+    }
   },
   {
     "id": "quran-al-anbiya-57-58",
@@ -550,7 +638,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 57-58",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:57–58 บนหน้า https://shamela.ws/book/8473/2757 , https://shamela.ws/book/8473/2758 ตัวบทตรงกับที่บทใช้ — สาบานจะจัดการรูปปั้น แล้วทุบเป็นชิ้นๆ เหลือตัวใหญ่ที่สุด"
+    }
   },
   {
     "id": "quran-al-anbiya-59-65",
@@ -558,7 +650,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 59-65",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:59–65 บนหน้า https://shamela.ws/book/8473/2758 , https://shamela.ws/book/8473/2759 ตัวบทตรงกับที่บทใช้ — \"ใครทำ\" ... \"ลองถามพวกมันดูสิ\" ... \"ท่านก็รู้ว่าพวกมันพูดไม่ได้\""
+    }
   },
   {
     "id": "quran-al-anbiya-66",
@@ -566,7 +662,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 66",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:66 บนหน้า https://shamela.ws/book/8473/2759 ตัวบทตรงกับที่บทใช้ — \"พวกท่านกราบไหว้สิ่งที่ไม่ให้ประโยชน์และไม่ให้โทษหรือ\""
+    }
   },
   {
     "id": "quran-al-anbiya-68",
@@ -574,7 +674,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัลอัมบิยาอ์ 68",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:68 บนหน้า https://shamela.ws/book/8473/2760 ตัวบทตรงกับที่บทใช้ — \"จงเผาเขา\""
+    }
   },
   {
     "id": "quran-al-anbiya-69",
@@ -594,7 +698,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "อัศศ็อฟฟาต 97",
     "url": "https://shamela.ws/book/8473/2757",
     "note": "comment รวมลิงก์ตัฟซีร ถึง /2760, /3522; ไม่จัดหน้าให้แต่ละอายะฮ์เอง",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:97 บนหน้า https://shamela.ws/book/8473/3522 ตัวบทตรงกับที่บทใช้ — \"จงสร้างกองไฟให้เขาแล้วโยนเขาลงไป\""
+    }
   },
   {
     "id": "quran-ibrahim-37",
@@ -621,44 +729,72 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-al-baqarah-144",
     "kind": "quran",
     "ref": "อัลบะเกาะเราะฮ์ 144",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 2:144 บนหน้า https://shamela.ws/book/8473/507 ตัวบทตรงกับที่บทใช้ — หันหน้าไปทางมัสญิดอัลหะรอม (นิทานกะอ์บะฮ์ หน้าสุดท้าย)"
+    }
   },
   {
     "id": "quran-al-anbiya-70",
     "kind": "quran",
     "ref": "(70)",
     "note": "เลขในวงเล็บต่อจาก อัลอัมบิยาอ์ 69 ใน comment บรรทัดเดียวกัน; ไม่เติมเลขซูเราะฮ์",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:70 บนหน้า https://shamela.ws/book/8473/2760 ตัวบทตรงกับที่บทใช้ — พวกเขาวางแผนร้าย แต่เราทำให้พวกเขาเป็นผู้ขาดทุน"
+    }
   },
   {
     "id": "quran-al-qasas-4",
     "kind": "quran",
     "ref": "อัลเกาะศ็อศ 4",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 28:4 บนหน้า https://shamela.ws/book/8473/3125 ตัวบทตรงกับที่บทใช้ — ฟิรเอาน์หยิ่งผยองและกดขี่วงศ์วานอิสรออีล (นิทานมูซา)"
+    }
   },
   {
     "id": "quran-an-naziat-24",
     "kind": "quran",
     "ref": "อันนาซิอาต 24",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 79:24 บนหน้า https://shamela.ws/book/8473/4360 ตัวบทตรงกับที่บทใช้ — \"ข้าคือพระเจ้าสูงสุดของพวกเจ้า\""
+    }
   },
   {
     "id": "quran-ta-ha-29-30-47",
     "kind": "quran",
     "ref": "ฏอฮา 29-30, 47",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 20:29–30, 47 บนหน้า https://shamela.ws/book/8473/2689 , https://shamela.ws/book/8473/2704 ตัวบทตรงกับที่บทใช้ — ขอให้ฮารูนพี่ชายเป็นผู้ช่วย / ไปบอกว่าเราเป็นร่อซูล ปล่อยวงศ์วานอิสรออีล"
+    }
   },
   {
     "id": "quran-ash-shuara-52",
     "kind": "quran",
     "ref": "อัชชุอะรออ์ 52",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 26:52 บนหน้า https://shamela.ws/book/8473/3046 ตัวบทตรงกับที่บทใช้ — ให้พาบ่าวของอัลลอฮ์ออกเดินทางกลางคืน แล้วจะถูกไล่ตาม"
+    }
   },
   {
     "id": "quran-ash-shuara-53-56",
     "kind": "quran",
     "ref": "อัชชุอะรออ์ 53-56",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 26:53–56 บนหน้า https://shamela.ws/book/8473/3046 ตัวบทตรงกับที่บทใช้ — ฟิรเอาน์ส่งคนรวบรวมทหาร \"พวกนั้นเป็นแค่กลุ่มเล็กๆ\""
+    }
   },
   {
     "id": "quran-ash-shuara-60-62",
@@ -674,31 +810,51 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-ash-shuara-63",
     "kind": "quran",
     "ref": "อัชชุอะรออ์ 63",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 26:63 บนหน้า https://shamela.ws/book/8473/3048 ตัวบทตรงกับที่บทใช้ — ตีทะเลด้วยไม้เท้า ทะเลแยก แต่ละฝั่งเหมือนภูเขาใหญ่"
+    }
   },
   {
     "id": "quran-ash-shuara-64-66",
     "kind": "quran",
     "ref": "อัชชุอะรออ์ 64-66",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 26:64–66 บนหน้า https://shamela.ws/book/8473/3048 ตัวบทตรงกับที่บทใช้ — ช่วยมูซาและผู้ที่อยู่กับท่าน ให้อีกฝ่ายจมน้ำ"
+    }
   },
   {
     "id": "quran-ta-ha-77",
     "kind": "quran",
     "ref": "ฏอฮา 77",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 20:77 บนหน้า https://shamela.ws/book/8473/2716 ตัวบทตรงกับที่บทใช้ — ทางแห้งในทะเล ไม่ต้องกลัวถูกตามทันและไม่ต้องกลัวจมน้ำ"
+    }
   },
   {
     "id": "quran-ta-ha-78",
     "kind": "quran",
     "ref": "ฏอฮา 78",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 20:78 บนหน้า https://shamela.ws/book/8473/2716 ตัวบทตรงกับที่บทใช้ — ฟิรเอาน์ตามมาพร้อมทหาร แล้วทะเลท่วมพวกเขา"
+    }
   },
   {
     "id": "quran-yunus-90-92",
     "kind": "quran",
     "ref": "ยูนุส 90-92",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 10:90–92 บนหน้า https://shamela.ws/book/8473/2090 ตัวบทตรงกับที่บทใช้ — ฟิรเอาน์ประกาศศรัทธาตอนจมน้ำ \"ตอนนี้หรือ\" ร่างถูกนำขึ้นมาเป็นสัญญาณ"
+    }
   },
   {
     "id": "quran-at-talaq-2",
@@ -714,49 +870,81 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-as-saffat-139",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 139",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:139 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — ยูนุสเป็นหนึ่งในบรรดาร่อซูล (นิทานยูนุส)"
+    }
   },
   {
     "id": "quran-as-saffat-140",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 140",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:140 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — หนีไปขึ้นเรือที่บรรทุกเต็มลำ"
+    }
   },
   {
     "id": "quran-as-saffat-141",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 141",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:141 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — จับสลากแล้วเป็นผู้แพ้"
+    }
   },
   {
     "id": "quran-as-saffat-142",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 142",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:142 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — ปลาใหญ่กลืน ขณะที่ท่านตำหนิตัวเอง"
+    }
   },
   {
     "id": "quran-as-saffat-143-144",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 143-144",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:143–144 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — ถ้าไม่ใช่ผู้สรรเสริญ จะอยู่ในท้องปลาจนวันฟื้นคืนชีพ"
+    }
   },
   {
     "id": "quran-as-saffat-145-146",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 145-146",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:145–146 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — ถูกนำออกมาบนที่โล่ง และทรงให้ต้นไม้งอกขึ้น"
+    }
   },
   {
     "id": "quran-as-saffat-147-148",
     "kind": "quran",
     "ref": "อัศศ็อฟฟาต 147-148",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 37:147–148 บนหน้า https://shamela.ws/book/8473/3536 ตัวบทตรงกับที่บทใช้ — ส่งไปหาผู้คนนับแสนหรือมากกว่า พวกเขาศรัทธา"
+    }
   },
   {
     "id": "quran-yunus-98",
     "kind": "quran",
     "ref": "ยูนุส 98",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 10:98 บนหน้า https://shamela.ws/book/8473/2095 ตัวบทตรงกับที่บทใช้ — กลุ่มชนของยูนุสศรัทธาแล้วพ้นการลงโทษ"
+    }
   },
   {
     "id": "quran-al-anbiya-87",
@@ -772,7 +960,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-al-anbiya-88",
     "kind": "quran",
     "ref": "อัลอัมบิยาอ์ 88",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 21:88 บนหน้า https://shamela.ws/book/8473/2775 ตัวบทตรงกับที่บทใช้ — อัลลอฮ์ทรงตอบรับและช่วยให้พ้นความทุกข์ \"เช่นนี้แหละเราช่วยผู้ศรัทธา\""
+    }
   },
   {
     "id": "quran-yusuf",
@@ -780,7 +972,11 @@ export const EVIDENCE: Evidence[] = [
     "ref": "ซูเราะฮ์ยูซุฟ",
     "url": "https://shamela.ws/book/8473/2168",
     "note": "เนื้อหามาจากอัลกุรอานเท่านั้น (ซูเราะฮ์ยูซุฟ ตรวจกับ Shamela 7 ต.ค. 2026 ตัฟซีรอิบนุ กะษีร https://shamela.ws/book/8473/2168 ถึง /2210)\n  - ความฝัน ดาว 11 ดวง ดวงอาทิตย์ ดวงจันทร์ กราบท่าน (4) / พ่อบอกอย่าเล่าให้พี่ๆ ฟัง (5)\n  - พี่ๆ อิจฉาเพราะพ่อรักท่าน (8) พาออกไปแล้วตกลงกันโยนลงก้นบ่อ อัลลอฮ์ทรงบอกท่านว่าสักวันจะได้บอกพวกเขาถึงสิ่งนี้ (15)\n  - ค่ำนั้นกลับมาร้องไห้ บอกว่าหมาป่ากินเขา พ่อกล่าว «فصبر جميل» (16-18)\n  - คาราวานหย่อนถังพบท่าน แล้วท่านถูกขายในราคาถูก (19-20) ไปอยู่อียิปต์ (21)\n  - ถูกขังในคุกหลายปี (42 «بضع سنين») ทั้งที่ไม่ได้ทำผิด (51 «ما علمنا عليه من سوء»)\n  - ความฝันของกษัตริย์ วัวอ้วน 7 วัวผอม 7 รวงเขียว 7 รวงแห้ง 7 (43) ท่านตีความ ปลูก 7 ปีเก็บไว้ในรวง แล้วแห้งแล้ง 7 ปี (46-49)\n  - กษัตริย์ให้ดูแลคลังของแผ่นดิน \"ฉันรักษาได้ดีและมีความรู้\" (54-55)\n  - พี่ๆ มา ท่านจำได้ พวกเขาจำไม่ได้ (58) / \"ฉันคือยูซุฟ\" ... \"ผู้ใดยำเกรงและอดทน อัลลอฮ์ไม่ทำให้รางวัลของผู้ทำดีสูญเปล่า\" (90)\n  - พี่ๆ ยอมรับผิด (91) «لا تثريب عليكم اليوم يغفر الله لكم» (92)\n  - ครอบครัวมาอียิปต์ ความฝันเป็นจริง \"พระเจ้าของฉันทรงดีต่อฉัน\" (99-100)",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 12:4 และ 12:89–92 บนหน้า https://shamela.ws/book/8473/2168 , https://shamela.ws/book/8473/2207 ตัวบทตรงกับที่บทใช้ — ซูเราะฮ์ยูซุฟ: ความฝันดาว 11 ดวง ดวงอาทิตย์ ดวงจันทร์ / \"ฉันคือยูซุฟ\" ... \"ไม่มีการตำหนิพวกท่านวันนี้\" (ส่วนอื่นของนิทานตรวจไว้ 7 ต.ค. ตามหัวไฟล์ yusuf.ts)"
+    }
   },
   {
     "id": "quran-68-17-18",
@@ -796,19 +992,31 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-68-19-20",
     "kind": "quran",
     "ref": "อัลก็อลัม 68:19–20",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:19–20 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — สวนถูกทำลายขณะพวกเขานอน กลายเป็นเหมือนถูกเก็บเกี่ยว"
+    }
   },
   {
     "id": "quran-68-21-25",
     "kind": "quran",
     "ref": "อัลก็อลัม 68:21–25",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:21–25 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — เรียกกันตอนเช้า กระซิบว่าอย่าให้คนยากจนเข้ามา"
+    }
   },
   {
     "id": "quran-68-26-27",
     "kind": "quran",
     "ref": "อัลก็อลัม 68:26–27",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:26–27 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — เห็นสวนแล้วว่าหลงทาง ไม่ใช่ เราถูกตัดขาด"
+    }
   },
   {
     "id": "quran-68-28-29",
@@ -824,7 +1032,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-68-30-31",
     "kind": "quran",
     "ref": "อัลก็อลัม 68:30–31",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:30–31 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — ตำหนิกันเอง และยอมรับว่าละเมิด"
+    }
   },
   {
     "id": "quran-68-32",
@@ -840,13 +1052,21 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-68-33",
     "kind": "quran",
     "ref": "อัลก็อลัม 68:33",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 68:33 บนหน้า https://shamela.ws/book/8473/4241 ตัวบทตรงกับที่บทใช้ — เช่นนี้แหละการลงโทษ และการลงโทษในปรโลกยิ่งใหญ่กว่า"
+    }
   },
   {
     "id": "quran-18-32-33",
     "kind": "quran",
     "ref": "อัลกะฮ์ฟิ 18:32–33",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:32–33 บนหน้า https://shamela.ws/book/8473/2567 ตัวบทตรงกับที่บทใช้ — สวนองุ่นล้อมด้วยอินทผลัม มีพืชระหว่างสวน และลำน้ำ"
+    }
   },
   {
     "id": "quran-18-34",
@@ -862,13 +1082,21 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-18-35-36",
     "kind": "quran",
     "ref": "อัลกะฮ์ฟิ 18:35–36",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:35–36 บนหน้า https://shamela.ws/book/8473/2567 ตัวบทตรงกับที่บทใช้ — เข้าสวนแล้วว่าไม่คิดว่าจะพินาศ และไม่คิดว่าวันสิ้นโลกจะมา"
+    }
   },
   {
     "id": "quran-18-37",
     "kind": "quran",
     "ref": "อัลกะฮ์ฟิ 18:37",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:37 บนหน้า https://shamela.ws/book/8473/2568 ตัวบทตรงกับที่บทใช้ — เพื่อนเตือนว่าเจ้าปฏิเสธผู้ทรงสร้างเจ้าจากดินหรือ"
+    }
   },
   {
     "id": "quran-18-38",
@@ -894,7 +1122,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-18-40-41",
     "kind": "quran",
     "ref": "อัลกะฮ์ฟิ 18:40–41",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:40–41 บนหน้า https://shamela.ws/book/8473/2568 ตัวบทตรงกับที่บทใช้ — คำเตือนว่าพระเจ้าอาจส่งภัยลงสวน หรือน้ำซึมลงดิน"
+    }
   },
   {
     "id": "quran-18-42",
@@ -920,7 +1152,11 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-18-34-38-39-42-44",
     "kind": "quran",
     "ref": "อัลกะฮ์ฟิ 18:34,38–39,42–44",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 18:34, 38–39, 42–44 บนหน้า https://shamela.ws/book/8473/2567 , https://shamela.ws/book/8473/2568 , https://shamela.ws/book/8473/2570 ตัวบทตรงกับที่บทใช้ — คุยโอ้อวด / ข้าไม่ตั้งภาคี มาชาอัลลอฮ์ ลาเกาวะตะ อิลลาบิลลาฮ์ / พืชผลพินาศ เขาเสียใจ"
+    }
   },
   {
     "id": "scholar-thalathat-al-usul-9",
@@ -959,96 +1195,156 @@ export const EVIDENCE: Evidence[] = [
     "id": "quran-20-5",
     "kind": "quran",
     "ref": "20:5",
-    "verified": null,
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 20:5 บนหน้า https://shamela.ws/book/8473/2680 ตัวบทตรงกับหัวข้อที่ใช้ — «الرحمن على العرش استوى» (บทอัลลอฮ์อยู่ที่ไหน 7+)"
+    },
     "translation": "quran.com id 51"
   },
   {
     "id": "quran-42-11",
     "kind": "quran",
     "ref": "42:11",
-    "verified": null,
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 42:11 บนหน้า https://shamela.ws/book/8473/3692 ตัวบทตรงกับหัวข้อที่ใช้ — «ليس كمثله شيء وهو السميع البصير» (บทอัลลอฮ์อยู่ที่ไหน)"
+    },
     "translation": "quran.com id 51"
   },
   {
     "id": "quran-39-62",
     "kind": "quran",
     "ref": "39:62",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 39:62 บนหน้า https://shamela.ws/book/8473/3609 ตัวบทตรงกับหัวข้อที่ใช้ — «الله خالق كل شيء» (บทผู้สร้าง)"
+    }
   },
   {
     "id": "quran-41-37",
     "kind": "quran",
     "ref": "41:37",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 41:37 บนหน้า https://shamela.ws/book/8473/3680 ตัวบทตรงกับหัวข้อที่ใช้ — «لا تسجدوا للشمس ولا للقمر واسجدوا لله الذي خلقهن» (บทผู้สร้าง)"
+    }
   },
   {
     "id": "quran-40-60",
     "kind": "quran",
     "ref": "40:60",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 40:60 บนหน้า https://shamela.ws/book/8473/3651 ตัวบทตรงกับหัวข้อที่ใช้ — «ادعوني أستجب لكم» (บทดุอาอ์)"
+    }
   },
   {
     "id": "quran-20-46",
     "kind": "quran",
     "ref": "20:46",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 20:46 บนหน้า https://shamela.ws/book/8473/2704 ตัวบทตรงกับหัวข้อที่ใช้ — «إنني معكما أسمع وأرى» (บทอัลลอฮ์อยู่ที่ไหน)"
+    }
   },
   {
     "id": "quran-48-29",
     "kind": "quran",
     "ref": "48:29",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 48:29 บนหน้า https://shamela.ws/book/8473/3858 ตัวบทตรงกับที่บทใช้ — \"มุฮัมมัดเป็นร่อซูลของอัลลอฮ์\" (บทนบีของหนูคือใคร)"
+    }
   },
   {
     "id": "quran-67-16",
     "kind": "quran",
     "ref": "67:16",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 67:16 บนหน้า https://shamela.ws/book/8473/4226 ตัวบทตรงกับหัวข้อที่ใช้ — «أأمنتم من في السماء» (บทอัลลอฮ์อยู่ที่ไหน)"
+    }
   },
   {
     "id": "quran-16-50",
     "kind": "quran",
     "ref": "16:50",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 16:50 บนหน้า https://shamela.ws/book/8473/2374 ตัวบทตรงกับที่บทใช้ — «يخافون ربهم من فوقهم» ใช้เป็นหลักฐานของคำว่า \"เหนือ\" (บทอัลลอฮ์อยู่ที่ไหน)"
+    }
   },
   {
     "id": "quran-81-29",
     "kind": "quran",
     "ref": "81:29",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 81:29 บนหน้า https://shamela.ws/book/8473/4382 ตัวบทตรงกับหัวข้อที่ใช้ — «وما تشاءون إلا أن يشاء الله رب العالمين» (บทรุก่นอีมาน — กอดัร)"
+    }
   },
   {
     "id": "quran-39-7",
     "kind": "quran",
     "ref": "39:7",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 39:7 บนหน้า https://shamela.ws/book/8473/3585 ตัวบทตรงกับหัวข้อที่ใช้ — «ولا يرضى لعباده الكفر» (บทรุก่นอีมาน — เจตนาสองแบบ)"
+    }
   },
   {
     "id": "quran-24-27",
     "kind": "quran",
     "ref": "อันนูร 24:27",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-11",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 24:27 บนหน้า https://shamela.ws/book/8473/2941 ตัวบทตรงกับหัวข้อที่ใช้ — «لا تدخلوا بيوتا غير بيوتكم حتى تستأنسوا وتسلموا على أهلها» (บทขออนุญาตก่อนเข้า)"
+    }
   },
   {
     "id": "quran-88-17",
     "kind": "quran",
     "ref": "อัลฆอชิยะฮ์ 88:17",
     "url": "https://shamela.ws/book/8473/4432",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 88:17 บนหน้า https://shamela.ws/book/8473/4432 ตัวบทตรงกับที่บทใช้ — \"พวกเขาไม่พิจารณาอูฐหรือว่าถูกสร้างอย่างไร\" (เกาะสำรวจโลก)"
+    }
   },
   {
     "id": "quran-6-38",
     "kind": "quran",
     "ref": "อัลอันอาม 6:38",
     "url": "https://shamela.ws/book/8473/1518",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 6:38 บนหน้า https://shamela.ws/book/8473/1518 ตัวบทตรงกับที่บทใช้ — \"ไม่มีสัตว์ใดในแผ่นดินและนกที่บินด้วยปีก เว้นแต่เป็นประชาชาติเช่นเดียวกับพวกเจ้า\" (เกาะสำรวจโลก)"
+    }
   },
   {
     "id": "quran-24-45",
     "kind": "quran",
     "ref": "อันนูร 24:45",
     "url": "https://shamela.ws/book/8473/2979",
-    "verified": null
+    "verified": {
+      "by": "claude",
+      "date": "2026-11-12",
+      "how": "ตัฟซีรอิบนุกะษีร (Shamela 8473) มี ayah marker 24:45 บนหน้า https://shamela.ws/book/8473/2979 ตัวบทตรงกับที่บทใช้ — \"อัลลอฮ์ทรงสร้างสัตว์ทุกชนิดจากน้ำ บ้างเดินด้วยท้อง สองขา สี่ขา\" (เกาะสำรวจโลก)"
+    }
   },
   {
     "id": "quran-11-41",
