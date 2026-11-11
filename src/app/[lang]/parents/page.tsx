@@ -9,6 +9,8 @@ import { LocaleLink as Link } from "@/i18n/LocaleProvider";
 
 import { LS } from "@/features/learning-stars/content";
 import { SECTIONS, UI, type Section } from "./content";
+import { P } from './pages-content';
+import { Copy } from './ParentPage';
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/parents">): Promise<Metadata> {
   const { lang } = await params;
@@ -53,12 +55,15 @@ export default async function ParentsPage({ params }: PageProps<"/[lang]/parents
           )}
         </h1>
 
-        <nav className="mt-6 flex flex-wrap gap-4" aria-label={d.pick(UI.title)}><Link href="/parents/settings" className="ui-pill">{d.pick(LS.settings)}</Link><Link href="/parents/evidence" className="ui-pill">{d.pick(LS.evidence)}</Link></nav>
+        <nav className="mt-6 flex flex-wrap gap-4" aria-label={d.pick(UI.title)}><Link href="/parents/settings" className="ui-pill">{d.pick(LS.settings)}</Link><Link href="/parents/evidence" className="ui-pill">{d.pick(LS.evidence)}</Link>{(['curriculum', 'progress', 'privacy', 'sponsors'] as const).map(id => <Link key={id} href={`/parents/${id}`} className="ui-pill max-w-full"><span><Copy text={P[id]} lang={lang as Locale} /></span></Link>)}</nav>
         {SECTIONS.slice(0, 2).map((s) => renderSection(s, d))}
         {/* หลักฐานวางต่อจาก "แนวทางเนื้อหา" ทันที ผู้ปกครองที่สงสัยเรื่องภาพจะเจอคำตอบตรงนั้น */}
         <Link href="/parents/evidence" className="ui-pill mt-4">{d.pick(LS.allEvidence)}</Link>
-        {SECTIONS.slice(2, 4).map((s) => renderSection(s, d))}
-        {/* ปุ่มล้างข้อมูลอยู่ใต้หัวข้อ "ข้อมูลส่วนตัว" ทันที */}
+        {SECTIONS.slice(2, 3).map((s) => renderSection(s, d))}
+        <section className="mt-8"><h2 className="font-display text-brand-blue text-xl font-bold sm:text-2xl">{d.pick(SECTIONS[3].title)}</h2>
+          {[P.privacySummary1, P.privacySummary2].map(text => <p key={text.th} className="mt-2 leading-relaxed"><Copy text={text} lang={lang as Locale} /></p>)}
+          <Link href="/parents/privacy" className="ui-pill mt-4"><span><Copy text={P.privacy} lang={lang as Locale} /></span></Link>
+        </section>
 
         {SECTIONS.slice(4).map((s) => renderSection(s, d))}
 

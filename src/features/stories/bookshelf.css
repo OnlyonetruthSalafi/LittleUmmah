@@ -137,10 +137,12 @@
   text-align: center;
   color: var(--color-island-ink);
   font-family: var(--font-display);
-  line-height: 1.1;
+  line-height: 1.2;
+  /* ดันลงจากยอดโค้ง สระบนของไทยไม่ชนขอบทอง (11 พ.ย. 2026 — ชื่อ "ชุดที่ 2" เคยล้นกรอบบนจอ PC) */
+  padding-top: 0.9cqw;
 }
-.bs-plaque-th { font-weight: 800; font-size: max(15px, 3.6cqw); }
-.bs-plaque-en { font-weight: 700; font-size: max(11px, 1.8cqw); color: var(--color-island-ink-soft); }
+.bs-plaque-th { font-weight: 800; font-size: max(15px, 3cqw); }
+.bs-plaque-en { font-weight: 700; font-size: max(11px, 1.6cqw); color: var(--color-island-ink-soft); }
 
 .bs-row { position: absolute; display: grid; padding-inline: 2%; column-gap: 2%; }
 
@@ -178,7 +180,8 @@
   color: #fff;
   font-weight: 800;
   font-size: max(11px, 1.05cqw);
-  line-height: 1.22;
+  /* 1.22 เตี้ยเกิน สระบน/วรรณยุกต์ไทยทับขอบขาวของสติ๊กเกอร์ */
+  line-height: 1.45;
   text-align: center;
   /* รับการแตะได้ — ป้ายอยู่ในลิงก์ของเล่มนั้น ส่วนที่ยื่นพ้นช่อง (ตู้สูงชั้นบน) จึงยังเปิดหนังสือ */
 }
