@@ -1,3 +1,4 @@
+import { AgeSections } from "@/components/learn/AgeSections";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 import { dict } from "@/i18n/dict";
@@ -28,6 +29,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function FaithIslandPage() {
+  const section = (age: "kids" | "juniors") => (
+    <MoralSection
+      age={age}
+      section={AGE_SECTIONS[age]}
+      groups={[{ id: `${age}-faith`, lessons: LESSONS[age] }]}
+      cardArt={CARD_ART}
+      cartoons={cartoons}
+      progressKey="lu-faith-progress"
+    />
+  );
   return <div className="mrl-page">
     <BackLink />
     <MoralHero
@@ -38,15 +49,7 @@ export default function FaithIslandPage() {
       art={{ src: "/Character/faith.webp", width: 400, height: 400 }}
       seenKey="lu-faith-guide-seen"
     />
-    {(["kids", "juniors"] as const).map((age) => <MoralSection
-      key={age}
-      age={age}
-      section={AGE_SECTIONS[age]}
-      groups={[{ id: `${age}-faith`, lessons: LESSONS[age] }]}
-      cardArt={CARD_ART}
-      cartoons={cartoons}
-      progressKey="lu-faith-progress"
-    />)}
+    <AgeSections kids={section("kids")} juniors={section("juniors")} />
     <OtherIslands current="faith-basics" />
   </div>;
 }

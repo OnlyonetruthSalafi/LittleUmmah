@@ -1,5 +1,45 @@
 @import "tailwindcss";
 
+/* AGE-1: pre-paint selection; display:none removes folded content from keyboard and AT. */
+.age-sections > [data-age-panel] { display: contents; }
+.age-switch { display: none; }
+html[data-age] .age-switch { display: block; }
+.age-switch-button { display: none; }
+html[data-age="kids"] [data-age-panel="juniors"],
+html[data-age="juniors"] [data-age-panel="kids"],
+html[data-age="kids"] [data-age-game="juniors"],
+html[data-age="juniors"] [data-age-game="kids"] { display: none; }
+html[data-age="kids"] [data-age-switch="juniors"],
+html[data-age="juniors"] [data-age-switch="kids"] { display: flex; }
+.age-switch-button {
+  position: relative;
+  min-width: 64px;
+  min-height: 64px;
+  margin: 1.5rem auto;
+  padding: 12px 24px;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 24px;
+  background: var(--color-cloud);
+  color: var(--color-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+.age-switch-button span { font-size: 0.875rem; font-weight: 400; }
+/* ข้อ 2.1: ปุ่มยกได้ทั้งปุ่ม เงาเพิ่มตอน hover (ทำงานแม้ปิด motion) transform เฉพาะ motion-safe */
+.age-switch-button { box-shadow: var(--shadow-soft); transition: box-shadow 200ms ease-out; }
+@media (hover: hover) { .age-switch-button:hover { box-shadow: var(--shadow-float); } }
+@media (prefers-reduced-motion: no-preference) {
+  .age-switch-button { transition: box-shadow 200ms ease-out, translate 200ms ease-out, scale 75ms ease-out; }
+  @media (hover: hover) { .age-switch-button:hover { translate: 0 -0.125rem; } }
+  .age-switch-button:active { scale: 0.98; }
+}
+.age-switch-button:focus-visible { outline: 3px solid var(--color-brand-blue); outline-offset: 4px; }
+.age-memory { display: grid; gap: 2rem; }
+.age-memory > [data-age-panel] { display: block; }
+.age-memory > .age-switch { grid-column: 1 / -1; }
+@media (min-width: 640px) { html:not([data-age]) .age-memory { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /*
   Design tokens — Little Ummah
   อ่านค่าจาก design/mockup-home.png แล้วปรับเฉพาะสีที่ contrast ไม่ผ่าน WCAG AA

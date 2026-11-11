@@ -9,6 +9,7 @@ import { THAI_COURSE_DONE } from "../../features/languages/data/thai";
   แก้คำที่นี่ หน้าไทยเปลี่ยนตามด้วย
 */
 export const en: Dictionary = {
+  agePreference: { kids: "View ages 3–6", juniors: "View ages 7 and up" },
   seo: {
     "homeTitle": "Free, ad-free Islamic learning for children | Little Ummah",
     "description": "Little Ummah is a free, ad-free Islamic learning website for children aged 3–6 and 7+. Explore activities, games and stories together as a family.",

@@ -116,7 +116,7 @@ export function MoralSection({
   }, [open]);
 
   return (
-    <section id={age} aria-labelledby={`age-${age}`} className={`mrl-section mrl-section-${age} scroll-mt-4`}>
+    <section id={age} tabIndex={-1} aria-labelledby={`age-${age}`} className={`mrl-section mrl-section-${age} scroll-mt-4`}>
       {age === 'kids' && !cartoon && <LearningNotice />}
       <div className="mrl-section-head">
         <h2 id={`age-${age}`} className="mrl-age-badge font-display">

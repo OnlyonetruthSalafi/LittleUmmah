@@ -1,3 +1,4 @@
+import { AgeSections } from "@/components/learn/AgeSections";
 import { categoryMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
@@ -65,8 +66,7 @@ export default function ExploreIslandPage({ params }: Props) {
         art={{ src: "/explore/hero-island.webp", width: 1063, height: 923 }}
         seenKey="lu-explore-guide-seen"
       />
-      {section("kids")}
-      {section("juniors")}
+      <AgeSections kids={section("kids")} juniors={section("juniors")} />
 
       <OtherIslands current="explore" />
 

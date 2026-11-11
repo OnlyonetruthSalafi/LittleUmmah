@@ -12,7 +12,7 @@ export function ComingSoonCard({ game }: { game: ComingSoonGame }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = `soon-${game.id}-title`;
   const label = fmt(t.games.hub.soonLabel, { name: pick(game.title) });
-  return <li>
+  return <li id={`age-soon-${game.id}`} data-age-game={game.ageGroup === "7+" ? "juniors" : game.ageGroup === "3–6" ? "kids" : "both"}>
     <button type="button" className="gh-card gh-card-soon" onClick={() => dialog.current?.showModal()}
       aria-label={sub ? `${label} / ${fmt(sub.games.hub.soonLabel, { name: pickSub(game.title)! })}` : label}>
       <div className="gh-card-art gh-soon-art"><ToyIcon id={game.id} className="gh-soon-toy" />

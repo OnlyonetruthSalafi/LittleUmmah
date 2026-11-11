@@ -1,3 +1,4 @@
+import { AgeSections } from "@/components/learn/AgeSections";
 import { categoryMetadata } from "@/lib/seo";
 import { dict, fmt } from "@/i18n/dict";
 import type { Locale } from "@/i18n/config";
@@ -44,6 +45,29 @@ export default async function IslandPage({ params }: PageProps<"/[lang]/learn/[s
   const category = CATEGORIES.find((c) => c.slug === slug);
   if (!island || !category) notFound();
 
+  const section = (group: (typeof AGE_GROUPS)[number]) => (
+    <section
+      key={group.id}
+      id={group.id}
+      aria-labelledby={`age-${group.id}`}
+      className="mt-8 scroll-mt-4"
+    >
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        {/* ป้ายพื้นขาว เพราะหัวข้อวัยแรกวางทับภาพพื้นหลังที่รายละเอียดเยอะ contrast คุมไม่ได้ถ้าไม่มีพื้นรอง */}
+        <h2 id={`age-${group.id}`} className="font-display scene-copy shadow-soft text-ink rounded-full px-6 py-2 text-2xl font-bold sm:text-3xl">
+          {pick(group.name)}
+          {sub && <span lang="en" className="block text-sm font-normal">
+            {pickSub(group.name)}
+          </span>}
+        </h2>
+      </div>
+      <ul className="grid gap-5 lg:grid-cols-2">
+        {island[group.id].map((lesson, i) => (
+          <LessonCard key={lesson.id} lesson={lesson} index={i} />
+        ))}
+      </ul>
+    </section>
+  );
   return (
     <>
       <BackLink />
@@ -72,29 +96,7 @@ export default async function IslandPage({ params }: PageProps<"/[lang]/learn/[s
         </div>
       </div>
 
-      {AGE_GROUPS.map((group) => (
-        <section
-          key={group.id}
-          id={group.id}
-          aria-labelledby={`age-${group.id}`}
-          className="mt-8 scroll-mt-4"
-        >
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            {/* ป้ายพื้นขาว เพราะหัวข้อวัยแรกวางทับภาพพื้นหลังที่รายละเอียดเยอะ contrast คุมไม่ได้ถ้าไม่มีพื้นรอง */}
-            <h2 id={`age-${group.id}`} className="font-display scene-copy shadow-soft text-ink rounded-full px-6 py-2 text-2xl font-bold sm:text-3xl">
-              {pick(group.name)}
-              {sub && <span lang="en" className="block text-sm font-normal">
-                {pickSub(group.name)}
-              </span>}
-            </h2>
-          </div>
-          <ul className="grid gap-5 lg:grid-cols-2">
-            {island[group.id].map((lesson, i) => (
-              <LessonCard key={lesson.id} lesson={lesson} index={i} />
-            ))}
-          </ul>
-        </section>
-      ))}
+      <AgeSections kids={section(AGE_GROUPS[0])} juniors={section(AGE_GROUPS[1])} />
 
       {/* ทางไปเกาะอื่น — ใช้แถบป้ายชุดเดียวกับหน้าแรก */}
       <div className="mt-12">

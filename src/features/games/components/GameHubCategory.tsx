@@ -39,7 +39,7 @@ function GameCard({ game }: { game: GameDefinition }) {
   const { t, sub, pick, pickSub } = useDict();
   const stars = useHubStars([game]);
   const label = SHOW_REWARD_STARS ? fmt(t.games.hub.playLabel, { name: pick(game.title), stars }) : pick(game.title);
-  return <li><HubTileLink href={`/games/${game.slug}`} slug={game.slug} name={pick(game.title)}
+  return <li id={`age-game-${game.slug}`} data-age-game={game.ageGroup === "7+" ? "juniors" : game.ageGroup === "3–6" ? "kids" : "both"}><HubTileLink href={`/games/${game.slug}`} slug={game.slug} name={pick(game.title)}
     ariaLabel={sub ? `${label} / ${SHOW_REWARD_STARS ? fmt(sub.games.hub.playLabel, { name: pickSub(game.title)!, stars }) : pickSub(game.title)}` : label} className="gh-card">
     <NearArtwork as="div" className="gh-card-art"
       overlay={<span className="gh-age">{game.ageGroup} {t.games.hub.ageUnit}{sub && <span lang="en"> / {sub.games.hub.ageUnit}</span>}</span>}>

@@ -1,3 +1,5 @@
+import { AGE_BOOTSTRAP } from "@/lib/ageBootstrap";
+import { AgePreference } from "@/components/learn/AgePreference";
 import { siteUrl } from "@/lib/site-url";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
@@ -46,10 +48,13 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     <html
       lang={lang}
+      suppressHydrationWarning
       className={`${fontClasses} h-full antialiased`}
     >
+      <head><script dangerouslySetInnerHTML={{ __html: AGE_BOOTSTRAP }} /></head>
       <body className="font-body bg-sky-pale text-ink flex min-h-full flex-col">
         <LocaleProvider locale={lang}>
+          <AgePreference />
           <SoundProvider>{children}</SoundProvider>
         </LocaleProvider>
       </body>

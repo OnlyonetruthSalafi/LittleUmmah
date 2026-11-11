@@ -1,5 +1,7 @@
 "use client";
 
+import { setAge } from "@/lib/ageStore";
+import { applyAge, useAge } from "@/components/learn/AgePreference";
 import Image from "next/image";
 import { useHeroGuide } from "../useHeroGuide";
 
@@ -47,6 +49,7 @@ export function MoralHero({
   seenKey: string;
 }) {
   const { t, sub, pick, pickSub } = useDict();
+  const selectedAge = useAge();
   const { phase, current, pose, focus, touring, start, finish } = useHeroGuide({
     steps: GUIDE_STEPS, seenKey: SEEN_KEY, stopEvent: LESSON_OPEN_EVENT,
   });
@@ -54,7 +57,17 @@ export function MoralHero({
   const ageButton = (age: AgeId) => {
     const section = AGE_SECTIONS[age];
     return (
-      <a href={`#${age}`} className={`mrl-age-btn mrl-age-btn-${age}`} data-guided={focus === age || undefined}>
+      <a href={`#${age}`} aria-controls={age} aria-expanded={!selectedAge || selectedAge === age}
+        onClick={(event) => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          if (location.hash !== `#${age}`) history.pushState(null, "", `#${age}`);
+          setAge(age);
+          applyAge();
+          const target = document.getElementById(age);
+          target?.focus({ preventScroll: true });
+          target?.scrollIntoView();
+        }} className={`mrl-age-btn mrl-age-btn-${age}`} data-guided={focus === age || undefined}>
         <Image src={section.badge} alt="" width={96} height={96} className="mrl-age-btn-art" priority />
         <span className="min-w-0 flex-1">
           {pick(section.label)}

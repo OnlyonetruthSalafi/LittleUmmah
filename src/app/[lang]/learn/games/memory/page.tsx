@@ -1,3 +1,4 @@
+import { AgeSections } from "@/components/learn/AgeSections";
 import { PlayArea, LearningBalance } from '@/features/learning-stars/components';
 import { pageMetadata } from "@/lib/seo";
 import { dict } from "@/i18n/dict";
@@ -21,6 +22,23 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/learn/game
 export default async function MemoryPage({ params }: PageProps<"/[lang]/learn/games/memory">) {
   const { lang } = await params;
   const { t, sub, pick, pickSub } = dict(lang as Locale);
+  const section = (group: (typeof AGE_GROUPS)[number]) => (
+    <section key={group.id} id={group.id}>
+      <h2 className="mb-4 text-xl font-bold">
+        {pick(group.name)}
+        {sub && <span lang="en" className="block text-sm font-normal">
+          {pickSub(group.name)}
+        </span>}
+      </h2>
+      <ul>
+        {GAMES.filter(
+          (game) => game.status === "playable" && game.ageGroup === group.id,
+        ).map((game) => (
+          <GameTile key={game.slug} game={game} />
+        ))}
+      </ul>
+    </section>
+  );
   return (
     <PlayArea><LearningBalance />
       <GameNavigation />
@@ -36,24 +54,8 @@ export default async function MemoryPage({ params }: PageProps<"/[lang]/learn/ga
           {sub.memoryPage.hint}
         </p>}
 
-        <div className="mt-8 grid gap-8 sm:grid-cols-2">
-          {AGE_GROUPS.map((group) => (
-            <section key={group.id}>
-              <h2 className="mb-4 text-xl font-bold">
-                {pick(group.name)}
-                {sub && <span lang="en" className="block text-sm font-normal">
-                  {pickSub(group.name)}
-                </span>}
-              </h2>
-              <ul>
-                {GAMES.filter(
-                  (game) => game.status === "playable" && game.ageGroup === group.id,
-                ).map((game) => (
-                  <GameTile key={game.slug} game={game} />
-                ))}
-              </ul>
-            </section>
-          ))}
+        <div className="mt-8">
+          <AgeSections className="age-memory" kids={section(AGE_GROUPS[0])} juniors={section(AGE_GROUPS[1])} />
         </div>
       </section>
     </PlayArea>

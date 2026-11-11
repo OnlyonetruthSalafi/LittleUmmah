@@ -12,6 +12,7 @@ import { ENGLISH_COURSE_DONE } from "../../features/languages/data/english";
 import { THAI_COURSE_DONE } from "../../features/languages/data/thai";
 
 export const th = {
+  agePreference: { kids: "ดูบทของวัย 3–6 ปี", juniors: "ดูบทของวัย 7 ปีขึ้นไป" },
   seo: {
     "homeTitle": "เว็บเรียนรู้อิสลามสำหรับเด็ก ฟรี ไม่มีโฆษณา | Little Ummah",
     "description": "Little Ummah เว็บเรียนรู้อิสลามสำหรับเด็กวัย 3–6 ปีและ 7 ปีขึ้นไป เรียนรู้ผ่านกิจกรรม เกม และนิทาน ใช้ฟรี ไม่มีโฆษณา ให้ผู้ปกครองเลือกเรียนรู้ไปกับลูก",

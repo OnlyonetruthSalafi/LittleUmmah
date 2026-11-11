@@ -1,3 +1,4 @@
+import { AgeSections } from "@/components/learn/AgeSections";
 import { categoryMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
@@ -55,8 +56,7 @@ export default function MoralIslandPage() {
         art={{ src: "/moral/hero-island.webp", width: 1063, height: 923 }}
         seenKey="lu-moral-guide-seen"
       />
-      {section("kids")}
-      {section("juniors")}
+      <AgeSections kids={section("kids")} juniors={section("juniors")} />
       <OtherIslands current="moral" />
     </div>
   );
