@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties, type Focu
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { IslandLockIcon } from "@/components/icons/IslandLockIcon";
 import { afterScenePaint } from "@/components/performance/afterScenePaint";
+import { HeroVoice, ORBIT_TURN_EVENT } from "@/components/landing/HeroVoice";
 import { useSound } from "@/components/sound/SoundProvider";
 import { fmt } from "@/i18n/dict";
 import { LocaleLink as Link, useDict } from "@/i18n/LocaleProvider";
@@ -32,6 +33,8 @@ const TWEEN_MS = 520;
 
 const norm = (a: number) => ((((a % 360) + 540) % 360) - 180);
 const frontOf = (rot: number) => ((Math.round(-rot / STEP) % N) + N) % N;
+/** บอก HeroVoice ว่าเกาะเริ่มหมุนแล้ว ให้ตัดเสียงต้อนรับทันที */
+const announceTurn = () => window.dispatchEvent(new Event(ORBIT_TURN_EVENT));
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -114,6 +117,7 @@ export function IslandOrbit() {
   const goTo = useCallback(
     function turnTo(i: number) {
       setTouched(true);
+      announceTurn();
       const ready = prepareImages();
       const intent = ++pendingTurn.current;
       if (ready) {
@@ -154,6 +158,7 @@ export function IslandOrbit() {
     d.dx = dx;
     if (!d.moved && Math.abs(dx) > 6) {
       d.moved = true;
+      announceTurn();
       stage.current?.setPointerCapture(event.pointerId);
       const ready = prepareImages();
       if (ready) void ready.then(() => {
@@ -184,6 +189,7 @@ export function IslandOrbit() {
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
+        <HeroVoice />
         <ul className="orbit-ring">
           {ISLANDS.map((island, i) => {
             const a = norm(i * STEP + rot);

@@ -3,7 +3,6 @@ import type { Locale } from "@/i18n/config";
 import Image from "next/image";
 
 import { SparkleIcon } from "@/components/icons/SparkleIcon";
-import { HeroVoice } from "@/components/landing/HeroVoice";
 import { StickerArcTitle } from "@/components/landing/StickerArcTitle";
 
 /*
@@ -22,7 +21,6 @@ export function Hero({ locale }: { locale: Locale }) {
         aria-hidden="true"
         className="hero-glow pointer-events-none absolute inset-0 -z-10 scale-x-125 scale-y-150"
       />
-      <HeroVoice />
       <h1 lang="en" className="font-display font-extrabold">
         <span className="sr-only">{t.hero.arcTitle}</span>
         <StickerArcTitle

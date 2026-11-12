@@ -34,8 +34,8 @@ export const RECORDED_CLIPS = new Set<string>([
   // ชื่อเกาะหมวดหมู่ในหน้าแรก (IslandCard, ValueBar) ไทยอย่างเดียว
   // cat-arabic อัดใหม่ 8 พ.ย. 2026 เป็น "เรียนภาษาเบื้องต้น" (ชื่อเกาะใหม่ หลังยุบเกาะภาษาไทย/อังกฤษเข้ามา)
   "cat-moral", "cat-stories", "cat-arabic", "cat-explore", "cat-games", "cat-art",
-  // หัวข้อหน้าแรก อ่านเมื่อเลื่อนจอมาเจอ (HeroVoice)
-  "hero-tagline",
+  // เสียงต้อนรับหน้าแรก อ่านเมื่อวงเกาะอยู่ในจอ ตัดทันทีเมื่อเด็กหมุนเกาะ (HeroVoice) — แทน "hero-tagline" เดิม 12 พ.ย. 2026
+  "home-welcome",
   // เกมเขาวงกตแสง (scripts/make-lightmaze-voice.mjs) — เจ้าของโปรเจกต์ให้ลงได้เลยโดยไม่ต้องรอฟังก่อน
   // จะลองเล่นแล้วแจ้งแก้ทีหลัง (1 ต.ค. 2026)
   "game-light-maze", "name-light-maze",
@@ -141,6 +141,11 @@ export function stopAllSpeech() {
   if (typeof window !== "undefined" && window.speechSynthesis) {
     window.speechSynthesis.cancel();
   }
+}
+
+/** หยุดเสียงเฉพาะเมื่อเสียงที่กำลังเล่นเป็นของ key นี้ (ไฟล์อัด) หรือข้อความนี้ (เสียงสังเคราะห์) เสียงอื่นไม่โดนตัด */
+export function stopSpeechIf(key: string, text: string) {
+  if ((currentAudio && currentClipKey === key) || currentUtterance?.text === text) stopAllSpeech();
 }
 
 export function speakWithSynth(text: string) {

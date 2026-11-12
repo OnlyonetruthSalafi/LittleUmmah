@@ -231,7 +231,7 @@ export const en: Dictionary = {
     parents: "your parents,",
     faith: "and grow in faith",
     islam: "through Islam",
-    speech: "Learn, Play, Grow",
+    speech: "Assalamu alaikum! Welcome to Little Ummah. Today's little Ummah, tomorrow's grown-ups. Swipe left or right to see the islands.",
   },
   footer: {
     label: "Site footer",
