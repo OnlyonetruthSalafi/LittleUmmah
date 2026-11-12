@@ -13,13 +13,13 @@ import type { Lesson } from "@/lib/lessons";
 import { stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { FILM_BASE, type Film } from "../film";
+import { FILM_BASE, FILM_VIDEO_BASE, type Film } from "../film";
 
 /*
   เครื่องเล่นการ์ตูนเต็มเรื่อง (film.ts) — ใช้แทน CartoonLesson ในบทที่มีการ์ตูนแล้ว
 
   - เปิดจากการแตะการ์ด จึงเล่นพร้อมเสียงได้ทันที ยกเว้นเครื่องที่ตั้งลดการเคลื่อนไหว: แสดงภาพปก รอเด็กกดเล่นเอง
-  - วิดีโอโหลดเมื่อเปิดหน้าต่างนี้เท่านั้น จอแคบใช้ 720p จอกว้าง 1080p (<source media>)
+  - วิดีโอโหลดเมื่อเปิดหน้าต่างนี้เท่านั้น จอแคบใช้ 720p จอกว้าง 1080p (<source media>) จาก Cloudflare R2 (film.ts)
   - คำบรรยายเป็นไฟล์ WebVTT แสดงเป็นข้อความจริงใต้ภาพ (ไม่ฝังในวิดีโอ — ข้อ 1.5) พร้อมชื่อผู้พูด
   - ถึงตาเด็กพูด: วิดีโอหยุดเอง ขึ้นป้ายคำ เด็กกด "หนูพูดแล้ว" แล้วนูรีตอบ (ไม่ใช้ไมโครโฟน ไม่เก็บเสียงเด็ก)
   - ปุ่มทุกปุ่ม 64px (ข้อ 2) ไม่ใช้แถบควบคุมของเบราว์เซอร์ ไม่มีภาพซ้อนภาพ ไม่มีดาวน์โหลด
@@ -63,6 +63,7 @@ export function FilmLesson({
   const [progress, setProgress] = useState(0);
   const turnsDone = useRef(new Set<number>());
   const base = `${FILM_BASE}/${film.name}`;
+  const video = `${FILM_VIDEO_BASE}/${film.name}`;
   const captionLang = film.captions.includes(locale as "th" | "en") ? locale : film.captions[0];
 
   useEffect(() => {
@@ -207,8 +208,8 @@ export function FilmLesson({
               if (v && watchedSeconds(v) >= 0.9 * (v.duration || film.duration) - film.turns.reduce((a, tr) => a + tr.resumeAt - tr.at, 0)) onFinishRef.current?.();
             }}
           >
-            <source src={`${base}-1080.mp4`} type="video/mp4" media="(min-width: 1200px)" />
-            <source src={`${base}-720.mp4`} type="video/mp4" />
+            <source src={`${video}-1080.mp4`} type="video/mp4" media="(min-width: 1200px)" />
+            <source src={`${video}-720.mp4`} type="video/mp4" />
             <track kind="captions" src={`${base}.${captionLang}.vtt`} srcLang={captionLang} label={captionLang === "th" ? "ไทย" : "English"} default />
           </video>
 

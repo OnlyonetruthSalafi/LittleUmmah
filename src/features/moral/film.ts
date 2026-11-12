@@ -8,15 +8,22 @@ import type { Text } from "@/i18n/config";
   ไฟล์ต้นทางอยู่ที่ output/car-salam2/ (บท script.md, ที่มาของตัวบทอยู่ในนั้น) และ output/car-hf/salam2/ (film.mjs)
   ตัวละครเป็นหุ่นยนต์ล้วน ไม่มีดนตรี มีแต่เสียงพูดและเสียงประกอบ (AGENTS 1.2, 1.3)
 
-  วิดีโอ: <ชื่อ>-720.mp4 (มือถือ) <ชื่อ>-1080.mp4 (จอกว้าง) <ชื่อ>-poster.webp และคำบรรยาย <ชื่อ>.<ภาษา>.vtt
-  ที่อยู่ไฟล์ทั้งหมดผ่าน FILM_BASE จุดเดียว — เมื่อย้ายวิดีโอไป Cloudflare R2 ให้ตั้ง NEXT_PUBLIC_FILM_BASE เป็นโดเมนของ bucket
+  ไฟล์ของแต่ละเรื่อง: <ชื่อ>-720.mp4 (มือถือ) <ชื่อ>-1080.mp4 (จอกว้าง) <ชื่อ>-poster.webp และคำบรรยาย <ชื่อ>.<ภาษา>.vtt
+
+  วิดีโอ (.mp4) อยู่ที่ Cloudflare R2 bucket "littleummah-media" ผ่านโดเมน media.littleummahworld.com (เจ้าของตั้ง 12 พ.ย. 2026)
+  ค่าส่งข้อมูลฟรี ไม่กินโควต้า Vercel · อัปโหลด: npx wrangler r2 object put littleummah-media/moral/film/<ไฟล์> --file <ไฟล์>
+    --content-type video/mp4 --cache-control "public, max-age=604800" --remote
+  (แก้วิดีโอเดิม = อัปโหลดทับชื่อเดิม cache ที่เครื่องผู้ใช้หมดใน 7 วัน ถ้าต้องเห็นทันทีให้ตั้งชื่อไฟล์ใหม่)
+  ภาพปกและคำบรรยายไฟล์เล็ก อยู่ใน public/moral/film/ บน Vercel — <track> ข้ามโดเมนต้องตั้ง CORS จึงไม่ย้าย
+  เปลี่ยนที่เก็บวิดีโอได้ที่ NEXT_PUBLIC_FILM_VIDEO_BASE จุดเดียว
 */
-export const FILM_BASE = process.env.NEXT_PUBLIC_FILM_BASE ?? "/moral/film";
+export const FILM_BASE = "/moral/film";
+export const FILM_VIDEO_BASE = process.env.NEXT_PUBLIC_FILM_VIDEO_BASE ?? "https://media.littleummahworld.com/moral/film";
 
 export type FilmWord = { ar: string; th: string };
 
 export type Film = {
-  /** ชื่อไฟล์ (ไม่มีนามสกุล) ใต้ FILM_BASE */
+  /** ชื่อไฟล์ (ไม่มีนามสกุล) ใต้ FILM_BASE / FILM_VIDEO_BASE */
   name: string;
   /** ความยาว (วินาที) — ใช้แสดงแถบความคืบหน้าก่อนโหลด metadata */
   duration: number;

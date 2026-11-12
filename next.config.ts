@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self'",
-      "media-src 'self'",
+      // วิดีโอการ์ตูนอยู่ที่ Cloudflare R2 (src/features/moral/film.ts)
+      "media-src 'self' https://media.littleummahworld.com",
       "connect-src 'self'",
       "object-src 'none'",
       "frame-src 'none'",
