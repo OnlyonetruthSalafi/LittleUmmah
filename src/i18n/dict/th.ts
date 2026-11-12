@@ -188,6 +188,10 @@ export const th = {
       next: "ฉากถัดไป / Next",
       scene: "ฉาก {index} จาก {total}",
       sayPrompt: "ตาหนูแล้ว! พูดว่า {word}"
+    },
+    film: {
+      saidIt: "หนูพูดแล้ว",
+      back: "ย้อน 5 วินาที"
     }
   },
   explore: {

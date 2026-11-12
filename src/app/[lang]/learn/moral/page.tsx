@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
 import { MoralHero } from "@/features/moral/components/MoralHero";
 import { MoralSection } from "@/features/moral/components/MoralLessons";
+import { FILMS } from "@/features/moral/film";
 import { CARTOONS } from "@/features/moral/cartoon";
 import { AGE_SECTIONS, CARD_ART, CARD_BUBBLE, GUIDE_STEPS } from "@/features/moral/data";
 import { OtherIslands } from "@/components/islands/OtherIslands";
@@ -41,6 +42,7 @@ export default function MoralIslandPage() {
       cardArt={CARD_ART}
       cardBubble={CARD_BUBBLE}
       cartoons={CARTOONS}
+      films={FILMS}
       progressKey="lu-moral-progress"
     />
   );

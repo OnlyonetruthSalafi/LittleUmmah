@@ -185,6 +185,10 @@ export const en: Dictionary = {
       next: "Next",
       scene: "Scene {index} of {total}",
       sayPrompt: "Your turn! Say {word}"
+    },
+    film: {
+      saidIt: "I said it",
+      back: "Back 5 seconds"
     }
   },
   explore: {
