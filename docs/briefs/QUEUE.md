@@ -13,7 +13,7 @@
 | 4 | canonical/OG บน prod + post-deploy smoke | เสร็จ (`51ae912`) ตรวจ prod 11 พ.ย. ไม่มี localhost; smoke พักไว้ (`9abab39`) เปิดใหม่ช่วง limited beta |
 | 5 | security headers | เสร็จ (`51ae912`) CSP ยัง report-only |
 | 6 | header มือถือแนวนอน + `.ui-pill` | เสร็จ (`51ae912`) |
-| 7 | ความเร็วมือถือ | รอบ 1 `fdc91aa`, รอบ 2 `b4e777f` — prod LCP หน้าแรก 2.9s (คะแนน 95), ตู้หนังสือ 3.8s, เกม 4.3–5.0s |
+| 7 | ความเร็วมือถือ | รอบ 1 `fdc91aa`, รอบ 2 `b4e777f` — prod LCP หน้าแรก 2.9s (คะแนน 95), ตู้หนังสือ 3.8s, เกม 4.3–5.0s; รอบ 3 เกาะเกม `0fd282e` (12 พ.ย.) — prod LCP เกม 2.9–3.8s · งานต่อ: `docs/briefs/PERF-3-handoff.md` |
 | 8 | สำรองไฟล์นอก git | ไม่ต้องทำ — เจ้าของตัดสิน 11 พ.ย.: สำรองบน GitHub พอแล้ว (สคริปต์ `scripts/backup-originals.mjs` ยังอยู่ถ้าต้องใช้) |
 | 9 | ลบ worktree เก่า | เสร็จ 11 พ.ย. ลบครบทุกตัว เหลือแค่ main (output สำรองใน `output/backup-2026-11-1*/`) |
 | 10 | HAD-3 หนังสือหะดีษชุด 2 | เสร็จ ภาพ+เสียง เปิดครบ 6 เล่ม (`bbdf9ac`) |
@@ -26,7 +26,7 @@
 4. **"วันนี้กับนูรี"** — NURI-1 สร้างแล้ว (11 พ.ย. คืน) branch `feature/nuri-1` worktree `D:/Littleummah-nuri` · (`b3601f4`) checks + sol review ผ่าน · **รอเจ้าของดู + เลือกตำแหน่งบนหน้าแรก** (mockup `output/nuri-1/home-placement-*.png`) · บทพูดนูรี 7 บรรทัดยังไม่อัด
 5. คำถามท้ายบท 7+ — QUIZ-1 สร้างแล้ว branch `feature/quiz-1` (`2f2c6d4`) worktree `D:/Littleummah-quiz` · โจทย์ `docs/briefs/QUIZ-1-questions.md` · checks + sol review ผ่าน · **รอเจ้าของดู** · เสียงคำถามยังไม่อัด · NURI-1 กับ QUIZ-1 แก้ `parents/content.ts` ทั้งคู่ — รวมทีละ branch
 6. ดุอาอ์ประจำวัน 6 สถานการณ์ — ตัวบทตรวจ Shamela แล้ว `docs/briefs/DUA-1-daily-duas.md` (มีคำถาม 4 ข้อรอเจ้าของ) · วุฎูอ์/ละหมาด 7+ ยังไม่เริ่ม
-7. ความเร็ว: หน้าเกมและตู้หนังสือ (ถ้าเจ้าของต้องการ — อาจให้ Fable)
+7. ความเร็ว: เกาะเกมรอบ 3 เสร็จ (`0fd282e`) ยังไม่ถึง 2.5s — ส่งต่อ Opus + Codex ตาม `docs/briefs/PERF-3-handoff.md` (ขั้น A งานเล็ก, ขั้น B ลด JS/ฟอนต์, ขั้น C ตู้หนังสือ)
 
 ## การ์ตูน YouTube (11 พ.ย.)
 - นำร่อง "นบีสุลัยมานกับมด" เสร็จ: `output/car-hf/ants-cartoon-v4.mp4` (ไม่มีเสียงลม), คลิป FB `output/car-hf/fb/` · วิธีทำบันทึกใน memory `cartoon-video-pipeline` · รอเจ้าของบรีฟการ์ตูนจริงหลังประชุม
