@@ -19,6 +19,8 @@ import type { Cartoon } from "../cartoon";
 import { LESSON_OPEN_EVENT, type AgeId, type AgeSection } from "../data";
 import { progressStore } from "../progress";
 import { CartoonLesson } from "./CartoonLesson";
+import { FilmLesson } from "./FilmLesson";
+import type { Film } from "../film";
 import { useDict } from "@/i18n/LocaleProvider";
 import type { Text } from "@/i18n/config";
 
@@ -52,6 +54,7 @@ export function MoralSection({
   cardArt,
   cardBubble = {},
   cartoons,
+  films = {},
   progressKey,
 }: {
   age: AgeId;
@@ -62,6 +65,8 @@ export function MoralSection({
   cardBubble?: Record<string, CardBubble>;
   /** บทที่มีการ์ตูนครูนูรี เปิดเป็นการ์ตูนแทนหน้าต่างข้อความ */
   cartoons: Record<string, Cartoon>;
+  /** การ์ตูนเต็มเรื่อง (film.ts) — บทที่มีจะเปิดเป็นการ์ตูนแทนแบบภาพนิ่ง */
+  films?: Record<string, Film>;
   /** localStorage key ของดาว แยกตามเกาะ */
   progressKey: string;
 }) {
@@ -88,7 +93,7 @@ export function MoralSection({
     // หยุดหุ่นยนต์แนะนำหน้าก่อน แล้วค่อยเริ่มเสียงบทเรียน
     window.dispatchEvent(new Event(LESSON_OPEN_EVENT));
     // ดาวได้เมื่อดูการ์ตูนจบ (onFinish) หรือฟังบทข้อความจนจบแล้วปิดหน้าต่าง ไม่ใช่แค่แตะเปิด
-    if (cartoons[lesson.id]) {
+    if (films[lesson.id] || cartoons[lesson.id]) {
       setCartoon(lesson);
       return;
     }
@@ -280,7 +285,15 @@ export function MoralSection({
         )}
       </dialog>
 
-      {cartoon && (
+      {cartoon && films[cartoon.id] && (
+        <FilmLesson
+          lesson={cartoon}
+          film={films[cartoon.id]}
+          onClose={() => setCartoon(null)}
+          onFinish={() => markPractised(cartoon.id)}
+        />
+      )}
+      {cartoon && !films[cartoon.id] && (
         <CartoonLesson
           lesson={cartoon}
           cartoon={cartoons[cartoon.id]}
