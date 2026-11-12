@@ -80,7 +80,8 @@
 }
 
 @media(max-width:599px) {
-.gh-hero { display:block; min-height:0; padding:20px 16px 12px; border-radius:26px; background:linear-gradient(#edf9ffe6,#edf9ff30),url('/games/hub/game-hub-bg.webp') center/cover }
+/* Hero มือถือสูงกว่ากว้างเสมอ (หัวข้อ + ปุ่ม + ฉากเกาะ) cover จึงใช้แค่แถบกลางของภาพ — ส่งฉบับตัดกลาง สเกลเดิม (ดู interiors.css) */
+.gh-hero { display:block; min-height:0; padding:20px 16px 12px; border-radius:26px; background:linear-gradient(#edf9ffe6,#edf9ff30),url('/games/hub/game-hub-bg-square.webp') center/cover }
 .gh-hero h1 { font-size:48px }
 .gh-hero h1 [lang=en] { font-size:30px }
 .gh-intro { font-size:15px; margin-top:10px }
@@ -231,3 +232,5 @@
   .gh-soon-dialog p { margin-top:4px; font-size:14px }
   .gh-soon-dialog .gc-button { margin-top:8px }
 }
+/* มือถือแคบ: Hero สูงกว่ากว้างเกิน 1.33 เท่า (วัด 320–480px: 0.59–0.65) ใช้แถบกลาง 768×1024 ได้โดยภาพที่เห็นเท่าเดิม */
+@media(max-width:479px) { .gh-hero { background-image:linear-gradient(#edf9ffe6,#edf9ff30),url('/games/hub/game-hub-bg-narrow.webp') } }

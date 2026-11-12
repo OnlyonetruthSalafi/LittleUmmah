@@ -226,6 +226,30 @@ for (const job of JOBS) {
   }
 }
 
+/*
+  ฉบับตัดกลางของพื้นหลัง CSS สำหรับจอตั้ง (12 พ.ย. 2026 — ความเร็วหน้าเกม)
+  background-size: cover บนกรอบแนวตั้งใช้แค่แถบกลางของภาพ จึงตัดจากภาพที่ย่อด้วยค่าเดียวกับไฟล์เต็ม (width/quality เดิม)
+  พิกเซลที่เห็นเท่าเดิม แต่ไฟล์เล็กลงมาก ratio = กว้าง/สูง ของแถบที่เก็บ — ใช้ใน interiors.css และ games-hub.css
+  สร้างเฉพาะส่วนนี้ (ไม่แตะ JOBS):  node scripts/optimize-images.mjs --crops-only
+*/
+const CROPS = [
+  { src: "public/games/hub/game-hub-bg.png", width: 1536, quality: 85, outs: [["game-hub-bg-square.webp", 1], ["game-hub-bg-narrow.webp", 0.75]] },
+];
+for (const crop of CROPS) {
+  if (process.argv[2] && process.argv[2] !== "--crops-only" && process.argv[2] !== path.posix.dirname(crop.src)) continue;
+  const resized = await sharp(crop.src).resize(crop.width, null, { fit: "inside", withoutEnlargement: true }).png().toBuffer();
+  const { width, height } = await sharp(resized).metadata();
+  for (const [name, ratio] of crop.outs) {
+    const cropWidth = Math.round(height * ratio);
+    const out = path.join(path.dirname(crop.src), name);
+    await sharp(resized)
+      .extract({ left: Math.round((width - cropWidth) / 2), top: 0, width: cropWidth, height })
+      .webp({ quality: crop.quality, effort: 6 })
+      .toFile(out);
+    console.log(`  crop ${name} ${cropWidth}x${height} ${((await stat(out)).size / 1024).toFixed(0)}KB`);
+  }
+}
+
 await writeFile(
   "scripts/source-images.json",
   JSON.stringify(manifest, null, 2) + "\n",

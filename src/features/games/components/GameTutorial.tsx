@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { preload } from 'react-dom';
 import { HandTapIcon } from '@/components/icons/HandTapIcon';
 import { useDict, useLocale } from '@/i18n/LocaleProvider';
 import { playNarration, stopAllSpeech } from '@/lib/speech';
@@ -53,6 +54,9 @@ const BEADS = [0.35, 0.5, 0.65];
 /** ฉากสาธิตด้วยภาพจริงของเกม: จังหวะ 1 กดปุ่มแล้วหุ่นเดิน · จังหวะ 2 เก็บเม็ดแสง · จังหวะ 3 เพื่อนหุ่นขวางทาง หุ่นเลี้ยวหลบ */
 function LightMazeDemo({ step }: { step: number }) {
   const theme = LM_THEME_ART('neon');
+  // ฉากหลังเป็น background ใน CSS (game-tutorial.css) เบราว์เซอร์จะรู้ว่าต้องโหลดก็ต่อเมื่ออ่าน CSS เสร็จ ทั้งที่เป็นภาพใหญ่สุดของหน้า
+  // บอกไว้ใน <head> ให้เริ่มโหลดพร้อม HTML — ไฟล์เดียวกับฉากตอนเล่นด่านแรก จึงไม่โหลดซ้ำ
+  preload(theme.backdrop, { as: 'image', fetchPriority: 'high' });
   const orb = LM_ACTOR_ART('orb'), friend = LM_ACTOR_ART('blue');
   return <div className="lmt-scene" data-step={step} aria-hidden="true">
     <div className="lmt-island">

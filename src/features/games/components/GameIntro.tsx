@@ -26,8 +26,8 @@ export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn, pi
   return <section className="gc-adventure-intro" aria-labelledby="gc-adventure-title">
     <div className="gc-adventure-scene">
       <div className="gc-adventure-aura" aria-hidden="true" />
-      <div className="gc-adventure-island"><Thumbnail slug={game.slug} large /></div>
-      <Image src={gameAssets.guide} width={160} height={190} alt="" className="gc-adventure-robot" />
+      <div className="gc-adventure-island"><Thumbnail slug={game.slug} large sizes="(max-width: 639px) 180px, (max-width: 1023px) 47vw, (max-width: 1500px) 43vw, 660px" /></div>
+      <Image src={gameAssets.guide} width={160} height={190} alt="" sizes="(max-width: 639px) 56px, (max-width: 1023px) 15vw, 205px" className="gc-adventure-robot" />
     </div>
     <div className="gc-adventure-menu">
       <div className="gc-adventure-heading">

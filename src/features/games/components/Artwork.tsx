@@ -16,9 +16,12 @@ export function ObjectArt({ visual, recessed = false }: { visual: Visual; recess
   return <span className={`gc-object ${visual.kind === 'icon' ? 'gc-object-raster' : ''}`} style={visual.size ? { width: `calc(${visual.size} * var(--gc-art-width, 100%))` } : undefined} aria-hidden="true">{visual.kind === 'shape' ? <GameShape shape={visual.value} color={visual.color} recessed={recessed} /> : objectImages.has(visual.value) ? <><Image src={`/games/common/objects/${visual.value}.webp`} alt="" width={256} height={256} sizes="(max-width: 639px) 90px, 140px" draggable={false} />{visual.value === 'letters' && <span className="gc-object-arabic" lang="ar" dir="rtl">ا</span>}</> : <GameIcon name={visual.value as GameIconName | 'sparkle'} />}</span>;
 }
 
-export function Thumbnail({ slug, large = false }: { slug: GameSlug; large?: boolean }) {
+/** large = ภาพหลักของหน้าเลือกด่าน (LCP): โหลดทันทีด้วยลำดับสูง — คู่มือ Next 16 ให้ใช้ loading/fetchPriority แทน preload
+ *  sizes: กรอบภาพเกาะของหน้าที่เรียกใช้ (CSS px) — ค่าเริ่มต้นของ large คือฉาก VoiceIntro ที่เกาะกว้างเกือบเต็มจอ */
+export function Thumbnail({ slug, large = false, sizes }: { slug: GameSlug; large?: boolean; sizes?: string }) {
   return <div className="gc-diorama" aria-hidden="true">
-    <Image src={`/games/hub/${slug}.webp`} alt="" fill sizes={large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, (max-width: 1000px) 31vw, 290px'} preload={large} />
+    <Image src={`/games/hub/${slug}.webp`} alt="" fill sizes={sizes ?? (large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, (max-width: 1000px) 31vw, 290px')}
+      {...(large ? { loading: 'eager' as const, fetchPriority: 'high' as const } : {})} />
     {slug === 'coin-box' && <span style={{ position: 'absolute', width: '18%', height: '18%', left: '41%', top: '65%' }}><Image src="/games/coin-box/coin.webp" alt="" fill sizes="(max-width: 639px) 48px, 80px" /></span>}
     {slug === 'arabic-match' && <span className="gc-art-letters" lang="ar" dir="rtl"><span>ا</span><span>ب</span><span>ت</span></span>}
   </div>;

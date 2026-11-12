@@ -92,7 +92,7 @@ export function VoiceIntro({ game, soundOn, speechBroken, paused = false, onStar
             ต้องอยู่ข้างในกรอบภาพเกาะ เพราะพิกัดทั้งหมดเป็นเปอร์เซ็นต์ของภาพ ไม่ใช่ของฉาก */}
         <PlayDemo slug={game.slug} />
       </div>
-      <Image src={gameAssets.guide} width={200} height={240} alt="" className="gc-voice-robot" />
+      <Image src={gameAssets.guide} width={200} height={240} alt="" sizes="(max-width: 639px) 40vw, (max-width: 1279px) 270px, 400px" className="gc-voice-robot" />
       {/* คลื่นเสียงตอนหุ่นยนต์พูด — เป็นภาพประกอบเสียงพูด ไม่ใช่สัญลักษณ์ดนตรี (ข้อ 1.3) */}
       {talking && voiceReady && <span className="gc-voice-wave" aria-hidden="true"><i /><i /><i /></span>}
     </div>

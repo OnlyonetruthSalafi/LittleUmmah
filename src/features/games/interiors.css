@@ -6,6 +6,15 @@
   background: radial-gradient(ellipse at 50% 40%, #eaf6ff 5%, #eaf6ffab 56%, transparent 85%), url('/games/hub/game-hub-bg.webp') center top / cover;
   padding-bottom: 48px;
 }
+/* จอตั้ง: cover + center top ตัดซ้ายขวาของภาพทิ้งอยู่แล้ว จึงส่งเฉพาะแถบกลางที่มองเห็น (ตัดจากภาพเดิม สเกลเดิม พิกเซลที่เห็นเท่าเดิม)
+   square 1024×1024 ใช้ได้เมื่อกรอบสูง ≥ กว้าง, narrow 768×1024 เมื่อสูง ≥ 1.33 เท่าของกว้าง — กรอบสูงอย่างน้อย 100svh
+   เงื่อนไขเผื่อแถบเบราว์เซอร์ไว้แล้ว สร้างไฟล์ด้วย scripts/optimize-images.mjs (CROPS) */
+@media (max-aspect-ratio: 4/5) {
+  .gc-focus { background-image: radial-gradient(ellipse at 50% 40%, #eaf6ff 5%, #eaf6ffab 56%, transparent 85%), url('/games/hub/game-hub-bg-square.webp'); }
+}
+@media (max-aspect-ratio: 3/5) {
+  .gc-focus { background-image: radial-gradient(ellipse at 50% 40%, #eaf6ff 5%, #eaf6ffab 56%, transparent 85%), url('/games/hub/game-hub-bg-narrow.webp'); }
+}
 .gc-focus[data-game='memory'] { --gc-surface: #e3d8ff; --gc-edge: #c3b1ea; --gc-deep-edge: #9484b5; }
 .gc-focus[data-game='color-match'], .gc-focus[data-game='sequence'] { --gc-surface: #fff7d5; --gc-edge: #f6c64d; --gc-deep-edge: #d5b966; }
 .gc-focus[data-game='shape-match'], .gc-focus[data-game='sort'], .gc-focus[data-game='find-object'] { --gc-surface: #c9efdb; --gc-edge: #49c3a5; --gc-deep-edge: #72ab9b; }
