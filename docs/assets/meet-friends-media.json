@@ -1,0 +1,96 @@
+{
+  "account": {
+    "provider": "ElevenLabs",
+    "tier": "creator",
+    "status": "active",
+    "checkedAt": "2026-11-13T18:47:29.083Z"
+  },
+  "effects": {
+    "wheels": {
+      "duration": 2.5,
+      "label": "ล้อหุ่นยนต์ / Robot wheels",
+      "text": "Clearly audible natural small rubber robot wheels rolling slowly over smooth stone paving and gently stopping. One steady short movement, close detailed friction, no squeal, no impact, no rhythmic repetition, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/wheels.mp3",
+      "file": "output/car-meet-friends/sfx/wheels.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -30.6,
+      "sourcePeakDb": -5.6,
+      "gainDb": -0.3999999999999986,
+      "sha256": "baf128e99e68144a1323c2f7b5162eaed97bdd043edc70cac18f7306331775c4"
+    },
+    "tracks": {
+      "duration": 3,
+      "label": "สายพานเบาๆ / Padded tracks",
+      "text": "Clearly audible small toy robot rubber caterpillar tracks moving slowly a short distance over smooth stone and stopping softly. Subtle mechanical friction and tiny irregular clicks, no engine roar, no harsh high frequencies, no rhythmic marching, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/tracks.mp3",
+      "file": "output/car-meet-friends/sfx/tracks.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -20.7,
+      "sourcePeakDb": -1,
+      "gainDb": -10.3,
+      "sha256": "8c135a8675b9ba970cef3c37ca13a0d447341c7cdc8066cb85bf545175db6c4f"
+    },
+    "wood": {
+      "duration": 1.3,
+      "label": "วางบล็อกไม้ / Placing a wooden block",
+      "text": "Clearly audible close natural foley of ONE small smooth wooden toy block being set gently on another wooden block, short light wooden contact with a tiny settling scrape, realistic and restrained, not a hard hit, not a drum hit, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/wood.mp3",
+      "file": "output/car-meet-friends/sfx/wood.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -24.3,
+      "sourcePeakDb": -0.2,
+      "gainDb": -6.699999999999999,
+      "sha256": "9e0ec38bdc63156dbe7c78daf4ca64b19e837e3e9f2132720e48701037ce0454"
+    },
+    "brush": {
+      "duration": 2,
+      "label": "พู่กันบนกระดาษ / Brush on paper",
+      "text": "Clearly audible close natural foley of soft paintbrush bristles making two slow unequal strokes across textured art paper, gentle dry brushing friction, no other sounds, no hiss burst, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/brush.mp3",
+      "file": "output/car-meet-friends/sfx/brush.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -38.6,
+      "sourcePeakDb": -18.6,
+      "gainDb": 7.600000000000001,
+      "sha256": "a4f82e4489c017187a2fc3563ddae20c72c284312fce5176d6b17d19ed98afde"
+    },
+    "page": {
+      "duration": 1.7,
+      "label": "เปิดหน้าหนังสือ / Turning a page",
+      "text": "Clearly audible close realistic foley of one thick picture book page being slowly lifted, turned and laid flat, smooth paper rustle, soft handling, no slam or tearing, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/page.mp3",
+      "file": "output/car-meet-friends/sfx/page.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -45.7,
+      "sourcePeakDb": -21.2,
+      "gainDb": 14.700000000000003,
+      "sha256": "74077c1a128173db86410891757cd3c053c7af79665914ec9f6e8e4a77bf043e"
+    },
+    "hover": {
+      "duration": 2.5,
+      "label": "ใบพัดลอยตัว / Hover fan",
+      "text": "Clearly audible small friendly mechanical robot hover fan moving smoothly nearby then settling, quiet broadband air movement with a mild natural motor texture, no pitched sweep, no laser or sci fi alarm, no rising shriek, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/hover.mp3",
+      "file": "output/car-meet-friends/sfx/hover.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -22.3,
+      "sourcePeakDb": -10.2,
+      "gainDb": -8.7,
+      "sha256": "a1d69572f20fd8482c7671a78d48fcbc8ceff2346822b53f2a91447b50fef889"
+    },
+    "click": {
+      "duration": 1,
+      "label": "ข้อต่อกลไก / Small mechanical joint",
+      "text": "Clearly audible close foley of one small smooth mechanical camera joint adjusting and gently clicking into position, muted plastic mechanism and tiny servo movement, no electronic beep, no sharp snap, no metallic ringing, child friendly, no music, no melody, no musical notes, no drums, no percussion instruments, no horns, no bells, no singing, no human voices, no speech, no animal vocalizations",
+      "source": "output/car-meet-friends/sfx/source/click.mp3",
+      "file": "output/car-meet-friends/sfx/click.mp3",
+      "origin": "Generated for Little Ummah with the existing paid ElevenLabs project account; original prompt and source retained",
+      "sourceMeanDb": -33.8,
+      "sourcePeakDb": -4.6,
+      "gainDb": 2.799999999999997,
+      "sha256": "d38b3348fe4c8f672a8146a77670f7c6ec8c410e628c21d5410d8f97bed6c180"
+    }
+  },
+  "visuals": "Existing approved project robots and park plate; no new raster artwork. Original code-native props.",
+  "review": "Owner requested review of all sounds at the end, 14 Nov 2026. No commit or publication yet."
+}
