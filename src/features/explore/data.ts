@@ -1,4 +1,5 @@
 import type { Cartoon, CartoonScene, ScenePhoto, Word } from "@/features/moral/cartoon";
+import type { Film, FilmWord } from "@/features/moral/film";
 import type { AgeId, AgeSection, GuidePose, GuideStep } from "@/features/moral/data";
 import type { Lesson } from "@/lib/lessons";
 import type { Text } from "@/i18n/config";
@@ -1004,4 +1005,32 @@ export const CARD_ART: Record<string, string> = {
   rain: "/explore/card-rain.webp",
   mountain: "/explore/card-mountain.webp",
   "day-night": "/explore/card-daynight.webp",
+};
+
+/* ---------- การ์ตูนเต็มเรื่อง (เจ้าของโปรเจกต์สั่ง 13 พ.ย. 2026: "ให้เป็นการ์ตูนจริงๆ เหมือนเกาะศีลธรรม") ----------
+  บทที่มีในนี้เปิดเป็น FilmLesson แทนแบบภาพนิ่ง (CARTOONS ยังเก็บไว้เป็นทางสำรอง)
+  ต้นทาง: output/car-desert/ (บท script.md ชิ้นส่วนสัตว์ เสียง) + output/car-hf/desert/ (film.mjs)
+  สัตว์ใบหน้าว่าง (ข้อ 1.1) · ภาพถ่ายสัตว์จริงไม่ฝังในวิดีโอ — วิดีโอหยุดแล้วแสดงเป็น HTML พร้อม alt และเครดิต
+  ข้อเท็จจริงเท่ากับบท desert-home เดิมข้างบน · ไฟล์อยู่ใต้ explore/film ทั้งบน R2 และ public/ */
+const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "ซุบฮานัลลอฮ์" };
+
+export const FILMS: Record<string, Film> = {
+  "desert-home": {
+    name: "desert",
+    dir: "explore/film",
+    duration: 100.6,
+    // หยุดหลังนูรีพูด "นี่คืออูฐตัวจริง" / "นี่คือจิ้งจอกเฟนเนคตัวจริง" -> แสดงภาพถ่าย (นับถอยหลังแล้วเล่นต่อเอง) และหลังนูรีชวนพูด "ซุบฮานัลลอฮ์"
+    // ค่าเวลามาจาก output/car-hf/desert/turns.json (สร้างโดย film.mjs)
+    turns: [
+      { at: 46.52, resumeAt: 47.07, photo: photo("camel") },
+      { at: 77.95, resumeAt: 78.5, photo: photo("fennec") },
+      { at: 96.7, resumeAt: 98.5, word: FILM_SUBHANALLAH },
+    ],
+    words: [FILM_SUBHANALLAH],
+    captions: ["th"],
+    label: {
+      th: "การ์ตูนไปเที่ยวทะเลทราย: ครูนูรี ฮาดี และซาฟี ไปดูอูฐเดินบนทรายและดื่มน้ำที่โอเอซิส แล้วเจอจิ้งจอกเฟนเนคหูใหญ่ในโพรง",
+      en: "Cartoon: Nuri, Hadi and Safi visit the desert, watch a camel walk on sand and drink at an oasis, then meet a big-eared fennec fox in its burrow.",
+    },
+  },
 };

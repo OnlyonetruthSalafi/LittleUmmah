@@ -1,4 +1,5 @@
 import type { Text } from "@/i18n/config";
+import type { ScenePhoto } from "./cartoon";
 
 /*
   การ์ตูนเต็มเรื่องของเกาะมารยาท (เจ้าของโปรเจกต์สั่ง 12 พ.ย. 2026: เลิกแบบภาพนิ่ง + เสียงบรรยาย เปลี่ยนเป็นการ์ตูนเด็กสอนศีลธรรม)
@@ -20,15 +21,27 @@ import type { Text } from "@/i18n/config";
 export const FILM_BASE = "/moral/film";
 export const FILM_VIDEO_BASE = process.env.NEXT_PUBLIC_FILM_VIDEO_BASE ?? "https://media.littleummahworld.com/moral/film";
 
+/* เกาะอื่นเก็บไฟล์ในโฟลเดอร์ของเกาะนั้น (เช่น explore/film) ทั้งบน R2 และ public/ — โครงเดียวกับ moral/film */
+export function filmPaths(film: Film) {
+  const dir = film.dir ?? "moral/film";
+  return {
+    base: `/${dir}/${film.name}`,
+    video: `${FILM_VIDEO_BASE.replace(/\/moral\/film\/?$/, "")}/${dir}/${film.name}`,
+  };
+}
+
 export type FilmWord = { ar: string; th: string };
 
 export type Film = {
-  /** ชื่อไฟล์ (ไม่มีนามสกุล) ใต้ FILM_BASE / FILM_VIDEO_BASE */
+  /** ชื่อไฟล์ (ไม่มีนามสกุล) */
   name: string;
+  /** โฟลเดอร์ทั้งบน R2 และใน public/ (ค่าเริ่มต้น "moral/film") */
+  dir?: string;
   /** ความยาว (วินาที) — ใช้แสดงแถบความคืบหน้าก่อนโหลด metadata */
   duration: number;
-  /** ช่วงที่ให้เด็กพูด: วิดีโอหยุดที่ at แสดงป้ายคำ เด็กกด "หนูพูดแล้ว" -> ข้ามไปเล่นต่อที่ resumeAt */
-  turns: { at: number; resumeAt: number; word: FilmWord }[];
+  /** จุดหยุด: วิดีโอหยุดที่ at แล้วเด็กกดเล่นต่อ -> ข้ามไปที่ resumeAt
+      word = ตาเด็กพูดตาม (ป้ายคำ + "หนูพูดแล้ว") · photo = ภาพถ่ายสัตว์จริง (HTML มี alt และเครดิต ไม่ฝังในวิดีโอ — AGENTS 1.1) */
+  turns: ({ at: number; resumeAt: number } & ({ word: FilmWord; photo?: never } | { photo: ScenePhoto; word?: never }))[];
   /** ป้ายคำบนการ์ดสรุปตอนจบ */
   words: FilmWord[];
   /** ภาษาที่มีคำบรรยาย */

@@ -1,6 +1,7 @@
 "use client";
 
 import { LearningNotice } from "@/features/learning-stars/components";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { PauseIcon } from "@/components/icons/PauseIcon";
@@ -13,7 +14,7 @@ import type { Lesson } from "@/lib/lessons";
 import { stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
-import { FILM_BASE, FILM_VIDEO_BASE, type Film } from "../film";
+import { filmPaths, type Film } from "../film";
 
 /*
   เครื่องเล่นการ์ตูนเต็มเรื่อง (film.ts) — ใช้แทน CartoonLesson ในบทที่มีการ์ตูนแล้ว
@@ -27,6 +28,9 @@ import { FILM_BASE, FILM_VIDEO_BASE, type Film } from "../film";
   - ดาว: ดูจนจบโดยดูจริงอย่างน้อย 90% ของเรื่อง (ข้ามไปท้ายเรื่องไม่นับ)
 */
 type Status = "idle" | "playing" | "paused" | "turn" | "ended";
+
+/* ภาพถ่ายสัตว์จริง: เด็กกด "ดูต่อ" เองได้ หรือรอให้นับถอยหลังจบแล้วเล่นต่อเอง (เจ้าของโปรเจกต์สั่ง 13 พ.ย. 2026) */
+const PHOTO_WAIT = 6;
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 function subscribeReducedMotion(onChange: () => void) {
@@ -56,14 +60,15 @@ export function FilmLesson({
   const { locale, t, sub, pick, pickSub } = useDict();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const mainRef = useRef<HTMLButtonElement>(null);
   const still = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false);
   const [status, setStatus] = useState<Status>("idle");
   const [turn, setTurn] = useState(-1);
   const [line, setLine] = useState<{ who: string; text: string } | null>(null);
   const [progress, setProgress] = useState(0);
   const turnsDone = useRef(new Set<number>());
-  const base = `${FILM_BASE}/${film.name}`;
-  const video = `${FILM_VIDEO_BASE}/${film.name}`;
+  const [left, setLeft] = useState(PHOTO_WAIT);
+  const { base, video } = filmPaths(film);
   const captionLang = film.captions.includes(locale as "th" | "en") ? locale : film.captions[0];
 
   useEffect(() => {
@@ -142,6 +147,7 @@ export function FilmLesson({
     if (!v || turn < 0) return;
     v.currentTime = film.turns[turn].resumeAt;
     setTurn(-1);
+    setLeft(PHOTO_WAIT);
     v.play().catch(() => {});
   };
 
@@ -156,12 +162,35 @@ export function FilmLesson({
     // ย้อนจากช่วงพูดตามหรือการ์ดจบ = ปิดป้ายนั้น กลับเป็นพักไว้ (กดเล่นต่อได้)
     if (status === "turn" || status === "ended") {
       setTurn(-1);
+      setLeft(PHOTO_WAIT);
       setStatus("paused");
     }
   };
 
-  const word = turn >= 0 ? film.turns[turn].word : null;
+  const word = turn >= 0 ? film.turns[turn].word ?? null : null;
+  const photo = turn >= 0 ? film.turns[turn].photo ?? null : null;
   const playing = status === "playing";
+  // ภาพถ่ายขึ้นมา: ย้ายโฟกัสไปปุ่ม "ดูต่อ" (ผู้ใช้คีย์บอร์ดกด Enter ต่อได้เลย)
+  useEffect(() => {
+    if (photo) mainRef.current?.focus();
+  }, [photo]);
+  // นับถอยหลังระหว่างแสดงภาพถ่าย ครบแล้วเล่นต่อเอง (ย้อน 5 วินาทีหรือกดดูต่อ = ยกเลิกการนับ)
+  const saidItRef = useRef(saidIt);
+  useEffect(() => {
+    saidItRef.current = saidIt;
+  });
+  useEffect(() => {
+    if (!photo || status !== "turn") return;
+    const end = Date.now() + PHOTO_WAIT * 1000;
+    const id = window.setInterval(() => {
+      const s = Math.ceil((end - Date.now()) / 1000);
+      if (s <= 0) {
+        window.clearInterval(id);
+        saidItRef.current();
+      } else setLeft(s);
+    }, 200);
+    return () => window.clearInterval(id);
+  }, [photo, status]);
   const mainLabel = playing ? "pause" : status === "ended" ? "watchAgain" : "play";
 
   return (
@@ -227,8 +256,23 @@ export function FilmLesson({
             </div>
           )}
 
+          {/* ภาพถ่ายสัตว์จริง — HTML มี alt จริงและเครดิต (AGENTS 1.1, ข้อ 2) วิดีโอหยุดรอ เด็กกด "ดูต่อ" ที่ปุ่มหลักด้านล่าง
+              (ไม่วางปุ่มบนภาพ เพราะบนมือถือจะบังภาพถ่าย) */}
+          {status === "turn" && photo && (
+            <div className="mrl-film-photo">
+              <figure className="mrl-photo">
+                <span className="mrl-photo-img">
+                  <Image src={photo.src} alt={pick(photo.alt)} width={photo.width} height={photo.height} sizes="(max-width: 767px) 62vw, 720px" />
+                </span>
+                <figcaption className="mrl-photo-label font-display">
+                  {pick(photo.label)} {sub && <span lang="en">{pickSub(photo.label)}</span>}
+                </figcaption>
+              </figure>
+            </div>
+          )}
+
           {/* จบเรื่อง — ทวนคำที่เรียน */}
-          {status === "ended" && (
+          {status === "ended" && film.words.length > 0 && (
             <div className="mrl-film-end">
               {film.words.map((w) => (
                 <p key={w.ar} className="mrl-stage-word mrl-film-word">
@@ -257,6 +301,15 @@ export function FilmLesson({
             <p className="font-semibold" role="status">
               {fmt(t.moral.cartoon.sayPrompt, { word: locale === "th" ? word.th : word.ar })}
             </p>
+          ) : status === "turn" && photo ? (
+            <>
+              <p className="font-semibold" role="status">
+                {pick(photo.label)} <span className="text-ink-soft text-xs font-normal">{pick(photo.credit)}</span>
+              </p>
+              <p className="text-ink-soft text-sm" aria-hidden="true">
+                {fmt(t.moral.film.autoNext, { n: String(left) })} {sub && <span lang="en">{fmt(sub.moral.film.autoNext, { n: String(left) })}</span>}
+              </p>
+            </>
           ) : line ? (
             <>
               {line.who && <p className="mrl-speaker font-display">{line.who}</p>}
@@ -272,14 +325,22 @@ export function FilmLesson({
             <ReplayIcon className="size-7" />
           </button>
           <button
+            ref={mainRef}
             type="button"
             className="ui-pill ui-pill-primary"
             onClick={() => (playing ? videoRef.current?.pause() : status === "turn" ? saidIt() : play())}
           >
             {playing ? <PauseIcon className="size-7" /> : status === "ended" ? <ReplayIcon className="size-7" /> : <PlayIcon className="size-7" />}
-            <span>
-              {t.moral.cartoon[mainLabel]} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.cartoon[mainLabel]}</span>}
-            </span>
+            {photo ? (
+              <span>
+                {t.moral.film.next} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.film.next}</span>}{" "}
+                <span className="mrl-film-count" aria-hidden="true">{left}</span>
+              </span>
+            ) : (
+              <span>
+                {t.moral.cartoon[mainLabel]} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.cartoon[mainLabel]}</span>}
+              </span>
+            )}
           </button>
         </div>
       </div>

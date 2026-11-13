@@ -793,6 +793,22 @@
   text-align: center;
 }
 .mrl-film-end { flex-direction: row; flex-wrap: wrap; }
+/* ภาพถ่ายสัตว์จริงในการ์ตูน: กรอบซ้ายเหมือนแบบเดิม (นูรีในวิดีโอยืนชี้ทางขวา) */
+.mrl-film-photo { position: absolute; inset: 0; }
+.mrl-film-photo .mrl-photo { width: 56%; }
+/* ตัวเลขนับถอยหลังบนปุ่มดูต่อ — วงกลมขาว ตัวเลขสีเข้ม (contrast เท่าตัวหนังสือปกติ) */
+.mrl-film-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.6em;
+  height: 1.6em;
+  margin-left: 4px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
 .mrl-film-word { position: static; transform: none; }
 .mrl-film-turn-prompt {
   margin: 0;

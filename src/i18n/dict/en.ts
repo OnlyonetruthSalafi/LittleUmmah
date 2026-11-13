@@ -188,7 +188,9 @@ export const en: Dictionary = {
     },
     film: {
       saidIt: "I said it",
-      back: "Back 5 seconds"
+      back: "Back 5 seconds",
+      next: "Continue",
+      autoNext: "Continues in {n} s"
     }
   },
   explore: {

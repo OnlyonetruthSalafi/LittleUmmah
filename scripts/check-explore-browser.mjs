@@ -2,7 +2,7 @@
 // เปิด server ก่อน: node scripts/check-explore-browser.mjs [baseUrl] (หรือ BASE_URL; default :3104)
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
-import { CARTOONS, HABITAT_LESSONS, CARD_ART } from '../src/features/explore/data.ts';
+import { CARTOONS, FILMS, HABITAT_LESSONS, CARD_ART } from '../src/features/explore/data.ts';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
 
 const OUT = process.env.BROWSER_CHECK_OUT ?? 'output/p0-3/explore';
@@ -60,6 +60,16 @@ try {
         assert.ok((await cards.nth(c).innerText()).includes(lesson.title.th), `${age} card title ${lesson.id}`);
         await cards.nth(c).click();
         await page.locator('.mrl-cartoon[open]').waitFor();
+        // บทที่มีการ์ตูนเต็มเรื่อง (FILMS) เปิดเครื่องเล่นวิดีโอ — ตรวจไฟล์ใต้ explore/film และจุดหยุดดูภาพถ่าย (ตรวจละเอียดใน output/car-desert/check-film.mjs)
+        if (FILMS[lesson.id]) {
+          const film = FILMS[lesson.id];
+          const src = await page.locator('.mrl-film-video source').first().getAttribute('src');
+          assert.ok(src.includes(`/${film.dir}/${film.name}-`), `${lesson.id} film source ${src}`);
+          assert.ok(film.turns.filter((tr) => tr.photo).length >= 2, `${lesson.id} film has two photo stops`);
+          await page.getByRole('button', { name: /ปิด/ }).first().click();
+          await page.locator('.mrl-cartoon[open]').waitFor({ state: 'detached' });
+          continue;
+        }
         const scenes = await page.locator('.mrl-cartoon .mrl-dots li').count();
         assert.equal(scenes, age === 'kids' ? 7 : 8, `${lesson.id} scene count`);
         let photos = 0;
