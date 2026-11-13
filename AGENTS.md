@@ -386,7 +386,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 เปิด session ใหม่แล้วเจ้าของโปรเจกต์สั่งให้อ่าน handoff (หรือ "อ่านงานส่งต่อ") ให้อ่านไฟล์ข้างล่าง **ทั้งไฟล์ก่อนลงมือ** แล้วสรุปสั้นๆ เป็นภาษาไทยว่างานค้างอะไรและจะเริ่มที่ขั้นไหน
 
-- **งานปัจจุบัน:** `docs/briefs/PERF-3-handoff.md` — ความเร็วมือถือ ไล่ LCP ให้ถึง ≤ 2.5 วิ (Fable เขียน 12 พ.ย. 2026 ส่งต่อ Opus + Codex)
+- **งานปัจจุบัน:** `docs/handoff/2026-11-14-cartoon-session-handoff.md` — การ์ตูน sun-v5, รู้จักเพื่อนใหม่ และสลามฉบับเปลี่ยนเสียง ส่งต่อ Claude รวมงาน/ตรวจ/เผยแพร่ภายหลัง (14 พ.ย. 2026); งานความเร็วเดิมอยู่ที่ `docs/briefs/PERF-3-handoff.md`
 - ภาพรวมโปรเจกต์และ roadmap: `docs/handoff/2026-11-10-handoff-opus.md` · คิวงาน: `docs/briefs/QUEUE.md`
 
 เมื่อมี handoff ฉบับใหม่ ให้แก้บรรทัด "งานปัจจุบัน" ให้ชี้ไฟล์ใหม่ใน commit เดียวกัน
