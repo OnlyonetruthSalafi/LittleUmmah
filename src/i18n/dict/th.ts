@@ -191,7 +191,9 @@ export const th = {
     },
     film: {
       saidIt: "หนูพูดแล้ว",
-      back: "ย้อน 5 วินาที"
+      back: "ย้อน 5 วินาที",
+      next: "ดูต่อ",
+      autoNext: "เล่นต่อเองใน {n} วินาที"
     }
   },
   explore: {

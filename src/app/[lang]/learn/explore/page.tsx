@@ -11,6 +11,7 @@ import {
   AGE_SECTIONS,
   CARD_ART,
   CARTOONS,
+  FILMS,
   GUIDE_STEPS,
   HABITAT_GROUP,
   HABITAT_LESSONS,
@@ -51,6 +52,7 @@ export default function ExploreIslandPage({ params }: Props) {
       ]}
       cardArt={CARD_ART}
       cartoons={CARTOONS}
+      films={FILMS}
       progressKey="lu-explore-progress"
     />
   );

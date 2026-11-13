@@ -36,6 +36,8 @@ const MISSING_SOURCE = {
   "src/features/moral/cartoon.ts#CARTOONS.salam.scenes[sal-teach].word": "สลาม/บิสมิลลาฮ์ ไม่มี comment ระบุที่มาประจำบทหรือฉาก",
   "src/features/moral/cartoon.ts#CARTOONS.salam.scenes[sal-reply].word": "สลาม/บิสมิลลาฮ์ ไม่มี comment ระบุที่มาประจำบทหรือฉาก",
   "src/features/explore/data.ts#CARTOONS.desert-home.scenes[dsk-bye].word": "คำซิกรุในฉากลา ไม่มี comment ระบุที่มา",
+  "src/features/explore/data.ts#FILMS.desert-home.turns[2].word": "คำซิกรุเดียวกับฉากลา (ซุบฮานัลลอฮ์) ในการ์ตูนเต็มเรื่อง ไม่มี comment ระบุที่มา",
+  "src/features/explore/data.ts#FILMS.desert-home.words[0]": "คำซิกรุเดียวกับฉากลา (ซุบฮานัลลอฮ์) ในการ์ตูนเต็มเรื่อง ไม่มี comment ระบุที่มา",
   "src/features/explore/data.ts#CARTOONS.desert-life.scenes[dsj-bye].word": "คำซิกรุในฉากลา ไม่มี comment ระบุที่มา",
   "src/features/explore/data.ts#CARTOONS.forest-home.scenes[frk-bye].word": "คำซิกรุในฉากลา ไม่มี comment ระบุที่มา",
   "src/features/explore/data.ts#CARTOONS.forest-life.scenes[frj-bye].word": "คำซิกรุในฉากลา ไม่มี comment ระบุที่มา",
