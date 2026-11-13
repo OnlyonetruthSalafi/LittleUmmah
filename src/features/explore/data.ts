@@ -1033,4 +1033,21 @@ export const FILMS: Record<string, Film> = {
       en: "Cartoon: Nuri, Hadi and Safi visit the desert, watch a camel walk on sand and drink at an oasis, then meet a big-eared fennec fox in its burrow.",
     },
   },
+  /* ครูนูรีกับแสงอุ่นในสวน (sun-v5, 14 พ.ย. 2026) ต้นทาง output/car-sun-v5/ (script.md, story.mjs) + output/car-hf/sun-v5/ (film.mjs)
+    ฐานเนื้อหา (ตรวจ Shamela 14 พ.ย. 2026 — ไม่ยกอายะฮ์ในวิดีโอ):
+    อันนะบะอ์ 78:13 อัสสะอ์ดีย์ https://shamela.ws/book/42/2063 · อัลวากิอะฮ์ 56:63–64 https://shamela.ws/book/42/1909
+    อันนะห์ลุ 16:53 https://shamela.ws/book/42/957 · 16:114 https://shamela.ws/book/42/988
+    จุดหยุดจาก output/car-hf/sun-v5/turns.json */
+  sun: {
+    name: "sun",
+    dir: "explore/film",
+    duration: 140.47,
+    turns: [{ at: 134.33, resumeAt: 138.33, word: FILM_SUBHANALLAH }],
+    words: [FILM_SUBHANALLAH],
+    captions: ["th"],
+    label: {
+      th: "การ์ตูนครูนูรีกับแสงอุ่นในสวน: ครูนูรีกับฮาดีสำรวจแสงสว่างและความอบอุ่นจากดวงอาทิตย์ที่ช่วยให้ต้นไม้เติบโต และห้ามมองดวงอาทิตย์ตรงๆ",
+      en: "Cartoon: Nuri and Hadi explore the light and warmth of the sun that help plants grow, and learn never to look straight at the sun.",
+    },
+  },
 };

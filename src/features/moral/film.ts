@@ -54,6 +54,45 @@ const SALAM: FilmWord = { ar: "السَّلَامُ عَلَيْكُمْ", th: "
 const REPLY: FilmWord = { ar: "وَعَلَيْكُمُ السَّلَامُ", th: "วะอะลัยกุมุสสะลาม" };
 
 export const FILMS: Record<string, Film> = {
+  // BEGIN generated meet-friends film
+  // Storyboard: docs/films/meet-friends-script.md. General manners; no new quoted religious text.
+  // Salam basis: Muslim 54, https://shamela.ws/book/1727/158 (checked 14 Nov 2026).
+  "meet-friends": {
+    "name": "meet-friends",
+    "duration": 152.575,
+    "turns": [
+      {
+        "at": 123.546,
+        "resumeAt": 127.546,
+        "word": {
+          "ar": "السَّلَامُ عَلَيْكُمْ",
+          "th": "อัสสะลามุอะลัยกุม"
+        }
+      },
+      {
+        "at": 136.694,
+        "resumeAt": 140.694,
+        "word": {
+          "ar": "",
+          "th": "เราชื่อ… ยินดีที่ได้รู้จัก"
+        }
+      }
+    ],
+    "words": [
+      {
+        "ar": "السَّلَامُ عَلَيْكُمْ",
+        "th": "อัสสะลามุอะลัยกุม"
+      }
+    ],
+    "captions": [
+      "th"
+    ],
+    "label": {
+      "th": "การ์ตูนรู้จักเพื่อนใหม่: ครูนูรีและเพื่อนห้าตัวช่วยกันทำมุมอ่านหนังสือ ฝึกทักสลาม บอกชื่อ และถามชื่ออย่างสุภาพ",
+      "en": "Meet new friends: Nuri and five robot friends build a reading corner and practise salam, introductions and polite questions."
+    },
+  },
+  // END generated meet-friends film
   /*
     สลามรับสลาม — ที่มา (ตรวจ Shamela 12 พ.ย. 2026):
     บุคอรี 6233 «يُسَلِّمُ الرَّاكِبُ عَلَى الْمَاشِي، وَالْمَاشِي عَلَى الْقَاعِدِ، وَالْقَلِيلُ عَلَى الْكَثِيرِ» https://shamela.ws/book/1681/9333
@@ -62,7 +101,9 @@ export const FILMS: Record<string, Film> = {
     อันนิซาอ์ 4:86 ความหมายไทยฉบับศูนย์กษัตริย์ฟะฮัด (quran.com 51) — ไม่อ่านตัวอาหรับ (AGENTS 1.6)
   */
   salam: {
-    name: "salam",
+    // salam-v2 (14 พ.ย. 2026): เปลี่ยนเสียงเคลื่อนที่ของนูรีตามที่เจ้าของสั่ง ภาพ/บท/เวลาเดิม · ต้นทาง output/car-hf/salam-audio-v2/
+    // ตั้งชื่อไฟล์ใหม่เพื่อไม่ให้ cache 7 วันของไฟล์ salam เดิมค้าง
+    name: "salam-v2",
     duration: 92.3,
     // นูรีชวนเด็กทักสลาม (คลิปจบ 85.6 วิ) หยุดตอนเอามือป้องหูฟัง แล้วข้ามไปก่อนนูรีตอบสลาม (89.1 วิ)
     turns: [{ at: 86.5, resumeAt: 88.4, word: SALAM }],
