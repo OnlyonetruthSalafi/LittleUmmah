@@ -61,6 +61,8 @@ next-env.d.ts
 /public/moral/*.png
 /public/moral/guide/*.png
 /public/moral/scenes/*.png
+# Local film previews; production MP4 files are hosted on R2.
+/public/moral/film/*.mp4
 /public/games/sequence/*.png
 /public/games/coin-box/*.png
 /public/games/bead-lacing/*.png

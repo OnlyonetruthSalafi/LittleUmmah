@@ -1,0 +1,50 @@
+{
+  "id": "wait-turn",
+  "title": "รอคิว — ผลัดกันเล่นทางลูกบอล",
+  "cast": [
+    "nuri",
+    "hadi",
+    "safi",
+    "rassam"
+  ],
+  "source": "output/car-hf/wait-turn/",
+  "story": "output/car-wait-turn/script.md",
+  "card": "/moral/card-wait-turn-film-v2.webp",
+  "cardRevision": 2,
+  "duration": 137.462653,
+  "turns": [
+    {
+      "at": 122.59714299999999,
+      "resumeAt": 126.697143,
+      "word": {
+        "ar": "",
+        "th": "เราจะต่อท้ายแถว แล้วรอให้ถึงตา"
+      }
+    }
+  ],
+  "newImagegenCalls": 0,
+  "voice": "existing ElevenLabs character voices + project robot filter; owner review pending",
+  "sfx": "existing original meet-friends Foley; no music",
+  "files": {
+    "wait-turn-720.mp4": {
+      "bytes": 13974390,
+      "sha256": "f1e09bd69c4bdfc0c15085ee187039972805ea4d5e1ade41ef457db0e9328649"
+    },
+    "wait-turn-1080.mp4": {
+      "bytes": 31118493,
+      "sha256": "47e2d25d782c9ce7ffc3328a2d6e0c10f10fab1034c9641ecf275e9110d3c672"
+    },
+    "wait-turn-poster.webp": {
+      "bytes": 169538,
+      "sha256": "d66502b7cb33260999550c714d3c9ddb176db479b9c80900d778861cbed2e105"
+    },
+    "wait-turn.th.vtt": {
+      "bytes": 3837,
+      "sha256": "0d6a93c90dbfd37abeef11409ad960a43d1d8433396de6f9f2d96c792e1e35db"
+    },
+    "card-wait-turn-film.webp": {
+      "bytes": 111670,
+      "sha256": "f73aa6950aa7faa16b4532864565666cee7a00617e07de1c213748b068e1f78a"
+    }
+  }
+}

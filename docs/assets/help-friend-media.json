@@ -1,0 +1,49 @@
+{
+  "id": "help-friend",
+  "title": "ช่วยเพื่อน — ถามก่อน แล้วช่วยเท่าที่ไหว",
+  "cast": [
+    "nuri",
+    "qalam",
+    "safi"
+  ],
+  "source": "output/car-hf/help-friend/",
+  "story": "output/car-help-friend/script.md",
+  "card": "/moral/card-help-friend-film-v2.webp",
+  "cardRevision": 2,
+  "duration": 133.34000099999997,
+  "turns": [
+    {
+      "at": 118.16102099999999,
+      "resumeAt": 122.26102099999999,
+      "word": {
+        "ar": "",
+        "th": "ให้เราช่วยไหม"
+      }
+    }
+  ],
+  "newImagegenCalls": 0,
+  "voice": "existing ElevenLabs character voices + project robot filter; owner review pending",
+  "sfx": "existing original meet-friends Foley; no music",
+  "files": {
+    "help-friend-720.mp4": {
+      "bytes": 14447051,
+      "sha256": "b6bc040a12c31dac8f14f1073039cb0f0e495c96f8aa87164c9179f5600c3861"
+    },
+    "help-friend-1080.mp4": {
+      "bytes": 31980250,
+      "sha256": "b80a1dae40cc7809d3e3017a27576395dbc413b7e194244673ba5aad2d54bd37"
+    },
+    "help-friend-poster.webp": {
+      "bytes": 162304,
+      "sha256": "7f0784d88445f4fe213e061a86d6be597e59538d9b11de0dcafbadfd04a5a46b"
+    },
+    "help-friend.th.vtt": {
+      "bytes": 4259,
+      "sha256": "c3927c482fcf66c4bf36c95d32d04a280b573b5842924e03b5e1e23a82b347b2"
+    },
+    "card-help-friend-film.webp": {
+      "bytes": 109202,
+      "sha256": "9cda192339ebaf84291185ce30479489aefdde0ef64e5c729a3505bc244ff6e9"
+    }
+  }
+}

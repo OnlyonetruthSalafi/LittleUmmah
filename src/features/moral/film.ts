@@ -30,7 +30,7 @@ export function filmPaths(film: Film) {
   };
 }
 
-export type FilmWord = { ar: string; th: string };
+export type FilmWord = { ar: string; th: string; prompt?: Text };
 
 export type Film = {
   /** ชื่อไฟล์ (ไม่มีนามสกุล) */
@@ -54,6 +54,99 @@ const SALAM: FilmWord = { ar: "السَّلَامُ عَلَيْكُمْ", th: "
 const REPLY: FilmWord = { ar: "وَعَلَيْكُمُ السَّلَامُ", th: "วะอะลัยกุมุสสะลาม" };
 
 export const FILMS: Record<string, Film> = {
+  // BEGIN wait-turn full cartoon
+  // General manners adapted from the existing lesson; no new religious quotation.
+  // Storyboard: docs/films/wait-turn-script.md. Cast: ครูนูรี, ฮาดี, ซาฟี, รอสซาม.
+  "wait-turn": {
+    "name": "wait-turn",
+    "duration": 137.463,
+    "turns": [
+      {
+        "at": 122.597,
+        "resumeAt": 126.697,
+        "word": {
+          "ar": "",
+          "th": "เราจะต่อท้ายแถว แล้วรอให้ถึงตา",
+          "prompt": {
+            "th": "เราจะต่อท้ายแถว แล้วรอให้ถึงตา",
+            "en": "I’ll join the line and wait my turn."
+          }
+        }
+      }
+    ],
+    "words": [],
+    "captions": [
+      "th"
+    ],
+    "label": {
+      "th": "การ์ตูนรอคิว — ผลัดกันเล่นทางลูกบอล: ฮาดีมาต่อท้ายซาฟี รอรอสซามเล่นเสร็จ แล้วผลัดกันปล่อยลูกบอลโดยไม่แซงหรือผลัก",
+      "en": "Hadi joins behind Safi, waits for Rassam to finish and takes a turn at the ball ramp."
+    },
+  },
+  // END wait-turn full cartoon
+
+  // BEGIN help-friend full cartoon
+  // General manners adapted from the existing lesson; no new religious quotation.
+  // Storyboard: docs/films/help-friend-script.md. Cast: ครูนูรี, ฟาฮีม, ซาฟี.
+  "help-friend": {
+    "name": "help-friend",
+    "duration": 133.34,
+    "turns": [
+      {
+        "at": 118.161,
+        "resumeAt": 122.261,
+        "word": {
+          "ar": "",
+          "th": "ให้เราช่วยไหม",
+          "prompt": {
+            "th": "ให้เราช่วยไหม",
+            "en": "Would you like some help?"
+          }
+        }
+      }
+    ],
+    "words": [],
+    "captions": [
+      "th"
+    ],
+    "label": {
+      "th": "การ์ตูนช่วยเพื่อน — ถามก่อน แล้วช่วยเท่าที่ไหว: ซาฟีถามก่อนช่วยฟาฮีมเก็บหนังสือเบา ๆ ส่วนกล่องหนักขอให้ครูนูรีช่วย",
+      "en": "Safi asks before helping Faheem collect light books; Nuri helps with the heavy box."
+    },
+  },
+  // END help-friend full cartoon
+
+  // BEGIN say-sorry full cartoon
+  // General manners adapted from the existing lesson; no new religious quotation.
+  // Storyboard: docs/films/say-sorry-script.md. Cast: ครูนูรี, ซาบิร, รอสซาม.
+  "say-sorry": {
+    "name": "say-sorry",
+    "duration": 132.02,
+    "turns": [
+      {
+        "at": 111.882,
+        "resumeAt": 115.982,
+        "word": {
+          "ar": "",
+          "th": "ขอโทษนะ เราช่วยเก็บให้",
+          "prompt": {
+            "th": "ขอโทษนะ เราช่วยเก็บให้",
+            "en": "I’m sorry. I’ll help pick it up."
+          }
+        }
+      }
+    ],
+    "words": [],
+    "captions": [
+      "th"
+    ],
+    "label": {
+      "th": "การ์ตูนขอโทษเมื่อทำผิด — หอคอยที่ช่วยกันต่อ: รอสซามเผลอชนหอคอยของซาบิร จึงขอโทษและช่วยต่อใหม่",
+      "en": "Rassam accidentally knocks over Sabir’s tower, says sorry and helps rebuild it."
+    },
+  },
+  // END say-sorry full cartoon
+
   // BEGIN generated meet-friends film
   // Storyboard: docs/films/meet-friends-script.md. General manners; no new quoted religious text.
   // Salam basis: Muslim 54, https://shamela.ws/book/1727/158 (checked 14 Nov 2026).

@@ -13,11 +13,11 @@ export type AgeId = "kids" | "juniors";
 /** ภาพประกอบการ์ดของแต่ละบทเรียน (key = id ใน lib/lessons.ts) */
 export const CARD_ART: Record<string, string> = {
   "meet-friends": "/moral/card-meet-friends.webp",
-  "say-sorry": "/moral/card-say-sorry.webp",
-  "help-friend": "/moral/card-help-friend.webp",
+  "say-sorry": "/moral/card-say-sorry-film-v3.webp",
+  "help-friend": "/moral/card-help-friend-film-v2.webp",
   "keep-promise": "/moral/card-keep-promise.webp",
   "save-water-power": "/moral/card-save-water-power.webp",
-  "wait-turn": "/moral/card-wait-turn.webp",
+  "wait-turn": "/moral/card-wait-turn-film-v2.webp",
   "tidy-toys": "/moral/card-tidy-toys.webp",
   "listen-friend": "/moral/card-listen-friend.webp",
   "shared-things": "/moral/card-shared-things.webp",

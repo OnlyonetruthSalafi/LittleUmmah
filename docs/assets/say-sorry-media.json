@@ -1,0 +1,49 @@
+{
+  "id": "say-sorry",
+  "title": "ขอโทษเมื่อทำผิด — หอคอยที่ช่วยกันต่อ",
+  "cast": [
+    "nuri",
+    "sabir",
+    "rassam"
+  ],
+  "source": "output/car-hf/say-sorry/",
+  "story": "output/car-say-sorry/script.md",
+  "card": "/moral/card-say-sorry-film-v3.webp",
+  "cardRevision": 3,
+  "duration": 132.020207,
+  "turns": [
+    {
+      "at": 111.88224699999999,
+      "resumeAt": 115.98224699999999,
+      "word": {
+        "ar": "",
+        "th": "ขอโทษนะ เราช่วยเก็บให้"
+      }
+    }
+  ],
+  "newImagegenCalls": 0,
+  "voice": "existing ElevenLabs character voices + project robot filter; owner review pending",
+  "sfx": "existing original meet-friends Foley; no music",
+  "files": {
+    "say-sorry-720.mp4": {
+      "bytes": 12359095,
+      "sha256": "940ae2bf19f5e90800b3fa3b5e4b3e9df6cd6284ae2892aeb96081e7f614afe6"
+    },
+    "say-sorry-1080.mp4": {
+      "bytes": 27565581,
+      "sha256": "13f207382597dccaab4c61348b9d717168476f4c220bd857c9991a0d2eea5397"
+    },
+    "say-sorry-poster.webp": {
+      "bytes": 160476,
+      "sha256": "44cf76f0c7356325801b47cfca795dfa39fe2038c356bcaa93d113f5cb049a57"
+    },
+    "say-sorry.th.vtt": {
+      "bytes": 3973,
+      "sha256": "b655fc363c898e901edffcb40dc9ad9b8e034846983ef736f6c0a343b497963d"
+    },
+    "card-say-sorry-film.webp": {
+      "bytes": 106560,
+      "sha256": "a79374d605674c0b956b03528f20569b97f81b1948e94b669d22a4521681b877"
+    }
+  }
+}

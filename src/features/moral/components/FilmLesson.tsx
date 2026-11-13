@@ -192,6 +192,7 @@ export function FilmLesson({
     return () => window.clearInterval(id);
   }, [photo, status]);
   const mainLabel = playing ? "pause" : status === "ended" ? "watchAgain" : "play";
+  const promptWord = word?.prompt ? pick(word.prompt) : word ? (locale === "th" ? word.th : word.ar) : "";
 
   return (
     <dialog
@@ -245,10 +246,15 @@ export function FilmLesson({
           {/* ตาเด็กพูด — ป้ายคำเป็นข้อความจริง (ข้อ 1.5) */}
           {status === "turn" && word && (
             <div className="mrl-film-turn">
-              <p className="mrl-film-turn-prompt font-display">{fmt(t.moral.cartoon.sayPrompt, { word: locale === "th" ? word.th : word.ar })}</p>
+              <p className="mrl-film-turn-prompt font-display">{fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}</p>
               <p className="mrl-stage-word mrl-film-word">
-                <span lang="ar" dir="rtl">{word.ar}</span>
-                {locale === "th" && <span className="mrl-stage-word-th">{word.th}</span>}
+                {word.ar && <span lang="ar" dir="rtl">{word.ar}</span>}
+                {word.prompt ? (
+                  <span className="mrl-stage-word-th">
+                    {pick(word.prompt)}
+                    {sub && <span lang="en" className="block text-sm font-normal">{pickSub(word.prompt)}</span>}
+                  </span>
+                ) : locale === "th" && <span className="mrl-stage-word-th">{word.th}</span>}
               </p>
               <button type="button" className="ui-pill ui-pill-primary mrl-film-said" onClick={saidIt} autoFocus>
                 {t.moral.film.saidIt} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.film.saidIt}</span>}
@@ -299,7 +305,7 @@ export function FilmLesson({
           {status === "turn" && word ? (
             // ตาเด็กพูด: บอกในกล่องข้อความด้วย (จอแนวนอนเตี้ยซ่อนบอลลูนบนภาพ) role=status ให้ screen reader อ่าน
             <p className="font-semibold" role="status">
-              {fmt(t.moral.cartoon.sayPrompt, { word: locale === "th" ? word.th : word.ar })}
+              {fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}
             </p>
           ) : status === "turn" && photo ? (
             <>
