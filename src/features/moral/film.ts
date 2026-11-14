@@ -89,12 +89,12 @@ export const FILMS: Record<string, Film> = {
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/help-friend-script.md. Cast: ครูนูรี, ฟาฮีม, ซาฟี.
   "help-friend": {
-    "name": "help-friend",
-    "duration": 133.34,
+    "name": "help-friend-hold-turn-v2",
+    "duration": 137.44,
     "turns": [
       {
-        "at": 118.161,
-        "resumeAt": 122.261,
+        "at": 122.261,
+        "resumeAt": 126.361,
         "word": {
           "ar": "",
           "th": "ให้เราช่วยไหม",

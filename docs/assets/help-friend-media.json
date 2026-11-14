@@ -1,5 +1,6 @@
 {
   "id": "help-friend",
+  "videoName": "help-friend-hold-turn-v2",
   "title": "ช่วยเพื่อน — ถามก่อน แล้วช่วยเท่าที่ไหว",
   "cast": [
     "nuri",
@@ -8,13 +9,13 @@
   ],
   "source": "output/car-hf/help-friend/",
   "story": "output/car-help-friend/script.md",
-  "card": "/moral/card-help-friend-film-v2.webp",
-  "cardRevision": 2,
-  "duration": 133.34000099999997,
+  "card": "/moral/card-help-friend-film-v3.webp",
+  "cardRevision": 3,
+  "duration": 137.440001,
   "turns": [
     {
-      "at": 118.16102099999999,
-      "resumeAt": 122.26102099999999,
+      "at": 122.26102100000001,
+      "resumeAt": 126.36102100000001,
       "word": {
         "ar": "",
         "th": "ให้เราช่วยไหม"
@@ -22,28 +23,28 @@
     }
   ],
   "newImagegenCalls": 0,
-  "voice": "existing ElevenLabs character voices + project robot filter; owner review pending",
+  "voice": "existing ElevenLabs character voices + project robot filter; owner approved hold-turn review",
   "sfx": "existing original meet-friends Foley; no music",
   "files": {
     "help-friend-720.mp4": {
-      "bytes": 14447051,
-      "sha256": "b6bc040a12c31dac8f14f1073039cb0f0e495c96f8aa87164c9179f5600c3861"
+      "bytes": 14681049,
+      "sha256": "a528ba5a76cc7a59ee91518617509032849a8cd8e77e6b8ddd3b1c6cb1936cac"
     },
     "help-friend-1080.mp4": {
-      "bytes": 31980250,
-      "sha256": "b80a1dae40cc7809d3e3017a27576395dbc413b7e194244673ba5aad2d54bd37"
+      "bytes": 32559690,
+      "sha256": "2b9623b09c24ad0dcd03bf659c1dc4369c0fc16c119763daaf36acca803ab20b"
     },
     "help-friend-poster.webp": {
-      "bytes": 162304,
-      "sha256": "7f0784d88445f4fe213e061a86d6be597e59538d9b11de0dcafbadfd04a5a46b"
+      "bytes": 163702,
+      "sha256": "cfccbe793e5d16ec9c111782980fcf55c50ab22b56c0faa3779cecafc2cba7a9"
     },
     "help-friend.th.vtt": {
       "bytes": 4259,
-      "sha256": "c3927c482fcf66c4bf36c95d32d04a280b573b5842924e03b5e1e23a82b347b2"
+      "sha256": "9566d90dbbd6e0d702b310cb55b0b4d0375e625b3c36b941ff87f882b1837671"
     },
     "card-help-friend-film.webp": {
-      "bytes": 109202,
-      "sha256": "9cda192339ebaf84291185ce30479489aefdde0ef64e5c729a3505bc244ff6e9"
+      "bytes": 109760,
+      "sha256": "30c098b521c0ed0aae50e53a6fc3fb2bfc0e4615e064361baaf85200c82dc6d1"
     }
   }
 }
