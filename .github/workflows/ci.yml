@@ -30,5 +30,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Verify
-        run: npm run verify
+      - name: Verify source
+        run: npm run typecheck && npm run lint && npm test
+
+      # Next 16.3.4's Turbopack font resolver fails on this Linux runner.
+      # Keep the production build check using Next's supported Webpack option.
+      - name: Build
+        run: npm run build -- --webpack
