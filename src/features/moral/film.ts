@@ -46,6 +46,10 @@ export type Film = {
   words: FilmWord[];
   /** ภาษาที่มีคำบรรยาย */
   captions: ("th" | "en")[];
+  /** Omit for the usual 1080p/720p pair; native 720p films need no upscale. */
+  resolutions?: (720 | 1080)[];
+  /** Visible top-aligned frame after hiding a baked-in caption strip; VTT stays readable below. */
+  captionCrop?: { width: number; height: number };
   /** คำอธิบายวิดีโอสำหรับ screen reader */
   label: Text;
 };
@@ -54,6 +58,23 @@ const SALAM: FilmWord = { ar: "السَّلَامُ عَلَيْكُمْ", th: "
 const REPLY: FilmWord = { ar: "وَعَلَيْكُمُ السَّلَامُ", th: "วะอะลัยกุมุสสะลาม" };
 
 export const FILMS: Record<string, Film> = {
+  // Sahih Muslim 1009: «وتميط الأذى عن الطريق صدقة».
+  // Verified through Shamela MCP: https://shamela.ws/book/711/2767
+  // Fictional robot example; the hadith meaning is separate from the practical advice.
+  // Script and provenance: docs/films/clear-path-script.txt; docs/assets/clear-path-media.json.
+  "tidy-toys": {
+    name: "clear-path-v1",
+    duration: 297.916667,
+    turns: [],
+    words: [],
+    captions: ["th"],
+    resolutions: [720],
+    captionCrop: { width: 1280, height: 636 },
+    label: {
+      th: "ทางเดินของทุกคน — นูรี ซาบิร ซาฟี และฮาดีช่วยกันเก็บของเล่นในสวน พร้อมบทสอนเรื่องนำสิ่งที่เป็นอันตรายออกจากทาง",
+      en: "Keeping our path clear — Nuri and friends put away toys in the park and learn about removing harm from the path.",
+    },
+  },
   // BEGIN wait-turn full cartoon
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/wait-turn-script.md. Cast: ครูนูรี, ฮาดี, ซาฟี, รอสซาม.

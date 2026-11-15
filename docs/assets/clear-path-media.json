@@ -1,0 +1,48 @@
+{
+  "id": "tidy-toys",
+  "title": "ทางเดินของทุกคน",
+  "videoName": "clear-path-v1",
+  "source": "output/park-clear",
+  "cast": [
+    "sabir",
+    "nuri",
+    "hadi",
+    "safi"
+  ],
+  "duration": 297.916667,
+  "resolutions": [
+    720
+  ],
+  "videoUrl": "https://media.littleummahworld.com/moral/film/clear-path-v1-720.mp4",
+  "bytes": 24770432,
+  "sha256": "f60f0dcf711e0b712b5c908c30626d1d6e0c4f5b0bc3b08ddef69d6debef339d",
+  "card": "/moral/card-clear-path-v1.webp",
+  "poster": "/moral/film/clear-path-v1-poster.webp",
+  "captions": "/moral/film/clear-path-v1.th.vtt",
+  "hadith": {
+    "collection": "Sahih Muslim",
+    "number": 1009,
+    "url": "https://shamela.ws/book/711/2767"
+  },
+  "music": false,
+  "voices": "Existing robot voice identities; publication explicitly requested by owner 2026-11-15",
+  "validation": "Full decode; 24fps hand/prop continuity; HTTP playback and seeking; 34 local ASR transcripts (not a human listening verdict)",
+  "captionCrop": {
+    "width": 1280,
+    "height": 636
+  },
+  "files": {
+    "public/moral/card-clear-path-v1.webp": {
+      "bytes": 123410,
+      "sha256": "1d6e944c84a058b208197fdbcee1c2e404350de9204fbf20dbd813a6415a0e71"
+    },
+    "public/moral/film/clear-path-v1-poster.webp": {
+      "bytes": 139418,
+      "sha256": "5a4c7d0ce5902f5e0c9071cbb7c3a22c51e7f91687c31527d35b7e69ba813764"
+    },
+    "public/moral/film/clear-path-v1.th.vtt": {
+      "bytes": 7361,
+      "sha256": "b05bd05c7fbd888da77e2bddac79a3d0f04b7fbc65054854941e0b56c542d339"
+    }
+  }
+}

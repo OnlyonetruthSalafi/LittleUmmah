@@ -474,8 +474,8 @@ export const ISLAND_CONTENT: IslandContent[] = [
       {
         id: "tidy-toys",
         icon: "heart",
-        title: { th: "เก็บของเล่นหลังเล่น", en: "Put toys away" },
-        body: { th: "เล่นเสร็จแล้ว เก็บของเล่นเข้าที่", en: "When playtime ends, put the toys away." },
+        title: { th: "ทางเดินของทุกคน", en: "Keeping our path clear" },
+        body: { th: "ช่วยกันเก็บของเล่นให้พ้นทาง เพื่อให้ทุกคนเดินผ่านได้สะดวก", en: "Put toys away together so everyone can use the path safely." },
       },
     ],
     juniors: [

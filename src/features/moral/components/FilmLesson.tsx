@@ -216,10 +216,11 @@ export function FilmLesson({
           </button>
         </div>
 
-        <div className="mrl-film-stage" data-state={status}>
+        <div className="mrl-film-stage" data-state={status} style={film.captionCrop ? { aspectRatio: `${film.captionCrop.width} / ${film.captionCrop.height}` } : undefined}>
           <video
             ref={videoRef}
             className="mrl-film-video"
+            style={film.captionCrop ? { objectPosition: "top" } : undefined}
             poster={`${base}-poster.webp`}
             playsInline
             preload={still ? "metadata" : "auto"}
@@ -238,8 +239,9 @@ export function FilmLesson({
               if (v && watchedSeconds(v) >= 0.9 * (v.duration || film.duration) - film.turns.reduce((a, tr) => a + tr.resumeAt - tr.at, 0)) onFinishRef.current?.();
             }}
           >
-            <source src={`${video}-1080.mp4`} type="video/mp4" media="(min-width: 1200px)" />
-            <source src={`${video}-720.mp4`} type="video/mp4" />
+            {(film.resolutions ?? [1080, 720]).map((resolution) => (
+              <source key={resolution} src={`${video}-${resolution}.mp4`} type="video/mp4" media={resolution === 1080 ? "(min-width: 1200px)" : undefined} />
+            ))}
             <track kind="captions" src={`${base}.${captionLang}.vtt`} srcLang={captionLang} label={captionLang === "th" ? "ไทย" : "English"} default />
           </video>
 
