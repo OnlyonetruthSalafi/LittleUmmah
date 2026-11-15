@@ -248,7 +248,7 @@ export function FilmLesson({
           {/* ตาเด็กพูด — ป้ายคำเป็นข้อความจริง (ข้อ 1.5) */}
           {status === "turn" && word && (
             <div className="mrl-film-turn">
-              <p className="mrl-film-turn-prompt font-display">{fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}</p>
+              {!word.instruction && <p className="mrl-film-turn-prompt font-display">{fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}</p>}
               <p className="mrl-stage-word mrl-film-word">
                 {word.ar && <span lang="ar" dir="rtl">{word.ar}</span>}
                 {word.prompt ? (
@@ -284,8 +284,9 @@ export function FilmLesson({
             <div className="mrl-film-end">
               {film.words.map((w) => (
                 <p key={w.ar} className="mrl-stage-word mrl-film-word">
-                  <span lang="ar" dir="rtl">{w.ar}</span>
-                  {locale === "th" && <span className="mrl-stage-word-th">{w.th}</span>}
+                  {w.ar && <span lang="ar" dir="rtl">{w.ar}</span>}
+                  {w.prompt ? <span className="mrl-stage-word-th">{pick(w.prompt)}{sub && <span lang="en" className="block text-sm font-normal">{pickSub(w.prompt)}</span>}</span>
+                    : locale === "th" && <span className="mrl-stage-word-th">{w.th}</span>}
                 </p>
               ))}
             </div>
@@ -307,7 +308,7 @@ export function FilmLesson({
           {status === "turn" && word ? (
             // ตาเด็กพูด: บอกในกล่องข้อความด้วย (จอแนวนอนเตี้ยซ่อนบอลลูนบนภาพ) role=status ให้ screen reader อ่าน
             <p className="font-semibold" role="status">
-              {fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}
+              {word.instruction ? pick(word.instruction) : fmt(t.moral.cartoon.sayPrompt, { word: promptWord })}
             </p>
           ) : status === "turn" && photo ? (
             <>

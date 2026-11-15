@@ -84,7 +84,7 @@ export const GUIDE_STEPS: GuideStep[] = [
 
 /* ภาพการ์ดของแต่ละบท (Codex สร้าง: สิ่งของเท่านั้น ไม่มีคน ไม่มีตัวอักษร) */
 export const CARD_ART: Record<string, string> = {
-  "faith-rabbi": "/faith/card-rabbi.webp",
+  "faith-rabbi": "/faith/card-rabbi-film-v1.webp",
   "faith-dini": "/faith/card-dini.webp",
   "faith-nabiyyi": "/faith/card-nabiyyi.webp",
   "faith-aina": "/faith/card-aina.webp",

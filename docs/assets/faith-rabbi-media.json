@@ -1,0 +1,56 @@
+{
+  "title": "ใครคือพระเจ้าของหนู",
+  "duration": 217.16666666666666,
+  "turn": {
+    "at": 175.59224500000002,
+    "resumeAt": 185,
+    "word": {
+      "ar": "",
+      "th": "ใครคือพระเจ้าของหนู?",
+      "prompt": {
+        "th": "ใครคือพระเจ้าของหนู?",
+        "en": "Who is your Lord?"
+      },
+      "instruction": {
+        "th": "ลองตอบออกเสียงว่า ใครคือพระเจ้าของหนู? ครูจะรอจนหนูกดปุ่ม",
+        "en": "Answer aloud: Who is your Lord? Nuri will wait until you press the button."
+      }
+    }
+  },
+  "script": "docs/films/faith-rabbi-script.txt",
+  "religiousSource": "https://shamela.ws/book/239/9",
+  "astronomySource": "https://science.nasa.gov/earth/facts/",
+  "reviewStatus": "Owner authorized commit, push and R2 publication on 2026-11-15.",
+  "backgrounds": {
+    "tool": "Built-in imagegen",
+    "night": "Empty moonlit lakeside garden terrace, starry sky, no living characters or text.",
+    "day": "Edit same garden to daylight, preserve composition, remove moon and stars."
+  },
+  "robots": "Original cutout rigs from help-friend / say-sorry / wait-turn; unchanged designs",
+  "animation": "2D hierarchical cutout rig; original Canvas astronomy diagrams; MP4 playback, no browser 3D",
+  "audio": "Existing Nuri Leo and Sabir/Hadi voice IDs; no music",
+  "images": [
+    {
+      "path": "public/faith/card-rabbi-film-v1.webp",
+      "sha256": "0187b1c51471db92b1ea604d0b46654e15f976ae9d5bfd91aa918e1454fc5260"
+    },
+    {
+      "path": "public/faith/film/faith-rabbi-v1-poster.webp",
+      "sha256": "8db168b31afaca4e83cf29fdfa81193760a8bb88d5e530d48e021eaba0385ce9"
+    }
+  ],
+  "video": {
+    "path": "faith/film/faith-rabbi-v1-720.mp4",
+    "sha256": "2efb1e56a4d73a85005bf3920b808bd716e52832c952308a688e1b2a77c9c23c",
+    "bytes": 17973669,
+    "url": "https://media.littleummahworld.com/faith/film/faith-rabbi-v1-720.mp4"
+  },
+  "verification": {
+    "tests": 185,
+    "passed": 185,
+    "build": "Next.js production Webpack build passed",
+    "browserCases": 4,
+    "mobileQuestion": "Answer wording; waits for click; no recording",
+    "r2RangeVerified": true
+  }
+}

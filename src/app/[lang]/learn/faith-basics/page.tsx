@@ -7,6 +7,7 @@ import { OtherIslands } from "@/components/islands/OtherIslands";
 import { MoralHero } from "@/features/moral/components/MoralHero";
 import { MoralSection } from "@/features/moral/components/MoralLessons";
 import { AGE_SECTIONS, CARD_ART, CARTOONS, GUIDE_STEPS, LESSONS } from "@/features/faith/data";
+import { FILMS } from "@/features/faith/film";
 import { CATEGORIES } from "@/lib/categories";
 import { categoryMetadata } from "@/lib/seo";
 
@@ -36,6 +37,7 @@ export default function FaithIslandPage() {
       groups={[{ id: `${age}-faith`, lessons: LESSONS[age] }]}
       cardArt={CARD_ART}
       cartoons={cartoons}
+      films={FILMS}
       progressKey="lu-faith-progress"
     />
   );
@@ -46,7 +48,7 @@ export default function FaithIslandPage() {
       intro={GUIDE_STEPS[0]}
       steps={steps}
       ageSections={AGE_SECTIONS}
-      art={{ src: "/Character/faith.webp", width: 400, height: 400 }}
+      art={{ src: "/faith/hero-learning-v1.webp", width: 1100, height: 1100 }}
       seenKey="lu-faith-guide-seen"
     />
     <AgeSections kids={section("kids")} juniors={section("juniors")} />

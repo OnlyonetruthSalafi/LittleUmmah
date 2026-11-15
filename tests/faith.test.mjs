@@ -34,7 +34,7 @@ test('all twelve faith lessons have complete image and narration assets', () => 
 test('every new faith PNG is registered with its current source hash', () => {
   const manifest = JSON.parse(readFileSync('scripts/source-images.json', 'utf8'));
   const files = Object.keys(manifest).filter(f => f.startsWith('public/faith/'));
-  assert.equal(files.length, 17);
+  assert.equal(files.length, 20); // Original seventeen, cartoon card/poster, and learning-island hero.
   // PNG originals are ignored; a fresh checkout can still run the suite.
   for (const file of files) if (existsSync(file)) {
     assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'), manifest[file], file);

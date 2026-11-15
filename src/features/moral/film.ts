@@ -30,7 +30,13 @@ export function filmPaths(film: Film) {
   };
 }
 
-export type FilmWord = { ar: string; th: string; prompt?: Text };
+export type FilmWord = {
+  ar: string;
+  th: string;
+  prompt?: Text;
+  /** Override repeat-after-me wording for an open question. */
+  instruction?: Text;
+};
 
 export type Film = {
   /** ชื่อไฟล์ (ไม่มีนามสกุล) */
