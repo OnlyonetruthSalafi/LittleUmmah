@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "originalAudioPreserved": true,
+  "audioBitstreamHash": "SHA256=68f959b0bd1cf006e0cd34019947a97d3eb1418c626e250ee28fd6c07cca6bb2",
+  "files": [
+    {
+      "name": "truth-v2-720.mp4",
+      "bytes": 19099501,
+      "sha256": "ed48a06a1d83855134b5e5d3d68ca0d39c7b561df30f92bb205d7d24fcaa8498",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "236.250000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/truth-v2-720.mp4"
+    },
+    {
+      "name": "truth-v2-1080.mp4",
+      "bytes": 42623818,
+      "sha256": "758c613ed6570595e59957085b3fdc7bcbb64ec6af2fcd5db3054784066ca89b",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "236.250000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/truth-v2-1080.mp4"
+    }
+  ]
+}

@@ -64,6 +64,23 @@ const SALAM: FilmWord = { ar: "السَّلَامُ عَلَيْكُمْ", th: "
 const REPLY: FilmWord = { ar: "وَعَلَيْكُمُ السَّلَامُ", th: "วะอะลัยกุมุสสะลาม" };
 
 export const FILMS: Record<string, Film> = {
+  // BEGIN truth full cartoon — "ฮาดีพูดความจริง" (Claude, 16 พ.ย. 2026)
+  // บุคอรี 6094 https://shamela.ws/book/1681/9128 / มุสลิม 2607 https://shamela.ws/book/1727/6572 «إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ»
+  // อัลหะดีด 57:4 ท่อนท้าย ความหมายไทยฉบับศูนย์กษัตริย์ฟะฮัด (quran.com 51) — ไม่อ่านตัวอาหรับ (AGENTS 1.6)
+  // เรื่องสมมุติของหุ่นยนต์ บท/ที่มา/ลำดับเวลา: output/car-truth/story.mjs
+  // ภาพฉบับแก้ + เสียงเดิม: output/car-truth-v2/ · รายงาน: docs/films/truth-v2-production.txt (AGENTS 3.1)
+  truth: {
+    name: "truth-v2",
+    duration: 236.233,
+    turns: [{ at: 227.394, resumeAt: 231.394, word: { ar: "", th: "เราจะพูดความจริงเสมอ", prompt: { th: "เราจะพูดความจริงเสมอ", en: "I will always tell the truth." } } }],
+    words: [],
+    captions: ["th"],
+    label: {
+      th: "การ์ตูนพูดความจริง — ฮาดีเผลอชนโต๊ะจนกังหันลมของซาบิรหักตอนไม่มีใครเห็น แต่เลือกบอกความจริง ขอโทษ และช่วยซ่อม ครูนูรีสอนว่าอัลลอฮ์ทรงเห็นทุกสิ่งที่เราทำ",
+      en: "Hadi accidentally breaks Sabir's wind spinner when nobody is looking, chooses to tell the truth, says sorry and helps fix it. Nuri teaches that Allah sees everything we do.",
+    },
+  },
+  // END truth full cartoon
   // Sahih Muslim 1009: «وتميط الأذى عن الطريق صدقة».
   // Verified through Shamela MCP: https://shamela.ws/book/711/2767
   // Fictional robot example; the hadith meaning is separate from the practical advice.

@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "at": "2026-11-16T09:23:49.284Z",
+  "files": [
+    {
+      "name": "truth-v2-720.mp4",
+      "bytes": 19099501,
+      "sha256": "ed48a06a1d83855134b5e5d3d68ca0d39c7b561df30f92bb205d7d24fcaa8498",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "236.250000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/truth-v2-720.mp4",
+      "rangeChecks": [
+        {
+          "start": 0,
+          "end": 1023,
+          "status": 206,
+          "contentRange": "bytes 0-1023/19099501"
+        },
+        {
+          "start": 9549750,
+          "end": 9550773,
+          "status": 206,
+          "contentRange": "bytes 9549750-9550773/19099501"
+        },
+        {
+          "start": 19098477,
+          "end": 19099500,
+          "status": 206,
+          "contentRange": "bytes 19098477-19099500/19099501"
+        }
+      ]
+    },
+    {
+      "name": "truth-v2-1080.mp4",
+      "bytes": 42623818,
+      "sha256": "758c613ed6570595e59957085b3fdc7bcbb64ec6af2fcd5db3054784066ca89b",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "236.250000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/truth-v2-1080.mp4",
+      "rangeChecks": [
+        {
+          "start": 0,
+          "end": 1023,
+          "status": 206,
+          "contentRange": "bytes 0-1023/42623818"
+        },
+        {
+          "start": 21311909,
+          "end": 21312932,
+          "status": 206,
+          "contentRange": "bytes 21311909-21312932/42623818"
+        },
+        {
+          "start": 42622794,
+          "end": 42623817,
+          "status": 206,
+          "contentRange": "bytes 42622794-42623817/42623818"
+        }
+      ]
+    }
+  ]
+}
