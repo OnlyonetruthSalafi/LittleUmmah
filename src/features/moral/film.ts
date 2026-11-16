@@ -18,6 +18,8 @@ import type { ScenePhoto } from "./cartoon";
   ภาพปกและคำบรรยายไฟล์เล็ก อยู่ใน public/moral/film/ บน Vercel — <track> ข้ามโดเมนต้องตั้ง CORS จึงไม่ย้าย
   เปลี่ยนที่เก็บวิดีโอได้ที่ NEXT_PUBLIC_FILM_VIDEO_BASE จุดเดียว
 */
+/* 16 พ.ย. 2026: ลดเสียงเอฟเฟกต์/บรรยากาศทุกเรื่อง (เจ้าของ: ในมือถือดังมาก) — ภาพเดิม เสียงผสมใหม่ จึงขึ้นเลขรุ่นชื่อไฟล์ใหม่ทุกเรื่อง
+   ที่มีเอฟเฟกต์ (กัน cache 7 วัน) · สูตรและผลวัด: output/remix-1116/ · docs/films/2026-11-16-audio-remix.txt */
 export const FILM_BASE = "/moral/film";
 export const FILM_VIDEO_BASE = process.env.NEXT_PUBLIC_FILM_VIDEO_BASE ?? "https://media.littleummahworld.com/moral/film";
 
@@ -67,7 +69,7 @@ export const FILMS: Record<string, Film> = {
   // Fictional robots illustrating the existing sharing lesson; no new religious quotation.
   // Source: output/car-share/; script and production record: docs/films/share-v1-production.txt.
   share: {
-    name: "share-v1",
+    name: "share-v2",
     duration: 204.821,
     turns: [{ at: 194.742, resumeAt: 198.742, word: { ar: "", th: "มาเล่นด้วยกันไหม", prompt: { th: "มาเล่นด้วยกันไหม", en: "Would you like to play together?" } } }],
     words: [],
@@ -82,7 +84,7 @@ export const FILMS: Record<string, Film> = {
   // บุคอรี 6324 «بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا» https://shamela.ws/book/1681/9484 (ตรวจกับ Shamela 16 พ.ย. 2026)
   // เรื่องสมมุติของหุ่นยนต์ ต้นทาง/บท/ที่มา: output/car-sleep/ (story.mjs, film.js) · เสียงดุอาอ์ของครูนูรีใช้คลิปเดิมที่อนุมัติแล้ว (C-8)
   "dua-sleep": {
-    name: "sleep-v1",
+    name: "sleep-v2",
     duration: 150.988,
     turns: [{ at: 141.869, resumeAt: 145.869, word: { ar: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", th: "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา" } }],
     words: [{ ar: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", th: "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา" }],
@@ -99,7 +101,7 @@ export const FILMS: Record<string, Film> = {
   // เรื่องสมมุติของหุ่นยนต์ บท/ที่มา/ลำดับเวลา: output/car-truth/story.mjs
   // ภาพฉบับแก้ + เสียงเดิม: output/car-truth-v2/ · รายงาน: docs/films/truth-v2-production.txt (AGENTS 3.1)
   truth: {
-    name: "truth-v2",
+    name: "truth-v3",
     duration: 236.233,
     turns: [{ at: 227.394, resumeAt: 231.394, word: { ar: "", th: "เราจะพูดความจริงเสมอ", prompt: { th: "เราจะพูดความจริงเสมอ", en: "I will always tell the truth." } } }],
     words: [],
@@ -131,7 +133,7 @@ export const FILMS: Record<string, Film> = {
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/wait-turn-script.md. Cast: ครูนูรี, ฮาดี, ซาฟี, รอสซาม.
   "wait-turn": {
-    "name": "wait-turn",
+    "name": "wait-turn-v2",
     "duration": 137.463,
     "turns": [
       {
@@ -162,7 +164,7 @@ export const FILMS: Record<string, Film> = {
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/help-friend-script.md. Cast: ครูนูรี, ฟาฮีม, ซาฟี.
   "help-friend": {
-    "name": "help-friend-hold-turn-v2",
+    "name": "help-friend-hold-turn-v3",
     "duration": 137.44,
     "turns": [
       {
@@ -193,7 +195,7 @@ export const FILMS: Record<string, Film> = {
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/say-sorry-script.md. Cast: ครูนูรี, ซาบิร, รอสซาม.
   "say-sorry": {
-    "name": "say-sorry",
+    "name": "say-sorry-v2",
     "duration": 132.02,
     "turns": [
       {
@@ -224,7 +226,7 @@ export const FILMS: Record<string, Film> = {
   // Storyboard: docs/films/meet-friends-script.md. General manners; no new quoted religious text.
   // Salam basis: Muslim 54, https://shamela.ws/book/1727/158 (checked 14 Nov 2026).
   "meet-friends": {
-    "name": "meet-friends",
+    "name": "meet-friends-v2",
     "duration": 152.575,
     "turns": [
       {
@@ -269,7 +271,7 @@ export const FILMS: Record<string, Film> = {
   salam: {
     // salam-v2 (14 พ.ย. 2026): เปลี่ยนเสียงเคลื่อนที่ของนูรีตามที่เจ้าของสั่ง ภาพ/บท/เวลาเดิม · ต้นทาง output/car-hf/salam-audio-v2/
     // ตั้งชื่อไฟล์ใหม่เพื่อไม่ให้ cache 7 วันของไฟล์ salam เดิมค้าง
-    name: "salam-v2",
+    name: "salam-v3",
     duration: 92.3,
     // นูรีชวนเด็กทักสลาม (คลิปจบ 85.6 วิ) หยุดตอนเอามือป้องหูฟัง แล้วข้ามไปก่อนนูรีตอบสลาม (89.1 วิ)
     turns: [{ at: 86.5, resumeAt: 88.4, word: SALAM }],

@@ -1016,7 +1016,7 @@ const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "�
 
 export const FILMS: Record<string, Film> = {
   "desert-home": {
-    name: "desert",
+    name: "desert-v2", // 16 พ.ย. 2026: หน้าอยู่กับจอ (ไม่เลื่อนหลุด) + ลดเสียงลม/น้ำ — output/car-hf/desert/
     dir: "explore/film",
     duration: 100.6,
     // หยุดหลังนูรีพูด "นี่คืออูฐตัวจริง" / "นี่คือจิ้งจอกเฟนเนคตัวจริง" -> แสดงภาพถ่าย (นับถอยหลังแล้วเล่นต่อเอง) และหลังนูรีชวนพูด "ซุบฮานัลลอฮ์"

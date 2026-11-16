@@ -14,9 +14,14 @@ inputs=[];filters=[];
 cues.forEach((c,i)=>{if(c.dur)inputs.push('-stream_loop','-1');inputs.push('-i',`${root}/sfx/${c.name}.mp3`);const trim=c.dur?`atrim=0:${c.dur},afade=t=in:d=0.1,afade=t=out:st=${Math.max(0,c.dur-.2)}:d=0.2,`:'';filters.push(`[${i}:a]${trim}volume=${c.gain},adelay=${Math.round(c.t*1000)}:all=1[s${i}]`);});
 if(inputs.length)run([...inputs,'-filter_complex',filters.join(';')+';'+cues.map((_,i)=>`[s${i}]`).join('')+`amix=inputs=${cues.length}:normalize=0,apad,atrim=0:${timing.total}[o]`,'-map','[o]','-ar','48000','-ac','1',`${root}/stems/effects.wav`]);
 else run(['-f','lavfi','-i','anullsrc=r=48000:cl=mono','-t',String(timing.total),`${root}/stems/effects.wav`]);
-run(['-i',`${root}/stems/dialogue.th.wav`,'-i',`${root}/stems/effects.wav`,'-i',`${root}/stems/ambience.wav`,'-filter_complex','[0:a]asplit=2[v][key];[1:a][2:a]amix=inputs=2:normalize=0[bed];[bed][key]sidechaincompress=threshold=0.03:ratio=5:attack=20:release=450[fx];[v][fx]amix=inputs=2:normalize=0[o]','-map','[o]',`${root}/stems/mix-raw.wav`]);
+/* ระดับเอฟเฟกต์/บรรยากาศ (เจ้าของ 16 พ.ย. 2026: ในมือถือดังมาก) — เอฟเฟกต์ ≤ เสียงพูด -18 LU, ช่วงดังสุด ≤ -8 LU, บรรยากาศ ≤ -28 LU */
+const lufs=f=>{const r=spawnSync(ff,['-hide_banner','-nostats','-i',f,'-af','ebur128','-f','null','-'],{encoding:'utf8',maxBuffer:1e8}).stderr;
+ const S=[...r.matchAll(/S:\s*(-?[\d.]+)/g)].map(m=>+m[1]).filter(x=>x>-70);return {I:+[...r.matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop()[1],S:S.length?Math.max(...S):-70};};
+const LD=lufs(`${root}/stems/dialogue.th.wav`),LE=lufs(`${root}/stems/effects.wav`),LA=lufs(`${root}/stems/ambience.wav`),lin=d=>10**(d/20);
+const gE=isFinite(LE.I)?Math.min(1,lin(LD.I-18-LE.I),lin(LD.I-8-LE.S)):1,gA=isFinite(LA.I)?Math.min(1,lin(LD.I-28-LA.I)):1;
+run(['-i',`${root}/stems/dialogue.th.wav`,'-i',`${root}/stems/effects.wav`,'-i',`${root}/stems/ambience.wav`,'-filter_complex',`[0:a]asplit=2[v][key];[1:a]volume=${gE.toFixed(4)}[e];[2:a]volume=${gA.toFixed(4)}[am];[e][am]amix=inputs=2:normalize=0[bed];[bed][key]sidechaincompress=threshold=0.03:ratio=5:attack=20:release=450[fx];[v][fx]amix=inputs=2:normalize=0[o]`,'-map','[o]',`${root}/stems/mix-raw.wav`]);
 const log=spawnSync(ff,['-hide_banner','-i',`${root}/stems/mix-raw.wav`,'-af','ebur128','-f','null','-'],{encoding:'utf8'}).stderr;
 const I=Number([...log.matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop()[1]),gain=-16-I;
 run(['-i',`${root}/render.mp4`,'-i',`${root}/stems/mix-raw.wav`,'-map','0:v','-map','1:a','-c:v','copy','-af',`volume=${gain}dB,alimiter=limit=0.84:level=false`,'-c:a','aac','-b:a','160k','-ac','2','-shortest','-movflags','+faststart',`${root}/master.mp4`]);
-writeFileSync(`${root}/qa/mix-report.json`,JSON.stringify({dialogueLines:timing.audio.length,effectCues:cues.length,rawIntegratedLUFS:I,gainDB:gain,stems:['dialogue.th.wav','effects.wav','ambience.wav'],newSFX:0,music:false},null,2));
+writeFileSync(`${root}/qa/mix-report.json`,JSON.stringify({dialogueLines:timing.audio.length,effectCues:cues.length,rawIntegratedLUFS:I,gainDB:gain,effectsGainDB:+(20*Math.log10(gE)).toFixed(1),ambienceGainDB:+(20*Math.log10(gA)).toFixed(1),stems:['dialogue.th.wav','effects.wav','ambience.wav'],newSFX:0,music:false},null,2));
 console.log('mixed',timing.total,'seconds');
