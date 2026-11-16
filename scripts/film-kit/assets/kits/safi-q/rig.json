@@ -1,0 +1,383 @@
+{
+  "version": 2,
+  "id": "safi",
+  "assetId": "safi-q",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 791,
+  "facing": "right",
+  "anchorX": 511.0,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "l",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 208,
+      "y": 343,
+      "w": 598,
+      "h": 141,
+      "pivot": [
+        512,
+        645
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "fan": {
+      "file": "fan.png",
+      "x": 305,
+      "y": 647,
+      "w": 446,
+      "h": 125,
+      "pivot": [
+        540,
+        728
+      ],
+      "parent": "saucer",
+      "z": 14,
+      "intentionalMultipleComponents": true,
+      "expectedComponents": 2,
+      "projectedRatio": 3.29,
+      "rotationNote": "Spin texture in circular space, reproject to ellipse behind fan-guard."
+    },
+    "fan-guard": {
+      "file": "fan-guard.png",
+      "x": 392,
+      "y": 642,
+      "w": 245,
+      "h": 143,
+      "pivot": [
+        540,
+        728
+      ],
+      "parent": "saucer",
+      "z": 16,
+      "intentionalMultipleComponents": true,
+      "expectedComponents": 3
+    },
+    "saucer": {
+      "file": "saucer.png",
+      "x": 98,
+      "y": 431,
+      "w": 827,
+      "h": 365,
+      "pivot": [
+        512,
+        645
+      ],
+      "parent": "torso",
+      "z": 12
+    },
+    "head": {
+      "file": "head.png",
+      "x": 273,
+      "y": 143,
+      "w": 495,
+      "h": 311,
+      "pivot": [
+        531,
+        439
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 530,
+      "y": 235,
+      "w": 184,
+      "h": 178,
+      "pivot": [
+        531,
+        439
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 226,
+      "y": 547,
+      "w": 91,
+      "h": 106,
+      "pivot": [
+        292,
+        575
+      ],
+      "parent": "saucer",
+      "z": 20
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 216,
+      "y": 628,
+      "w": 59,
+      "h": 94,
+      "pivot": [
+        245,
+        658
+      ],
+      "parent": "arm-l-upper",
+      "z": 21
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 188,
+      "y": 704,
+      "w": 113,
+      "h": 114,
+      "pivot": [
+        243,
+        719
+      ],
+      "parent": "arm-l-lower",
+      "z": 22
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 822,
+      "y": 543,
+      "w": 52,
+      "h": 100,
+      "pivot": [
+        842,
+        569
+      ],
+      "parent": "saucer",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 816,
+      "y": 628,
+      "w": 64,
+      "h": 95,
+      "pivot": [
+        853,
+        654
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 773,
+      "y": 698,
+      "w": 115,
+      "h": 118,
+      "pivot": [
+        842,
+        717
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    },
+    "dome": {
+      "file": "dome.png",
+      "x": 225,
+      "y": 97,
+      "w": 562,
+      "h": 346,
+      "pivot": [
+        512,
+        439
+      ],
+      "parent": "torso",
+      "z": 55,
+      "translucent": true,
+      "provenance": "Approved front glass shell remapped to quarter-view dome; alpha capped at 183."
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 573,
+      "y": 285,
+      "w": 101,
+      "h": 76,
+      "pivot": [
+        623,
+        323
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        323
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 568,
+      "y": 285,
+      "w": 111,
+      "h": 38,
+      "pivot": [
+        623,
+        323
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        323
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 568,
+      "y": 317,
+      "w": 111,
+      "h": 13,
+      "pivot": [
+        623,
+        323
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        323
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 564,
+      "y": 285,
+      "w": 119,
+      "h": 76,
+      "pivot": [
+        623,
+        323
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        323
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 605,
+      "y": 357,
+      "w": 36,
+      "h": 18,
+      "pivot": [
+        623,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 610,
+      "y": 357,
+      "w": 26,
+      "h": 13,
+      "pivot": [
+        623,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 605,
+      "y": 338,
+      "w": 36,
+      "h": 46,
+      "pivot": [
+        623,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 605,
+      "y": 338,
+      "w": 36,
+      "h": 46,
+      "pivot": [
+        623,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 611,
+      "y": 340,
+      "w": 24,
+      "h": 42,
+      "pivot": [
+        623,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        623,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "notes": [
+    "Saucer is child of torso deck. Glass shell is independent, truly translucent; no opaque fake background in dome.",
+    "Near image-left arm identified by near=l. Head electronics move inside stationary glass dome.",
+    "Ground is hover baseline at saucer underside; hands may extend slightly below it."
+  ],
+  "scaleToFront": 0.6790697674418604,
+  "heightMeasurement": {
+    "headCrownY": 146,
+    "referenceHeadCrownY": 506,
+    "referenceGround": 944,
+    "reference": "refs/front-kits/safi",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 645,
+    "referenceHeightPixels": 438,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

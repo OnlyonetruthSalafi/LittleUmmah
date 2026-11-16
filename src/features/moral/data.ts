@@ -21,7 +21,7 @@ export const CARD_ART: Record<string, string> = {
   "tidy-toys": "/moral/card-clear-path-v1.webp",
   "listen-friend": "/moral/card-listen-friend.webp",
   "shared-things": "/moral/card-shared-things.webp",
-  "dua-sleep": "/moral/card-dua-sleep.webp",
+  "dua-sleep": "/moral/card-dua-sleep-film-v1.webp",
   "dua-wake": "/moral/card-dua-wake.webp",
   "dua-leave-home": "/moral/card-dua-leave-home.webp",
   "dua-after-eating": "/moral/card-dua-after-eating.webp",

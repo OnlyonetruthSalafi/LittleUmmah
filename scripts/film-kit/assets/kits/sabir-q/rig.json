@@ -1,0 +1,393 @@
+{
+  "version": 2,
+  "id": "sabir",
+  "assetId": "sabir-q",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 958,
+  "facing": "right",
+  "anchorX": 471.5,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "l",
+  "parts": {
+    "head": {
+      "file": "head.png",
+      "x": 317,
+      "y": 67,
+      "w": 485,
+      "h": 304,
+      "pivot": [
+        551,
+        365
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "torso": {
+      "file": "torso.png",
+      "x": 215,
+      "y": 323,
+      "w": 604,
+      "h": 507,
+      "pivot": [
+        532,
+        691
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "crane-folded": {
+      "file": "crane-folded.png",
+      "x": 110,
+      "y": 217,
+      "w": 304,
+      "h": 374,
+      "pivot": [
+        269,
+        559
+      ],
+      "parent": "torso",
+      "z": 7
+    },
+    "tread-l": {
+      "file": "tread-l.png",
+      "x": 49,
+      "y": 581,
+      "w": 505,
+      "h": 382,
+      "pivot": [
+        281,
+        795
+      ],
+      "parent": "torso",
+      "z": 12
+    },
+    "tread-r": {
+      "file": "tread-r.png",
+      "x": 532,
+      "y": 603,
+      "w": 363,
+      "h": 325,
+      "pivot": [
+        728,
+        813
+      ],
+      "parent": "torso",
+      "z": 11
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 87,
+      "y": 657,
+      "w": 164,
+      "h": 238,
+      "pivot": [
+        169,
+        776
+      ],
+      "parent": "tread-l",
+      "z": 14,
+      "projectedRatio": 0.6833,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-l-rotation-mask.png"
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 663,
+      "y": 746,
+      "w": 117,
+      "h": 140,
+      "pivot": [
+        721,
+        816
+      ],
+      "parent": "tread-r",
+      "z": 14,
+      "projectedRatio": 0.821,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-r-rotation-mask.png"
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 488,
+      "y": 164,
+      "w": 279,
+      "h": 189,
+      "pivot": [
+        551,
+        365
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 259,
+      "y": 437,
+      "w": 99,
+      "h": 88,
+      "pivot": [
+        322,
+        466
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 252,
+      "y": 495,
+      "w": 92,
+      "h": 128,
+      "pivot": [
+        301,
+        513
+      ],
+      "parent": "arm-l-upper",
+      "z": 21
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 250,
+      "y": 586,
+      "w": 162,
+      "h": 204,
+      "pivot": [
+        305,
+        607
+      ],
+      "parent": "arm-l-lower",
+      "z": 22
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 782,
+      "y": 430,
+      "w": 73,
+      "h": 88,
+      "pivot": [
+        803,
+        454
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 805,
+      "y": 477,
+      "w": 96,
+      "h": 125,
+      "pivot": [
+        833,
+        499
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 832,
+      "y": 556,
+      "w": 143,
+      "h": 184,
+      "pivot": [
+        878,
+        581
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 546,
+      "y": 220,
+      "w": 169,
+      "h": 80,
+      "pivot": [
+        630,
+        260
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        260
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 537,
+      "y": 220,
+      "w": 187,
+      "h": 40,
+      "pivot": [
+        630,
+        260
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        260
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 537,
+      "y": 254,
+      "w": 187,
+      "h": 13,
+      "pivot": [
+        630,
+        260
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        260
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 531,
+      "y": 220,
+      "w": 199,
+      "h": 80,
+      "pivot": [
+        630,
+        260
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        260
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 601,
+      "y": 297,
+      "w": 58,
+      "h": 19,
+      "pivot": [
+        630,
+        301
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        301
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 611,
+      "y": 297,
+      "w": 38,
+      "h": 14,
+      "pivot": [
+        630,
+        301
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        301
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 601,
+      "y": 276,
+      "w": 58,
+      "h": 50,
+      "pivot": [
+        630,
+        301
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        301
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 601,
+      "y": 276,
+      "w": 58,
+      "h": 50,
+      "pivot": [
+        630,
+        301
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        301
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 612,
+      "y": 279,
+      "w": 36,
+      "h": 44,
+      "pivot": [
+        630,
+        301
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        630,
+        301
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "notes": [
+    "l/r are literal image sides. At this right-facing quarter view the visible near arm is l (see near).",
+    "Crane is stowed. Projected hub textures rotate behind fixed silhouettes."
+  ],
+  "scaleToFront": 0.7733934611048479,
+  "heightMeasurement": {
+    "headCrownY": 71,
+    "referenceHeadCrownY": 258,
+    "referenceGround": 944,
+    "reference": "refs/front-kits/sabir",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 887,
+    "referenceHeightPixels": 686,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

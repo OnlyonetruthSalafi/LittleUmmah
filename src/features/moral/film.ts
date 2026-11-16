@@ -77,6 +77,22 @@ export const FILMS: Record<string, Film> = {
       en: "Two trucks, one shared game — Hadi lends Sabir a toy truck, Safi shares blocks, and the friends play gently and return their toys. Nuri invites children to practise asking and sharing.",
     },
   },
+  // BEGIN dua-sleep full cartoon — "ฟาฮีมเข้านอน" (Claude, 16 พ.ย. 2026) บน scripts/film-kit
+  // บุคอรี 6320 ปัดที่นอน https://shamela.ws/book/1681/9477 · บุคอรี 247 นอนตะแคงขวา https://shamela.ws/book/1681/430
+  // บุคอรี 6324 «بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا» https://shamela.ws/book/1681/9484 (ตรวจกับ Shamela 16 พ.ย. 2026)
+  // เรื่องสมมุติของหุ่นยนต์ ต้นทาง/บท/ที่มา: output/car-sleep/ (story.mjs, film.js) · เสียงดุอาอ์ของครูนูรีใช้คลิปเดิมที่อนุมัติแล้ว (C-8)
+  "dua-sleep": {
+    name: "sleep-v1",
+    duration: 150.988,
+    turns: [{ at: 141.869, resumeAt: 145.869, word: { ar: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", th: "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา" } }],
+    words: [{ ar: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", th: "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา" }],
+    captions: ["th"],
+    label: {
+      th: "การ์ตูนฟาฮีมเข้านอน — ฟาฮีมอ่านหนังสือจนง่วง เก็บหนังสือเข้าชั้น ปัดที่นอน นอนตะแคงขวา แล้วอ่านดุอาอ์ก่อนนอนกับครูนูรี",
+      en: "Faheem goes to bed — after reading, Faheem puts the book away, dusts the bed, lies on the right side and says the bedtime dua with Nuri.",
+    },
+  },
+  // END dua-sleep full cartoon
   // BEGIN truth full cartoon — "ฮาดีพูดความจริง" (Claude, 16 พ.ย. 2026)
   // บุคอรี 6094 https://shamela.ws/book/1681/9128 / มุสลิม 2607 https://shamela.ws/book/1727/6572 «إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ»
   // อัลหะดีด 57:4 ท่อนท้าย ความหมายไทยฉบับศูนย์กษัตริย์ฟะฮัด (quran.com 51) — ไม่อ่านตัวอาหรับ (AGENTS 1.6)

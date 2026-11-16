@@ -1,0 +1,439 @@
+{
+  "version": 2,
+  "id": "qalam",
+  "assetId": "qalam-front",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 944,
+  "anchorX": 512,
+  "scaleToFront": 1,
+  "facing": "front",
+  "near": "r",
+  "coordinateSystem": "1024 canvas; global pivots; l/r are image sides",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 285,
+      "y": 448,
+      "w": 455,
+      "h": 501,
+      "pivot": [
+        512,
+        801.191
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "head": {
+      "file": "head.png",
+      "x": 319,
+      "y": 152,
+      "w": 386,
+      "h": 320,
+      "pivot": [
+        512,
+        459.956
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "wheel-l-back": {
+      "file": "wheel-l-back.png",
+      "x": 278,
+      "y": 820,
+      "w": 56,
+      "h": 112,
+      "pivot": [
+        304.822,
+        876.463
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-l-back": {
+      "file": "hub-l-back.png",
+      "x": 286,
+      "y": 840,
+      "w": 38,
+      "h": 73,
+      "pivot": [
+        304.822,
+        876.463
+      ],
+      "parent": "wheel-l-back",
+      "z": 15
+    },
+    "wheel-l": {
+      "file": "wheel-l.png",
+      "x": 352,
+      "y": 833,
+      "w": 110,
+      "h": 116,
+      "pivot": [
+        407.336,
+        890.8
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 372,
+      "y": 854,
+      "w": 70,
+      "h": 74,
+      "pivot": [
+        407.336,
+        890.8
+      ],
+      "parent": "wheel-l",
+      "z": 15
+    },
+    "wheel-r": {
+      "file": "wheel-r.png",
+      "x": 561,
+      "y": 833,
+      "w": 111,
+      "h": 116,
+      "pivot": [
+        616.664,
+        890.8
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 581,
+      "y": 854,
+      "w": 71,
+      "h": 74,
+      "pivot": [
+        616.664,
+        890.8
+      ],
+      "parent": "wheel-r",
+      "z": 15
+    },
+    "wheel-r-back": {
+      "file": "wheel-r-back.png",
+      "x": 692,
+      "y": 820,
+      "w": 54,
+      "h": 111,
+      "pivot": [
+        719.895,
+        875.746
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-r-back": {
+      "file": "hub-r-back.png",
+      "x": 701,
+      "y": 840,
+      "w": 37,
+      "h": 72,
+      "pivot": [
+        719.895,
+        875.746
+      ],
+      "parent": "wheel-r-back",
+      "z": 15
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 370,
+      "y": 268,
+      "w": 285,
+      "h": 180,
+      "pivot": [
+        512,
+        459.956
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "glasses": {
+      "file": "glasses.png",
+      "x": 360,
+      "y": 297,
+      "w": 303,
+      "h": 101,
+      "pivot": [
+        512,
+        459.956
+      ],
+      "parent": "head",
+      "z": 60
+    },
+    "shelf-books": {
+      "file": "shelf-books.png",
+      "x": 434,
+      "y": 527,
+      "w": 158,
+      "h": 139,
+      "pivot": [
+        512,
+        672.152
+      ],
+      "parent": "torso",
+      "z": 16
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 308,
+      "y": 472,
+      "w": 59,
+      "h": 123,
+      "pivot": [
+        336.365,
+        499.385
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 310,
+      "y": 540,
+      "w": 58,
+      "h": 142,
+      "pivot": [
+        337.799,
+        567.488
+      ],
+      "parent": "arm-l-upper",
+      "z": 22
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 278,
+      "y": 620,
+      "w": 122,
+      "h": 155,
+      "pivot": [
+        337.799,
+        662.833
+      ],
+      "parent": "arm-l-lower",
+      "z": 23
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 660,
+      "y": 472,
+      "w": 59,
+      "h": 123,
+      "pivot": [
+        688.352,
+        499.385
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 662,
+      "y": 540,
+      "w": 58,
+      "h": 142,
+      "pivot": [
+        689.786,
+        567.488
+      ],
+      "parent": "arm-r-upper",
+      "z": 22
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 630,
+      "y": 620,
+      "w": 122,
+      "h": 155,
+      "pivot": [
+        689.786,
+        662.833
+      ],
+      "parent": "arm-r-lower",
+      "z": 23
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 422,
+      "y": 324,
+      "w": 180,
+      "h": 50,
+      "pivot": [
+        512,
+        348.84
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        348.84
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 418,
+      "y": 336,
+      "w": 188,
+      "h": 25,
+      "pivot": [
+        512,
+        348.84
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        348.84
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 418,
+      "y": 336,
+      "w": 188,
+      "h": 26,
+      "pivot": [
+        512,
+        348.84
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        348.84
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 420,
+      "y": 322,
+      "w": 184,
+      "h": 54,
+      "pivot": [
+        512,
+        348.84
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        348.84
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 487,
+      "y": 410,
+      "w": 50,
+      "h": 22,
+      "pivot": [
+        512,
+        419.094
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        419.094
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 497,
+      "y": 409,
+      "w": 30,
+      "h": 20,
+      "pivot": [
+        512,
+        419.094
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        419.094
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 489,
+      "y": 405,
+      "w": 46,
+      "h": 28,
+      "pivot": [
+        512,
+        419.094
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        419.094
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 483,
+      "y": 401,
+      "w": 58,
+      "h": 36,
+      "pivot": [
+        512,
+        419.094
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        512,
+        419.094
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {
+    "arm-l-upper": 20,
+    "arm-r-upper": -20
+  },
+  "defaultFace": {
+    "eyes": "eyes-happy",
+    "mouth": "mouth-smile"
+  },
+  "notes": [
+    "Original qalam design retained; new view generated from approved source.",
+    "Wheel silhouettes remain fixed; rotate hub-* children, not projected wheel ellipses.",
+    "Arm joints include opaque round rendered-metal overlap caps."
+  ],
+  "deliveryNormalized": true,
+  "measurement": {
+    "alphaThreshold": 200,
+    "headTop": 156,
+    "wheelBottom": 944,
+    "bodyHeight": 788,
+    "referenceFrontHeight": 788
+  }
+}

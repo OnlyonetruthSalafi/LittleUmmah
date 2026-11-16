@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "id": "sabir",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 944,
+  "coordinateSystem": "original source pixels; l/r are viewer left/right; pivots are absolute canvas coordinates",
+  "parts": {
+    "crane-1": {
+      "file": "crane-1.png",
+      "x": 249,
+      "y": 281,
+      "w": 111,
+      "h": 198,
+      "pivot": [
+        306,
+        453
+      ],
+      "parent": "torso",
+      "z": 3,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "crane-2": {
+      "file": "crane-2.png",
+      "x": 100,
+      "y": 194,
+      "w": 238,
+      "h": 260,
+      "pivot": [
+        297,
+        248
+      ],
+      "parent": "crane-1",
+      "z": 4,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "crane-claw": {
+      "file": "crane-claw.png",
+      "x": 30,
+      "y": 427,
+      "w": 172,
+      "h": 227,
+      "pivot": [
+        119,
+        505
+      ],
+      "parent": "crane-2",
+      "z": 5,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "tread-l": {
+      "file": "tread-l.png",
+      "x": 84,
+      "y": 665,
+      "w": 368,
+      "h": 283,
+      "pivot": [
+        263,
+        821
+      ],
+      "parent": "torso",
+      "z": 13,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "tread-r": {
+      "file": "tread-r.png",
+      "x": 545,
+      "y": 656,
+      "w": 414,
+      "h": 284,
+      "pivot": [
+        801,
+        811
+      ],
+      "parent": "torso",
+      "z": 13,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 115,
+      "y": 723,
+      "w": 108,
+      "h": 173,
+      "pivot": [
+        166,
+        814
+      ],
+      "parent": "tread-l",
+      "z": 14,
+      "provenance": "source pixels; concealed repair where applicable",
+      "rotationMask": "hub-l-rotation-mask.png",
+      "rotationNote": "Rotate texture behind fixed source silhouette for projected elliptical wheels/fan; pivot remains absolute canvas coordinate."
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 706,
+      "y": 780,
+      "w": 75,
+      "h": 117,
+      "pivot": [
+        746,
+        837
+      ],
+      "parent": "tread-r",
+      "z": 14,
+      "provenance": "source pixels; concealed repair where applicable",
+      "rotationMask": "hub-r-rotation-mask.png",
+      "rotationNote": "Rotate texture behind fixed source silhouette for projected elliptical wheels/fan; pivot remains absolute canvas coordinate."
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 776,
+      "y": 496,
+      "w": 107,
+      "h": 104,
+      "pivot": [
+        793,
+        553
+      ],
+      "parent": "torso",
+      "z": 21,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 819,
+      "y": 415,
+      "w": 97,
+      "h": 136,
+      "pivot": [
+        854,
+        520
+      ],
+      "parent": "arm-r-upper",
+      "z": 22,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 823,
+      "y": 308,
+      "w": 171,
+      "h": 182,
+      "pivot": [
+        880,
+        435
+      ],
+      "parent": "arm-r-lower",
+      "z": 23,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "head": {
+      "file": "head.png",
+      "x": 303,
+      "y": 254,
+      "w": 481,
+      "h": 256,
+      "pivot": [
+        550,
+        493
+      ],
+      "parent": "torso",
+      "z": 30,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "torso": {
+      "file": "torso.png",
+      "x": 203,
+      "y": 465,
+      "w": 624,
+      "h": 407,
+      "pivot": [
+        512,
+        814
+      ],
+      "parent": null,
+      "z": 10,
+      "provenance": "source pixels; concealed repair where applicable"
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 438,
+      "y": 335,
+      "w": 287,
+      "h": 161,
+      "pivot": [
+        550,
+        493
+      ],
+      "parent": "head",
+      "z": 40,
+      "provenance": "source pixels; generated repair only under original eyes/mouth/glasses"
+    }
+  },
+  "faces": {
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 438,
+      "y": 335,
+      "w": 287,
+      "h": 161,
+      "pivot": [
+        589.5,
+        407.5
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        589.5,
+        407.5
+      ],
+      "provenance": "source phosphor extracted by exact inverse alpha compositing over clean glass",
+      "emissive": true
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 545,
+      "y": 414,
+      "w": 104,
+      "h": 82,
+      "pivot": [
+        596.5,
+        455.0
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        596.5,
+        455.0
+      ],
+      "provenance": "source phosphor extracted by exact inverse alpha compositing over clean glass",
+      "emissive": true
+    },
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 497,
+      "y": 380,
+      "w": 185,
+      "h": 59,
+      "pivot": [
+        589.5,
+        407.5
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        589.5,
+        407.5
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 485,
+      "y": 392,
+      "w": 209,
+      "h": 35,
+      "pivot": [
+        589.5,
+        407.5
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        589.5,
+        407.5
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 493,
+      "y": 377,
+      "w": 193,
+      "h": 64,
+      "pivot": [
+        589.5,
+        407.5
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        589.5,
+        407.5
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 562,
+      "y": 439,
+      "w": 69,
+      "h": 36,
+      "pivot": [
+        596.5,
+        455.0
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        596.5,
+        455.0
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 570,
+      "y": 438,
+      "w": 53,
+      "h": 39,
+      "pivot": [
+        596.5,
+        455.0
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        596.5,
+        455.0
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 557,
+      "y": 431,
+      "w": 79,
+      "h": 53,
+      "pivot": [
+        596.5,
+        455.0
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        596.5,
+        455.0
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 568,
+      "y": 426,
+      "w": 57,
+      "h": 58,
+      "pivot": [
+        596.5,
+        455.0
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        596.5,
+        455.0
+      ],
+      "emissive": true,
+      "provenance": "code-native screen UI geometry; approved face palette"
+    }
+  },
+  "defaultFace": {
+    "eyes": "eyes-happy",
+    "mouth": "mouth-open"
+  },
+  "sourcePose": true,
+  "restPose": {
+    "arm-r-upper": 95,
+    "arm-r-lower": 60,
+    "hand-r": -15
+  },
+  "attachments": {},
+  "notes": [
+    "Use parent transforms around global pivot, converted to parent-local coordinates.",
+    "DefaultFace recreates original expression; alternatives replace eyes and mouth independently.",
+    "PNG includes four transparent pixels around alpha bounds.",
+    "Generated repair only fills occluded areas; source RGB is retained for visible anatomy.",
+    "Single-view 2.5D rig: head rotation/nod supported; true side/back view is not supplied.",
+    "Source has one ordinary arm on viewer right; crane is viewer-left manipulator, so no invented left arm."
+  ],
+  "treads": {
+    "l": {
+      "mask": "tread-l-mask.png",
+      "x": 84,
+      "y": 665,
+      "w": 368,
+      "h": 283,
+      "tile": "tread-tile.png",
+      "parent": "tread-l",
+      "axis": "x",
+      "period": 64
+    },
+    "r": {
+      "mask": "tread-r-mask.png",
+      "x": 545,
+      "y": 656,
+      "w": 414,
+      "h": 284,
+      "tile": "tread-tile.png",
+      "parent": "tread-r",
+      "axis": "x",
+      "period": 64
+    }
+  }
+}

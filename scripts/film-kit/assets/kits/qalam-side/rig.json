@@ -1,0 +1,384 @@
+{
+  "version": 2,
+  "id": "qalam",
+  "assetId": "qalam-side",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 944,
+  "anchorX": 512,
+  "scaleToFront": 1.0012706480304956,
+  "facing": "right",
+  "near": "r",
+  "coordinateSystem": "1024 canvas; global pivots; l/r are image sides",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 329,
+      "y": 436,
+      "w": 368,
+      "h": 489,
+      "pivot": [
+        512,
+        795.219
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "head": {
+      "file": "head.png",
+      "x": 354,
+      "y": 153,
+      "w": 320,
+      "h": 307,
+      "pivot": [
+        511.26,
+        447.975
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "wheel-l": {
+      "file": "wheel-l.png",
+      "x": 348,
+      "y": 832,
+      "w": 121,
+      "h": 118,
+      "pivot": [
+        408.345,
+        891.47
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 370,
+      "y": 853,
+      "w": 77,
+      "h": 77,
+      "pivot": [
+        408.345,
+        891.47
+      ],
+      "parent": "wheel-l",
+      "z": 15
+    },
+    "wheel-r": {
+      "file": "wheel-r.png",
+      "x": 558,
+      "y": 832,
+      "w": 123,
+      "h": 118,
+      "pivot": [
+        619.357,
+        891.47
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 580,
+      "y": 853,
+      "w": 78,
+      "h": 77,
+      "pivot": [
+        619.357,
+        891.47
+      ],
+      "parent": "wheel-r",
+      "z": 15
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 628,
+      "y": 289,
+      "w": 42,
+      "h": 141,
+      "pivot": [
+        511.26,
+        447.975
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "glasses": {
+      "file": "glasses.png",
+      "x": 619,
+      "y": 291,
+      "w": 55,
+      "h": 103,
+      "pivot": [
+        511.26,
+        447.975
+      ],
+      "parent": "head",
+      "z": 60
+    },
+    "shelf-books": {
+      "file": "shelf-books.png",
+      "x": 630,
+      "y": 519,
+      "w": 36,
+      "h": 124,
+      "pivot": [
+        512,
+        661.948
+      ],
+      "parent": "torso",
+      "z": 16
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 488,
+      "y": 466,
+      "w": 61,
+      "h": 128,
+      "pivot": [
+        517.183,
+        494.619
+      ],
+      "parent": "torso",
+      "z": 5
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 490,
+      "y": 536,
+      "w": 60,
+      "h": 147,
+      "pivot": [
+        518.664,
+        564.957
+      ],
+      "parent": "arm-l-upper",
+      "z": 22
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 457,
+      "y": 619,
+      "w": 126,
+      "h": 160,
+      "pivot": [
+        518.664,
+        663.429
+      ],
+      "parent": "arm-l-lower",
+      "z": 23
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 480,
+      "y": 466,
+      "w": 61,
+      "h": 128,
+      "pivot": [
+        509.779,
+        494.619
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 483,
+      "y": 536,
+      "w": 59,
+      "h": 147,
+      "pivot": [
+        511.26,
+        564.957
+      ],
+      "parent": "arm-r-upper",
+      "z": 22
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 449,
+      "y": 619,
+      "w": 126,
+      "h": 160,
+      "pivot": [
+        511.26,
+        663.429
+      ],
+      "parent": "arm-r-lower",
+      "z": 23
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 658,
+      "y": 313,
+      "w": 12,
+      "h": 52,
+      "pivot": [
+        663.781,
+        339.137
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        663.781,
+        339.137
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 657,
+      "y": 328,
+      "w": 14,
+      "h": 21,
+      "pivot": [
+        663.781,
+        339.137
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        663.781,
+        339.137
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 657,
+      "y": 329,
+      "w": 14,
+      "h": 21,
+      "pivot": [
+        663.781,
+        339.137
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        663.781,
+        339.137
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 658,
+      "y": 311,
+      "w": 12,
+      "h": 56,
+      "pivot": [
+        663.781,
+        339.137
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        663.781,
+        339.137
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 642,
+      "y": 396,
+      "w": 14,
+      "h": 19,
+      "pivot": [
+        648.973,
+        403.551
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        648.973,
+        403.551
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 644,
+      "y": 393,
+      "w": 10,
+      "h": 21,
+      "pivot": [
+        648.973,
+        403.551
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        648.973,
+        403.551
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 642,
+      "y": 389,
+      "w": 13,
+      "h": 29,
+      "pivot": [
+        648.973,
+        403.551
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        648.973,
+        403.551
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 641,
+      "y": 385,
+      "w": 15,
+      "h": 37,
+      "pivot": [
+        648.973,
+        403.551
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        648.973,
+        403.551
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "defaultFace": {
+    "eyes": "eyes-happy",
+    "mouth": "mouth-smile"
+  },
+  "notes": [
+    "Original qalam design retained; new view generated from approved source.",
+    "Wheel silhouettes remain fixed; rotate hub-* children, not projected wheel ellipses.",
+    "Arm joints include opaque round rendered-metal overlap caps."
+  ],
+  "deliveryNormalized": true,
+  "measurement": {
+    "alphaThreshold": 200,
+    "headTop": 157,
+    "wheelBottom": 944,
+    "bodyHeight": 787,
+    "referenceFrontHeight": 788
+  }
+}

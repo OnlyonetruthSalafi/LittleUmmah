@@ -1,0 +1,21 @@
+{
+  "command": "npm.cmd run lint -- --output-file scripts/film-kit/lint-result.json --format json",
+  "exitCode": 0,
+  "files": 421,
+  "kitFiles": [
+    "cast-base.js",
+    "characters.js",
+    "check-motion.mjs",
+    "engine.js",
+    "lib/common.mjs",
+    "lib/playwright.mjs",
+    "make-voice.mjs",
+    "mix.mjs",
+    "new-film.mjs",
+    "prepare.mjs",
+    "render.mjs",
+    "verify-port.mjs"
+  ],
+  "errors": 0,
+  "warnings": 0
+}

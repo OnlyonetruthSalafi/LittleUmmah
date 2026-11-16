@@ -1,0 +1,419 @@
+{
+  "version": 2,
+  "id": "nuri",
+  "assetId": "nuri-q",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 999,
+  "facing": "right",
+  "anchorX": 559.0,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "l",
+  "parts": {
+    "head": {
+      "file": "head.png",
+      "x": 292,
+      "y": 131,
+      "w": 493,
+      "h": 357,
+      "pivot": [
+        545,
+        482
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "crescent": {
+      "file": "crescent.png",
+      "x": 463,
+      "y": 21,
+      "w": 144,
+      "h": 139,
+      "pivot": [
+        536,
+        151
+      ],
+      "parent": "head",
+      "z": 32
+    },
+    "torso": {
+      "file": "torso.png",
+      "x": 391,
+      "y": 453,
+      "w": 308,
+      "h": 532,
+      "pivot": [
+        564,
+        843
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "cape-back": {
+      "file": "cape-back.png",
+      "x": 138,
+      "y": 477,
+      "w": 348,
+      "h": 402,
+      "pivot": [
+        416,
+        499
+      ],
+      "parent": "torso",
+      "z": 2
+    },
+    "scarf": {
+      "file": "scarf.png",
+      "x": 355,
+      "y": 468,
+      "w": 327,
+      "h": 90,
+      "pivot": [
+        537,
+        496
+      ],
+      "parent": "torso",
+      "z": 24
+    },
+    "tread-l": {
+      "file": "tread-l.png",
+      "x": 341,
+      "y": 790,
+      "w": 241,
+      "h": 214,
+      "pivot": [
+        443,
+        905
+      ],
+      "parent": "torso",
+      "z": 12
+    },
+    "tread-r": {
+      "file": "tread-r.png",
+      "x": 645,
+      "y": 782,
+      "w": 133,
+      "h": 207,
+      "pivot": [
+        736,
+        893
+      ],
+      "parent": "torso",
+      "z": 11
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 347,
+      "y": 816,
+      "w": 108,
+      "h": 154,
+      "pivot": [
+        401,
+        893
+      ],
+      "parent": "tread-l",
+      "z": 14,
+      "projectedRatio": 0.6816,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-l-rotation-mask.png"
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 742,
+      "y": 830,
+      "w": 36,
+      "h": 116,
+      "pivot": [
+        761,
+        886
+      ],
+      "parent": "tread-r",
+      "z": 14,
+      "projectedRatio": 0.2662,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-r-rotation-mask.png"
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 457,
+      "y": 269,
+      "w": 280,
+      "h": 187,
+      "pivot": [
+        545,
+        482
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 364,
+      "y": 527,
+      "w": 91,
+      "h": 94,
+      "pivot": [
+        433,
+        550
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 345,
+      "y": 595,
+      "w": 80,
+      "h": 110,
+      "pivot": [
+        394,
+        611
+      ],
+      "parent": "arm-l-upper",
+      "z": 21
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 309,
+      "y": 681,
+      "w": 134,
+      "h": 148,
+      "pivot": [
+        380,
+        699
+      ],
+      "parent": "arm-l-lower",
+      "z": 22
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 669,
+      "y": 536,
+      "w": 54,
+      "h": 80,
+      "pivot": [
+        688,
+        557
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 685,
+      "y": 580,
+      "w": 83,
+      "h": 125,
+      "pivot": [
+        704,
+        599
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 701,
+      "y": 669,
+      "w": 113,
+      "h": 138,
+      "pivot": [
+        741,
+        688
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 522,
+      "y": 321,
+      "w": 161,
+      "h": 80,
+      "pivot": [
+        602,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 513,
+      "y": 321,
+      "w": 179,
+      "h": 40,
+      "pivot": [
+        602,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 513,
+      "y": 355,
+      "w": 179,
+      "h": 13,
+      "pivot": [
+        602,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 507,
+      "y": 321,
+      "w": 191,
+      "h": 80,
+      "pivot": [
+        602,
+        361
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        361
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": true
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 574,
+      "y": 398,
+      "w": 56,
+      "h": 19,
+      "pivot": [
+        602,
+        402
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        402
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 584,
+      "y": 398,
+      "w": 36,
+      "h": 14,
+      "pivot": [
+        602,
+        402
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        402
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 574,
+      "y": 378,
+      "w": 56,
+      "h": 48,
+      "pivot": [
+        602,
+        402
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        402
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 574,
+      "y": 378,
+      "w": 56,
+      "h": 48,
+      "pivot": [
+        602,
+        402
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        402
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 585,
+      "y": 380,
+      "w": 34,
+      "h": 44,
+      "pivot": [
+        602,
+        402
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        602,
+        402
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "notes": [
+    "Image-left arm is near in right-facing quarter view; near=l.",
+    "Cape and scarf are independent; crescent follows head."
+  ],
+  "scaleToFront": 1.1875,
+  "heightMeasurement": {
+    "headCrownY": 135,
+    "referenceHeadCrownY": 188,
+    "referenceGround": 1214,
+    "reference": "refs/front-kits/nuri",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 864,
+    "referenceHeightPixels": 1026,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

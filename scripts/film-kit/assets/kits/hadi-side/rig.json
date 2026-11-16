@@ -1,0 +1,356 @@
+{
+  "version": 2,
+  "id": "hadi",
+  "assetId": "hadi-side",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 990,
+  "facing": "right",
+  "anchorX": 503.5,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "r",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 445,
+      "y": 353,
+      "w": 132,
+      "h": 269,
+      "pivot": [
+        502,
+        604
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "backpack": {
+      "file": "backpack.png",
+      "x": 332,
+      "y": 360,
+      "w": 130,
+      "h": 148,
+      "pivot": [
+        450,
+        412
+      ],
+      "parent": "torso",
+      "z": 8
+    },
+    "propeller": {
+      "file": "propeller.png",
+      "x": 325,
+      "y": 333,
+      "w": 59,
+      "h": 157,
+      "pivot": [
+        353,
+        414
+      ],
+      "parent": "backpack",
+      "z": 9
+    },
+    "head": {
+      "file": "head.png",
+      "x": 400,
+      "y": 23,
+      "w": 260,
+      "h": 339,
+      "pivot": [
+        507,
+        366
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 545,
+      "y": 248,
+      "w": 49,
+      "h": 96,
+      "pivot": [
+        507,
+        366
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 470,
+      "y": 394,
+      "w": 47,
+      "h": 100,
+      "pivot": [
+        494,
+        415
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 467,
+      "y": 471,
+      "w": 45,
+      "h": 89,
+      "pivot": [
+        491,
+        483
+      ],
+      "parent": "arm-r-upper",
+      "z": 22
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 451,
+      "y": 544,
+      "w": 82,
+      "h": 90,
+      "pivot": [
+        491,
+        556
+      ],
+      "parent": "arm-r-lower",
+      "z": 23
+    },
+    "leg-r": {
+      "file": "leg-r.png",
+      "x": 476,
+      "y": 599,
+      "w": 55,
+      "h": 258,
+      "pivot": [
+        502,
+        603
+      ],
+      "parent": "torso",
+      "z": 11
+    },
+    "wheel-r": {
+      "file": "wheel-r.png",
+      "x": 434,
+      "y": 857,
+      "w": 140,
+      "h": 138,
+      "pivot": [
+        504,
+        919
+      ],
+      "parent": "leg-r",
+      "z": 12
+    },
+    "fork-r": {
+      "file": "fork-r.png",
+      "x": 436,
+      "y": 834,
+      "w": 137,
+      "h": 103,
+      "pivot": [
+        504,
+        848
+      ],
+      "parent": "leg-r",
+      "z": 15
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 559,
+      "y": 267,
+      "w": 18,
+      "h": 50,
+      "pivot": [
+        568,
+        292
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        292
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 557,
+      "y": 267,
+      "w": 22,
+      "h": 26,
+      "pivot": [
+        568,
+        292
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        292
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 557,
+      "y": 287,
+      "w": 22,
+      "h": 11,
+      "pivot": [
+        568,
+        292
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        292
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 556,
+      "y": 267,
+      "w": 24,
+      "h": 50,
+      "pivot": [
+        568,
+        292
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        292
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 557,
+      "y": 312,
+      "w": 22,
+      "h": 15,
+      "pivot": [
+        568,
+        316
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        316
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 560,
+      "y": 312,
+      "w": 16,
+      "h": 12,
+      "pivot": [
+        568,
+        316
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        316
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 557,
+      "y": 300,
+      "w": 22,
+      "h": 32,
+      "pivot": [
+        568,
+        316
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        316
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 557,
+      "y": 300,
+      "w": 22,
+      "h": 32,
+      "pivot": [
+        568,
+        316
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        316
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 560,
+      "y": 301,
+      "w": 16,
+      "h": 30,
+      "pivot": [
+        568,
+        316
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        568,
+        316
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "occludedParts": [
+    "arm-l-upper",
+    "arm-l-lower",
+    "hand-l",
+    "leg-l",
+    "fork-l",
+    "wheel-l"
+  ],
+  "notes": [
+    "True right side: far limbs and second wheel occluded. Near arm is image-right rig branch.",
+    "Head includes binocular mast. Screen is a separate blank reflective plate."
+  ],
+  "scaleToFront": 1.0166240409207161,
+  "heightMeasurement": {
+    "headCrownY": 208,
+    "referenceHeadCrownY": 209,
+    "referenceGround": 1004,
+    "reference": "refs/hadi-right-v2",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 782,
+    "referenceHeightPixels": 795,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

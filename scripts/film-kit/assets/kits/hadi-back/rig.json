@@ -1,0 +1,241 @@
+{
+  "version": 2,
+  "id": "hadi",
+  "assetId": "hadi-back",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 999,
+  "facing": "back",
+  "anchorX": 503.5,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "r",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 390,
+      "y": 330,
+      "w": 230,
+      "h": 292,
+      "pivot": [
+        506,
+        594
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "head": {
+      "file": "head.png",
+      "x": 350,
+      "y": 11,
+      "w": 306,
+      "h": 328,
+      "pivot": [
+        505,
+        347
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "backpack": {
+      "file": "backpack.png",
+      "x": 400,
+      "y": 346,
+      "w": 208,
+      "h": 161,
+      "pivot": [
+        504,
+        416
+      ],
+      "parent": "torso",
+      "z": 32
+    },
+    "propeller": {
+      "file": "propeller.png",
+      "x": 413,
+      "y": 314,
+      "w": 186,
+      "h": 162,
+      "pivot": [
+        505,
+        414
+      ],
+      "parent": "backpack",
+      "z": 35
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 338,
+      "y": 387,
+      "w": 74,
+      "h": 90,
+      "pivot": [
+        392,
+        400
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 306,
+      "y": 446,
+      "w": 69,
+      "h": 94,
+      "pivot": [
+        353,
+        460
+      ],
+      "parent": "arm-l-upper",
+      "z": 21
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 267,
+      "y": 525,
+      "w": 94,
+      "h": 95,
+      "pivot": [
+        325,
+        534
+      ],
+      "parent": "arm-l-lower",
+      "z": 22
+    },
+    "leg-l": {
+      "file": "leg-l.png",
+      "x": 373,
+      "y": 592,
+      "w": 92,
+      "h": 251,
+      "pivot": [
+        446,
+        600
+      ],
+      "parent": "torso",
+      "z": 11
+    },
+    "wheel-l": {
+      "file": "wheel-l.png",
+      "x": 316,
+      "y": 862,
+      "w": 129,
+      "h": 142,
+      "pivot": [
+        403,
+        926
+      ],
+      "parent": "leg-l",
+      "z": 12
+    },
+    "fork-l": {
+      "file": "fork-l.png",
+      "x": 320,
+      "y": 829,
+      "w": 124,
+      "h": 115,
+      "pivot": [
+        402,
+        844
+      ],
+      "parent": "leg-l",
+      "z": 15
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 600,
+      "y": 387,
+      "w": 77,
+      "h": 98,
+      "pivot": [
+        613,
+        400
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 644,
+      "y": 450,
+      "w": 61,
+      "h": 95,
+      "pivot": [
+        659,
+        464
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 649,
+      "y": 525,
+      "w": 94,
+      "h": 95,
+      "pivot": [
+        683,
+        534
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    },
+    "leg-r": {
+      "file": "leg-r.png",
+      "x": 546,
+      "y": 594,
+      "w": 89,
+      "h": 249,
+      "pivot": [
+        568,
+        600
+      ],
+      "parent": "torso",
+      "z": 11
+    },
+    "wheel-r": {
+      "file": "wheel-r.png",
+      "x": 562,
+      "y": 862,
+      "w": 130,
+      "h": 142,
+      "pivot": [
+        608,
+        926
+      ],
+      "parent": "leg-r",
+      "z": 12
+    },
+    "fork-r": {
+      "file": "fork-r.png",
+      "x": 564,
+      "y": 830,
+      "w": 124,
+      "h": 112,
+      "pivot": [
+        609,
+        844
+      ],
+      "parent": "leg-r",
+      "z": 15
+    }
+  },
+  "faces": {},
+  "restPose": {},
+  "notes": [
+    "Rear view has no screen or face layers. Both arms have separate shoulder, elbow and wrist pivots.",
+    "Backpack plate repaired beneath separately rotating propeller."
+  ],
+  "scaleToFront": 0.979064039408867,
+  "heightMeasurement": {
+    "headCrownY": 187,
+    "referenceHeadCrownY": 209,
+    "referenceGround": 1004,
+    "reference": "refs/hadi-right-v2",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 812,
+    "referenceHeightPixels": 795,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

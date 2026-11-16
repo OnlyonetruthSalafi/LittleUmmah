@@ -1,0 +1,358 @@
+{
+  "version": 2,
+  "id": "nuri",
+  "assetId": "nuri-side",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 993,
+  "facing": "right",
+  "anchorX": 528.0,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "r",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 412,
+      "y": 434,
+      "w": 233,
+      "h": 430,
+      "pivot": [
+        536,
+        821
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "cape-back": {
+      "file": "cape-back.png",
+      "x": 175,
+      "y": 466,
+      "w": 307,
+      "h": 451,
+      "pivot": [
+        435,
+        498
+      ],
+      "parent": "torso",
+      "z": 2
+    },
+    "head": {
+      "file": "head.png",
+      "x": 321,
+      "y": 127,
+      "w": 384,
+      "h": 356,
+      "pivot": [
+        533,
+        472
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "crescent": {
+      "file": "crescent.png",
+      "x": 472,
+      "y": 25,
+      "w": 134,
+      "h": 132,
+      "pivot": [
+        538,
+        148
+      ],
+      "parent": "head",
+      "z": 32
+    },
+    "scarf": {
+      "file": "scarf.png",
+      "x": 391,
+      "y": 461,
+      "w": 251,
+      "h": 88,
+      "pivot": [
+        532,
+        495
+      ],
+      "parent": "torso",
+      "z": 24
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 630,
+      "y": 265,
+      "w": 75,
+      "h": 180,
+      "pivot": [
+        533,
+        472
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "tread-r": {
+      "file": "tread-r.png",
+      "x": 395,
+      "y": 801,
+      "w": 267,
+      "h": 197,
+      "pivot": [
+        531,
+        904
+      ],
+      "parent": "torso",
+      "z": 12
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 421,
+      "y": 826,
+      "w": 149,
+      "h": 150,
+      "pivot": [
+        496,
+        901
+      ],
+      "parent": "tread-r",
+      "z": 14,
+      "projectedRatio": 0.9885,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-r-rotation-mask.png"
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 486,
+      "y": 517,
+      "w": 76,
+      "h": 98,
+      "pivot": [
+        528,
+        543
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 480,
+      "y": 596,
+      "w": 75,
+      "h": 102,
+      "pivot": [
+        521,
+        608
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 460,
+      "y": 684,
+      "w": 120,
+      "h": 143,
+      "pivot": [
+        519,
+        705
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 657,
+      "y": 312,
+      "w": 22,
+      "h": 78,
+      "pivot": [
+        668,
+        351
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        351
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 655,
+      "y": 312,
+      "w": 26,
+      "h": 37,
+      "pivot": [
+        668,
+        351
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        351
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 654,
+      "y": 345,
+      "w": 28,
+      "h": 13,
+      "pivot": [
+        668,
+        351
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        351
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 653,
+      "y": 312,
+      "w": 30,
+      "h": 78,
+      "pivot": [
+        668,
+        351
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        351
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 654,
+      "y": 387,
+      "w": 28,
+      "h": 19,
+      "pivot": [
+        668,
+        391
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        391
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 658,
+      "y": 387,
+      "w": 20,
+      "h": 14,
+      "pivot": [
+        668,
+        391
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        391
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 654,
+      "y": 367,
+      "w": 28,
+      "h": 48,
+      "pivot": [
+        668,
+        391
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        391
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 654,
+      "y": 367,
+      "w": 28,
+      "h": 48,
+      "pivot": [
+        668,
+        391
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        391
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 658,
+      "y": 369,
+      "w": 20,
+      "h": 44,
+      "pivot": [
+        668,
+        391
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        668,
+        391
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "occludedParts": [
+    "arm-l-upper",
+    "arm-l-lower",
+    "hand-l",
+    "tread-l",
+    "hub-l"
+  ],
+  "notes": [
+    "True right side profile; near arm branch r. Far arm and far tread hidden.",
+    "Head and crescent independent of scarf and cape; repaired body beneath moving arm."
+  ],
+  "scaleToFront": 1.1902552204176333,
+  "heightMeasurement": {
+    "headCrownY": 131,
+    "referenceHeadCrownY": 188,
+    "referenceGround": 1214,
+    "reference": "refs/front-kits/nuri",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 862,
+    "referenceHeightPixels": 1026,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}

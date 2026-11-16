@@ -1,0 +1,247 @@
+{
+  "version": 2,
+  "id": "qalam",
+  "assetId": "qalam-back",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 944,
+  "anchorX": 512,
+  "scaleToFront": 1.0051020408163265,
+  "facing": "back",
+  "near": "r",
+  "coordinateSystem": "1024 canvas; global pivots; l/r are image sides",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 291,
+      "y": 426,
+      "w": 441,
+      "h": 523,
+      "pivot": [
+        512,
+        831.58
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "head": {
+      "file": "head.png",
+      "x": 332,
+      "y": 155,
+      "w": 360,
+      "h": 296,
+      "pivot": [
+        512,
+        437.75
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "wheel-l-back": {
+      "file": "wheel-l-back.png",
+      "x": 275,
+      "y": 805,
+      "w": 54,
+      "h": 112,
+      "pivot": [
+        299.878,
+        861.995
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-l-back": {
+      "file": "hub-l-back.png",
+      "x": 280,
+      "y": 825,
+      "w": 40,
+      "h": 74,
+      "pivot": [
+        299.878,
+        861.995
+      ],
+      "parent": "wheel-l-back",
+      "z": 15
+    },
+    "wheel-l": {
+      "file": "wheel-l.png",
+      "x": 328,
+      "y": 826,
+      "w": 116,
+      "h": 123,
+      "pivot": [
+        386.442,
+        887.731
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-l": {
+      "file": "hub-l.png",
+      "x": 350,
+      "y": 848,
+      "w": 73,
+      "h": 79,
+      "pivot": [
+        386.442,
+        887.731
+      ],
+      "parent": "wheel-l",
+      "z": 15
+    },
+    "wheel-r": {
+      "file": "wheel-r.png",
+      "x": 579,
+      "y": 826,
+      "w": 116,
+      "h": 123,
+      "pivot": [
+        636.778,
+        887.731
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 600,
+      "y": 848,
+      "w": 74,
+      "h": 79,
+      "pivot": [
+        636.778,
+        887.731
+      ],
+      "parent": "wheel-r",
+      "z": 15
+    },
+    "wheel-r-back": {
+      "file": "wheel-r-back.png",
+      "x": 701,
+      "y": 805,
+      "w": 48,
+      "h": 111,
+      "pivot": [
+        728.802,
+        861.995
+      ],
+      "parent": "torso",
+      "z": 14
+    },
+    "hub-r-back": {
+      "file": "hub-r-back.png",
+      "x": 711,
+      "y": 825,
+      "w": 36,
+      "h": 74,
+      "pivot": [
+        728.802,
+        861.995
+      ],
+      "parent": "wheel-r-back",
+      "z": 15
+    },
+    "arm-l-upper": {
+      "file": "arm-l-upper.png",
+      "x": 304,
+      "y": 472,
+      "w": 63,
+      "h": 134,
+      "pivot": [
+        334.192,
+        501.699
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-l-lower": {
+      "file": "arm-l-lower.png",
+      "x": 306,
+      "y": 546,
+      "w": 62,
+      "h": 154,
+      "pivot": [
+        335.751,
+        575.786
+      ],
+      "parent": "arm-l-upper",
+      "z": 22
+    },
+    "hand-l": {
+      "file": "hand-l.png",
+      "x": 271,
+      "y": 633,
+      "w": 132,
+      "h": 168,
+      "pivot": [
+        335.751,
+        679.507
+      ],
+      "parent": "arm-l-lower",
+      "z": 23
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 657,
+      "y": 472,
+      "w": 63,
+      "h": 134,
+      "pivot": [
+        687.469,
+        501.699
+      ],
+      "parent": "torso",
+      "z": 21
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 659,
+      "y": 546,
+      "w": 62,
+      "h": 154,
+      "pivot": [
+        689.029,
+        575.786
+      ],
+      "parent": "arm-r-upper",
+      "z": 22
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 624,
+      "y": 633,
+      "w": 132,
+      "h": 168,
+      "pivot": [
+        689.029,
+        679.507
+      ],
+      "parent": "arm-r-lower",
+      "z": 23
+    }
+  },
+  "faces": {},
+  "restPose": {
+    "arm-l-upper": 20,
+    "arm-r-upper": -20
+  },
+  "defaultFace": {
+    "eyes": "eyes-happy",
+    "mouth": "mouth-smile"
+  },
+  "notes": [
+    "Original qalam design retained; new view generated from approved source.",
+    "Wheel silhouettes remain fixed; rotate hub-* children, not projected wheel ellipses.",
+    "Arm joints include opaque round rendered-metal overlap caps."
+  ],
+  "deliveryNormalized": true,
+  "measurement": {
+    "alphaThreshold": 200,
+    "headTop": 160,
+    "wheelBottom": 944,
+    "bodyHeight": 784,
+    "referenceFrontHeight": 788
+  }
+}

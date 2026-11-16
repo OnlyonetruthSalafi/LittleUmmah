@@ -393,20 +393,6 @@ export const ISLAND_CONTENT: IslandContent[] = [
         title: { th: "รู้จักเพื่อนใหม่", en: "Meet new friends" },
         body: { th: "เจอเพื่อนใหม่ ทักสลาม บอกชื่อ แล้วยิ้มให้กันนะ", en: "Meet a new friend: say Salam, tell your name, and share a smile." },
       },
-      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
-      {
-        evidence: ["bukhari-6324"],
-        "id": "dua-sleep",
-        "icon": "home",
-        "title": {
-          "th": "ดุอาอ์ก่อนนอน",
-          "en": "Dua before sleeping"
-        },
-        "body": { "th": "ท่านนบี ﷺ เมื่อจะนอนกล่าวว่า…", "en": "When the Prophet ﷺ went to sleep, he said…" },
-        "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
-        "reading": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
-        "meaning": { "th": "ด้วยพระนามของพระองค์ โอ้อัลลอฮ์ ข้าพเจ้าตายและข้าพเจ้ามีชีวิต", "en": "In Your name, O Allah, I die and I live." }
-      },
       {
         id: "bismillah",
         icon: "dates",
@@ -479,6 +465,20 @@ export const ISLAND_CONTENT: IslandContent[] = [
       },
     ],
     juniors: [
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 · ย้ายไปวัย 7+ ตามเจ้าของโปรเจกต์ 16 พ.ย. 2026 (พูดเรื่องความตาย) — บุคอรี 6324 https://shamela.ws/book/1681/9484
+      {
+        evidence: ["bukhari-6324"],
+        "id": "dua-sleep",
+        "icon": "home",
+        "title": {
+          "th": "ดุอาอ์ก่อนนอน",
+          "en": "Dua before sleeping"
+        },
+        "body": { "th": "ท่านนบี ﷺ เมื่อจะนอนกล่าวว่า…", "en": "When the Prophet ﷺ went to sleep, he said…" },
+        "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        "reading": "บิสมิกัลลอฮุมมะ อะมูตุ วะอะห์ยา",
+        "meaning": { "th": "ด้วยพระนามของพระองค์ โอ้อัลลอฮ์ ข้าพเจ้าตายและข้าพเจ้ามีชีวิต", "en": "In Your name, O Allah, I die and I live." }
+      },
       // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484 (หะดีษเดียวกับก่อนนอน)
       {
         evidence: ["bukhari-6324"],

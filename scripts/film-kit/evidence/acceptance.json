@@ -1,0 +1,443 @@
+{
+  "timingEqual": true,
+  "images": [
+    {
+      "t": 0,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 5,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 16,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 28,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 40,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 51,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 65,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 81,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 94,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 96.6,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 100,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 108,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 125.5,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 133,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 144,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 155,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 166,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 190,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    },
+    {
+      "t": 203,
+      "width": 1920,
+      "height": 1080,
+      "different": 0,
+      "pixels": 2073600,
+      "percent": 0,
+      "maxChannelDifference": 0,
+      "passed": true
+    }
+  ],
+  "motion": {
+    "passed": true,
+    "frames": 4916,
+    "samples": 1475,
+    "maxGripError": 0.00011420428564680778,
+    "minimumHeadMargin": 182.2263280877996,
+    "story": {
+      "jumps": [
+        {
+          "event": "take",
+          "jump": 0
+        },
+        {
+          "event": "release",
+          "jump": 0
+        },
+        {
+          "event": "land",
+          "jump": 0.00008138020833333333
+        },
+        {
+          "event": "returnLand",
+          "jump": 0
+        }
+      ],
+      "loadJumps": [
+        {
+          "name": "cargoBlue",
+          "error": 0.006673177083333333
+        },
+        {
+          "name": "cargoGold",
+          "error": 0.006675948865617298
+        }
+      ],
+      "minTruckGap": 8,
+      "minSafiHeadMargin": 182.93526196479792,
+      "airWheelDrift": 0,
+      "events": {
+        "offer": 92.023,
+        "take": 96.052,
+        "release": 97.15100000000001,
+        "land": 101.47,
+        "load0": 106.368,
+        "load1": 109.068,
+        "hit": 124.866,
+        "back": 130.80499999999998,
+        "clear": 135.984,
+        "go": 140.636,
+        "arrive": 143.036,
+        "returnStart": 152.89499999999998,
+        "returnLand": 158.304
+      },
+      "passed": true
+    },
+    "delta": {
+      "framesDelta": 0,
+      "samplesDelta": 0,
+      "maxGripErrorDelta": 0,
+      "story": {
+        "jumps": [
+          {
+            "event": "take",
+            "jump": 0
+          },
+          {
+            "event": "release",
+            "jump": 0
+          },
+          {
+            "event": "land",
+            "jump": 0.00008138020833333333
+          },
+          {
+            "event": "returnLand",
+            "jump": 0
+          }
+        ],
+        "loadJumps": [
+          {
+            "name": "cargoBlue",
+            "error": 0.006673177083333333
+          },
+          {
+            "name": "cargoGold",
+            "error": 0.006675948865617298
+          }
+        ],
+        "minTruckGap": 8,
+        "minSafiHeadMargin": 182.93526196479792,
+        "airWheelDrift": 0,
+        "events": {
+          "offer": 92.023,
+          "take": 96.052,
+          "release": 97.15100000000001,
+          "land": 101.47,
+          "load0": 106.368,
+          "load1": 109.068,
+          "hit": 124.866,
+          "back": 130.80499999999998,
+          "clear": 135.984,
+          "go": 140.636,
+          "arrive": 143.036,
+          "returnStart": 152.89499999999998,
+          "returnLand": 158.304
+        },
+        "passed": true
+      }
+    }
+  },
+  "ik": {
+    "passed": true,
+    "frames": 192,
+    "samples": 580,
+    "grips": [
+      {
+        "id": "hadi",
+        "view": "q",
+        "arm": "l",
+        "t0": 1,
+        "t1": 7,
+        "error": 0.000025329795667773412,
+        "samples": 145,
+        "t": 3,
+        "g": {
+          "x": 334.79997610747785,
+          "y": 711.3999890595678
+        },
+        "target": {
+          "x": 334.7999883145094,
+          "y": 711.4000250399113
+        },
+        "base": {
+          "x": 360,
+          "y": 900,
+          "scale": 0.4
+        }
+      },
+      {
+        "id": "sabir",
+        "view": "q",
+        "arm": "l",
+        "t0": 1,
+        "t1": 7,
+        "error": 0.00003993496813889183,
+        "samples": 145,
+        "t": 2.0416666666666665,
+        "g": {
+          "x": 913.751180375672,
+          "y": 802.788019301079
+        },
+        "target": {
+          "x": 913.751127332449,
+          "y": 802.7880471348763
+        },
+        "base": {
+          "x": 960.0000575001271,
+          "y": 899.9918802505322,
+          "scale": 0.30935738444193916
+        }
+      },
+      {
+        "id": "sabir",
+        "view": "q",
+        "arm": "r",
+        "t0": 1,
+        "t1": 7,
+        "error": 0.000013177885681520506,
+        "samples": 145,
+        "t": 2.0416666666666665,
+        "g": {
+          "x": 1062.5520332713256,
+          "y": 799.0757387629304
+        },
+        "target": {
+          "x": 1062.552031636238,
+          "y": 799.0757584620167
+        },
+        "base": {
+          "x": 960.0000575001271,
+          "y": 899.9918802505322,
+          "scale": 0.30935738444193916
+        }
+      },
+      {
+        "id": "nuri",
+        "view": "front",
+        "arm": "r",
+        "t0": 1,
+        "t1": 7,
+        "error": 0.000041233814452786195,
+        "samples": 145,
+        "t": 1,
+        "g": {
+          "x": 1550.09991473615,
+          "y": 793.2999961046385
+        },
+        "target": {
+          "x": 1550.0999761074781,
+          "y": 793.2999884188175
+        },
+        "base": {
+          "x": 1500,
+          "y": 900,
+          "scale": 0.3
+        }
+      }
+    ],
+    "minimumHeadMargin": 297.999999076128
+  },
+  "demo": {
+    "createdBy": "new-film.mjs demo-x",
+    "prepare": true,
+    "renderStills1": true,
+    "render8Seconds": true,
+    "mix": true,
+    "removed": true
+  },
+  "genericNames": {
+    "command": "rg -n \"car-share|car-truth|hadi|sabir\" scripts/film-kit/engine.js scripts/film-kit/cast-base.js",
+    "matches": 0
+  },
+  "assets": {
+    "files": 306,
+    "bytes": 11524366,
+    "byteMismatch": []
+  },
+  "lint": {
+    "command": "npm.cmd run lint -- --output-file scripts/film-kit/lint-result.json --format json",
+    "exitCode": 0,
+    "files": 421,
+    "kitFiles": [
+      "cast-base.js",
+      "characters.js",
+      "check-motion.mjs",
+      "engine.js",
+      "lib/common.mjs",
+      "lib/playwright.mjs",
+      "make-voice.mjs",
+      "mix.mjs",
+      "new-film.mjs",
+      "prepare.mjs",
+      "render.mjs",
+      "verify-port.mjs"
+    ],
+    "errors": 0,
+    "warnings": 0
+  }
+}

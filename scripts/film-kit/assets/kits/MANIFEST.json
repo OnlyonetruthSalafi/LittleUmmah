@@ -1,0 +1,1838 @@
+[
+  {
+    "file": "assets/backgrounds/park.jpg",
+    "source": "output/park-clear/assets/park.jpg",
+    "bytes": 514103,
+    "sha256": "e512bacf299ac4571d560648a207b511b63dbadf9b3a93cacc320695ba03e617"
+  },
+  {
+    "file": "assets/kits/hadi-back/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/arm-l-lower.png",
+    "bytes": 7460,
+    "sha256": "bc395f6dcc7791d7e0b8f673f34106c5cbdb53dd5406b041be51f4a59f25e94b"
+  },
+  {
+    "file": "assets/kits/hadi-back/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/arm-l-upper.png",
+    "bytes": 6955,
+    "sha256": "86866d5cd77b5c3495e0055d3ac7f546b17ddace9c7ee8d068221716f86515c4"
+  },
+  {
+    "file": "assets/kits/hadi-back/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/arm-r-lower.png",
+    "bytes": 6950,
+    "sha256": "fb3e0001fdbf0dfc6de9757129dca9c09800432d4eb4ec81f9252a05d2bd7775"
+  },
+  {
+    "file": "assets/kits/hadi-back/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/arm-r-upper.png",
+    "bytes": 7725,
+    "sha256": "9d5ef38aac2eb883cc62f015e0dda31acba47857e9aec0236b74336f50a442fe"
+  },
+  {
+    "file": "assets/kits/hadi-back/backpack.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/backpack.png",
+    "bytes": 51189,
+    "sha256": "d80a376b841e6780454bb99289b833b402a07a9f15713d62472144a6e2d7469e"
+  },
+  {
+    "file": "assets/kits/hadi-back/fork-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/fork-l.png",
+    "bytes": 15341,
+    "sha256": "c96735e8be8ba46f54cec7cac6963464004dc508e98f03da1c41f061e12c36e3"
+  },
+  {
+    "file": "assets/kits/hadi-back/fork-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/fork-r.png",
+    "bytes": 15761,
+    "sha256": "e83d79842b6bfa5b98a21f67522413fee06ba2ff735aa5f9bcb1acbdb7306e72"
+  },
+  {
+    "file": "assets/kits/hadi-back/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/hand-l.png",
+    "bytes": 12969,
+    "sha256": "60eda31e3b7f7fe82a10db0731a332cc8d44513da4b405fa832bea53e17e26bd"
+  },
+  {
+    "file": "assets/kits/hadi-back/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/hand-r.png",
+    "bytes": 13043,
+    "sha256": "702fed57725b05751da2cc8ecedc14e0cb2f29b2207645f89301ddd1f4ac46a2"
+  },
+  {
+    "file": "assets/kits/hadi-back/head.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/head.png",
+    "bytes": 91520,
+    "sha256": "2e2f534e0e5c75a1776bedb73fbc75b1b24339df6080d1c46766d6bd2cf22651"
+  },
+  {
+    "file": "assets/kits/hadi-back/leg-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/leg-l.png",
+    "bytes": 18497,
+    "sha256": "fec1192193e4cb05038dbdb2cf8e9150dd53a179f7adf4a04320e0b4f259a2f7"
+  },
+  {
+    "file": "assets/kits/hadi-back/leg-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/leg-r.png",
+    "bytes": 18691,
+    "sha256": "a90eb5d64d354c26b9ad88d2471b6232370e509a683074a2a1671fee4ffa7505"
+  },
+  {
+    "file": "assets/kits/hadi-back/propeller.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/propeller.png",
+    "bytes": 26705,
+    "sha256": "fef06f8770d26586c5cb310b8938790270a03b8809ed5864b8ee1960ce97c153"
+  },
+  {
+    "file": "assets/kits/hadi-back/rig.json",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/rig.json",
+    "bytes": 4487,
+    "sha256": "a0a2bfe5266edb38723778387b832c58ac208f1aff46926eff57fe49eef6e9c5"
+  },
+  {
+    "file": "assets/kits/hadi-back/torso.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/torso.png",
+    "bytes": 89580,
+    "sha256": "019e234c9820dae8bffe4fb3d532c3933df4f6020089c2def97b0395d4ec5f39"
+  },
+  {
+    "file": "assets/kits/hadi-back/wheel-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/wheel-l.png",
+    "bytes": 24791,
+    "sha256": "1bdc171c219b67cf3d3c6be1be1a5770062268da074d4179792a877491d4ce54"
+  },
+  {
+    "file": "assets/kits/hadi-back/wheel-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-back/wheel-r.png",
+    "bytes": 25053,
+    "sha256": "f4a0973a4483c1a4eb999cd598af3a4857eac649e21088ac5fb9b24af8a3f656"
+  },
+  {
+    "file": "assets/kits/hadi-front/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/arm-l-lower.png",
+    "bytes": 8085,
+    "sha256": "676fcdf4f8da8a7ceee5ead708af2856c810a19093ea66fe18a41fefa4cba1fc"
+  },
+  {
+    "file": "assets/kits/hadi-front/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/arm-l-upper.png",
+    "bytes": 11216,
+    "sha256": "5ae78e839b8a570a305dbc264b9367d31bed139a635afee13a9ff97c9a429e70"
+  },
+  {
+    "file": "assets/kits/hadi-front/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/arm-r-lower.png",
+    "bytes": 9675,
+    "sha256": "f3a2619eaa1034f32d94422cf2c8922e383992638371162c9f1b9b6b07879732"
+  },
+  {
+    "file": "assets/kits/hadi-front/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/arm-r-upper.png",
+    "bytes": 6424,
+    "sha256": "a8570acf8859e049bb0556b4b2d55aaf8c4b2afb64f4195a01bfc9166848a756"
+  },
+  {
+    "file": "assets/kits/hadi-front/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/eyes-blink.png",
+    "bytes": 1119,
+    "sha256": "414c4c73f61a82eebd838a597f37db66a6037da451ae04deaa3056ab8c16f0d5"
+  },
+  {
+    "file": "assets/kits/hadi-front/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/eyes-happy.png",
+    "bytes": 33220,
+    "sha256": "a98ce4a738473ea89e06b1019a709f0d7355b34288bb1a7434c37713836d5a42"
+  },
+  {
+    "file": "assets/kits/hadi-front/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/eyes-open.png",
+    "bytes": 1893,
+    "sha256": "bc9c497dbdcd5b92af2304eace742f7ae12bf34af35dd63e642e71ecdff2c82c"
+  },
+  {
+    "file": "assets/kits/hadi-front/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/eyes-wide.png",
+    "bytes": 1418,
+    "sha256": "e1794ac6103e74f798f9fc54b7c05618b41ba7420c1d9d7f88914c3af9eb90af"
+  },
+  {
+    "file": "assets/kits/hadi-front/fork-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/fork-l.png",
+    "bytes": 6990,
+    "sha256": "0ab0d668579642b60422a27696d63b3238907cd9f61bc10b2e7485f9f65c13b7"
+  },
+  {
+    "file": "assets/kits/hadi-front/fork-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/fork-r.png",
+    "bytes": 7905,
+    "sha256": "88734da50f5dc5b7e93d4d646a16771c01b11593fd1dd85ac1edf447305815da"
+  },
+  {
+    "file": "assets/kits/hadi-front/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/hand-l.png",
+    "bytes": 10113,
+    "sha256": "6a15363526df3f22daf1002604d3bdcccad557cd6b13ff1a20f3b3399c1a74db"
+  },
+  {
+    "file": "assets/kits/hadi-front/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/hand-r.png",
+    "bytes": 17260,
+    "sha256": "a3ca596ea5885ae4eff520f8c0bb0b56153b5cd24651648f8ddf3fdba40def3e"
+  },
+  {
+    "file": "assets/kits/hadi-front/head.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/head.png",
+    "bytes": 38887,
+    "sha256": "b5f1ce4a8c65b1b643ab4f00e474e527b8ed8cbfd2b5eb882fde6d131362440e"
+  },
+  {
+    "file": "assets/kits/hadi-front/leg-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/leg-l.png",
+    "bytes": 25753,
+    "sha256": "bb391129ae54ad01f332d5dc7369c135a59081784a41fb8eb21db4d0e1c56de8"
+  },
+  {
+    "file": "assets/kits/hadi-front/leg-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/leg-r.png",
+    "bytes": 23572,
+    "sha256": "3711f80a786e9f27a5cf1103bfed91b7d69e00b0bd22a47fee50f8474fb78153"
+  },
+  {
+    "file": "assets/kits/hadi-front/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/mouth-o.png",
+    "bytes": 881,
+    "sha256": "ec1f1a1fd35a90d9d7e9b01122adc123b3dd70e1f8bb2f7a463b7e9ca08b5323"
+  },
+  {
+    "file": "assets/kits/hadi-front/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/mouth-open.png",
+    "bytes": 9663,
+    "sha256": "a0e484db175f24c65db73cf289f12b36aeeffb69ca9012468fa61c5aac255d7a"
+  },
+  {
+    "file": "assets/kits/hadi-front/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/mouth-small.png",
+    "bytes": 729,
+    "sha256": "94e1fe67ebc2d21659557d24dd08e21b39928cb44c59f8b7b7a62a776a5b689d"
+  },
+  {
+    "file": "assets/kits/hadi-front/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/mouth-smile.png",
+    "bytes": 877,
+    "sha256": "b286a17edc54e888c743873b8194c9346857da9892a690b2a3bfe4808f2d2869"
+  },
+  {
+    "file": "assets/kits/hadi-front/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/mouth-wide.png",
+    "bytes": 1189,
+    "sha256": "800c016836c23b39101259226ebb9604154126fd82f237c6caeadf3145417f03"
+  },
+  {
+    "file": "assets/kits/hadi-front/propeller.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/propeller.png",
+    "bytes": 13282,
+    "sha256": "5a7e7bc014ef2ea53ee20dc14cb96f718e2f9450e4050e9004e866575781ffa1"
+  },
+  {
+    "file": "assets/kits/hadi-front/rig.json",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/rig.json",
+    "bytes": 10539,
+    "sha256": "34ad1746e3dfea13f1f15c6ab20bd053b5998391204fcb57198137b8452b3d62"
+  },
+  {
+    "file": "assets/kits/hadi-front/scope-arm-1.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/scope-arm-1.png",
+    "bytes": 3364,
+    "sha256": "58e4e469085d9a94df4e925508eef46837dd33a47381afd2d0a3aa47036fdd85"
+  },
+  {
+    "file": "assets/kits/hadi-front/scope-arm-2.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/scope-arm-2.png",
+    "bytes": 7618,
+    "sha256": "ab46fc1e7bce2677a91f3d8de69f155045b2b8ddbfffb4838009e138421d1595"
+  },
+  {
+    "file": "assets/kits/hadi-front/scope.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/scope.png",
+    "bytes": 28386,
+    "sha256": "06b13d9443f1030bf1f85e45bec51faa837ed07a1bed835a07ddd217bb314579"
+  },
+  {
+    "file": "assets/kits/hadi-front/screen.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/screen.png",
+    "bytes": 17940,
+    "sha256": "fb7a83438de9bac875b21e688b1a76c3df7043ca9cb4d2ec0342d14dd5dd7840"
+  },
+  {
+    "file": "assets/kits/hadi-front/torso.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/torso.png",
+    "bytes": 84941,
+    "sha256": "55b8ec459620d2410b91ac19e3f87cebe13364fa7169e540bb71f0bafc1a2329"
+  },
+  {
+    "file": "assets/kits/hadi-front/wheel-l-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/wheel-l-rotation-mask.png",
+    "bytes": 1570,
+    "sha256": "186f00fcc73a1609c3cf6ab80e6dac235346dc83ae9e68645ed2c73be7a424cb"
+  },
+  {
+    "file": "assets/kits/hadi-front/wheel-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/wheel-l.png",
+    "bytes": 19276,
+    "sha256": "cc3d486929da3d421aec72d20773fd403bb7f04472a3cb10e10ecf837cf53d31"
+  },
+  {
+    "file": "assets/kits/hadi-front/wheel-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/wheel-r-rotation-mask.png",
+    "bytes": 1561,
+    "sha256": "8e5a666c56db30f5b095542b68c09ff606d7d024f1e5f7452f448e45308c5cdc"
+  },
+  {
+    "file": "assets/kits/hadi-front/wheel-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-front/wheel-r.png",
+    "bytes": 19868,
+    "sha256": "5eb470346f40fcd572de26440cc38e180c5bb2b81fa4af06524d5574c7822bb3"
+  },
+  {
+    "file": "assets/kits/hadi-q/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/arm-l-lower.png",
+    "bytes": 8902,
+    "sha256": "adfc539ef2e4c1b35cc2e0bae9e15b364c7fd8881efee6c73a639c14837321ed"
+  },
+  {
+    "file": "assets/kits/hadi-q/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/arm-l-upper.png",
+    "bytes": 10273,
+    "sha256": "5b19441f830b5f63d9d71169d3b2308b5aac402dffb749757b6adf03f00ce5ea"
+  },
+  {
+    "file": "assets/kits/hadi-q/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/arm-r-lower.png",
+    "bytes": 6867,
+    "sha256": "a67570eeb1ccd59b6869e4b574f392bae18a6fbea640dfb30ba8a988aa6e9ae6"
+  },
+  {
+    "file": "assets/kits/hadi-q/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/arm-r-upper.png",
+    "bytes": 5579,
+    "sha256": "03fae4c965cb31d241c1b449a64242b387a0b3b33b762210ede42235d06b7104"
+  },
+  {
+    "file": "assets/kits/hadi-q/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/eyes-blink.png",
+    "bytes": 1246,
+    "sha256": "ed97fe3d680bba2c233a168725bf33652b7c3f3ecf11cd6dd3ac9a8093c82ad8"
+  },
+  {
+    "file": "assets/kits/hadi-q/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/eyes-happy.png",
+    "bytes": 2449,
+    "sha256": "fc791f9812c9188dea5538f8caf36159b365bc1f9b4781e8f67cfb4e30f2dd02"
+  },
+  {
+    "file": "assets/kits/hadi-q/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/eyes-open.png",
+    "bytes": 2043,
+    "sha256": "fa22e4165c16e9776d0a242d52286f0bcbf3549b7b519221e6e5464e9657e043"
+  },
+  {
+    "file": "assets/kits/hadi-q/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/eyes-wide.png",
+    "bytes": 2703,
+    "sha256": "2f9cdb0219b15fdf6b7a8777311304cfdaf82e031c83f0295656c7b7864582ba"
+  },
+  {
+    "file": "assets/kits/hadi-q/fork-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/fork-l.png",
+    "bytes": 22403,
+    "sha256": "599d8a3c40814df9e1630e5aaa9c4145ba283784e6a464c49e7ad60d22cf6f30"
+  },
+  {
+    "file": "assets/kits/hadi-q/fork-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/fork-r.png",
+    "bytes": 21846,
+    "sha256": "fc22a4d0d7ec52d7cf6bf371104f532d04a0e423fc4ce351672da48e445d1752"
+  },
+  {
+    "file": "assets/kits/hadi-q/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/hand-l.png",
+    "bytes": 23233,
+    "sha256": "3b9f552d76e556ffeed2c0b8ef595f2b5c64538dbdb16cdc1000682d4daac670"
+  },
+  {
+    "file": "assets/kits/hadi-q/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/hand-r.png",
+    "bytes": 22468,
+    "sha256": "d48367371f58124fa695a6b631074e518a07b76a92258d0d8dfee9f965b8f59e"
+  },
+  {
+    "file": "assets/kits/hadi-q/head.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/head.png",
+    "bytes": 182636,
+    "sha256": "dc02bff98ae89f6bdc5c7b22318645f1baf2dfe3dc0be4f5be91097c4126c8d1"
+  },
+  {
+    "file": "assets/kits/hadi-q/hub-ui.svg",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/hub-ui.svg",
+    "bytes": 299,
+    "sha256": "b10af99e59c489bdc958a480fbd985e9270d9b05199419769320fce232711777"
+  },
+  {
+    "file": "assets/kits/hadi-q/leg-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/leg-l.png",
+    "bytes": 32154,
+    "sha256": "427dafce7faecb6d631217d7c09882d7d422fe4150786c1be3ebc3ff7f532f47"
+  },
+  {
+    "file": "assets/kits/hadi-q/leg-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/leg-r.png",
+    "bytes": 27228,
+    "sha256": "88447ee09309274798b1c0de22d47203f673137fe5444d0b1594ba67968f9e6a"
+  },
+  {
+    "file": "assets/kits/hadi-q/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/mouth-o.png",
+    "bytes": 1507,
+    "sha256": "658e43e0685a89690c080c8cc8a22a5dd036afbfc1035d9a7a580eaf3ffa30ff"
+  },
+  {
+    "file": "assets/kits/hadi-q/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/mouth-open.png",
+    "bytes": 1614,
+    "sha256": "2d442737d763eab7ec19bc0dba61a7d9dd470202e415153e6da2aa227d3ca72c"
+  },
+  {
+    "file": "assets/kits/hadi-q/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/mouth-small.png",
+    "bytes": 965,
+    "sha256": "d541c41537519520e1d8378326f689a5e041a2cb13cf05e2c5c6ad837d786bbf"
+  },
+  {
+    "file": "assets/kits/hadi-q/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/mouth-smile.png",
+    "bytes": 1490,
+    "sha256": "fc14d91c1213a30b4dfbd21ff238229ef989cdb1d61622bc0e4aa0d74e43b2cc"
+  },
+  {
+    "file": "assets/kits/hadi-q/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/mouth-wide.png",
+    "bytes": 1802,
+    "sha256": "53812211bb6d9fd1e8fb305fae0f518e4312c567bb1d0d142e8238a2c7167722"
+  },
+  {
+    "file": "assets/kits/hadi-q/rig.json",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/rig.json",
+    "bytes": 5724,
+    "sha256": "1300321032224124c91141f8a858212a6114fad4a05b0150c84e7f6ed8132ad8"
+  },
+  {
+    "file": "assets/kits/hadi-q/screen.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/screen.png",
+    "bytes": 91,
+    "sha256": "2fe8e6c2a228cc8932b1a02ef77d563dddc0618eb038ea3ea29338b35f37fdc6"
+  },
+  {
+    "file": "assets/kits/hadi-q/source.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/source.png",
+    "bytes": 616225,
+    "sha256": "bdaaecf920219fc008d05ba4b11354787d6894ae5d0ed88a5289444b3ef1ad0f"
+  },
+  {
+    "file": "assets/kits/hadi-q/torso.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/torso.png",
+    "bytes": 175209,
+    "sha256": "db32f56cdcf543bd465ca202c514da6a9c0878ba45871639869ea619d10c3540"
+  },
+  {
+    "file": "assets/kits/hadi-q/wheel-l.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/wheel-l.png",
+    "bytes": 42892,
+    "sha256": "bb0b36a38c1069b26f4f43076a93946859243475a23ea70cf63116522415105c"
+  },
+  {
+    "file": "assets/kits/hadi-q/wheel-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-q/wheel-r.png",
+    "bytes": 42622,
+    "sha256": "5cbaa6867554f9f1444b712b76f2c2b6682589dc1094263570aae5b2080f5dab"
+  },
+  {
+    "file": "assets/kits/hadi-side/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/arm-r-lower.png",
+    "bytes": 7700,
+    "sha256": "aebb828caebe967f4a5c031261d6f28758ab3649a28470da61867a2d5a782c71"
+  },
+  {
+    "file": "assets/kits/hadi-side/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/arm-r-upper.png",
+    "bytes": 8977,
+    "sha256": "eb3224e300c92b806ced8c170f633501ace8155d44eb7f58f246f6e4803c2b66"
+  },
+  {
+    "file": "assets/kits/hadi-side/backpack.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/backpack.png",
+    "bytes": 30215,
+    "sha256": "67fe0081360c21788e0bd2dc27c831b612c7e7d0b369ba86c2536926d3eaad6d"
+  },
+  {
+    "file": "assets/kits/hadi-side/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/eyes-blink.png",
+    "bytes": 227,
+    "sha256": "bac36fcd7e4f31da33395b776338e873c9c02d0df63b35ed99ec008fe0f7d158"
+  },
+  {
+    "file": "assets/kits/hadi-side/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/eyes-happy.png",
+    "bytes": 636,
+    "sha256": "4c836b056c47b1953c69b2ed4fe1d49690725f2e7072a8c49581ae1ab321f4db"
+  },
+  {
+    "file": "assets/kits/hadi-side/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/eyes-open.png",
+    "bytes": 700,
+    "sha256": "a6da060dd3454e21f0d59849895e1c47669aba2ca3d5b678803b93fedcf74cf4"
+  },
+  {
+    "file": "assets/kits/hadi-side/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/eyes-wide.png",
+    "bytes": 877,
+    "sha256": "73d3eb42283f779e58820204649250b38ee50ad589021306ab8424d88b6f1836"
+  },
+  {
+    "file": "assets/kits/hadi-side/fork-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/fork-r.png",
+    "bytes": 14605,
+    "sha256": "eea6fe73b6700493108ecee1b834e20f0cd559a78e0e0c1b8c5a4e312dfd5368"
+  },
+  {
+    "file": "assets/kits/hadi-side/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/hand-r.png",
+    "bytes": 11650,
+    "sha256": "42d972d94a17f8dafea3c391fa04008ea309867f05a57eb572fa43d5145f738f"
+  },
+  {
+    "file": "assets/kits/hadi-side/head.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/head.png",
+    "bytes": 93462,
+    "sha256": "3e67aca94f6fde4cd89d3c8f5916afc93b0c2e6420d7540f6e819dcd13988556"
+  },
+  {
+    "file": "assets/kits/hadi-side/leg-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/leg-r.png",
+    "bytes": 17050,
+    "sha256": "ace68b0e134e8e6376b455ce303c2fc01f9bcda04b19bb35408cf62739852c7f"
+  },
+  {
+    "file": "assets/kits/hadi-side/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/mouth-o.png",
+    "bytes": 503,
+    "sha256": "06f7dd1ee3427b7ebc64daa3d35062f936a27747dd640619dbe12fd8e6ac82db"
+  },
+  {
+    "file": "assets/kits/hadi-side/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/mouth-open.png",
+    "bytes": 622,
+    "sha256": "fa3de110bb829c29a3f8fba9976d25ddfc4423e7265762bd0c1f49447fea2b8d"
+  },
+  {
+    "file": "assets/kits/hadi-side/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/mouth-small.png",
+    "bytes": 237,
+    "sha256": "d8f625bdff63ec49dc46621e24ab3159887cb24b77effb2abfff0fc00dbb964a"
+  },
+  {
+    "file": "assets/kits/hadi-side/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/mouth-smile.png",
+    "bytes": 403,
+    "sha256": "dfc9725dd4407678e5ac6c651902b5e88ee07f290000c5e9a4641eb83f97079b"
+  },
+  {
+    "file": "assets/kits/hadi-side/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/mouth-wide.png",
+    "bytes": 622,
+    "sha256": "fa3de110bb829c29a3f8fba9976d25ddfc4423e7265762bd0c1f49447fea2b8d"
+  },
+  {
+    "file": "assets/kits/hadi-side/propeller.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/propeller.png",
+    "bytes": 11607,
+    "sha256": "4f21f10ae1fcc395d40dc8a314b7e2734bb56407ff552b6fd536ebce4327a24a"
+  },
+  {
+    "file": "assets/kits/hadi-side/rig.json",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/rig.json",
+    "bytes": 6674,
+    "sha256": "ecb046c330a16dd92905ab5b5cd6f04d5e78251f3cb95086651ecedc600c12e9"
+  },
+  {
+    "file": "assets/kits/hadi-side/screen.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/screen.png",
+    "bytes": 5462,
+    "sha256": "f48113e549209c985fee1366681aea5a5fd2b164ba66a1d0ddda765a54c1fe90"
+  },
+  {
+    "file": "assets/kits/hadi-side/torso.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/torso.png",
+    "bytes": 48862,
+    "sha256": "a811c464bf21e982e34b75c9128a560d30e35ece5568ec8bfe24e3590e454a80"
+  },
+  {
+    "file": "assets/kits/hadi-side/wheel-r.png",
+    "source": "output/car-truth-v2/assets/kits/hadi-side/wheel-r.png",
+    "bytes": 26176,
+    "sha256": "0f3eef2d90037928c86047d51c0021a2e8e15f40c6cc6276054fbb0dc7a79c4b"
+  },
+  {
+    "file": "assets/kits/nuri-front/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/arm-l-lower.png",
+    "bytes": 20523,
+    "sha256": "93a5247cf0227d74bea8944c39bf92c9aa14b4963d92dadcca68d6ff11f20127"
+  },
+  {
+    "file": "assets/kits/nuri-front/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/arm-l-upper.png",
+    "bytes": 24203,
+    "sha256": "abe527ecc15a933b6ab0fec3af59ae4a76492f3fb2f4fa9e08c1d8c3f7b1292d"
+  },
+  {
+    "file": "assets/kits/nuri-front/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/arm-r-lower.png",
+    "bytes": 20128,
+    "sha256": "fd389e1b7379bd87e08690d11c36000d75db63ec4babe4613c68851caf0e3d37"
+  },
+  {
+    "file": "assets/kits/nuri-front/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/arm-r-upper.png",
+    "bytes": 23738,
+    "sha256": "b44ede6e66b93bd5e645cd1540347e79af4872e7e55fdd7fcac230352e3ba540"
+  },
+  {
+    "file": "assets/kits/nuri-front/cape-back.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/cape-back.png",
+    "bytes": 544733,
+    "sha256": "6321d8df38cab86692a4acf8466fff7f2910f0ca4f0b06db2b1efa488c15fe4b"
+  },
+  {
+    "file": "assets/kits/nuri-front/cape-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/cape-l.png",
+    "bytes": 162751,
+    "sha256": "10eb0968860d30257dc2809ea8de876dfd712b2dae89c9d1a93877daf651f0a4"
+  },
+  {
+    "file": "assets/kits/nuri-front/cape-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/cape-r.png",
+    "bytes": 158053,
+    "sha256": "13b9116361d9b5ced4901d7764ee94445d5e028c3d4860f75f822b2337dc2149"
+  },
+  {
+    "file": "assets/kits/nuri-front/crescent.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/crescent.png",
+    "bytes": 40043,
+    "sha256": "b208c8c92bc07fc3e9de0b25398264284ea071c3b4e2ceaad1b2bb03ee3ba432"
+  },
+  {
+    "file": "assets/kits/nuri-front/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/eyes-blink.png",
+    "bytes": 2849,
+    "sha256": "3d8e641421fabad3760440223e9013d9b2d48090c774bca7d0533a5c8c69870c"
+  },
+  {
+    "file": "assets/kits/nuri-front/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/eyes-happy.png",
+    "bytes": 219172,
+    "sha256": "033b15d245d18c77ed90cb79dd9cf1912408f82b982dc4be9fab1948846c6cb2"
+  },
+  {
+    "file": "assets/kits/nuri-front/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/eyes-open.png",
+    "bytes": 5607,
+    "sha256": "6939ece272fe97d631f997df49571a74d9e5f6af50d52b63c8df5bb9eec54e18"
+  },
+  {
+    "file": "assets/kits/nuri-front/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/eyes-wide.png",
+    "bytes": 6508,
+    "sha256": "dedd09bc2c80d34097765e0c89ff18f1618036ec28189ca27a4cf18804867a97"
+  },
+  {
+    "file": "assets/kits/nuri-front/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hand-l.png",
+    "bytes": 44753,
+    "sha256": "fb4cfd972fbc108b2712a17f0aa287129da14433dd8d345d4c6c87f23458a95c"
+  },
+  {
+    "file": "assets/kits/nuri-front/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hand-r.png",
+    "bytes": 42606,
+    "sha256": "f38b0b78e1479cd12644b26a51a120e4290fe6f63eabf4fe7b85d785cdd95c95"
+  },
+  {
+    "file": "assets/kits/nuri-front/head.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/head.png",
+    "bytes": 255108,
+    "sha256": "8daf14b15d70b952b7e3a31ebcabb62217a2862e26f196724e61ec16a7325db0"
+  },
+  {
+    "file": "assets/kits/nuri-front/hub-l-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hub-l-rotation-mask.png",
+    "bytes": 1975,
+    "sha256": "d612ab89e6b2c0e5ceb97e82564aff72d24e8ff46d9ed7f67dd56caba534970f"
+  },
+  {
+    "file": "assets/kits/nuri-front/hub-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hub-l.png",
+    "bytes": 17493,
+    "sha256": "53a7d53326b1ccf708b8d76bf7181bd694675d2c1087ee9d522d13d6b5e02f06"
+  },
+  {
+    "file": "assets/kits/nuri-front/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hub-r-rotation-mask.png",
+    "bytes": 1648,
+    "sha256": "4fdaab8ff1b9345bff66b07837fb03a4a63c92da9782f2f2c7e54b560a9995ae"
+  },
+  {
+    "file": "assets/kits/nuri-front/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/hub-r.png",
+    "bytes": 16532,
+    "sha256": "eea4b444afd6a9d375a3174b8e3c5d75b09b293bca282cf8a8394318ded5293f"
+  },
+  {
+    "file": "assets/kits/nuri-front/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/mouth-o.png",
+    "bytes": 2465,
+    "sha256": "95a87641f271125971c8e806a8c2d2579b8390ace054d94c3df921a9e6c9f97f"
+  },
+  {
+    "file": "assets/kits/nuri-front/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/mouth-open.png",
+    "bytes": 33664,
+    "sha256": "444275b80f8cc0b55b1f87e2d700ad5068c3ba5c6098fcf54f07a36b1abbb86a"
+  },
+  {
+    "file": "assets/kits/nuri-front/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/mouth-small.png",
+    "bytes": 1953,
+    "sha256": "19ca72cef1376755930b2499f0fe9e8060d13550ac8387bb7b3ca18fa4d0ff6f"
+  },
+  {
+    "file": "assets/kits/nuri-front/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/mouth-smile.png",
+    "bytes": 2668,
+    "sha256": "8876561d5ed3b5b0d440fb788e946bd779489d78a1d29e2cde7f05572e23f8b5"
+  },
+  {
+    "file": "assets/kits/nuri-front/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/mouth-wide.png",
+    "bytes": 3403,
+    "sha256": "9312b68519910f2ea949ed02b39352a230f8ef474e374066934d667384d9eec5"
+  },
+  {
+    "file": "assets/kits/nuri-front/rig.json",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/rig.json",
+    "bytes": 10777,
+    "sha256": "899bf311849bc966eab7e4b84ffabfef2d7528abac51639993e57f2ed52b2275"
+  },
+  {
+    "file": "assets/kits/nuri-front/scarf.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/scarf.png",
+    "bytes": 38483,
+    "sha256": "56c63653977f6805da734ba15471c44b18a29a57648c7ed9398f3e20b469f6e6"
+  },
+  {
+    "file": "assets/kits/nuri-front/screen.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/screen.png",
+    "bytes": 99752,
+    "sha256": "4c507c8c7128a15f6fe1ade59d3b0991a1fdfa9c76c47d31ea5bc05d09445396"
+  },
+  {
+    "file": "assets/kits/nuri-front/torso.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/torso.png",
+    "bytes": 221884,
+    "sha256": "c42752d9af8c1cc8d773a404f4ce5a77b9b361b5ad70f96064e2adc08ecac772"
+  },
+  {
+    "file": "assets/kits/nuri-front/tread-l-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/tread-l-mask.png",
+    "bytes": 1247,
+    "sha256": "782e1173f181f156806cb6e7a2dd30f2b7392748ae00f602152e75b84d9f3302"
+  },
+  {
+    "file": "assets/kits/nuri-front/tread-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/tread-l.png",
+    "bytes": 54185,
+    "sha256": "adfcef24917d209d750ed0f275f411c842a3faae02de31355a3bac87c7c844d8"
+  },
+  {
+    "file": "assets/kits/nuri-front/tread-r-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/tread-r-mask.png",
+    "bytes": 1180,
+    "sha256": "a2a092311edaff75fa5b54afff67e029ada812c130d2450d18cc7bfc77ef33ba"
+  },
+  {
+    "file": "assets/kits/nuri-front/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/tread-r.png",
+    "bytes": 53061,
+    "sha256": "f1bb3f65c9a9ff06b81744b5b33e61120ba28175181e565f35a08deb6c088be6"
+  },
+  {
+    "file": "assets/kits/nuri-front/tread-tile.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-front/tread-tile.png",
+    "bytes": 2472,
+    "sha256": "b7cf0fb767cd246c9d66646fe928fea17e6b6d0d6d39844970d21b3c0f245ac8"
+  },
+  {
+    "file": "assets/kits/nuri-q/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/arm-l-lower.png",
+    "bytes": 13218,
+    "sha256": "aa5dbf1fdcf7534f32b045a00f607f87e7d6d790b2fc4ac7650d9a521cb1e2dc"
+  },
+  {
+    "file": "assets/kits/nuri-q/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/arm-l-upper.png",
+    "bytes": 12031,
+    "sha256": "c9e1945298887e7c5a2303c6c47f7c5aeb216c9fdff2d0f3ac29da718c85611b"
+  },
+  {
+    "file": "assets/kits/nuri-q/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/arm-r-lower.png",
+    "bytes": 13201,
+    "sha256": "d4ae5d7a6a5647fdda1291a7f61a0165e8edf250dd98d2db75f7caad90026a39"
+  },
+  {
+    "file": "assets/kits/nuri-q/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/arm-r-upper.png",
+    "bytes": 5987,
+    "sha256": "b5130311bd6665a1b54e86a16f10117c749a2c4001bcbc1b6493626fd4492fc1"
+  },
+  {
+    "file": "assets/kits/nuri-q/cape-back.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/cape-back.png",
+    "bytes": 175454,
+    "sha256": "347616577e6162af7e1a73242242fb1056954d95aedb00348ce87b4ff727bd8c"
+  },
+  {
+    "file": "assets/kits/nuri-q/crescent.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/crescent.png",
+    "bytes": 22919,
+    "sha256": "3c486fcde989b7bbe2b9945151e36ed230587ba9622b719c0d2352345622d735"
+  },
+  {
+    "file": "assets/kits/nuri-q/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/eyes-blink.png",
+    "bytes": 430,
+    "sha256": "ce51dd85012f36ce11e67b8b76790fa820adb774320a0d9c01fbaf2730e53c88"
+  },
+  {
+    "file": "assets/kits/nuri-q/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/eyes-happy.png",
+    "bytes": 3746,
+    "sha256": "fa6160cac4f160e8558e331b5f9cb4cdb1fbb4f3780204dcf7d7adf871fc2a3c"
+  },
+  {
+    "file": "assets/kits/nuri-q/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/eyes-open.png",
+    "bytes": 3868,
+    "sha256": "ba8bb6186db0c8e935e377ac209d91c55bc66d123acdc444ea49d714d60f434b"
+  },
+  {
+    "file": "assets/kits/nuri-q/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/eyes-wide.png",
+    "bytes": 4653,
+    "sha256": "3d415d6d7b2ff7079b732ad12f626825086207bf144b0bc76d257efb248aab47"
+  },
+  {
+    "file": "assets/kits/nuri-q/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hand-l.png",
+    "bytes": 30414,
+    "sha256": "72a8fab911a7cb4da5722c81c0aa3d4d88cc8552223154b57e33ae85edde805a"
+  },
+  {
+    "file": "assets/kits/nuri-q/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hand-r.png",
+    "bytes": 22376,
+    "sha256": "30931eabfaa4d7645f0ddd533a39ab50da75edb34224f7372e2e1001f53966d9"
+  },
+  {
+    "file": "assets/kits/nuri-q/head.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/head.png",
+    "bytes": 219494,
+    "sha256": "0b1eb85ae4830a94d69d90bb39dc0e5c3c545773aec2557118ed5e0e70023892"
+  },
+  {
+    "file": "assets/kits/nuri-q/hub-l-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hub-l-rotation-mask.png",
+    "bytes": 1103,
+    "sha256": "261939ce61fbc8d69c77c72fe162bfd26571d93456aaa6ce7f66f48d41218344"
+  },
+  {
+    "file": "assets/kits/nuri-q/hub-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hub-l.png",
+    "bytes": 24574,
+    "sha256": "dde2ecffc40d79695bd7a25bce4d7184600718e7ee5e77f1dcb398596cc49313"
+  },
+  {
+    "file": "assets/kits/nuri-q/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hub-r-rotation-mask.png",
+    "bytes": 636,
+    "sha256": "cd1eb727f8eee80e433738e49e3453e469f596c864dc804dc6665e94c9f53bf6"
+  },
+  {
+    "file": "assets/kits/nuri-q/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/hub-r.png",
+    "bytes": 5632,
+    "sha256": "91f1c34d871ad8e7f9b5f08c920a162ad7591a8eb66039ce4db0e5856568b27b"
+  },
+  {
+    "file": "assets/kits/nuri-q/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/mouth-o.png",
+    "bytes": 1273,
+    "sha256": "bac06162e9842d53798be03f5f439e37b35fb4a1bd440f36f0f23846d33e273b"
+  },
+  {
+    "file": "assets/kits/nuri-q/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/mouth-open.png",
+    "bytes": 1159,
+    "sha256": "3c71824728cc0498d2494f9e745b640fd33b2abf5a8b82c135c39a5fc22dc8e4"
+  },
+  {
+    "file": "assets/kits/nuri-q/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/mouth-small.png",
+    "bytes": 430,
+    "sha256": "1339195434dc4429425bae70931a206a0d4047c2c4a6f7f31468431bf79fcde8"
+  },
+  {
+    "file": "assets/kits/nuri-q/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/mouth-smile.png",
+    "bytes": 834,
+    "sha256": "eeaad4187c2d32bdf7dfc2e91e1c9221dfb3bde514a2a2cc02ae61f9b05469cf"
+  },
+  {
+    "file": "assets/kits/nuri-q/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/mouth-wide.png",
+    "bytes": 1159,
+    "sha256": "3c71824728cc0498d2494f9e745b640fd33b2abf5a8b82c135c39a5fc22dc8e4"
+  },
+  {
+    "file": "assets/kits/nuri-q/rig.json",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/rig.json",
+    "bytes": 8016,
+    "sha256": "233a053d2ef046c042bbd966bf103c68378f34171f90caf75d55c22f7fcaf11d"
+  },
+  {
+    "file": "assets/kits/nuri-q/scarf.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/scarf.png",
+    "bytes": 31187,
+    "sha256": "fd8ddf6ac3f8e4ba13f091185caf2af61bb1630f4c1879c370f5af8696f64df7"
+  },
+  {
+    "file": "assets/kits/nuri-q/screen.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/screen.png",
+    "bytes": 46399,
+    "sha256": "055c2108449a0ccd5c0999f4632a1d069024b55d4a07c264b39f980e2a5d9a0d"
+  },
+  {
+    "file": "assets/kits/nuri-q/torso.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/torso.png",
+    "bytes": 197287,
+    "sha256": "fb7970c0b70835732a21050aca1aad18d93bdd7d607eeca2e39d8c579ef936d7"
+  },
+  {
+    "file": "assets/kits/nuri-q/tread-l.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/tread-l.png",
+    "bytes": 71879,
+    "sha256": "27caa1485de019c5e32cb2a1736f9b6a11d2810ff23b8a501c5ac0356db2e6cb"
+  },
+  {
+    "file": "assets/kits/nuri-q/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-q/tread-r.png",
+    "bytes": 28696,
+    "sha256": "6da657ab555abb40128fd4f0348d5da63accc3715b81567d6a18114340d76dd2"
+  },
+  {
+    "file": "assets/kits/nuri-side/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/arm-r-lower.png",
+    "bytes": 13666,
+    "sha256": "b553e81b617dda558b23fd5d8c2bf5924f7b985479c302037829b7a7c79a0283"
+  },
+  {
+    "file": "assets/kits/nuri-side/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/arm-r-upper.png",
+    "bytes": 13622,
+    "sha256": "1a60b793b426c5e0660d815e8067da1654951e6dd9425921cb2feb6603a395b7"
+  },
+  {
+    "file": "assets/kits/nuri-side/cape-back.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/cape-back.png",
+    "bytes": 153506,
+    "sha256": "6a1a58b91c6af7bd4f7d8b0cd54931e835273d981cea950a925884f5da0d75d2"
+  },
+  {
+    "file": "assets/kits/nuri-side/crescent.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/crescent.png",
+    "bytes": 21055,
+    "sha256": "e031d03ec647d32569d28d86dae39cc4ed01c08fb1c2b975c70d052d205ba793"
+  },
+  {
+    "file": "assets/kits/nuri-side/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/eyes-blink.png",
+    "bytes": 279,
+    "sha256": "860acc5aa8963f936ab6e57552ca09104e7324e429ceea9b1af32dafcea0683a"
+  },
+  {
+    "file": "assets/kits/nuri-side/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/eyes-happy.png",
+    "bytes": 1014,
+    "sha256": "1afad41240023e0cd4622495db4a7bd91d5de528687404ad00f157004a8c0850"
+  },
+  {
+    "file": "assets/kits/nuri-side/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/eyes-open.png",
+    "bytes": 1081,
+    "sha256": "9725f8875b87654c7d5e426fc4640188b819af8ce58b74cfa257caf7122bf986"
+  },
+  {
+    "file": "assets/kits/nuri-side/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/eyes-wide.png",
+    "bytes": 1330,
+    "sha256": "a68bd7af2c66424799c55c7536bb0e1764877fb191ae481f65cf5ddf24de5d98"
+  },
+  {
+    "file": "assets/kits/nuri-side/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/hand-r.png",
+    "bytes": 27625,
+    "sha256": "d210be10a893623fe98743446132c13ed8947093a07e1270cc6595c6200cf1fd"
+  },
+  {
+    "file": "assets/kits/nuri-side/head.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/head.png",
+    "bytes": 178388,
+    "sha256": "45977d33ef6e7b061e3b94747f4800d353fcc125b7e2bbba828dc6b8e6b2e7a7"
+  },
+  {
+    "file": "assets/kits/nuri-side/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/hub-r-rotation-mask.png",
+    "bytes": 1189,
+    "sha256": "d1c202366f39c036e0999dd336afecabfe55b96cc745a240b8b786e687f11f7b"
+  },
+  {
+    "file": "assets/kits/nuri-side/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/hub-r.png",
+    "bytes": 32404,
+    "sha256": "dc26333a3cdf8c5a16ee38337963d363a72a5316b7c7abadedc756a0fb735a46"
+  },
+  {
+    "file": "assets/kits/nuri-side/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/mouth-o.png",
+    "bytes": 881,
+    "sha256": "23e9873cea1c029569630dfbf4705d97ae618b73d980c76892bc6fcb9f4c9c30"
+  },
+  {
+    "file": "assets/kits/nuri-side/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/mouth-open.png",
+    "bytes": 919,
+    "sha256": "4b952385d6ff1e4614aa7c6a66276ed4ccd06fdd2fb76d6bc1459c3e057e3e35"
+  },
+  {
+    "file": "assets/kits/nuri-side/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/mouth-small.png",
+    "bytes": 307,
+    "sha256": "99b361564ca6b6a420f6b461523c4ab6ddc4b779a236eafb11131f8c65661920"
+  },
+  {
+    "file": "assets/kits/nuri-side/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/mouth-smile.png",
+    "bytes": 511,
+    "sha256": "c99ea7e1817ce7d016e51f6cba1b62c4235c189920f1a38afc838c2ca90d5387"
+  },
+  {
+    "file": "assets/kits/nuri-side/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/mouth-wide.png",
+    "bytes": 919,
+    "sha256": "4b952385d6ff1e4614aa7c6a66276ed4ccd06fdd2fb76d6bc1459c3e057e3e35"
+  },
+  {
+    "file": "assets/kits/nuri-side/rig.json",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/rig.json",
+    "bytes": 6859,
+    "sha256": "e141f7ef0e5dfad61d123bcd65f982435032c74afa5b1228f8e5a8dd6f2b295a"
+  },
+  {
+    "file": "assets/kits/nuri-side/scarf.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/scarf.png",
+    "bytes": 27393,
+    "sha256": "4b065539227462685d41cd9215d52574947c4487cb2cadda1dcf8418fe80b23b"
+  },
+  {
+    "file": "assets/kits/nuri-side/screen.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/screen.png",
+    "bytes": 14133,
+    "sha256": "98f051103a052d747067600f037e47cab22f4451302e06f183f0a5bf78e4cccc"
+  },
+  {
+    "file": "assets/kits/nuri-side/torso.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/torso.png",
+    "bytes": 132665,
+    "sha256": "fd740529841766745d1ef6ebae20eec339d5e68a5774cb299d92ae058c21b310"
+  },
+  {
+    "file": "assets/kits/nuri-side/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/nuri-side/tread-r.png",
+    "bytes": 79863,
+    "sha256": "57248640a637ad3b25b10864fa5708a4597ae8e23f6d8e9d3251b32ad08ced24"
+  },
+  {
+    "file": "assets/kits/sabir-front/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/arm-r-lower.png",
+    "bytes": 11994,
+    "sha256": "5726131a439b21017e7aa910dab341515a8033e0fe051cbb34fefed8e56d4670"
+  },
+  {
+    "file": "assets/kits/sabir-front/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/arm-r-upper.png",
+    "bytes": 14206,
+    "sha256": "79b364428baa94dde989039b62e995b9663f9d181c75225f148c1089a87d6cbd"
+  },
+  {
+    "file": "assets/kits/sabir-front/crane-1.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/crane-1.png",
+    "bytes": 18697,
+    "sha256": "1c21866acbb1a785b12b3105a6e42a6edda39a5776f89b297351c4544a1d0d66"
+  },
+  {
+    "file": "assets/kits/sabir-front/crane-2.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/crane-2.png",
+    "bytes": 55886,
+    "sha256": "01e90e681da50b69213f37fd860e66a7c01b11a62e5775b42230ae8dfb0156bf"
+  },
+  {
+    "file": "assets/kits/sabir-front/crane-claw.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/crane-claw.png",
+    "bytes": 44687,
+    "sha256": "55d620744e8907480d3dea2d55b0f3eb74898277666fd2d40b3999cfde68319a"
+  },
+  {
+    "file": "assets/kits/sabir-front/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/eyes-blink.png",
+    "bytes": 1547,
+    "sha256": "e3c38c603971db6326a57c0249345e2b705e338ca34b12666eed9eb718f08a1b"
+  },
+  {
+    "file": "assets/kits/sabir-front/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/eyes-happy.png",
+    "bytes": 107955,
+    "sha256": "5695aaae53a8552a4f87d2217ee89e706c2dd3d47e5425d23b173534f7df8fde"
+  },
+  {
+    "file": "assets/kits/sabir-front/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/eyes-open.png",
+    "bytes": 3108,
+    "sha256": "e7e6626004c26542a7ca20d0e09fa6b18c508283b6a70e2beb1e9120f11c5cce"
+  },
+  {
+    "file": "assets/kits/sabir-front/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/eyes-wide.png",
+    "bytes": 3636,
+    "sha256": "fb2eb7b4f3c132cb046b606bb87bfb96595adb0b71d2e955e918535cce31613d"
+  },
+  {
+    "file": "assets/kits/sabir-front/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/hand-r.png",
+    "bytes": 38768,
+    "sha256": "18fab6546317f078fdd3bf02850b19b0a875a6dde169ef274e82188031db30bf"
+  },
+  {
+    "file": "assets/kits/sabir-front/head.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/head.png",
+    "bytes": 99483,
+    "sha256": "9b626cec26c0eb8364771d2d1c4192acf6ce8f54f5cfe1e031d12a160659b0cd"
+  },
+  {
+    "file": "assets/kits/sabir-front/hub-l-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/hub-l-rotation-mask.png",
+    "bytes": 906,
+    "sha256": "222a6a3ff11fbbba0b77b3757bcddd990dfa2f2293e4a994347a8cac7a43a9e9"
+  },
+  {
+    "file": "assets/kits/sabir-front/hub-l.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/hub-l.png",
+    "bytes": 25318,
+    "sha256": "5eb95ffa36430ba0edb735996c12043d525b942586bf99bb3e80a8ff59d3b22a"
+  },
+  {
+    "file": "assets/kits/sabir-front/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/hub-r-rotation-mask.png",
+    "bytes": 613,
+    "sha256": "38215e148d055fce9d5b6b066cde7edde4ee2c6ffd5d0559d53ad8bd43a027cf"
+  },
+  {
+    "file": "assets/kits/sabir-front/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/hub-r.png",
+    "bytes": 12032,
+    "sha256": "acc25dde0ea9f75007d2845efa2116460bae018bf290327bfb95e960d0c8d905"
+  },
+  {
+    "file": "assets/kits/sabir-front/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/mouth-o.png",
+    "bytes": 1709,
+    "sha256": "53698f33e999125601e3dcc7dd70fc4a9ca5b56a1a0407fd01b9c74a6aa4d526"
+  },
+  {
+    "file": "assets/kits/sabir-front/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/mouth-open.png",
+    "bytes": 15665,
+    "sha256": "d261d40a5be476d2f86cbbc7d96212790d40e085798968ce2729487862dae711"
+  },
+  {
+    "file": "assets/kits/sabir-front/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/mouth-small.png",
+    "bytes": 1196,
+    "sha256": "e7a471ea227089c7b3c4817a18cb70210a8a7be52f1abffdaac54ebe7b05d236"
+  },
+  {
+    "file": "assets/kits/sabir-front/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/mouth-smile.png",
+    "bytes": 1591,
+    "sha256": "c3b5d0d7509cfc91fc59c1772d09f5f4cc2765947d8356313016236cb5576b70"
+  },
+  {
+    "file": "assets/kits/sabir-front/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/mouth-wide.png",
+    "bytes": 1978,
+    "sha256": "2941fcc480eadcf017f94999569dae416b9500a37fc703d449fe3ac995a399db"
+  },
+  {
+    "file": "assets/kits/sabir-front/rig.json",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/rig.json",
+    "bytes": 9333,
+    "sha256": "35592c39ac88071d5dcbd56e797da5b13f2d0e93ead1bfe7ab1b15a1f1187275"
+  },
+  {
+    "file": "assets/kits/sabir-front/screen.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/screen.png",
+    "bytes": 45477,
+    "sha256": "f625de4fd62704f25b1e4570d63e31dc2756b5ce70d8b37aab441df05633e730"
+  },
+  {
+    "file": "assets/kits/sabir-front/torso.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/torso.png",
+    "bytes": 228828,
+    "sha256": "a5afa4f0a47921b0c26e629a3be20f7846f361194169d7707a745a6428600ec3"
+  },
+  {
+    "file": "assets/kits/sabir-front/tread-l-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/tread-l-mask.png",
+    "bytes": 1749,
+    "sha256": "bfe6c90e88bb02359be41afbd37eb8bb96145907bb1dc12114d647b7451d22b5"
+  },
+  {
+    "file": "assets/kits/sabir-front/tread-l.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/tread-l.png",
+    "bytes": 110301,
+    "sha256": "6bd290f41e74f283023e68f9aa2a5af734efcfced11a37cd0a0048f07139d868"
+  },
+  {
+    "file": "assets/kits/sabir-front/tread-r-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/tread-r-mask.png",
+    "bytes": 1762,
+    "sha256": "33626d80bd6a1a64f1440f1e6390bbf914c47da14ca9622c2a1ccef635772b8e"
+  },
+  {
+    "file": "assets/kits/sabir-front/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/tread-r.png",
+    "bytes": 91732,
+    "sha256": "660ebb3ab28bb6dd45011cd1c5f06872d8769ef67b0da4ab7a241b21d1054d31"
+  },
+  {
+    "file": "assets/kits/sabir-front/tread-tile.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-front/tread-tile.png",
+    "bytes": 2454,
+    "sha256": "edf341959c93998fa896c9e13be6cbe488849779281ccbec9d64827d5e30b133"
+  },
+  {
+    "file": "assets/kits/sabir-q/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/arm-l-lower.png",
+    "bytes": 17407,
+    "sha256": "0818d5a8b02036c2304909eff15523804c1728cab1226b67c98e9201d57afc7c"
+  },
+  {
+    "file": "assets/kits/sabir-q/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/arm-l-upper.png",
+    "bytes": 13161,
+    "sha256": "f724fcf5bf725274f81a0ba139b2d026448e3f5619aa40a956c97ea850d569da"
+  },
+  {
+    "file": "assets/kits/sabir-q/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/arm-r-lower.png",
+    "bytes": 14088,
+    "sha256": "b7cba2feb770266cf60cefbe01cae1d4e6f9ff9b81a23afe75ba8d03dac107e0"
+  },
+  {
+    "file": "assets/kits/sabir-q/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/arm-r-upper.png",
+    "bytes": 8108,
+    "sha256": "f0815941906df2d5ced6baa227d80c803bbc6d603ac75c48c6fe5b4b73d5b53e"
+  },
+  {
+    "file": "assets/kits/sabir-q/crane-folded.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/crane-folded.png",
+    "bytes": 93875,
+    "sha256": "9a13814a07b63ee90562a80d0a332e4ae985f8e974d519c6c6743c27ff850718"
+  },
+  {
+    "file": "assets/kits/sabir-q/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/eyes-blink.png",
+    "bytes": 295,
+    "sha256": "5f222d85a25db92f71b3ad8ff7bbb20d5c0c9e1e3a1052c8c464503f82856fb8"
+  },
+  {
+    "file": "assets/kits/sabir-q/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/eyes-happy.png",
+    "bytes": 2244,
+    "sha256": "130875d104b85c49753ffbc23922f890db6a3dae9689c5b0d20287f2f7dc039e"
+  },
+  {
+    "file": "assets/kits/sabir-q/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/eyes-open.png",
+    "bytes": 3937,
+    "sha256": "a3ade689fc20875fb7d679d9b59d3e9d1b31041edaedafd683798b54109f0064"
+  },
+  {
+    "file": "assets/kits/sabir-q/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/eyes-wide.png",
+    "bytes": 4967,
+    "sha256": "f0f1f8db2561a782ad16b88241b1a00e88967c1bd16e3767aa8031081f48a5d5"
+  },
+  {
+    "file": "assets/kits/sabir-q/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hand-l.png",
+    "bytes": 41820,
+    "sha256": "c0f8e5fd7a023795a310b3e83cccd6ce0e65fa1497485cbf8a92538fa25b3048"
+  },
+  {
+    "file": "assets/kits/sabir-q/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hand-r.png",
+    "bytes": 32047,
+    "sha256": "145c1fff5e9f581b91934f8293cc03cdde0f6f3aded279b1548b0ba3736ce6d3"
+  },
+  {
+    "file": "assets/kits/sabir-q/head.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/head.png",
+    "bytes": 175592,
+    "sha256": "006861e3398b244007004a56c318e86d8715bc03c8f36e83d4ee815f43911da5"
+  },
+  {
+    "file": "assets/kits/sabir-q/hub-l-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hub-l-rotation-mask.png",
+    "bytes": 1713,
+    "sha256": "8d6b7bd4f383299ebe92132b600e57a50fdbd18cfb5327267a95ff366b19a8ee"
+  },
+  {
+    "file": "assets/kits/sabir-q/hub-l.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hub-l.png",
+    "bytes": 56668,
+    "sha256": "fe966537133b5959b6cb386605295cec67d8b395a8350a424066263aec6e826c"
+  },
+  {
+    "file": "assets/kits/sabir-q/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hub-r-rotation-mask.png",
+    "bytes": 1025,
+    "sha256": "25a7824efa1bfecfa64cb3706a8ceffef3ef70eea14fa4a810cc7e80999d45c9"
+  },
+  {
+    "file": "assets/kits/sabir-q/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/hub-r.png",
+    "bytes": 23400,
+    "sha256": "941adacda47b47ea0926018204dd5307e1f6595bd49b097f50fd47271e462dc7"
+  },
+  {
+    "file": "assets/kits/sabir-q/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/mouth-o.png",
+    "bytes": 1353,
+    "sha256": "c3622968b819876894a78f46d718fee442809701b831fc649bc178d0c29d4cab"
+  },
+  {
+    "file": "assets/kits/sabir-q/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/mouth-open.png",
+    "bytes": 1209,
+    "sha256": "0a668bee99128ea54a3502d93881cb1c569ad89116676faf6df11df0adebe235"
+  },
+  {
+    "file": "assets/kits/sabir-q/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/mouth-small.png",
+    "bytes": 432,
+    "sha256": "3f00a15b53951dac27e26bfb8bd4bc4a63ee3aabff0d34d6ae8af943f813630b"
+  },
+  {
+    "file": "assets/kits/sabir-q/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/mouth-smile.png",
+    "bytes": 913,
+    "sha256": "12bd2bd29e32ef79d674ed575f647c857398f386458998e2dd532b7c25bb689d"
+  },
+  {
+    "file": "assets/kits/sabir-q/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/mouth-wide.png",
+    "bytes": 1209,
+    "sha256": "0a668bee99128ea54a3502d93881cb1c569ad89116676faf6df11df0adebe235"
+  },
+  {
+    "file": "assets/kits/sabir-q/rig.json",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/rig.json",
+    "bytes": 7654,
+    "sha256": "758255f7115caaf78e01876bfbe00167617fc80202ccd9467dd2565443645692"
+  },
+  {
+    "file": "assets/kits/sabir-q/screen.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/screen.png",
+    "bytes": 52575,
+    "sha256": "0f66dd69c448f2e5f77c7d538a496c15a73151f70ab64eeb46a9064c9ece5b4d"
+  },
+  {
+    "file": "assets/kits/sabir-q/torso.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/torso.png",
+    "bytes": 294345,
+    "sha256": "1dd4c6a5bbac48740797a1f564c7b6b8c566878531e2ee71443678fbc8797d5b"
+  },
+  {
+    "file": "assets/kits/sabir-q/tread-l.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/tread-l.png",
+    "bytes": 230601,
+    "sha256": "9c4d9c761f14cd4e7eb95a1fa3f3423b2c12032353b8ec4e68d9f546957df529"
+  },
+  {
+    "file": "assets/kits/sabir-q/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-q/tread-r.png",
+    "bytes": 92441,
+    "sha256": "d0bad918246163f692f0be379bb8feeeb53f0246370cb8f9af166592bf9d943f"
+  },
+  {
+    "file": "assets/kits/sabir-side/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/arm-r-lower.png",
+    "bytes": 15496,
+    "sha256": "41f8d4f25f6f67bb16ab74620097cc898a819b71c7696346eb731e85cf36ef36"
+  },
+  {
+    "file": "assets/kits/sabir-side/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/arm-r-upper.png",
+    "bytes": 12043,
+    "sha256": "07aeed29428f15365d41c4dda48a3d3b0ea729466c14e7adbc07f54c4332d351"
+  },
+  {
+    "file": "assets/kits/sabir-side/crane-folded.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/crane-folded.png",
+    "bytes": 86702,
+    "sha256": "00150b1c1a4c86ddc901d40355a59eefa366204fb650aab23ef196da07bbe373"
+  },
+  {
+    "file": "assets/kits/sabir-side/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/eyes-blink.png",
+    "bytes": 269,
+    "sha256": "5cfb3e9b618aae6c6da415fe27ad2fa051b067d82189154538cadaad41aacb9f"
+  },
+  {
+    "file": "assets/kits/sabir-side/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/eyes-happy.png",
+    "bytes": 852,
+    "sha256": "a43fa2296b62dcde6e052f7dd7c5f1ddf86cd171dfb6d69553e58c5711a462f1"
+  },
+  {
+    "file": "assets/kits/sabir-side/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/eyes-open.png",
+    "bytes": 1010,
+    "sha256": "cd0e22725f2a3a6f39f507d60d3058b89def1518dfb619d9e44eac61b32a5dbc"
+  },
+  {
+    "file": "assets/kits/sabir-side/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/eyes-wide.png",
+    "bytes": 1283,
+    "sha256": "ef5d8ffd1e21ac48171b6d9e9ad5b80b321835cc7b2ce4215184340320647dcb"
+  },
+  {
+    "file": "assets/kits/sabir-side/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/hand-r.png",
+    "bytes": 35639,
+    "sha256": "697c55b3b0d1ef490a5106a7d731cbeec89f5a9168db5d2517557517d611e9ab"
+  },
+  {
+    "file": "assets/kits/sabir-side/head.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/head.png",
+    "bytes": 151383,
+    "sha256": "b20ded8892f0cc8ecc371a2b6df510a634e7c026bb4eb76508dbae1a3f1e581a"
+  },
+  {
+    "file": "assets/kits/sabir-side/hub-r-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/hub-r-rotation-mask.png",
+    "bytes": 1983,
+    "sha256": "b4a3348b642f67329b7c5d506933fc343e2ba80da2a3f37945b131d2d74f2200"
+  },
+  {
+    "file": "assets/kits/sabir-side/hub-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/hub-r.png",
+    "bytes": 70636,
+    "sha256": "1afe3e6a5ac1999c4bc5abedc1b3192bfb350bb3abd2078f8451f3f26793cd31"
+  },
+  {
+    "file": "assets/kits/sabir-side/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/mouth-o.png",
+    "bytes": 741,
+    "sha256": "f2660e6ce928f57a882f60cf25acfa28c585a7c23debff8679d8ecfd07ba0d57"
+  },
+  {
+    "file": "assets/kits/sabir-side/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/mouth-open.png",
+    "bytes": 778,
+    "sha256": "181524c6eb5f230629e312629ec64332a71d4b6d5c1f61f89c41de7342fb162b"
+  },
+  {
+    "file": "assets/kits/sabir-side/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/mouth-small.png",
+    "bytes": 286,
+    "sha256": "a7540b2bd039e751a95c66470ad2cd0eecbd837e0bf5adb0dfbd4d6ee5944e4e"
+  },
+  {
+    "file": "assets/kits/sabir-side/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/mouth-smile.png",
+    "bytes": 423,
+    "sha256": "8186d2128c7294127cc8652eadb1bf3de58d58a39c6655769e2e582e8c8fad50"
+  },
+  {
+    "file": "assets/kits/sabir-side/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/mouth-wide.png",
+    "bytes": 778,
+    "sha256": "181524c6eb5f230629e312629ec64332a71d4b6d5c1f61f89c41de7342fb162b"
+  },
+  {
+    "file": "assets/kits/sabir-side/rig.json",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/rig.json",
+    "bytes": 6405,
+    "sha256": "1210d3c9004a53a0b88f9c48bb0ed1de67f2d19358a652bdf7456fa5649a4a24"
+  },
+  {
+    "file": "assets/kits/sabir-side/screen.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/screen.png",
+    "bytes": 10562,
+    "sha256": "19ec05c7e70ad0373d1085b22a02e921fcaf49e3d1d8890d0aa9f72fe22d3572"
+  },
+  {
+    "file": "assets/kits/sabir-side/torso.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/torso.png",
+    "bytes": 165038,
+    "sha256": "0bbf0f7a7a6966dbf554203ff5ad2135961d0735643ba579e7f1ad8962f049d5"
+  },
+  {
+    "file": "assets/kits/sabir-side/tread-r.png",
+    "source": "output/car-truth-v2/assets/kits/sabir-side/tread-r.png",
+    "bytes": 246433,
+    "sha256": "7f0fe3063af6d5de76a462a3e76b0dc2e3526a22aec7faa3b35152e4319f4933"
+  },
+  {
+    "file": "assets/kits/safi-front/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/arm-l-lower.png",
+    "bytes": 5466,
+    "sha256": "24aeb4482f6788242fbd0fc15b8916a478bde4a6a2d1c90b548f9ad75990c519"
+  },
+  {
+    "file": "assets/kits/safi-front/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/arm-l-upper.png",
+    "bytes": 7003,
+    "sha256": "22b35eaa8e5b21a209321d2907be974b74da99a3441fcffce3d2663def7abf19"
+  },
+  {
+    "file": "assets/kits/safi-front/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/arm-r-lower.png",
+    "bytes": 6913,
+    "sha256": "d71d263a2d7712e563f83c615becf2796415fddd518b36a3086cfe808a662fff"
+  },
+  {
+    "file": "assets/kits/safi-front/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/arm-r-upper.png",
+    "bytes": 8439,
+    "sha256": "a4746a1ff9b30c0771987e806a6d91111a63b891fec2d5123d76564e61c0f29b"
+  },
+  {
+    "file": "assets/kits/safi-front/dome.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/dome.png",
+    "bytes": 43584,
+    "sha256": "163cc55cf85e83d8000e6037fadc5aa80ef51e19d16a90aaa50abff0801f20d7"
+  },
+  {
+    "file": "assets/kits/safi-front/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/eyes-blink.png",
+    "bytes": 1779,
+    "sha256": "e89347b46bf05f3183f4fb6f9217a3bb0c3675166e348419acd31187ff8d0ebb"
+  },
+  {
+    "file": "assets/kits/safi-front/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/eyes-happy.png",
+    "bytes": 4169,
+    "sha256": "372848d6805a112260a2cb2c42c87eab2153024eb9c09f5f36c0d97e0d33f84a"
+  },
+  {
+    "file": "assets/kits/safi-front/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/eyes-open.png",
+    "bytes": 40579,
+    "sha256": "7bb09f58af99166f4ee94a330c4e06219a2a27351c47631e85d81a275b1aa521"
+  },
+  {
+    "file": "assets/kits/safi-front/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/eyes-wide.png",
+    "bytes": 3300,
+    "sha256": "66481183a59c41bcfdd022b6f14dd1c6dae1330d1923eed8a1eaa485f1005c96"
+  },
+  {
+    "file": "assets/kits/safi-front/fan-rotation-mask.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/fan-rotation-mask.png",
+    "bytes": 1003,
+    "sha256": "082dc5fb484ef6856e2b2eadb4a78342c5b1e1c2211032b43680d13330e1023e"
+  },
+  {
+    "file": "assets/kits/safi-front/fan.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/fan.png",
+    "bytes": 21285,
+    "sha256": "3d607e38662cb388ae6aefb8504f2e90d838ac7250c27a3b3c6e7b1d8d8fca0c"
+  },
+  {
+    "file": "assets/kits/safi-front/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/hand-l.png",
+    "bytes": 11923,
+    "sha256": "c16607340ad67074e21ceff31f6894eafaffa1b2496445745c3b997330d4134f"
+  },
+  {
+    "file": "assets/kits/safi-front/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/hand-r.png",
+    "bytes": 16343,
+    "sha256": "666310f3330233b4121f2bc1f376e9dcb8f0df7e322eeae6da86a90b5eb67114"
+  },
+  {
+    "file": "assets/kits/safi-front/head.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/head.png",
+    "bytes": 74148,
+    "sha256": "5c50a524278cc3c11f7d9672fbf998f8ac0a84158e2f16142f124486a69e6ec4"
+  },
+  {
+    "file": "assets/kits/safi-front/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/mouth-o.png",
+    "bytes": 1067,
+    "sha256": "399adff8072967fb951c337756a2bfc9e2ca67cdf5c5e99b555b0e4318527f08"
+  },
+  {
+    "file": "assets/kits/safi-front/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/mouth-open.png",
+    "bytes": 10159,
+    "sha256": "cec9ad5c3a1ee0b09a276f038fd139eff530062b61f177af0df52a43c063c832"
+  },
+  {
+    "file": "assets/kits/safi-front/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/mouth-small.png",
+    "bytes": 871,
+    "sha256": "b85341eb4219ee504594a1a7c14d4562aa442988624c4b6660bb1b5a858e118e"
+  },
+  {
+    "file": "assets/kits/safi-front/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/mouth-smile.png",
+    "bytes": 1112,
+    "sha256": "79047ce1dc2e01be5bd73cd8427e9fd7c5adbbd606d520e658b5656a9d07df14"
+  },
+  {
+    "file": "assets/kits/safi-front/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/mouth-wide.png",
+    "bytes": 1408,
+    "sha256": "f2a700c453780391d8d36318b1a0878dbee5d45e84da3910c8418ae224b8e47a"
+  },
+  {
+    "file": "assets/kits/safi-front/rig.json",
+    "source": "output/car-truth-v2/assets/kits/safi-front/rig.json",
+    "bytes": 8125,
+    "sha256": "9881d2a9ebec840ebda8b8664bc4b8b29b63c744aa8297c611ec9b66d6a85a97"
+  },
+  {
+    "file": "assets/kits/safi-front/saucer.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/saucer.png",
+    "bytes": 164131,
+    "sha256": "e37bbf8011b2c5946d8000ad34bf23768001855e2686fc1dbd646ea0d29a6742"
+  },
+  {
+    "file": "assets/kits/safi-front/screen.png",
+    "source": "output/car-truth-v2/assets/kits/safi-front/screen.png",
+    "bytes": 21817,
+    "sha256": "5b404fdec4c43a0e39d60a5ddd43e953dd4c0304d89dd588608cc161694e4775"
+  },
+  {
+    "file": "assets/kits/safi-q/arm-l-lower.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/arm-l-lower.png",
+    "bytes": 8639,
+    "sha256": "e316d5056fd45842bda651e2ed0ea606e70b80e079ff3c90281199b8b08b6000"
+  },
+  {
+    "file": "assets/kits/safi-q/arm-l-upper.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/arm-l-upper.png",
+    "bytes": 11310,
+    "sha256": "c2db66bb3c41e2808452c2515bbbd16618eaa92be53b9a5fdf362efc2d5d3c28"
+  },
+  {
+    "file": "assets/kits/safi-q/arm-r-lower.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/arm-r-lower.png",
+    "bytes": 8784,
+    "sha256": "128c8a8ba8df009d103d99d3d21d292fba8e3323508b7c44fb32789722a5a82d"
+  },
+  {
+    "file": "assets/kits/safi-q/arm-r-upper.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/arm-r-upper.png",
+    "bytes": 7842,
+    "sha256": "2493d165072e8fca87a1e2fbeb3e6af9584f1238efb21964848c0c03b0429c65"
+  },
+  {
+    "file": "assets/kits/safi-q/dome.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/dome.png",
+    "bytes": 70054,
+    "sha256": "cc0641e9942f2b7ba17dadab3961da516fbfd011bebd6cc3ea7e4ad320996a22"
+  },
+  {
+    "file": "assets/kits/safi-q/eyes-blink.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/eyes-blink.png",
+    "bytes": 424,
+    "sha256": "e29100143a6f95a65a9238cc3f1e734ed8fe13494eb15a5e064e4bd4e521974b"
+  },
+  {
+    "file": "assets/kits/safi-q/eyes-happy.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/eyes-happy.png",
+    "bytes": 2736,
+    "sha256": "765731a0aa33422ec64f680cad7ca5b32867578f50efc6a2d1ac923052eb5b25"
+  },
+  {
+    "file": "assets/kits/safi-q/eyes-open.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/eyes-open.png",
+    "bytes": 2808,
+    "sha256": "6d2b671fdcd9a226609933c054b613bc4f41efee52b21ff65d78ef28da2900ff"
+  },
+  {
+    "file": "assets/kits/safi-q/eyes-wide.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/eyes-wide.png",
+    "bytes": 3256,
+    "sha256": "bea914fe70da932543373df8689db79c26ef1dd3df6861d604c129b9f877e94f"
+  },
+  {
+    "file": "assets/kits/safi-q/fan-guard.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/fan-guard.png",
+    "bytes": 16552,
+    "sha256": "58d962e35a2c61144f8ab0839e8abef9f21b979b2246158f3ae8e393348cb3d3"
+  },
+  {
+    "file": "assets/kits/safi-q/fan.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/fan.png",
+    "bytes": 69917,
+    "sha256": "563ade1e8abd2cc4b9e702c05f5940e7e552fd2ec264c190b740ce4d1a35db85"
+  },
+  {
+    "file": "assets/kits/safi-q/hand-l.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/hand-l.png",
+    "bytes": 15356,
+    "sha256": "2162b34a305f6f5d3256772d173f47b2164c46eb9a3e806bf74a19560436c2b9"
+  },
+  {
+    "file": "assets/kits/safi-q/hand-r.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/hand-r.png",
+    "bytes": 16011,
+    "sha256": "0f8309661b86e436700e2a5371bbb9fd42893344afba6a74e60b6fd031887ae3"
+  },
+  {
+    "file": "assets/kits/safi-q/head.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/head.png",
+    "bytes": 195951,
+    "sha256": "da0dcfdfe33ebdf7f71709ea9b90269d93fa61f6df4c559ba11c4b69b2d7e6b2"
+  },
+  {
+    "file": "assets/kits/safi-q/mouth-o.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/mouth-o.png",
+    "bytes": 1041,
+    "sha256": "058e774352638d9a91996d46f0d6f16d91ef2a65e6a54773fa2cf1c94e98f881"
+  },
+  {
+    "file": "assets/kits/safi-q/mouth-open.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/mouth-open.png",
+    "bytes": 980,
+    "sha256": "5220479fa79588620cbc20046921e61263010e54fe86b3dfc517e57460a212c1"
+  },
+  {
+    "file": "assets/kits/safi-q/mouth-small.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/mouth-small.png",
+    "bytes": 363,
+    "sha256": "7b13ead1d71bc2fda2a92f63a1864c68e00b45112e6156d7c93270fada38c406"
+  },
+  {
+    "file": "assets/kits/safi-q/mouth-smile.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/mouth-smile.png",
+    "bytes": 692,
+    "sha256": "268d2455af91d5e4a44edafefa7d0c9ed692cdf75a4e9538ad287e49e1b103ac"
+  },
+  {
+    "file": "assets/kits/safi-q/mouth-wide.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/mouth-wide.png",
+    "bytes": 980,
+    "sha256": "5220479fa79588620cbc20046921e61263010e54fe86b3dfc517e57460a212c1"
+  },
+  {
+    "file": "assets/kits/safi-q/rig.json",
+    "source": "output/car-truth-v2/assets/kits/safi-q/rig.json",
+    "bytes": 7551,
+    "sha256": "b2b6283a9d88ed0a7a090b3cddf19160d7219bd9137469dff53b8fd77f090d97"
+  },
+  {
+    "file": "assets/kits/safi-q/saucer.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/saucer.png",
+    "bytes": 312207,
+    "sha256": "6e2c11df1f977f065b0dca6f19337387e7e109699e89bffcacba54e3258c0d67"
+  },
+  {
+    "file": "assets/kits/safi-q/screen.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/screen.png",
+    "bytes": 32720,
+    "sha256": "65675694825e5960c2b6c89d09afcf71e58568a1bae4926c3aafe4fca98a5be2"
+  },
+  {
+    "file": "assets/kits/safi-q/torso.png",
+    "source": "output/car-truth-v2/assets/kits/safi-q/torso.png",
+    "bytes": 100885,
+    "sha256": "ab943f92f32a150f6f43c078591619af7265402e5fe1867d2578694b343ffe80"
+  },
+  {
+    "file": "assets/sfx/amb.mp3",
+    "source": "output/car-truth-v2/sfx/amb.mp3",
+    "bytes": 353218,
+    "sha256": "60e399b616ef5767d42f0ad16244fa12a858ec0b9727281c81bf15534d8edf4d"
+  },
+  {
+    "file": "assets/sfx/boing.mp3",
+    "source": "output/car-truth-v2/sfx/boing.mp3",
+    "bytes": 17179,
+    "sha256": "15b6d6849de28f690c66d5750a0364c57cc5b5c2fda40331efb9f096fd818b74"
+  },
+  {
+    "file": "assets/sfx/brake.mp3",
+    "source": "output/car-truth-v2/sfx/brake.mp3",
+    "bytes": 24702,
+    "sha256": "99aabdfa6abd5aa8b59f0143fad14c1dc24f00a86d54b31b4a7b5341572b28ae"
+  },
+  {
+    "file": "assets/sfx/bump.mp3",
+    "source": "output/car-truth-v2/sfx/bump.mp3",
+    "bytes": 2735,
+    "sha256": "eecb652a4376e85938ff4700810d1fd2e6279c7096deb0588194f3933507c3e8"
+  },
+  {
+    "file": "assets/sfx/pop.mp3",
+    "source": "output/car-truth-v2/sfx/pop.mp3",
+    "bytes": 17179,
+    "sha256": "8b801fadca9ed3587122153238697b8f51b4cd0ab8594995fc539ceff1a7d8d1"
+  },
+  {
+    "file": "assets/sfx/tread.mp3",
+    "source": "output/car-truth-v2/sfx/tread.mp3",
+    "bytes": 97009,
+    "sha256": "59164cacd88feacf2273036783a2fa8ab9b7e95ed6677a3351187f42618838b8"
+  },
+  {
+    "file": "assets/sfx/whoosh.mp3",
+    "source": "output/car-truth-v2/sfx/whoosh.mp3",
+    "bytes": 17179,
+    "sha256": "900ee57adf5edaf54229a80ec855eda1029ddaab5f6fe75924211e3ee331cc11"
+  }
+]

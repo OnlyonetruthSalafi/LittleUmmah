@@ -1,0 +1,332 @@
+{
+  "version": 2,
+  "id": "sabir",
+  "assetId": "sabir-side",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground": 965,
+  "facing": "right",
+  "anchorX": 471.5,
+  "coordinateSystem": "1024px canvas; l/r are image sides; global pivots",
+  "near": "r",
+  "parts": {
+    "torso": {
+      "file": "torso.png",
+      "x": 319,
+      "y": 334,
+      "w": 414,
+      "h": 393,
+      "pivot": [
+        528,
+        627
+      ],
+      "parent": null,
+      "z": 10
+    },
+    "crane-folded": {
+      "file": "crane-folded.png",
+      "x": 192,
+      "y": 244,
+      "w": 204,
+      "h": 385,
+      "pivot": [
+        299,
+        585
+      ],
+      "parent": "torso",
+      "z": 7
+    },
+    "head": {
+      "file": "head.png",
+      "x": 364,
+      "y": 66,
+      "w": 357,
+      "h": 313,
+      "pivot": [
+        549,
+        365
+      ],
+      "parent": "torso",
+      "z": 30
+    },
+    "screen": {
+      "file": "screen.png",
+      "x": 666,
+      "y": 173,
+      "w": 55,
+      "h": 178,
+      "pivot": [
+        549,
+        365
+      ],
+      "parent": "head",
+      "z": 40
+    },
+    "tread-r": {
+      "file": "tread-r.png",
+      "x": 206,
+      "y": 617,
+      "w": 532,
+      "h": 353,
+      "pivot": [
+        474,
+        817
+      ],
+      "parent": "torso",
+      "z": 12
+    },
+    "hub-r": {
+      "file": "hub-r.png",
+      "x": 294,
+      "y": 684,
+      "w": 223,
+      "h": 229,
+      "pivot": [
+        405,
+        799
+      ],
+      "parent": "tread-r",
+      "z": 14,
+      "projectedRatio": 0.9741,
+      "rotationNote": "Rotate texture behind fixed alpha mask for projected hub; do not rotate elliptical silhouette.",
+      "rotationMask": "hub-r-rotation-mask.png"
+    },
+    "arm-r-upper": {
+      "file": "arm-r-upper.png",
+      "x": 511,
+      "y": 454,
+      "w": 85,
+      "h": 93,
+      "pivot": [
+        551,
+        483
+      ],
+      "parent": "torso",
+      "z": 20
+    },
+    "arm-r-lower": {
+      "file": "arm-r-lower.png",
+      "x": 517,
+      "y": 523,
+      "w": 83,
+      "h": 123,
+      "pivot": [
+        556,
+        540
+      ],
+      "parent": "arm-r-upper",
+      "z": 21
+    },
+    "hand-r": {
+      "file": "hand-r.png",
+      "x": 499,
+      "y": 633,
+      "w": 142,
+      "h": 188,
+      "pivot": [
+        563,
+        654
+      ],
+      "parent": "arm-r-lower",
+      "z": 22
+    }
+  },
+  "faces": {
+    "eyes-open": {
+      "file": "eyes-open.png",
+      "x": 686,
+      "y": 220,
+      "w": 20,
+      "h": 76,
+      "pivot": [
+        696,
+        258
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        258
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-happy": {
+      "file": "eyes-happy.png",
+      "x": 684,
+      "y": 220,
+      "w": 24,
+      "h": 36,
+      "pivot": [
+        696,
+        258
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        258
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-blink": {
+      "file": "eyes-blink.png",
+      "x": 684,
+      "y": 252,
+      "w": 24,
+      "h": 13,
+      "pivot": [
+        696,
+        258
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        258
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "eyes-wide": {
+      "file": "eyes-wide.png",
+      "x": 683,
+      "y": 219,
+      "w": 26,
+      "h": 78,
+      "pivot": [
+        696,
+        258
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        258
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-smile": {
+      "file": "mouth-smile.png",
+      "x": 684,
+      "y": 293,
+      "w": 24,
+      "h": 19,
+      "pivot": [
+        696,
+        297
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        297
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-small": {
+      "file": "mouth-small.png",
+      "x": 687,
+      "y": 293,
+      "w": 18,
+      "h": 14,
+      "pivot": [
+        696,
+        297
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        297
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-open": {
+      "file": "mouth-open.png",
+      "x": 684,
+      "y": 273,
+      "w": 24,
+      "h": 48,
+      "pivot": [
+        696,
+        297
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        297
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-wide": {
+      "file": "mouth-wide.png",
+      "x": 684,
+      "y": 273,
+      "w": 24,
+      "h": 48,
+      "pivot": [
+        696,
+        297
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        297
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    },
+    "mouth-o": {
+      "file": "mouth-o.png",
+      "x": 687,
+      "y": 276,
+      "w": 18,
+      "h": 42,
+      "pivot": [
+        696,
+        297
+      ],
+      "parent": "screen",
+      "z": 50,
+      "center": [
+        696,
+        297
+      ],
+      "emissive": true,
+      "intentionalMultipleComponents": false
+    }
+  },
+  "restPose": {},
+  "occludedParts": [
+    "arm-l-upper",
+    "arm-l-lower",
+    "hand-l",
+    "tread-l",
+    "hub-l"
+  ],
+  "notes": [
+    "True side profile; far arm and far tread fully occluded. Near articulated branch is r.",
+    "Crane folded and independent of nodding head."
+  ],
+  "scaleToFront": 0.7664804469273743,
+  "heightMeasurement": {
+    "headCrownY": 70,
+    "referenceHeadCrownY": 258,
+    "referenceGround": 944,
+    "reference": "refs/front-kits/sabir",
+    "excludes": "mast, crescent, binoculars",
+    "heightPixels": 895,
+    "referenceHeightPixels": 686,
+    "method": "Physical crown pixel row annotated from source; opaque base bounds checked in QA. No antenna or accessory included."
+  }
+}
