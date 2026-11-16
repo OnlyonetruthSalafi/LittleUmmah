@@ -190,6 +190,9 @@ export const th = {
       sayPrompt: "ตาหนูแล้ว! พูดว่า {word}"
     },
     film: {
+      fullscreen: "เต็มจอแนวนอน",
+      exitFullscreen: "ออกจากเต็มจอ",
+      rotate: "หมุนเครื่องเป็นแนวนอนเพื่อดูภาพใหญ่",
       saidIt: "หนูพูดแล้ว",
       back: "ย้อน 5 วินาที",
       next: "ดูต่อ",

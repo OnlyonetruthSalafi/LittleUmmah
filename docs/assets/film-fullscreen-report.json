@@ -1,0 +1,307 @@
+{
+  "passed": true,
+  "base": "http://localhost:3331",
+  "reports": [
+    {
+      "id": "moral-landscape",
+      "route": "moral",
+      "title": "แบ่งปันของเล่น",
+      "turn": 194.742,
+      "resume": 198.742,
+      "layout": {
+        "width": 844,
+        "height": 390,
+        "vw": 844,
+        "vh": 390,
+        "stage": {
+          "width": 693.328125,
+          "height": 389.984375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 647.609375,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 719.609375,
+            "y": 8,
+            "w": 112.390625,
+            "h": 64
+          },
+          {
+            "x": 301.796875,
+            "y": 318,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 379.796875,
+            "y": 318,
+            "w": 162.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "faith-landscape",
+      "route": "faith-basics",
+      "title": "ใครคือพระเจ้าของหนู",
+      "turn": 175.592245,
+      "resume": 185,
+      "ratio": 2.0125786163522013,
+      "layout": {
+        "width": 844,
+        "height": 390,
+        "vw": 844,
+        "vh": 390,
+        "stage": {
+          "width": 784.890625,
+          "height": 389.984375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 647.609375,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 719.609375,
+            "y": 8,
+            "w": 112.390625,
+            "h": 64
+          },
+          {
+            "x": 301.796875,
+            "y": 318,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 379.796875,
+            "y": 318,
+            "w": 162.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "explore-photo",
+      "route": "explore",
+      "title": "ทะเลทราย",
+      "turn": 46.52,
+      "resume": 47.07,
+      "photo": true,
+      "layout": {
+        "width": 844,
+        "height": 390,
+        "vw": 844,
+        "vh": 390,
+        "stage": {
+          "width": 693.328125,
+          "height": 389.984375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 647.609375,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 719.609375,
+            "y": 8,
+            "w": 112.390625,
+            "h": 64
+          },
+          {
+            "x": 301.796875,
+            "y": 318,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 379.796875,
+            "y": 318,
+            "w": 162.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "desktop",
+      "route": "moral",
+      "title": "แบ่งปันของเล่น",
+      "width": 1366,
+      "height": 900,
+      "turn": 194.742,
+      "resume": 198.742,
+      "layout": {
+        "width": 1366,
+        "height": 900,
+        "vw": 1366,
+        "vh": 900,
+        "stage": {
+          "width": 1366,
+          "height": 768.375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 1169.609375,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 1241.609375,
+            "y": 8,
+            "w": 112.390625,
+            "h": 64
+          },
+          {
+            "x": 562.796875,
+            "y": 828,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 640.796875,
+            "y": 828,
+            "w": 162.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "denied-portrait",
+      "route": "moral",
+      "title": "แบ่งปันของเล่น",
+      "width": 390,
+      "height": 844,
+      "fallback": true,
+      "denied": true,
+      "layout": {
+        "width": 844,
+        "height": 390,
+        "vw": 844,
+        "vh": 390,
+        "stage": {
+          "width": 693.328125,
+          "height": 389.984375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 647.609375,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 719.609375,
+            "y": 8,
+            "w": 112.390625,
+            "h": 64
+          },
+          {
+            "x": 373.9921875,
+            "y": 146.9921875,
+            "w": 96,
+            "h": 96
+          },
+          {
+            "x": 301.796875,
+            "y": 318,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 379.796875,
+            "y": 318,
+            "w": 162.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "unsupported-english",
+      "route": "moral",
+      "title": "Share your toys",
+      "en": true,
+      "width": 390,
+      "height": 844,
+      "fallback": true,
+      "layout": {
+        "width": 844,
+        "height": 390,
+        "vw": 844,
+        "vh": 390,
+        "stage": {
+          "width": 693.328125,
+          "height": 389.984375
+        },
+        "overflow": false,
+        "buttons": [
+          {
+            "x": 672,
+            "y": 8,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 744,
+            "y": 8,
+            "w": 88,
+            "h": 64
+          },
+          {
+            "x": 373.9921875,
+            "y": 146.9921875,
+            "w": 96,
+            "h": 96
+          },
+          {
+            "x": 323.796875,
+            "y": 318,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "x": 401.796875,
+            "y": 318,
+            "w": 118.390625,
+            "h": 64
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "native-stop",
+      "route": "moral",
+      "title": "แบ่งปันของเล่น",
+      "native": true,
+      "turn": 194.742,
+      "resume": 198.742,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "nativeSafari": "API simulation only; physical iPhone/iPad not tested"
+}

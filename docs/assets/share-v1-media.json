@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "full720Decode": true,
+  "files": [
+    {
+      "name": "share-v1-720.mp4",
+      "bytes": 13414884,
+      "sha256": "33e58b550825f939b94a92dda2e1d2a165024d36bd6014787e29599f1bc714ea",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "204.822000"
+        }
+      }
+    },
+    {
+      "name": "share-v1-1080.mp4",
+      "bytes": 28155602,
+      "sha256": "20321424b419897e82a28bd4863d4ce239daa7ccabfabb923a2d520d552eb361",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "204.822000"
+        }
+      }
+    }
+  ]
+}

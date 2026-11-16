@@ -34,7 +34,7 @@ export const CARD_ART: Record<string, string> = {
   sneeze: "/moral/card-sneeze.webp",
   animals: "/moral/card-animals.webp",
   thanks: "/moral/card-thanks.webp",
-  share: "/moral/card-share.webp",
+  share: "/moral/card-share-film-v1.webp",
   permission: "/moral/card-permission.webp",
   calm: "/moral/card-calm.webp",
 };

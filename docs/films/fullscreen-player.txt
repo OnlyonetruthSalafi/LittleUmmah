@@ -1,0 +1,47 @@
+เครื่องเล่นการ์ตูนแนวนอนเต็มจอ — 16 พฤศจิกายน 2026
+
+คำสั่งเจ้าของ: ให้ทุกเกาะที่มีการ์ตูนรองรับการเล่นวิดีโอแนวนอนเต็มจอ
+ใช้ FilmLesson ร่วมกันทั้งเกาะมารยาท (/learn/moral), ศรัทธา (/learn/faith-basics)
+และสำรวจโลก (/learn/explore) จึงรองรับทุกเรื่องที่ใช้ Film โดยไม่แก้ข้อมูลบทเรียน
+
+พฤติกรรม
+- ปุ่มเต็มจอ 64px อยู่ข้างปุ่มปิด มีชื่อไทย/อังกฤษสำหรับ screen reader และ tooltip
+- ขอ Fullscreen API บน div ภายใน dialog (API ไม่อนุญาตให้ขอบน dialog โดยตรง)
+- จอสัมผัสลองล็อก landscape หลังเข้าเต็มจอสำเร็จ ถ้าล็อกไม่ได้ให้หมุนเครื่องเอง
+- ภาพรักษาสัดส่วน ไม่มีการยืดหรือครอบเพิ่ม เรื่องเก่าที่มี captionCrop คงสัดส่วนเดิม
+- ระหว่างเล่นซ่อนปุ่มหลัง 3 วินาที แตะภาพ ขยับเมาส์ หรือใช้คีย์บอร์ดเพื่อแสดงปุ่ม
+- คำบรรยาย ป้ายคำ จุดหยุดให้เด็กตอบ ภาพสัตว์ เครดิต และปุ่มดูต่ออยู่ใน fullscreen surface
+- จอแนวนอนเตี้ย: ช่วงภาพสัตว์ให้ข้อความกับปุ่มอยู่ขวา ไม่บังตัวสัตว์ทางซ้าย
+- ออกจากเต็มจอคืน orientation lock ที่เครื่องเล่นเป็นผู้ขอ ปิดบทเรียนคืน focus ให้การ์ด
+- หาก API ไม่รองรับหรือปฏิเสธ: ใช้พื้นที่ viewport เต็มและแนะนำหมุนเครื่องแนวนอน
+- iPhone ที่มีเฉพาะ webkitEnterFullscreen ใช้ native video พร้อม native captions
+  ถึงจุดให้เด็กตอบ/ภาพสัตว์หรือจบเรื่อง จะออกมาที่ HTML เพื่อให้ใช้ปุ่มและป้ายได้ครบ
+  ใช้ timeupdate เพิ่มจาก RAF สำหรับ native video; หลังตอบกดปุ่มเต็มจออีกครั้งได้
+- กดเต็มจอระหว่างช่วงตอบคำถามหรือการ์ดจบ: ใช้ HTML เต็ม viewport บน iPhone เพื่อไม่ซ่อนป้ายและปุ่ม
+- เรื่องเก่าที่ captionCrop ไม่ใช้ native video เพราะ native player จะแสดงข้อความที่ถูกครอบออกกลับมา
+- ไม่มีการเรียกเต็มจออัตโนมัติและไม่เปลี่ยนการเคารพ prefers-reduced-motion
+
+ตรวจรับ
+- TypeScript, lint และ regression tests 185/185 ผ่าน
+- production build --webpack ผ่าน
+- scripts/verify-film-fullscreen.mjs: Chromium fullscreen จริงทั้ง 3 เกาะ พร้อมภาพ/วิดีโอต้นฉบับ
+- ตรวจ desktop, มือถือแนวนอน, หมุนจาก portrait, API ปฏิเสธ/ไม่มี, อังกฤษ/reduced motion,
+  คำบรรยาย จุดหยุดและดูต่อ การซ่อนปุ่ม ออกจากเต็มจอ และคืน focus
+- Safari native events ตรวจแบบจำลอง API เท่านั้น ยังไม่ได้ทดสอบ iPhone/iPad เครื่องจริง
+- หลักฐานภาพและรายงาน output/film-fullscreen/ ไม่ใช่การยืนยันผลบนอุปกรณ์จริง
+
+รันทดสอบใน Windows จาก worktree (มีคลิป local ที่ public/<island>/film/)
+$env:PLAYWRIGHT_MODULE='file:///D:/Littleummah/output/kufic/.tools/node_modules/playwright-core/index.mjs'
+$env:BASE_URL='http://localhost:3327'
+$env:FULLSCREEN_QA_OUT='D:/Littleummah/output/film-fullscreen'
+node scripts/verify-film-fullscreen.mjs
+
+อ้างอิง API
+https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen
+https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/ControllingMediaWithJavaScript/ControllingMediaWithJavaScript.html
+
+Codex ตระกูล GPT-6 ดำเนินการใน output/car-share-app แล้วนำเฉพาะไฟล์เครื่องเล่นกลับ root
+งานการ์ตูนแบ่งปันของเล่นและไฟล์ต้นทางยังอยู่ครบใน output/car-share/ และ worktree เดิม
+เจ้าของอนุมัติ “commit+push +R2 ได้เลยครับ” วันที่ 16 พฤศจิกายน 2026
+รวมเผยแพร่กับการ์ตูนแบ่งปันของเล่นฉบับแก้; วิดีโออยู่ R2 และ release build ใช้ URL สาธารณะ
+เครื่องเล่นเต็มจอไม่เปลี่ยนไฟล์วิดีโอเดิมของเกาะอื่น ไม่ได้สั่ง Vercel CLI deploy ในรอบนี้

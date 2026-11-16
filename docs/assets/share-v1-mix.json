@@ -1,0 +1,13 @@
+{
+  "dialogueLines": 35,
+  "effectCues": 23,
+  "rawIntegratedLUFS": -24.6,
+  "gainDB": 8.600000000000001,
+  "stems": [
+    "dialogue.th.wav",
+    "effects.wav",
+    "ambience.wav"
+  ],
+  "newSFX": 0,
+  "music": false
+}

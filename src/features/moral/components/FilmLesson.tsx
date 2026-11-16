@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
+import { FullscreenIcon } from "@/components/icons/FullscreenIcon";
 import { ArabicText } from "@/components/ui/ArabicText";
 import { fmt } from "@/i18n/dict";
 import { useDict } from "@/i18n/LocaleProvider";
@@ -15,6 +16,7 @@ import { stopAllSpeech } from "@/lib/speech";
 import { getSoundSnapshot } from "@/lib/soundStore";
 
 import { filmPaths, type Film } from "../film";
+import { useFilmFullscreen } from "../useFilmFullscreen";
 
 /*
   เครื่องเล่นการ์ตูนเต็มเรื่อง (film.ts) — ใช้แทน CartoonLesson ในบทที่มีการ์ตูนแล้ว
@@ -59,10 +61,13 @@ export function FilmLesson({
 }) {
   const { locale, t, sub, pick, pickSub } = useDict();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const mainRef = useRef<HTMLButtonElement>(null);
+  const [controlsVisible, setControlsVisible] = useState(true);
+  const [activity, setActivity] = useState(0);
+  const showControls = () => { setControlsVisible(true); setActivity(Date.now()); };
   const still = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false);
   const [status, setStatus] = useState<Status>("idle");
+  const { playerRef, videoRef, mode, expanded, enter, exit, leaveNative } = useFilmFullscreen(!film.captionCrop && status !== "turn" && status !== "ended");
   const [turn, setTurn] = useState(-1);
   const [line, setLine] = useState<{ who: string; text: string } | null>(null);
   const [progress, setProgress] = useState(0);
@@ -72,13 +77,19 @@ export function FilmLesson({
   const captionLang = film.captions.includes(locale as "th" | "en") ? locale : film.captions[0];
 
   useEffect(() => {
+    if (!expanded || status !== "playing") return;
+    const timer = window.setTimeout(() => setControlsVisible(false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [expanded, status, activity]);
+
+  useEffect(() => {
     stopAllSpeech();
     dialogRef.current?.showModal();
     const v = videoRef.current;
     if (!v) return;
     v.muted = !getSoundSnapshot();
     if (!getReducedMotion()) v.play().catch(() => setStatus("paused"));
-  }, []);
+  }, [videoRef]);
 
   // คำบรรยาย: ฟังการเปลี่ยนบรรทัดแล้ววาดเองใต้ภาพ (ตัวใหญ่ อ่านง่าย มีชื่อผู้พูด)
   useEffect(() => {
@@ -93,30 +104,33 @@ export function FilmLesson({
     };
     track.addEventListener("cuechange", onCue);
     return () => track.removeEventListener("cuechange", onCue);
-  }, []);
+  }, [videoRef]);
 
-  // ตาเด็กพูด: เช็กทุกเฟรมระหว่างเล่น (timeupdate ช้าเกินไป หยุดเลยจุดได้)
+  const checkPosition = useCallback(() => {
+    const v = videoRef.current;
+    if (!v || v.paused) return;
+    setProgress(v.currentTime / (v.duration || film.duration));
+    const i = film.turns.findIndex((tr, k) => !turnsDone.current.has(k) && v.currentTime >= tr.at && v.currentTime < tr.resumeAt);
+    if (i >= 0) {
+      turnsDone.current.add(i);
+      v.pause();
+      leaveNative();
+      setTurn(i);
+      setStatus("turn");
+    }
+  }, [film, leaveNative, videoRef]);
+
+  // RAF gives precise stops inline; timeupdate also runs in native iPhone fullscreen.
   useEffect(() => {
     if (status !== "playing") return;
     let raf = 0;
     const tick = () => {
-      const v = videoRef.current;
-      if (v) {
-        setProgress(v.currentTime / (v.duration || film.duration));
-        const i = film.turns.findIndex((tr, k) => !turnsDone.current.has(k) && v.currentTime >= tr.at && v.currentTime < tr.resumeAt);
-        if (i >= 0) {
-          v.pause();
-          turnsDone.current.add(i);
-          setTurn(i);
-          setStatus("turn");
-          return;
-        }
-      }
+      checkPosition();
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [status, film]);
+  }, [status, checkPosition]);
 
   useEffect(() => {
     const onHide = () => {
@@ -124,7 +138,7 @@ export function FilmLesson({
     };
     document.addEventListener("visibilitychange", onHide);
     return () => document.removeEventListener("visibilitychange", onHide);
-  }, []);
+  }, [videoRef]);
 
   const onFinishRef = useRef(onFinish);
   useEffect(() => {
@@ -140,7 +154,7 @@ export function FilmLesson({
       v.currentTime = 0;
     }
     v.play().catch(() => {});
-  }, [status]);
+  }, [status, videoRef]);
 
   const saidIt = () => {
     const v = videoRef.current;
@@ -198,25 +212,41 @@ export function FilmLesson({
     <dialog
       ref={dialogRef}
       className="mrl-dialog mrl-cartoon mrl-film"
+      data-expanded={expanded || undefined}
       aria-labelledby="film-title"
+      onCancel={(event) => {
+        if (mode !== "inline") { event.preventDefault(); void exit(); }
+      }}
       onClose={() => {
         videoRef.current?.pause();
+        void exit();
         onClose();
       }}
     >
-      <div className="mrl-cartoon-body">
+      <div ref={playerRef} className="mrl-cartoon-body" data-expanded={expanded || undefined}
+        data-controls={!expanded || controlsVisible || status !== "playing" ? "visible" : "hidden"}
+        onPointerMove={showControls} onFocusCapture={showControls} onKeyDown={showControls}>
         <LearningNotice />
         <div className="mrl-cartoon-head">
           <h3 id="film-title" className="font-display text-xl leading-snug font-extrabold sm:text-2xl">
             {pick(lesson.title)}
             {sub && <span lang="en" className="text-ink-soft ml-2 text-sm font-semibold">{pickSub(lesson.title)}</span>}
           </h3>
-          <button type="button" className="ui-pill" onClick={() => dialogRef.current?.close()}>
+          <div className="mrl-film-actions">
+          <button type="button" className="ui-round mrl-film-fullscreen" aria-label={expanded ? t.moral.film.exitFullscreen : t.moral.film.fullscreen}
+            title={expanded ? t.moral.film.exitFullscreen : t.moral.film.fullscreen} aria-pressed={expanded}
+            onClick={() => { showControls(); void (expanded ? exit() : enter()); }}>
+            <FullscreenIcon active={expanded} className="size-7" />
+          </button>
+          <button type="button" className="ui-pill" onClick={async () => { await exit(); dialogRef.current?.close(); }}>
             {t.moral.lessons.close} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.lessons.close}</span>}
           </button>
+          </div>
         </div>
 
-        <div className="mrl-film-stage" data-state={status} style={film.captionCrop ? { aspectRatio: `${film.captionCrop.width} / ${film.captionCrop.height}` } : undefined}>
+        {expanded && <p className="mrl-film-rotate" role="status">{t.moral.film.rotate}{sub && <small lang="en">{sub.moral.film.rotate}</small>}</p>}
+
+        <div className="mrl-film-stage" data-state={status} style={film.captionCrop ? { aspectRatio: `${film.captionCrop.width} / ${film.captionCrop.height}`, width: expanded ? `min(100%, calc(100dvh * ${film.captionCrop.width / film.captionCrop.height}))` : undefined } : undefined}>
           <video
             ref={videoRef}
             className="mrl-film-video"
@@ -227,13 +257,19 @@ export function FilmLesson({
             disablePictureInPicture
             controlsList="nodownload noplaybackrate noremoteplayback"
             aria-label={pick(film.label)}
-            onClick={() => (playing ? videoRef.current?.pause() : status !== "turn" && play())}
+            onClick={() => {
+              if (expanded && !controlsVisible) { showControls(); return; }
+              if (playing) videoRef.current?.pause(); else if (status !== "turn") play();
+              showControls();
+            }}
             // คำบรรยายวาดเองใต้ภาพ จึงซ่อนตัวที่เบราว์เซอร์วาดบนวิดีโอ
             onLoadedMetadata={(e) => { const tr = e.currentTarget.textTracks[0]; if (tr) tr.mode = "hidden"; }}
             onPlay={() => setStatus("playing")}
+            onTimeUpdate={checkPosition}
             onPause={() => setStatus((s) => (s === "turn" || s === "ended" ? s : "paused"))}
             onEnded={() => {
               const v = videoRef.current;
+              leaveNative();
               setStatus("ended");
               setProgress(1);
               if (v && watchedSeconds(v) >= 0.9 * (v.duration || film.duration) - film.turns.reduce((a, tr) => a + tr.resumeAt - tr.at, 0)) onFinishRef.current?.();
@@ -347,7 +383,7 @@ export function FilmLesson({
               </span>
             ) : (
               <span>
-                {t.moral.cartoon[mainLabel]} {sub && <span lang="en" className="text-sm font-normal">{sub.moral.cartoon[mainLabel]}</span>}
+                {status === "turn" ? t.moral.film.saidIt : t.moral.cartoon[mainLabel]} {sub && <span lang="en" className="text-sm font-normal">{status === "turn" ? sub.moral.film.saidIt : sub.moral.cartoon[mainLabel]}</span>}
               </span>
             )}
           </button>

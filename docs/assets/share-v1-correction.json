@@ -1,0 +1,71 @@
+{
+  "changes": [
+    {
+      "before": {
+        "name": "tread",
+        "t": 48.389,
+        "gain": 0.45,
+        "dur": 2.37
+      },
+      "after": {
+        "name": "tread",
+        "t": 48.389,
+        "gain": 0.08,
+        "dur": 2.37
+      }
+    },
+    {
+      "before": {
+        "name": "brake",
+        "t": 50.409,
+        "gain": 0.5,
+        "dur": null
+      },
+      "after": {
+        "name": "brake",
+        "t": 50.409,
+        "gain": 0.1,
+        "dur": null
+      }
+    },
+    {
+      "before": {
+        "name": "tread",
+        "t": 48.489,
+        "gain": 0.45,
+        "dur": 2.37
+      },
+      "after": {
+        "name": "tread",
+        "t": 48.489,
+        "gain": 0.08,
+        "dur": 2.37
+      }
+    },
+    {
+      "before": {
+        "name": "brake",
+        "t": 50.509,
+        "gain": 0.5,
+        "dur": null
+      },
+      "after": {
+        "name": "brake",
+        "t": 50.509,
+        "gain": 0.1,
+        "dur": null
+      }
+    }
+  ],
+  "window": {
+    "start": 48.389,
+    "end": 51.509
+  },
+  "effectsRMS": {
+    "beforeDBFS": -21.155051212825597,
+    "afterDBFS": -36.04602320919609,
+    "changeDB": -14.890971996370496
+  },
+  "dialogueUnchanged": true,
+  "dialogueSHA256": "544e476d719d7f90386b7717f3955922c35327ecac28a1539c32372df9ecaacc"
+}

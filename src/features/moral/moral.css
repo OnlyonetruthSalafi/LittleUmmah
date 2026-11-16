@@ -770,6 +770,8 @@
 
 /* ===== การ์ตูนเต็มเรื่อง (FilmLesson) — ภาพ 16:9 ===== */
 .mrl-film { width: min(1280px, calc(100vw - 16px)); }
+.mrl-film-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.mrl-film .mrl-cartoon-head h3 { min-width: 0; }
 .mrl-film-stage {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -881,4 +883,61 @@
 /* จอเตี้ยกว่าภาพ+ปุ่ม (เช่น แท็บเล็ตแนวนอน 1024×768): ย่อภาพตามความสูงจอ ให้ปุ่มอยู่ในจอเสมอ */
 @media (min-height: 541px) {
   .mrl-film-stage { width: min(100%, calc((100dvh - 290px) * 16 / 9)); margin-inline: auto; }
+}
+
+/* All film islands share this player. Keep the whole frame and HTML interactions
+   in the same fullscreen surface; controls overlay the image instead of shrinking it. */
+.mrl-film[data-expanded] {
+  width: 100vw; max-width: none; height: 100dvh; max-height: none;
+  margin: 0; border-radius: 0; overflow: hidden;
+}
+.mrl-film .mrl-cartoon-body[data-expanded] {
+  position: relative; display: block; width: 100%; height: 100dvh;
+  padding: 0; overflow: hidden; background: #07141d; color: #fff;
+}
+.mrl-cartoon-body[data-expanded] .mrl-film-stage {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(100%, calc(100dvh * 16 / 9)); height: auto; max-height: 100%;
+  margin: 0; border-radius: 0;
+}
+.mrl-cartoon-body[data-expanded] .mrl-cartoon-head {
+  position: absolute; z-index: 4; inset: 0 0 auto;
+  padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 16px max(12px, env(safe-area-inset-left));
+  margin: 0; background: linear-gradient(#07141de6, #07141d00);
+}
+.mrl-cartoon-body[data-expanded] .mrl-cartoon-head h3,
+.mrl-cartoon-body[data-expanded] .mrl-cartoon-head h3 span { color: #fff; }
+.mrl-cartoon-body[data-expanded] .mrl-film-caption {
+  position: absolute; z-index: 3;
+  bottom: calc(88px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  width: max-content; max-width: min(900px, calc(100% - 32px)); min-height: 0;
+  margin: 0; padding: 4px 12px; border-radius: 12px;
+  color: var(--color-ink); background: rgb(255 255 255 / 0.96);
+  font-size: clamp(1rem, 2.2vw, 1.25rem); line-height: 1.4;
+}
+.mrl-cartoon-body[data-expanded] .mrl-film-caption .mrl-speaker { display: inline; padding: 0; margin-right: 8px; border: 0; }
+.mrl-cartoon-body[data-expanded] .mrl-film-caption .mrl-speaker + p { display: inline; }
+.mrl-film .mrl-cartoon-body[data-expanded] .mrl-cartoon-controls {
+  position: absolute; z-index: 4; inset: auto 0 0;
+  justify-content: center; margin: 0; padding: 8px max(16px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: linear-gradient(#07141d00, #07141de6);
+}
+.mrl-cartoon-body[data-expanded] .mrl-cartoon-controls .ui-pill { flex: 0 1 auto; }
+.mrl-cartoon-body[data-expanded] .mrl-film-progress { position: absolute; z-index: 3; bottom: 0; left: 0; width: 100%; height: 3px; margin: 0; border-radius: 0; }
+.mrl-cartoon-body[data-expanded][data-controls="hidden"] .mrl-cartoon-head,
+.mrl-cartoon-body[data-expanded][data-controls="hidden"] .mrl-cartoon-controls { opacity: 0; pointer-events: none; }
+.mrl-cartoon-body[data-expanded][data-controls="hidden"] .mrl-film-caption { bottom: max(16px, env(safe-area-inset-bottom)); }
+.mrl-film-rotate { display: none; }
+@media (orientation: portrait) {
+  .mrl-film-rotate { display: block; position: absolute; top: 22%; left: 16px; right: 16px; text-align: center; }
+  .mrl-film-rotate small { display: block; }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  .mrl-cartoon-body[data-expanded] .mrl-film-turn { justify-content: flex-start; padding-top: 76px; }
+  .mrl-cartoon-body[data-expanded] .mrl-film-said { display: none; }
+  .mrl-cartoon-body[data-expanded] .mrl-film-end { padding: 76px 12px 150px; overflow: auto; }
+  .mrl-cartoon-body[data-expanded] .mrl-film-caption { max-height: 30dvh; overflow-y: auto; }
+  /* Animal photographs stay clear on the left; their credits and controls use the right. */
+  .mrl-cartoon-body[data-expanded]:has(.mrl-film-photo) .mrl-film-caption { left: auto; right: 16px; transform: none; width: 38%; }
+  .mrl-film .mrl-cartoon-body[data-expanded]:has(.mrl-film-photo) .mrl-cartoon-controls { justify-content: flex-end; }
 }

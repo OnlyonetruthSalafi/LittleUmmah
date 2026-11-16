@@ -187,6 +187,9 @@ export const en: Dictionary = {
       sayPrompt: "Your turn! Say {word}"
     },
     film: {
+      fullscreen: "Landscape full screen",
+      exitFullscreen: "Exit full screen",
+      rotate: "Turn your device sideways for a bigger picture",
       saidIt: "I said it",
       back: "Back 5 seconds",
       next: "Continue",

@@ -64,6 +64,19 @@ const SALAM: FilmWord = { ar: "السَّلَامُ عَلَيْكُمْ", th: "
 const REPLY: FilmWord = { ar: "وَعَلَيْكُمُ السَّلَامُ", th: "วะอะลัยกุมุสสะลาม" };
 
 export const FILMS: Record<string, Film> = {
+  // Fictional robots illustrating the existing sharing lesson; no new religious quotation.
+  // Source: output/car-share/; script and production record: docs/films/share-v1-production.txt.
+  share: {
+    name: "share-v1",
+    duration: 204.821,
+    turns: [{ at: 194.742, resumeAt: 198.742, word: { ar: "", th: "มาเล่นด้วยกันไหม", prompt: { th: "มาเล่นด้วยกันไหม", en: "Would you like to play together?" } } }],
+    words: [],
+    captions: ["th"],
+    label: {
+      th: "รถสองคัน เล่นด้วยกัน — ฮาดีแบ่งรถของเล่นให้ซาบิร ซาฟีช่วยขนบล็อก เพื่อน ๆ เล่นอย่างเบามือและคืนของเมื่อเล่นเสร็จ ครูนูรีชวนเด็กฝึกขอและแบ่งกันเล่น",
+      en: "Two trucks, one shared game — Hadi lends Sabir a toy truck, Safi shares blocks, and the friends play gently and return their toys. Nuri invites children to practise asking and sharing.",
+    },
+  },
   // BEGIN truth full cartoon — "ฮาดีพูดความจริง" (Claude, 16 พ.ย. 2026)
   // บุคอรี 6094 https://shamela.ws/book/1681/9128 / มุสลิม 2607 https://shamela.ws/book/1727/6572 «إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ، وَإِنَّ الْبِرَّ يَهْدِي إِلَى الْجَنَّةِ»
   // อัลหะดีด 57:4 ท่อนท้าย ความหมายไทยฉบับศูนย์กษัตริย์ฟะฮัด (quran.com 51) — ไม่อ่านตัวอาหรับ (AGENTS 1.6)

@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "at": "2026-11-16T11:30:21.116Z",
+  "files": [
+    {
+      "name": "share-v1-720.mp4",
+      "bytes": 13414884,
+      "sha256": "33e58b550825f939b94a92dda2e1d2a165024d36bd6014787e29599f1bc714ea",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "204.822000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/share-v1-720.mp4",
+      "rangeChecks": [
+        {
+          "start": 0,
+          "end": 1023,
+          "status": 206,
+          "contentRange": "bytes 0-1023/13414884",
+          "contentType": "video/mp4"
+        },
+        {
+          "start": 6707442,
+          "end": 6708465,
+          "status": 206,
+          "contentRange": "bytes 6707442-6708465/13414884",
+          "contentType": "video/mp4"
+        },
+        {
+          "start": 13413860,
+          "end": 13414883,
+          "status": 206,
+          "contentRange": "bytes 13413860-13414883/13414884",
+          "contentType": "video/mp4"
+        }
+      ]
+    },
+    {
+      "name": "share-v1-1080.mp4",
+      "bytes": 28155602,
+      "sha256": "20321424b419897e82a28bd4863d4ce239daa7ccabfabb923a2d520d552eb361",
+      "metadata": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "r_frame_rate": "24/1"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "204.822000"
+        }
+      },
+      "url": "https://media.littleummahworld.com/moral/film/share-v1-1080.mp4",
+      "rangeChecks": [
+        {
+          "start": 0,
+          "end": 1023,
+          "status": 206,
+          "contentRange": "bytes 0-1023/28155602",
+          "contentType": "video/mp4"
+        },
+        {
+          "start": 14077801,
+          "end": 14078824,
+          "status": 206,
+          "contentRange": "bytes 14077801-14078824/28155602",
+          "contentType": "video/mp4"
+        },
+        {
+          "start": 28154578,
+          "end": 28155601,
+          "status": 206,
+          "contentRange": "bytes 28154578-28155601/28155602",
+          "contentType": "video/mp4"
+        }
+      ]
+    }
+  ]
+}
