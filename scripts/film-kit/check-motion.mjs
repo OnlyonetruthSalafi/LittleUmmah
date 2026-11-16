@@ -37,9 +37,12 @@ try{
     }
    });
   }
+  // ส่งของ/ปล่อยของ (directing.js): ของต้องไม่กระโดด ณ จุดเปลี่ยนผู้ถือ — เกณฑ์ ≤ 1.5px ที่ 720p (คิดตามซูมกล้อง)
+  const handoffs=(typeof HANDOFFS==='undefined'?[]:HANDOFFS).map(h=>{poseCache.clear();const a=propWorld(h.name,h.at-1e-3);poseCache.clear();const b=propWorld(h.name,h.at+1e-3);
+   return {...h,jump:Math.hypot(a.x-b.x,a.y-b.y)*val('cam','z',h.at,1)*2/3};});
   const story=window.filmChecks?.()??{passed:true};
-  const genericPassed=grips.every(g=>g.samples>0&&g.error<=2)&&minHeadMargin>=0;
-  return {frames:Math.ceil(timing.total*24),samples,grips,minHeadMargin:Number.isFinite(minHeadMargin)?minHeadMargin:null,headSamples,headMargins,story,genericPassed,passed:genericPassed&&story.passed===true};
+  const genericPassed=grips.every(g=>g.samples>0&&g.error<=2)&&minHeadMargin>=0&&handoffs.every(h=>h.jump<=1.5);
+  return {frames:Math.ceil(timing.total*24),samples,grips,handoffs,minHeadMargin:Number.isFinite(minHeadMargin)?minHeadMargin:null,headSamples,headMargins,story,genericPassed,passed:genericPassed&&story.passed===true};
  });
  if(errors.length)throw Error(errors.join('\n'));
  mkdirSync(root+'/qa',{recursive:true});writeFileSync(root+'/qa/motion-report.json',JSON.stringify(report,null,2));

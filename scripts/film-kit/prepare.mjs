@@ -49,6 +49,6 @@ const stamp = (t) => { const ms = Math.round(t * 1000); return `${String(Math.fl
 writeFileSync(`${root}/${id}.th.vtt`, 'WEBVTT\n\n' + audio.map((x) => `${stamp(x.start)} --> ${stamp(x.start + x.duration)}\n<v ${names[x.who]}>${x.text}`).join('\n\n') + '\n');
 console.log(`${audio.length} lines, total ${timing.total.toFixed(1)}s`, shots.map((s) => `${s.id}@${s.start.toFixed(1)}`).join(' '));
 
-for(const file of ["engine.js","cast-base.js","characters.js","stage.html"]) cpSync(`${kitRoot}/${file}`,`${root}/${file}`);
+for(const file of ["engine.js","cast-base.js","characters.js","directing.js","stage.html"]) cpSync(`${kitRoot}/${file}`,`${root}/${file}`);
 
 if(!existsSync(`${root}/film.checks.js`))writeFileSync(`${root}/film.checks.js`, "// Optional story-specific motion gates.\n");

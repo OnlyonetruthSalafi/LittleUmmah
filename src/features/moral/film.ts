@@ -116,17 +116,23 @@ export const FILMS: Record<string, Film> = {
   // Verified through Shamela MCP: https://shamela.ws/book/711/2767
   // Fictional robot example; the hadith meaning is separate from the practical advice.
   // Script and provenance: docs/films/clear-path-script.txt; docs/assets/clear-path-media.json.
+  // ทางเดินของทุกคน v2 (17 พ.ย. 2026): ทำใหม่บน scripts/film-kit + directing.js (ต้นแบบพูดความจริง) ตามที่เจ้าของสั่ง —
+  // เด็ก ๆ เล่นของเล่นกันก่อน ครูนูรีเกือบชนรถของเล่นกลางทาง แล้วช่วยกันเก็บลงกล่อง · ไม่มีตัวหนังสือในภาพ (เลิก captionCrop ตาม AGENTS 3.1)
+  // ตัวบท มุสลิม 1009 https://shamela.ws/book/711/2767 · ต้นทาง output/car-clear2/ · บันทึก docs/films/clear-path-v2-production.txt
   "tidy-toys": {
-    name: "clear-path-v1",
-    duration: 297.916667,
-    turns: [],
+    name: "clear-path-v2",
+    duration: 171.19,
+    turns: [{ at: 148.242, resumeAt: 152.842, word: {
+      ar: "",
+      th: "รถของเล่นอยู่กลางทางเดิน หนูจะทำอย่างไรดี?",
+      prompt: { th: "รถของเล่นอยู่กลางทางเดิน หนูจะทำอย่างไรดี?", en: "Your toy car is in the middle of the path. What will you do?" },
+      instruction: { th: "ลองตอบครูออกเสียง แล้วกดปุ่มเมื่อตอบแล้ว", en: "Answer Nuri aloud, then press the button." },
+    } }],
     words: [],
     captions: ["th"],
-    resolutions: [720],
-    captionCrop: { width: 1280, height: 636 },
     label: {
-      th: "ทางเดินของทุกคน — นูรี ซาบิร ซาฟี และฮาดีช่วยกันเก็บของเล่นในสวน พร้อมบทสอนเรื่องนำสิ่งที่เป็นอันตรายออกจากทาง",
-      en: "Keeping our path clear — Nuri and friends put away toys in the park and learn about removing harm from the path.",
+      th: "ทางเดินของทุกคน — ซาบิร ซาฟี และฮาดีเล่นของเล่นกันอยู่ ครูนูรีเกือบชนรถของเล่นกลางทาง ทุกคนจึงช่วยกันเก็บลงกล่องและเข็นกล่องพ้นทาง พร้อมหะดีษเรื่องนำสิ่งที่เป็นอันตรายออกจากทาง",
+      en: "Keeping our path clear — Sabir, Safi and Hadi are playing; Nuri nearly bumps a toy car on the path, so everyone puts the toys in a box and moves it aside, then learns the hadith about removing harm from the path.",
     },
   },
   // BEGIN wait-turn full cartoon

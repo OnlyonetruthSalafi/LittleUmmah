@@ -22,7 +22,7 @@ function turn(id, t, view, flip = false, step = .13) {
 function drive(id, t0, t1, x, y, { end = 'q', endFlip, s, via = 'side', brake = true, soundGain = .45, brakeGain = .5 } = {}) {
   const x0 = val(id, 'x', t0, x), left = x < x0, v = kits[id][via] ? via : 'q';
   const tt = turn(id, t0, v, left), d = t1 - tt, lean = left ? -1 : 1;
-  if (!CAST[id].hover) { fx('tread', tt, soundGain, d); if (brake) fx('brake', t1 - .35, brakeGain); }
+  if (!CAST[id].hover) { fx('glide', tt, soundGain, d); if (brake) fx('settle', t1 - .35, brakeGain); } // glide/settle นุ่มแทน tread/brake ที่แสบหู (เจ้าของ 17 พ.ย. 2026)
   to(id, 'x', tt, t1, x, 'io'); to(id, 'y', tt, t1, y, 'io'); if (s !== undefined) to(id, 's', tt, t1, s, 'io');
   to(id, 'lean', tt, tt + Math.min(.35, d * .3), 3.5 * lean, 'out'); key(id, 'lean', t1 - Math.min(.45, d * .3), 2 * lean); key(id, 'lean', t1, -3 * lean, 'out'); key(id, 'lean', t1 + .3, 0, 'io');
   return end ? turn(id, t1 + .05, end, endFlip ?? left) : t1;
