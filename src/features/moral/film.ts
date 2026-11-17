@@ -7,7 +7,7 @@ import type { ScenePhoto } from "./cartoon";
 
   ทำด้วย: ชิ้นส่วนตัวละคร (Codex ตัดจากภาพที่อนุมัติแล้ว) + ระบบกระดูก DOM/GSAP + HyperFrames
   ไฟล์ต้นทางอยู่ที่ output/car-salam2/ (บท script.md, ที่มาของตัวบทอยู่ในนั้น) และ output/car-hf/salam2/ (film.mjs)
-  ตัวละครเป็นหุ่นยนต์ล้วน ไม่มีดนตรี มีแต่เสียงพูดและเสียงประกอบ (AGENTS 1.2, 1.3)
+  ตัวละครเป็นหุ่นยนต์และเด็กใบหน้าว่าง ไม่มีดนตรี มีแต่เสียงพูดและเสียงประกอบ (AGENTS 1.2, 1.3)
 
   ไฟล์ของแต่ละเรื่อง: <ชื่อ>-720.mp4 (มือถือ) <ชื่อ>-1080.mp4 (จอกว้าง) <ชื่อ>-poster.webp และคำบรรยาย <ชื่อ>.<ภาษา>.vtt
 
@@ -136,21 +136,21 @@ export const FILMS: Record<string, Film> = {
     },
   },
   // BEGIN wait-turn full cartoon
-  // General manners adapted from the existing lesson; no new religious quotation.
-  // Storyboard: docs/films/wait-turn-script.md. Cast: ครูนูรี, ฮาดี, ซาฟี, รอสซาม.
+  // General manners; no new religious quotation.
+  // Story: docs/films/wait-turn-park-v2-script.md. Nuri and Faheem speak; children have blank faces.
   "wait-turn": {
-    "name": "wait-turn-v2",
-    "duration": 137.463,
+    "name": "wait-turn-park-v2",
+    "duration": 241.484,
     "turns": [
       {
-        "at": 122.597,
-        "resumeAt": 126.697,
+        "at": 231.805,
+        "resumeAt": 235.805,
         "word": {
           "ar": "",
-          "th": "เราจะต่อท้ายแถว แล้วรอให้ถึงตา",
+          "th": "ต่อท้ายแถว รอตาเรา ผลัดกันเล่น",
           "prompt": {
-            "th": "เราจะต่อท้ายแถว แล้วรอให้ถึงตา",
-            "en": "I’ll join the line and wait my turn."
+            "th": "ต่อท้ายแถว รอตาเรา ผลัดกันเล่น",
+            "en": "Join the back of the line, wait your turn, and take turns playing."
           }
         }
       }
@@ -160,9 +160,9 @@ export const FILMS: Record<string, Film> = {
       "th"
     ],
     "label": {
-      "th": "การ์ตูนรอคิว — ผลัดกันเล่นทางลูกบอล: ฮาดีมาต่อท้ายซาฟี รอรอสซามเล่นเสร็จ แล้วผลัดกันปล่อยลูกบอลโดยไม่แซงหรือผลัก",
-      "en": "Hadi joins behind Safi, waits for Rassam to finish and takes a turn at the ball ramp."
-    },
+      "th": "รู้จักรอคิว — ครูนูรีและฟาฮีมชวนเรียนรู้การต่อท้ายแถว รออย่างใจเย็น และผลัดกันเล่น ผ่านเด็กหญิงสวมฮิญาบกับเพื่อนในสวน",
+      "en": "Learning to wait — Nuri and Faheem explore joining the back of the line, waiting patiently, and taking turns through a girl in a hijab and her friends at the park."
+    }
   },
   // END wait-turn full cartoon
 

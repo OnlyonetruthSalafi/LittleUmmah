@@ -17,7 +17,7 @@ export const CARD_ART: Record<string, string> = {
   "help-friend": "/moral/card-help-friend-film-v3.webp",
   "keep-promise": "/moral/card-keep-promise.webp",
   "save-water-power": "/moral/card-save-water-power.webp",
-  "wait-turn": "/moral/card-wait-turn-film-v2.webp",
+  "wait-turn": "/moral/card-wait-turn-park-v2.webp",
   "tidy-toys": "/moral/card-clear-path-film-v2.webp",
   "listen-friend": "/moral/card-listen-friend.webp",
   "shared-things": "/moral/card-shared-things.webp",
