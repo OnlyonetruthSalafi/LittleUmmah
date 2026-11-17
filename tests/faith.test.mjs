@@ -11,7 +11,7 @@ test('faith is live without changing the other home island positions', () => {
   const faith = CATEGORIES.find(c => c.slug === 'faith-basics');
   assert.equal(faith.href, '/learn/faith-basics');
   assert.equal(HOME_ISLANDS.learn.at(-1).comingSoon, undefined);
-  assert.deepEqual(CATEGORIES.filter(c => c !== faith).map(c => c.slug), ['moral','stories','arabic','explore','games','art']);
+  assert.deepEqual(CATEGORIES.filter(c => c !== faith).map(c => c.slug), ['moral','stories','arabic','explore','games','art','numbers-math']);
 });
 
 test('all twelve faith lessons have complete image and narration assets', () => {

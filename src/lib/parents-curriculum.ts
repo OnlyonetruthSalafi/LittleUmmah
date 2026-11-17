@@ -6,6 +6,7 @@ import { HABITAT_LESSONS } from '../features/explore/data';
 import { shelfBooks, hadithShelfBooks, hadithShelf2Books } from '../features/stories/shelf';
 import { COURSES } from '../features/languages/courses';
 import { ART_PICTURES } from '../features/art/data';
+import { LESSONS as MATH_LESSONS } from '../features/math/data';
 import { games } from '../features/games/data/catalog';
 import { gamePresentation as presentation } from '../features/games/data/presentation';
 import { PUZZLE_PICTURES, puzzleProgressId } from '../features/games/data/puzzlePictures';
@@ -20,6 +21,7 @@ export function getCurriculum(): CurriculumAge[] {
     let items: CurriculumItem[] = [];
     const lessons = (rows: { id: string; title: Text }[], prefix: string, storageKey?: string) => rows.map(row => ({ id: row.id, title: row.title, unit: 'lessons' as const, rewardId: `${prefix}:${row.id}`, storageKey }));
     switch (category.slug) {
+      case 'numbers-math': items = lessons(MATH_LESSONS[age], 'math', 'lu-math-progress'); break;
       case 'moral': items = lessons(getIslandContent('moral')![age], 'moral', 'lu-moral-progress'); break;
       case 'explore': items = lessons([...HABITAT_LESSONS[age], ...getIslandContent('explore')![age]], 'explore', 'lu-explore-progress'); break;
       case 'faith-basics': items = lessons(LESSONS[age], 'faith', 'lu-faith-progress'); break;

@@ -5,7 +5,7 @@ import { LearningNotice } from '@/features/learning-stars/components';
 import Image from "next/image";
 import { NearArtwork } from "@/components/performance/NearArtwork";
 import { fmt } from "@/i18n/dict";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { SpeakerIcon } from "@/components/icons/SpeakerIcon";
 import { ArabicText } from "@/components/ui/ArabicText";
@@ -56,6 +56,7 @@ export function MoralSection({
   cartoons,
   films = {},
   progressKey,
+  children,
 }: {
   age: AgeId;
   section: AgeSection;
@@ -69,11 +70,13 @@ export function MoralSection({
   films?: Record<string, Film>;
   /** localStorage key ของดาว แยกตามเกาะ */
   progressKey: string;
+  /** ส่วนเสริมใต้หัวช่วงวัย เหนือการ์ดบทเรียน (เช่น รู้จักตัวเลขของเกาะคณิต) */
+  children?: ReactNode;
 }) {
   const { t, sub, pick, pickSub } = useDict();
   const lessons = groups.flatMap((group) => group.lessons);
   const progress = progressStore(progressKey);
-  const markPractised = (id: string) => { awardLesson(`${progressKey.includes('explore') ? 'explore' : progressKey === 'lu-faith-progress' ? 'faith' : 'moral'}:${id}`); progress.markPractised(id); };
+  const markPractised = (id: string) => { awardLesson(`${progressKey.includes('explore') ? 'explore' : progressKey === 'lu-faith-progress' ? 'faith' : progressKey === 'lu-math-progress' ? 'math' : 'moral'}:${id}`); progress.markPractised(id); };
   const { stars, doneToday, maxStars } = progress.useProgress();
   const { speak } = useSound();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -156,6 +159,7 @@ export function MoralSection({
         </div>
       </div>
 
+      {children}
       {groups.map((group) => (
         <div key={group.id} className="mrl-group">
           {group.title && pick(group.title) && (
