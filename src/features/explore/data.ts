@@ -1009,18 +1009,19 @@ export const CARD_ART: Record<string, string> = {
 
 /* ---------- การ์ตูนเต็มเรื่อง (เจ้าของโปรเจกต์สั่ง 13 พ.ย. 2026: "ให้เป็นการ์ตูนจริงๆ เหมือนเกาะศีลธรรม") ----------
   บทที่มีในนี้เปิดเป็น FilmLesson แทนแบบภาพนิ่ง (CARTOONS ยังเก็บไว้เป็นทางสำรอง)
-  ต้นทาง: output/car-desert/ (บท script.md ชิ้นส่วนสัตว์ เสียง) + output/car-hf/desert/ (film.mjs)
+  ต้นทางฉบับปัจจุบัน: output/car-desert-v3/ (บท เสียงรายบรรทัด Film Kit และ master แยก stem)
+  ต้นทางฉบับก่อน: output/car-desert/ + output/car-hf/desert/ เก็บไว้ครบ
   สัตว์ใบหน้าว่าง (ข้อ 1.1) · ภาพถ่ายสัตว์จริงไม่ฝังในวิดีโอ — วิดีโอหยุดแล้วแสดงเป็น HTML พร้อม alt และเครดิต
   ข้อเท็จจริงเท่ากับบท desert-home เดิมข้างบน · ไฟล์อยู่ใต้ explore/film ทั้งบน R2 และ public/ */
 const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "ซุบฮานัลลอฮ์" };
 
 export const FILMS: Record<string, Film> = {
   "desert-home": {
-    name: "desert-v2", // 16 พ.ย. 2026: หน้าอยู่กับจอ (ไม่เลื่อนหลุด) + ลดเสียงลม/น้ำ — output/car-hf/desert/
+    name: "desert-v3", // 17 พ.ย. 2026: Film Kit หลายมุม หันฟังผู้พูด เท้าสัมผัสพื้น และเสียงเคลื่อนนุ่ม — output/car-desert-v3/
     dir: "explore/film",
     duration: 100.6,
     // หยุดหลังนูรีพูด "นี่คืออูฐตัวจริง" / "นี่คือจิ้งจอกเฟนเนคตัวจริง" -> แสดงภาพถ่าย (นับถอยหลังแล้วเล่นต่อเอง) และหลังนูรีชวนพูด "ซุบฮานัลลอฮ์"
-    // ค่าเวลามาจาก output/car-hf/desert/turns.json (สร้างโดย film.mjs)
+    // ค่าเวลามาจาก output/car-desert-v3/turns.json (คงจุดหยุดจากฉบับเดิม)
     turns: [
       { at: 46.52, resumeAt: 47.07, photo: photo("camel") },
       { at: 77.95, resumeAt: 78.5, photo: photo("fennec") },
