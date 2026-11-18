@@ -4,7 +4,7 @@ import type { Film } from "@/features/moral/film";
 // Script: docs/films/faith-rabbi-script.txt. Educational explanation, not a verbatim Quran translation.
 export const FILMS: Record<string, Film> = {
   "faith-rabbi": {
-  "name": "faith-rabbi-v1",
+  "name": "faith-rabbi-v2",
   "dir": "faith/film",
   "duration": 217.16666666666666,
   "turns": [
@@ -38,10 +38,6 @@ export const FILMS: Record<string, Film> = {
   "resolutions": [
     720
   ],
-  "captionCrop": {
-    "width": 1280,
-    "height": 636
-  },
   "label": {
     "th": "ครูนูรีพาชมกลางวัน กลางคืน ดวงดาว และภาพจำลองโลก ก่อนหยุดให้เด็กตอบว่าใครคือพระเจ้าของหนู",
     "en": "Nuri explores day, night, stars and a model of Earth, then pauses for children to answer: Who is your Lord?"

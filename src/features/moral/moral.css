@@ -670,7 +670,7 @@
 }
 
 /* ข้อความใต้ภาพ — สูงคงที่ ปุ่มข้างล่างไม่กระโดดเวลาเปลี่ยนฉาก */
-.mrl-cartoon-caption {
+.mrl-cartoon-caption:not(:where(.sr-only)) {
   min-height: 6.2em;
   margin-top: 10px;
   padding: 10px 14px;

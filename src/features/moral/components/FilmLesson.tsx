@@ -23,10 +23,10 @@ import { useFilmFullscreen } from "../useFilmFullscreen";
 
   - เปิดจากการแตะการ์ด จึงเล่นพร้อมเสียงได้ทันที ยกเว้นเครื่องที่ตั้งลดการเคลื่อนไหว: แสดงภาพปก รอเด็กกดเล่นเอง
   - วิดีโอโหลดเมื่อเปิดหน้าต่างนี้เท่านั้น จอแคบใช้ 720p จอกว้าง 1080p (<source media>) จาก Cloudflare R2 (film.ts)
-  - คำบรรยายเป็นไฟล์ WebVTT แสดงเป็นข้อความจริงใต้ภาพ (ไม่ฝังในวิดีโอ — ข้อ 1.5) พร้อมชื่อผู้พูด
+  - เก็บคำบรรยาย WebVTT ไว้สำหรับหน้า EN ในอนาคต; หน้าไทยไม่แสดงซับ รวมถึงโหมดเต็มจอ
   - ถึงตาเด็กพูด: วิดีโอหยุดเอง ขึ้นป้ายคำ เด็กกด "หนูพูดแล้ว" แล้วนูรีตอบ (ไม่ใช้ไมโครโฟน ไม่เก็บเสียงเด็ก)
   - ปุ่มทุกปุ่ม 64px (ข้อ 2) ไม่ใช้แถบควบคุมของเบราว์เซอร์ ไม่มีภาพซ้อนภาพ ไม่มีดาวน์โหลด
-  - ปิดเสียงทั้งเว็บอยู่ = เล่นแบบไม่มีเสียง อ่านคำบรรยายได้ · สลับแท็บ = พักเอง
+  - ปิดเสียงทั้งเว็บอยู่ = เล่นแบบไม่มีเสียง · สลับแท็บ = พักเอง
   - ดาว: ดูจนจบโดยดูจริงอย่างน้อย 90% ของเรื่อง (ข้ามไปท้ายเรื่องไม่นับ)
 */
 type Status = "idle" | "playing" | "paused" | "turn" | "ended";
@@ -74,7 +74,8 @@ export function FilmLesson({
   const turnsDone = useRef(new Set<number>());
   const [left, setLeft] = useState(PHOTO_WAIT);
   const { base, video } = filmPaths(film);
-  const captionLang = film.captions.includes(locale as "th" | "en") ? locale : film.captions[0];
+  // Keep Thai VTT sources for future EN work, but never fall back to Thai subtitles.
+  const captionLang = locale === "en" && film.captions.includes("en") ? "en" : null;
 
   useEffect(() => {
     if (!expanded || status !== "playing") return;
@@ -93,6 +94,7 @@ export function FilmLesson({
 
   // คำบรรยาย: ฟังการเปลี่ยนบรรทัดแล้ววาดเองใต้ภาพ (ตัวใหญ่ อ่านง่าย มีชื่อผู้พูด)
   useEffect(() => {
+    if (!captionLang) return;
     const v = videoRef.current;
     const track = v?.textTracks[0];
     if (!track) return;
@@ -104,7 +106,7 @@ export function FilmLesson({
     };
     track.addEventListener("cuechange", onCue);
     return () => track.removeEventListener("cuechange", onCue);
-  }, [videoRef]);
+  }, [videoRef, captionLang, base]);
 
   const checkPosition = useCallback(() => {
     const v = videoRef.current;
@@ -278,7 +280,7 @@ export function FilmLesson({
             {(film.resolutions ?? [1080, 720]).map((resolution) => (
               <source key={resolution} src={`${video}-${resolution}.mp4`} type="video/mp4" media={resolution === 1080 ? "(min-width: 1200px)" : undefined} />
             ))}
-            <track kind="captions" src={`${base}.${captionLang}.vtt`} srcLang={captionLang} label={captionLang === "th" ? "ไทย" : "English"} default />
+            {captionLang && <track key={`${base}.${captionLang}`} kind="captions" src={`${base}.${captionLang}.vtt`} srcLang={captionLang} label="English" default />}
           </video>
 
           {/* ตาเด็กพูด — ป้ายคำเป็นข้อความจริง (ข้อ 1.5) */}
@@ -340,6 +342,7 @@ export function FilmLesson({
         </div>
 
         {/* คำบรรยาย — ไม่ใช้ role=status เพราะเปลี่ยนถี่ (วิดีโอมีเสียงพูดอยู่แล้ว) */}
+        {(captionLang || (status === "turn" && (word || photo))) && (
         <div className="mrl-cartoon-caption mrl-film-caption">
           {status === "turn" && word ? (
             // ตาเด็กพูด: บอกในกล่องข้อความด้วย (จอแนวนอนเตี้ยซ่อนบอลลูนบนภาพ) role=status ให้ screen reader อ่าน
@@ -364,6 +367,7 @@ export function FilmLesson({
             <p className="text-ink-soft">{pick(film.label)}</p>
           )}
         </div>
+        )}
 
         <div className="mrl-cartoon-controls">
           <button type="button" className="ui-round" onClick={back} disabled={status === "idle"} aria-label={t.moral.film.back} title={t.moral.film.back}>

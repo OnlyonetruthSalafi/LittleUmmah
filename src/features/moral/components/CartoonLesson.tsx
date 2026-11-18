@@ -46,6 +46,8 @@ export function CartoonLesson({
   onFinish?: () => void;
 }) {
   const { locale, t, sub, pick, pickSub } = useDict();
+  // Preserve scene text for the future EN page; hide narration subtitles on Thai pages.
+  const showCaptions = locale === "en";
   const { scenes, word: lessonWord } = cartoon;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
@@ -175,7 +177,7 @@ export function CartoonLesson({
           </p>
         )}
 
-        {/* เวที: ภาพฉากเป็นภาพตกแต่ง เรื่องราวอยู่ในข้อความใต้ภาพ */}
+        {/* เวที: ภาพฉากเป็นภาพตกแต่ง เรื่องราวเล่าผ่านเสียงและข้อความของฉาก */}
         <div className="mrl-stage" data-say={sayAlong || undefined}>
           {scenes.map((s, i) =>
             // ภาพฉากเดียวกันใช้ซ้ำหลายฉาก วาดครั้งเดียวต่อไฟล์
@@ -257,14 +259,14 @@ export function CartoonLesson({
         </div>
 
         {/* ข้อความของฉาก — role=status ให้ screen reader อ่านเมื่อเปลี่ยนฉาก */}
-        <div className="mrl-cartoon-caption" role="status">
+        <div className={showCaptions || (sayAlong && word) || scene.photo ? "mrl-cartoon-caption" : "mrl-cartoon-caption sr-only"} role="status">
           {scene.speaker && (
-            <p className="mrl-speaker font-display" style={{ borderColor: FRIENDS[scene.speaker].color, color: FRIENDS[scene.speaker].color }}>
+            <p className={showCaptions ? "mrl-speaker font-display" : "sr-only"} style={{ borderColor: FRIENDS[scene.speaker].color, color: FRIENDS[scene.speaker].color }}>
               {pick(FRIENDS[scene.speaker].name)} {sub && <span lang="en">{pickSub(FRIENDS[scene.speaker].name)}</span>}
             </p>
           )}
-          <p className="font-semibold"><ArabicText text={pick(scene)} /></p>
-          {sub && <p lang="en" className="text-ink-soft text-sm">
+          <p className={showCaptions ? "font-semibold" : "sr-only"}><ArabicText text={pick(scene)} /></p>
+          {sub && <p lang="en" className="sr-only">
             <ArabicText text={pickSub(scene)!} />
           </p>}
           {/* จอแคบ: บอกจังหวะพูดตามที่นี่แทนบอลลูนบนฉาก (บอลลูนจะบังเด็กในภาพ) */}
