@@ -170,7 +170,7 @@ export const FILMS: Record<string, Film> = {
   // General manners adapted from the existing lesson; no new religious quotation.
   // Storyboard: docs/films/help-friend-script.md. Cast: ครูนูรี, ฟาฮีม, ซาฟี.
   "help-friend": {
-    "name": "help-friend-hold-turn-v3",
+    "name": "help-friend-library-v5",
     "duration": 137.44,
     "turns": [
       {
@@ -191,8 +191,8 @@ export const FILMS: Record<string, Film> = {
       "th"
     ],
     "label": {
-      "th": "การ์ตูนช่วยเพื่อน — ถามก่อน แล้วช่วยเท่าที่ไหว: ซาฟีถามก่อนช่วยฟาฮีมเก็บหนังสือเบา ๆ ส่วนกล่องหนักขอให้ครูนูรีช่วย",
-      "en": "Safi asks before helping Faheem collect light books; Nuri helps with the heavy box."
+      "th": "ซาฟีถามก่อนช่วยฟาฮีมเก็บหนังสือ ทั้งสองเว้นทางให้ครูนูรียกกล่องหนักอ้อมไปหลังตู้แล้ววางบนตู้หนังสือ",
+      "en": "Safi asks before helping Faheem pick up the books. They clear a path for Nuri to carry the heavy box around the bookcase and set it on top."
     },
   },
   // END help-friend full cartoon

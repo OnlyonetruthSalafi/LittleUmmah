@@ -14,7 +14,7 @@ export type AgeId = "kids" | "juniors";
 export const CARD_ART: Record<string, string> = {
   "meet-friends": "/moral/card-meet-friends.webp",
   "say-sorry": "/moral/card-say-sorry-film-v3.webp",
-  "help-friend": "/moral/card-help-friend-film-v3.webp",
+  "help-friend": "/moral/card-help-friend-library-v4.webp",
   "keep-promise": "/moral/card-keep-promise.webp",
   "save-water-power": "/moral/card-save-water-power.webp",
   "wait-turn": "/moral/card-wait-turn-park-v2.webp",
