@@ -369,7 +369,7 @@ export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
     { id: "beach-home", icon: "wave", title: { th: "ชายหาด", en: "The beach" }, body: HABITAT_SUMMARIES["beach-home"] },
     { id: "farm-home", icon: "tree", title: { th: "ฟาร์ม", en: "The farm" }, body: { th: "วัวและแกะกินหญ้า และต้องการน้ำสะอาด", en: "Cows and sheep eat grass, and they need clean water." } },
     { id: "garden-home", icon: "tree", title: { th: "สวนดอกไม้", en: "The flower garden" }, body: { th: "ดอกไม้เป็นแหล่งอาหารของผีเสื้อและผึ้ง", en: "Flowers are food for butterflies and bees." } },
-    { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย", en: "The desert" }, body: { th: "อูฐและจิ้งจอกเฟนเนคอยู่ในทะเลทรายที่ร้อนและแห้งได้", en: "Camels and fennec foxes can live in the hot, dry desert." } },
+    { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย · รอยเท้านี้ของใคร", en: "The Desert · Whose Tracks Are These?" }, body: { th: "ตามครูนูรีไปดูว่าใครทิ้งรอยเท้าไว้ริมแอ่งน้ำ", en: "Follow Nuri to find out who left tracks beside the waterhole." } },
     { id: "forest-home", icon: "tree", title: { th: "ป่าไม้", en: "The forest" }, body: { th: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่", en: "Elephants and squirrels live in forests full of tall trees." } },
     { id: "sea-home", icon: "wave", title: { th: "ทะเล", en: "The sea" }, body: { th: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง", en: "Sea turtles and dolphins swim in the wide sea." } },
     { id: "polar-home", icon: "mountain", title: { th: "ขั้วโลก", en: "The polar lands" }, body: { th: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด", en: "Polar bears and seals live in the coldest places." } },
@@ -381,7 +381,7 @@ export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
     { id: "beach-life", icon: "wave", title: { th: "ชีวิตริมชายหาด", en: "Life by the beach" }, body: HABITAT_SUMMARIES["beach-life"] },
     { id: "farm-life", icon: "tree", title: { th: "ชีวิตในฟาร์ม", en: "Life on the farm" }, body: { th: "วัวและแกะเคี้ยวเอื้อง ช่วยย่อยอาหารจากพืช", en: "Cows and sheep chew the cud, which helps them digest plants." } },
     { id: "garden-life", icon: "tree", title: { th: "ชีวิตในสวนดอกไม้", en: "Life in the flower garden" }, body: { th: "ผีเสื้อเติบโตผ่านสี่ระยะ และผึ้งช่วยถ่ายละอองเรณู", en: "Butterflies grow through four stages, and bees help carry pollen." } },
-    { id: "desert-life", icon: "sun", title: { th: "ชีวิตในทะเลทราย", en: "Life in the desert" }, body: { th: "อูฐและจิ้งจอกเฟนเนคปรับตัวให้อยู่ในความร้อนได้", en: "Camels and fennec foxes are made to cope with the heat." } },
+    { id: "desert-life", icon: "sun", title: { th: "ทะเลทราย · ฮาดีไขปริศนาบนผืนทราย", en: "The Desert · Hadi Investigates the Sand" }, body: { th: "ทดลองกับฮาดีว่าเท้าอูฐเดินบนทรายได้อย่างไร แล้วตามไปดูโพรงของจิ้งจอกเฟนเนค", en: "Test how camel feet work on sand with Hadi, then explore a fennec fox’s burrow." } },
     { id: "forest-life", icon: "tree", title: { th: "ชีวิตในป่า", en: "Life in the forest" }, body: { th: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต", en: "A forest has many layers, and elephants and squirrels help it grow." } },
     { id: "sea-life", icon: "wave", title: { th: "ชีวิตในทะเล", en: "Life in the sea" }, body: { th: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล", en: "Sea turtles and dolphins breathe with lungs, but they live in the sea." } },
     { id: "polar-life", icon: "mountain", title: { th: "ชีวิตที่ขั้วโลก", en: "Life at the poles" }, body: { th: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว", en: "Polar bears and seals have thick fat to keep out the cold." } },
@@ -989,8 +989,8 @@ export const CARD_ART: Record<string, string> = {
   "farm-life": "/explore/card-farm.webp",
   "garden-home": "/explore/card-garden.webp",
   "garden-life": "/explore/card-garden.webp",
-  "desert-home": "/explore/card-desert.webp",
-  "desert-life": "/explore/card-desert.webp",
+  "desert-home": "/explore/film/desert-little-tracks-poster.webp",
+  "desert-life": "/explore/film/desert-field-notes-poster.webp",
   "forest-home": "/explore/card-forest.webp",
   "forest-life": "/explore/card-forest.webp",
   "sea-home": "/explore/card-sea.webp",
@@ -1010,10 +1010,8 @@ export const CARD_ART: Record<string, string> = {
 
 /* ---------- การ์ตูนเต็มเรื่อง (เจ้าของโปรเจกต์สั่ง 13 พ.ย. 2026: "ให้เป็นการ์ตูนจริงๆ เหมือนเกาะศีลธรรม") ----------
   บทที่มีในนี้เปิดเป็น FilmLesson แทนแบบภาพนิ่ง (CARTOONS ยังเก็บไว้เป็นทางสำรอง)
-  ต้นทางฉบับปัจจุบัน: output/car-desert-v3/ (บท เสียงรายบรรทัด Film Kit และ master แยก stem)
-  ต้นทางฉบับก่อน: output/car-desert/ + output/car-hf/desert/ เก็บไว้ครบ
-  สัตว์ใบหน้าว่าง (ข้อ 1.1) · ภาพถ่ายสัตว์จริงไม่ฝังในวิดีโอ — วิดีโอหยุดแล้วแสดงเป็น HTML พร้อม alt และเครดิต
-  ข้อเท็จจริงเท่ากับบท desert-home เดิมข้างบน · ไฟล์อยู่ใต้ explore/film ทั้งบน R2 และ public/ */
+  บททะเลทรายแยกตามวัยอยู่ใน docs/films/desert-little-tracks-script.md และ desert-field-notes-script.md
+  ภาพถ่ายสัตว์เปิดในช่วงสอนพร้อมคำบรรยายและเครดิต */
 const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "ซุบฮานัลลอฮ์" };
 
 export const FILMS: Record<string, Film> = {
@@ -1042,21 +1040,30 @@ export const FILMS: Record<string, Film> = {
     },
   },
   "desert-home": {
-    name: "desert-v3", // 17 พ.ย. 2026: Film Kit หลายมุม หันฟังผู้พูด เท้าสัมผัสพื้น และเสียงเคลื่อนนุ่ม — output/car-desert-v3/
+    name: "desert-little-tracks",
     dir: "explore/film",
-    duration: 100.6,
-    // หยุดหลังนูรีพูด "นี่คืออูฐตัวจริง" / "นี่คือจิ้งจอกเฟนเนคตัวจริง" -> แสดงภาพถ่าย (นับถอยหลังแล้วเล่นต่อเอง) และหลังนูรีชวนพูด "ซุบฮานัลลอฮ์"
-    // ค่าเวลามาจาก output/car-desert-v3/turns.json (คงจุดหยุดจากฉบับเดิม)
-    turns: [
-      { at: 46.52, resumeAt: 47.07, photo: photo("camel") },
-      { at: 77.95, resumeAt: 78.5, photo: photo("fennec") },
-      { at: 96.7, resumeAt: 98.5, word: FILM_SUBHANALLAH },
-    ],
-    words: [FILM_SUBHANALLAH],
-    captions: ["th"],
+    duration: 39.193,
+    turns: [{ at: 15.457, resumeAt: 16.557, photo: photo("camel") }],
+    words: [],
+    captions: ["th", "en"],
     label: {
-      th: "การ์ตูนไปเที่ยวทะเลทราย: ครูนูรี ฮาดี และซาฟี ไปดูอูฐเดินบนทรายและดื่มน้ำที่โอเอซิส แล้วเจอจิ้งจอกเฟนเนคหูใหญ่ในโพรง",
-      en: "Cartoon: Nuri, Hadi and Safi visit the desert, watch a camel walk on sand and drink at an oasis, then meet a big-eared fennec fox in its burrow.",
+      th: "รอยเท้านี้ของใคร · ตามครูนูรีไปดูว่าใครทิ้งรอยเท้าไว้ริมแอ่งน้ำ",
+      en: "Whose Tracks Are These? Follow Nuri to find out who left tracks beside the waterhole.",
+    },
+  },
+  "desert-life": {
+    name: "desert-field-notes",
+    dir: "explore/film",
+    duration: 134.554,
+    turns: [
+      { at: 58.977, resumeAt: 60.077, photo: photo("camel") },
+      { at: 105.826, resumeAt: 106.926, photo: photo("fennecRest") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: {
+      th: "ฮาดีไขปริศนาบนผืนทราย · ทดลองกับฮาดีว่าเท้าอูฐเดินบนทรายได้อย่างไร แล้วตามไปดูโพรงของจิ้งจอกเฟนเนค",
+      en: "Hadi Investigates the Sand Test how camel feet work on sand with Hadi, then explore a fennec fox’s burrow.",
     },
   },
   /* ครูนูรีกับแสงอุ่นในสวน (sun-v5, 14 พ.ย. 2026) ต้นทาง output/car-sun-v5/ (script.md, story.mjs) + output/car-hf/sun-v5/ (film.mjs)
