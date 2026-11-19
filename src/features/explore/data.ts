@@ -1001,6 +1001,7 @@ export const CARD_ART: Record<string, string> = {
   moon: "/explore/card-moon.webp",
   water: "/explore/card-water.webp",
   tree: "/explore/card-tree.webp",
+  "tree-seedling": "/explore/film/little-leaf-poster.webp",
   honey: "/explore/card-honey.webp",
   rain: "/explore/card-rain.webp",
   mountain: "/explore/card-mountain.webp",
@@ -1016,6 +1017,30 @@ export const CARD_ART: Record<string, string> = {
 const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "ซุบฮานัลลอฮ์" };
 
 export const FILMS: Record<string, Film> = {
+  "tree-seedling": {
+    name: "little-leaf",
+    dir: "explore/film",
+    duration: 34.407,
+    turns: [],
+    words: [],
+    captions: ["th", "en"],
+    label: {
+      th: "ใบใหม่ในกระถาง ครูนูรีชวนดูใบอ่อนของต้นกล้าค่อย ๆ กางออก",
+      en: "A New Leaf in the Pot. Watch a little tree unfold its new leaf with Nuri.",
+    },
+  },
+  tree: {
+    name: "one-seed-world",
+    dir: "explore/film",
+    duration: 298.279,
+    turns: [],
+    words: [],
+    captions: ["th", "en"],
+    label: {
+      th: "ฮาดีตามรอยใบไม้ สำรวจสวนอินทผลัม ป่าโกงกาง และป่าสปรูซกับครูนูรี แล้วตามน้ำเข้าไปดูว่าใบไม้ปล่อยออกซิเจนได้อย่างไร",
+      en: "Hadi Follows a Leaf. Explore date palms, mangroves and spruce trees with Nuri, then follow water into a leaf to discover how it releases oxygen.",
+    },
+  },
   "desert-home": {
     name: "desert-v3", // 17 พ.ย. 2026: Film Kit หลายมุม หันฟังผู้พูด เท้าสัมผัสพื้น และเสียงเคลื่อนนุ่ม — output/car-desert-v3/
     dir: "explore/film",

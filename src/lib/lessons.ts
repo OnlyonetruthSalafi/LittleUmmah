@@ -703,13 +703,19 @@ export const ISLAND_CONTENT: IslandContent[] = [
         body: { th: "คน สัตว์ และต้นไม้ ทุกชีวิตต้องการน้ำ เราจึงใช้น้ำอย่างประหยัด ปิดก๊อกทุกครั้ง", en: "People, animals and plants: every living thing needs water. So we use water carefully and always turn off the tap." },
       },
       {
-        id: "tree",
+        id: "tree-seedling",
         icon: "tree",
-        title: { th: "ต้นไม้", en: "Trees" },
-        body: { th: "เมล็ดเล็กนิดเดียว งอกเป็นต้นไม้ใหญ่ ให้ร่มเงาและผลไม้ อย่างต้นอินทผลัม", en: "A tiny seed grows into a big tree that gives shade and fruit, like the date palm." },
+        title: { th: "ต้นไม้ · ใบใหม่ในกระถาง", en: "Trees · A New Leaf in the Pot" },
+        body: { th: "ดูต้นกล้ากับครูนูรี แล้วคอยดูใบใหม่ค่อย ๆ กางออก", en: "Look at a little tree with Nuri and watch its new leaf unfold." },
       },
     ],
     juniors: [
+      {
+        id: "tree",
+        icon: "tree",
+        title: { th: "ต้นไม้ · ฮาดีตามรอยใบไม้", en: "Trees · Hadi Follows a Leaf" },
+        body: { th: "สำรวจต้นไม้สามถิ่นกับฮาดี แล้วตามน้ำเข้าไปในใบเพื่อดูว่าออกซิเจนมาจากไหน", en: "Explore trees in three habitats with Hadi and follow water into a leaf to discover where oxygen comes from." },
+      },
       {
         id: "honey",
         icon: "honeycomb",

@@ -6,7 +6,7 @@ if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id??''))throw Error('Use a lowercase id, e
 const root=path.join(fileURLToPath(new URL('../../output/',import.meta.url)),id);
 if(existsSync(root))throw Error(`Refusing to overwrite ${root}`);
 mkdirSync(path.join(root,'props'),{recursive:true});
-writeFileSync(path.join(root,'film.config.mjs'),`export default ${JSON.stringify({id,title:id,background:'park.jpg',cast:{nuri:['front','q','side']},turnAfter:null,ambience:{file:'amb.mp3',gain:.35}},null,2)};\n`);
+writeFileSync(path.join(root,'film.config.mjs'),`export default ${JSON.stringify({id,title:id,checkThaiEndings:true,background:'park.jpg',cast:{nuri:['front','q','side']},turnAfter:null,ambience:{file:'amb.mp3',gain:.35}},null,2)};\n`);
 writeFileSync(path.join(root,'story.mjs'),`export const names={nuri:'ครูนูรี'};\nexport const lines={};\nexport const scenes=[{id:'intro',lead:0,tail:8,items:[]}];\n`);
 writeFileSync(path.join(root,'film.js'),`place('nuri',960,920,'front');\ncut(0,960,540,1);\ngesture('nuri','front',1,4,OPEN);\nwindow.ready=loadAll().then(()=>renderAt(0));\n`);
 console.log(root);
