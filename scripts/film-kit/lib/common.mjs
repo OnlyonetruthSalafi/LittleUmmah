@@ -18,14 +18,21 @@ export async function loadFilm(root){
 export function checkThaiEndings(lines) {
  const problems = [];
  for (const [key, [who, text, options = {}]] of Object.entries(lines)) {
-  if (!['hadi', 'nuri'].includes(who) || options.verbatim || !/[ก-ฮ]/u.test(text)) continue;
+  if (!['hadi', 'sabir', 'qalam', 'nuri', 'safi'].includes(who) || options.verbatim || !/[ก-ฮ]/u.test(text)) continue;
   for (const sentence of text.match(/[^.!?。！？]+[.!?。！？]*/gu) ?? []) {
    const words = sentence.trim().replace(/[.!?。！？…"'”’»]+$/gu, '').trimEnd();
    if (!words) continue;
    const question = /[?？]["'”’»]*$/u.test(sentence.trim());
-   const endings = who === 'hadi' ? /ครับ$/u : question ? /จ๊ะ$/u : /(?:จ้ะ|จ๊ะ)$/u;
+   const endings = {
+    hadi: /ครับ$/u,
+    sabir: /ครับ$/u,
+    qalam: /ครับ$/u,
+    nuri: question ? /จ๊ะ$/u : /(?:จ้ะ|จ๊ะ)$/u,
+    // Thai questions may omit a question mark; keep existing spoken scripts valid.
+    safi: question ? /คะ$/u : /(?:ค่ะ|คะ)$/u,
+   }[who];
    if (!endings.test(words)) problems.push(`${key} (${who}): ${sentence.trim()}`);
   }
  }
- if (problems.length) throw Error('ตรวจหางเสียงก่อนพากย์ — ฮาดีใช้ “ครับ” ครูนูรีใช้ “จ้ะ/จ๊ะ” ตามบริบท\n' + problems.join('\n'));
+ if (problems.length) throw Error('ตรวจหางเสียงก่อนพากย์ — ฮาดี ซาบิร และฟาฮีมใช้ “ครับ” ครูนูรีใช้ “จ้ะ/จ๊ะ” ซาฟีใช้ “ค่ะ/คะ” ตามบริบท\n' + problems.join('\n'));
 }

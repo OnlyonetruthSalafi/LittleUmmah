@@ -352,12 +352,12 @@ export const WORLD_GROUP = { title: { th: "สิ่งรอบตัว", en: 
 
 // เก็บข้อความใหม่เป็น Text; body ของ Lesson เดิมยังเป็น string และไม่ใช้เมื่อมีการ์ตูน
 export const HABITAT_SUMMARIES: Record<string, Text> = {
-  "mountain-home": { th: "แพะภูเขาปีนหิน มาร์มอตอยู่ใกล้ทุ่งหญ้า", en: "Mountain goats climb rocks; marmots live near meadows." },
-  "mountain-life": { th: "สำรวจกีบเท้า ขนกันหนาว และการจำศีล", en: "Explore gripping hooves, warm coats and hibernation." },
-  "beach-home": { th: "รู้จักปูเสฉวนและนกนางนวลริมชายหาด", en: "Meet hermit crabs and gulls by the beach." },
-  "beach-life": { th: "เปลือกหอยเป็นที่ป้องกันตัว และชายฝั่งเป็นบ้านของนก", en: "Shells protect crabs, and coasts are home to birds." },
-  "pond-home": { th: "เป็ดว่ายน้ำ กบอยู่ริมน้ำ", en: "Ducks swim and frogs live near water." },
-  "pond-life": { th: "เรียนรู้เท้าพังผืดของเป็ดและการเติบโตของกบ", en: "Explore webbed feet and how frogs grow." },
+  "mountain-home": { th: "ชี้หูกลมที่โผล่พ้นก้อนหิน แล้วทายกับซาฟีว่ามาร์มอตจะกลับเข้าบ้านทางไหน", en: "Spot a pair of round ears, then guess where the marmot will go with Safi." },
+  "mountain-life": { th: "ตามซาฟีขึ้นชั้นหินไปดูกีบแพะภูเขา แล้วตามรอยมาร์มอตเข้าโพรงเมื่อหิมะมา", en: "Examine a mountain goat’s hooves with Safi and follow a marmot underground when winter comes." },
+  "beach-home": { th: "ตามครูนูรีไปทายว่าใครพาเปลือกเดิน แล้วชี้ดูบ้านใหม่ของมัน", en: "Guess who carries the shell with Nuri, then spot its new home." },
+  "beach-life": { th: "ทายกับฮาดีว่าเปลือกจะโตตามปูไหม แล้วดูหลักฐานบนทรายก่อนและหลังปูย้าย", en: "Test Hadi’s prediction by comparing two shells before and after a hermit crab moves." },
+  "pond-home": { th: "ทายกับซาฟีว่ากบจะกระโดดลงตรงไหน แล้วลองชี้วงน้ำที่ค่อย ๆ แผ่กว้าง", en: "Predict where the frog will land with Safi, then point to its spreading ripples." },
+  "pond-life": { th: "กลับมาบันทึกกบตัวน้อยหลายครั้ง แล้วใช้ขาและหางช่วยซาฟีเรียงภาพในสมุด", en: "Visit the pond over several weeks and help Safi order her drawings using legs and tails as clues." },
   "savanna-home": { th: "ม้าลายกินหญ้า ยีราฟกินใบไม้", en: "Zebras eat grass and giraffes eat leaves." },
   "savanna-life": { th: "ม้าลายกับยีราฟหาอาหารต่างระดับ", en: "Zebras and giraffes feed at different heights." },
 };
@@ -365,27 +365,27 @@ export const HABITAT_SUMMARIES: Record<string, Text> = {
 /* id ไม่ซ้ำกับบทของเกาะอื่น (ดาวเก็บแยกเกาะอยู่แล้ว แต่กันสับสน) — body ใช้เมื่อไม่มีการ์ตูนเท่านั้น */
 export const HABITAT_LESSONS: Record<AgeId, Lesson[]> = {
   kids: [
-    { id: "mountain-home", icon: "mountain", title: { th: "ภูเขา", en: "The mountains" }, body: HABITAT_SUMMARIES["mountain-home"] },
-    { id: "beach-home", icon: "wave", title: { th: "ชายหาด", en: "The beach" }, body: HABITAT_SUMMARIES["beach-home"] },
-    { id: "farm-home", icon: "tree", title: { th: "ฟาร์ม", en: "The farm" }, body: { th: "วัวและแกะกินหญ้า และต้องการน้ำสะอาด", en: "Cows and sheep eat grass, and they need clean water." } },
+    { id: "mountain-home", icon: "mountain", title: { th: "ภูเขา · ใครโผล่หลังก้อนหิน", en: "The Mountains · Who Peeked Out?" }, body: HABITAT_SUMMARIES["mountain-home"] },
+    { id: "beach-home", icon: "wave", title: { th: "ชายหาด · เปลือกหอยเดินได้ไหม", en: "The Beach · Can a Shell Walk?" }, body: HABITAT_SUMMARIES["beach-home"] },
+    { id: "farm-home", icon: "tree", title: { th: "ฟาร์ม · ซาบิรตามสายน้ำ", en: "The Farm · Sabir Follows the Water" }, body: { th: "ตามซาบิรไปดูว่าน้ำจากท่อไหลไปที่ไหน แล้วทายว่าใครจะมาดื่ม", en: "Follow the water from the pipe with Sabir, then see who comes for a drink." } },
     { id: "garden-home", icon: "tree", title: { th: "สวนดอกไม้", en: "The flower garden" }, body: { th: "ดอกไม้เป็นแหล่งอาหารของผีเสื้อและผึ้ง", en: "Flowers are food for butterflies and bees." } },
     { id: "desert-home", icon: "sun", title: { th: "ทะเลทราย · รอยเท้านี้ของใคร", en: "The Desert · Whose Tracks Are These?" }, body: { th: "ตามครูนูรีไปดูว่าใครทิ้งรอยเท้าไว้ริมแอ่งน้ำ", en: "Follow Nuri to find out who left tracks beside the waterhole." } },
     { id: "forest-home", icon: "tree", title: { th: "ป่าไม้", en: "The forest" }, body: { th: "ช้างและกระรอกอยู่ในป่าที่มีต้นไม้สูงใหญ่", en: "Elephants and squirrels live in forests full of tall trees." } },
     { id: "sea-home", icon: "wave", title: { th: "ทะเล", en: "The sea" }, body: { th: "เต่าทะเลและโลมาว่ายน้ำอยู่ในทะเลกว้าง", en: "Sea turtles and dolphins swim in the wide sea." } },
     { id: "polar-home", icon: "mountain", title: { th: "ขั้วโลก", en: "The polar lands" }, body: { th: "หมีขั้วโลกและแมวน้ำอยู่ในที่หนาวที่สุด", en: "Polar bears and seals live in the coldest places." } },
-    { id: "pond-home", icon: "drop", title: { th: "ริมบึง", en: "The freshwater pond" }, body: HABITAT_SUMMARIES["pond-home"] },
+    { id: "pond-home", icon: "drop", title: { th: "ริมบึง · ซาฟีกับวงน้ำปริศนา", en: "The Pond · Safi and the Ripples" }, body: HABITAT_SUMMARIES["pond-home"] },
     { id: "savanna-home", icon: "tree", title: { th: "ทุ่งหญ้าสะวันนา", en: "The savanna" }, body: HABITAT_SUMMARIES["savanna-home"] },
   ],
   juniors: [
-    { id: "mountain-life", icon: "mountain", title: { th: "ชีวิตบนภูเขา", en: "Life in the mountains" }, body: HABITAT_SUMMARIES["mountain-life"] },
-    { id: "beach-life", icon: "wave", title: { th: "ชีวิตริมชายหาด", en: "Life by the beach" }, body: HABITAT_SUMMARIES["beach-life"] },
-    { id: "farm-life", icon: "tree", title: { th: "ชีวิตในฟาร์ม", en: "Life on the farm" }, body: { th: "วัวและแกะเคี้ยวเอื้อง ช่วยย่อยอาหารจากพืช", en: "Cows and sheep chew the cud, which helps them digest plants." } },
+    { id: "mountain-life", icon: "mountain", title: { th: "ภูเขา · สองเส้นทางบนภูเขา", en: "The Mountains · Two Trails on the Mountain" }, body: HABITAT_SUMMARIES["mountain-life"] },
+    { id: "beach-life", icon: "wave", title: { th: "ชายหาด · ฮาดีกับปริศนาเปลือกสองใบ", en: "The Beach · Hadi and the Two Shells" }, body: HABITAT_SUMMARIES["beach-life"] },
+    { id: "farm-life", icon: "tree", title: { th: "ฟาร์ม · ลูกศรที่ย้อนกลับ", en: "The Farm · The Arrow That Turns Back" }, body: { th: "ต่อแบบจำลองกับฟาฮีมและซาบิร เพื่อไขปริศนาว่าทำไมวัวหยุดเล็มหญ้าแล้วยังเคี้ยวอยู่", en: "Help Faheem and Sabir build a model to explain why a cow keeps chewing after it stops grazing." } },
     { id: "garden-life", icon: "tree", title: { th: "ชีวิตในสวนดอกไม้", en: "Life in the flower garden" }, body: { th: "ผีเสื้อเติบโตผ่านสี่ระยะ และผึ้งช่วยถ่ายละอองเรณู", en: "Butterflies grow through four stages, and bees help carry pollen." } },
     { id: "desert-life", icon: "sun", title: { th: "ทะเลทราย · ฮาดีไขปริศนาบนผืนทราย", en: "The Desert · Hadi Investigates the Sand" }, body: { th: "ทดลองกับฮาดีว่าเท้าอูฐเดินบนทรายได้อย่างไร แล้วตามไปดูโพรงของจิ้งจอกเฟนเนค", en: "Test how camel feet work on sand with Hadi, then explore a fennec fox’s burrow." } },
     { id: "forest-life", icon: "tree", title: { th: "ชีวิตในป่า", en: "Life in the forest" }, body: { th: "ป่ามีหลายชั้น ช้างและกระรอกช่วยให้ป่าเติบโต", en: "A forest has many layers, and elephants and squirrels help it grow." } },
     { id: "sea-life", icon: "wave", title: { th: "ชีวิตในทะเล", en: "Life in the sea" }, body: { th: "เต่าทะเลและโลมาหายใจด้วยปอด แต่ใช้ชีวิตในทะเล", en: "Sea turtles and dolphins breathe with lungs, but they live in the sea." } },
     { id: "polar-life", icon: "mountain", title: { th: "ชีวิตที่ขั้วโลก", en: "Life at the poles" }, body: { th: "หมีขั้วโลกและแมวน้ำมีไขมันหนากันหนาว", en: "Polar bears and seals have thick fat to keep out the cold." } },
-    { id: "pond-life", icon: "drop", title: { th: "ชีวิตริมบึง", en: "Life at the pond" }, body: HABITAT_SUMMARIES["pond-life"] },
+    { id: "pond-life", icon: "drop", title: { th: "ริมบึง · สมุดริมบึงของซาฟี", en: "The Pond · Safi’s Pond Journal" }, body: HABITAT_SUMMARIES["pond-life"] },
     { id: "savanna-life", icon: "tree", title: { th: "ชีวิตในสะวันนา", en: "Life in the savanna" }, body: HABITAT_SUMMARIES["savanna-life"] },
   ],
 };
@@ -977,16 +977,16 @@ export const CARTOONS: Record<string, Cartoon & { scenes: ExploreScene[] }> = {
 
 /* ---------- ภาพการ์ด (ไม่มีภาพถ่ายบนการ์ด — ข้อ 1.1) ---------- */
 export const CARD_ART: Record<string, string> = {
-  "mountain-home": "/explore/mountain-card.webp",
-  "mountain-life": "/explore/mountain-card.webp",
-  "beach-home": "/explore/beach-card.webp",
-  "beach-life": "/explore/beach-card.webp",
-  "pond-home": "/explore/card-pond.webp",
-  "pond-life": "/explore/card-pond.webp",
+  "mountain-home": "/explore/film/mountain-peek-poster.webp",
+  "mountain-life": "/explore/film/mountain-two-trails-poster.webp",
+  "beach-home": "/explore/film/beach-walking-shell-poster.webp",
+  "beach-life": "/explore/film/beach-shell-detectives-poster.webp",
+  "pond-home": "/explore/film/pond-little-splash-poster.webp",
+  "pond-life": "/explore/film/pond-safi-journal-poster.webp",
   "savanna-home": "/explore/card-savanna.webp",
   "savanna-life": "/explore/card-savanna.webp",
-  "farm-home": "/explore/card-farm.webp",
-  "farm-life": "/explore/card-farm.webp",
+  "farm-home": "/explore/film/farm-water-trough-poster.webp",
+  "farm-life": "/explore/film/farm-returning-arrow-v3-poster.webp",
   "garden-home": "/explore/card-garden.webp",
   "garden-life": "/explore/card-garden.webp",
   "desert-home": "/explore/film/desert-little-tracks-poster.webp",
@@ -1015,6 +1015,70 @@ export const CARD_ART: Record<string, string> = {
 const FILM_SUBHANALLAH: FilmWord = { ar: "سُبْحَانَ اللهِ", th: "ซุบฮานัลลอฮ์" };
 
 export const FILMS: Record<string, Film> = {
+  "farm-home": {
+    name: "farm-water-trough",
+    dir: "explore/film",
+    duration: 56.784,
+    turns: [
+      { at: 45.265, resumeAt: 46.405, photo: photo("farmSheep") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "ซาบิรตามสายน้ำ · ตามซาบิรไปดูว่าน้ำจากท่อไหลไปที่ไหน แล้วทายว่าใครจะมาดื่ม", en: "Sabir Follows the Water · Follow the water from the pipe with Sabir, then see who comes for a drink." },
+  },
+  "farm-life": {
+    name: "farm-returning-arrow-v3",
+    dir: "explore/film",
+    duration: 118.672,
+    turns: [
+      { at: 24.935, resumeAt: 26.075, photo: photo("farmCow") },
+      { at: 103.393, resumeAt: 104.533, photo: photo("farmSheep") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "ลูกศรที่ย้อนกลับ · ต่อแบบจำลองกับฟาฮีมและซาบิร เพื่อไขปริศนาว่าทำไมวัวหยุดเล็มหญ้าแล้วยังเคี้ยวอยู่", en: "The Arrow That Turns Back · Help Faheem and Sabir build a model to explain why a cow keeps chewing after it stops grazing." },
+  },
+  "mountain-home": {
+    name: "mountain-peek",
+    dir: "explore/film",
+    duration: 63.107,
+    turns: [
+      { at: 34.150, resumeAt: 35.290, photo: photo("mountainMarmot") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "ใครโผล่หลังก้อนหิน · ชี้หูกลมที่โผล่พ้นก้อนหิน แล้วทายกับซาฟีว่ามาร์มอตจะกลับเข้าบ้านทางไหน", en: "Who Peeked Out? · Spot a pair of round ears, then guess where the marmot will go with Safi." },
+  },
+  "mountain-life": {
+    name: "mountain-two-trails",
+    dir: "explore/film",
+    duration: 145.489,
+    turns: [
+      { at: 48.446, resumeAt: 49.586, photo: photo("mountainGoat") },
+      { at: 111.418, resumeAt: 112.558, photo: photo("mountainMarmot") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "สองเส้นทางบนภูเขา · ตามซาฟีขึ้นชั้นหินไปดูกีบแพะภูเขา แล้วตามรอยมาร์มอตเข้าโพรงเมื่อหิมะมา", en: "Two Trails on the Mountain · Examine a mountain goat’s hooves with Safi and follow a marmot underground when winter comes." },
+  },
+  "pond-home": {
+    name: "pond-little-splash",
+    dir: "explore/film",
+    duration: 60.853,
+    turns: [{ at: 48.710, resumeAt: 49.850, photo: photo("frog") }],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "ซาฟีกับวงน้ำปริศนา · ทายกับซาฟีว่ากบจะกระโดดลงตรงไหน แล้วลองชี้วงน้ำที่ค่อย ๆ แผ่กว้าง", en: "Safi and the Ripples · Predict where the frog will land with Safi, then point to its spreading ripples." },
+  },
+  "pond-life": {
+    name: "pond-safi-journal",
+    dir: "explore/film",
+    duration: 135.082,
+    turns: [{ at: 122.307, resumeAt: 123.447, photo: photo("frog") }],
+    words: [],
+    captions: ["th", "en"],
+    label: { th: "สมุดริมบึงของซาฟี · กลับมาบันทึกกบตัวน้อยหลายครั้ง แล้วใช้ขาและหางช่วยซาฟีเรียงภาพในสมุด", en: "Safi’s Pond Journal · Visit the pond over several weeks and help Safi order her drawings using legs and tails as clues." },
+  },
   "tree-seedling": {
     name: "little-leaf",
     dir: "explore/film",
@@ -1037,6 +1101,35 @@ export const FILMS: Record<string, Film> = {
     label: {
       th: "ฮาดีตามรอยใบไม้ สำรวจสวนอินทผลัม ป่าโกงกาง และป่าสปรูซกับครูนูรี แล้วตามน้ำเข้าไปดูว่าใบไม้ปล่อยออกซิเจนได้อย่างไร",
       en: "Hadi Follows a Leaf. Explore date palms, mangroves and spruce trees with Nuri, then follow water into a leaf to discover how it releases oxygen.",
+    },
+  },
+  "beach-home": {
+    name: "beach-walking-shell",
+    dir: "explore/film",
+    duration: 59.373,
+    turns: [
+      { at: 22.567, resumeAt: 23.707, photo: photo("beachHermit") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: {
+      th: "เปลือกหอยเดินได้ไหม · ตามครูนูรีไปทายว่าใครพาเปลือกเดิน แล้วชี้ดูบ้านใหม่ของมัน",
+      en: "Can a Shell Walk? Guess who carries the shell with Nuri, then spot its new home.",
+    },
+  },
+  "beach-life": {
+    name: "beach-shell-detectives",
+    dir: "explore/film",
+    duration: 136.825,
+    turns: [
+      { at: 35.755, resumeAt: 36.895, photo: photo("beachHermit") },
+      { at: 115.827, resumeAt: 116.967, photo: photo("beachGull") },
+    ],
+    words: [],
+    captions: ["th", "en"],
+    label: {
+      th: "ฮาดีกับปริศนาเปลือกสองใบ · ทายกับฮาดีว่าเปลือกจะโตตามปูไหม แล้วดูหลักฐานบนทรายก่อนและหลังปูย้าย",
+      en: "Hadi and the Two Shells Test Hadi’s prediction by comparing two shells before and after a hermit crab moves.",
     },
   },
   "desert-home": {
