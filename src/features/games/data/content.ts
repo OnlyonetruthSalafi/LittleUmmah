@@ -56,5 +56,18 @@ export function boardContent(slug: GameSlug, level: number, arabicSet = 0): Boar
     return { targets, items: Array.from({ length: slug === 'sort' ? 6 : 5 }, (_, i) => ({ id: `shape-${i}`, target: selected[i % selected.length].id, label: targets[i % selected.length].label, visual: { kind: 'shape', value: selected[i % selected.length].id, color: colors[i % 4].hex } })) };
   }
   const selected = colors.slice(0, slug === 'color-match' ? 4 : level === 1 ? 3 : 4);
-  return { targets: selected.map(c => ({ id: c.id, label: { th: c.th, en: c.en }, visual: { kind: 'shape', value: c.shape, color: c.hex } })), items: Array.from({ length: slug === 'sort' ? 6 : 5 }, (_, i) => { const c = selected[i % selected.length]; return { id: `color-${i}`, target: c.id, label: { th: c.th, en: c.en }, visual: { kind: 'shape', value: c.shape, color: c.hex } }; }) };
+  const targets: Target[] = selected.map(color => ({
+    id: color.id, label: { th: color.th, en: color.en },
+    visual: { kind: 'shape', value: color.shape, color: color.hex },
+  }));
+  const itemCount = slug === 'sort' ? 6 : level + 3;
+  const items: Item[] = Array.from({ length: itemCount }, (_, i) => {
+    const color = selected[i % selected.length];
+    const shape = slug === 'color-match' && level > 1 ? shapes[(i + level) % shapes.length].id : color.shape;
+    return {
+      id: `color-${i}`, target: color.id, label: { th: color.th, en: color.en },
+      visual: { kind: 'shape', value: shape, color: color.hex },
+    };
+  });
+  return { targets, items };
 }

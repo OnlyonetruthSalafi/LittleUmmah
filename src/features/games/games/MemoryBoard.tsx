@@ -9,7 +9,7 @@ import { IslandBoard } from '../components/diorama/IslandBoard';
 import { CARD_ART, ISLAND_ART, MOBILE_ISLAND_ART, MOBILE_TALL_ISLAND_ART, memorySymbols } from '../data/memoryArt';
 import type { PlayProps } from '../components/GameShell';
 
-export default function MemoryBoard({ level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+export default function MemoryBoard({ paused, level, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   const { t, sub, pick, pickSub } = useDict();
   const count = [3, 6, 8][level - 1];
   // GameShell mounts this board only after Start (never during SSR), and changes
@@ -20,12 +20,12 @@ export default function MemoryBoard({ level, onProgress, onFeedback, onComplete,
   useEffect(() => { firstCard.current?.focus({ preventScroll: true }); }, []);
   useEffect(() => { onProgress(state.matched.length, count); }, [state.matched.length, count, onProgress]);
   useEffect(() => {
-    if (state.open.length !== 2) return;
+    if (paused || state.open.length !== 2) return;
     const match = memoryMatches(state);
     const timer = setTimeout(() => { onFeedback(match); const next = settleMemory(state); stateRef.current = next; setState(next); }, match ? 450 : 1100);
     return () => clearTimeout(timer);
-  }, [state, onFeedback]);
-  useEffect(() => { if (state.matched.length !== count) return; const timer = setTimeout(onComplete, 850); return () => clearTimeout(timer); }, [state.matched.length, count, onComplete]);
+  }, [state, onFeedback, paused]);
+  useEffect(() => { if (paused || state.matched.length !== count) return; const timer = setTimeout(onComplete, 850); return () => clearTimeout(timer); }, [state.matched.length, count, onComplete, paused]);
 
   return <div className="mem-scene" data-cards={count * 2}>
     <p className="mem-stats">{fmt(t.games.memory.moves, { moves: state.moves })}{sub && <span lang="en">{fmt(sub.games.memory.movesSecondary, { moves: state.moves })}</span>}</p>

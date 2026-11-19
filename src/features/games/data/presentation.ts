@@ -72,7 +72,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     fullscreen: true,
     world: { th: 'โรงงานสีแสนสนุก', en: 'The Color Workshop' },
     description: { th: 'พาของเล่นกลับบ้านสีของตัวเอง', en: 'Bring each toy to its color home.' },
-    levels: [{ th: 'รู้จัก 4 สี', en: 'Meet four colors' }, { th: 'ลองจับคู่', en: 'Match the toys' }, { th: 'จำสีให้ได้', en: 'Know your colors' }],
+    levels: [{ th: 'รู้จัก 4 สี', en: 'Meet four colors' }, { th: 'ลองจับคู่', en: 'Match the toys' }, { th: 'แยกสีคละรูป', en: 'Sort mixed shapes by color' }],
     destinations: { th: 'บ้านของแต่ละสี', en: 'Color homes' }, pieces: { th: 'เลือกของเล่นไปวาง', en: 'Pick a toy' },
   },
   'shape-match': {
@@ -87,12 +87,14 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     destinations: { th: 'รูปนี้ลงช่องไหนดี?', en: 'Find the matching outline' }, pieces: { th: 'ชิ้นรูปทรงของเรา', en: 'Our shape pieces' },
   },
   memory: {
+    landscapeBoard: true,
     world: { th: 'ลานสมบัติความจำ', en: 'The Memory Treasury' },
     description: { th: 'เปิดทีละสองภาพ แล้วตามหาคู่ของมัน', en: 'Reveal two treasures and find their pair.' },
     levels: [{ th: '6 ใบ · 3 คู่', en: '6 cards · 3 pairs' }, { th: '12 ใบ · 6 คู่', en: '12 cards · 6 pairs' }, { th: '16 ใบ · 8 คู่', en: '16 cards · 8 pairs' }],
     destinations: { th: 'สมบัติที่ซ่อนอยู่', en: 'Hidden treasures' }, pieces: { th: 'เปิดภาพหาคู่', en: 'Reveal a pair' },
   },
   puzzle: {
+    landscapeBoard: true,
     world: { th: 'ช่างต่อเมืองน้อย', en: 'The Little City Builders' },
     description: { th: 'ต่อทีละชิ้น ให้เมืองสวยกลับมาครบ', en: 'Build a beautiful little city, piece by piece.' },
     levels: [{ th: '4 ชิ้น', en: '4 pieces' }, { th: '6 ชิ้น', en: '6 pieces' }, { th: '9 ชิ้น', en: '9 pieces' }],

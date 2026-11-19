@@ -80,7 +80,7 @@
  .bs-tray{height:92px;bottom:54px}.bs-tray-art{height:52px}
  .bs-tray>div,.bs-tray .gc-object-button,.bs-tray .bs-block-art{width:80px;height:80px}
 }
-@media(max-height:550px) and (orientation:landscape){
+@media (orientation: landscape) and (max-height: 550px), (orientation: landscape) and (min-height: 551px) and (max-width: 1099px){
  .gc-focus[data-game='balance-scale']{padding:8px 12px}
  .gc-focus[data-game='balance-scale'][data-status='playing'] .gc-play-container{display:grid;grid-template-columns:1fr 1.15fr;grid-template-rows:72px 52px 64px 40px 130px;grid-template-areas:'header header';gap:4px 12px}
  .gc-focus[data-game='balance-scale'] .gc-play-container>header{grid-area:header}

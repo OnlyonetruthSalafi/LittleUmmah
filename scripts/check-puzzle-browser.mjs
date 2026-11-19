@@ -37,6 +37,30 @@ const knobPoint = () => {
 };
 
 try {
+  // Nine projected pieces used to cover one another on the short landscape bench.
+  const phone = await browser.newContext({ viewport: { width: 568, height: 320 }, hasTouch: true, isMobile: true });
+  try {
+    const page = await phone.newPage();
+    await page.goto(`${base}/games/puzzle`);
+    await page.locator('.gc-level-stone').nth(2).tap();
+    await page.locator('.gc-adventure-start').tap();
+    await page.locator('.pz-tray [data-item-id]').first().waitFor();
+    await page.locator('.gc-countdown').waitFor({ state: 'detached' });
+    const pieces = page.locator('.pz-tray [data-item-id]');
+    assert.equal(await pieces.count(), 9);
+    for (const piece of await pieces.all()) {
+      const reachable = await piece.evaluate(el => {
+        const r = el.getBoundingClientRect();
+        return r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight
+          && el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+      });
+      assert.ok(reachable, 'every landscape piece is visible and independently selectable');
+      await piece.tap();
+      assert.equal(await piece.getAttribute('aria-pressed'), 'true');
+    }
+  } finally {
+    await phone.close();
+  }
   // Regression: picture cards move only their artwork, with a shadow-only reduced-motion fallback.
   for (const reducedMotion of ['no-preference', 'reduce']) {
     const context = await browser.newContext({ viewport: { width: 1536, height: 770 }, reducedMotion });

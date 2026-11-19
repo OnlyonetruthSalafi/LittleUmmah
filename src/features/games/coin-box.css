@@ -67,7 +67,7 @@
  .cb-counter > strong { font-size: 52px; }
  .cb-counter > span { font-size: 18px; }
 }
-@media (max-height: 550px) and (orientation: landscape) {
+@media (orientation: landscape) and (max-height: 550px), (orientation: landscape) and (min-height: 551px) and (max-width: 1099px) {
  .gc-focus[data-game='coin-box'] { padding: 8px 12px; }
  .gc-focus[data-game='coin-box'][data-status='playing'] .gc-play-container { display: grid; grid-template-columns: 1.1fr 1fr; grid-template-rows: 72px 52px 104px 36px 68px; grid-template-areas: "header header"; gap: 4px 12px; }
 

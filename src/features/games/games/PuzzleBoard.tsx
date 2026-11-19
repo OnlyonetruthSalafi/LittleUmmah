@@ -72,7 +72,7 @@ function BenchTray({ S, pad, wall, uid }: { S: number; pad: number; wall: { x: n
   </svg>;
 }
 
-export default function PuzzleBoard({ level, pictureId, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
+export default function PuzzleBoard({ paused, level, pictureId, onProgress, onFeedback, onComplete, onTap }: PlayProps) {
   const { t, sub, pick, pickSub } = useDict();
   const uid = useId().replace(/:/g, '');
   const [round] = useState(() => { const data = boardContent('puzzle', level); return { ...data, tray: shuffle(data.items) }; });
@@ -108,10 +108,10 @@ export default function PuzzleBoard({ level, pictureId, onProgress, onFeedback, 
   }, []);
   useEffect(() => { onProgress(placed.length, total); }, [placed.length, total, onProgress]);
   useEffect(() => {
-    if (!levelComplete(total, placed.length)) return;
+    if (paused || !levelComplete(total, placed.length)) return;
     const timer = setTimeout(onComplete, 1200);
     return () => clearTimeout(timer);
-  }, [placed.length, total, onComplete]);
+  }, [placed.length, total, onComplete, paused]);
 
   const indexOf = (id: string) => Number(id.split('-')[1]);
   function place(itemId: string, targetId: string) {
@@ -184,7 +184,7 @@ export default function PuzzleBoard({ level, pictureId, onProgress, onFeedback, 
     {/* ชิ้นที่รอวางอยู่บนถาดใต้เกาะ ถาดกับชิ้นเอียงบนระนาบเดียวกับถาดบนเกาะ ชิ้นจึงใหญ่และเอียงเท่าช่องจริง
         ปุ่มของแต่ละชิ้นเป็นกล่องตรงบนจอ (ลากตามนิ้วได้ตรง) ≥ 64px ศูนย์กลางอยู่ที่กลางช่องบนระนาบ
         ช่องของชิ้นที่วางแล้วยังเว้นไว้ ชิ้นอื่นจึงไม่เลื่อนขณะเด็กเล็ง */}
-    <div className="pz-bench" ref={benchRef} style={bench ? { height: bench.height } : undefined}>
+    <div className="pz-bench" ref={benchRef} style={bench ? { '--bench-height': bench.height + 'px' } as CSSProperties : undefined}>
       {bench && <>
         <div className="pz-bench-plane" style={{ width: bench.S, height: bench.S, transform: bench.matrix }}>
           <BenchTray S={bench.S} pad={bench.pad} wall={bench.wall} uid={`${uid}bench`} />
@@ -194,7 +194,7 @@ export default function PuzzleBoard({ level, pictureId, onProgress, onFeedback, 
             const i = indexOf(item.id), at = bench.center(slot);
             const size = Math.max(64, Math.min(bench.cw, bench.ch) * 0.95);
             const box = pieceBox(i % cols, Math.floor(i / cols), cols, rows, THICKNESS);
-            return <div className="pz-tray-cell" key={item.id} style={{ left: at.x - size / 2, top: at.y - size / 2, width: size, height: size, zIndex: Math.round(at.y) }}>
+            return <div className="pz-tray-cell" key={item.id} style={{ '--cell-left': (at.x - size / 2) + 'px', '--cell-top': (at.y - size / 2) + 'px', '--cell-size': size + 'px', zIndex: Math.round(at.y) } as CSSProperties}>
               {!placed.includes(item.id) && <DragItem id={item.id} label={fmt(t.games.puzzle.piece, { index: i + 1, name: pick(picture.label), secondary: pickSub(picture.label)! })} selected={selected === item.id}
                 onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice(t.games.puzzle.selected); }} onDrop={place}>
                 <span className="pz-toy" style={{ width: box.w * toyScale, height: box.h * toyScale, transform: `translate(-50%, -50%) matrix(${A.a},${A.b},${A.c},${A.d},0,0)` }}>
