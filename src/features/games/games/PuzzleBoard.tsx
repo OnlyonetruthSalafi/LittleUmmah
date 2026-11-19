@@ -11,7 +11,7 @@ import { boardContent } from '../data/content';
 import { gamePresentation } from '../data/presentation';
 import { canPlace, levelComplete, shuffle } from '../engine/rules';
 import { puzzlePicture } from '../data/puzzlePictures';
-import { BOARD, PUZZLE_ISLAND, TRAY, benchLayout, homography, pieceBox, piecePath, planeAffine, project, screenDown, trayMatrix } from '../data/puzzleArt';
+import { BOARD, PUZZLE_ISLAND, TRAY, type Affine, homography, pieceBox, piecePath, planeAffine, project, screenDown, trayMatrix } from '../data/puzzleArt';
 
 /* เกมจิ๊กซอว์แบบ 2.5D — ตามภาพเกาะตัวอย่าง public/games/hub/puzzle.png
  *
@@ -24,51 +24,44 @@ import { BOARD, PUZZLE_ISLAND, TRAY, benchLayout, homography, pieceBox, piecePat
 const THICKNESS = 56;
 /** จำนวนชั้นที่ซ้อนเป็นผนังข้าง ยิ่งมากผนังยิ่งเนียน ไล่สีทองเข้มล่าง → ทองอ่อนบน */
 const WALL_LAYERS = 14;
-/** ช่องไฟระหว่างชิ้นบนถาดวางชิ้น เทียบกับขนาดชิ้น */
-const BENCH_GAP = 0.14;
 const wallColor = (t: number) => `hsl(40 ${62 + t * 10}% ${30 + t * 26}%)`;
 
 /** part: 'wall' = เงา + ผนังข้าง, 'face' = ผิวบน, ไม่ใส่ = ทั้งชิ้น
  *  ชิ้นในถาดบนเกาะวาดผนังทุกชิ้นก่อนแล้วค่อยวางผิวบน หัวจิ๊กซอว์ที่สลับกันจึงไม่มีผนังของชิ้นหนึ่งทับภาพของอีกชิ้น */
-function PieceSvg({ index, cols, rows, src, down, uid, part }: { index: number; cols: number; rows: number; src: string; down: { x: number; y: number }; uid: string; part?: 'wall' | 'face' }) {
+function PieceSvg({ index, cols, rows, src, down, uid, part, projection }: { index: number; cols: number; rows: number; src: string; down: { x: number; y: number }; uid: string; part?: 'wall' | 'face'; projection?: Affine }) {
   const col = index % cols, row = Math.floor(index / cols);
-  const d = piecePath(col, row, cols, rows), box = pieceBox(col, row, cols, rows, THICKNESS);
+  const outline = piecePath(col, row, cols, rows), box = pieceBox(col, row, cols, rows, THICKNESS);
   const clip = `${uid}-clip-${index}`;
-  return <svg className="pz-piece-art" viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`} aria-hidden="true" focusable="false">
-    <defs><clipPath id={clip}><path d={d} /></clipPath></defs>
+  let viewBox = `${box.x} ${box.y} ${box.w} ${box.h}`;
+  let transform: string | undefined;
+  if (projection) {
+    // Fit loose pieces in screen-aligned cells, with the same camera angle as the island.
+    const { a, b, c, d } = projection;
+    const w = BOARD / cols, h = BOARD / rows;
+    const cx = (col + .5) * w, cy = (row + .5) * h;
+    const gutter = .16 * Math.min(w, h);
+    const spanX = Math.abs(a) * w + Math.abs(c) * h + 2 * gutter;
+    const spanY = Math.abs(b) * w + Math.abs(d) * h + 2 * gutter;
+    const rise = b * down.x + d * down.y;
+    viewBox = `${a * cx + c * cy - spanX / 2} ${b * cx + d * cy - spanY / 2 - rise} ${spanX} ${spanY + rise}`;
+    transform = `matrix(${a} ${b} ${c} ${d} 0 0)`;
+  }
+  return <svg className="pz-piece-art" viewBox={viewBox} aria-hidden="true" focusable="false">
+    <defs><clipPath id={clip}><path d={outline} /></clipPath></defs>
     {/* ฐานของชิ้นตรงกับช่องบนพื้นถาดพอดี หน้าบนยกขึ้นตามความหนา
         ผนังข้างคือเส้นรอบชิ้นเดียวกันซ้อนหลายชั้นจากฐานขึ้นไปถึงหน้าบน กลายเป็นแผ่นทองหนาแบบ 2.5D */}
-    {part !== 'face' && <><path d={d} className="pz-contact" />
-    <g className="pz-wall">{Array.from({ length: WALL_LAYERS }, (_, k) => {
-      const t = k / (WALL_LAYERS - 1); // t = 0 คือฐาน
-      return <path key={k} d={d} transform={`translate(${+(-down.x * t).toFixed(2)} ${+(-down.y * t).toFixed(2)})`} fill={wallColor(t)} stroke={wallColor(t)} />;
-    })}</g></>}
-    {part !== 'wall' && <g transform={`translate(${-down.x} ${-down.y})`}>
-      <image href={src} x={0} y={0} width={BOARD} height={BOARD} preserveAspectRatio="none" clipPath={`url(#${clip})`} />
-      <path d={d} className="pz-rim" />
-      <path d={d} className="pz-shine" />
-    </g>}
-  </svg>;
-}
-
-/** ถาดวางชิ้นบนระนาบ S×S: ผนังหินอ่อนคาดทองซ้อนหลายชั้นลงจอ · ขอบทองหนา · พื้นครีม (เข้าชุดกับถาดบนเกาะ) */
-function BenchTray({ S, pad, wall, uid }: { S: number; pad: number; wall: { x: number; y: number }; uid: string }) {
-  const r = pad * 0.9, rim = pad * 0.55;
-  const rect = (inset: number, radius: number) => <rect x={inset} y={inset} width={S - 2 * inset} height={S - 2 * inset} rx={radius} />;
-  const layers = 12;
-  return <svg className="pz-bench-tray" width={S} height={S} viewBox={`0 0 ${S} ${S}`} aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id={`${uid}-rim`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffe28a" /><stop offset=".5" stopColor="#f2c24f" /><stop offset="1" stopColor="#c98f22" /></linearGradient>
-      <linearGradient id={`${uid}-floor`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fffaf0" /><stop offset="1" stopColor="#f1e7d2" /></linearGradient>
-    </defs>
-    {/* ผนังด้านข้าง: ล่างสุดเป็นแถบทอง เหนือขึ้นมาเป็นหินอ่อนขาว แบบหน้าผาเกาะ */}
-    {Array.from({ length: layers }, (_, k) => {
-      const t = k / (layers - 1), fill = t < 0.28 ? `hsl(40 70% ${36 + t * 60}%)` : `hsl(40 30% ${88 + t * 8}%)`;
-      return <g key={k} transform={`translate(${+(wall.x * (1 - t)).toFixed(2)} ${+(wall.y * (1 - t)).toFixed(2)})`} fill={fill}>{rect(0, r)}</g>;
-    })}
-    <g fill={`url(#${uid}-rim)`}>{rect(0, r)}</g>
-    <g fill="none" stroke="#fff4c4" strokeWidth={Math.max(1.5, rim * 0.12)}>{rect(rim * 0.18, r * 0.95)}</g>
-    <g fill={`url(#${uid}-floor)`} stroke="#d9b45a" strokeWidth={Math.max(1.5, rim * 0.14)}>{rect(rim, r - rim * 0.6)}</g>
+    <g transform={transform}>
+      {part !== 'face' && <><path d={outline} className="pz-contact" />
+      <g className="pz-wall">{Array.from({ length: WALL_LAYERS }, (_, k) => {
+        const t = k / (WALL_LAYERS - 1); // t = 0 คือฐาน
+        return <path key={k} d={outline} transform={`translate(${+(-down.x * t).toFixed(2)} ${+(-down.y * t).toFixed(2)})`} fill={wallColor(t)} stroke={wallColor(t)} />;
+      })}</g></>}
+      {part !== 'wall' && <g transform={`translate(${-down.x} ${-down.y})`}>
+        <image href={src} x={0} y={0} width={BOARD} height={BOARD} preserveAspectRatio="none" clipPath={`url(#${clip})`} />
+        <path d={outline} className="pz-rim" />
+        <path d={outline} className="pz-shine" />
+      </g>}
+    </g>
   </svg>;
 }
 
@@ -93,17 +86,11 @@ export default function PuzzleBoard({ paused, level, pictureId, onProgress, onFe
   const layer = useRef<HTMLDivElement>(null);
   const scene = useRef<HTMLDivElement>(null);
   const total = round.items.length;
-  const [benchWidth, setBenchWidth] = useState(0);
-  const benchRef = useRef<HTMLDivElement>(null);
-
   useLayoutEffect(() => {
     const element = layer.current;
     if (!element) return;
-    const observer = new ResizeObserver(entries => {
-      for (const entry of entries) (entry.target === element ? setWidth : setBenchWidth)(entry.contentRect.width);
-    });
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     observer.observe(element);
-    if (benchRef.current) observer.observe(benchRef.current);
     return () => observer.disconnect();
   }, []);
   useEffect(() => { onProgress(placed.length, total); }, [placed.length, total, onProgress]);
@@ -130,26 +117,10 @@ export default function PuzzleBoard({ paused, level, pictureId, onProgress, onFe
   /* ชิ้นที่อยู่ต่ำกว่าบนจอ (ใกล้คนดู) วาดทีหลัง ผนังข้างของมันจึงบังชิ้นที่อยู่ไกลกว่าอย่างถูกต้อง */
   const depth = (i: number) => Math.round(project(H, ((i % cols) + 0.5) / cols, (Math.floor(i / cols) + 0.5) / rows).y * 1000);
   const tapCell = (targetId: string) => { if (selected) place(selected, targetId); else setNotice(t.games.puzzle.selectFirst); };
-  /* ถาดวางชิ้นใต้เกาะ: เอียงแบบเดียวกับถาดบนเกาะ กว้างเกือบเต็มกล่อง ช่องใหญ่สุด 130px */
-  const bench = benchWidth > 0 ? benchLayout(A, cols, rows, benchWidth * 0.97, 130) : null;
-  /* ชิ้นบนระนาบถาดวางชิ้น: หน่วยกระดาน → px บนระนาบ เว้นช่องไฟ BENCH_GAP ระหว่างชิ้น
-     ไม่งั้นชิ้นที่สลับที่กันแล้วชิดกันจะดูเหมือนภาพต่อสำเร็จอีกภาพ */
-  const toyScale = bench ? bench.cw / (1 + BENCH_GAP) / (BOARD / cols) : 0;
   const hintAt = hint === null ? null : project(H, ((hint % cols) + 0.5) / cols, (Math.floor(hint / cols) + 0.5) / rows);
   const done = placed.length === total;
 
   return <div className="pz-scene" ref={scene} data-level={level} data-picture-id={selectedPicture.id} data-done={done || undefined} style={{ '--pz-cols': cols } as CSSProperties}>
-    <div className="pz-tools">
-      <button type="button" className="gc-button" aria-pressed={guide} onClick={() => { onTap(); setGuide(g => !g); }}>
-        {guide ? t.games.puzzle.hide : t.games.puzzle.show}{sub && <small lang="en">{sub.games.puzzle.pictureGuide}</small>}
-      </button>
-      <button type="button" className="gc-button" disabled={done} onClick={() => {
-        const item = round.items.find(i => i.id === selected) ?? round.tray.find(i => !current.current.includes(i.id));
-        if (!item) return;
-        onTap(); setSelected(item.id); setHint(indexOf(item.id));
-        setNotice(fmt(t.games.puzzle.hintSlot, { index: indexOf(item.id) + 1 }));
-      }}>{t.games.puzzle.hint}{sub && <small lang="en">{sub.games.puzzle.hint}</small>}</button>
-    </div>
     <p className="sr-only" role="status" aria-live="polite">{notice}</p>
 
     <IslandBoard {...PUZZLE_ISLAND} className="pz-island" label={fmt(t.games.puzzle.tray, { name: pick(picture.label), secondary: pickSub(picture.label)! })}>
@@ -181,30 +152,31 @@ export default function PuzzleBoard({ paused, level, pictureId, onProgress, onFe
       </div>
     </IslandBoard>
 
-    {/* ชิ้นที่รอวางอยู่บนถาดใต้เกาะ ถาดกับชิ้นเอียงบนระนาบเดียวกับถาดบนเกาะ ชิ้นจึงใหญ่และเอียงเท่าช่องจริง
-        ปุ่มของแต่ละชิ้นเป็นกล่องตรงบนจอ (ลากตามนิ้วได้ตรง) ≥ 64px ศูนย์กลางอยู่ที่กลางช่องบนระนาบ
-        ช่องของชิ้นที่วางแล้วยังเว้นไว้ ชิ้นอื่นจึงไม่เลื่อนขณะเด็กเล็ง */}
-    <div className="pz-bench" ref={benchRef} style={bench ? { '--bench-height': bench.height + 'px' } as CSSProperties : undefined}>
-      {bench && <>
-        <div className="pz-bench-plane" style={{ width: bench.S, height: bench.S, transform: bench.matrix }}>
-          <BenchTray S={bench.S} pad={bench.pad} wall={bench.wall} uid={`${uid}bench`} />
-        </div>
+    <div className="pz-stock">
+      <div className="pz-tools">
+        <button type="button" className="gc-button" aria-pressed={guide} onClick={() => { onTap(); setGuide(g => !g); }}>
+          {guide ? t.games.puzzle.hide : t.games.puzzle.show}{sub && <small lang="en">{sub.games.puzzle.pictureGuide}</small>}
+        </button>
+        <button type="button" className="gc-button" disabled={done} onClick={() => {
+          const item = round.items.find(i => i.id === selected) ?? round.tray.find(i => !current.current.includes(i.id));
+          if (!item) return;
+          onTap(); setSelected(item.id); setHint(indexOf(item.id));
+          setNotice(fmt(t.games.puzzle.hintSlot, { index: indexOf(item.id) + 1 }));
+        }}>{t.games.puzzle.hint}{sub && <small lang="en">{sub.games.puzzle.hint}</small>}</button>
+      </div>
+      <div className="pz-bench">
         <div className="pz-tray" role="group" aria-label={t.games.puzzle.pieces}>
-          {round.tray.map((item, slot) => {
-            const i = indexOf(item.id), at = bench.center(slot);
-            const size = Math.max(64, Math.min(bench.cw, bench.ch) * 0.95);
-            const box = pieceBox(i % cols, Math.floor(i / cols), cols, rows, THICKNESS);
-            return <div className="pz-tray-cell" key={item.id} style={{ '--cell-left': (at.x - size / 2) + 'px', '--cell-top': (at.y - size / 2) + 'px', '--cell-size': size + 'px', zIndex: Math.round(at.y) } as CSSProperties}>
+          {round.tray.map(item => {
+            const i = indexOf(item.id);
+            return <div className="pz-tray-cell" key={item.id}>
               {!placed.includes(item.id) && <DragItem id={item.id} label={fmt(t.games.puzzle.piece, { index: i + 1, name: pick(picture.label), secondary: pickSub(picture.label)! })} selected={selected === item.id}
                 onSelect={() => { onTap(); setSelected(item.id); setHint(null); setNotice(t.games.puzzle.selected); }} onDrop={place}>
-                <span className="pz-toy" style={{ width: box.w * toyScale, height: box.h * toyScale, transform: `translate(-50%, -50%) matrix(${A.a},${A.b},${A.c},${A.d},0,0)` }}>
-                  <PieceSvg index={i} cols={cols} rows={rows} src={src} down={down} uid={`${uid}t`} />
-                </span>
+                <span className="pz-toy"><PieceSvg index={i} cols={cols} rows={rows} src={src} down={down} uid={`${uid}t`} projection={A} /></span>
               </DragItem>}
             </div>;
           })}
         </div>
-      </>}
+      </div>
     </div>
   </div>;
 }

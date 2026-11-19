@@ -37,31 +37,53 @@ const knobPoint = () => {
 };
 
 try {
-  // Nine projected pieces used to cover one another on the short landscape bench.
+  // Every loose piece must fit its wooden tray and respond individually after rotation.
   const phone = await browser.newContext({ viewport: { width: 568, height: 320 }, hasTouch: true, isMobile: true });
   try {
     const page = await phone.newPage();
     await page.goto(`${base}/games/puzzle`);
-    await page.locator('.gc-level-stone').nth(2).tap();
-    await page.locator('.gc-adventure-start').tap();
+    const boat = page.locator('[data-picture-id="sailboat-bay"]');
+    await boat.tap();
+    await page.locator('[data-puzzle-level]').nth(2).tap();
+    // Keep the default learning-star banner for this pass. Change orientation before starting.
+    for (const [width, height] of [[320, 568], [390, 844], [568, 320]]) {
+      await page.setViewportSize({ width, height });
+      await page.evaluate(() => scrollTo(0, 0));
+      await page.waitForFunction(() => {
+        const buttons = document.querySelectorAll('.pz-gallery-rail button, [data-puzzle-level], .pz-studio-start');
+        return Array.from(buttons).every(button => {
+          const r = button.getBoundingClientRect();
+          return r.width >= 64 && r.height >= 64 && button.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+        });
+      });
+      assert.equal(await boat.getAttribute('aria-pressed'), 'true');
+      assert.ok((await page.locator('.pz-preview-surface img').getAttribute('src')).endsWith('sailboat-bay.webp'));
+      assert.equal(await page.locator('.pz-preview-surface path').count(), 9);
+    }
+    await page.locator('.pz-studio-start').tap();
     await page.locator('.pz-tray [data-item-id]').first().waitFor();
     await page.locator('.gc-countdown').waitFor({ state: 'detached' });
     const pieces = page.locator('.pz-tray [data-item-id]');
     assert.equal(await pieces.count(), 9);
-    for (const piece of await pieces.all()) {
-      const reachable = await piece.evaluate(el => {
-        const r = el.getBoundingClientRect();
-        return r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight
-          && el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
-      });
-      assert.ok(reachable, 'every landscape piece is visible and independently selectable');
-      await piece.tap();
-      assert.equal(await piece.getAttribute('aria-pressed'), 'true');
+    for (const [width, height] of [[568, 320], [320, 568], [352, 740], [360, 740]]) {
+      await page.setViewportSize({ width, height });
+      const tray = page.locator('.pz-tray');
+      assert.ok(await tray.evaluate(el => el.scrollWidth <= el.clientWidth), 'pieces fit between the wooden rims');
+      for (const piece of await pieces.all()) {
+        const reachable = await piece.evaluate(el => {
+          const r = el.getBoundingClientRect();
+          return r.width >= 64 && r.height >= 64 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight
+            && el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+        });
+        assert.ok(reachable, `every piece is visible and independently selectable at ${width}×${height}`);
+        await piece.tap();
+        assert.equal(await piece.getAttribute('aria-pressed'), 'true');
+      }
     }
   } finally {
     await phone.close();
   }
-  // Regression: picture cards move only their artwork, with a shadow-only reduced-motion fallback.
+  // Only the picture token moves. The preview caption and button hit area stay still.
   for (const reducedMotion of ['no-preference', 'reduce']) {
     const context = await browser.newContext({ viewport: { width: 1536, height: 770 }, reducedMotion });
     const page = await context.newPage();
@@ -69,41 +91,52 @@ try {
     const card = page.locator('[data-picture-id="flower-garden"]');
     await card.scrollIntoViewIfNeeded();
     await page.mouse.move(0, 0);
-    const label = card.locator('.pz-picture-label');
+    const label = page.locator('.pz-preview figcaption');
     const before = await label.boundingBox();
-    const shadow = await card.evaluate(el => getComputedStyle(el).boxShadow);
+    const artwork = card.locator('.pz-gallery-frame');
+    const shadow = await artwork.evaluate(el => getComputedStyle(el).boxShadow);
     await card.hover();
     await page.waitForTimeout(250);
     assert.deepEqual(await label.boundingBox(), before, `stationary label on hover: ${reducedMotion}`);
     assert.equal(await card.evaluate(el => getComputedStyle(el).transform), 'none');
-    assert.notEqual(await card.evaluate(el => getComputedStyle(el).boxShadow), shadow, 'hover shadow grows even with reduced motion');
-    const artwork = card.locator('.pz-picture-art');
+    assert.notEqual(await artwork.evaluate(el => getComputedStyle(el).boxShadow), shadow, 'hover shadow grows even with reduced motion');
     const hoverTransform = await artwork.evaluate(el => getComputedStyle(el).transform);
     assert.equal(hoverTransform, reducedMotion === 'reduce' ? 'none' : 'matrix(1.03, 0, 0, 1.03, 0, -4)');
     await page.mouse.down();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(220);
     assert.deepEqual(await label.boundingBox(), before, `stationary label on press: ${reducedMotion}`);
     assert.equal(await artwork.evaluate(el => getComputedStyle(el).transform), reducedMotion === 'reduce' ? 'none' : 'matrix(0.98, 0, 0, 0.98, 0, 0)');
     await page.mouse.up();
-    console.log(`PASS picture-card motion: ${reducedMotion}`);
+    console.log(`PASS picture token motion: ${reducedMotion}`);
     await context.close();
   }
   for (const width of (process.env.WIDTHS ?? '360,390,768,1536').split(',').map(Number)) {
     const context = await browser.newContext({ viewport: { width, height: width === 1536 ? 770 : width === 768 ? 1024 : 844 }, reducedMotion: width === 360 ? 'reduce' : 'no-preference', hasTouch: width < 800 });
+    // This context plays twelve consecutive rounds to verify the puzzle mechanics.
+    await context.addInitScript(() => localStorage.setItem('lu-settings',
+      JSON.stringify({ starsEnabled: false, timeEnabled: false, minutes: 30, seeded: true })));
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     for (const pictureId of ['original', 'flower-garden', 'sailboat-bay', 'toy-station']) for (const level of [1, 2, 3]) {
       await page.goto(`${base}/games/puzzle`);
       await page.locator(`[data-picture-id="${pictureId}"]`).click();
-      for (const button of await page.locator('.pz-picture-picker button').all()) { const rect = await button.boundingBox(); assert.ok(rect.width >= 64 && rect.height >= 64, 'picture choice target'); }
-      await page.locator('.gc-level-stone').nth(level - 1).click();
-      if (level === 1) await page.locator('.gc-adventure-intro').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-intro.png` });
+      for (const button of await page.locator('.pz-gallery-rail button').all()) { const rect = await button.boundingBox(); assert.ok(rect.width >= 64 && rect.height >= 64, 'picture choice target'); }
+      await page.locator('[data-puzzle-level]').nth(level - 1).click();
+      const preview = page.locator('.pz-preview-surface img');
+      const previewSource = await preview.getAttribute('src');
+      const levelSize = [4, 6, 9][level - 1];
+      assert.equal(await page.locator('.pz-preview-surface path').count(), levelSize, 'preview shows actual cuts');
+      if (width < 800) assert.ok((await preview.boundingBox()).width >= width * .5, 'mobile preview is large enough to recognise');
+      if (level === 1) await page.locator('.pz-studio').screenshot({ path: `output/C-5/shots/${pictureId}-${width}-intro.png` });
       await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).click();
       await page.locator('.gc-countdown').waitFor({ state: 'detached', timeout: 8000 }); // นับถอยหลัง 3 2 1 ก่อนเล่น
       await page.locator('.pz-cell').first().waitFor();
+      assert.equal(await page.locator('.pz-ghost').getAttribute('src'), previewSource, 'the chosen preview starts on the board');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `no overflow ${width}/${level}`);
       // วัดขนาดจริงจาก DOM แล้วพิมพ์ให้บันทึกใน AGENTS.md — เกณฑ์ 64px (ข้อ 2) ตัดสินโดยเจ้าของโปรเจกต์
       const cells = await page.evaluate(measureCells);
+      const traySkin = await page.locator('.pz-bench').evaluate(el => getComputedStyle(el, '::before').borderImageSource);
+      assert.ok(traySkin.includes('tray.webp'), 'wooden tray is present at every viewport');
       const pieces = [];
       for (const piece of await page.locator('.pz-tray [data-item-id]').all()) {
         const rect = await piece.boundingBox();

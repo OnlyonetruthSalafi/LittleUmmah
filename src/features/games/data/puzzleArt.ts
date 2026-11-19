@@ -64,10 +64,7 @@ export function screenDown(H: number[], length: number): Point {
   return { x: (u / n) * length, y: (v / n) * length };
 }
 
-/* ── ถาดวางชิ้นที่รอต่อ (ใต้เกาะ) ──────────────────────────────────────
-   วาดด้วยโค้ดบนระนาบเอียงเดียวกับถาดบนเกาะ (affine ที่กลางถาด ปรับ det = 1 หน่วยระนาบ ≈ px บนจอ)
-   ชิ้นที่รอวางจึงเอียงและใหญ่เท่าช่องในถาดบนเกาะ เด็กเทียบรูปทรงกับช่องได้ตรงๆ
-   ถาดเรียงช่องแบบเดียวกับกระดาน (cols × rows) ช่องผืนผ้าของด่าน 2 จึงทำให้ระนาบเป็นจัตุรัสเสมอ */
+/* ใช้มุมมองเดียวกับกลางเกาะเมื่อวาดชิ้นในถาดไม้ เพื่อให้เด็กเทียบหัวและร่องกับช่องได้ */
 export type Affine = { a: number; b: number; c: number; d: number };
 
 /** affine ที่กลางถาดบนเกาะ ปรับให้ไม่ย่อ/ขยายพื้นที่ (det = 1) — (x, y) บนระนาบ → (a x + c y, b x + d y) บนจอ */
@@ -75,33 +72,6 @@ export function planeAffine(H: number[]): Affine {
   const j = jacobian(H, 0.5, 0.5);
   const s = Math.sqrt(Math.abs(j.ux * j.vy - j.vx * j.uy));
   return { a: j.ux / s, b: j.uy / s, c: j.vx / s, d: j.vy / s };
-}
-
-/** ระยะขอบถาด (ผนังทอง + เผื่อหัวจิ๊กซอว์ที่ยื่น) เทียบกับด้านสั้นของช่อง */
-export const BENCH_PAD = 0.34;
-/** ความหนาของถาดบนจอ เทียบกับความกว้างช่อง */
-export const BENCH_DEPTH = 0.2;
-
-/** จัดถาดวางชิ้นให้กว้างพอดี width px บนจอ (ช่องกว้างไม่เกิน maxCell px บนระนาบ)
- *  คืนขนาดระนาบ S×S, ขนาดช่อง, ตำแหน่ง transform ของระนาบ และฟังก์ชันหาจุดกลางช่องบนจอ */
-export function benchLayout(A: Affine, cols: number, rows: number, width: number, maxCell = 130) {
-  const aspect = cols / rows; // ด้านสูง/ด้านกว้างของช่อง = สัดส่วนของตัวชิ้น
-  const padUnit = BENCH_PAD * Math.min(1, aspect);
-  const xs = [0, A.a, A.c, A.a + A.c], ys = [0, A.b, A.d, A.b + A.d];
-  const spanX = Math.max(...xs) - Math.min(...xs), spanY = Math.max(...ys) - Math.min(...ys);
-  const cw = Math.min(maxCell, width / spanX / (cols + 2 * padUnit));
-  const ch = cw * aspect, pad = cw * padUnit, S = cols * cw + 2 * pad;
-  const depth = BENCH_DEPTH * cw;
-  const tx = (width - S * spanX) / 2 - S * Math.min(...xs), ty = -S * Math.min(...ys);
-  const toScreen = (x: number, y: number) => ({ x: A.a * x + A.c * y + tx, y: A.b * x + A.d * y + ty });
-  /** เวกเตอร์บนระนาบที่ชี้ลงจอยาว depth px: A⁻¹ (0, depth) */
-  const wall = { x: -A.c * depth, y: A.a * depth };
-  return {
-    cw, ch, pad, S, height: S * spanY + depth, wall, toScreen,
-    matrix: `matrix(${[A.a, A.b, A.c, A.d, tx, ty].map(n => +n.toFixed(5)).join(',')})`,
-    /** จุดกลางช่องที่ slot (เรียงซ้าย→ขวา บน→ล่าง บนระนาบ) บนจอ */
-    center: (slot: number) => toScreen(pad + ((slot % cols) + 0.5) * cw, pad + (Math.floor(slot / cols) + 0.5) * ch),
-  };
 }
 
 /* ── ชิ้นจิ๊กซอว์ ─────────────────────────────────────────────────────

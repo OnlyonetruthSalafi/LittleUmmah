@@ -63,23 +63,32 @@
 
 .pz-hint-arrow { translate: -50% -110%; z-index: 5; pointer-events: none; }
 
-/* ── ถาดวางชิ้นที่รอต่อ ─────────────────────────────────────────────────
-   ถาดวาดด้วยโค้ดบนระนาบเอียงเดียวกับถาดบนเกาะ (BenchTray + benchLayout ใน data/puzzleArt.ts)
-   ความสูงกล่องคำนวณใน PuzzleBoard ดึงขึ้นทับใต้ท้องเกาะให้เป็นฉากเดียวกัน */
-.pz-bench { height: var(--bench-height); position: relative; z-index: 15; width: 82%; margin: -14% auto 0; min-height: 120px; }
-.pz-bench-plane { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; }
-.pz-bench-tray { display: block; overflow: visible; filter: drop-shadow(0 10px 12px #17659433); }
-.pz-tray { position: absolute; inset: 0; }
-.pz-tray-cell { position: absolute; left: var(--cell-left); top: var(--cell-top); width: var(--cell-size); height: var(--cell-size); }
+/* Nine-slice the wooden tray so the rim, corner pins and front lip keep their depth. */
+.pz-stock { min-width: 0; width: 100%; }
+.pz-bench {
+  position: relative; z-index: 15;
+  padding: clamp(10px, 1.6vw, 22px) clamp(10px, 2vw, 28px) clamp(16px, 2.4vw, 32px);
+}
+.pz-bench::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border-image: url('/games/block-builders/tray.webp') 53 100 80 fill / 16px 26px 24px stretch;
+  filter: drop-shadow(0 6px 5px #65451638);
+}
+.pz-tray {
+  position: relative; display: grid;
+  grid-template-columns: repeat(var(--pz-cols), minmax(64px, 1fr));
+  gap: clamp(2px, .5vw, 8px);
+}
+.pz-tray-cell { position: relative; height: clamp(64px, 9dvh, 100px); }
+.pz-tray-cell:has([data-dragging]) { z-index: 1; }
 .gc-focus[data-game='puzzle'] .pz-tray .gc-drag {
   position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0;
   display: grid; place-items: center;
   background: none; border: 0; box-shadow: none; border-radius: 18px; transform: none;
   transition: box-shadow 200ms ease-out, background-color 200ms ease-out;
 }
-/* ชิ้นใหญ่กว่าปุ่ม (หัวจิ๊กซอว์ยื่นออก) จึงจัดกลางด้วย transform ไม่ใช่ grid ซึ่งดันของที่ล้นไปชิดขอบ */
-.pz-toy { position: absolute; left: 50%; top: 50%; display: block; pointer-events: none; }
-.pz-toy .pz-piece-art { filter: drop-shadow(0 6px 5px #17659440); }
+.pz-toy { position: absolute; inset: 0; display: block; pointer-events: none; }
+.pz-toy .pz-piece-art { filter: drop-shadow(0 4px 2px #69431955); }
 /* ไม่มีกรอบ จึงบอก "เลือกอยู่" ด้วยวงแสงรอบชิ้นกับเครื่องหมายถูก (gc-selected-mark) */
 /* เลือกอยู่: วงแสงน้ำเงินตามรูปชิ้น (ชิ้นเอียงเป็นข้าวหลามตัด กรอบสี่เหลี่ยมจะดูไม่ตรงชิ้น) + เครื่องหมายถูก */
 .gc-focus[data-game='puzzle'] .pz-tray .gc-drag[aria-pressed='true'] { background: none; box-shadow: none; }
@@ -117,7 +126,7 @@
   }
 
   /* ถาดล้นขอบจอเท่าเกาะ ให้ชิ้นได้พื้นที่มากที่สุด */
-  .pz-bench { width: auto; margin-inline: -12px; }
+  .pz-stock { width: 100%; }
 }
 @media (max-height: 520px) and (orientation: landscape) {
   .pz-scene { width: min(100%, 62vh); }
@@ -129,75 +138,222 @@
   .gc-focus[data-game='puzzle'][data-status='playing'] .pz-scene { width: min(100%, 640px, calc((100dvh - 150px) / 1.2)); }
 }
 
-/* ── หน้าเลือกด่าน: การ์ดด่านมีภาพตัวอย่างของด่าน + เส้นตัดชิ้นจริง ─────────────
-   มาตรฐาน motion ข้อ 2.1: ขยับเฉพาะกรอบภาพ ข้อความนิ่ง เงาเพิ่มตอน hover ใส่ motion-safe ทุก transform */
-.gc-level-stone[data-art] {
-  gap: 6px; min-height: 0; padding: 9px 9px 14px;
-  background: linear-gradient(180deg, #fffdf6, #fff3cf);
-  border: 3px solid #fff; border-radius: 24px;
-  box-shadow: 0 5px 0 #d5b966, 0 6px 14px #b98a2e1f;
+/* Keep the loose pieces within thumb reach of the island in portrait. */
+@media (orientation: portrait) {
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-play-container {
+    display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-areas: 'head head' 'level feedback' 'actions listen' 'board board';
+    align-items: center; gap: 4px 8px; max-width: 700px;
+  }
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-play-container:has(.ls-last) {
+    grid-template-areas: 'head head' 'badge badge' 'level feedback' 'actions listen' 'board board';
+  }
+  .gc-focus[data-game='puzzle'] .gc-play-container > header { grid-area: head; margin: 0; }
+  .gc-focus[data-game='puzzle'] .ls-last { grid-area: badge; }
+  .gc-focus[data-game='puzzle'] .gc-board { grid-area: board; }
+  .gc-focus[data-game='puzzle'] .gc-audio-note { grid-column: 1 / -1; }
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-instruction { display: contents; }
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-playing-guide { display: none; }
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-instruction h2 {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .gc-focus[data-game='puzzle'] .gc-instruction .gc-button { grid-area: listen; padding: 4px 10px; }
+  .gc-focus[data-game='puzzle'] .gc-progress-row { grid-area: level; width: 100%; margin: 0; padding: 4px; gap: 4px; }
+  .gc-focus[data-game='puzzle'] .gc-feedback { grid-area: feedback; width: 100%; margin: 0; font-size: .84rem; }
+  .pz-scene { width: min(100%, 64dvh, 580px); }
+  .pz-stock { margin: -27% auto 0; }
+  .pz-bench { margin: 0 auto; max-width: 520px; }
+  .pz-tools > .gc-button { padding: 3px 9px; }
+  .gc-focus[data-game='puzzle'] .gc-bottom-controls { grid-area: actions; margin: 0; gap: 5px; }
+  .gc-focus[data-game='puzzle'] .gc-bottom-controls .gc-button { flex: 1; padding: 3px; }
 }
-.gc-level-stone[data-art][aria-pressed='true'] {
-  background: linear-gradient(180deg, #ffffff, #eaf6ff);
-  border-color: #1e5fbf; box-shadow: 0 5px 0 #1e5fbf, 0 10px 22px #1e5fbf33;
-}
-.gc-level-art {
-  position: relative; display: block; width: 100%; aspect-ratio: 1;
-  border-radius: 14px; overflow: hidden;
-  border: 4px solid #f2c75c;
-  box-shadow: inset 0 0 0 2px #fffbe8, 0 4px 0 #b98a2e, 0 6px 10px #17659426;
-  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
-}
-.gc-level-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.gc-level-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.gc-level-art path { fill: none; stroke: #fffbe8; stroke-width: 11; stroke-linejoin: round; filter: drop-shadow(0 0 3px #7a5a1a); }
-.gc-level-badge {
-  position: absolute; top: 5px; left: 5px; display: grid; place-items: center;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: #1e5fbf; color: #fff; border: 2px solid #fff; box-shadow: 0 2px 0 #123a72;
-  font: 800 18px/1 var(--font-display);
-}
-.gc-level-stone[data-art] strong { font-size: 16px; color: #123a72; }
-.gc-level-stone[data-art] .gc-level-selected {
-  top: -9px; right: -9px; bottom: auto; display: grid; place-items: center;
-  width: 28px; height: 28px; border-radius: 50%; font-size: 16px;
-}
-.gc-level-stone[data-art][aria-pressed='true'] .gc-level-selected { background: #1e5fbf; color: #fff; border: 2px solid #fff; box-shadow: 0 2px 0 #123a72; }
-.gc-level-stone[data-art][aria-pressed='false'] .gc-level-selected { visibility: hidden; }
-@media (hover: hover) {
-  .gc-level-stone[data-art]:hover { box-shadow: 0 7px 0 #d5b966, var(--shadow-float); }
-  .gc-level-stone[data-art][aria-pressed='true']:hover { box-shadow: 0 7px 0 #1e5fbf, var(--shadow-float); }
-  .gc-level-stone[data-art]:hover .gc-level-art { box-shadow: inset 0 0 0 2px #fffbe8, 0 6px 0 #b98a2e, 0 12px 18px #17659433; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  @media (hover: hover) { .gc-level-stone[data-art]:hover .gc-level-art { transform: translateY(-4px) scale(1.03); } }
-  .gc-level-stone[data-art]:active .gc-level-art { transform: scale(.98); transition-duration: 75ms; }
-}
-@media (max-width: 639px) {
-  .gc-level-stone[data-art] { padding: 6px 6px 11px; border-radius: 18px; }
-  .gc-level-art { border-width: 3px; border-radius: 11px; }
-  .gc-level-badge { width: 24px; height: 24px; font-size: 15px; top: 3px; left: 3px; }
-  .gc-level-stone[data-art] strong { font-size: 14px; }
+@media (orientation: portrait) and (max-width: 639px) {
+  .gc-focus[data-game='puzzle'][data-status='playing'] { padding: 6px; }
+  .pz-stock { margin-top: calc((100% + 24px) * var(--pz-zoom) * -.30); }
+  .pz-bench { padding: 7px 9px 13px; }
+  .pz-bench::before { border-image-width: 10px 17px 16px; }
+  .pz-tray-cell { height: clamp(64px, 8dvh, 82px); }
+  .pz-scene[data-level='1'] .pz-tray { grid-template-columns: repeat(4, minmax(64px, 1fr)); }
+
 }
 
-.pz-picture-picker { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
-.pz-picture-picker legend { font-weight: 700; margin-bottom: 8px; }
-.pz-picture-picker small { display: block; }
-.pz-picture-picker > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.pz-picture-picker .gc-button { min-width: 64px; min-height: 80px; padding: 8px; font-size: 14px; }
-.pz-picture-art { display: block; width: 48px; height: 48px; flex-shrink: 0; overflow: hidden; border-radius: 8px; transition: transform 200ms ease-out; }
-.pz-picture-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* Card motion is isolated from shared button hover/press transforms. Labels stay still. */
-.gc-world .pz-picture-picker .gc-button { transition: box-shadow 200ms ease-out; box-shadow: 0 5px 0 var(--ctl-lip), var(--shadow-soft); }
-.gc-world .pz-picture-picker .gc-button:not(:disabled):is(:hover, :active) { transform: none; }
+@media (orientation: portrait) and (min-width: 360px) and (max-width: 639px) {
+  .pz-scene[data-level='3'] .pz-tray { grid-template-columns: repeat(5, minmax(64px, 1fr)); }
+}
+@media (orientation: portrait) and (max-width: 359px),
+       (orientation: portrait) and (max-width: 639px) and (max-height: 710px),
+       (orientation: portrait) and (min-aspect-ratio: 5/9) and (max-height: 900px) {
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-play-container {
+    grid-template-areas: 'head head' 'board board' 'level feedback' 'actions listen';
+  }
+  .gc-focus[data-game='puzzle'][data-status='playing'] .gc-play-container:has(.ls-last) {
+    grid-template-areas: 'head head' 'board board' 'badge badge' 'level feedback' 'actions listen';
+  }
+}
+@media (orientation: portrait) and (max-width: 359px),
+       (orientation: portrait) and (max-width: 639px) and (max-height: 710px) {
+  .pz-scene { width: min(100%, max(282px, 51dvh)); min-width: 0; --pz-zoom: 1.18; }
+  .pz-tray { gap: 2px; }
+}
+@media (orientation: portrait) and (min-width: 360px) and (max-width: 639px) and (max-height: 710px) {
+  .pz-scene { min-width: min(100%, 346px); }
+}
+
+/* Picture selection. The preview uses the same four measured corners as the playable island. */
+.pz-studio {
+  width: min(100%, 1260px); margin-inline: auto; color: var(--color-ink);
+  display: grid; grid-template-columns: minmax(0, 1.24fr) minmax(280px, 1fr);
+  align-items: center; gap: clamp(12px, 3vw, 56px);
+}
+.pz-preview { min-width: 0; margin: 0; text-align: center; }
+.pz-preview-stage {
+  position: relative; display: grid; place-items: center; isolation: isolate;
+  background: radial-gradient(ellipse closest-side, #fff8ccaf, transparent);
+}
+.pz-preview-island { position: relative; width: 100%; aspect-ratio: 1; }
+.pz-preview-window { position: relative; width: 100%; }
+.pz-preview-base { display: block; width: 100%; height: 100%; }
+.pz-preview-surface {
+  position: absolute; inset: 0; transform-origin: 0 0;
+  transform: var(--pz-preview-camera, scale(0)); pointer-events: none;
+}
+.pz-preview-surface img, .pz-preview-surface svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pz-preview-surface path { fill: none; stroke: #fff9dd; stroke-width: 7; stroke-linejoin: round; filter: drop-shadow(1px 3px 2px #553d16); }
+.pz-preview-guide {
+  position: absolute; left: 5%; bottom: 11%; width: clamp(68px, 20%, 124px); aspect-ratio: 1;
+  display: grid; place-items: center; border-radius: 50%; background: transparent; padding: 0;
+}
+.pz-preview-guide img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 4px #22486842); }
+.pz-preview-guide span {
+  position: absolute; bottom: 0; right: 0; display: grid; place-items: center; width: 29px; height: 29px;
+  color: white; background: #155da3; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 0 #174679;
+}
+.pz-preview-guide svg { width: 17px; height: 17px; }
+.pz-preview figcaption { margin: 0 auto; width: fit-content; max-width: 100%; padding: 4px 16px; border-radius: 20px; background: #f3fbffed; }
+.pz-preview figcaption strong { display: block; font-size: clamp(16px, 1.9vw, 23px); line-height: 1.35; }
+.pz-studio small { display: block; font-size: 13px; line-height: 1.35; font-weight: 500; }
+.pz-studio-controls { min-width: 0; width: min(100%, 498px); display: grid; gap: clamp(16px, 3.5vh, 36px); }
+.pz-gallery h2, .pz-difficulty legend {
+  color: #163a58; font-weight: 800; line-height: 1.2; text-shadow: 0 2px 3px white;
+}
+.pz-gallery h2 { font-size: clamp(26px, 3.7vw, 48px); margin: 0 0 14px; }
+.pz-gallery h2 small, .pz-difficulty legend small { margin-top: 2px; }
+.pz-gallery-rail {
+  position: relative; display: grid; grid-template-columns: repeat(4, minmax(64px, 1fr));
+  align-items: end; justify-items: center; gap: clamp(3px, .8vw, 12px); padding: 0 4px 8px; isolation: isolate;
+}
+.pz-gallery-rail::before {
+  content: ''; position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; height: 37%;
+  border-image: url('/games/block-builders/tray.webp') 53 100 80 fill / 8px 18px 12px stretch;
+  filter: drop-shadow(0 4px 4px #77420d40);
+}
+.pz-gallery-rail button {
+  position: relative; display: grid; width: min(100%, 110px); min-width: 64px; min-height: 64px;
+  aspect-ratio: 1; padding: 3px; border: 0; border-radius: 50%; background: transparent;
+}
+.pz-gallery-frame {
+  display: block; padding: 3px; border-radius: 50%; background: linear-gradient(#fff8d3, #d09b48 55%, #a16829);
+  box-shadow: 0 3px 0 #885625, 0 5px 8px #69441c52;
+}
+.pz-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.pz-gallery-rail [aria-pressed='true'] .pz-gallery-frame {
+  background: #fff; outline: 3px solid #145e9c; box-shadow: 0 5px 0 #154878, 0 6px 10px #18455a55;
+}
+.pz-gallery-check {
+  position: absolute; right: 1px; bottom: 1px; display: grid; place-items: center; width: 24px; height: 24px;
+  color: white; background: #145e9c; border: 2px solid white; border-radius: 50%; font: 800 16px/1 sans-serif;
+}
+.pz-difficulty { margin: 0; padding: 0; min-width: 0; border: 0; }
+.pz-difficulty legend { font-size: 20px; margin-bottom: 8px; }
+.pz-difficulty > div {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 4px;
+  background: #d6edf3; border: 1px solid #79afb9; border-radius: 24px; box-shadow: inset 0 2px 4px #3563733d;
+}
+.pz-difficulty button {
+  color: #173c54; border: 2px solid transparent; border-radius: 19px; min-height: 64px;
+  line-height: 1.2; font-weight: 800; font-size: 18px;
+}
+.pz-difficulty button[aria-pressed='true'] {
+  color: white; border-color: #15527e; background: linear-gradient(#207798, #115976); box-shadow: 0 2px 0 #164d64;
+}
+.pz-studio-start {
+  display: flex; justify-content: center; align-items: center; gap: 12px; min-height: 68px; padding: 6px 20px;
+  border: 2px solid #bc7b12; border-radius: 36px; color: #4f3009; background: linear-gradient(#ffe291, #ffbe39);
+  box-shadow: inset 0 2px 0 #fff3c9, 0 5px 0 #b67816, 0 8px 15px #71521f33; font-size: 22px; font-weight: 800;
+}
+.pz-start-arrow { border-block: 12px solid transparent; border-left: 18px solid currentColor; }
+.pz-start-short { display: none; }
+.pz-studio button { cursor: pointer; }
+.pz-studio button:focus-visible { outline: 4px solid #134e95; outline-offset: 3px; }
 @media (hover: hover) {
-  .gc-world .pz-picture-picker .gc-button:not(:disabled):hover { box-shadow: 0 7px 0 var(--ctl-lip-hover), var(--shadow-float); }
+  .pz-gallery-rail button:hover .pz-gallery-frame { box-shadow: 0 5px 0 #86612e, 0 8px 12px #5d481855; }
+  .pz-difficulty button:hover { box-shadow: inset 0 0 0 2px #5088a3; }
+  button.pz-preview-guide:hover img { filter: drop-shadow(0 7px 5px #24557890); }
+  .pz-studio-start:hover { box-shadow: inset 0 2px 0 #fff3c9, 0 6px 0 #a66913, 0 10px 17px #71521f44; }
 }
-.gc-world .pz-picture-picker .gc-button:not(:disabled):active { box-shadow: 0 7px 0 var(--ctl-lip-hover), var(--shadow-float); }
-/* CSS equivalent of motion-safe: only the image frame moves, including on touch. */
+.pz-difficulty button:active { box-shadow: inset 0 2px 4px #183c5670; }
+.pz-studio-start:active { box-shadow: inset 0 2px 4px #9f681f70, 0 2px 0 #b67816; }
+button.pz-preview-guide:active span { background: #123e75; }
 @media (prefers-reduced-motion: no-preference) {
-  @media (hover: hover) { .pz-picture-picker .gc-button:hover .pz-picture-art { transform: translateY(-4px) scale(1.03); } }
-  .pz-picture-picker .gc-button:active .pz-picture-art { transform: scale(.98); transition-duration: 75ms; }
+  .pz-gallery-frame { transition: transform 180ms ease-out, box-shadow 180ms ease-out; }
+  @media (hover: hover) { .pz-gallery-rail button:hover .pz-gallery-frame { transform: translateY(-4px) scale(1.03); } }
+  .pz-gallery-rail button:active .pz-gallery-frame { transform: scale(.98); }
 }
-.pz-picture-picker [aria-pressed='true'] { outline: 3px solid var(--color-ink); outline-offset: 1px; }
-@media (max-width: 400px) { .pz-picture-art { display: none; } }
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game='puzzle'][data-status='idle'] .gc-play-container { padding-inline: clamp(8px, 3vw, 50px); }
+  .pz-studio { min-height: 100%; padding-block: 76px 12px; }
+  .pz-preview-stage { width: min(100%, 72dvh); margin: auto; }
+}
+@media (orientation: portrait) {
+  .pz-studio { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-bottom: 12px; }
+  .pz-preview-stage { width: min(100%, 53dvh, 560px); margin: auto; aspect-ratio: 1.37; }
+  .pz-preview-window { position: absolute; inset: 0; overflow: clip; mask-image: linear-gradient(#000 86%, transparent); }
+  .pz-preview-island { position: absolute; width: 112%; left: -6%; top: -9%; }
+  .pz-preview-guide { left: 0; bottom: 3%; }
+  .pz-preview figcaption { position: relative; }
+  .pz-studio-controls { margin: auto; gap: 12px; }
+  .pz-gallery h2, .pz-difficulty legend { display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px; }
+  .pz-gallery h2 { font-size: 24px; }
+  .pz-difficulty legend { font-size: 18px; }
+}
+@media (orientation: portrait) and (max-width: 639px) {
+  .gc-focus[data-game='puzzle'][data-status='idle'] .ls-badge { gap: 4px; padding: 4px; }
+  .gc-focus[data-game='puzzle'][data-status='idle'] .ls-badge > .ls-copy:last-child { flex-basis: auto; }
+  .gc-focus[data-game='puzzle'][data-status='idle'] .ls-badge svg { width: 28px; }
+  .pz-studio { gap: 5px; }
+  .pz-studio-controls { gap: 8px; }
+}
+@media (orientation: portrait) and (max-width: 639px) and (max-height: 710px) {
+  .gc-focus[data-game='puzzle'][data-status='idle'] { padding: 4px 8px 8px; }
+  .pz-studio { gap: 3px; padding-bottom: 5px; }
+  .pz-preview-stage { width: min(100%, 55dvh); aspect-ratio: 1.65; }
+  .pz-preview-island { width: 105%; left: -2.5%; top: -18%; }
+  .pz-preview figcaption { padding: 0 5px; }
+  .pz-studio-controls { grid-template-columns: minmax(206px, 1fr) minmax(80px, .45fr); align-items: end; gap: 4px 6px; }
+  .pz-gallery { grid-column: 1 / -1; }
+  .pz-gallery h2 { font-size: 20px; margin-bottom: 2px; }
+  .pz-difficulty legend { margin-bottom: 2px; }
+  .pz-studio-start { min-height: 68px; gap: 5px; padding-inline: 4px; font-size: 17px; }
+  .pz-start-arrow { border-block-width: 8px; border-left-width: 12px; }
+  .pz-start-label { display: none; }
+  .pz-start-short { display: block; }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  .pz-studio { grid-template-columns: minmax(0, 1fr) minmax(274px, 1fr); grid-template-areas: 'preview gallery' 'start levels';
+    align-content: center; gap: 5px 16px; padding-block: 68px 8px; }
+  .pz-studio-controls { display: contents; }
+  .pz-preview { grid-area: preview; }
+  .pz-preview-stage { width: min(100%, 75dvh); height: min(43dvh, calc(100dvh - 218px)); }
+  .pz-preview-window { position: absolute; inset: 0; overflow: clip; mask-image: linear-gradient(transparent, #000 9%, #000 90%, transparent); }
+  .pz-preview-island { position: absolute; width: 100%; left: 0; top: 48%; translate: 0 -44%; }
+  .pz-preview-guide { left: 0; bottom: 0; }
+  .pz-preview figcaption { position: relative; padding: 2px 8px; }
+  .pz-preview figcaption strong { font-size: 14px; }
+  .pz-preview figcaption small { font-size: 11px; }
+  .pz-gallery { grid-area: gallery; }
+  .pz-gallery-rail button { max-width: 80px; }
+  .pz-difficulty { grid-area: levels; }
+  .pz-gallery h2, .pz-difficulty legend { display: flex; align-items: baseline; gap: 8px; font-size: 18px; margin-bottom: 4px; }
+  .pz-studio-start { grid-area: start; min-height: 64px; width: min(100%, 270px); justify-self: center; font-size: 18px; }
+}

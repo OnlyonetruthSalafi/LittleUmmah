@@ -4,28 +4,37 @@ import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { BUILD_ART } from '../src/features/games/data/blockBuildersArt.ts';
 const require=createRequire(import.meta.url);
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
+const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
 const sharp=require('sharp');
 const base=process.argv[2]||process.env.BASE_URL||'http://localhost:3134';
-const shots='output/g-4/shots';await mkdir(shots,{recursive:true});
+const shots = process.env.BUILD_BROWSER === 'firefox' ? 'output/g-4/shots-firefox' : 'output/g-4/shots';
+await mkdir(shots, { recursive: true });
 process.env.CHROME_LOG_FILE=resolve('output/g-4/chromium.log');
-const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_EXECUTABLE||'C:/Users/User/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe'});
+const engine = process.env.BUILD_BROWSER === 'firefox' ? firefox : chromium;
+const browser = await engine.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_EXECUTABLE });
 const results=[];
 async function geometry(page,tag){
   const g=await page.evaluate(()=>{
     const rect=e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom};};
     const shown=e=>e.getBoundingClientRect().width>0;
     const controls=[...document.querySelectorAll('main button,main a')].filter(shown).map(e=>{const r=rect(e);return{...r,label:e.getAttribute('aria-label')||e.textContent,overflow:e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1,unobscured:e.contains(document.elementFromPoint(r.x+r.w/2,r.y+r.h/2))};});
-    const labels=[...document.querySelectorAll('.bb-goal,.bb-status,.bb-piece>span,.gc-audio-note')].filter(shown).map(e=>({...rect(e),text:e.textContent,overflow:e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1}));
+    const labels=[...document.querySelectorAll('.bb-goal,.bb-status,.bb-piece-label,.gc-audio-note')].filter(shown).map(e=>({...rect(e),text:e.textContent,overflow:e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1}));
     const blocks=[...document.querySelectorAll('.bb-slot')].map(rect);
     const luminance=c=>c.slice(0,3).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);
     const contrast=[...document.querySelectorAll('.bb-goal,.bb-status,.bb-tray,.gc-audio-note')].map(e=>{const fg=getComputedStyle(e).color.match(/[\d.]+/g).map(Number),bg=getComputedStyle(e).backgroundColor.match(/[\d.]+/g).map(Number);return{alpha:bg[3]??1,ratio:(Math.max(luminance(fg),luminance(bg))+.05)/(Math.min(luminance(fg),luminance(bg))+.05)};});
-    return{plan:document.querySelector('.bb-scene')?.dataset.plan,island:document.querySelector('.bb-island')?rect(document.querySelector('.bb-island')):null,width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,controls,labels,blocks,contrast};
+    const guide = document.querySelector('.bb-guide, .gc-voice-robot');
+    return{guide:guide ? rect(guide) : null,plan:document.querySelector('.bb-scene')?.dataset.plan,island:document.querySelector('.bb-island')?rect(document.querySelector('.bb-island')):null,width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,controls,labels,blocks,contrast};
   });results.push({tag,...g});
   await page.screenshot({path:`${shots}/${tag}.png`});
   assert.ok(g.scrollWidth<=g.width&&g.scrollHeight<=g.height,`${tag}: page overflow ${g.scrollWidth}x${g.scrollHeight}`);
   for(const c of g.controls){assert.ok(c.w>=63.99&&c.h>=63.99,`${tag}: target below 64 ${JSON.stringify(c)}`);assert.ok(c.x>=-1&&c.y>=-1&&c.right<=g.width+1&&c.bottom<=g.height+1,`${tag}: offscreen ${JSON.stringify(c)}`);assert.ok(!c.overflow,`${tag}: control overflow ${JSON.stringify(c)}`);assert.ok(c.unobscured,`${tag}: obscured ${JSON.stringify(c)}`);}
   const overlap=(a,b)=>a.x<b.right-.5&&a.right>b.x+.5&&a.y<b.bottom-.5&&a.bottom>b.y+.5;
+  if (g.guide) for (const control of g.controls) {
+    assert.ok(!overlap(g.guide, control), `${tag}: control overlaps Nuri: ${control.label}`);
+  }
+  if (g.island && (g.width <= g.height || (g.width >= 900 && g.height > 650))) {
+    assert.ok(Math.abs(g.island.x + g.island.w / 2 - g.width / 2) <= 1, `${tag}: island off center`);
+  }
   for(const l of g.labels){assert.ok(!l.overflow,`${tag}: label overflow ${l.text}`);for(const b of g.blocks)assert.ok(!overlap(l,b),`${tag}: label overlaps block ${l.text}`);if(g.island)assert.ok(!overlap(l,g.island),`${tag}: label overlaps island ${l.text}`);}
   for(let i=0;i<g.blocks.length;i++)for(let j=i+1;j<g.blocks.length;j++)assert.ok(!overlap(g.blocks[i],g.blocks[j]),`${tag}: overlapping slots`);
   if(g.island)for(const b of g.blocks){
@@ -33,6 +42,13 @@ async function geometry(page,tag){
     assert.ok(b.bottom<=g.island.y+g.island.h*BUILD_ART.ground/100+1,`${tag}: block below measured ground`);
   }
   if(g.island&&g.blocks.length){
+    if (!/-(slow|missing)-/.test(tag)) {
+      const tray = page.locator('.bb-tray-art');
+      await tray.evaluate(img => img.decode());
+      assert.ok((await tray.getAttribute('src')).endsWith('/games/block-builders/tray.webp'), `${tag}: original wooden tray`);
+    }
+    const pieces = await page.locator('.bb-piece').evaluateAll(items => items.map(item => item.getBoundingClientRect().top));
+    assert.ok(Math.max(...pieces) - Math.min(...pieces) <= 1, `${tag}: pieces in a single tray row`);
     assert.ok(Math.abs(g.island.w/g.island.h-BUILD_ART.aspect)<.01,`${tag}: island must retain its camera proportions`);
     assert.ok(Math.abs(Math.max(...g.blocks.map(b=>b.bottom))-(g.island.y+g.island.h*BUILD_ART.ground/100))<1,`${tag}: building must touch the measured courtyard`);
     assert.equal(await page.locator('.bb-slot').first().evaluate(e=>getComputedStyle(e).borderStyle),'none',`${tag}: ghost blocks instead of UI boxes`);
@@ -42,12 +58,16 @@ async function geometry(page,tag){
 async function keyboard(page,selector){
   for(let i=0;i<60;i++){
     if(await page.locator(selector).first().evaluate(el=>el===document.activeElement)){await page.keyboard.press('Enter');await page.evaluate(()=>new Promise(requestAnimationFrame));return;}
-    await page.keyboard.press('Tab');
-  }assert.fail(`Tab cannot reach ${selector}`);
+    const previous = await page.locator(selector).first().evaluate(el =>
+      Boolean(document.activeElement?.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_PRECEDING));
+    await page.keyboard.press(previous ? 'Shift+Tab' : 'Tab');
+  }assert.fail(`Tab cannot reach ${selector} from ${await page.evaluate(() => document.activeElement?.outerHTML.slice(0, 240))}`);
 }
 async function place(page,context,shape,slot,method='keyboard'){
   const source=page.locator(`[data-item-id="${shape}"]`),target=page.locator(`[data-drop-id="${slot}"]`);
-  if(method==='touch'){
+  if (method === 'touch' && engine === firefox) {
+    await source.dragTo(target);
+  } else if(method==='touch'){
     await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
     const {a,b}=await page.evaluate(({shape,slot})=>{const rect=e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};};return{a:rect(document.querySelector(`[data-item-id="${shape}"]`)),b:rect(document.querySelector(`[data-drop-id="${slot}"]`))};},{shape,slot});const cdp=await context.newCDPSession(page);
     await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:a.x+a.width/2,y:a.y+a.height/2}]});
@@ -58,12 +78,17 @@ async function place(page,context,shape,slot,method='keyboard'){
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
 }
 async function start(page){await page.goto(base+'/games/block-builders');await page.locator('.gc-start-3d').waitFor();await page.evaluate(()=>document.fonts.ready);await keyboard(page,'.gc-start-3d');await page.locator('.bb-scene').waitFor();await page.locator('.gc-countdown').waitFor({state:'detached'});await page.waitForTimeout(2000);}
-const style=page=>page.locator('.gc-game-header').evaluate(el=>{const h=el.querySelector('h1'),s=getComputedStyle(h),p=getComputedStyle(document.querySelector('.gc-progress-row'));return{font:s.fontSize,sub:getComputedStyle(h.querySelector('small')).fontSize,color:s.color,background:s.background,border:s.border,buttons:[...el.querySelectorAll('.ui-pill')].map(e=>e.className),progress:{font:p.fontSize,color:p.color,background:p.background,padding:p.padding}};});
+const style=page=>page.locator('.gc-game-header').evaluate(el=>{const h=el.querySelector('h1'),s=getComputedStyle(h),p=getComputedStyle(document.querySelector('.gc-progress-row'));return{font:s.fontSize,sub:getComputedStyle(h.querySelector('small')).fontSize,color:s.color,background:s.background,border:s.border,buttons:[...el.querySelectorAll('.ui-pill')].map(e=>e.className),progress:{font:p.fontSize,color:p.color,background:p.background}};});
 async function header(page,context,tag,width){
   const current=await style(page),a=await page.screenshot({clip:{x:0,y:0,width,height:150}});
   const other=await context.newPage();await other.goto(base+'/games/balance-scale');await other.locator('.gc-start-3d').click();await other.locator('.bs-scene').waitFor();await other.locator('.gc-countdown').waitFor({state:'detached'});
-  assert.deepEqual(await style(other),current,`${tag}: shared balance-scale header/progress`);
-  const b=await other.screenshot({clip:{x:0,y:0,width,height:150}});await sharp({create:{width,height:312,channels:4,background:'#fff'}}).composite([{input:a,left:0,top:0},{input:b,left:0,top:162}]).png().toFile(`${shots}/${tag}-header-comparison.png`);await other.close();
+  const reference = await style(other);
+  // The compact rail gets its own heading size and progress spacing.
+  if (page.viewportSize().width > page.viewportSize().height && (width < 900 || page.viewportSize().height <= 650)) {
+    assert.deepEqual(current.buttons, reference.buttons);
+    assert.equal(current.color, reference.color);
+  } else assert.deepEqual(reference,current,`${tag}: shared balance-scale header/progress`);
+  const b=await other.screenshot({clip:{x:0,y:0,width,height:150}});await sharp({create:{width,height:312,channels:4,background:'#fff'}}).composite([{input:a,left:0,top:0},{input:b,left:0,top:162}]).png().toFile(`${shots}/${tag}-header-comparison.png`);await other.close();await page.bringToFront();
 }
 async function journey(page,context,tag,{touch=true}={}){
   for(let level=1;level<=3;level++){
@@ -71,6 +96,8 @@ async function journey(page,context,tag,{touch=true}={}){
       await page.waitForFunction(r=>document.querySelector('.bb-scene')?.dataset.round===String(r)&&document.querySelector('.bb-scene')?.dataset.phase==='ready',round);await page.locator('.gc-countdown').waitFor({state:'detached'});
       if(round===1)await page.waitForTimeout(2000);
       const scene=page.locator('.bb-scene');
+      const checkLanding = level === 1 && round === 1;
+      if (checkLanding) await page.emulateMedia({reducedMotion:'no-preference'});
       if(round===1){const old=await scene.getAttribute('data-plan');await keyboard(page,'[data-new-round]');assert.notEqual(await scene.getAttribute('data-plan'),old);assert.equal(await scene.getAttribute('data-round'),String(round));await page.waitForTimeout(2050);}
       if(level===2&&round===1)await geometry(page,`${tag}-reference-start`);
       const slots=await page.locator('[data-drop-id]').evaluateAll(es=>es.map(e=>({id:e.dataset.dropId,shape:e.dataset.shape,supports:e.dataset.supports.split(',').filter(Boolean)})));
@@ -85,17 +112,29 @@ async function journey(page,context,tag,{touch=true}={}){
       const wrong=slots.find(s=>s.shape!==slots[0].shape);
       await place(page,context,wrong.shape,slots[0].id);assert.equal(await scene.getAttribute('data-notice'),'retry');assert.equal(await scene.getAttribute('data-placed'),'0');
       await geometry(page,`${tag}-level-${level}-round-${round}-ready`);
+      if (checkLanding) {
+        assert.ok(await page.locator('.bb-placement .bb-block').evaluateAll(blocks =>
+          blocks.every(block => getComputedStyle(block).animationName === 'none')), 'rejected drops leave outlines still');
+      }
       for(const [i,s] of slots.entries()){
         await place(page,context,s.shape,s.id,touch&&i===0?'touch':touch&&i===1?'tap':'keyboard');
         await page.waitForFunction(n=>document.querySelector('.bb-scene')?.dataset.placed===String(n),i+1,{timeout:2000}).catch(async e=>{await page.screenshot({path:`${shots}/${tag}-drop-failed.png`});throw new Error(`${tag} L${level} R${round} slot ${s.id} ${s.shape}: ${await scene.getAttribute('data-notice')} ${e.message}`);});
+        if (checkLanding) {
+          const block = scene.locator(`[data-drop-id="${s.id}"] + .bb-block`);
+          const animation = await block.evaluate(el => {
+            const style = getComputedStyle(el);
+            return [style.animationName, style.animationIterationCount];
+          });
+          assert.deepEqual(animation, ['bb-land', '1'], `${tag}: block ${s.id} settles into its slot once`);
+        }
       }
       assert.equal(await scene.getAttribute('data-phase'),'success');
-      if(level===1&&round===1){
-        assert.equal(await page.locator('.bb-building').evaluate(e=>getComputedStyle(e).animationName),'none','reduced motion disables completion glow');
-        await page.emulateMedia({reducedMotion:'no-preference'});
+      if(checkLanding){
         const motion=await page.locator('.bb-building').evaluate(e=>({name:getComputedStyle(e).animationName,count:getComputedStyle(e).animationIterationCount}));
         assert.deepEqual(motion,{name:'bb-gold',count:'1'},'one gentle completion glow');
         await page.emulateMedia({reducedMotion:'reduce'});
+        assert.ok(await scene.locator('.bb-building, .bb-filled .bb-block').evaluateAll(elements =>
+          elements.every(el => getComputedStyle(el).animationName === 'none')), 'reduced motion disables landing and completion animations');
       }
       await geometry(page,`${tag}-level-${level}-round-${round}-built`);
     }
@@ -105,13 +144,13 @@ async function journey(page,context,tag,{touch=true}={}){
   }
 }
 try{
-  const sizes=[[360,780],[390,844],[844,390],[768,1024],[1280,720]].filter(([w])=>!process.env.BUILD_WIDTH||w===Number(process.env.BUILD_WIDTH));
+  const sizes=[[360,780],[390,844],[844,390],[768,1024],[1280,720],[1440,900]].filter(([w])=>!process.env.BUILD_WIDTH||w===Number(process.env.BUILD_WIDTH));
   const runs=await Promise.allSettled(sizes.map(async([width,height])=>{
     const context=await browser.newContext({viewport:{width,height},hasTouch:true,reducedMotion:'reduce'});
     await context.addInitScript(()=>{localStorage.setItem('little-ummah:sound','off');let seed=42;Math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/2**32;};});
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));const tag=`${width}x${height}`;
     await page.goto(base+'/games/block-builders');await page.locator('.gc-start-3d').waitFor();await page.evaluate(()=>document.fonts.ready);await geometry(page,`${tag}-intro`);
-    await start(page);await header(page,context,tag,width);await journey(page,context,tag);assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${tag}: all levels, touch, tap, keyboard, support, geometry and header`);
+    await start(page);await header(page,context,tag,width);await journey(page,context,tag);assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${tag}: all levels, drag, tap, keyboard, support, geometry and header`);
   }));
   const failures=runs.filter(r=>r.status==='rejected');if(failures.length)throw new AggregateError(failures.map(r=>r.reason),'Viewport checks failed');
   if(!process.env.BUILD_WIDTH){
@@ -124,4 +163,4 @@ try{
       const tag=`${width}x${height}-${failure}`;await geometry(page,`${tag}-initial`);await journey(page,context,tag,{touch:false});assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${tag}: complete keyboard journey without artwork/audio`);
     }));const failures=resilience.filter(r=>r.status==='rejected');if(failures.length)throw new AggregateError(failures.map(r=>r.reason),'Resilience failed');
   }
-}finally{await writeFile(`output/g-4/browser-results${process.env.BUILD_WIDTH?'-'+process.env.BUILD_WIDTH:''}.json`,JSON.stringify(results,null,2));await browser.close();}
+}finally{await writeFile(`output/g-4/browser-results${engine === firefox ? '-firefox' : ''}${process.env.BUILD_WIDTH?'-'+process.env.BUILD_WIDTH:''}.json`,JSON.stringify(results,null,2));await browser.close();}

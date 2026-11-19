@@ -11,6 +11,7 @@ import type { PlayProps } from '../components/GameShell';
 import { useGameAudio } from '../audio/useGameAudio';
 import { blockKinds, buildText as text, BUILD_ROUNDS, type BlockShape } from '../data/blockBuilders';
 import { BUILD_ART } from '../data/blockBuildersArt';
+import { gameAssets } from '../data/catalog';
 import { nextBuildPlan, placeBlock, buildComplete } from '../engine/blockBuilders';
 
 function Art({ name, className = '' }: { name: string; className?: string }) {
@@ -38,6 +39,7 @@ export default function BlockBuildersBoard({ level, paused, onProgress, onComple
   const secondary = (value: Text, n = 0) => sub && <small lang="en">{fmt(pickSub(value)!, { n })}</small>;
   const shapes = [...new Set(plan.slots.map(s => s.shape))];
   const columns = Math.max(...plan.slots.map(s => s.x + s.w));
+  const rows = Math.max(...plan.slots.map(s => s.y)) + 1;
   useEffect(() => {
     if (initialized.current) return; initialized.current = true;
     let previous = ''; try { previous = sessionStorage.getItem('block-builders:last') ?? ''; } catch {}
@@ -78,30 +80,50 @@ export default function BlockBuildersBoard({ level, paused, onProgress, onComple
     if (result.reason !== 'ok') {
       setNotice(result.reason); setRejected(r => ({ shape, sequence: r.sequence + 1 })); effect('incorrect'); say(`build-${result.reason}`); return;
     }
-    placedRef.current = result.placed; setPlaced(result.placed); setSelected(null); onTap();
-    if (buildComplete(plan, result.placed)) { setNotice('praise'); effect('correct'); say('build-praise'); }
+    placedRef.current = result.placed; setPlaced(result.placed); setSelected(null);
+    effect('correct');
+    if (buildComplete(plan, result.placed)) { setNotice('praise'); say('build-praise'); }
     else { setNotice('drag'); focusTray(); }
   };
   return <div ref={scene} className="bb-scene" data-plan={plan.id} data-round={round + 1} data-phase={complete ? 'success' : 'ready'} data-placed={placed.length} data-notice={notice}>
-    <div className="bb-goal"><div><p>{label(text.round, round + 1)}{secondary(text.round, round + 1)}</p><h2>{label(plan.title)}{secondary(plan.title)}</h2></div><button className="gc-button" disabled={disabled} onClick={() => say('howto-block-builders')}>{label(text.listen)}{secondary(text.listen)}</button><button className="gc-button" data-new-round disabled={disabled} onClick={() => { onTap(); changePlan(round); }}>{label(text.newRound)}{secondary(text.newRound)}</button></div>
-    <div className="bb-stage" style={{ '--bb-ground': BUILD_ART.ground / 100, '--bb-island-aspect': BUILD_ART.aspect, '--bb-columns': columns } as CSSProperties}>
-      <div className="bb-island"><Art name="island" /></div>
-      <div className={`bb-building${complete ? ' bb-complete' : ''}`}>
-        {plan.slots.map((slot, i) => {
-          const done = placed.includes(slot.id), ready = slot.supports.every(id => placed.includes(id));
-          return <div key={slot.id} data-shape={slot.shape} data-supported={ready} className={`bb-placement${done ? ' bb-filled' : ''}${selected === slot.shape ? ' bb-matching' : ''}`} style={{ '--bb-x': slot.x, '--bb-y': slot.y, '--bb-w': slot.w } as CSSProperties}><button type="button" data-drop-id={slot.id} data-shape={slot.shape} data-supports={slot.supports.join(',')} data-filled={done} data-supported={ready} disabled={paused || done || complete} className="bb-slot" aria-label={`${label(text.slot, i + 1)}: ${label(blockKinds[slot.shape].label)} ${label(blockKinds[slot.shape].colorLabel)}${done ? `, ${label(text.placed)}` : !ready ? `, ${label(text.support)}` : ''}`} onClick={() => { if (selected) place(selected, slot.id); else setNotice('select'); }}>
-          </button><Block shape={slot.shape} paired={plan.id === 'home-5' && slot.shape === 'cube'} />
-          </div>;
-        })}
+    <div className="bb-goal">
+      <div className="bb-brief">
+        <Image src={gameAssets.pointer} width={144} height={144} className="bb-guide" alt="" />
+        <div>
+          <p>{label(text.round, round + 1)}{secondary(text.round, round + 1)}</p>
+          <h2>{label(plan.title)}{secondary(plan.title)}</h2>
+        </div>
+      </div>
+      <div className="bb-actions">
+        <button className="gc-button" disabled={disabled} onClick={() => say('howto-block-builders')}>{label(text.listen)}{secondary(text.listen)}</button>
+        <button className="gc-button" data-new-round disabled={disabled} onClick={() => { onTap(); changePlan(round); }}>{label(text.newRound)}{secondary(text.newRound)}</button>
       </div>
     </div>
-    <div className="bb-status" role="status"><strong>{label(text[notice])}</strong>{secondary(text[notice])}</div>
-    <div className="bb-tray" role="group" aria-label={label(text.tray)}><Art name="tray" className="bb-tray-art" />{shapes.map(shape => {
-      const remaining = plan.slots.filter(s => s.shape === shape && !placed.includes(s.id)).length;
-      return <div className="bb-piece" key={shape} data-rejected={rejected.shape === shape ? rejected.sequence : undefined}>
-        <DragItem id={shape} label={`${label(blockKinds[shape].label)} ${label(blockKinds[shape].colorLabel)}`} selected={selected === shape} disabled={disabled || !remaining} onSelect={() => { setSelected(shape); setNotice('drag'); onTap(); say(`build-${shape}`); }} onDrop={place}><Block shape={shape} /></DragItem>
-        <span>{label(blockKinds[shape].label)}{secondary(blockKinds[shape].label)}</span>
-      </div>;
-    })}</div>
+    <div className="bb-workspace">
+      <div className="bb-stage" style={{ '--bb-ground': BUILD_ART.ground / 100, '--bb-island-aspect': BUILD_ART.aspect, '--bb-columns': columns, '--bb-rows': rows } as CSSProperties}>
+        <div className="bb-island"><Art name="island" /></div>
+        <div className={`bb-building${complete ? ' bb-complete' : ''}`}>
+          {plan.slots.map((slot, i) => {
+            const done = placed.includes(slot.id), ready = slot.supports.every(id => placed.includes(id));
+            return <div key={slot.id} data-shape={slot.shape} data-supported={ready} className={`bb-placement${done ? ' bb-filled' : ''}${selected === slot.shape ? ' bb-matching' : ''}`} style={{ '--bb-x': slot.x, '--bb-y': slot.y, '--bb-w': slot.w } as CSSProperties}><button type="button" data-drop-id={slot.id} data-shape={slot.shape} data-supports={slot.supports.join(',')} data-filled={done} data-supported={ready} disabled={paused || done || complete} className="bb-slot" aria-label={`${label(text.slot, i + 1)}: ${label(blockKinds[slot.shape].label)} ${label(blockKinds[slot.shape].colorLabel)}${done ? `, ${label(text.placed)}` : !ready ? `, ${label(text.support)}` : ''}`} onClick={() => { if (selected) place(selected, slot.id); else setNotice('select'); }}>
+            </button><Block shape={slot.shape} paired={plan.id === 'home-5' && slot.shape === 'cube'} />
+            </div>;
+          })}
+        </div>
+      </div>
+      <div className="bb-status" role="status"><strong>{label(text[notice])}</strong>{secondary(text[notice])}</div>
+    </div>
+    <div className="bb-tray" role="group" aria-label={label(text.tray)}>
+      <Art name="tray" className="bb-tray-art" />
+      <div className="bb-pieces">{shapes.map(shape => {
+        const remaining = plan.slots.filter(s => s.shape === shape && !placed.includes(s.id)).length;
+        return <div className="bb-piece" key={shape} data-rejected={rejected.shape === shape ? rejected.sequence : undefined}>
+          <DragItem id={shape} label={`${label(blockKinds[shape].label)} ${label(blockKinds[shape].colorLabel)}`} selected={selected === shape} disabled={disabled || !remaining} onSelect={() => { setSelected(shape); setNotice('drag'); onTap(); say(`build-${shape}`); }} onDrop={place}>
+            <Block shape={shape} />
+            <span className="bb-piece-label">{label(blockKinds[shape].label)}{secondary(blockKinds[shape].label)}</span>
+          </DragItem>
+        </div>;
+      })}</div>
+    </div>
   </div>;
 }

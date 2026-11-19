@@ -30,7 +30,7 @@ for (const route of routes) {
       assert.ok(!html.includes('gc-adventure-intro'), `${route} old wordy introduction removed`);
     } else {
       assert.ok(html.includes(theme.world.th), `${route} world name rendered`);
-      assert.ok(html.includes('gc-adventure-intro'), `${route} illustrated introduction rendered`);
+      assert.ok(html.includes(game.slug === 'puzzle' ? 'pz-studio' : 'gc-adventure-intro'), `${route} illustrated introduction rendered`);
       for (const label of theme.levels) assert.ok(html.includes(label.th), `${route} level description rendered`);
     }
   }

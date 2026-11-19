@@ -40,7 +40,8 @@ test('independent bases can be placed in either order; plans never repeat immedi
 });
 test('uses shared chrome, one star, scoped motion and legible opaque label colors',async()=>{
   const css=await readFile('src/features/games/block-builders.css','utf8');
-  assert.doesNotMatch(css,/gc-game-header|ui-label|transition-all/);
+  assert.doesNotMatch(css,/gc-game-header|transition-all/);
+  assert.doesNotMatch(css,/^\s*\.ui-label\s*\{/m, 'compact labels must stay scoped to this game');
   assert.match(css,/prefers-reduced-motion:no-preference/);
   const board=await readFile('src/features/games/games/BlockBuildersBoard.tsx','utf8');assert.match(board,/<DragItem/);assert.doesNotMatch(board,/<header/);
   const lum=h=>h.match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((a,x,i)=>a+x*[.2126,.7152,.0722][i],0);
