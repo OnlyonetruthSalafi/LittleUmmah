@@ -3,7 +3,7 @@ import { CATEGORIES } from './categories';
 import { getIslandContent } from './lessons';
 import { LESSONS } from '../features/faith/data';
 import { HABITAT_LESSONS } from '../features/explore/data';
-import { shelfBooks, hadithShelfBooks, hadithShelf2Books } from '../features/stories/shelf';
+import { shelfBooks, hadithShelfBooks } from '../features/stories/shelf';
 import { COURSES } from '../features/languages/courses';
 import { ART_PICTURES } from '../features/art/data';
 import { LESSONS as MATH_LESSONS } from '../features/math/data';
@@ -25,7 +25,7 @@ export function getCurriculum(): CurriculumAge[] {
       case 'moral': items = lessons(getIslandContent('moral')![age], 'moral', 'lu-moral-progress'); break;
       case 'explore': items = lessons([...HABITAT_LESSONS[age], ...getIslandContent('explore')![age]], 'explore', 'lu-explore-progress'); break;
       case 'faith-basics': items = lessons(LESSONS[age], 'faith', 'lu-faith-progress'); break;
-      case 'stories': items = [shelfBooks(), hadithShelfBooks(), hadithShelf2Books()].flatMap(shelf => shelf[age].filter(book => book.href).map(book => ({ id: book.id, title: book.title, unit: 'books', rewardId: `story:${book.id}` }))); break;
+      case 'stories': items = [shelfBooks(), hadithShelfBooks()].flatMap(shelf => shelf[age].filter(book => book.href).map(book => ({ id: book.id, title: book.title, unit: 'books', rewardId: `story:${book.id}` }))); break;
       case 'arabic': items = Object.values(COURSES).flatMap(course => course.units[age].flatMap(unit => unit.steps.map(step => ({ id: `${course.id}:${step.id}`, title: step.title, unit: 'lessons', storageKey: course.progressKey, rewardId: course.id === 'arabic' ? `arabic:${step.id}` : `lang:${course.id}:${step.id}` })))); break;
       case 'art': items = ART_PICTURES.map(picture => ({ id: picture.id, title: picture.title, unit: 'pictures' })); break;
       case 'games': items = games.filter(game => game.enabled && (game.ageGroup === '3–10' || game.ageGroup === (age === 'kids' ? '3–6' : '7+'))).flatMap(game => {

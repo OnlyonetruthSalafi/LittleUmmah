@@ -28,7 +28,12 @@ export const STORIES: Story[] = [
   ...READY_HADITH_STORIES,
 ];
 
+// A second reading format shares the original narration, sources and learning-star ID.
+export const PAPER_EDITION = { slug: "nuh-paper-popup", story: NUH_STORY };
+export const STORY_SLUGS = [...STORIES.map((story) => story.slug), PAPER_EDITION.slug];
+
 export function getStory(slug: string) {
+  if (slug === PAPER_EDITION.slug) return PAPER_EDITION.story;
   return STORIES.find((s) => s.slug === slug);
 }
 

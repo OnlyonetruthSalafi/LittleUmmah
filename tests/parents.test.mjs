@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const { getCurriculum } = await import('../src/lib/parents-curriculum.ts');
 const { readParentsProgress } = await import('../src/lib/parents-progress.ts');
 const { CATEGORIES } = await import('../src/lib/categories.ts');
-const { HADITH_SHELF, HADITH_SHELF_2 } = await import('../src/features/stories/data/hadith/index.ts');
+const { HADITH_SHELF } = await import('../src/features/stories/data/hadith/index.ts');
 const { COURSES } = await import('../src/features/languages/courses.ts');
 const { games } = await import('../src/features/games/data/catalog.ts');
 const { initial, localDay } = await import('../src/features/learning-stars/model.ts');
@@ -19,7 +19,10 @@ test('curriculum includes every live island for both ages; unavailable books exc
       assert.ok(island.items.length); assert.equal(new Set(island.items.map(i => i.id)).size, island.items.length);
     }
     const books = age.islands.find(i => i.slug === 'stories').items;
-    for (const shelf of [HADITH_SHELF, HADITH_SHELF_2]) for (const book of shelf[age.age]) assert.equal(books.some(i => i.id === book.story.slug), book.ready);
+    for (const book of HADITH_SHELF[age.age]) assert.equal(books.some(i => i.id === book.story.slug), book.ready);
+    for (const retired of ['little-bird', 'palm-riddle', 'mother-bird', 'camel-complaint', 'sea-plank', 'visit-brother']) {
+      assert.ok(!books.some(book => book.id === retired), 'retired editions are excluded from the curriculum');
+    }
     const language = age.islands.find(i => i.slug === 'arabic').items;
     assert.equal(language.length, Object.values(COURSES).flatMap(c => c.units[age.age].flatMap(u => u.steps)).length);
     const levels = age.islands.find(i => i.slug === 'games').items;

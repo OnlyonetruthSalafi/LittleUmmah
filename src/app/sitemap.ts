@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CATEGORIES } from "@/lib/categories";
-import { STORIES } from "@/features/stories";
+import { STORY_SLUGS } from "@/features/stories";
 import { games } from "@/features/games/data/catalog";
 import { siteUrl } from "@/lib/site-url";
 
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/parents/curriculum", "/parents/progress", "/parents/privacy", "/parents/sponsors",
     "/learn/languages/arabic", "/learn/languages/english", "/learn/languages/thai",
     ...CATEGORIES.filter((category) => category.slug !== "games").map((category) => category.href),
-    ...STORIES.map((story) => `/learn/stories/${story.slug}`),
+    ...STORY_SLUGS.map((slug) => `/learn/stories/${slug}`),
     ...games.filter((game) => game.enabled).map((game) => `/games/${game.slug}`),
     "/learn/games/memory", "/learn/games/memory/easy", "/learn/games/memory/hard",
   ];

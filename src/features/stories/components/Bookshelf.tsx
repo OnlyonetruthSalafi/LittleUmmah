@@ -343,11 +343,11 @@ function Shelf({
 
 /*
   ใช้ได้หลายตู้บนหน้าเดียว (เรื่องจริงจากอัลกุรอาน / เรื่องจริงจากหะดีษ — เจ้าของโปรเจกต์สั่งแยกตู้ 9 พ.ย. 2026)
-  shelf = ชื่อตู้ใน dict (t.stories.shelf.title / hadithTitle / hadith2Title)
+  shelf = ชื่อตู้ใน dict (t.stories.shelf.title / hadithTitle)
 */
-export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[]; juniors: ShelfBook[]; shelf?: "quran" | "hadith" | "hadith2" }) {
+export function Bookshelf({ kids, juniors, shelf = "quran" }: { kids: ShelfBook[]; juniors: ShelfBook[]; shelf?: "quran" | "hadith" }) {
   const { t, sub, pick: pickText } = useDict();
-  const key = shelf === "hadith2" ? "hadith2Title" : shelf === "hadith" ? "hadithTitle" : "title";
+  const key = shelf === "hadith" ? "hadithTitle" : "title";
   const title = { th: t.stories.shelf[key], en: sub?.stories.shelf[key] };
   const router = useRouter();
   const toLocale = useLocalePath();

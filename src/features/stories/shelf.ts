@@ -1,7 +1,7 @@
 import type { LessonIconName } from "@/components/icons/LessonIcon";
 import { ISLAND_CONTENT } from "@/lib/lessons";
 
-import { HADITH_SHELF, HADITH_SHELF_2, type HadithShelfEntry } from "./data/hadith";
+import { HADITH_SHELF, type HadithShelfEntry } from "./data/hadith";
 import { STORIES } from "./index";
 import type { Text } from "@/i18n/config";
 
@@ -48,10 +48,6 @@ function hadithBooks(shelf: typeof HADITH_SHELF) {
 
 export function hadithShelfBooks() {
   return hadithBooks(HADITH_SHELF);
-}
-
-export function hadithShelf2Books() {
-  return hadithBooks(HADITH_SHELF_2);
 }
 
 type Rect = { l: number; r: number; t: number; b: number };

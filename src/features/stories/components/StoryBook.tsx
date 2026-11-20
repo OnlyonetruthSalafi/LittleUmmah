@@ -3,7 +3,9 @@
 import { awardLesson } from '@/features/learning-stars/store';
 import { LearningNotice } from '@/features/learning-stars/components';
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { PaperFullscreen } from "./PaperFullscreen";
 
 import { PauseIcon } from "@/components/icons/PauseIcon";
 import { PlayIcon } from "@/components/icons/PlayIcon";
@@ -58,6 +60,7 @@ const SFX_COVER = "/audio/sfx/story-book-open.mp3";
 const SFX_FALLBACK = "/audio/sfx/page-turn.mp3";
 const PAUSE_AFTER_NARRATION_MS = 800;
 const SIZES = "(max-width: 1140px) 100vw, 1100px";
+const PaperReaderStage = dynamic(() => import("./PaperReaderStage"));
 
 /** phase ใช้เฉพาะเล่มสมจริงตอนเปิด/ปิดปก: cover = ปกแข็งพลิก, hold = ปกเปิดแล้วพักครู่หนึ่ง, paper = หน้าชื่อเรื่องพลิก */
 type Turn = { from: number; to: number; phase?: "cover" | "hold" | "paper" };
@@ -130,7 +133,7 @@ function BookShell({ book }: { book: NonNullable<NonNullable<Story["deluxe"]>["b
   );
 }
 
-export function StoryBook({ story }: { story: Story }) {
+export function StoryBook({ story, paperPopup = false }: { story: Story; paperPopup?: boolean }) {
   const { locale, t, sub, pick, pickSub } = useDict();
   const { enabled: soundOn } = useSound();
   const count = story.pages.length;
@@ -144,7 +147,7 @@ export function StoryBook({ story }: { story: Story }) {
   const [finished, setFinished] = useState(false);
   const turnSfx = useRef<HTMLAudioElement | null>(null);
   const deluxe = story.deluxe;
-  const real = !!deluxe?.book;
+  const real = !paperPopup && !!deluxe?.book;
   /** กดพักแล้ว: เงียบเสียงบรรยากาศด้วย จนกว่าจะกดเล่นหรือพลิกหน้าอีก */
   const [userPaused, setUserPaused] = useState(false);
 
@@ -273,8 +276,16 @@ export function StoryBook({ story }: { story: Story }) {
       timer = setTimeout(done, 2500 + text.length * 70);
     };
 
+    function readWithDeviceVoice() {
+      usedSynth = true;
+      speakWithSynth(text);
+      readingTime();
+    }
     if (!soundOn) {
       readingTime();
+    } else if (locale === "en") {
+      // This collection's recorded tracks are Thai. English uses the device voice.
+      readWithDeviceVoice();
     } else {
       cancel = playNarration(narrationSrc(locale, story, spread), {
         onEnded: done,
@@ -283,11 +294,7 @@ export function StoryBook({ story }: { story: Story }) {
           narration.current = "stopped";
           setAutoMode(false);
         },
-        onFail: () => {
-          usedSynth = true;
-          speakWithSynth(text);
-          readingTime();
-        },
+        onFail: readWithDeviceVoice,
       });
     }
     return () => {
@@ -437,6 +444,8 @@ export function StoryBook({ story }: { story: Story }) {
     ) : null;
 
   const preload = [spread + 1, spread + 2].filter((i) => i >= 0 && i < count);
+  const ReaderFrame = paperPopup ? PaperFullscreen : Fragment;
+  const SpreadLayout = paperPopup ? "div" : Fragment;
 
   return (
     <section
@@ -447,7 +456,12 @@ export function StoryBook({ story }: { story: Story }) {
       style={deluxe?.paper ? ({ "--sb-paper": `url(${deluxe.paper})` } as React.CSSProperties) : undefined}
     >
       <LearningNotice />
-      <div className="sb-stage">
+      <ReaderFrame>
+      <SpreadLayout {...(paperPopup ? { className: "pp-reading-spread" } : {})}>
+      {paperPopup ? (
+        <PaperReaderStage story={story} spread={spread} turn={turn} onDone={finishTurn} onStep={step} onScrub={pause}
+          bookRef={bookRef} label={pick(page ? page.alt : story.coverAlt)} />
+      ) : <div className="sb-stage">
         <div
           ref={bookRef}
           className="sb-book"
@@ -537,14 +551,14 @@ export function StoryBook({ story }: { story: Story }) {
             </div>
           )}
         </div>
-      </div>
+      </div>}
 
       {/* โหลดภาพหน้าถัดไปไว้ก่อน จะได้ไม่กระพริบตอนพลิก */}
-      <div className="sb-preload" aria-hidden="true">
+      {!paperPopup && <div className="sb-preload" aria-hidden="true">
         {preload.map((i) => (
           <Image key={i} src={story.pages[i].image} alt="" width={16} height={11} sizes={SIZES} />
         ))}
-      </div>
+      </div>}
 
       {/* ปุ่มอยู่ติดใต้หนังสือ เห็นพร้อมกันบนจอแล็ปท็อปเตี้ยๆ ข้อความตามมาข้างล่าง */}
       {/* grid คงที่ ปุ่มก่อน-เล่น-ถัดไปอยู่ตำแหน่งเดิมเสมอ ไม่ว่าป้ายปุ่มเล่นจะยาวแค่ไหน */}
@@ -600,6 +614,7 @@ export function StoryBook({ story }: { story: Story }) {
         </p>
       </div>
 
+      </SpreadLayout>
       <div className="scene-copy shadow-soft rounded-card mx-auto mt-5 flex max-w-4xl gap-3 p-4 sm:gap-5 sm:p-6">
         {/* หุ่นยนต์ผู้เล่าเรื่อง ภาพตกแต่ง */}
         <Image src={story.robot} alt="" width={112} height={112} className="size-16 shrink-0 object-contain sm:size-28" />
@@ -648,6 +663,7 @@ export function StoryBook({ story }: { story: Story }) {
           <BackLink href="/learn/stories" label={{ th: t.stories.shelf.back, en: sub?.stories.shelf.back ?? t.stories.shelf.back }} />
         </div>
       )}
+      </ReaderFrame>
     </section>
   );
 }

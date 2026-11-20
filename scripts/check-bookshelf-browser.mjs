@@ -31,6 +31,12 @@ try {
     await page.goto(`${base}/learn/stories`);
     const cells = page.locator('[data-shelf="quran"] .bs-shelf:visible .bs-cell');
     await cells.first().waitFor();
+    assert.deepEqual(await page.locator('section[data-shelf]').evaluateAll(shelves => shelves.map(shelf => shelf.dataset.shelf)),
+      ['quran', 'hadith', 'popup'], 'three cabinets in reading order');
+    const popup = page.locator('[data-shelf="popup"]');
+    assert.match(await popup.getByRole('heading', { level: 2 }).innerText(), /ป๊อปอัป/);
+    assert.equal(await popup.getByRole('link').getAttribute('href'), '/learn/stories/nuh-paper-popup#paper-book');
+    await popup.screenshot({ path: `${out}/${width}-popup-shelf.png` });
     await page.waitForTimeout(600);
     assert.equal(await cells.count(), 10, `10 books ${width}`);
     for (const [slug, age] of [['garden-owners', 'kids'], ['two-gardens', 'juniors']]) {
