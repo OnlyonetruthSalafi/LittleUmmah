@@ -132,7 +132,7 @@ export const en: Dictionary = {
       metadataTitle: "Stories Island",
       title: "True Stories from the Quran",
       hadithTitle: "True Stories from the Hadith",
-      paperTitle: "Paper pop-up stories",
+      paperTitle: "Pop-up books",
       openPaper: "Open the pop-up book",
       dragPage: "Swipe left or right to turn a page",
       liftCover: "Unfold the ark",

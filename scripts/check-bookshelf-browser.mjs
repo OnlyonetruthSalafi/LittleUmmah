@@ -34,7 +34,7 @@ try {
     assert.deepEqual(await page.locator('section[data-shelf]').evaluateAll(shelves => shelves.map(shelf => shelf.dataset.shelf)),
       ['quran', 'hadith', 'popup'], 'three cabinets in reading order');
     const popup = page.locator('[data-shelf="popup"]');
-    assert.match(await popup.getByRole('heading', { level: 2 }).innerText(), /ป๊อปอัป/);
+    assert.match(await popup.getByRole('heading', { level: 2 }).innerText(), /^หนังสือป๊อปอัป/);
     assert.equal(await popup.getByRole('link').getAttribute('href'), '/learn/stories/nuh-paper-popup#paper-book');
     await popup.screenshot({ path: `${out}/${width}-popup-shelf.png` });
     await page.waitForTimeout(600);
@@ -130,7 +130,7 @@ try {
   const direct = await browser.newContext({ viewport: { width: 1280, height: 800 } });
   const d = await direct.newPage();
   await d.goto(`${base}/learn/stories/nuh`);
-  await d.getByRole('button', { name: /เล่นนิทาน/ }).waitFor();
+  await d.getByRole('button', { name: /ฟังเรื่องเล่า/ }).waitFor();
   await direct.close();
 } catch (error) {
   for (const context of browser.contexts()) for (const page of context.pages()) {

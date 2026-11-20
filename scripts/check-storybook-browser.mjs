@@ -98,7 +98,7 @@ try {
   page.on('pageerror', (e) => errors.push(`auto: ${e.message}`));
   const narr = () => page.evaluate(() => window.__plays.filter((p) => p.includes('/audio/th/stories/')));
   await page.goto(url);
-  await page.getByRole('button', { name: /เล่นนิทาน/ }).click();
+  await page.getByRole('button', { name: /ฟังเรื่องเล่า/ }).click();
   await page.getByText(`หน้า 1 / ${story.pages.length}`).waitFor({ timeout: 12000 });
   await page.waitForTimeout(1500);
   await page.getByRole('button', { name: /พัก/ }).click();
