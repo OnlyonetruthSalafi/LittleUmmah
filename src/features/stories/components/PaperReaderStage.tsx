@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type PointerEvent, type RefObject } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type PointerEvent, type RefObject } from "react";
 import { useDict } from "@/i18n/LocaleProvider";
 import type { Story } from "../types";
 import type { createTheatre, PaperView } from "../paper/theatre";
 import { PaperBook } from "./PaperBook";
-import { paperDescriptions } from "../paper/descriptions";
+import { goldJarDescriptions, paperDescriptions } from "../paper/descriptions";
 
 type Pose = [string, string | undefined, number, boolean];
 type Drag = { id: number; x: number; y: number; opening: number; axis?: "horizontal" | "vertical"; delta: number; progress: number };
@@ -15,7 +15,6 @@ function motionChanges(changed: () => void) {
   return () => media.removeEventListener("change", changed);
 }
 const ease = (t: number) => t * t * (3 - 2 * t);
-const arkPage = "p04";
 
 export default function PaperReaderStage({ story, spread, turn, onDone, onStep, onScrub, bookRef, label }: {
   story: Story; spread: number; turn: { from: number; to: number } | null;
@@ -37,6 +36,10 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
   const [focusScene, setFocusScene] = useState("");
   const [view, setView] = useState<PaperView>("viewOverview");
   const sceneAt = (n: number) => n < 0 ? "cover" : story.pages[n]?.image.split("/").pop()?.replace(/\.webp$/, "");
+  const goldJar = story.slug === "gold-jar";
+  const previewPage = goldJar ? "p02" : "p04";
+  const previewAtlas = goldJar ? "discovery" : "workshop";
+  const assetRoot = `/stories/${story.slug}-paper`;
   const current = sceneAt(spread) ?? "cover";
   const [previousScene, setPreviousScene] = useState(current);
   if (previousScene !== current) {
@@ -47,15 +50,15 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
   const next = turn ? sceneAt(turn.to) : undefined;
   const backward = Boolean(turn && turn.to < turn.from);
   const cover = current === "cover";
-  const shown = next ?? (cover && progress > 0 ? arkPage : current);
-  const description = paperDescriptions[shown];
-  const artLabel = shown === "cover" ? t.stories.shelf.closedCover : description ? pick(description) : label;
-  const canFocus = live && !turn && (current === arkPage || (cover && progress >= .8));
+  const shown = next ?? (cover && progress > 0 ? previewPage : current);
+  const description = (goldJar ? goldJarDescriptions : paperDescriptions)[shown];
+  const artLabel = shown === "cover" ? (goldJar ? t.stories.shelf.jarCover : t.stories.shelf.closedCover) : description ? pick(description) : label;
+  const canFocus = live && !turn && (current === previewPage || (cover && progress >= .8));
   const focused = canFocus && focusScene === current;
   const words = (key: keyof typeof t.stories.shelf) => <span>{t.stories.shelf[key]}
     {sub && <small lang="en">{sub.stories.shelf[key]}</small>}</span>;
 
-  function renderPose(...args: Pose) {
+  const renderPose = useCallback((...args: Pose) => {
     pose.current = args;
     if (theatre.current) {
       theatre.current.pose(...args);
@@ -67,16 +70,16 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
     frame.hidden = !to;
     if (to) {
       const index = Math.round((reverse ? 1 - amount : amount) * 11);
-      const atlas = from === "cover" && to === arkPage ? "workshop" : reverse ? to : from;
-      frame.style.backgroundImage = `url(/stories/nuh-paper/turns/${atlas}.webp)`;
+      const atlas = from === "cover" && to === previewPage ? previewAtlas : reverse ? to : from;
+      frame.style.backgroundImage = `url(${assetRoot}/turns/${atlas}.webp)`;
       frame.style.backgroundPosition = `${index % 4 * 100 / 3}% ${Math.floor(index / 4) * 50}%`;
     }
-  }
+  }, [assetRoot, previewAtlas, previewPage]);
 
   function openTo(value: number) {
     opening.current = value;
     setProgress(value);
-    renderPose("cover", arkPage, value, false);
+    renderPose("cover", previewPage, value, false);
   }
 
   function explore() {
@@ -111,7 +114,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
         if (!canvas?.getContext("webgl2", { antialias: true, powerPreference: "low-power" })) return;
         const { createTheatre } = await import("../paper/theatre");
         if (!active) return;
-        theatre.current = createTheatre(canvas);
+        theatre.current = createTheatre(canvas, story.slug);
         theatre.current.pose(...pose.current);
         setLive(true);
       } catch {
@@ -138,7 +141,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
       theatre.current?.dispose();
       theatre.current = null;
     };
-  }, []);
+  }, [story.slug, renderPose]);
 
   useLayoutEffect(() => {
     cancelAnimationFrame(gestureFrame.current);
@@ -157,7 +160,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
     renderPose(current, next, from, backward);
     if (!theatre.current) {
       const destination = new Image();
-      destination.src = `/stories/nuh-paper/${next}.webp`;
+      destination.src = `${assetRoot}/${next}.webp`;
     }
     const start = performance.now();
     const duration = 1350 * (1 - from);
@@ -170,7 +173,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
     }
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [current, next, backward, onDone]);
+  }, [current, next, backward, onDone, assetRoot, renderPose]);
 
   useEffect(() => {
     if (live) theatre.current?.camera(view, focused);
@@ -228,7 +231,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
     drag.current=null;
     const { x, y }=pointer(e);
     if (!cancelled && !d.axis) {
-      if (canFocus && theatre.current?.hitArk(x*2-1,1-y*2)) toggleFocus();
+      if (canFocus && theatre.current?.hitSubject(x*2-1,1-y*2)) toggleFocus();
       else if (cover && opening.current < .99) explore();
     } else if (!cancelled && cover && d.opening >= .99 && d.progress > .12) {
       onStep(1);
@@ -250,14 +253,14 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
     <div role="img" aria-label={artLabel} className="pp-viewport" data-scene={current} data-live={live} data-turn={next}
       onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={e=>up(e,true)}
       onPointerLeave={()=>theatre.current?.hover()}>
-      <PaperBook key={current} scene={current} />
+      <PaperBook key={current} src={`${assetRoot}/${current}.webp`} />
       <div key={next ? "page-turn" : "at-rest"} ref={printedTurn} className="pp-printed-turn" hidden />
       <canvas ref={canvasRef} aria-hidden="true" />
     </div>
     <div className="pp-tools">
       {cover && <>
         <button type="button" className="pp-lift-cover" onClick={explore} disabled={!!turn}>
-          {words(progress >= .99 ? (staticMotion ? "closeFold" : "replayFold") : "liftCover")}
+          {words(progress >= .99 ? (staticMotion ? "closeFold" : "replayFold") : goldJar ? "liftJar" : "liftCover")}
         </button>
         <label className="pp-opening">{words("openingAngle")}
           <input type="range" min="0" max="100" value={Math.round(progress*100)} disabled={!!turn}
@@ -270,7 +273,7 @@ export default function PaperReaderStage({ story, spread, turn, onDone, onStep, 
         {cameraViews.map(choice => <button key={choice} type="button" aria-pressed={!focused && choice === view}
           onClick={() => { setFocusScene(""); setView(choice); }}>{words(choice)}</button>)}
       </div>}
-      {canFocus && <button type="button" aria-pressed={focused} onClick={toggleFocus}>{words("focusArk")}</button>}
+      {canFocus && <button type="button" aria-pressed={focused} onClick={toggleFocus}>{words(goldJar ? "focusJar" : "focusArk")}</button>}
     </div>
   </div>;
 }

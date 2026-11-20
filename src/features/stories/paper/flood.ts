@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { ark, mountain, wave } from './sculptures';
 import { sheet, stock } from './stock';
+import { paperPerson } from './cutouts';
+import { score } from './folds';
 
 type Point = [number, number, number];
 const cream = '#f1e7d3';
@@ -102,21 +104,40 @@ export function stormSprings(): THREE.Group {
   return g;
 }
 
-/** p08b: one inaccessible summit beyond a single wall of breaking water. */
+/** The ark and the son occupy opposite leaves, with a breaking wave in the gutter. */
 export function dividedMountain(): THREE.Group {
   const g = new THREE.Group(); g.name = 'wave-divides-the-mountain';
-  const peak = mountain(); peak.scale.set(2.15, 2.55, 1.7);
-  put(g, peak, 1.15, .08, -.88);
-  // Offset low foothill is fused to the same island, not another distant range.
-  const buttress = mountain(); buttress.scale.set(1.15, 1.2, 1.1);
-  put(g, buttress, 2.05, .08, -.7);
-  put(g, ellipse(1.5, .55, '#758ca4'), 1.23, .075, -.62);
-  const barrier = wave(); barrier.scale.set(4.65, 4.8, 1.25);
-  barrier.rotation.y = -.08;
-  put(g, barrier, -.45, .08, .92);
-  // The approach vanishes under the wave. These pale tapering currents stop there.
-  g.add(sheet([[-1.45, .08, 1.95], [-.94, .08, 1.95], [-.34, .08, 1.1], [-.54, .08, 1.1]], '#a9bbca'));
-  g.add(sheet([[.78, .08, 1.95], [1.12, .08, 1.95], [.7, .08, 1.24], [.55, .08, 1.24]], '#91a8bc'));
+  const vessel = ark();
+  vessel.scale.setScalar(2.73);
+  vessel.rotation.y = -.27;
+  put(g, ellipse(1.40, .48, '#7895ab'), -1.85, .076, .78);
+  const keel = new THREE.Box3().setFromObject(vessel).min.y;
+  put(g, vessel, -1.85, .078 - keel, .78);
+
+  // Cut a level shelf into the crag so both the figure and its folded support touch rock.
+  const base: Point[] = [[.64,.08,-.70],[1.06,.08,-1.64],[2.23,.08,-1.91],
+    [3.09,.08,-1.23],[3.12,.08,-.13],[2.55,.08,.55],[1.45,.08,.46]];
+  const shelfHeight = 1.46;
+  const shelf: Point[] = base.map(([x, , z]) => [2.08 + (x-1.92)*.45, shelfHeight, -.67 + (z+.67)*.40]);
+  const rock = ['#999782','#b1a18c','#909287','#bbb09a','#a79e8c','#8c8c80','#c0ad94'];
+  for (let i = 0; i < base.length; i++) {
+    const j = (i+1) % base.length;
+    g.add(sheet([base[i], base[j], shelf[j]], rock[i], false));
+    g.add(sheet([base[i], shelf[j], shelf[i]], rock[j], false));
+  }
+  g.add(sheet(shelf, '#dfc9a4'));
+  const spur = mountain();
+  spur.scale.set(1.31, 1.37, 1.43);
+  put(g, spur, 2.72, .08, .07);
+  const son = paperPerson({ color: '#ac4d39', shoulder: .20, hem: .23, height: 1 });
+  son.scale.setScalar(.82);
+  son.rotation.y = -.31;
+  put(g, score(son, 0, 0, -.78, .22, .88), 2.12, shelfHeight, -.54);
+
+  const barrier = wave();
+  barrier.scale.set(2.68, 4.35, 1.30);
+  barrier.rotation.y = -.79;
+  put(g, barrier, .04, .08, -.02);
   return g;
 }
 

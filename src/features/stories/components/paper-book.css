@@ -47,7 +47,7 @@
 .pp-cornice h2 { max-width: 47%; text-align: center; color: #563718; font: 800 clamp(14px, 3.5cqw, 31px)/1.15 var(--font-display); }
 .pp-cornice small { font-size: clamp(9px, 1.65cqw, 15px); }
 .pp-collection-link {
-  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.1fr);
+  position: relative; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.1fr);
   justify-content: center; align-items: end; column-gap: 4%;
   padding: clamp(15px, 3cqw, 32px) 19% 0;
   background: var(--cabinet) center 36.8% / 100% 453% no-repeat;
@@ -78,18 +78,28 @@
   background: #fff0ce; color: #533716; text-shadow: none;
   box-shadow: 0 3px 0 #91602e; font-weight: 750; font-size: clamp(12px, 2cqw, 19px);
 }
+.pp-volume { margin-bottom: .3em; font-size: clamp(12px, 1.6cqw, 16px); font-weight: 650; }
+.pp-open::after { content: ""; position: absolute; inset: 0; }
+.pp-browse {
+  position: relative; min-height: 64px; padding: 5px 12px; border: 1px solid #d8c49b;
+  background: #234849; color: #fff6df; border-radius: 9px; font-weight: 700; box-shadow: 0 2px 0 #152e30;
+}
+.pp-browse:hover { background: #173a3b; box-shadow: 0 4px 8px #18373899; }
+.pp-browse:focus-visible, .pp-open:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+.pp-collection-copy { padding-block: 8px; }
+.pp-open { min-height: 64px; }
 .pp-open > [aria-hidden] { font-size: 1.3em; }
 .pp-collection-link:focus-visible { outline-offset: -5px; outline-color: #ffe5a0; }
 @media (hover: hover) {
-  .pp-collection-link:hover .pp-feature-art { filter: drop-shadow(8px 9px 7px #112823c9); }
-  .pp-collection-link:hover .pp-open { background: #ffdfa2; }
+  .pp-collection-link:has(.pp-open:hover) .pp-feature-art { filter: drop-shadow(8px 9px 7px #112823c9); }
+  .pp-collection-link:has(.pp-open:hover) .pp-open { background: #ffdfa2; }
   .pp-tools button:hover { border-color: #31686a; }
 }
-.pp-collection-link:active .pp-open, .pp-tools button:active { box-shadow: inset 0 2px 5px #16454d55; }
+.pp-collection-link:has(.pp-open:active) .pp-open, .pp-tools button:active { box-shadow: inset 0 2px 5px #16454d55; }
 @media (prefers-reduced-motion: no-preference) {
   .pp-jacket { transition: transform .2s ease-out; }
-  @media (hover: hover) { .pp-collection-link:hover .pp-jacket { transform: rotateY(-7deg) translateY(-4px) scale(1.03); } }
-  .pp-collection-link:active .pp-jacket { transform: rotateY(-12deg) scale(.98); }
+  @media (hover: hover) { .pp-collection-link:has(.pp-open:hover) .pp-jacket { transform: rotateY(-7deg) translateY(-4px) scale(1.03); } }
+  .pp-collection-link:has(.pp-open:active) .pp-jacket { transform: rotateY(-12deg) scale(.98); }
   .pp-tools button:active { transform: translateY(2px); }
 }
 @media (max-width: 639px) {

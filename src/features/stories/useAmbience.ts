@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import type { Ambience } from "./types";
 
 /*
   เสียงบรรยากาศวนซ้ำใต้เสียงพากย์ (คลื่น ลม ฝน ใต้น้ำ) — sound effect ไม่ใช่ดนตรี (ข้อ 1.3)
@@ -11,7 +12,10 @@ import { useCallback, useEffect, useRef } from "react";
   ไฟล์โหลดไม่ได้ (ยังไม่มี หรือเครือข่ายล่ม) ก็เงียบไปเฉยๆ ไม่กระทบการเล่านิทาน
 */
 
-const LEVEL = 0.28;
+// Surf crests can mask narration even when the average level of the loop is low.
+const WAVE_TRACKS = new Set<Ambience>(["sea", "shore", "storm", "harbor", "night"]);
+const WAVE_LEVEL = 0.05;
+const DEFAULT_LEVEL = 0.28;
 const FADE_S = 0.9;
 
 type Playing = { src: string; node: AudioBufferSourceNode; gain: GainNode };
@@ -20,13 +24,13 @@ type Playing = { src: string; node: AudioBufferSourceNode; gain: GainNode };
   คืน unlock() ให้เรียกใน handler ที่เด็กแตะโดยตรง — Safari บน iPad ยอมให้ AudioContext เริ่มเล่น
   เฉพาะเมื่อสร้าง/resume ภายใน event ของการแตะ ถ้าทำใน effect ทีหลังอาจเงียบ
 */
-export function useAmbience(src: string | null, on: boolean) {
+export function useAmbience(ambience: Ambience | undefined, on: boolean) {
   const ctxRef = useRef<AudioContext | null>(null);
   const buffers = useRef(new Map<string, Promise<AudioBuffer | null>>());
   const playing = useRef<Playing | null>(null);
 
   useEffect(() => {
-    const want = on ? src : null;
+    const want = on && ambience ? `/audio/sfx/story-amb-${ambience}.mp3` : null;
     if (playing.current?.src === want) return;
 
     const fadeOut = (p: Playing | null) => {
@@ -39,7 +43,8 @@ export function useAmbience(src: string | null, on: boolean) {
     };
     fadeOut(playing.current);
     playing.current = null;
-    if (!want) return;
+    if (!want || !ambience) return;
+    const level = WAVE_TRACKS.has(ambience) ? WAVE_LEVEL : DEFAULT_LEVEL;
 
     // สร้างหลังเด็กแตะจอแล้วเท่านั้น (on = started) เบราว์เซอร์จึงยอมให้เล่น
     const ctx = (ctxRef.current ??= new AudioContext());
@@ -58,7 +63,7 @@ export function useAmbience(src: string | null, on: boolean) {
       if (cancelled || !buffer) return;
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(LEVEL, ctx.currentTime + FADE_S);
+      gain.gain.linearRampToValueAtTime(level, ctx.currentTime + FADE_S);
       gain.connect(ctx.destination);
       const node = ctx.createBufferSource();
       node.buffer = buffer;
@@ -71,7 +76,7 @@ export function useAmbience(src: string | null, on: boolean) {
     return () => {
       cancelled = true;
     };
-  }, [src, on]);
+  }, [ambience, on]);
 
   const unlock = useCallback(() => {
     if (typeof AudioContext === "undefined") return;

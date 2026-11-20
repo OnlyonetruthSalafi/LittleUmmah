@@ -8,6 +8,7 @@ import { MUSA_STORY } from "./data/musa";
 import { NUH_STORY } from "./data/nuh";
 import { YUNUS_STORY } from "./data/yunus";
 import { YUSUF_STORY } from "./data/yusuf";
+import { GOLD_JAR_STORY } from "./data/hadith/gold-jar";
 import { READY_HADITH_STORIES } from "./data/hadith";
 import type { Story } from "./types";
 import type { Locale } from "@/i18n/config";
@@ -29,12 +30,18 @@ export const STORIES: Story[] = [
 ];
 
 // A second reading format shares the original narration, sources and learning-star ID.
-export const PAPER_EDITION = { slug: "nuh-paper-popup", story: NUH_STORY };
-export const STORY_SLUGS = [...STORIES.map((story) => story.slug), PAPER_EDITION.slug];
+export const PAPER_EDITIONS = [
+  { slug: "nuh-paper-popup", story: NUH_STORY },
+  { slug: "gold-jar-paper-popup", story: GOLD_JAR_STORY },
+] as const;
+
+export function getPaperEdition(slug: string) {
+  return PAPER_EDITIONS.find(edition => edition.slug === slug);
+}
+export const STORY_SLUGS = [...STORIES.map((story) => story.slug), ...PAPER_EDITIONS.map(edition => edition.slug)];
 
 export function getStory(slug: string) {
-  if (slug === PAPER_EDITION.slug) return PAPER_EDITION.story;
-  return STORIES.find((s) => s.slug === slug);
+  return getPaperEdition(slug)?.story ?? STORIES.find((s) => s.slug === slug);
 }
 
 /**

@@ -342,7 +342,7 @@ export function StoryBook({ story, paperPopup = false }: { story: Story; paperPo
   const settled = spread >= 0 ? story.pages[spread] : null;
   // จบเรื่องแล้วเฟดเสียงบรรยากาศออก ไม่ให้วนต่อไปเรื่อยๆ
   const unlockAmbience = useAmbience(
-    settled?.ambience ? `/audio/sfx/story-amb-${settled.ambience}.mp3` : null,
+    settled?.ambience,
     !!deluxe && soundOn && started && !userPaused && !finished,
   );
 

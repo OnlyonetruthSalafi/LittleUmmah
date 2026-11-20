@@ -36,6 +36,12 @@ try {
     const popup = page.locator('[data-shelf="popup"]');
     assert.match(await popup.getByRole('heading', { level: 2 }).innerText(), /^หนังสือป๊อปอัป/);
     assert.equal(await popup.getByRole('link').getAttribute('href'), '/learn/stories/nuh-paper-popup#paper-book');
+    const browse = popup.getByRole('button', { name: /ดูหนังสือเล่มอื่น/ });
+    await browse.click();
+    assert.equal(await popup.getByRole('link').getAttribute('href'), '/learn/stories/gold-jar-paper-popup#paper-book');
+    assert.match(await popup.getByRole('heading', { level: 3 }).innerText(), /ไหทองคำ/);
+    await browse.click();
+    assert.equal(await popup.getByRole('link').getAttribute('href'), '/learn/stories/nuh-paper-popup#paper-book');
     await popup.screenshot({ path: `${out}/${width}-popup-shelf.png` });
     await page.waitForTimeout(600);
     assert.equal(await cells.count(), 10, `10 books ${width}`);

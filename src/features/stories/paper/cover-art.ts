@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 /** Original cloth, tooling and maritime illustration; no lettering or borrowed artwork. */
-export function makeCoverArt(): THREE.MeshStandardMaterial {
+export function makeCoverArt(goldJar = false): THREE.MeshStandardMaterial {
   const canvas = document.createElement('canvas');
   canvas.width = 1024;
   canvas.height = 1356;
@@ -10,7 +10,7 @@ export function makeCoverArt(): THREE.MeshStandardMaterial {
   const w = canvas.width, h = canvas.height;
   let seed = 7159;
   const random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
-  ctx.fillStyle = '#1c2d49'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = goldJar ? '#194a46' : '#1c2d49'; ctx.fillRect(0, 0, w, h);
   // Crossing warp/weft threads remain visible at close range, quiet at reading size.
   for (let y = 0; y < h; y += 3) {
     ctx.strokeStyle = `rgba(142,159,181,${.09 + random() * .09})`;
@@ -81,29 +81,55 @@ export function makeCoverArt(): THREE.MeshStandardMaterial {
     ctx.beginPath(); ctx.moveTo(Math.cos(a) * 293, Math.sin(a) * 393);
     ctx.lineTo(Math.cos(a) * 298, Math.sin(a) * 398); ctx.stroke();
   }
-  const sunY = -145;
-  ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.arc(0, sunY, 69, Math.PI, Math.PI * 2); ctx.stroke();
-  for (let i = 0; i <= 18; i++) {
-    const a = Math.PI + i * Math.PI / 18, inner = 83, outer = i % 2 ? 99 : 116;
-    path(`M${Math.cos(a) * inner} ${sunY + Math.sin(a) * inner} L${Math.cos(a) * outer} ${sunY + Math.sin(a) * outer}`, 1.6);
-  }
-  path('M-124 -143 L124 -143 M-101 -134 L101 -134', 1.2);
-  // A curved timber hull, raised ends, cabin and close engraved plank hatching.
-  path('M-218 28 Q-173 59 -121 61 L125 61 Q185 49 219 17 Q203 119 124 153 Q7 191 -125 151 Q-199 124 -218 28 Z', 4);
-  path('M-211 48 Q-166 80 -118 81 L124 81 Q183 68 211 41 M-198 82 Q-144 113 -91 115 L100 115 Q156 103 194 75 M-172 116 Q-99 148 2 148 Q111 148 165 115', 2);
-  path('M-136 59 L-136 -64 L132 -64 L132 58 M-154 -67 L-121 -111 L112 -111 L153 -67 Z', 3.2);
-  path('M-141 -80 L139 -80 M-133 -94 L126 -94 M-119 -111 L-85 -67 M-72 -111 L-38 -67 M-25 -111 L9 -67 M22 -111 L56 -67 M69 -111 L103 -67', 1.3);
-  for (const x of [-91, -30, 31, 92]) {
-    path(`M${x - 13} 23 L${x - 13} -18 Q${x} -42 ${x + 13} -18 L${x + 13} 23 Z M${x} -25 L${x} 23`, 2);
-  }
-  path('M-144 42 L142 42 M-182 60 L-182 33 M-160 65 L-160 38 M156 59 L156 29 M179 47 L179 17 M-193 31 Q-153 53 -137 49 M133 45 Q174 34 191 7', 2);
-  for (let x = -164; x <= 165; x += 25) path(`M${x} 87 Q${x * .86} 122 ${x * .75} 151`, 1);
-  for (let row = 0; row < 4; row++) {
-    const y = 197 + row * 29, edge = 218 - row * 25;
-    let line = `M${-edge} ${y}`;
-    for(let i=0;i<8;i++) line += ` Q${-edge+(i+.5)*edge/4} ${y+(i%2?9:-9)} ${-edge+(i+1)*edge/4} ${y}`;
-    path(line, row === 0 ? 3 : 1.6);
+  if (goldJar) {
+    // Hot-stamped amphora with incised bands and mirrored olive sprays.
+    path('M-65 -121 C-85 -126 -88 -142 -69 -148 Q0 -162 69 -148 C88 -142 85 -126 65 -121 Q54 -95 72 -76 C102 -50 143 -22 140 40 Q137 125 65 151 L55 168 Q0 178 -55 168 L-65 151 Q-137 125 -140 40 C-143 -22 -102 -50 -72 -76 Q-54 -95 -65 -121 Z', 6);
+    path('M-67 -141 Q0 -153 67 -141 Q0 -126 -67 -141 Z M-61 -119 Q0 -108 61 -119 M-136 21 Q0 54 136 21 M-138 34 Q0 67 138 34 M-61 152 Q0 166 61 152', 3);
+    for (const side of [-1, 1]) {
+      ctx.save(); ctx.scale(side, 1);
+      path('M66 -103 C143 -165 193 -56 138 2 M73 -86 C127 -132 166 -64 130 -21', 5);
+      path('M22 258 C104 248 190 183 216 90', 3);
+      for (let i = 0; i < 6; i++) {
+        ctx.save(); ctx.translate(46 + i * 32 - i * i * .4, 249 - i * 12 - i * i * 2.4);
+        ctx.rotate(-i * .13);
+        path('M0 0 Q-3 -22 10 -34 Q17 -13 0 0 M8 -4 Q21 -5 32 3 Q19 11 8 -4', 2);
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+    for (let i = -3; i <= 3; i++) {
+      const x = i * 29, y = 76 - i * i * 1.8;
+      path(`M${x} ${y - 12} l9 12 -9 12 -9 -12 Z`, 2);
+    }
+    for (const [x, y, r] of [[-46,-197,19],[9,-235,21],[54,-191,16]]) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(x, y, r-5, 0, Math.PI*2); ctx.stroke();
+    }
+  } else {
+    const sunY = -145;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, sunY, 69, Math.PI, Math.PI * 2); ctx.stroke();
+    for (let i = 0; i <= 18; i++) {
+      const a = Math.PI + i * Math.PI / 18, inner = 83, outer = i % 2 ? 99 : 116;
+      path(`M${Math.cos(a) * inner} ${sunY + Math.sin(a) * inner} L${Math.cos(a) * outer} ${sunY + Math.sin(a) * outer}`, 1.6);
+    }
+    path('M-124 -143 L124 -143 M-101 -134 L101 -134', 1.2);
+    // A curved timber hull, raised ends, cabin and close engraved plank hatching.
+    path('M-218 28 Q-173 59 -121 61 L125 61 Q185 49 219 17 Q203 119 124 153 Q7 191 -125 151 Q-199 124 -218 28 Z', 4);
+    path('M-211 48 Q-166 80 -118 81 L124 81 Q183 68 211 41 M-198 82 Q-144 113 -91 115 L100 115 Q156 103 194 75 M-172 116 Q-99 148 2 148 Q111 148 165 115', 2);
+    path('M-136 59 L-136 -64 L132 -64 L132 58 M-154 -67 L-121 -111 L112 -111 L153 -67 Z', 3.2);
+    path('M-141 -80 L139 -80 M-133 -94 L126 -94 M-119 -111 L-85 -67 M-72 -111 L-38 -67 M-25 -111 L9 -67 M22 -111 L56 -67 M69 -111 L103 -67', 1.3);
+    for (const x of [-91, -30, 31, 92]) {
+      path(`M${x - 13} 23 L${x - 13} -18 Q${x} -42 ${x + 13} -18 L${x + 13} 23 Z M${x} -25 L${x} 23`, 2);
+    }
+    path('M-144 42 L142 42 M-182 60 L-182 33 M-160 65 L-160 38 M156 59 L156 29 M179 47 L179 17 M-193 31 Q-153 53 -137 49 M133 45 Q174 34 191 7', 2);
+    for (let x = -164; x <= 165; x += 25) path(`M${x} 87 Q${x * .86} 122 ${x * .75} 151`, 1);
+    for (let row = 0; row < 4; row++) {
+      const y = 197 + row * 29, edge = 218 - row * 25;
+      let line = `M${-edge} ${y}`;
+      for(let i=0;i<8;i++) line += ` Q${-edge+(i+.5)*edge/4} ${y+(i%2?9:-9)} ${-edge+(i+1)*edge/4} ${y}`;
+      path(line, row === 0 ? 3 : 1.6);
+    }
   }
   // Tiny compass diamond, entirely geometric and deliberately without lettering.
   path('M0 -342 L10 -322 L0 -302 L-10 -322 Z M-28 -322 L-15 -322 M15 -322 L28 -322', 2);

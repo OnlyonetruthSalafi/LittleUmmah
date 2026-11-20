@@ -12,8 +12,11 @@ const browser = await chromium.launch({
   ...(process.env.PLAYWRIGHT_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE } : {}),
   args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
 });
-const output = "public/stories/nuh-paper";
-const names = ["cover", "p01", "p02", "p03", "p04", "p05", "p06", "p07", "p08", "p08b", "p09", "p10", "p11"];
+const story = process.argv[2] ?? "nuh";
+if (!["nuh", "gold-jar"].includes(story)) throw new Error("Unknown paper edition: " + story);
+const goldJar = story === "gold-jar";
+const output = `public/stories/${story}-paper`;
+const names = goldJar ? ["cover", "p01", "p02", "p03", "p04", "p05", "p06"] : ["cover", "p01", "p02", "p03", "p04", "p05", "p06", "p07", "p08", "p08b", "p09", "p10", "p11"];
 try {
   await mkdir(join(output, "turns"), { recursive: true });
   const page = await browser.newPage();
@@ -25,28 +28,28 @@ try {
     if (["three.module.js", "three.core.js"].includes(path)) {
       return route.fulfill({ path: join("node_modules/three/build", path), contentType: "text/javascript" });
     }
-    if (!["theatre", "folds", "stock", "spreads", "sculptures", "boarding", "flood", "reflections", "cover-art", "tabletop", "ark-workshop"].includes(path)) return route.abort();
+    if (!["theatre", "cutouts", "gold-jar", "folds", "stock", "spreads", "sculptures", "boarding", "flood", "reflections", "cover-art", "tabletop", "ark-workshop"].includes(path)) return route.abort();
     const source = await readFile(join("src/features/stories/paper", path + ".ts"), "utf8");
     const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } });
     return route.fulfill({ contentType: "text/javascript", body: outputText });
   });
   await page.goto("http://paper.local/");
-  const jacket = await page.evaluate(async () => {
+  const jacket = await page.evaluate(async goldJar => {
     const { makeCoverArt } = await import("/cover-art");
-    return makeCoverArt().map.image.toDataURL("image/png").split(",")[1];
-  });
+    return makeCoverArt(goldJar).map.image.toDataURL("image/png").split(",")[1];
+  }, goldJar);
   await writeFile(join(output, "jacket.png"), Buffer.from(jacket, "base64"));
-  await page.evaluate(async () => {
+  await page.evaluate(async story => {
     const canvas = document.querySelector("canvas");
     canvas.style.width = "1080px";
     canvas.style.height = "648px";
     const { createTheatre } = await import("/theatre");
-    const book = createTheatre(canvas);
+    const book = createTheatre(canvas, story);
     window.capture = (from, to, amount) => {
       book.pose(from, to, amount, false);
       return canvas.toDataURL("image/png").split(",")[1];
     };
-  });
+  }, story);
   async function capture(from, to, amount) {
     const png = await page.evaluate(([a, b, c]) => window.capture(a, b, c), [from, to, amount]);
     return Buffer.from(png, "base64");
@@ -61,7 +64,7 @@ try {
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   });
   const transitions = names.slice(0, -1).map((name, i) => [name, name, names[i + 1]]);
-  transitions.push(["workshop", "cover", "p04"]);
+  transitions.push(goldJar ? ["discovery", "cover", "p02"] : ["workshop", "cover", "p04"]);
   for (const [atlas, from, to] of transitions) {
     const frames = [];
     for (let frame = 0; frame < 12; frame++) {

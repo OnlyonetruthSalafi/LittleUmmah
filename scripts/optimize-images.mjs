@@ -48,6 +48,8 @@ const JOBS = [
   { dir: "public/games/sequence", width: 1100, quality: 88 },
   // หนังสือนิทาน: ภาพหน้าคู่แสดงกว้างสุด 1100px (ครึ่งละ ~550px) 1200 พอ และไฟล์เล็กลงราวครึ่ง ปกกว้าง 1024 อยู่แล้ว
   { dir: "public/stories/nuh", width: 1200, quality: 82 },
+  { dir: "public/stories/gold-jar-paper", width: 1080, quality: 87 },
+  { dir: "public/stories/gold-jar-paper/turns", width: 2400, quality: 81 },
   { dir: "public/stories/nuh-paper", width: 1080, quality: 87 },
   { dir: "public/stories/nuh-paper/turns", width: 2400, quality: 81 },
   { dir: "public/stories/yunus", width: 1200, quality: 82 },

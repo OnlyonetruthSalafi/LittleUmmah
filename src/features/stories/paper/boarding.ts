@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { sheet, stock, type Point } from './stock';
 import { lantern } from './sculptures';
+import { paperAnimal } from './cutouts';
+import { score } from './folds';
 
 const cream = '#f0ddb3';
 function timber(w:number,h:number,d:number,color:string,x:number,y:number,z:number) {
@@ -20,30 +22,28 @@ function ink(shape:THREE.Shape,color='#65483d') {
 function oval(x:number,y:number,rx:number,ry:number) {
   const shape=new THREE.Shape();shape.absellipse(x,y,rx,ry,0,Math.PI*2,false,0);return shape;
 }
-/** The prints are traces only: no animals or human figures are depicted. */
-function footprint(kind:'pad'|'hoof'|'toes') {
-  const g=new THREE.Group();
-  if(kind==='pad') {
-    const pad=new THREE.Shape();pad.moveTo(-.13,-.10);
-    pad.bezierCurveTo(-.20,.04,-.08,.16,0,.11);pad.bezierCurveTo(.09,.17,.20,.03,.13,-.10);
-    pad.bezierCurveTo(.05,-.05,-.05,-.05,-.13,-.10);g.add(ink(pad));
-    for(const [x,y,rx,ry] of [[-.18,.13,.055,.073],[-.065,.22,.058,.075],[.065,.22,.058,.075],[.18,.13,.055,.073]]) g.add(ink(oval(x,y,rx,ry)));
-  } else if(kind==='hoof') {
-    for(const side of [-1,1]) {
-      const hoof=new THREE.Shape();hoof.moveTo(side*.035,-.16);hoof.lineTo(side*.035,.20);
-      hoof.bezierCurveTo(side*.17,.20,side*.23,-.08,side*.14,-.15);hoof.closePath();g.add(ink(hoof,'#795240'));
+/** Tracks printed on the ramp underneath the standing paper animals. */
+function footprint(kind: 'rabbit' | 'sheep') {
+  const g = new THREE.Group();
+  if (kind === 'rabbit') {
+    for (const side of [-1, 1]) {
+      g.add(ink(oval(side * .105, .08, .046, .12)));
+      g.add(ink(oval(side * .05, -.10 + side * .03, .037, .052)));
     }
   } else {
-    const toes=new THREE.Shape();toes.moveTo(-.035,-.20);toes.lineTo(-.045,-.025);
-    toes.lineTo(-.22,.13);toes.lineTo(-.18,.18);toes.lineTo(-.04,.07);
-    toes.lineTo(-.03,.28);toes.lineTo(.03,.28);toes.lineTo(.04,.07);
-    toes.lineTo(.18,.18);toes.lineTo(.22,.13);toes.lineTo(.045,-.025);toes.lineTo(.035,-.20);toes.closePath();
-    g.add(ink(toes,'#536c68'));
+    for (const side of [-1, 1]) {
+      const hoof = new THREE.Shape();
+      hoof.moveTo(side * .024, -.12);
+      hoof.lineTo(side * .024, .14);
+      hoof.bezierCurveTo(side * .13, .14, side * .17, -.07, side * .10, -.12);
+      hoof.closePath();
+      g.add(ink(hoof, '#795240'));
+    }
   }
   return g;
 }
 
-/** A large boarding ramp tells “a pair of every kind” through three distinct paired trails. */
+/** The paired cutouts are glued to the incline, so their feet follow it as the book folds. */
 export function boardingPairs():THREE.Group {
   const scene=new THREE.Group(),ramp=new THREE.Group(),length=3.42;
   ramp.position.set(0,.085,1.65);ramp.rotation.x=-Math.PI/2+Math.atan(.38);
@@ -51,11 +51,22 @@ export function boardingPairs():THREE.Group {
   // Printed long grain and exposed cream cut edges do not compete with the bold tracks.
   for(const x of [-1.1,-.55,0,.55,1.1]) ramp.add(line([x,0,.006],[x,length,.006],.009,'#b68553'));
   ramp.add(line([-1.65,0,.009],[-1.35,length,.009],.045,cream),line([1.65,0,.009],[1.35,length,.009],.045,cream));
-  for(const [kind,y] of [['pad',.43],['hoof',1.48],['toes',2.50]] as const) {
-    // Two parallel trails, each with left and right prints: two animals of each kind.
-    for(const lane of [-.69,.69]) for(const step of [0,1]) {
-      const print=footprint(kind);print.position.set(lane+(step===0?-.16:.16),y+step*.33,.008);
-      print.rotation.z=step===0?.10:-.10;ramp.add(print);
+  for (const [kind, distance, size] of [['rabbit', .88, .73], ['sheep', 2.61, .89]] as const) {
+    for (const side of [-1, 1]) {
+      for (const step of [0, 1]) {
+        const print = footprint(kind);
+        print.scale.setScalar(.69);
+        print.position.set(side * .85 + (step ? .06 : -.06), distance + side * .13 - .66 + step * .23, .013);
+        ramp.add(print);
+      }
+      const foot = new THREE.Group();
+      foot.position.set(side * .85, distance + side * .13, .024);
+      foot.rotation.x = Math.PI / 2;
+      const animal = score(paperAnimal(kind), 0, 0, -.82, .20, .85);
+      animal.rotation.y = .70 + side * .09;
+      animal.scale.setScalar(size);
+      foot.add(animal);
+      ramp.add(foot);
     }
   }
   scene.add(ramp);

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { buildGoldJarSpread } from "./gold-jar";
 import { buildSpread } from "./spreads";
 import { bindSpread, restAngle } from "./folds";
 import { retainStock, stock } from "./stock";
@@ -37,14 +38,15 @@ function pageBoard(width: number, depth: number, thickness: number, color: strin
   return mesh;
 }
 
-function hardcoverBook() {
+function hardcoverBook(goldJar: boolean) {
   const book = new THREE.Group();
   const hinge = new THREE.Group();
-  const coverMaterial = makeCoverArt();
+  const coverMaterial = makeCoverArt(goldJar);
+  const binding = goldJar ? "#234540" : "#283548";
   const radius = .266;
   const segments = 16;
   const spineGeometry = new THREE.PlaneGeometry(1, 4.91, segments, 1);
-  const spine = new THREE.Mesh(spineGeometry, stock("#283548"));
+  const spine = new THREE.Mesh(spineGeometry, stock(binding));
   spine.frustumCulled = false;
   spine.castShadow = spine.receiveShadow = true;
   book.add(spine);
@@ -58,7 +60,7 @@ function hardcoverBook() {
       mesh.position.y = y;
       pile.add(mesh);
     }
-    add(boardWidth, boardDepth, .085, -.18, "#283548");
+    add(boardWidth, boardDepth, .085, -.18, binding);
     add(3.70, 4.90, .014, -.167, "#a6895e");
     add(3.67, 4.85, .024, -.145, "#435363");
     for (let layer = 0; layer < 8; layer++) {
@@ -108,7 +110,9 @@ function hardcoverBook() {
   };
 }
 
-export function createTheatre(canvas: HTMLCanvasElement) {
+export function createTheatre(canvas: HTMLCanvasElement, storySlug = "nuh") {
+  const goldJar = storySlug === "gold-jar";
+  const overview = goldJar ? [-.3, .62] : views.viewOverview;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "low-power" });
   const releaseStock = retainStock();
   renderer.shadowMap.enabled = true;
@@ -135,7 +139,7 @@ export function createTheatre(canvas: HTMLCanvasElement) {
   scene.environmentIntensity = .42;
   const camera = new THREE.PerspectiveCamera(29, 5 / 3, .1, 80);
   const target = new THREE.Vector3(0, .64, 0);
-  let yaw = .25, pitch = .57, focus = 0;
+  let yaw = overview[0], pitch = overview[1], focus = 0;
   let cameraFrame = 0;
   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let turnLift = 0;
@@ -162,7 +166,7 @@ export function createTheatre(canvas: HTMLCanvasElement) {
   scene.add(rim);
 
   const table = makeTabletop(boardWidth, boardDepth);
-  const bindingModel = hardcoverBook();
+  const bindingModel = hardcoverBook(goldJar);
   scene.add(table.mesh, bindingModel.book);
 
   const leaf = pageBoard(pageWidth, pageDepth, .018, "#f5eedf");
@@ -172,7 +176,7 @@ export function createTheatre(canvas: HTMLCanvasElement) {
   function spread(name: string) {
     let part = cache.get(name);
     if (!part) {
-      const model = buildSpread(name);
+      const model = goldJar ? buildGoldJarSpread(name) : buildSpread(name);
       part = bindSpread(model);
       scene.add(part.group);
       cache.set(name, part);
@@ -199,7 +203,7 @@ export function createTheatre(canvas: HTMLCanvasElement) {
     highlighted = id;
     draw();
   }
-  const arkTarget = new THREE.Vector3(0, .96, -.36);
+  const detailTarget = goldJar ? new THREE.Vector3(.63, 1.28, -.28) : new THREE.Vector3(0, .96, -.36);
   const eye = new THREE.Vector3();
   const horizontal = new THREE.Vector3();
   const vertical = new THREE.Vector3();
@@ -210,7 +214,7 @@ export function createTheatre(canvas: HTMLCanvasElement) {
     camera.setFocalLength(50);
     camera.updateProjectionMatrix();
     target.set((1 - coverOpening) * pageWidth / 2, .16 + coverOpening * .30 + turnLift * .72, .15);
-    target.lerp(arkTarget, focus * coverOpening);
+    target.lerp(detailTarget, focus * coverOpening);
     const elevation = pitch + .13 * (1 - coverOpening);
     eye.set(Math.sin(yaw) * Math.cos(elevation), Math.sin(elevation), Math.cos(yaw) * Math.cos(elevation));
     horizontal.crossVectors(camera.up, eye).normalize();
@@ -298,12 +302,12 @@ export function createTheatre(canvas: HTMLCanvasElement) {
       draw();
     },
     camera(view: PaperView, closeUp: boolean) {
-      const [angle, elevation] = views[view];
-      if (closeUp) moveCamera(.29, .49, 1);
+      const [angle, elevation] = view === "viewOverview" ? overview : views[view];
+      if (closeUp) moveCamera(goldJar ? -.37 : .29, goldJar ? .58 : .49, 1);
       else moveCamera(angle, elevation, 0);
     },
     hover(x?: number, y?: number) { highlight(x === undefined || y === undefined ? undefined : pick(x, y)?.pickId); },
-    hitArk(x: number, y: number) { return pick(x, y)?.pick === "ark"; },
+    hitSubject(x: number, y: number) { return pick(x, y)?.pick === (goldJar ? "jar" : "ark"); },
     dispose() {
       cancelAnimationFrame(cameraFrame);
       observer.disconnect();

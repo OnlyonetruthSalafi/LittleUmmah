@@ -5,16 +5,28 @@ import { boardingPairs, embarkation } from './boarding';
 import { stormSprings, dividedMountain, landing } from './flood';
 import { safePassage, shelteredShore, skyAndEarth } from './reflections';
 import { arkWorkshop } from './ark-workshop';
-import { popUpSupport } from './folds';
+import { popUpSupport, score } from './folds';
+import { paperAnimal, paperPerson } from './cutouts';
 
-// All illustrations are original solid paper constructions. No people, animals,
-// prophetic figures, text textures, or scenery billboards are used.
+// Anonymous groups only. A recurring character keeps the same stock and die.
+const villagers = {
+  ochre: { color: '#b37532', shoulder: .24, hem: .28, height: 1 },
+  plum: { color: '#875274', shoulder: .21, hem: .17, height: 1.12 },
+};
+const passengers = {
+  teal: { color: '#237b79', shoulder: .23, hem: .18, height: 1.06 },
+  blue: { color: '#506698', shoulder: .16, hem: .26, height: .91 },
+};
 const C = { sand: '#d5c3a2', grass: '#9ca78a', teal: '#5f8091', sea: '#6f91ab',
   deep: '#364d71', cream: '#f3ead7', gold: '#d4ad62', wood: '#a67955', night: '#36435d' };
 
 function place(g: THREE.Group, item: THREE.Object3D, x: number, z: number, size = 1, y = .035, turn = 0) {
   item.position.set(x, y, z); item.scale.setScalar(size); item.rotation.y = turn;
   g.add(item); return item;
+}
+
+function stand(g: THREE.Group, figure: THREE.Group, x: number, z: number, size: number, turn: number, y = .09) {
+  place(g, score(figure, 0, 0, -.76, .2, .86), x, z, size, y, turn);
 }
 
 function block(w: number, h: number, d: number, color: string) {
@@ -163,6 +175,8 @@ export function buildSpread(scene: string): THREE.Group {
       place(g, cottage(), 2.15, .15, .85, .08, -.3);
       place(g, palm(), -2.65, .05, .7); place(g, palm(), 2.5, -1.05, .65);
       place(g, lantern(), -.6, .8, .3); sun(g, -2.15, -1.45, .4);
+      stand(g, paperPerson(villagers.ochre), -1.38, .49, .76, .18);
+      stand(g, paperPerson(villagers.plum), .99, .60, .77, -.20);
       break;
     case 'p02':
       land(g); place(g, patch(1.4, 1.6, C.night), 1.65, 0, 1, .085); path(g, true);
@@ -170,13 +184,18 @@ export function buildSpread(scene: string): THREE.Group {
       place(g, cottage(), -.85, -1, .8);
       [-1.6, -.3, 1, 2.3].forEach((x, i) => place(g, lantern(), x, .2 - i * .15, .35 + i * .04, .12));
       [[1.4, -1.3], [2.4, -.8], [2.7, 1.3], [.6, 1.4]].forEach(([x, z]) => star(g, x, z));
+      stand(g, paperPerson(villagers.ochre), -1.08, .88, .79, .20);
+      stand(g, paperPerson(villagers.plum), 1.46, 1.77, .78, -.15);
       break;
     case 'p03':
       land(g, C.grass); place(g, ark(true), .3, -.3, 3.65, .12, -.08);
       timbers(g, -1.9, .9); timbers(g, 1.75, .85);
       place(g, palm(), -2.6, -.9, .75); break;
     case 'p04':
-      g.add(arkWorkshop()); return g;
+      g.add(arkWorkshop());
+      stand(g, paperPerson(villagers.ochre), 2.31, 1.40, .60, -.25, .055);
+      stand(g, paperPerson(villagers.plum), 2.90, .88, .64, -.31, .055);
+      return g;
     case 'p05':
       land(g, C.grass);
       g.add(boardingPairs());
@@ -184,6 +203,8 @@ export function buildSpread(scene: string): THREE.Group {
     case 'p06':
       sea(g);
       g.add(embarkation());
+      stand(g, paperPerson(passengers.teal), -.83, .87, .90, .22, .10);
+      stand(g, paperPerson(passengers.blue), .78, 1.17, .91, -.19, .10);
       return g;
     case 'p07':
       land(g, '#827e70');
@@ -204,6 +225,10 @@ export function buildSpread(scene: string): THREE.Group {
     case 'p10':
       land(g, C.grass);
       g.add(shelteredShore());
+      stand(g, paperPerson(passengers.teal), -.44, 1.19, .81, .21, .10);
+      stand(g, paperPerson(passengers.blue), .41, .76, .80, -.27, .10);
+      stand(g, paperAnimal('rabbit'), 1.58, 1.19, .61, .14);
+      stand(g, paperAnimal('rabbit'), 2.47, .90, .63, .24);
       return g;
     case 'p11':
       land(g, C.night);

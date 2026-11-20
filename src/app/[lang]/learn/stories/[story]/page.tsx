@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 
 import { BackLink } from "@/components/ui/BackLink";
 import { StoryBook } from "@/features/stories/components/StoryBook";
-import { PAPER_EDITION, STORY_SLUGS, getStory } from "@/features/stories";
+import { getPaperEdition, STORY_SLUGS, getStory } from "@/features/stories";
 
 /*
   หน้าหนังสือนิทาน /learn/stories/<slug>
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/learn/stor
   const { t, pick } = dict(lang as Locale);
   const book = getStory(story);
   if (!book) notFound();
-  const title = story === PAPER_EDITION.slug ? `${pick(book.title)} · ${t.stories.shelf.paperTitle}` : pick(book.title);
+  const title = getPaperEdition(story) ? `${pick(book.title)} · ${t.stories.shelf.paperTitle}` : pick(book.title);
   return pageMetadata(lang as Locale, `/learn/stories/${story}`, title, fmt(t.seo.storyDescription, { title }));
 }
 
@@ -32,7 +32,7 @@ export default async function StoryPage({ params }: PageProps<"/[lang]/learn/sto
   const { t, sub, pick, pickSub } = dict(lang as Locale);
   const story = getStory(slug);
   if (!story) notFound();
-  const paperPopup = slug === PAPER_EDITION.slug;
+  const paperPopup = Boolean(getPaperEdition(slug));
 
   return (
     <>
@@ -44,7 +44,7 @@ export default async function StoryPage({ params }: PageProps<"/[lang]/learn/sto
           {pickSub(story.title)}
         </span>}
       </h1>
-      <StoryBook story={story} paperPopup={paperPopup} />
+      <StoryBook key={slug} story={story} paperPopup={paperPopup} />
     </>
   );
 }
