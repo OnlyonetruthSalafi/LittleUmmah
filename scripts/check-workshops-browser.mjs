@@ -28,7 +28,7 @@ try {
     await card.scrollIntoViewIfNeeded();await card.locator('img').evaluate(img=>img.decode());
     if(slug==='marble-run'){
       const src=await card.locator('img').evaluate(img=>decodeURIComponent(img.currentSrc));
-      assert.match(src,/\/_next\/static\/media\/marble-run\.[\w-]+\.webp/,'The hub uses the current Blender cover');
+      assert.match(src,/\/_next\/static\/(?:immutable\/)?media\/marble-run\.[\w-]+\.webp/,'The hub uses the current Blender cover');
       await card.screenshot({path:out+'/marble-run-hub-card.png'});
     }
     await card.tap();await page.locator('.gc-rotate').waitFor();
