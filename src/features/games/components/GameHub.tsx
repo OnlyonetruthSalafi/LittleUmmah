@@ -6,6 +6,7 @@ import { games } from '../data/catalog';
 import { comingSoonGames } from '../data/comingSoon';
 import { GAME_CATEGORIES } from '../data/hubCategories';
 import { GamesHero } from './GamesHero';
+import { ZoneCard } from '../vip/ZoneCard';
 import { GameHubCategory } from './GameHubCategory';
 import { HubProgress } from './HubProgress';
 import { SHOW_REWARD_STARS } from '@/lib/rewardStars';
@@ -18,6 +19,7 @@ export function GameHub() {
     <div className="gh-utility"><BackLink /><LearningBalance />{SHOW_REWARD_STARS && <HubProgress />}</div>
     <HubStarsHint />
     <GamesHero categories={categories} />
+    <ZoneCard />
     <span id="kids" /><span id="juniors" />
     {categories.map(category => <GameHubCategory key={category.id} category={category}
       games={games.filter(game => game.enabled && game.category === category.id)

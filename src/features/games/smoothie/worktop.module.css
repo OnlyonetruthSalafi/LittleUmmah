@@ -1,0 +1,26 @@
+.game {
+  overflow: hidden; background: #fff8e7; border: 4px solid #fffaf0; border-radius: 24px;
+  box-shadow: 0 6px 0 #83b5ac, 0 14px 34px #224d5026;
+}
+.rail {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px;
+  padding: 6px clamp(8px, 2vw, 22px); border-bottom: 4px solid #ae7446;
+  background: #fff4d6; color: #264c46;
+}
+.cue { flex: 1 1 180px; font-weight: 750; line-height: 1.3; }
+.ticket { display: flex; align-items: center; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.ticket li { display: flex; align-items: center; gap: 2px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.ticket svg { width: 32px; height: 32px; }
+.tool { display: grid; place-content: center; justify-items: center; min-height: 64px; min-width: 64px;
+  padding: 4px 8px; border-radius: 14px; cursor: pointer; color: #284f49; }
+.tool[aria-pressed=true] { background: #d4ead8; }
+.tool svg { height: 23px; width: 23px; }
+.tool span { font-size: .86rem; font-weight: 700; }
+.tool small { font-size: .75rem; }
+@media (max-width: 580px) {
+  .rail { gap: 2px 5px; padding: 3px 6px; }
+  .cue { flex-basis: 100%; }
+  .ticket { margin-right: auto; }
+  .ticket svg { width: 25px; height: 25px; }
+  .game { border-width: 2px; border-radius: 16px; }
+}

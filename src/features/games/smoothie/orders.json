@@ -1,0 +1,34 @@
+{
+  "orange-banana": {
+    "th": "ขอน้ำปั่นใส่ส้มหนึ่งผลกับกล้วยหนึ่งลูกครับ",
+    "en": "Could you blend one orange and one banana for me, please?"
+  },
+  "banana-banana": {
+    "th": "ขอกล้วยปั่นหนึ่งแก้ว ใส่กล้วยสองลูกครับ",
+    "en": "A banana smoothie, please. I'd like two bananas in mine."
+  },
+  "orange-orange": {
+    "th": "ขอน้ำส้มปั่นครับ ใช้สองผลปั่นรวมกันเลย",
+    "en": "An orange smoothie with two oranges, please."
+  },
+  "orange-banana-orange": {
+    "th": "วันนี้ขอส้มสองผล ปั่นกับกล้วยหนึ่งลูกครับ",
+    "en": "Today I'd like two oranges blended with one banana, please."
+  },
+  "berry-orange": {
+    "th": "ขอสตรอว์เบอร์รีหนึ่งลูก ปั่นกับส้มหนึ่งผลครับ",
+    "en": "Could you blend one strawberry and one orange for me, please?"
+  },
+  "banana-berry": {
+    "th": "ขอน้ำปั่นใส่กล้วยหนึ่งลูกกับสตรอว์เบอร์รีหนึ่งลูกครับ",
+    "en": "One banana and one strawberry in my smoothie, please."
+  },
+  "berry-berry-orange": {
+    "th": "ขอสตรอว์เบอร์รีสองลูก ปั่นกับส้มหนึ่งผลครับ",
+    "en": "Two strawberries blended with one orange, please."
+  },
+  "banana-orange-berry": {
+    "th": "ขอน้ำปั่นสามสี ใส่กล้วยหนึ่งลูก ส้มหนึ่งผล แล้วก็สตรอว์เบอร์รีหนึ่งลูกครับ",
+    "en": "A three-fruit smoothie, please. One banana, one orange and one strawberry."
+  }
+}

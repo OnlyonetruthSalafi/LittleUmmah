@@ -1,0 +1,102 @@
+.window {
+  width: 100%;
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  isolation: isolate;
+  background: #b9e7e4;
+}
+
+.tipped { transform: translate(104px,-63px) rotate(65deg); transform-origin: 292px 214px; }
+
+.scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* A closer camera on phones keeps the counter tools within reach. HTML controls
+   and SVG artwork share this plane, so both crop and scale together. */
+.plane { position: relative; width: 100%; aspect-ratio: 900 / 530; }
+@container (max-width: 580px) {
+  .plane { width: 145%; left: -22.5%; }
+}
+.hotspot {
+  position: absolute; transform: translate(-50%,-50%); min-width: 64px; min-height: 64px;
+  border: 0; background: transparent; appearance: none; cursor: pointer; touch-action: manipulation;
+  border-radius: 18%; padding: 0; color: #163f50;
+}
+.targets { position:absolute; inset:0; pointer-events:none; }
+.targets button { pointer-events:auto; }
+.hotspot:focus-visible { outline: 4px solid #184689; outline-offset: -3px; background: #ffedb542; }
+@media (hover:hover) {
+  .hotspot:hover { box-shadow: inset 0 0 0 2px #fff7c5af, inset 0 0 9px #fff9b8a8; }
+}
+.hotspot:active { box-shadow: inset 0 0 0 3px #ffdf74; }
+.arrow { position: absolute; left: 50%; top: 46%; transform: translate(-50%,-100%); width: clamp(26px,4.4cqw,44px); height: auto; pointer-events:none; filter: drop-shadow(0 2px 1px #29464770); }
+.drawerTag { position:absolute; left:74.2%; top:52.3%; transform:translate(-50%,-50%) rotate(-3deg); padding:1px 7px; border-radius:5px; background:#fff5ce; border:1px solid #b79965; color:#62421e; font-weight:750; font-size:clamp(11px,1.6cqw,17px); white-space:nowrap; pointer-events:none; }
+.flying { opacity:0; pointer-events:none; }
+.pressedDial { transform-origin:292px 314px; transform:scale(.84); }
+@media (prefers-reduced-motion:no-preference) {
+  .flying { animation: toss 420ms ease-in both; }
+  .dropped { animation: land 420ms steps(1,end) both; }
+  .picked { transform-origin: 0 0; animation: squash 300ms ease-out both; }
+  .pickHand { animation: reachForFruit 400ms ease-in-out both; }
+  .vortex { transform-origin: 292px 236px; animation: stir 240ms ease-in-out alternate 8; }
+  .chunks { transform-origin:292px 236px; animation: spinFruit 290ms linear 4; }
+  .pulp { animation: puree 900ms ease-out both; }
+  .pressedDial { animation: depress 180ms ease-out both; }
+  .arrow { animation: indicate 330ms ease-out; }
+}
+@keyframes toss {
+  0%,22% { opacity:1; transform:translate(var(--from-x),396px) scale(1.12); }
+  50% { opacity:1; transform:translate(var(--apex-x),95px) rotate(-17deg) scale(.95); }
+  76% { opacity:1; transform:translate(291px,145px) rotate(18deg) scale(.8); }
+  99% { opacity:1; transform:translate(291px,235px) rotate(35deg) scale(.68); }
+  100% { opacity:0; transform:translate(291px,235px) scale(.68); }
+}
+@keyframes land { from { opacity:0; } to { opacity:1; } }
+@keyframes squash { 0% { transform:scale(1.04,.88); } 52% { transform:scale(.98,1.05); } 100% { transform:scale(1); } }
+@keyframes reachForFruit { 0%,100% { transform:translate(0,0); } 26%,38% { transform:translate(var(--reach-x),-66px); } }
+@keyframes stir { from { transform:scaleX(.79) translateY(2px); } to { transform:scaleX(1.15) translateY(-2px); } }
+@keyframes spinFruit { to { transform:rotate(360deg); } }
+@keyframes puree { 0%,22% { opacity:.9; } 100% { opacity:0; } }
+@keyframes depress { from { transform:scale(1); } to { transform:scale(.84); } }
+@keyframes indicate { from { transform:translate(-50%,-130%); } to { transform:translate(-50%,-100%); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .runningGear { animation: roll 620ms steps(4, end) infinite; }
+  .blending {
+    transform-origin: 292px 275px;
+    animation: mix 120ms ease-in-out alternate 6;
+  }
+  .filling { transform-origin: 32px 65px; animation: fillCup 760ms linear both; }
+  .payment { animation: pay 350ms ease-out both; }
+}
+
+@keyframes fillCup { from { transform: scaleY(.05); } to { transform: scaleY(1); } }
+
+.waiting { visibility: hidden; }
+.approaching { transform-origin: 478px 292px; animation: approach 2150ms linear both; }
+@keyframes approach {
+  0% { transform: translate(-590px,-30px) scale(.66); }
+  45% { transform: translate(-282px,-21px) scale(.79); }
+  82% { transform: translate(-71px,-7px) scale(.94); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes roll { to { transform: translateX(-1024px); } }
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the counter still and let the till sound finish before the next greeting. */
+  .approaching { animation: settle 1ms 450ms both; }
+}
+@keyframes settle { to { opacity: 1; } }
+
+@keyframes mix {
+  from { transform: rotate(-1deg); }
+  to { transform: rotate(1deg); }
+}
+
+@keyframes pay {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

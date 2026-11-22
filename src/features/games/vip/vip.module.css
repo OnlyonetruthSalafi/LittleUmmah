@@ -1,0 +1,97 @@
+.page {
+  min-height: 100svh;
+  padding: clamp(12px, 3vw, 40px);
+  color: #183e46;
+  background: radial-gradient(ellipse at 15% 12%, #e4faf0, transparent 55%), linear-gradient(150deg, #def6ef, #b7e4e8 62%, #9fd5df);
+}
+.frame { width: min(1160px, 100%); margin: auto; }
+.label { display: inline-block; line-height: 1.28; }
+.label small { display: block; font-size: max(.8rem, .65em); line-height: 1.35; font-weight: 550; margin-top: 2px; }
+.top, .shopTop { display: flex; gap: 14px; align-items: center; margin-bottom: 16px; }
+.back, .primary, .secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 18px;
+  min-width: 64px; min-height: 64px; padding: 8px 18px; cursor: pointer; font-weight: 750;
+  line-height: 1.2; text-align: center; transition: box-shadow .18s ease-out, transform .18s ease-out;
+}
+.back, .secondary {
+  color: #194c4f; background: #fffbed; border: 2px solid #b3cfc4; box-shadow: 0 3px 0 #94b8ac;
+}
+.back::before { content: '‹'; font: bold 2em/1 sans-serif; }
+.primary { color: #fff; background: #146763; border: 2px solid #0d5552; box-shadow: 0 4px 0 #093f42; }
+.page :is(button, a, summary):focus-visible, .zoneLink:focus-visible {
+  outline: 4px solid #184689; outline-offset: 3px;
+}
+.page button:disabled { opacity: .67; cursor: default; box-shadow: none; }
+.eyebrow { font-weight: 800; color: #715019; }
+.mapPanel h1, .cardCopy h2, .shopTop h1 { font: 800 clamp(1.8rem, 4vw, 3rem)/1.17 var(--font-display); }
+.mapPanel h1 small, .cardCopy h2 small, .shopTop h1 small { font-size: .46em; color: #37696b; letter-spacing: .01em; }
+.zoneCard { margin-top: 24px; scroll-margin-top: 20px; }
+.zoneLink { display: grid; grid-template-columns: minmax(175px, 32%) 1fr; align-items: center; gap: clamp(16px, 3vw, 38px);
+  background: #fff7de; border: 3px solid white; border-radius: 27px; color: #19474a; box-shadow: 0 5px 0 #b9cba6, var(--shadow-soft); }
+.thumbnail { margin: 8px; overflow: hidden; border-radius: 18px; background: #84dbd1; }
+.thumbnail svg { transform: scale(1.68); transition: transform .2s ease-out; }
+.cardCopy { padding: 14px 18px 16px 0; }
+.cardCopy .eyebrow .label small, .mapPanel .eyebrow .label small { display: inline; margin-left: 7px; }
+.cardCopy h2 { font-size: clamp(1.5rem, 3vw, 2.3rem); margin: 5px 0 10px; }
+.mapLayout { display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(230px, 1fr); align-items: stretch; gap: 14px; }
+.mapImage { position: relative; overflow: hidden; border: 4px solid #fffaf0; border-radius: 26px; box-shadow: 0 6px 0 #80b6ae, 0 12px 26px #286b6b24; align-self: center; }
+.mapImage { background: #90e2d9; }
+.walkSurface { position: absolute; inset: 0; cursor: crosshair; background: transparent; }
+.page .walkSurface:focus-visible { outline-offset: -7px; }
+.avatar { position: absolute; width: 11%; transform: translate(-50%, -88%); pointer-events: none; }
+.avatar::before { content: ''; position: absolute; bottom: 2%; left: 24%; width: 55%; height: 12%; background: #3c503955; filter: blur(2px); border-radius: 50%; }
+.avatar img { width: 100%; height: auto; position: relative; filter: drop-shadow(0 2px 1px #294c4d47); }
+.mapPanel { background: #fffbef; border-radius: 24px; box-shadow: 0 4px 0 #a6cabe; }
+.mapPanel { align-self: center; padding: clamp(18px, 3vw, 32px); }
+.mapPanel h1 { margin: 8px 0 20px; }
+.mapPanel p, .cardCopy p, .stockItem p { line-height: 1.5; }
+.destination { border-top: 2px dashed #d2c5a3; margin-top: 22px; padding-top: 18px; }
+.destination h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+.destination :is(button, a) { margin-top: 12px; width: 100%; }
+.shopTop { justify-content: space-between; }
+.shopTop h1 { text-align: center; font-size: clamp(1.5rem, 3.3vw, 2.6rem); }
+.shopTools { display: flex; align-items:center; gap: 8px; }
+.shopTools > button { min-width:64px; min-height:64px; }
+.wallet { display: flex; align-items: center; gap: 9px; background: #fff5d2; border: 2px solid #dab15e; border-radius: 19px; padding: 8px 14px; color: #67441a; }
+.wallet strong { font: 800 1.8rem/1 var(--font-display); }
+.wallet .label { font-size: .94rem; }
+.recipe li, .ticketPrice { display: flex; align-items: center; gap: 10px; }
+.recipe { list-style: none; padding: 0; margin: 12px 0; }
+.recipe li { gap: 6px; margin: 7px 0; font-weight: 650; }
+.recipe li strong { margin-left: auto; font-variant-numeric: tabular-nums; }
+.receiptFruit { display: block; width: 40px; height: 40px; flex-shrink: 0; }
+.ticketPrice { padding-top: 10px; border-top: 2px dashed #d9caaa; color: #734519; font-weight: 750; }
+.stockItem { display: flex; align-items: center; gap: 10px; justify-content: space-between; padding: 12px; border-radius: 14px; background: #f6f1dc; }
+.stockItem { margin-block: 10px; }
+.stockItem button { flex-shrink: 0; }
+.stockItem p { margin-top: 6px; font-size: .93rem; }
+@media (hover: hover) {
+  .page :is(.primary,.back,.secondary):not(:disabled):hover { box-shadow: 0 5px 8px #244a513b; }
+  .zoneLink:hover { box-shadow: 0 7px 0 #b9cba6, var(--shadow-float); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .zoneLink:hover .thumbnail svg { transform: scale(1.73); }
+  .page :is(.primary,.back,.secondary):not(:disabled):hover { transform: translateY(-2px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page :is(.primary,.back,.secondary):not(:disabled):active { transform: scale(.98); }
+}
+@media (max-width: 760px) {
+  .mapLayout { grid-template-columns: 1fr; }
+  .mapPanel { padding: 18px; }
+  .mapPanel h1 { margin: 6px 0 12px; }
+  .destination { margin-top: 12px; padding-top: 10px; }
+  .recipe { display: flex; gap: 14px; flex-wrap: wrap; margin: 0; }
+  .recipe li { margin: 0; }
+  .ticketPrice { padding: 0; border: 0; }
+}
+@media (max-width: 500px) {
+  .zoneLink { grid-template-columns: 1fr; gap: 0; }
+  .cardCopy { padding: 6px 18px 16px; }
+  .shopTop { display: grid; grid-template-columns: auto auto; justify-content: space-between; gap: 8px; }
+  .shopTop h1 { grid-column: 1/-1; grid-row: 2; text-align: left; }
+  .wallet { align-self: center; padding: 6px 9px; }
+  .mapImage { border-radius: 18px; }
+  .recipe { gap: 5px 9px; }
+  .receiptFruit { width: 24px; height: 24px; }
+}

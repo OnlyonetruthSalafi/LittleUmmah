@@ -1,0 +1,14 @@
+{
+  "greeting": {
+    "th": "อัสสลามมู่อ้าลัยกุ้ม",
+    "en": "Assalamu alaykum."
+  },
+  "reply": {
+    "th": "วะอะลัยกุมุสสะลาม",
+    "en": "Wa alaykum assalam."
+  },
+  "replyLong": {
+    "th": "วะอะลัยกุมุสสะลาม วะเราะห์มะตุลลอฮ์",
+    "en": "Wa alaykum assalam wa rahmatullah."
+  }
+}
