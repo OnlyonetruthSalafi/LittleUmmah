@@ -26,9 +26,11 @@ function prefersEnglish(request: NextRequest): boolean {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (/^\/(?:en\/|th\/)?games\/buttons-zips\/?$/.test(pathname)) {
+  const retiredGame = pathname.match(/^\/(?:en\/|th\/)?games\/(buttons-zips|sand-trails)\/?$/);
+  if (retiredGame) {
     const url = request.nextUrl.clone();
-    url.pathname = pathname.startsWith("/en/") ? "/en/games/canal-lock" : "/games/canal-lock";
+    const replacement = retiredGame[1] === "sand-trails" ? "sandcastle" : "canal-lock";
+    url.pathname = (pathname.startsWith("/en/") ? "/en" : "") + "/games/" + replacement;
     return NextResponse.redirect(url, 308);
   }
 

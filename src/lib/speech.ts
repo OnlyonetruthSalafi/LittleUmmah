@@ -25,7 +25,7 @@ export const RECORDED_CLIPS = new Set<string>([
   // เสียงหุ่นยนต์ (ElevenLabs เสียง Leo + เอฟเฟคหุ่นยนต์) พูดไทยแล้วต่อด้วยอังกฤษ
   "hub-intro", "hub-intro-touch",
   "name-canal-lock", "game-canal-lock", "canal-hint-fill", "canal-hint-drain", "canal-hint-left", "canal-hint-right",
-  "name-sand-trails", "game-sand-trails",
+  "name-sandcastle", "game-sandcastle", "sandcastle-water", "sandcastle-pat", "sandcastle-shape", "sandcastle-scoop", "sandcastle-cast", "sandcastle-flag",
   "name-marble-run", "game-marble-run",
   "name-track-builder", "game-track-builder", "harbor-instruction", "game-color-match", "game-shape-match", "game-memory", "game-puzzle",
   "game-arabic-match", "game-sequence", "game-find-object", "game-sort",

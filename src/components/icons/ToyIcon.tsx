@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { ComingSoonId } from '@/features/games/data/comingSoon';
 
 /* ภาพของเล่นบนการ์ดเกมที่กำลังเตรียม เป็นสิ่งของล้วน ไม่มีคน สัตว์ ใบหน้า ตัวหนังสือ หรือเครื่องดนตรี (ข้อ 1.1, 1.3) */
-const BLUE = '#2f7fe0', DEEP = '#1e5fbf', TEAL = '#21b8ad', GOLD = '#f6b51e', AMBER = '#d48806', WHITE = '#ffffff', SAND = '#f3dcae';
+const BLUE = '#2f7fe0', DEEP = '#1e5fbf', TEAL = '#21b8ad', GOLD = '#f6b51e', AMBER = '#d48806', WHITE = '#ffffff';
 
 const base = <ellipse cx="60" cy="80" rx="46" ry="8" fill={DEEP} opacity=".14" />;
 
@@ -19,11 +19,6 @@ const art: Record<ComingSoonId, ReactNode> = {
     <path d="M12 18h52q10 0 10 10t-10 10H36q-10 0-10 10t10 10h60" fill="none" stroke={WHITE} strokeWidth="2.5" strokeLinecap="round" opacity=".6" />
     <path d="M90 62h20l-3 16H93Z" fill={BLUE} />
     <circle cx="28" cy="16" r="8" fill={GOLD} stroke={AMBER} strokeWidth="2" /><circle cx="25.5" cy="13.5" r="2.2" fill={WHITE} />
-  </>,
-  'sand-trails': <>
-    <rect x="10" y="18" width="100" height="60" rx="13" fill={BLUE} /><rect x="17" y="25" width="86" height="46" rx="8" fill={SAND} />
-    <path d="M26 58c12-30 22-30 32-12s20 16 36-16" fill="none" stroke="#c9a15c" strokeWidth="6" strokeLinecap="round" />
-    <circle cx="26" cy="58" r="5" fill={TEAL} /><path d="m92 22 4 8 8 1-6 6 2 8-8-4-7 4 1-8-6-6 9-1Z" fill={GOLD} stroke={AMBER} strokeWidth="1.5" strokeLinejoin="round" />
   </>,
 };
 

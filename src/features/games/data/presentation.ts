@@ -45,11 +45,12 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     levels: [{ th: 'พาเรือขึ้น', en: 'Lift the boat' }, { th: 'ลงสู่ท่าล่าง', en: 'Sail down' }, { th: 'รับเรือท่าล่าง', en: 'Pick up below' }],
     destinations: { th: 'ท่าเรือ', en: 'Harbour' }, pieces: { th: 'ประตูน้ำ', en: 'Canal lock' },
   },
-  'sand-trails': {
+  'sandcastle': {
     scenicIntro: true, landscapeBoard: true, fullscreen: true,
-    world: { th: 'ถาดทรายริมทะเล', en: 'Seaside Sand Tray' }, description: { th: 'วางนิ้วที่วงทองแล้ววาดตามเส้นประไปถึงดาว ยกนิ้วพักแล้ววาดต่อได้', en: 'Trace from the gold ring to the star. Lift your finger anytime and continue from your last mark.' },
-    levels: [{ th: 'คลื่นน้อย', en: 'Little wave' }, { th: 'คลื่นคู่', en: 'Double wave' }, { th: 'ก้นหอย', en: 'Spiral' }],
-    destinations: { th: 'ปลายทาง', en: 'Finish' }, pieces: { th: 'รอยทราย', en: 'Groove' },
+    world: { th: 'หาดปราสาททราย', en: 'Sandcastle Beach' },
+    description: { th: 'รดน้ำให้ทรายชื้น ตบกองทราย 3 ที แล้วปาดให้มน คว่ำพิมพ์บนหาดและเลือกธงของหนู', en: 'Moisten the sand, pat it three times and smooth it into shape. Turn out the mould on the beach and choose your flag.' },
+    levels: [{ th: 'หอคอยแรก', en: 'First tower' }, { th: 'ประตูหอคู่', en: 'Twin towers' }, { th: 'ปราสาทยอดธง', en: 'The high keep' }],
+    destinations: { th: 'ลานก่อปราสาท', en: 'Building plot' }, pieces: { th: 'พิมพ์ทราย', en: 'Sand mould' },
   },
   'marble-run': {
     scenicIntro: true, landscapeBoard: true, fullscreen: true,

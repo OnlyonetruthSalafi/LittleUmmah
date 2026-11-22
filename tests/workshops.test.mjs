@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { sandTrail, traceTo } from '../src/features/games/engine/sandTrails.ts';
+import { availablePlots, castlePlan, mixSand } from '../src/features/games/engine/sandcastle.ts';
 import { canalMission, nextLockAction, operateLock } from '../src/features/games/engine/canalLock.ts';
 
 test('the lock equalises before each crossing, and every reachable height can recover', () => {
@@ -25,17 +25,18 @@ test('the lock equalises before each crossing, and every reachable height can re
 import { branch, followMarble, marbleMachine, nextMarbleGate, rollPosition } from '../src/features/games/engine/marbleRun.ts';
 
 for(const level of [1,2,3]){
-  test('Sand trail '+level+' follows the guide and rejects a shortcut',()=>{
-    const trail=sandTrail(level);
-    const shortcut=traceTo(trail,0,trail[0],trail.at(-1));
-    assert.ok(shortcut.index<trail.length-1);
-    let index=0;
-    for(let i=1;i<trail.length;i++){
-      const move=traceTo(trail,index,trail[i-1],trail[i]);
-      assert.equal(move.off,false);
-      index=move.index;
+  test('Castle '+level+' has enough batches, reachable sites and reversible mixing',()=>{
+    const plan=castlePlan(level),built=[];
+    assert.equal(plan.plots.length,plan.batches.length);
+    assert.equal(availablePlots(plan,[]).some(p=>p.atop),false);
+    for(const batch of plan.batches){
+      assert.equal(batch===1?batch:mixSand(batch,batch===0?'water':'scoop'),1);
+      const plot=availablePlots(plan,built).at(-1);
+      assert.ok(plot && !built.includes(plot.id));
+      built.push(plot.id);
     }
-    assert.equal(index,trail.length-1);
+    assert.deepEqual(availablePlots(plan,built),[]);
+    assert.equal(mixSand(0,'scoop'),0);assert.equal(mixSand(2,'water'),2);
   });
   test('Idle arrows lead each possible switch configuration to the target on level '+level,()=>{
     const machine=marbleMachine(level);

@@ -27,7 +27,7 @@ test('island exceptions never exempt rail controls or waiting sequence toys',()=
 });
 
 test('landscape boards opt in independently of fullscreen, and legacy reward stars stay hidden',()=>{
-  assert.deepEqual(Object.entries(gamePresentation).filter(([,v])=>v.landscapeBoard).map(([k])=>k).sort(),['arabic-match','canal-lock','color-match','find-object','marble-run','memory','puzzle','sand-trails','sequence','shape-match','sort','track-builder']);
+  assert.deepEqual(Object.entries(gamePresentation).filter(([,v])=>v.landscapeBoard).map(([k])=>k).sort(),['arabic-match','canal-lock','color-match','find-object','marble-run','memory','puzzle','sandcastle','sequence','shape-match','sort','track-builder']);
   assert.equal(gamePresentation.memory.fullscreen,undefined);
   assert.equal(gamePresentation.puzzle.fullscreen,undefined);
   assert.equal(gamePresentation['light-maze'].fullscreen,true);

@@ -90,6 +90,7 @@ const JOBS = [
   { dir: "public/games/buttons-zips", width: 1120, quality: 83 },
   { dir: "public/games/canal-lock", width: 1120, quality: 83 },
   { dir: "public/games/sand-trails", width: 1120, quality: 83 },
+  { dir: "public/games/sandcastle", width: 1120, quality: 83 },
   { dir: "public/games/marble-run", width: 1120, quality: 83 },
   { dir: "public/games/track-builder", width: 1280, quality: 84 },
   { dir: "public/games/color-match", width: 1280, quality: 90 },

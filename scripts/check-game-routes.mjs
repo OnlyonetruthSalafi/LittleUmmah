@@ -38,9 +38,11 @@ for (const route of routes) {
 }
 const island = await fetch(`${base}/learn/games`, { redirect: 'manual' });
 for (const prefix of ['', '/en']) {
-  const oldGame = await fetch(`${base}${prefix}/games/buttons-zips`, { redirect: 'manual' });
-  assert.equal(oldGame.status, 308);
-  assert.equal(new URL(oldGame.headers.get('location'), base).pathname, prefix + '/games/canal-lock');
+  for (const [retired, current] of [['buttons-zips','canal-lock'],['sand-trails','sandcastle']]) {
+    const oldGame = await fetch(`${base}${prefix}/games/${retired}`, { redirect: 'manual' });
+    assert.equal(oldGame.status, 308);
+    assert.equal(new URL(oldGame.headers.get('location'), base).pathname, prefix + '/games/' + current);
+  }
 }
 assert.equal(island.status, 307);
 assert.equal(island.headers.get('location'), '/games');

@@ -1347,5 +1347,14 @@
   "public/games/canal-lock/level-1.png": "c1a4d58fef0a4343f374865be629b5d49e49440bc4401825ffc13afbaaf0945c",
   "public/games/canal-lock/level-2.png": "36557f6150b1a2d3cbc5b6004bc3f5a7cd4a277f41daef6008e70cd92267e868",
   "public/games/canal-lock/level-3.png": "1e73f1840493ae04a1aba94863b4161de748cbe71653cf0aeab137ae4ace6cfe",
-  "public/games/hub/canal-lock.png": "c72a3eb09746c6c4e083982e6e120d6be0e68289dece6322e5fd74eba97ee403"
+  "public/games/hub/canal-lock.png": "c72a3eb09746c6c4e083982e6e120d6be0e68289dece6322e5fd74eba97ee403",
+  "public/games/sandcastle/bucket.png": "8d3cfc9c3b4278711ef261d4593f8b8bb22301a1cbaf9266f8267c46e3e56c0b",
+  "public/games/sandcastle/can.png": "547d71cfe5adfd8e378bbf44a476f6bcb9e3ebf09941fc72fa34589ed5028558",
+  "public/games/sandcastle/keep.png": "57e22a65868321930676eb97247125e3c470d52373aab307477815f5e4019ec0",
+  "public/games/sandcastle/level-1.png": "c0a2a865a2a1a47c55b42646bd61722e8346628e2f6d1fb3e202feca4da54d06",
+  "public/games/sandcastle/level-2.png": "6cc583c604797d8766cb8e0d60c387b3167222329529cf7b2d1bef3585c5bdd6",
+  "public/games/sandcastle/level-3.png": "6634290ec5e70ee14fefcf0a34f5d5166544f0a6a6b2c4c099807eb2b28069e4",
+  "public/games/sandcastle/scoop.png": "2e344e396f8e750e0132e002ea0808cec34d9533e887d964e372577acbb15f35",
+  "public/games/sandcastle/tower.png": "7016e4d15b10efb55136fb1fde2b2bb70ef08bac1d51f33792ded8d662a1869f",
+  "public/games/hub/sandcastle.png": "364f3793679b17b6116a1a5d2e207e1470f63a1270f0a7e2a9b6d8dfcaafafcc"
 }

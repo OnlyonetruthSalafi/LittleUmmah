@@ -1,0 +1,50 @@
+.ws-board[data-workshop='sandcastle'] {background:#314e54;border-color:#527775;}
+[data-workshop='sandcastle'] .ws-console {justify-content:center;text-align:center;border-color:#d5aa74;}
+.sand-yard {position:absolute;inset:0;container-type:inline-size;}
+.sand-hit {position:absolute;translate:-50% -50%;width:16%;height:29%;min-width:64px;min-height:64px;
+  touch-action:none;background:transparent;border:0;border-radius:45%;cursor:pointer;}
+.sand-hit[data-sand-tool='bucket'] {cursor:grab;}
+.sand-hit[data-sand-tool='bucket']:active {cursor:grabbing;}
+.sand-hit:focus-visible {outline:4px solid #224c61;box-shadow:0 0 0 7px #fff1b5;}
+.sand-hit:disabled {cursor:default;}
+.sand-lift {animation:sand-unmould 1.05s ease-in-out both;}
+.sand-reveal {animation:sand-reveal 1.05s ease both;}
+@keyframes sand-unmould {0%{transform:translateY(-45px);opacity:.6}23%,50%{transform:translateY(0);opacity:1}100%{transform:translateY(-90px);opacity:0}}
+@keyframes sand-reveal {0%,38%{opacity:0}55%,100%{opacity:1}}
+
+.sand-pile-hit {width:37%;height:30%;border-radius:48%;cursor:pointer;}
+.sand-mix {--sand-pour-time:2.2s;--sand-scoop-time:1s;}
+.sand-can-watering {transform-origin:140px 300px;animation:sand-water-can var(--sand-pour-time) ease both;}
+.sand-waterfall {animation:sand-flow var(--sand-pour-time) both;}
+.sand-flow-glints {stroke-dasharray:6 18;animation:sand-glints .38s linear infinite;}
+@keyframes sand-glints {to{stroke-dashoffset:-24}}
+.sand-splash {transform-origin:429px 269px;animation:sand-ripple .32s ease-in-out infinite alternate;}
+.sand-wet-spot {transform-origin:432px 266px;animation:sand-soak var(--sand-pour-time) ease-out both;}
+.sand-mix-shovel {transform-origin:811px 325px;animation:sand-shovel-in var(--sand-scoop-time) ease both;}
+.sand-scoop-grains {animation:sand-flow var(--sand-scoop-time) both;}
+.sand-mix-clock {animation:sand-clock .7s linear both;}
+.clock-water {animation-duration:var(--sand-pour-time);}
+.clock-scoop {animation-duration:var(--sand-scoop-time);}
+.sand-pat-rebound {transform-origin:480px 347px;animation:sand-rebound .26s ease-out;}
+.sand-loose-pat {transform-origin:480px 347px;animation:sand-slump .32s ease-out both;}
+@keyframes sand-slump {to{transform:scale(1.08,.80)}}
+.sand-smooth-mark {stroke-dasharray:280;animation:sand-swipe .65s ease both;}
+@keyframes sand-water-can {
+  0%,100% {transform:translate(0,0) rotate(0);}
+  23%,79% {transform:translate(120px,-106px) rotate(22deg);}
+}
+@keyframes sand-flow {0%,23%,82%,100%{opacity:0}28%,76%{opacity:1}}
+@keyframes sand-ripple {to{transform:scale(1.18,.8)}}
+@keyframes sand-soak {0%,22%{opacity:0;transform:scale(.03)}48%{opacity:.85}80%,100%{opacity:1;transform:scale(1.16)}}
+@keyframes sand-shovel-in {0%,100%{transform:none}27%,78%{transform:translate(-239px,-70px) rotate(-24deg)}}
+@keyframes sand-clock {from{opacity:0}to{opacity:1}}
+@keyframes sand-rebound {0%{transform:scale(1,1)}38%{transform:scale(1.055,.81)}100%{transform:scale(1,1)}}
+@keyframes sand-swipe {from{stroke-dashoffset:280}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce) {
+  .sand-mix {--sand-pour-time:1.25s;--sand-scoop-time:.55s;}
+  .sand-lift,.sand-reveal,.clock-shape {animation-duration:.25s;}
+  .sand-pat-rebound,.sand-splash,.sand-flow-glints,.sand-mix-shovel {animation:none;}
+  .sand-loose-pat {animation:none;transform:scale(1.08,.80);}
+  .sand-can-watering {animation:none;transform:translate(120px,-106px) rotate(22deg);}
+}
+.sand-yard[data-paused='true'] * {animation-play-state:paused;}

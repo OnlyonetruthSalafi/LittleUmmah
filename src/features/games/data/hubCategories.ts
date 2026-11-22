@@ -17,7 +17,7 @@ export const GAME_CATEGORIES: GameCategory[] = [
   {
     id: 'matching', label: { th: 'เสริมทักษะ', en: 'Build Skills' },
     desc: { th: 'จับคู่สี รูปทรง อักษร และแยกหมวด', en: 'Match colors, shapes, letters and groups.' },
-    icon: 'blocks', theme: 'gold', order: ['color-match', 'shape-match', 'arabic-match', 'sort', 'bead-lacing', 'sand-trails'],
+    icon: 'blocks', theme: 'gold', order: ['color-match', 'shape-match', 'arabic-match', 'sort', 'bead-lacing', 'sandcastle'],
     guide: {
       clip: 'hub-cat-skills', pose: 'point', focus: 'matching', ms: 6500,
       th: 'หมวดเสริมทักษะ มาฝึกจับคู่ รูปทรง อักษร และแยกของกันนะ',

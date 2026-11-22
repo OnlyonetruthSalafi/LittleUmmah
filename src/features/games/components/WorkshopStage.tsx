@@ -32,10 +32,10 @@ export function ActionLabel({ text }: { text: Text }) {
 }
 
 // Leave the finished toy visible briefly. Orientation changes and restarts cancel the timer.
-export function useWorkshopFinish(done: boolean, paused: boolean, onComplete: () => void) {
+export function useWorkshopFinish(done: boolean, paused: boolean, onComplete: () => void, delay = 800) {
   useEffect(() => {
     if (!done || paused) return;
-    const timer = setTimeout(onComplete, 800);
+    const timer = setTimeout(onComplete, delay);
     return () => clearTimeout(timer);
-  }, [done, paused, onComplete]);
+  }, [done, paused, onComplete, delay]);
 }

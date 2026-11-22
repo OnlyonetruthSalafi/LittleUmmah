@@ -53,6 +53,7 @@ next-env.d.ts
 /public/games/buttons-zips/*.png
 /public/games/canal-lock/*.png
 /public/games/sand-trails/*.png
+/public/games/sandcastle/*.png
 /public/games/marble-run/*.png
 /public/games/track-builder/*.png
 /public/games/classroom/*.png
