@@ -465,7 +465,8 @@ export const ISLAND_CONTENT: IslandContent[] = [
       },
     ],
     juniors: [
-      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 · ย้ายไปวัย 7+ ตามเจ้าของโปรเจกต์ 16 พ.ย. 2026 (พูดเรื่องความตาย) — บุคอรี 6324 https://shamela.ws/book/1681/9484
+      // ย้ายไปวัย 7+ ตามเจ้าของโปรเจกต์ 16 พ.ย. 2026 (พูดเรื่องความตาย)
+      // C-8: Claude ตรวจตัวบท 8 พ.ย. 2026 — บุคอรี 6324 https://shamela.ws/book/1681/9484
       {
         evidence: ["bukhari-6324"],
         "id": "dua-sleep",
