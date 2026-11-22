@@ -5,7 +5,7 @@
   color: var(--harbor-ink);
   background: radial-gradient(ellipse at 50% 0%, #fff9e9, transparent 72%), #e4f1ea;
 }
-.gc-focus:is([data-game='track-builder'],[data-game='buttons-zips'],[data-game='sand-trails'],[data-game='marble-run']) {
+.gc-focus:is([data-game='track-builder'],[data-game='canal-lock'],[data-game='sand-trails'],[data-game='marble-run']) {
   --harbor-ink: #193c43;
   background: radial-gradient(ellipse at top, #fff7d8, transparent 68%), #e7f1e7;
 }

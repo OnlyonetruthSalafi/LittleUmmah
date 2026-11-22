@@ -1342,5 +1342,10 @@
   "public/games/marble-run/rotor-1.png": "00b2c097682b7dd71539b28d4b61cdfa7dcdb34326c73e3ed1b77b377610fa10",
   "public/games/marble-run/rotor-2.png": "db17b83d7a9fe313949e068cb57419fe5981001125a3eec440a881fc527bf743",
   "public/games/marble-run/rotor-3.png": "4764cf7de34409adf86ecbca55956f75f510f70a67b06d9cf3fbfe303637593c",
-  "public/games/marble-run/practice.png": "d8937a9165f34e55dfb7c28669dfc786bc0d929fe6a2567aaf8e0580bf243669"
+  "public/games/marble-run/practice.png": "d8937a9165f34e55dfb7c28669dfc786bc0d929fe6a2567aaf8e0580bf243669",
+  "public/games/canal-lock/boat.png": "ea6650d1e10dcc35068252c76aa4e6b57372d8bcf165f9a8a6e38ba59152e316",
+  "public/games/canal-lock/level-1.png": "c1a4d58fef0a4343f374865be629b5d49e49440bc4401825ffc13afbaaf0945c",
+  "public/games/canal-lock/level-2.png": "36557f6150b1a2d3cbc5b6004bc3f5a7cd4a277f41daef6008e70cd92267e868",
+  "public/games/canal-lock/level-3.png": "1e73f1840493ae04a1aba94863b4161de748cbe71653cf0aeab137ae4ace6cfe",
+  "public/games/hub/canal-lock.png": "c72a3eb09746c6c4e083982e6e120d6be0e68289dece6322e5fd74eba97ee403"
 }

@@ -38,11 +38,12 @@ type GamePresentation = {
 };
 
 export const gamePresentation: Record<GameSlug, GamePresentation> = {
-  'buttons-zips': {
+  'canal-lock': {
     scenicIntro: true, landscapeBoard: true, fullscreen: true,
-    world: { th: 'กระเป๋าเดินทางใบจิ๋ว', en: 'Little Travel Pouch' }, description: { th: 'ลากกระดุมขึ้นเข้ารังทีละเม็ด แล้วรูดซิปไปทางขวา หรือแตะชิ้นที่มีวงทองแล้วแตะปลายทาง', en: 'Slide each button up, then zip right. You can also tap the ringed piece and its destination.' },
-    levels: [{ th: 'หนึ่งกระดุม', en: 'One button' }, { th: 'สองกระดุม', en: 'Two buttons' }, { th: 'สามกระดุม', en: 'Three buttons' }],
-    destinations: { th: 'รังดุม', en: 'Buttonhole' }, pieces: { th: 'กระดุมและซิป', en: 'Buttons and zip' },
+    world: { th: 'ท่าเรือสองระดับ', en: 'The Canal Lift' },
+    description: { th: 'แตะหรือหมุนวงล้อฟ้าเพื่อเติมน้ำ ดึงห่วงส้มเพื่อปล่อยน้ำ พอน้ำตรงขีดทอง ให้โยกคันโยกทองข้างประตู', en: 'Turn the blue wheel to fill, or pull the orange ring to drain. When the water meets the gold mark, move the gold gate lever. You can tap each part, too.' },
+    levels: [{ th: 'พาเรือขึ้น', en: 'Lift the boat' }, { th: 'ลงสู่ท่าล่าง', en: 'Sail down' }, { th: 'รับเรือท่าล่าง', en: 'Pick up below' }],
+    destinations: { th: 'ท่าเรือ', en: 'Harbour' }, pieces: { th: 'ประตูน้ำ', en: 'Canal lock' },
   },
   'sand-trails': {
     scenicIntro: true, landscapeBoard: true, fullscreen: true,

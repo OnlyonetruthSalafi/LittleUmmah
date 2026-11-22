@@ -13,7 +13,7 @@ await mkdir(out,{recursive:true});
 const metrics=[];
 const errors=[];
 try {
-  for(const slug of (process.argv[3] ? [process.argv[3]] : ['buttons-zips','sand-trails','marble-run'])){
+  for(const slug of (process.argv[3] ? [process.argv[3]] : ['canal-lock','sand-trails','marble-run'])){
     const ctx=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
     await ctx.addInitScript(()=>{
       sessionStorage.setItem('lu-games-guide-seen','1');localStorage.setItem('little-ummah:sound','off');
@@ -22,7 +22,7 @@ try {
     const page=await ctx.newPage();page.setDefaultTimeout(12000);
     page.on('pageerror',e=>errors.push(e.message));
     const art=[];
-    page.on('request',r=>{if(/^\/games\/(buttons-zips|sand-trails|marble-run)\//.test(new URL(r.url()).pathname))art.push(new URL(r.url()).pathname);});
+    page.on('request',r=>{if(/^\/games\/(canal-lock|sand-trails|marble-run)\//.test(new URL(r.url()).pathname))art.push(new URL(r.url()).pathname);});
     await page.goto(base+'/games');
     const card=page.locator('a[href$="/games/'+slug+'"]').first();
     await card.scrollIntoViewIfNeeded();await card.locator('img').evaluate(img=>img.decode());
@@ -84,10 +84,51 @@ try {
       const rect=await page.locator('.ws-stage').boundingBox();
       const move=(x,y)=>page.mouse.move(rect.x+x*rect.width/960,rect.y+y*rect.height/480);
       const button=page.locator('.ws-action');
-      if(slug==='buttons-zips'){
-        const lanes=[[480],[320,640],[250,480,710]][level-1];
-        for(const x of lanes){await move(x,247);await page.mouse.down();await move(x,139);await page.mouse.up();}
-        await move(240,322);await page.mouse.down();await move(720,322);await page.mouse.up();
+      if(slug==='canal-lock'){
+        const controls=page.locator('.canal-controls');
+        const part=action=>controls.locator('[data-lock-action="'+action+'"]');
+        const waitForRest=()=>controls.locator('xpath=self::*[@data-moving="false"]').waitFor();
+        const press=async action=>{
+          await part(action).focus();
+          await page.keyboard.press('Enter');
+          await waitForRest();
+        };
+        const dragPart=async action=>{
+          const box=await part(action).boundingBox();
+          const x=box.x+box.width/2, y=box.y+box.height/2;
+          if(action==='fill'){
+            await page.mouse.move(x+18,y);await page.mouse.down();
+            for(let i=1;i<=8;i++)await page.mouse.move(x+18*Math.cos(i*Math.PI/16),y+18*Math.sin(i*Math.PI/16));
+          }else{
+            await page.mouse.move(x,y);await page.mouse.down();
+            await page.mouse.move(x+(action==='open'?box.width*.33:0),y+(action==='drain'?box.height*.33:0),{steps:6});
+          }
+          await page.mouse.up();await waitForRest();
+        };
+        assert.equal(await page.locator('.ws-console button').count(),0);
+        const hint=action=>controls.locator('[data-guide="'+action+'"]');
+        if(level===1){
+          await hint('fill').waitFor({timeout:11000});
+          await page.screenshot({path:out+'/canal-wheel-guide.png'});
+          await part('open').tap();await hint('fill').waitFor();
+          assert.equal(await controls.getAttribute('data-water'),'1');
+          await dragPart('fill');await hint('open').waitFor();
+          assert.equal(await hint('open').getAttribute('data-lock-part'),'right');
+          await dragPart('open');
+        }else if(level===2){
+          await part('other-gate').tap();await hint('open').waitFor();
+          assert.equal(await hint('open').getAttribute('data-lock-part'),'left');
+          await press('open');
+          await dragPart('drain');
+          assert.equal(await controls.getAttribute('data-water'),'1');
+          await press('drain');await part('open').tap();await waitForRest();
+        }else{
+          await controls.tap({position:{x:12,y:8}});await controls.tap({position:{x:12,y:8}});
+          await hint('drain').waitFor();
+          await part('fill').tap();await waitForRest();await hint('drain').waitFor();
+          for(const action of ['drain','drain','open','fill','fill','open'])await press(action);
+        }
+        assert.equal(await controls.getAttribute('data-berth'),'harbour');
       }else if(slug==='sand-trails'){
         const path=sandTrail(level);
         await move(path[0].x,path[0].y);await page.mouse.down();

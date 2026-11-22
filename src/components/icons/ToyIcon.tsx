@@ -20,13 +20,6 @@ const art: Record<ComingSoonId, ReactNode> = {
     <path d="M90 62h20l-3 16H93Z" fill={BLUE} />
     <circle cx="28" cy="16" r="8" fill={GOLD} stroke={AMBER} strokeWidth="2" /><circle cx="25.5" cy="13.5" r="2.2" fill={WHITE} />
   </>,
-  'buttons-zips': <>
-    <rect x="14" y="12" width="92" height="66" rx="9" fill={BLUE} /><rect x="20" y="18" width="80" height="54" rx="6" fill="none" stroke={WHITE} strokeWidth="1.8" strokeDasharray="4 4" opacity=".7" />
-    <circle cx="42" cy="34" r="12" fill={GOLD} stroke={AMBER} strokeWidth="2" /><circle cx="38" cy="30" r="2" fill={AMBER} /><circle cx="46" cy="30" r="2" fill={AMBER} /><circle cx="38" cy="38" r="2" fill={AMBER} /><circle cx="46" cy="38" r="2" fill={AMBER} />
-    <circle cx="78" cy="34" r="12" fill={TEAL} stroke={WHITE} strokeWidth="2" /><circle cx="74" cy="30" r="2" fill={WHITE} /><circle cx="82" cy="30" r="2" fill={WHITE} /><circle cx="74" cy="38" r="2" fill={WHITE} /><circle cx="82" cy="38" r="2" fill={WHITE} />
-    <path d="M26 60h68" stroke={WHITE} strokeWidth="6" strokeDasharray="3 3" />
-    <rect x="58" y="53" width="11" height="14" rx="3" fill={GOLD} stroke={AMBER} strokeWidth="1.5" />
-  </>,
   'sand-trails': <>
     <rect x="10" y="18" width="100" height="60" rx="13" fill={BLUE} /><rect x="17" y="25" width="86" height="46" rx="8" fill={SAND} />
     <path d="M26 58c12-30 22-30 32-12s20 16 36-16" fill="none" stroke="#c9a15c" strokeWidth="6" strokeLinecap="round" />

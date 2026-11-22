@@ -1,6 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sandTrail, traceTo } from '../src/features/games/engine/sandTrails.ts';
+import { canalMission, nextLockAction, operateLock } from '../src/features/games/engine/canalLock.ts';
+
+test('the lock equalises before each crossing, and every reachable height can recover', () => {
+  for (const level of [1, 2, 3]) {
+    const mission = canalMission(level);
+    for (const berth of ['approach', 'chamber']) {
+      for (const water of [0, 1, 2]) {
+        let state = { berth, water };
+        const target = berth === 'approach' ? mission.left : mission.right;
+        if (water !== target) assert.equal(operateLock(mission, state, 'open'), state);
+        if (!water) assert.equal(operateLock(mission, state, 'drain'), state);
+        if (water === 2) assert.equal(operateLock(mission, state, 'fill'), state);
+        for (let i = 0; i < 7 && state.berth !== 'harbour'; i++) {
+          state = operateLock(mission, state, nextLockAction(mission, state));
+        }
+        assert.deepEqual(state, { berth: 'harbour', water: mission.right });
+        assert.equal(operateLock(mission, state, 'open'), state);
+      }
+    }
+  }
+});
 import { branch, followMarble, marbleMachine, nextMarbleGate, rollPosition } from '../src/features/games/engine/marbleRun.ts';
 
 for(const level of [1,2,3]){

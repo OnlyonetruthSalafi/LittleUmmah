@@ -37,6 +37,11 @@ for (const route of routes) {
   console.log(`PASS ${route}`);
 }
 const island = await fetch(`${base}/learn/games`, { redirect: 'manual' });
+for (const prefix of ['', '/en']) {
+  const oldGame = await fetch(`${base}${prefix}/games/buttons-zips`, { redirect: 'manual' });
+  assert.equal(oldGame.status, 308);
+  assert.equal(new URL(oldGame.headers.get('location'), base).pathname, prefix + '/games/canal-lock');
+}
 assert.equal(island.status, 307);
 assert.equal(island.headers.get('location'), '/games');
 const missing = await fetch(`${base}/games/not-a-game`);
