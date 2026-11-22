@@ -138,7 +138,7 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`sibling: ${error.message}`));
     await page.goto(`${base}/games/color-match`);
-    await page.locator('.gc-adventure-intro').waitFor();
+    await page.locator('.harbor-intro').waitFor();
     await page.locator('#gc-adventure-title').waitFor();
     await page.getByRole('button', { name: /ฟังวิธีเล่น/ }).waitFor();
     await page.getByRole('button', { name: /ไปเล่นกันเลย/ }).waitFor();

@@ -1,0 +1,98 @@
+/* Raised wooden toys sit on three separate planes: coast, piers and moving sailboat. */
+.gc-focus[data-game='color-match'] {
+  --harbor-ink: #173e50;
+  --harbor-paper: #fff6df;
+  color: var(--harbor-ink);
+  background: radial-gradient(ellipse at 50% 0%, #fff9e9, transparent 72%), #e4f1ea;
+}
+.gc-focus:is([data-game='track-builder'],[data-game='buttons-zips'],[data-game='sand-trails'],[data-game='marble-run']) {
+  --harbor-ink: #193c43;
+  background: radial-gradient(ellipse at top, #fff7d8, transparent 68%), #e7f1e7;
+}
+.harbor-rotate-help { max-width: 34ch; line-height: 1.4; }
+.harbor-rotate-help small { display: block; font-size: .84em; }
+.harbor-intro, .harbor-bay { color: var(--harbor-ink); }
+.harbor-intro {
+  width: min(100%, 1160px); height: 100%; margin: auto;
+  display: grid; grid-template-columns: 1.12fr 1fr; align-content: center;
+  align-items: center; gap: clamp(12px, 3vw, 52px); padding-block: 72px 8px;
+}
+.harbor-preview {
+  position: relative; background: radial-gradient(ellipse, #d3f2ee 15%, transparent 69%);
+}
+.harbor-preview .gc-diorama { width: 100%; aspect-ratio: 1; position: relative; }
+.harbor-brief { display: grid; gap: clamp(10px, 2.2dvh, 26px); }
+.harbor-brief h2 { font-size: clamp(26px, 4vw, 62px); font-weight: 850; line-height: 1.2; }
+.harbor-intro small, .harbor-bay small { display: block; font-size: .76em; font-weight: 550; }
+.harbor-brief h2 small { color: #356553; font: 700 clamp(16px, 2vw, 30px)/1.12 var(--font-display), sans-serif; }
+.harbor-brief p { max-width: 36ch; font-size: clamp(16px, 1.65vw, 24px); line-height: 1.4; }
+.harbor-brief p small { margin-top: .3em; }
+.harbor-levels, .harbor-actions { display: flex; align-items: center; gap: 10px; }
+.harbor-level { min-width: 64px; min-height: 64px; padding: 4px 12px; border: 2px solid #8eac9c;
+  border-radius: 17px; background: #fffaf0; box-shadow: 0 3px 0 #8eac9c; font-size: 18px; font-weight: 800; }
+.harbor-level[aria-pressed='true'] { background: #205b60; color: white; border-color: #17454d; box-shadow: 0 3px 0 #17454d; }
+.harbor-actions .harbor-start { min-height: 64px; padding: 6px 26px; }
+.harbor-actions .ui-round { min-width: 64px; min-height: 64px; }
+.harbor-bay {
+  container-type: size; isolation: isolate; overflow: hidden; position: relative;
+  width: 100%; height: min(100%, 80vw); min-height: 230px; max-height: 890px;
+  border-radius: clamp(16px, 2.3vw, 36px); border: 3px solid #fffdf0;
+  background: url('/games/color-match/bay.webp') center / 100% 100% no-repeat,
+    linear-gradient(#95dbea, #ffe5bf 22%, #81d7d6 23%, #56c8cd 56%, #209cab);
+  box-shadow: 0 5px 0 #78a9a2, 0 14px 30px #235c6519;
+}
+.harbor-call, .harbor-clue, .harbor-tag { background: var(--harbor-paper); line-height: 1.22; }
+.harbor-call { position: absolute; z-index: 3; top: 3%; left: 50%; translate: -50% 0;
+  width: max-content; max-width: 95%; padding: .5em 1.3em; border-radius: 18px;
+  box-shadow: 0 3px 0 #90785c44; text-align: center; font-size: clamp(15px, 2.3cqw, 28px); }
+.harbor-call strong { font-weight: 800; }
+.harbor-docks { position: absolute; inset: 16% 0 38%; display: grid;
+  grid-template-columns: repeat(var(--dock-count), minmax(0, 1fr)); align-items: end; }
+.harbor-dock { position: relative; display: flex; flex-direction: column; align-items: center;
+  justify-content: end; justify-self: center; width: 97%; height: 100%; max-width: 46cqh; padding-bottom: 6px;
+  min-width: 64px; min-height: 64px; border-radius: 24px; cursor: pointer; }
+.harbor-dock img { display: block; flex: 1 1 0; min-height: 0; height: 0; width: 100%; object-fit: contain;
+  object-position: bottom; filter: drop-shadow(0 5px 2px #144e5b40); }
+.harbor-dock:focus-visible, .harbor-intro button:focus-visible { outline: 4px solid #164568; outline-offset: 2px; }
+.harbor-tag { display: inline-flex; flex-shrink: 0; gap: .3em; align-items: center; min-height: 24px;
+  border-radius: 20px; padding: 2px 9px; font-size: clamp(14px, 1.8cqw, 22px); font-weight: 800;
+  box-shadow: 0 3px 0 #276a70; white-space: nowrap; }
+.harbor-tag i, .harbor-clue i { font-style: normal; }
+.harbor-dock[data-miss='true'] .harbor-tag { outline: 3px dashed #7a422c; }
+.harbor-vessel { position: absolute; pointer-events: none; left: 50%; bottom: 8%; width: min(31%, 36cqh);
+  aspect-ratio: 1; translate: -50% 0; transform-origin: center bottom; }
+.harbor-vessel::before { content: ''; position: absolute; left: 7%; bottom: 7%; width: 86%; height: 15%;
+  border-radius: 50%; background: #bdf6eb; box-shadow: 0 2px 0 #499a9e; transform: rotate(-5deg); }
+.harbor-vessel img { position: relative; width: 100%; height: 100%; object-fit: contain; }
+.harbor-bay[data-sailing='true'] .harbor-vessel { left: var(--arrival-x); bottom: 32%; transform: scale(.59); }
+.harbor-clue { position: absolute; bottom: 1.5%; left: 50%; translate: -50% 0; display: flex; align-items: center;
+  gap: .5em; padding: 4px 13px; border-radius: 16px; text-align: center; font-weight: 800; font-size: clamp(14px, 1.8cqw, 22px); }
+@media (hover: hover) {
+  .harbor-dock:not([aria-disabled='true']):hover .harbor-tag, .harbor-level:hover { box-shadow: 0 5px 0 #285d64, 0 6px 10px #31524f38; }
+}
+.harbor-dock:active .harbor-tag, .harbor-level:active { box-shadow: 0 1px 0 #285d64; }
+@media (prefers-reduced-motion: no-preference) {
+  .harbor-vessel { transition: left .9s ease-in-out, bottom .9s ease-in-out, transform .9s ease-in-out; }
+  .harbor-dock img, .harbor-level { transition: transform .2s ease-out; }
+  .harbor-dock:active img, .harbor-level:active { transform: scale(.98); }
+  @media (hover: hover) {
+    .harbor-dock:not([aria-disabled='true']):hover img { transform: translateY(-3px); }
+  }
+}
+@media (orientation: landscape) and (max-height: 550px) {
+  .harbor-intro { position: absolute; inset: 66px 0 0; width: min(100%, 830px); height: auto; padding: 0;
+    grid-template-columns: minmax(100px, .66fr) minmax(290px, 1fr); gap: 10px; }
+  .harbor-preview { width: min(100%, 59dvh); margin: auto; }
+  .harbor-brief { gap: 6px; }
+  .harbor-brief h2 { font-size: clamp(20px, 5dvh, 30px); }
+  .harbor-brief h2 small { display: inline; margin-left: .45em; font-size: 15px; }
+  .harbor-brief p { max-width: none; font-size: 16px; line-height: 1.25; }
+  .harbor-brief p small { font-size: 13px; margin: 1px 0; }
+  .harbor-level { padding: 2px 6px; font-size: 16px; }
+  .harbor-tag { flex-wrap: wrap; justify-content: center; column-gap: 3px; row-gap: 0; line-height: 1.06; }
+  .harbor-tag small { font-size: 12px; }
+}
+@media (max-width: 680px) and (orientation: landscape) {
+  .harbor-tag { padding-inline: 5px; }
+  .harbor-tag small { flex-basis: 100%; }
+}

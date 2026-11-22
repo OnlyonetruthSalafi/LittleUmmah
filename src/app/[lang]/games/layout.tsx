@@ -13,4 +13,5 @@ import '@/features/games/coin-box.css';
 import '@/features/games/balance-scale.css';
 import '@/features/games/block-builders.css';
 import '@/features/games/landscape-play.css';
+import '@/features/games/color-harbor.css';
 export default function GamesLayout({ children }: { children: ReactNode }) { return children; }

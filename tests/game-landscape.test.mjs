@@ -1,4 +1,4 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { landscapeProblems } from '../scripts/game-landscape-stage1.mjs';
 import { gamePresentation } from '../src/features/games/data/presentation.ts';
@@ -27,7 +27,7 @@ test('island exceptions never exempt rail controls or waiting sequence toys',()=
 });
 
 test('landscape boards opt in independently of fullscreen, and legacy reward stars stay hidden',()=>{
-  assert.deepEqual(Object.entries(gamePresentation).filter(([,v])=>v.landscapeBoard).map(([k])=>k).sort(),['arabic-match','color-match','find-object','memory','puzzle','sequence','shape-match','sort']);
+  assert.deepEqual(Object.entries(gamePresentation).filter(([,v])=>v.landscapeBoard).map(([k])=>k).sort(),['arabic-match','buttons-zips','color-match','find-object','marble-run','memory','puzzle','sand-trails','sequence','shape-match','sort','track-builder']);
   assert.equal(gamePresentation.memory.fullscreen,undefined);
   assert.equal(gamePresentation.puzzle.fullscreen,undefined);
   assert.equal(gamePresentation['light-maze'].fullscreen,true);

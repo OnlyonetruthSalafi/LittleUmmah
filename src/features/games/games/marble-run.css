@@ -1,0 +1,37 @@
+[data-workshop='marble-run'] {
+  width:min(100%,calc((100dvh - 142px)*2));
+  background:#183d4a; border-color:#48676a;
+}
+[data-workshop='marble-run'] .ws-console {
+  display:grid; justify-items:center; justify-content:stretch; gap:5px;
+  padding:6px 10px 10px; text-align:center; font-size:clamp(14px,1.55vw,19px);
+  border-color:#c79755; background:linear-gradient(110deg,#204e59,#173944);
+}
+[data-workshop='marble-run'] .marble-launch {
+  position:relative; display:inline-flex; align-items:center; justify-content:center; gap:11px;
+  min-height:64px; min-width:178px; max-width:100%; padding:5px 20px 6px 10px;
+  color:#243c43; background:linear-gradient(#fff4ca,#ffd979 48%,#edb65b);
+  border:2px solid #ffe5a4; border-radius:40px;
+  box-shadow:inset 0 2px 0 #fff8e2,0 4px 0 #a37036,0 6px 10px #112f3c;
+}
+.marble-launch-medallion {
+  display:grid; place-items:center; width:35px; height:35px; border:2px solid #f7d78a;
+  border-radius:50%; color:#fff5d3; background:linear-gradient(145deg,#28767e,#19475c);
+  box-shadow:0 1px 2px #7d642d;
+}
+[data-workshop='marble-run'] .marble-launch:disabled { background:#d2ccad; color:#445256; box-shadow:0 2px 0 #847b64; }
+.marble-launch-guide { position:absolute; width:38px; height:34px; right:calc(100% + 4px); pointer-events:none; }
+@media (max-height:550px),(max-width:780px) {
+  [data-workshop='marble-run'] { width:min(100%,calc((100dvh - 130px)*2)); }
+  [data-workshop='marble-run'] .ws-console { gap:3px; padding:3px 6px 7px; font-size:14px; }
+  [data-workshop='marble-run'] .ws-console [role='status'] { line-height:1.14; }
+}
+.marble-ripple { opacity:0; }
+@media (prefers-reduced-motion:no-preference) {
+  .marble-guide-arrow { animation:marble-point 1.25s ease-in-out 3; }
+  @keyframes marble-point { 50% { transform:translateX(4px); } }
+  .marble-rotor { animation:marble-wheel 18s linear infinite; transform-origin:0 0; }
+  @keyframes marble-wheel { to { transform:rotate(360deg); } }
+  .marble-ripple { animation:marble-arrival .72s ease-out; }
+  @keyframes marble-arrival { from { opacity:1; scale:.55; } to { opacity:0; scale:1.6; } }
+}

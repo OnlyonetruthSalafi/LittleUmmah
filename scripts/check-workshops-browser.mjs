@@ -1,0 +1,162 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { mkdir,writeFile } from 'node:fs/promises';
+import { landscapeProblems,measureLandscapePage } from './game-landscape-stage1.mjs';
+import { sandTrail } from '../src/features/games/engine/sandTrails.ts';
+import { marbleMachine } from '../src/features/games/engine/marbleRun.ts';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/User/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright-core');
+const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_EXECUTABLE||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+const base=process.argv[2]||'http://localhost:3221';
+const out='output/workshops';
+await mkdir(out,{recursive:true});
+const metrics=[];
+const errors=[];
+try {
+  for(const slug of (process.argv[3] ? [process.argv[3]] : ['buttons-zips','sand-trails','marble-run'])){
+    const ctx=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+    await ctx.addInitScript(()=>{
+      sessionStorage.setItem('lu-games-guide-seen','1');localStorage.setItem('little-ummah:sound','off');
+      localStorage.setItem('lu-settings',JSON.stringify({starsEnabled:false,timeEnabled:false,minutes:90,seeded:true}));
+    });
+    const page=await ctx.newPage();page.setDefaultTimeout(12000);
+    page.on('pageerror',e=>errors.push(e.message));
+    const art=[];
+    page.on('request',r=>{if(/^\/games\/(buttons-zips|sand-trails|marble-run)\//.test(new URL(r.url()).pathname))art.push(new URL(r.url()).pathname);});
+    await page.goto(base+'/games');
+    const card=page.locator('a[href$="/games/'+slug+'"]').first();
+    await card.scrollIntoViewIfNeeded();await card.locator('img').evaluate(img=>img.decode());
+    if(slug==='marble-run'){
+      const src=await card.locator('img').evaluate(img=>decodeURIComponent(img.currentSrc));
+      assert.match(src,/\/_next\/static\/media\/marble-run\.[\w-]+\.webp/,'The hub uses the current Blender cover');
+      await card.screenshot({path:out+'/marble-run-hub-card.png'});
+    }
+    await card.tap();await page.locator('.gc-rotate').waitFor();
+    assert.deepEqual(art,[]);
+    await page.setViewportSize({width:844,height:390});await page.locator('.gc-rotate').waitFor({state:'detached'});
+    if(slug==='marble-run'){
+      const lever=page.locator('[data-practice-lever]'), release=page.locator('.marble-trial-release');
+      assert.ok(await release.isDisabled());
+      await page.setViewportSize({width:568,height:320});
+      await lever.focus();await page.keyboard.press('Enter');
+      assert.equal(await lever.getAttribute('data-practice-lever'),'-1');
+      await release.click();
+      await page.waitForFunction(()=>Number(document.querySelector('[data-hatch-open]')?.getAttribute('data-hatch-open'))>.25);
+      assert.ok(await lever.isDisabled());
+      await page.getByText('Try the other side',{exact:true}).waitFor();
+      await lever.click();
+      assert.equal(await lever.getAttribute('data-practice-lever'),'1');
+      await release.click();
+      await page.getByText('Into the star cup!',{exact:true}).waitFor();
+      assert.equal(await page.locator('[data-hatch-open]').getAttribute('data-hatch-open'),'0.00');
+      assert.deepEqual(art,[],'Practising does not fetch any level art');
+      await page.screenshot({path:out+'/marble-practice-small.png'});
+      await page.setViewportSize({width:844,height:390});
+    }
+    await page.screenshot({path:out+'/'+slug+'-intro.png'});
+    for(const level of [1,2,3]){
+      await page.locator('.harbor-level').nth(level-1).click();
+      await page.locator('.harbor-start').click();
+      await page.locator('.ws-stage > img').evaluate(img=>img.decode());
+      await page.waitForFunction(()=>!!document.querySelector('.ws-stage')&&!document.querySelector('.gc-board[inert]'));
+      await page.locator('.gc-countdown').waitFor({state:'detached'});
+      if(await page.evaluate(()=>!!document.fullscreenElement))await page.evaluate(()=>document.exitFullscreen());
+      for(const [width,height] of [[568,320],[1280,720],[844,390]]){
+        await page.setViewportSize({width,height});await page.evaluate(()=>document.fonts.ready);
+        const issues=landscapeProblems({slug,...await page.evaluate(measureLandscapePage)});
+        assert.deepEqual(issues,[],slug+' '+width+'x'+height);
+        if(slug==='marble-run'){
+          const board=await page.locator('.ws-stage').boundingBox();
+          const launch=await page.locator('.marble-launch').boundingBox();
+          assert.ok(Math.abs(board.x+board.width/2-launch.x-launch.width/2)<1,'Launch control is centred');
+        }
+        if(slug==='marble-run' && width===568){
+          const star=await page.locator('.marble-goal-star').boundingBox();
+          assert.ok(Math.min(star.width,star.height)>=30,'The destination star is visible on a small phone');
+          await page.screenshot({path:out+'/marble-run-'+level+'-phone.png'});
+        }
+      }
+      await page.screenshot({path:out+'/'+slug+'-'+level+'.png'});
+      const files=await page.evaluate(slug=>performance.getEntriesByType('resource').filter(r=>new URL(r.name).pathname.startsWith('/games/'+slug+'/')).map(r=>({file:r.name.split('/').pop(),bytes:r.encodedBodySize})),slug);
+      assert.ok(files.some(f=>f.file==='level-'+level+'.webp'));
+      assert.ok(art.every(p=>p.startsWith('/games/'+slug+'/')&&(!p.includes('/level-')||Number(p.match(/level-(\d)/)[1])<=level)));
+      metrics.push({slug,level,files});
+      const rect=await page.locator('.ws-stage').boundingBox();
+      const move=(x,y)=>page.mouse.move(rect.x+x*rect.width/960,rect.y+y*rect.height/480);
+      const button=page.locator('.ws-action');
+      if(slug==='buttons-zips'){
+        const lanes=[[480],[320,640],[250,480,710]][level-1];
+        for(const x of lanes){await move(x,247);await page.mouse.down();await move(x,139);await page.mouse.up();}
+        await move(240,322);await page.mouse.down();await move(720,322);await page.mouse.up();
+      }else if(slug==='sand-trails'){
+        const path=sandTrail(level);
+        await move(path[0].x,path[0].y);await page.mouse.down();
+        for(const [i,p] of path.entries()){
+          await move(p.x,p.y);
+          if(i===12){await page.mouse.up();await page.mouse.down();}
+        }
+        await page.mouse.up();
+      }else{
+        const machine=marbleMachine(level);
+        if(level===1){
+          await button.click();
+          await page.waitForFunction(()=>Number(document.querySelector('[data-hatch-open]')?.getAttribute('data-hatch-open'))>.25);
+          const startY=Number(await page.locator('[data-marble]').getAttribute('y'));
+          assert.ok(Math.abs(startY+25-machine.intake.y)<.1,'Plates open while the marble is still supported');
+          await page.getByText('A ramp is missing.',{exact:false}).waitFor();
+        }
+        assert.ok(files.some(f=>f.file==='rotor-'+level+'.webp' && f.bytes>0),'Only the active scene needs its moving landmark');
+        if(level===1){
+          const gate=page.locator('[data-gate="0"]');
+          await gate.focus();await page.keyboard.press('Enter');await page.keyboard.press('Enter');
+          await button.click();await page.getByText('Switch a ramp to reach the star.',{exact:true}).waitFor();
+          assert.equal(await page.locator('progress').getAttribute('value'),'0');
+        }
+        for(const [j,cup] of machine.goals.entries()){
+          const beacon=page.locator('.marble-beacon');
+          assert.equal(await beacon.count(),1);
+          assert.equal(await beacon.evaluate(e=>e.parentElement.querySelector('text').textContent),String(cup+1));
+          const setGate=async(i,dir)=>{
+            const peg=page.locator('[data-gate="'+i+'"]');
+            while(Number(await peg.getAttribute('data-direction'))!==dir)await peg.click();
+          };
+          const checkGuide=level===2 && j===0;
+          if(checkGuide)await page.locator('[data-guide="0"]').waitFor();
+          if(machine.gates.length===1)await setGate(0,cup===1?1:-1);
+          else {
+            await setGate(0,cup<2?-1:1);
+            if(checkGuide){
+              assert.equal(await page.locator('[data-guide]').count(),0);
+              await page.locator('[data-guide="2"]').waitFor();
+              await page.screenshot({path:out+'/marble-run-idle-switch.png'});
+            }
+            await setGate(cup<2?1:2,cup%2?1:-1);
+          }
+          if(checkGuide){
+            await page.locator('[data-guide="release"]').waitFor();
+            await page.screenshot({path:out+'/marble-run-idle-release.png'});
+          }
+          if(j===0){
+            await page.setViewportSize({width:1280,height:720});
+            await page.screenshot({path:out+'/'+slug+'-'+level+'-connected.png'});
+            await page.setViewportSize({width:844,height:390});
+          }
+          await button.click();
+          if(level===1&&j===0){
+            await page.setViewportSize({width:390,height:844});await page.locator('.gc-rotate').waitFor();
+            const sprite=page.locator('[data-marble]');
+            const x=await sprite.getAttribute('y');await page.waitForTimeout(250);assert.equal(await sprite.getAttribute('y'),x);
+            await page.setViewportSize({width:844,height:390});await page.locator('.gc-rotate').waitFor({state:'detached'});
+          }
+          if(j<machine.goals.length-1)await page.waitForFunction(()=>document.querySelector('.ws-action')?.disabled===false);
+        }
+      }
+      await page.locator('.gc-result').waitFor();console.log(slug,level,'passed');
+      if(level<3)await page.locator('.gc-result-actions .gc-primary').click();
+    }
+    await page.goto(base+'/en/games/'+slug);
+    assert.doesNotMatch(await page.locator('.harbor-intro').innerText(),/[\u0e00-\u0e7f]/);
+    await ctx.close();
+  }
+  assert.deepEqual(errors,[]);await writeFile(out+'/network.json',JSON.stringify(metrics,null,2));
+}finally{await browser.close();}

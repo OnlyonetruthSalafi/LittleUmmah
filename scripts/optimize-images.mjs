@@ -87,6 +87,11 @@ const JOBS = [
   { dir: "public/BG", width: 1920, quality: 80 },
   { dir: "public/games/puzzle", width: 900, quality: 86 },
   { dir: "public/games/hub", width: 640, quality: 85 },
+  { dir: "public/games/buttons-zips", width: 1120, quality: 83 },
+  { dir: "public/games/sand-trails", width: 1120, quality: 83 },
+  { dir: "public/games/marble-run", width: 1120, quality: 83 },
+  { dir: "public/games/track-builder", width: 1280, quality: 84 },
+  { dir: "public/games/color-match", width: 1280, quality: 90 },
   { dir: "public/games/common/objects", width: 320, quality: 86 },
   { dir: "public/games/common/backgrounds", width: 1280, quality: 83 },
 ];
@@ -159,6 +164,7 @@ for (const job of JOBS) {
 
   console.log(`\n${job.dir}`);
   for (const file of files.sort()) {
+    if (process.argv[3] && file !== process.argv[3]) continue;
     const src = path.join(job.dir, file);
     const out = path.join(job.dir, file.replace(/\.png$/i, "").toLowerCase() + ".webp");
 
@@ -240,6 +246,7 @@ const CROPS = [
   { src: "public/games/hub/game-hub-bg.png", width: 1536, quality: 85, outs: [["game-hub-bg-square.webp", 1], ["game-hub-bg-narrow.webp", 0.75]] },
 ];
 for (const crop of CROPS) {
+  if (process.argv[3] && path.posix.basename(crop.src) !== process.argv[3]) continue;
   if (process.argv[2] && process.argv[2] !== "--crops-only" && process.argv[2] !== path.posix.dirname(crop.src)) continue;
   const resized = await sharp(crop.src).resize(crop.width, null, { fit: "inside", withoutEnlargement: true }).png().toBuffer();
   const { width, height } = await sharp(resized).metadata();

@@ -1,0 +1,15 @@
+{
+  "span": 2.5,
+  "startX": -8.75,
+  "rise": 1.8,
+  "gauge": 0.68,
+  "railZ": 2.16,
+  "cameraWidth": 22,
+  "cameraZ": 1.15,
+  "cameraAngle": 34,
+  "routes": [
+    { "scene": "pine", "startY": -1.2, "steps": [0, 0, 1, 0, -1, 0, 0], "gaps": [1, 2, 5] },
+    { "scene": "canyon", "startY": 0.4, "steps": [0, -1, 0, 1, 1, -1, 0], "gaps": [1, 2, 4, 5] },
+    { "scene": "summit", "startY": -1.0, "steps": [0, 1, 1, -1, 0, -1, 0], "gaps": [1, 2, 3, 4, 5] }
+  ]
+}

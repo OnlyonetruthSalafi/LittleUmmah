@@ -20,13 +20,6 @@ const art: Record<ComingSoonId, ReactNode> = {
     <path d="M90 62h20l-3 16H93Z" fill={BLUE} />
     <circle cx="28" cy="16" r="8" fill={GOLD} stroke={AMBER} strokeWidth="2" /><circle cx="25.5" cy="13.5" r="2.2" fill={WHITE} />
   </>,
-  'track-builder': <>
-    <path d="M6 66c30 0 34-34 62-34h46" fill="none" stroke={DEEP} strokeWidth="11" strokeDasharray="4 7" />
-    <path d="M6 66c30 0 34-34 62-34h46" fill="none" stroke={GOLD} strokeWidth="4" />
-    <rect x="62" y="14" width="42" height="26" rx="6" fill={BLUE} /><rect x="86" y="8" width="16" height="16" rx="3" fill={TEAL} />
-    <rect x="68" y="20" width="12" height="9" rx="2" fill={WHITE} opacity=".85" />
-    <circle cx="74" cy="42" r="6" fill={DEEP} stroke={GOLD} strokeWidth="2" /><circle cx="94" cy="42" r="6" fill={DEEP} stroke={GOLD} strokeWidth="2" />
-  </>,
   'buttons-zips': <>
     <rect x="14" y="12" width="92" height="66" rx="9" fill={BLUE} /><rect x="20" y="18" width="80" height="54" rx="6" fill="none" stroke={WHITE} strokeWidth="1.8" strokeDasharray="4 4" opacity=".7" />
     <circle cx="42" cy="34" r="12" fill={GOLD} stroke={AMBER} strokeWidth="2" /><circle cx="38" cy="30" r="2" fill={AMBER} /><circle cx="46" cy="30" r="2" fill={AMBER} /><circle cx="38" cy="38" r="2" fill={AMBER} /><circle cx="46" cy="38" r="2" fill={AMBER} />

@@ -49,6 +49,11 @@ next-env.d.ts
 /public/Character/run/*.png
 /public/games/puzzle/*.png
 /public/games/hub/*.png
+/public/games/color-match/*.png
+/public/games/buttons-zips/*.png
+/public/games/sand-trails/*.png
+/public/games/marble-run/*.png
+/public/games/track-builder/*.png
 /public/games/classroom/*.png
 /public/sponsors/*.png
 /public/faith/*.png

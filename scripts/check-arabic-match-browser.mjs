@@ -8,6 +8,7 @@ import { mkdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { solveStage1 } from './game-landscape-stage1.mjs';
 import { arabicLetterSets, boardContent } from '../src/features/games/data/content.ts';
 
 const require = createRequire(import.meta.url);
@@ -28,8 +29,8 @@ async function start(page, slug = 'arabic-match', level = 3, prefix = '') {
     await page.setViewportSize({ width: viewport.height, height: viewport.width });
     await page.locator('.gc-rotate').waitFor({ state: 'detached' });
   }
-  await page.locator('.gc-level-stone').nth(level - 1).click();
-  await page.locator('.gc-adventure-start').click();
+  await page.locator('.gc-level-stone,.harbor-level').nth(level - 1).click();
+  await page.locator('.gc-adventure-start,.harbor-start').click();
   await page.locator('.gc-board:not([inert])').waitFor();
   await page.locator('.gc-countdown').waitFor({ state: 'detached' });
 }
@@ -128,7 +129,8 @@ try {
   for (const slug of ['color-match', 'sort']) for (const level of [1, 2, 3]) {
     await start(page, slug, level);
     assert.equal(await page.locator('.gc-arabic-sets').count(), 0);
-    for (const item of boardContent(slug, level).items) await place(page, item);
+    if (slug === 'color-match') await solveStage1(page, slug, level);
+    else for (const item of boardContent(slug, level).items) await place(page, item);
     await page.locator('.gc-result').waitFor();
     console.log(`PASS ${slug} level ${level}`);
   }

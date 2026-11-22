@@ -1,3 +1,4 @@
+import marbleRunCover from '../../../../public/games/hub/marble-run.webp';
 import { GameImage as Image } from './GameImage';
 import { GameIcon } from '@/components/icons/GameIcon';
 import { GameShape } from '@/components/icons/GameShape';
@@ -20,7 +21,7 @@ export function ObjectArt({ visual, recessed = false }: { visual: Visual; recess
  *  sizes: กรอบภาพเกาะของหน้าที่เรียกใช้ (CSS px) — ค่าเริ่มต้นของ large คือฉาก VoiceIntro ที่เกาะกว้างเกือบเต็มจอ */
 export function Thumbnail({ slug, large = false, sizes }: { slug: GameSlug; large?: boolean; sizes?: string }) {
   return <div className="gc-diorama" aria-hidden="true">
-    <Image src={`/games/hub/${slug}.webp`} alt="" fill sizes={sizes ?? (large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, (max-width: 1000px) 31vw, 290px')}
+    <Image src={slug === 'marble-run' ? marbleRunCover.src : `/games/hub/${slug}.webp`} alt="" fill sizes={sizes ?? (large ? '(max-width: 639px) 85vw, 480px' : '(max-width: 639px) 46vw, (max-width: 1000px) 31vw, 290px')}
       {...(large ? { loading: 'eager' as const, fetchPriority: 'high' as const } : {})} />
     {slug === 'coin-box' && <span style={{ position: 'absolute', width: '18%', height: '18%', left: '41%', top: '65%' }}><Image src="/games/coin-box/coin.webp" alt="" fill sizes="(max-width: 639px) 48px, 80px" /></span>}
     {slug === 'arabic-match' && <span className="gc-art-letters" lang="ar" dir="rtl"><span>ا</span><span>ب</span><span>ت</span></span>}

@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { comingSoonGames } from '../src/features/games/data/comingSoon.ts';
 import { boardContent } from '../src/features/games/data/content.ts';
 import { gamePresentation } from '../src/features/games/data/presentation.ts';
 import { inspectHomepage } from './homepage-browser.mjs';
@@ -54,12 +55,20 @@ async function ready(page) {
 }
 async function leaveFullscreen(page) { await page.waitForTimeout(250); if(await page.evaluate(()=>!!document.fullscreenElement)) { await page.evaluate(()=>document.exitFullscreen()); await page.waitForTimeout(250); } }
 export async function startStage1(page) {
-  await page.locator('.gc-adventure-start,.gc-start-3d').click();
+  await page.locator('.gc-adventure-start,.gc-start-3d,.harbor-start').click();
   await leaveFullscreen(page);
   await ready(page);
 }
 export async function solveStage1(page,slug,level,beforeComplete) {
-  if(slug==='find-object') {
+  if(slug==='color-match') {
+    const total = boardContent(slug, level).items.length;
+    for(let i=0;i<total;i++) {
+      await page.locator('.harbor-bay[data-sailing="false"]').waitFor();
+      const color=await page.locator('[data-sail]').getAttribute('data-sail');
+      await page.locator('[data-dock="'+color+'"]').click();
+      await page.locator('.harbor-bay[data-sailing="true"]').waitFor();
+    }
+  } else if(slug==='find-object') {
     for(let round=0;round<5;round++) {
       const label=await page.locator('.gc-find-prompt > span:last-child').innerText();
       const th=label.split('\n')[0];
@@ -68,7 +77,7 @@ export async function solveStage1(page,slug,level,beforeComplete) {
     }
   } else {
     const ids=await page.locator('[data-item-id]').evaluateAll(es=>es.map(e=>e.dataset.itemId));
-    const targets=['color-match','arabic-match','sort'].includes(slug)?Object.fromEntries(boardContent(slug,level).items.map(i=>[i.id,i.target])):{};
+    const targets=['arabic-match','sort'].includes(slug)?Object.fromEntries(boardContent(slug,level).items.map(i=>[i.id,i.target])):{};
     for(const id of ids) {
       await page.locator(`[data-item-id="${id}"]`).click();
       const target=slug==='shape-match'?id:slug==='sequence'?`sequence-slot-${id.split('-').at(-1)}`:targets[id];
@@ -97,7 +106,7 @@ export async function runStage1Matrix(browser,base,check,out='output/games-lands
       await page.evaluate(()=>document.fonts.ready);
       check(await page.evaluate(()=>['Baloo 2','Noto Sans Thai Looped'].every(name=>[...document.fonts].some(f=>f.family.replaceAll('"','')===name&&f.status==='loaded'))),`${slug}: actual project fonts loaded`);
       for(let level=1;level<=(slug==='shape-match'?1:3);level++) {
-        if(await page.locator('.gc-level-stone').count()) await page.locator('.gc-level-stone').nth(level-1).click();
+        if(await page.locator('.gc-level-stone,.harbor-level').count()) await page.locator('.gc-level-stone,.harbor-level').nth(level-1).click();
         for(const state of ['idle','playing','complete']) {
           if(state==='playing') { await page.setViewportSize({width:844,height:390}); await startStage1(page); }
           if(state==='complete') await solveStage1(page,slug,level);
@@ -128,7 +137,7 @@ export async function runComingSoon(browser,base,check,out='output/games-landsca
   const page=await context.newPage();await page.goto(`${base}/games`,{waitUntil:'networkidle'});
   for(const [width,height] of landscapeSizes) {
     await page.setViewportSize({width,height});
-    const soonCount=await page.locator('.gh-card-soon').count();check(soonCount>0,`coming-soon cards ${soonCount}`);
+    const soonCount=await page.locator('.gh-card-soon').count();check(soonCount===comingSoonGames.length,`coming-soon cards ${soonCount}`);
     for(let i=0;i<soonCount;i++) {
       const card=page.locator('.gh-card-soon').nth(i);await card.click();
       const result=await page.locator('dialog[open]').evaluate(d=>{
@@ -255,7 +264,7 @@ export async function runStage1Flow(browser,base,check,out='output/games-landsca
           await page.locator('.gc-voice-replay').click();await speaking();
         }
       }
-      await page.locator('.gc-adventure-start,.gc-start-3d').click();
+      await page.locator('.gc-adventure-start,.gc-start-3d,.harbor-start').click();
       await page.locator('.gc-count-badge').waitFor();check(true,`${slug}: countdown before play`);
       await leaveFullscreen(page);await ready(page);
       // Rotate during the completion delay: no result/reward may arrive behind the gate.
@@ -296,7 +305,7 @@ export async function runStage1Input(browser,base,check,out='output/games-landsc
     try {
       await page.goto(`${base}/games/${slug}`,{waitUntil:'networkidle'});
       const level=slug==='arabic-match'?3:1;
-      if(level===3) await page.locator('.gc-level-stone').nth(2).click();
+      if(level===3) await page.locator('.gc-level-stone,.harbor-level').nth(2).click();
       await startStage1(page);
       const control=page.locator('.gc-instruction > button');
       await page.keyboard.press('Tab');await control.focus();
@@ -306,7 +315,7 @@ export async function runStage1Input(browser,base,check,out='output/games-landsc
       await control.hover();
       const hovered=await control.evaluate(e=>getComputedStyle(e).transform);
       check(still===hovered,`${slug} ${touch?'touch':'mouse'}: reduced-motion hover keeps position`);
-      if(!touch&&['color-match','arabic-match','sort'].includes(slug)) {
+      if(!touch&&['arabic-match','sort'].includes(slug)) {
         await page.setViewportSize({width:844,height:390});
         for(const selector of ['.gc-object-button','.gc-drop:not(:disabled)']) {
           const button=page.locator(selector).first();
@@ -323,10 +332,19 @@ export async function runStage1Input(browser,base,check,out='output/games-landsc
         // Start the independent drag check from a fresh board after probing
         // pointer-down/active styles, which deliberately changes selection.
         await page.reload({waitUntil:'networkidle'});
-        if(level===3) await page.locator('.gc-level-stone').nth(2).click();
+        if(level===3) await page.locator('.gc-level-stone,.harbor-level').nth(2).click();
         await startStage1(page);
       }
-      if(slug==='find-object') {
+      if(slug==='color-match') {
+        const color=await page.locator('[data-sail]').getAttribute('data-sail');
+        const wrong=page.locator('[data-dock]:not([data-dock="'+color+'"])').first();
+        if(touch) await wrong.tap();else await wrong.click();
+        check(await page.locator('progress').getAttribute('value')==='0' && await wrong.getAttribute('data-miss')==='true',
+          'A different color gives a hint and keeps the same boat');
+        const dock=page.locator('[data-dock="'+color+'"]');
+        if(touch) await dock.tap();else await dock.click();
+        await page.locator('.harbor-bay[data-sailing="true"]').waitFor();
+      } else if(slug==='find-object') {
         const label=(await page.locator('.gc-find-prompt > span:last-child').innerText()).split('\n')[0];
         const object=page.getByRole('button',{name:new RegExp(`^${label}`)});
         if(touch) await object.tap();else await object.click();
@@ -348,7 +366,7 @@ export async function runStage1Input(browser,base,check,out='output/games-landsc
         await page.locator(`[data-item-id="${id}"]`).waitFor({state:'detached',timeout:3000});
         check(await page.locator('.gc-drag[data-dragging]').count()===0,`${slug}: drag state clears`);
       }
-      check(true,`${slug} ${touch?'touch':'mouse'}: real ${slug==='find-object'?'tap':'drag'} accepted`);
+      check(true,`${slug} ${touch?'touch':'mouse'}: real ${['color-match','find-object'].includes(slug)?'tap':'drag'} accepted`);
       check(!errors.length,`${slug} input has no page errors: ${errors.join('; ')}`);
       results.push({slug,touch,passed:true,errors});
     } catch(error) {check(false,`${slug} input: ${error.message}`);results.push({slug,touch,passed:false,error:String(error),errors});}
@@ -360,14 +378,14 @@ export async function runStage1Input(browser,base,check,out='output/games-landsc
 export async function runDesktopArtworkRegression(browser,base,check,out='output/games-landscape-consult') {
   const rows=[];
   const baselineUrl=process.env.LANDSCAPE_BASELINE_URL??'http://localhost:3102';
-  for(const slug of ['color-match','arabic-match','sort']) for(let level=1;level<=3;level++) {
+  for(const slug of ['arabic-match','sort']) for(let level=1;level<=3;level++) {
     const measurements=[];
     for(const url of [baselineUrl,base]) {
       const context=await browser.newContext({viewport:{width:1280,height:720},reducedMotion:'reduce'});
       try {
         const page=await context.newPage();
         await page.goto(`${url}/games/${slug}`,{waitUntil:'networkidle'});
-        await page.locator('.gc-level-stone').nth(level-1).click();await startStage1(page);
+        await page.locator('.gc-level-stone,.harbor-level').nth(level-1).click();await startStage1(page);
         const measure=()=>page.locator('.gc-tray .gc-object,.gc-tray .gc-letter').evaluateAll(es=>es.map(e=>{
           const r=e.getBoundingClientRect();
           return {label:e.closest('button').getAttribute('aria-label'),w:r.width,h:r.height,font:getComputedStyle(e).fontSize};

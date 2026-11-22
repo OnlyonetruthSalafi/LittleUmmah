@@ -24,7 +24,10 @@ export const RECORDED_CLIPS = new Set<string>([
   'name-bead-lacing', 'game-bead-lacing', 'howto-bead-lacing', 'bead-praise', 'bead-complete', 'bead-repeat', 'bead-hint-blue-circle', 'bead-hint-blue-square', 'bead-hint-blue-star', 'bead-hint-turquoise-circle', 'bead-hint-turquoise-square', 'bead-hint-turquoise-star', 'bead-hint-gold-circle', 'bead-hint-gold-square', 'bead-hint-gold-star', 'bead-hint-white-circle', 'bead-hint-white-square', 'bead-hint-white-star',
   // เสียงหุ่นยนต์ (ElevenLabs เสียง Leo + เอฟเฟคหุ่นยนต์) พูดไทยแล้วต่อด้วยอังกฤษ
   "hub-intro", "hub-intro-touch",
-  "game-color-match", "game-shape-match", "game-memory", "game-puzzle",
+  "name-buttons-zips", "game-buttons-zips",
+  "name-sand-trails", "game-sand-trails",
+  "name-marble-run", "game-marble-run",
+  "name-track-builder", "game-track-builder", "harbor-instruction", "game-color-match", "game-shape-match", "game-memory", "game-puzzle",
   "game-arabic-match", "game-sequence", "game-find-object", "game-sort",
   "praise-correct-1", "praise-correct-2", "praise-correct-3",
   "praise-wrong-1", "praise-wrong-2", "praise-level-complete",

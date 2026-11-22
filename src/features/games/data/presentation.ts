@@ -11,6 +11,7 @@ type GamePresentation = {
     แล้วให้หุ่นยนต์พูดสอนวิธีเล่นจากไฟล์ /audio/th/howto-<slug>.mp3 ก่อนปุ่มเริ่มเล่นจะโผล่
     เปิดทีละเกมโดยเจ้าของโปรเจกต์ ไม่เปิดพร้อมกันทั้งแปดเกม
   */
+  scenicIntro?: boolean;
   voiceIntro?: boolean;
   /** ภาพตัวอย่างของแต่ละด่านบนการ์ดเลือกด่าน (ตอนนี้ใช้กับจิ๊กซอว์: ภาพบนจิ๊กซอว์ + เส้นตัดชิ้นของด่านนั้น) */
   levelArt?: { src: string; columns: number; rows: number; label: Label }[];
@@ -37,6 +38,32 @@ type GamePresentation = {
 };
 
 export const gamePresentation: Record<GameSlug, GamePresentation> = {
+  'buttons-zips': {
+    scenicIntro: true, landscapeBoard: true, fullscreen: true,
+    world: { th: 'กระเป๋าเดินทางใบจิ๋ว', en: 'Little Travel Pouch' }, description: { th: 'ลากกระดุมขึ้นเข้ารังทีละเม็ด แล้วรูดซิปไปทางขวา หรือแตะชิ้นที่มีวงทองแล้วแตะปลายทาง', en: 'Slide each button up, then zip right. You can also tap the ringed piece and its destination.' },
+    levels: [{ th: 'หนึ่งกระดุม', en: 'One button' }, { th: 'สองกระดุม', en: 'Two buttons' }, { th: 'สามกระดุม', en: 'Three buttons' }],
+    destinations: { th: 'รังดุม', en: 'Buttonhole' }, pieces: { th: 'กระดุมและซิป', en: 'Buttons and zip' },
+  },
+  'sand-trails': {
+    scenicIntro: true, landscapeBoard: true, fullscreen: true,
+    world: { th: 'ถาดทรายริมทะเล', en: 'Seaside Sand Tray' }, description: { th: 'วางนิ้วที่วงทองแล้ววาดตามเส้นประไปถึงดาว ยกนิ้วพักแล้ววาดต่อได้', en: 'Trace from the gold ring to the star. Lift your finger anytime and continue from your last mark.' },
+    levels: [{ th: 'คลื่นน้อย', en: 'Little wave' }, { th: 'คลื่นคู่', en: 'Double wave' }, { th: 'ก้นหอย', en: 'Spiral' }],
+    destinations: { th: 'ปลายทาง', en: 'Finish' }, pieces: { th: 'รอยทราย', en: 'Groove' },
+  },
+  'marble-run': {
+    scenicIntro: true, landscapeBoard: true, fullscreen: true,
+    world: { th: 'สะพานฟ้าลูกแก้ว', en: 'Marble Skyway' }, description: { th: 'ลองแตะคันโยกสีแดงให้รางหันไปหาดาว แล้วกดปล่อย ดูแผ่นใต้ลูกแก้วเปิดออก', en: 'Tap the red lever toward the star. Press release and watch the plates open.' },
+    levels: [{ th: 'อ่าวกังหัน', en: 'Windmill Bay' }, { th: 'ผากังหันน้ำ', en: 'Copper Falls' }, { th: 'ยอดผาผลึก', en: 'Crystal Spires' }],
+    destinations: { th: 'ถ้วย', en: 'Cup' }, pieces: { th: 'ราง', en: 'Ramp' },
+  },
+  'track-builder': {
+    scenicIntro: true,
+    landscapeBoard: true, fullscreen: true,
+    world: { th: 'รถไฟข้ามหุบเขา', en: 'Valley Express' },
+    description: { th: 'ดูช่องสีทองบนสะพาน แตะชิ้นรางที่พอดี แล้วพารถไฟไปให้ถึงสถานี', en: 'Look at the golden gap. Pick a track that fits and guide the train to the station.' },
+    levels: [{ th: 'ทุ่งสน', en: 'Pine Valley' }, { th: 'ผาแดง', en: 'Red Canyon' }, { th: 'ยอดหิมะ', en: 'Snow Summit' }],
+    destinations: { th: 'สถานีปลายทาง', en: 'Destination station' }, pieces: { th: 'ชิ้นราง', en: 'Track pieces' },
+  },
   'block-builders': {
     voiceIntro: true, ownVoice: true, journey: true, starsPerLevel: 1,
     world: { th: 'เกาะช่างสร้างบ้าน', en: 'Block Builders Island' },
@@ -68,12 +95,13 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     destinations: { th: 'ปลายเชือก', en: 'Cord tip' }, pieces: { th: 'ถาดลูกปัด', en: 'Bead tray' },
   },
   'color-match': {
+    scenicIntro: true,
     landscapeBoard: true,
     fullscreen: true,
-    world: { th: 'โรงงานสีแสนสนุก', en: 'The Color Workshop' },
-    description: { th: 'พาของเล่นกลับบ้านสีของตัวเอง', en: 'Bring each toy to its color home.' },
-    levels: [{ th: 'รู้จัก 4 สี', en: 'Meet four colors' }, { th: 'ลองจับคู่', en: 'Match the toys' }, { th: 'แยกสีคละรูป', en: 'Sort mixed shapes by color' }],
-    destinations: { th: 'บ้านของแต่ละสี', en: 'Color homes' }, pieces: { th: 'เลือกของเล่นไปวาง', en: 'Pick a toy' },
+    world: { th: 'อ่าวประภาคาร', en: 'Lighthouse Bay' },
+    description: { th: 'ดูสีใบเรือ แล้วแตะประภาคารสีเดียวกันเพื่อพาเรือเข้าท่า', en: 'Look at the sail. Tap the lighthouse of the same color to bring the boat home.' },
+    levels: [{ th: '2 สี', en: '2 colors' }, { th: '3 สี', en: '3 colors' }, { th: '4 สี', en: '4 colors' }],
+    destinations: { th: 'เลือกประภาคาร', en: 'Pick a lighthouse' }, pieces: { th: 'ใบเรือ', en: 'Sail' },
   },
   'shape-match': {
     landscapeBoard: true,

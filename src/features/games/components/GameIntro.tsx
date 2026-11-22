@@ -4,6 +4,7 @@ import { Thumbnail } from './Artwork';
 import { gameAssets, type GameDefinition } from '../data/catalog';
 import { gamePresentation } from '../data/presentation';
 import { PuzzleIntro } from './PuzzleIntro';
+import { ScenicGameIntro } from './ScenicGameIntro';
 import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
 
 /*
@@ -11,13 +12,15 @@ import { SpeakerIcon } from '@/components/icons/SpeakerIcon';
   คำอธิบาย คำชวน และวิธีเล่นย้ายไปอยู่ใน sr-only ให้เครื่องอ่านหน้าจอ เด็กที่ยังอ่านไม่ออกกดฟังเอาได้
   แนวเดียวกับ VoiceIntro ที่เจ้าของโปรเจกต์กำหนดให้ไม่แสดงคำสั่งเป็นตัวหนังสือ
 */
-export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn, pictureId, onPicture }: {
+export function GameIntro({ game, level, onLevel, onStart, onListen, soundOn, pictureId, onPicture, paused }: {
+  paused: boolean;
   pictureId?: string; onPicture?: (id: string) => void;
   game: GameDefinition; level: number; onLevel: (level: number) => void; onStart: () => void; onListen: () => void; soundOn: boolean;
 }) {
   const { t, sub, pick, pickSub } = useDict();
   const theme = gamePresentation[game.slug];
   const levels = theme.levels.slice(0, theme.levelCount ?? 3);
+  if (theme.scenicIntro) return <ScenicGameIntro paused={paused} slug={game.slug} {...{ level, onLevel, onStart, onListen, soundOn }} />;
   if (game.slug === 'puzzle') return <PuzzleIntro level={level} pictureId={pictureId} onPicture={onPicture}
     onLevel={onLevel} onStart={onStart} onListen={onListen} soundOn={soundOn} />;
   const tapGame = game.slug === 'memory' || game.slug === 'find-object';

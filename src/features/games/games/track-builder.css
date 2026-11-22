@@ -1,0 +1,42 @@
+.rail-game {
+  --rail-brass: #cc9c4b;
+  width: min(100%, calc((100dvh - 128px) * 2));
+  min-width: 0; border-radius: 24px; overflow: hidden;
+  border: 3px solid #316369; background: #214c51; color: #fff6db;
+  box-shadow: 0 5px 0 #163e42, 0 12px 26px #25494e28;
+}
+.rail-window { position: relative; width: 100%; aspect-ratio: 2; isolation: isolate; background: #a7d8d6; }
+.rail-window > img, .rail-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.rail-stop { position: absolute; top: 0; left: 4%; padding: 6px 15px 8px;
+  color: #fff6db; background: #214c51; text-align: center; border: 2px solid var(--rail-brass);
+  border-top: 0; border-radius: 0 0 12px 12px; font-weight: 800; line-height: 1.2; font-size: clamp(14px, 1.4vw, 21px); }
+.rail-game small { display: block; font-size: .76em; line-height: 1.2; font-weight: 550; }
+.rail-console { padding: 10px clamp(8px, 2vw, 25px) 12px; display: flex; align-items: center;
+  gap: clamp(8px, 2vw, 34px); justify-content: space-between; border-top: 3px solid var(--rail-brass); }
+.rail-hint { max-width: 27ch; line-height: 1.35; font-size: clamp(16px, 1.7vw, 23px); }
+.rail-hint small { margin-top: 3px; }
+.rail-parts { display: grid; grid-template-columns: repeat(3, minmax(64px, 1fr)); gap: clamp(6px, 1vw, 14px); }
+.rail-part { min-width: 64px; min-height: 64px; display: flex; align-items: center; justify-content: center;
+  gap: 5px; padding: 5px 12px; border-radius: 13px; background: #fff2d1; color: #253d40;
+  border: 2px solid #ddb478; box-shadow: inset 0 2px 0 white, 0 4px 0 #a9753a;
+  font-size: clamp(14px, 1.45vw, 20px); font-weight: 800; line-height: 1.18; }
+.rail-part svg { width: clamp(40px, 5.6vw, 85px); flex: none; }
+.rail-part[data-retry='true'] { border-style: dashed; border-color: #8b4127; }
+.rail-part:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+@media (hover:hover) {
+  .rail-part:not([aria-disabled='true']):hover { box-shadow: inset 0 2px 0 white, 0 5px 0 #a9753a, 0 8px 14px #102f36; }
+}
+.rail-part:active { box-shadow: inset 0 2px 3px #9d744f, 0 1px 0 #a9753a; }
+@media (prefers-reduced-motion:no-preference) {
+  .rail-part { transition: transform .18s ease-out, box-shadow .18s ease-out; }
+  .rail-part:not([aria-disabled='true']):active { transform: scale(.98); }
+}
+@media (max-height: 550px), (max-width: 950px) {
+  .rail-game { width: min(100%, calc((100dvh - 103px) * 2)); border-radius: 15px; }
+  .rail-console { padding: 5px 6px 8px; gap: 6px; }
+  .rail-hint { flex: 1; font-size: 14px; }
+  .rail-parts { gap: 5px; }
+  .rail-part { flex-direction: column; gap: 0; padding: 2px 5px 3px; font-size: 14px; line-height: 1.1; }
+  .rail-part svg { width: 44px; height: 27px; }
+  .rail-stop { padding: 3px 8px; }
+}
