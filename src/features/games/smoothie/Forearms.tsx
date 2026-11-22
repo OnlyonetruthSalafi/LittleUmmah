@@ -17,8 +17,9 @@ const poses: Record<Stage, Pose> = {
 function Hand({ wrist, left, id }: { wrist: Wrist; left: boolean; id: string }) {
   const [x, y] = wrist;
   const dx = (left ? 93 : 808) - x, dy = 580 - y;
-  const angle = -Math.atan2(dx, dy) * 180 / Math.PI;
-  const length = Math.hypot(dx, dy) + 90;
+  // Rounded so the server and browser print the same transform during hydration.
+  const angle = Math.round(-Math.atan2(dx, dy) * 180 / Math.PI * 1000) / 1000;
+  const length = Math.round(Math.hypot(dx, dy) + 90);
   return <g transform={`translate(${x} ${y}) rotate(${angle}) scale(${left ? 1 : -1} 1)`}
     strokeLinejoin="round" strokeLinecap="round">
     <path d="M-15 32q3-15-2-21-9-9-11-18l-7-18q-2-6 2-8 4-2 7 5l5 11-7-21q-1-6 3-7 5-1 7 5l6 15-3-22q-1-6 4-7 5 0 6 7l4 20 1-15q0-7 5-7 4 0 4 7v24q9-13 15-13 5 1 3 6-8 9-13 21-3 8-11 15l2 18Z"

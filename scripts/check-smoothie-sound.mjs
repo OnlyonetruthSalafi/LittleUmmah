@@ -59,9 +59,19 @@ try {
     const reply = dialog.getByRole('button', { name: /^วะอะลัยกุมุสสะลาม/ }).first();
     await reply.tap();
     await dialog.getByRole('button', { name: /รับออเดอร์/ }).tap();
-    for (const object of ['orange', 'banana', 'blender', 'cup', 'customer', 'coins']) {
+    for (const object of ['orange', 'banana', 'blender', 'cup']) {
       await page.locator('[data-object="' + object + '"]').tap();
     }
+    // Serving is a drag: lift the full cup and drop it on the customer.
+    const cup = page.locator('[data-drag="serve"]');
+    const box = await cup.boundingBox();
+    // The customer's chest in the 900 × 530 scene, where the dashed guide ends.
+    const scene = await page.locator('[data-shop-stage] svg[role="img"]').boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(scene.x + scene.width * 478 / 900, scene.y + scene.height * 200 / 530, { steps: 8 });
+    await page.mouse.up();
+    await page.locator('[data-object="coins"]').tap();
     await page.locator('[data-customer="safi"][data-arrived="true"]').waitFor();
     await reply.tap();
     await dialog.getByRole('button', { name: /รับออเดอร์/ }).waitFor();

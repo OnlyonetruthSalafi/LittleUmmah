@@ -1,12 +1,12 @@
 import { useId } from 'react';
 
-export type SmoothieIngredient = 'orange' | 'banana' | 'berry';
+export type SmoothieIngredient = 'orange' | 'banana' | 'berry' | 'mango' | 'melon';
 
 /** The same fruit shapes appear on the order ticket, the ingredient bins and inside the jar. */
 export function SmoothieFruit({ kind }: { kind: SmoothieIngredient }) {
   const paint = useId();
-  const light = kind === 'orange' ? '#ffdb63' : kind === 'banana' ? '#fff68e' : '#ff8581';
-  const dark = kind === 'orange' ? '#e76c11' : kind === 'banana' ? '#eaa522' : '#ba2541';
+  const light = { orange: '#ffdb63', banana: '#fff68e', berry: '#ff8581', mango: '#fff27e', melon: '#ff8a8a' }[kind];
+  const dark = { orange: '#e76c11', banana: '#eaa522', berry: '#ba2541', mango: '#e9a41a', melon: '#d8323f' }[kind];
   const fill = `url(#${paint})`;
 
   return <svg aria-hidden="true" focusable="false" viewBox="0 0 64 64" width="100%" height="100%">
@@ -37,5 +37,23 @@ export function SmoothieFruit({ kind }: { kind: SmoothieIngredient }) {
           <ellipse key={`${x}-${y}`} cx={x} cy={y} rx="1.45" ry="2.3" transform={`rotate(15 ${x} ${y})`} />)}
       </g>
     </>}
+    {kind === 'mango' && <g transform="rotate(-28 32 34)">
+      <path d="M33 9q1-4 5-6" fill="none" stroke="#6b5424" strokeWidth="3" strokeLinecap="round" />
+      <path d="M34 9q10-8 19-2-9 7-19 2Z" fill="#3f9450" stroke="#2f7440" strokeWidth="1.2" />
+      <path d="M31 10C17 10 10 24 12 40c2 13 11 21 21 19 12-2 19-14 18-29-1-13-8-20-20-20Z" fill={fill} stroke="#c07a14" strokeWidth="2" />
+      <path d="M38 13q9 6 10 19" fill="none" stroke="#8fbf4a" strokeWidth="5" strokeLinecap="round" opacity=".75" />
+      <path d="M18 34q1-12 9-17" stroke="#fffbd0" strokeWidth="3" strokeLinecap="round" fill="none" />
+    </g>}
+    {kind === 'melon' && <g transform="translate(0 8)">
+      <path d="M5 22q27 44 54 0Z" fill="#2f8f45" stroke="#22703a" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M9 22q23 35 46 0Z" fill="#dff5c4" />
+      <path d="M12 22q20 30 40 0Z" fill={fill} />
+      <path d="M5 22h54" stroke="#22703a" strokeWidth="2" strokeLinecap="round" />
+      <path d="M15 24q8 4 17 3" stroke="#ffd0c8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <g fill="#3a2320">
+        {[[22,30],[32,34],[42,30],[27,38],[37,38],[32,43]].map(([x,y]) =>
+          <ellipse key={`${x}-${y}`} cx={x} cy={y} rx="1.5" ry="2.4" />)}
+      </g>
+    </g>}
   </svg>;
 }

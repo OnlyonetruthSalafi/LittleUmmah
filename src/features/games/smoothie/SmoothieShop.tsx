@@ -21,10 +21,9 @@ import { Label } from '../vip/Labels';
 import { vip, coinText, collectText, earnedText } from '../vip/content';
 import styles from '../vip/vip.module.css';
 import { ShopScene } from './ShopScene';
-import { collect, customers, fruitNames, needsFruit, ticket, type Fruit, type Ledger, type Stage } from './model';
+import { collect, customers, fruitKinds, fruitNames, needsFruit, stocked, ticket, type Fruit, type Ledger, type Stage } from './model';
 import { updateShop, useShop } from './store';
 
-const fruitKinds: Fruit[] = ['orange', 'banana', 'berry'];
 const sounds = {
   pick: { file: '/audio/sfx/tap.mp3', volume: 0.5 },
   switch: { file: '/audio/sfx/meet-friends/click.mp3', volume: 0.7 },
@@ -148,15 +147,15 @@ function Worktop({ shop, message, onMessage, sound }: {
         </button>
       </div>
       <ShopScene fruit={fruit} stage={stage} customer={order.id} arrived={arrived} onArrival={onArrival}
-        upgraded={shop.gold} berryBasket={shop.berry} lang={lang} ready={ready} guide={guide}
+        upgraded={shop.gold} kinds={stocked(shop)} flowers={shop.flowers} lantern={shop.lantern} bigCup={shop.bigCup} lang={lang} ready={ready} guide={guide}
         nextFruit={nextFruit} revision={revision} actionLabel={actionText[lang]} onPick={add} onUndo={undo}
         onUse={act} deferred={deferred} onTalk={() => setDeferred(false)} onUpgrades={() => setShelfOpen(true)} />
     </section>
-    {shelfOpen && !lock && <ShopUpgrades shop={shop} onClose={() => setShelfOpen(false)} />}
+    {shelfOpen && !lock && <ShopUpgrades shop={shop} onClose={() => setShelfOpen(false)} onBought={() => sound('coins')} />}
     {talking && <CounterConversation key={exchange === 'ordering' ? 'ticket' : 'salam'} phase={exchange}
       speaker={answering ? vip.seller : friend.name} line={answering ? conversation[exchange] : spoken}
-      enabled={voice.enabled} onListen={voice.listen} ticket={<>{ingredients}{price}</>}
-      onReply={reply => { voice.retryOnGesture(); setExchange(reply); }} onAccept={act} onDefer={() => {
+      enabled={voice.enabled} greeted={voice.greeted} needsTap={voice.needsTap} onHear={voice.hearGreeting} onListen={voice.listen} ticket={<>{ingredients}{price}</>}
+      onReply={reply => setExchange(reply)} onAccept={act} onDefer={() => {
         if (answering) setExchange('ordering');
         setDeferred(true);
       }} />}

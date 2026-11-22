@@ -2,6 +2,12 @@ import type { Text } from '@/i18n/config';
 
 export const vip = {
   zone: { th: 'โซน VIP', en: 'VIP Zone' },
+  mystery: { th: 'เกาะลึกลับ', en: 'Mystery Island' },
+  mysteryInvite: { th: 'เกาะที่มีเกมมากมายซ่อนอยู่ มาสำรวจเกาะลึกลับไปกับครูนูรีและผองเพื่อนกัน', en: 'An island full of hidden games. Come and explore it with Teacher Nuri and friends!' },
+  firstGame: { th: 'ร้านน้ำผลไม้ปั่นเปิดแล้ว', en: 'The Smoothie Shop is open' },
+  moreGames: { th: 'เกมอื่นๆ ยังซ่อนอยู่ในหมอก', en: 'More games are hiding in the mist' },
+  explore: { th: 'ออกสำรวจ', en: 'Explore' },
+  comingSoon: { th: 'เร็วๆ นี้', en: 'Coming soon' },
   map: { th: 'เกาะตลาดผลไม้', en: 'Fruit Market Island' },
   invitation: { th: 'เดินตามนูรีไปที่ร้าน แล้วลองเป็นคนขายน้ำปั่น', en: 'Walk with Nuri to the shop and make smoothies for your customers.' },
   games: { th: 'กลับเกาะเกม', en: 'Games Island' },
@@ -18,6 +24,7 @@ export const vip = {
   talk: { th: 'คุยกับลูกค้า', en: 'Talk to the customer' },
   resume: { th: 'แตะลูกค้าเพื่อคุยต่อ', en: 'Tap the customer to keep talking.' },
   later: { th: 'คุยต่อภายหลัง', en: 'Talk later' },
+  hearSalam: { th: 'แตะเพื่อฟังลูกค้าให้สลาม', en: 'Tap to hear the greeting' },
   replayGreeting: { th: 'ฟังคำสลามอีกครั้ง', en: 'Hear the greeting again' },
   replay: { th: 'ฟังคำสั่งซื้ออีกครั้ง', en: 'Hear the order again' },
   walk: { th: 'เดินไปร้านน้ำปั่น', en: 'Walk to the shop' },
@@ -33,17 +40,29 @@ export const vip = {
   berryBenefit: { th: 'เพิ่มผลไม้และสูตรใหม่', en: 'Adds fruit and recipes' },
   goldUpgrade: { th: 'เครื่องปั่นสีทอง', en: 'Golden blender' },
   goldBenefit: { th: 'ปั่นเสร็จเร็วขึ้น', en: 'Blends drinks faster' },
+  flowersUpgrade: { th: 'กระถางดอกไม้', en: 'Flower pots' },
+  flowersBenefit: { th: 'ร้านสวยขึ้น ลูกค้าให้ทิปเพิ่มแก้วละ 1 เหรียญ', en: 'A prettier shop: +1 coin tip per cup' },
+  mangoUpgrade: { th: 'ตะกร้ามะม่วง', en: 'Mango basket' },
+  mangoBenefit: { th: 'เพิ่มมะม่วงและสูตรใหม่ที่ยากขึ้น', en: 'Adds mango and harder recipes' },
+  lanternUpgrade: { th: 'โคมไฟลายเรขาคณิต', en: 'Patterned lantern' },
+  lanternBenefit: { th: 'ร้านสว่างสวย ลูกค้าให้ทิปเพิ่มแก้วละ 1 เหรียญ', en: 'A glowing shop: +1 coin tip per cup' },
+  bigCupUpgrade: { th: 'แก้วใหญ่', en: 'Big cups' },
+  bigCupBenefit: { th: 'รับออเดอร์ผลไม้ 4 ชิ้น ได้เหรียญมากขึ้น', en: 'Take four-fruit orders for more coins' },
+  melonUpgrade: { th: 'ลังแตงโม', en: 'Watermelon crate' },
+  melonBenefit: { th: 'เพิ่มแตงโม สูตรยากที่สุดของร้าน', en: 'Adds watermelon, the hardest recipes' },
   owned: { th: 'ใช้ในร้านแล้ว', en: 'In your shop' },
+  locked: { th: 'ยังซื้อไม่ได้', en: 'Not yet' },
+  bought: { th: 'ได้ของใหม่แล้ว', en: 'New item in your shop' },
   take: { th: 'รับออเดอร์', en: 'Take order' },
   add: { th: 'เลือกผลไม้ตามใบสั่ง', en: 'Pick the fruit on the ticket' },
   remove: { th: 'เอาชิ้นล่าสุดออก', en: 'Remove last fruit' },
   guide: { th: 'ลูกศรช่วยเล่น', en: 'Show hints' },
   backCounter: { th: 'กลับไปที่เคาน์เตอร์', en: 'Back to the counter' },
-  mix: { th: 'กดปุ่มบนเครื่องปั่น', en: 'Press the blender switch' },
+  mix: { th: 'กดปุ่มสีแดงบนเครื่องปั่น', en: 'Press the red button on the blender' },
   mixing: { th: 'กำลังปั่นผลไม้', en: 'Blending fruit' },
   pouring: { th: 'น้ำปั่นกำลังไหลลงแก้ว', en: 'Filling the cup' },
   pour: { th: 'แตะแก้วเพื่อเทน้ำปั่น', en: 'Tap the cup to pour' },
-  serve: { th: 'แตะลูกค้าเพื่อยื่นแก้วให้', en: 'Tap the customer to serve' },
+  serve: { th: 'ลากแก้วไปให้ลูกค้า', en: 'Drag the cup to the customer' },
   wrong: { th: 'ดูใบสั่งอีกครั้ง ผลไม้ชิ้นนี้ยังไม่ต้องใส่', en: 'Check the ticket. This fruit isn’t needed.' },
   next: { th: 'ลูกค้าคนต่อไป', en: 'Next customer' },
   ready: { th: 'ผลไม้ครบแล้ว', en: 'All the fruit is in' },
@@ -53,3 +72,7 @@ export const vip = {
 export const coinText = (n: number): Text => ({ th: `${n} เหรียญ`, en: `${n} coins` });
 export const collectText = (n: number): Text => ({ th: `เก็บ ${n} เหรียญ`, en: `Collect ${n} coins` });
 export const earnedText = (n: number): Text => ({ th: `เก็บเงินเข้าลิ้นชักแล้ว ${n} เหรียญ`, en: `${n} coins added to your till` });
+export const servedText = (n: number): Text => ({ th: `ขายไปแล้ว ${n} แก้ว`, en: `${n} ${n === 1 ? 'cup' : 'cups'} sold` });
+export const sellMoreText = (n: number): Text => ({ th: `ขายอีก ${n} แก้วจึงซื้อได้`, en: `Sell ${n} more ${n === 1 ? 'cup' : 'cups'} to unlock` });
+export const needCoinsText = (n: number): Text => ({ th: `ต้องมีเหรียญเพิ่มอีก ${n} เหรียญ`, en: `You need ${n} more coins` });
+export const needItemText = (name: Text): Text => ({ th: `ซื้อ${name.th}ก่อน`, en: `Buy the ${name.en.toLowerCase()} first` });

@@ -1356,5 +1356,13 @@
   "public/games/sandcastle/level-3.png": "6634290ec5e70ee14fefcf0a34f5d5166544f0a6a6b2c4c099807eb2b28069e4",
   "public/games/sandcastle/scoop.png": "2e344e396f8e750e0132e002ea0808cec34d9533e887d964e372577acbb15f35",
   "public/games/sandcastle/tower.png": "7016e4d15b10efb55136fb1fde2b2bb70ef08bac1d51f33792ded8d662a1869f",
-  "public/games/hub/sandcastle.png": "364f3793679b17b6116a1a5d2e207e1470f63a1270f0a7e2a9b6d8dfcaafafcc"
+  "public/games/hub/sandcastle.png": "364f3793679b17b6116a1a5d2e207e1470f63a1270f0a7e2a9b6d8dfcaafafcc",
+  "public/games/vip/shop/berry-basket.png": "eb95e76a934cf42554bddd87ce4f644c864b884a05d0e8086f2b49b0e255fa4a",
+  "public/games/vip/shop/big-cup.png": "985c705f060edc789daa1dc4949650fd59818c526dd7cb3035c0852fbc4a5c65",
+  "public/games/vip/shop/flowers.png": "1f40faffafc863f9d6330bc4e6d2576ff7f081000a0b773246f2c253565467fa",
+  "public/games/vip/shop/gold-blender.png": "c2c3bf6f7599c474c8c23066403a0dcf7eef6d95ba15269f58006ef6b8348dde",
+  "public/games/vip/shop/lantern.png": "66c9c30c8e412413f7901999c6dded8176bc25c3459bffed02b609df0c981d17",
+  "public/games/vip/shop/mango-basket.png": "e864c9d2113c2f5addd0a52570ebf5e73ca627287ea3ff34f4c004ec881d3c40",
+  "public/games/vip/shop/melon-basket.png": "3bdc31f321fccd67a93fef8a95535b217c912c9274403c75e1704c764f8c10ad",
+  "public/games/vip/card/island.png": "3fab7f7581a66a50a009caa249243982dbf34a73aaca0baf0570e785563a0fda"
 }

@@ -95,6 +95,9 @@ const JOBS = [
   { dir: "public/games/track-builder", width: 1280, quality: 84 },
   { dir: "public/games/color-match", width: 1280, quality: 90 },
   { dir: "public/games/common/objects", width: 320, quality: 86 },
+  // ไอเท็มอัปเกรดร้านน้ำปั่น (VIP-2, Codex imagegen) แสดง 64px ในหน้าซื้อของ และ ~130px ในฉากร้าน
+  { dir: "public/games/vip/shop", width: 384, quality: 88 },
+  { dir: "public/games/vip/card", width: 1600, quality: 84 },
   { dir: "public/games/common/backgrounds", width: 1280, quality: 83 },
 ];
 

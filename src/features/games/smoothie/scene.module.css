@@ -26,6 +26,9 @@
   border: 0; background: transparent; appearance: none; cursor: pointer; touch-action: manipulation;
   border-radius: 18%; padding: 0; color: #163f50;
 }
+.dragCup { touch-action: none; cursor: grab; z-index: 2; }
+.dragCup[data-dragging] { cursor: grabbing; filter: drop-shadow(0 8px 6px #2f4a4a66); }
+.dragCup svg { display: block; pointer-events: none; }
 .targets { position:absolute; inset:0; pointer-events:none; }
 .targets button { pointer-events:auto; }
 .hotspot:focus-visible { outline: 4px solid #184689; outline-offset: -3px; background: #ffedb542; }

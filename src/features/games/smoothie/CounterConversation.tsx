@@ -19,13 +19,18 @@ type Props = {
   line: Text;
   ticket: ReactNode;
   enabled: boolean;
+  /** False while the customer is still saying salam. */
+  greeted: boolean;
+  /** The browser blocked the salam until a tap; offer a big button to hear it. */
+  needsTap: boolean;
+  onHear: () => void;
   onListen: () => void;
   onReply: (reply: Reply) => void;
   onAccept: () => void;
   onDefer: () => void;
 };
 
-export function CounterConversation({phase, speaker, line, ticket, enabled, onListen, onReply, onAccept, onDefer}: Props) {
+export function CounterConversation({phase, speaker, line, ticket, enabled, greeted, needsTap, onHear, onListen, onReply, onAccept, onDefer}: Props) {
   const lang = useLocale();
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -49,7 +54,9 @@ export function CounterConversation({phase, speaker, line, ticket, enabled, onLi
       </div>
       {phase === 'ordering' && ticket}
       <div className={styles.choices}>
-        {phase === 'greeting' && (['reply','replyLong'] as const).map(option =>
+        {phase === 'greeting' && needsTap && <button type="button" className={styles.hear} onClick={onHear}>
+          <SpeakerIcon on /><Label text={vip.hearSalam} /></button>}
+        {phase === 'greeting' && greeted && (['reply','replyLong'] as const).map(option =>
           <button type="button" key={option} onClick={()=>onReply(option)}><Label text={conversation[option]} /></button>)}
         {phase === 'ordering' && <button type="button" onClick={onAccept}><Label text={vip.take} /></button>}
       </div>

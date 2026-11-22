@@ -18,21 +18,15 @@
 }
 .back::before { content: '‹'; font: bold 2em/1 sans-serif; }
 .primary { color: #fff; background: #146763; border: 2px solid #0d5552; box-shadow: 0 4px 0 #093f42; }
-.page :is(button, a, summary):focus-visible, .zoneLink:focus-visible {
+.page :is(button, a, summary):focus-visible {
   outline: 4px solid #184689; outline-offset: 3px;
 }
 .page button:disabled { opacity: .67; cursor: default; box-shadow: none; }
 .eyebrow { font-weight: 800; color: #715019; }
-.mapPanel h1, .cardCopy h2, .shopTop h1 { font: 800 clamp(1.8rem, 4vw, 3rem)/1.17 var(--font-display); }
-.mapPanel h1 small, .cardCopy h2 small, .shopTop h1 small { font-size: .46em; color: #37696b; letter-spacing: .01em; }
+.mapPanel h1, .shopTop h1 { font: 800 clamp(1.8rem, 4vw, 3rem)/1.17 var(--font-display); }
+.mapPanel h1 small, .shopTop h1 small { font-size: .46em; color: #37696b; letter-spacing: .01em; }
 .zoneCard { margin-top: 24px; scroll-margin-top: 20px; }
-.zoneLink { display: grid; grid-template-columns: minmax(175px, 32%) 1fr; align-items: center; gap: clamp(16px, 3vw, 38px);
-  background: #fff7de; border: 3px solid white; border-radius: 27px; color: #19474a; box-shadow: 0 5px 0 #b9cba6, var(--shadow-soft); }
-.thumbnail { margin: 8px; overflow: hidden; border-radius: 18px; background: #84dbd1; }
-.thumbnail svg { transform: scale(1.68); transition: transform .2s ease-out; }
-.cardCopy { padding: 14px 18px 16px 0; }
-.cardCopy .eyebrow .label small, .mapPanel .eyebrow .label small { display: inline; margin-left: 7px; }
-.cardCopy h2 { font-size: clamp(1.5rem, 3vw, 2.3rem); margin: 5px 0 10px; }
+.mapPanel .eyebrow .label small { display: inline; margin-left: 7px; }
 .mapLayout { display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(230px, 1fr); align-items: stretch; gap: 14px; }
 .mapImage { position: relative; overflow: hidden; border: 4px solid #fffaf0; border-radius: 26px; box-shadow: 0 6px 0 #80b6ae, 0 12px 26px #286b6b24; align-self: center; }
 .mapImage { background: #90e2d9; }
@@ -44,7 +38,7 @@
 .mapPanel { background: #fffbef; border-radius: 24px; box-shadow: 0 4px 0 #a6cabe; }
 .mapPanel { align-self: center; padding: clamp(18px, 3vw, 32px); }
 .mapPanel h1 { margin: 8px 0 20px; }
-.mapPanel p, .cardCopy p, .stockItem p { line-height: 1.5; }
+.mapPanel p, .stockItem p { line-height: 1.5; }
 .destination { border-top: 2px dashed #d2c5a3; margin-top: 22px; padding-top: 18px; }
 .destination h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
 .destination :is(button, a) { margin-top: 12px; width: 100%; }
@@ -63,14 +57,27 @@
 .ticketPrice { padding-top: 10px; border-top: 2px dashed #d9caaa; color: #734519; font-weight: 750; }
 .stockItem { display: flex; align-items: center; gap: 10px; justify-content: space-between; padding: 12px; border-radius: 14px; background: #f6f1dc; }
 .stockItem { margin-block: 10px; }
+.stockList { list-style: none; margin: 0; padding: 0; }
+.stockSummary { font-weight: 750; color: #5b4216; }
+.stockNews { min-height: 1.4em; color: #145e57; font-weight: 750; }
+.stockArt { width: 64px; height: 64px; flex-shrink: 0; object-fit: contain; }
+.stockCopy { flex: 1; min-width: 0; }
+.stockItem[data-state='owned'] { background: #e4f4ec; }
+.stockItem[data-state='locked'] .stockArt { filter: grayscale(.75); opacity: .75; }
+.stockWhy { display: flex; align-items: center; gap: 5px; color: #7a4a17; font-weight: 700; }
+.lock { flex-shrink: 0; color: #8b6a3a; }
+.ownedTag { display: flex; align-items: center; gap: 4px; flex-shrink: 0; color: #145e57; font-weight: 750; font-size: .9rem; }
+@media (max-width: 520px) {
+  .stockItem { flex-wrap: wrap; }
+  .stockItem button { flex: 1 0 100%; }
+  .ownedTag { flex: 1 0 100%; justify-content: flex-end; }
+}
 .stockItem button { flex-shrink: 0; }
 .stockItem p { margin-top: 6px; font-size: .93rem; }
 @media (hover: hover) {
   .page :is(.primary,.back,.secondary):not(:disabled):hover { box-shadow: 0 5px 8px #244a513b; }
-  .zoneLink:hover { box-shadow: 0 7px 0 #b9cba6, var(--shadow-float); }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .zoneLink:hover .thumbnail svg { transform: scale(1.73); }
   .page :is(.primary,.back,.secondary):not(:disabled):hover { transform: translateY(-2px); }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -86,12 +93,59 @@
   .ticketPrice { padding: 0; border: 0; }
 }
 @media (max-width: 500px) {
-  .zoneLink { grid-template-columns: 1fr; gap: 0; }
-  .cardCopy { padding: 6px 18px 16px; }
   .shopTop { display: grid; grid-template-columns: auto auto; justify-content: space-between; gap: 8px; }
   .shopTop h1 { grid-column: 1/-1; grid-row: 2; text-align: left; }
   .wallet { align-self: center; padding: 6px 9px; }
   .mapImage { border-radius: 18px; }
   .recipe { gap: 5px 9px; }
   .receiptFruit { width: 24px; height: 24px; }
+}
+
+/* VIP zone card on the games hub: the island art fills the card, the copy sits on a deep-blue panel. */
+.zoneLink { position: relative; display: grid; min-height: clamp(320px, 36vw, 430px);
+  border: 3px solid #f2c454; border-radius: 28px; color: #fff; background: #0c2a4b;
+  box-shadow: 0 6px 0 #a87b22, var(--shadow-soft); transition: box-shadow 200ms ease-out; }
+.zoneLink:focus-visible { outline: 4px solid #123a72; outline-offset: 4px; }
+.zoneArt { position: absolute; inset: 0; overflow: hidden; border-radius: 25px; }
+.zoneIsland { object-fit: cover; object-position: 62% 50%; }
+.zoneArt::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, #0b2747f5 0%, #0b2747eb 44%, #0b274700 64%); }
+.zoneArt > * { transition: transform 200ms ease-out; }
+.zoneCast { position: absolute; z-index: 1; right: 2%; bottom: 4%; width: 50%; aspect-ratio: 3.4; display: flex; align-items: flex-end; justify-content: center; }
+.zoneCast img { width: auto; object-fit: contain; margin-inline: -1%; filter: drop-shadow(0 6px 5px #0b274766); }
+.zoneCopy { position: relative; z-index: 2; align-self: center; width: min(52%, 500px); padding: clamp(20px, 3vw, 36px); }
+.zoneCopy h2 { font: 800 clamp(2rem, 4.4vw, 3.3rem)/1.1 var(--font-display); color: #fff; margin: 12px 0 10px; text-shadow: 0 2px 0 #071a31; }
+.zoneCopy h2 small { font-size: .42em; color: #ffe08f; letter-spacing: .02em; }
+.vipBadge { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px 5px 10px; border-radius: 999px;
+  background: #ffe08f; color: #4a2f05; font-weight: 800; box-shadow: 0 3px 0 #a66a12; }
+.vipBadge .label small { display: inline; margin-left: 6px; color: #5c3b0b; }
+.zoneInvite { font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 650; line-height: 1.5; color: #fff; }
+.zoneInvite small, .zoneGames small { color: #d5e7f6; }
+.zoneGames { list-style: none; margin: 14px 0 18px; padding: 0; display: grid; gap: 8px; font-weight: 700; color: #ffe08f; }
+.zoneGames li { display: flex; align-items: flex-start; gap: 8px; }
+.zoneGames svg { margin-top: 3px; }
+.zoneGames small { font-weight: 550; }
+.zoneGo { display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px 22px; border-radius: 18px;
+  background: #ffd56b; color: #3d2604; font-weight: 800; font-size: 1.15rem; box-shadow: 0 4px 0 #a66a12; }
+.zoneGo small { color: #5c3b0b; }
+@media (hover: hover) {
+  .zoneLink:hover { box-shadow: 0 8px 0 #a87b22, var(--shadow-float); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .zoneLink:hover .zoneArt > * { transform: translateY(-4px) scale(1.03); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .zoneLink:active .zoneArt { transform: scale(.98); transition: transform 75ms ease-out; }
+}
+@media (max-width: 900px) {
+  .zoneLink { min-height: 0; }
+  .zoneArt { position: relative; inset: auto; aspect-ratio: 16 / 10; border-radius: 25px 25px 0 0; }
+  .zoneArt::after { background: linear-gradient(0deg, #0c2a4b 0%, #0c2a4b00 26%); }
+  .zoneIsland { object-position: 60% 50%; }
+  .zoneCast { width: 94%; right: 3%; bottom: 3%; }
+  .zoneCopy { width: auto; padding: 4px 18px 20px; }
+}
+@media (min-width: 600px) and (max-width: 900px) {
+  .zoneArt { aspect-ratio: 2 / 1; }
+  .zoneCast { width: 70%; right: 4%; }
 }

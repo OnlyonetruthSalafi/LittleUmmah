@@ -30,5 +30,41 @@
   "banana-orange-berry": {
     "th": "ขอน้ำปั่นสามสี ใส่กล้วยหนึ่งลูก ส้มหนึ่งผล แล้วก็สตรอว์เบอร์รีหนึ่งลูกครับ",
     "en": "A three-fruit smoothie, please. One banana, one orange and one strawberry."
+  },
+  "mango-banana": {
+    "th": "ขอน้ำปั่นใส่มะม่วงหนึ่งลูกกับกล้วยหนึ่งลูกครับ",
+    "en": "One mango and one banana in my smoothie, please."
+  },
+  "mango-berry-orange": {
+    "th": "ขอมะม่วงหนึ่งลูก สตรอว์เบอร์รีหนึ่งลูก แล้วก็ส้มหนึ่งผลครับ",
+    "en": "One mango, one strawberry and one orange, please."
+  },
+  "mango-mango-banana": {
+    "th": "ขอมะม่วงปั่น ใส่มะม่วงสองลูกกับกล้วยหนึ่งลูกครับ",
+    "en": "A mango smoothie with two mangoes and one banana, please."
+  },
+  "banana-banana-berry-berry": {
+    "th": "ขอแก้วใหญ่ครับ ใส่กล้วยสองลูกกับสตรอว์เบอร์รีสองลูก",
+    "en": "A big cup, please, with two bananas and two strawberries."
+  },
+  "orange-mango-orange-mango": {
+    "th": "ขอแก้วใหญ่ครับ ใส่ส้มสองผลกับมะม่วงสองลูก",
+    "en": "A big cup, please, with two oranges and two mangoes."
+  },
+  "berry-banana-mango-orange": {
+    "th": "ขอแก้วใหญ่ครับ ใส่สตรอว์เบอร์รี กล้วย มะม่วง แล้วก็ส้ม อย่างละหนึ่ง",
+    "en": "A big cup, please. One strawberry, one banana, one mango and one orange."
+  },
+  "melon-berry": {
+    "th": "ขอแตงโมหนึ่งชิ้น ปั่นกับสตรอว์เบอร์รีหนึ่งลูกครับ",
+    "en": "One slice of watermelon blended with one strawberry, please."
+  },
+  "melon-mango-orange": {
+    "th": "ขอแตงโมหนึ่งชิ้น มะม่วงหนึ่งลูก แล้วก็ส้มหนึ่งผลครับ",
+    "en": "One slice of watermelon, one mango and one orange, please."
+  },
+  "melon-melon-banana-berry": {
+    "th": "ขอแก้วใหญ่ครับ ใส่แตงโมสองชิ้น กล้วยหนึ่งลูก กับสตรอว์เบอร์รีหนึ่งลูก",
+    "en": "A big cup, please, with two slices of watermelon, one banana and one strawberry."
   }
 }

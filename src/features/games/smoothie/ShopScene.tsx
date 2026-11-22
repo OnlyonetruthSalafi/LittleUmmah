@@ -4,6 +4,13 @@ import type { Locale, Text } from '@/i18n/config';
 import styles from './scene.module.css';
 
 import { customers, type Fruit, type Stage } from './model';
+
+/** Codex art for bought decorations, drawn in the scene's 900 × 530 space.
+ *  Both stay inside x 140–760, the part phones show (scene.module.css). */
+const decor = {
+  flowers: { href: '/games/vip/shop/flowers.webp', x: 612, y: 166, size: 128 },
+  lantern: { href: '/games/vip/shop/lantern.webp', x: 150, y: 44, size: 100 },
+};
 type SceneProps = {
   fruit: readonly Fruit[];
   stage: Stage;
@@ -11,7 +18,10 @@ type SceneProps = {
   arrived: boolean;
   onArrival: () => void;
   upgraded: boolean;
-  berryBasket: boolean;
+  kinds: readonly Fruit[];
+  flowers: boolean;
+  lantern: boolean;
+  bigCup: boolean;
   lang: Locale;
   nextFruit: Fruit | undefined;
   guide: boolean;
@@ -59,8 +69,42 @@ function Stall({ id }: { id: string }) {
   </>;
 }
 
+/** The cup, drawn in scene coordinates. While serving it is drawn again inside the draggable control. */
+export function CupArt({ id, stage, drink, topping, bigCup }: { id: string; stage: Stage; drink: string; topping: string; bigCup: boolean }) {
+  const fullCup = stage === 'serve' || stage === 'collect';
+  return <>
+      <g transform={stage === 'collect' ? 'translate(473 234) scale(.65)' : 'translate(421 275)'}>
+        <g transform={bigCup ? 'translate(33 69) scale(1.22) translate(-33 -69)' : undefined}>
+        <ellipse cx="33" cy="69" rx="47" ry="9" fill={`url(#${id}-shadow)`} />
+        <path d="M0 4q30-9 65-2l-7 60q-22 12-48 2Z" fill={`url(#${id}-glass)`} stroke="#64a1a0" strokeWidth="2.8" />
+        {(fullCup || stage === 'pouring') && <g className={stage === 'pouring' ? styles.filling : undefined}>
+          <path d="M4 14q25-6 57-2l-6 48q-20 10-42 2Z" fill={drink} />
+          <ellipse cx="33" cy="13" rx="29" ry="4.5" fill={topping} />
+        </g>}
+        {fullCup && <><path d="m39 13 6-29 11-8" fill="none" stroke="#f7fff5" strokeWidth="6" />
+          <path d="m39 13 6-29 11-8" fill="none" stroke="#eb8678" strokeWidth="6" strokeDasharray="4 5" />
+        </>}
+        <ellipse cx="32.5" cy="3" rx="33" ry="5" fill="none" stroke="#d5f4ea" strokeWidth="3" />
+        <path d="m8 11 5 36" stroke="#fff" strokeWidth="4" opacity=".78" strokeLinecap="round" />
+        </g>
+      </g>
+  </>;
+}
+
+/** A dashed path from the cup up to the customer shows where to drag it. */
+function ServeGuide() {
+  const path = 'M418 262C384 236 386 200 414 180';
+  return <g aria-hidden="true" pointerEvents="none">
+    <ellipse cx="478" cy="160" rx="92" ry="62" fill="#fff7c8" fillOpacity=".3" stroke="#fff" strokeWidth="11" strokeDasharray="18 12" />
+    <ellipse cx="478" cy="160" rx="92" ry="62" fill="none" stroke="#e5413a" strokeWidth="6" strokeDasharray="18 12" />
+    <path d={path} fill="none" stroke="#fff" strokeWidth="15" strokeDasharray="14 11" strokeLinecap="round" />
+    <path d={path} fill="none" stroke="#e5413a" strokeWidth="8" strokeDasharray="14 11" strokeLinecap="round" />
+    <path d="m400 176 34-6-11 31Z" fill="#e5413a" stroke="#fff" strokeWidth="4" strokeLinejoin="round" />
+  </g>;
+}
+
 export function ShopScene(props: SceneProps) {
-  const { fruit, stage, customer, arrived, onArrival, upgraded, berryBasket, lang, revision } = props;
+  const { fruit, stage, customer, arrived, onArrival, upgraded, kinds, lang, revision } = props;
   const id = useId();
   const [walkLoaded, setWalkLoaded] = useState(false);
   const paint = (name: string) => `url(#${id}-${name})`;
@@ -74,9 +118,9 @@ export function ShopScene(props: SceneProps) {
     image.src = walkSheet;
     return () => { image.onload = null; image.onerror = null; };
   }, [walkSheet,onArrival]);
-  const fullCup = stage === 'serve' || stage === 'collect';
-  const drink = fruit.includes('berry') ? '#ed8293' : fruit.includes('orange') ? '#ffaa42' : '#f2d56c';
-  const topping = fruit.includes('berry') ? '#ffd9dc' : '#fff1bd';
+  const drink = fruit.includes('melon') ? '#f2646e' : fruit.includes('berry') ? '#ed8293'
+    : fruit.includes('mango') ? '#ffc23a' : fruit.includes('orange') ? '#ffaa42' : '#f2d56c';
+  const topping = fruit.includes('berry') || fruit.includes('melon') ? '#ffd9dc' : '#fff1bd';
 
   return <div className={styles.window}><div className={styles.plane}>
     <svg className={styles.scene} viewBox="0 0 900 530" role="img" aria-label={description[lang]}>
@@ -130,6 +174,12 @@ export function ShopScene(props: SceneProps) {
             </svg>}
       </g>
       <Stall id={id} />
+      {props.lantern && <g aria-hidden="true">
+        <path d={`M${decor.lantern.x + decor.lantern.size / 2} 34v${decor.lantern.y - 30}`} stroke="#8a6532" strokeWidth="3" />
+        <image href={decor.lantern.href} x={decor.lantern.x} y={decor.lantern.y} width={decor.lantern.size} height={decor.lantern.size} />
+      </g>}
+      {props.flowers && <image href={decor.flowers.href} x={decor.flowers.x} y={decor.flowers.y}
+        width={decor.flowers.size} height={decor.flowers.size} aria-hidden="true" />}
       <StockDrawer id={id} />
 
       <ellipse cx="290" cy="357" rx="98" ry="17" fill={paint('shadow')} />
@@ -175,28 +225,20 @@ export function ShopScene(props: SceneProps) {
       <path d="M241 283q50-8 105 0l18 53q4 13-10 16-62 11-124 0-12-2-8-16Z" fill={paint('metal')} stroke={upgraded ? '#a26c20' : '#267f80'} strokeWidth="3" />
       <path d="M226 344q65 12 134-1v7q-70 15-135 1Z" fill="#315d64" />
       <path d="m242 299-9 29" stroke="#fff9dc" strokeWidth="5" opacity=".59" strokeLinecap="round" />
+      {/* A big red switch so the child can see where to press. */}
+      {stage === 'prepare' && props.ready && <g aria-hidden="true">
+        <circle cx="292" cy="315" r="31" fill="#fff7c8" fillOpacity=".35" stroke="#fff" strokeWidth="5" strokeDasharray="9 7" />
+        <circle cx="292" cy="315" r="31" fill="none" stroke="#c62828" strokeWidth="3" strokeDasharray="9 7" />
+      </g>}
       <g className={stage === 'blend' ? styles.pressedDial : undefined}>
-      <circle cx="292" cy="315" r="19" fill="#28575d" />
-      <circle cx="292" cy="313" r="13.7" fill="#f7e3aa" stroke="#fff4d0" strokeWidth="2" />
-      {upgraded
-        ? <path d="m292 303 3.2 6.5 7.3.8-5.3 5.1 1.5 7.2-6.7-3.6-6.4 3.5 1.3-7.2-5.2-5 7.2-.9z" fill="#bb7720" />
-        : <path d="m292 313 4-7" stroke="#507477" strokeWidth="3.5" strokeLinecap="round" />}
+      <circle cx="292" cy="317" r="21" fill={upgraded ? '#b77a1f' : '#7a1717'} />
+      <circle cx="292" cy="313" r="17" fill="#e23b32" stroke={upgraded ? '#ffe08a' : '#ff8a7a'} strokeWidth="2.5" />
+      <ellipse cx="286" cy="307" rx="7" ry="4" fill="#fff" opacity=".5" />
+      <path d="M286.5 308.5a8 8 0 1 0 11 0M292 304v8" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" />
       </g>
       {stage === 'pouring' && <path d="M463 183 Q456 213 452 308" fill="none" stroke={drink} strokeWidth="8" strokeLinecap="round" />}
 
-      <g transform={stage === 'collect' ? 'translate(473 234) scale(.65)' : 'translate(421 275)'}>
-        <ellipse cx="33" cy="69" rx="47" ry="9" fill={paint('shadow')} />
-        <path d="M0 4q30-9 65-2l-7 60q-22 12-48 2Z" fill={paint('glass')} stroke="#64a1a0" strokeWidth="2.8" />
-        {(fullCup || stage === 'pouring') && <g className={stage === 'pouring' ? styles.filling : undefined}>
-          <path d="M4 14q25-6 57-2l-6 48q-20 10-42 2Z" fill={drink} />
-          <ellipse cx="33" cy="13" rx="29" ry="4.5" fill={topping} />
-        </g>}
-        {fullCup && <><path d="m39 13 6-29 11-8" fill="none" stroke="#f7fff5" strokeWidth="6" />
-          <path d="m39 13 6-29 11-8" fill="none" stroke="#eb8678" strokeWidth="6" strokeDasharray="4 5" />
-        </>}
-        <ellipse cx="32.5" cy="3" rx="33" ry="5" fill="none" stroke="#d5f4ea" strokeWidth="3" />
-        <path d="m8 11 5 36" stroke="#fff" strokeWidth="4" opacity=".78" strokeLinecap="round" />
-      </g>
+      {stage === 'serve' ? <ServeGuide /> : <CupArt id={id} stage={stage} drink={drink} topping={topping} bigCup={props.bigCup} />}
       <g transform="translate(548 337)">
         <ellipse cx="24" cy="22" rx="50" ry="10" fill={paint('shadow')} />
         <path d="m-17 2 54-4 22 14-73 5Z" fill="#2d8f88" stroke="#237772" strokeWidth="3.5" strokeLinejoin="round" />
@@ -209,8 +251,9 @@ export function ShopScene(props: SceneProps) {
           </g>)}
         </g>}
       </g>
-      <CounterForeground key={revision} basket={berryBasket} id={id} fruit={fruit} stage={stage} revision={revision}/>
+      <CounterForeground key={revision} kinds={kinds} id={id} fruit={fruit} stage={stage} revision={revision}/>
     </svg>
-    <CounterControls {...props} count={fruit.length} />
+    <CounterControls {...props} count={fruit.length} serveCup={<svg viewBox="402 250 100 104" width="100%" height="100%" overflow="visible">
+      <CupArt id={id} stage="serve" drink={drink} topping={topping} bigCup={props.bigCup} /></svg>} />
   </div></div>;
 }
