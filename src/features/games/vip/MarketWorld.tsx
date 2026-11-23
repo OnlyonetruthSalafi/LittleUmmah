@@ -7,7 +7,10 @@ import { PlayArea } from '@/features/learning-stars/components';
 import { MarketMapArt } from '../smoothie/MarketMapArt';
 import { Label } from './Labels';
 import { vip } from './content';
-import { nearestTrailPoint, pointOnTrail, trailLength } from './trail';
+import { nearestTrailPoint, pointOnTrail, stops, type Stop } from './trail';
+import { useShop } from '../smoothie/store';
+import { openPlaces, places, route } from './route';
+import { useGarden } from '../garden/store';
 import styles from './vip.module.css';
 import atlas from './world.module.css';
 
@@ -23,6 +26,7 @@ export function MarketWorld() {
   const viewport = useRef<HTMLDivElement>(null);
   const board = useRef<HTMLDivElement>(null);
   const anim = useRef(0);
+  const limitRef = useRef<number>(stops.shop);
   const distance = useRef(0);
   const heldArrow = useRef<{ key: string; start: number; direction: number } | null>(null);
   const [position, setPosition] = useState(0);
@@ -30,8 +34,17 @@ export function MarketWorld() {
   const [moving, setMoving] = useState(false);
   const [overview, setOverview] = useState(false);
   const [fogHint, setFogHint] = useState(false);
+  const { shop } = useShop();
+  // The bridge to the garden opens once the child has sold a few smoothies.
+  const { garden } = useGarden();
+  // Each place opens the next: smoothies sold open the garden, garden deliveries open the restaurant.
+  const open = openPlaces(shop.served, garden.delivered);
+  const isOpen = (stop: Stop) => open.includes(stop);
+  const limit = stops[open[open.length - 1]];
+  const [fogText, setFogText] = useState(vip.mist);
   const point = pointOnTrail(position);
-  const arrived = position >= trailLength - 1 && !moving;
+  const at: Stop | null = moving ? null : open.find(stop => Math.abs(position - stops[stop]) < 1) ?? null;
+  const here = places.find(p => p.stop === at);
 
   // Keep Nuri in the central part of the view. Looking around manually is possible when stopped.
   const follow = useCallback((d: number, center = false) => {
@@ -46,8 +59,8 @@ export function MarketWorld() {
   }, []);
 
   useLayoutEffect(() => {
-    const atShop = location.hash === '#shop';
-    const d = atShop ? trailLength : 0;
+    const hash = location.hash.slice(1);
+    const d = hash in stops ? stops[hash as Stop] : 0;
     distance.current = d;
     const id = requestAnimationFrame(() => { setPosition(d); follow(d,true); });
     return () => { cancelAnimationFrame(id); cancelAnimationFrame(anim.current); };
@@ -69,7 +82,7 @@ export function MarketWorld() {
 
   function move(to: number) {
     cancelAnimationFrame(anim.current);
-    const end = Math.min(trailLength, Math.max(0, to));
+    const end = Math.min(limitRef.current, Math.max(0, to));
     const initial = distance.current;
     setFogHint(false);
     setOverview(false);
@@ -79,9 +92,11 @@ export function MarketWorld() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
       place(end); setMoving(false); return;
     }
-    let previous = performance.now();
+    // The first frame sets the clock, so no time is read outside the animation callback.
+    let previous = -1;
     setMoving(true);
     function tick(now: number) {
+      if (previous < 0) previous = now;
       const remaining = end-distance.current;
       const elapsed = Math.min(60, now-previous)/1000;
       const speed = Math.min(112, 52 + Math.abs(remaining)*1.65);
@@ -92,10 +107,13 @@ export function MarketWorld() {
     }
     anim.current = requestAnimationFrame(tick);
   }
-  function visitShop() {
-    if (arrived) router.push(path('/games/vip/smoothie-shop'));
-    else move(trailLength);
+  function visit(stop: Stop) {
+    const place = places.find(p => p.stop === stop)!;
+    if (!isOpen(stop)) { setFogText(place.locked ?? vip.mist); setFogHint(true); return; }
+    if (at === stop) router.push(path(place.href));
+    else move(stops[stop]);
   }
+  const visitShop = () => visit('shop');
   function steer(event: KeyboardEvent<HTMLButtonElement>) {
     const direction = {ArrowRight:1, ArrowUp:1, ArrowLeft:-1, ArrowDown:-1}[event.key];
     if (!direction) return;
@@ -103,7 +121,7 @@ export function MarketWorld() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { move(distance.current+direction*25); return; }
     if (heldArrow.current?.key === event.key) return;
     heldArrow.current = {key:event.key, start:distance.current, direction};
-    move(direction > 0 ? trailLength : 0);
+    move(direction > 0 ? limitRef.current : 0);
   }
   function releaseArrow(key?: string) {
     const held = heldArrow.current;
@@ -136,10 +154,13 @@ export function MarketWorld() {
     const x = (event.clientX-rect.left)/rect.width*world.width+world.left;
     const y = (event.clientY-rect.top)/rect.height*world.height+world.top;
     if (x>565 && x<704 && y>95 && y<245) { visitShop(); return; }
+    const spot = places.find(({ hit: [x1, y1, x2, y2] }) => x > x1 && x < x2 && y > y1 && y < y2);
+    if (spot) { visit(spot.stop); return; }
     const d = nearestTrailPoint(x,y), nearest = pointOnTrail(d);
-    if (Math.hypot(x-nearest.x,y-nearest.y) <= 43) move(d);
-    else setFogHint(true);
+    if (Math.hypot(x-nearest.x,y-nearest.y) <= 43 && d <= limit + 1) move(d);
+    else { setFogText(d > limit + 1 ? places.find(p => !isOpen(p.stop))?.locked ?? vip.mist : vip.mist); setFogHint(true); }
   }
+  useEffect(() => { limitRef.current = limit; }, [limit]);
   const frame = moving ? Math.floor(position / 17) % 4 : 0;
   return <PlayArea><main className={atlas.world}>
     <header className={atlas.header}>
@@ -151,21 +172,42 @@ export function MarketWorld() {
     </header>
     <div className={atlas.viewport} ref={viewport}>
       <div className={atlas.board} data-overview={overview} ref={board}>
-        <Artwork />
+        <Artwork garden={isOpen('garden')} restaurant={isOpen('restaurant')} />
         <button className={atlas.surface} aria-label={vip.mapHelp[lang]} onKeyDown={steer} onKeyUp={e=>releaseArrow(e.key)} onBlur={()=>releaseArrow()} onClick={tap}
           onPointerDown={panStart} onPointerMove={pan} onPointerCancel={() => {drag.current=null;}} />
         <span className={atlas.avatar} aria-hidden="true" style={{left:percentX(point.x),top:percentY(point.y)}}>
           <span className={atlas.chassis} style={{backgroundPositionX: `${frame/3*100}%`,transform: facing<0 ? 'scaleX(-1)' : undefined}} />
         </span>
-        <button className={atlas.shopPin} aria-label={vip.shop[lang]} style={{left:percentX(630),top:percentY(101)}} onClick={visitShop}>
-          <Label text={vip.shop} />
-        </button>
+        {places.map(place => {
+          const locked = !isOpen(place.stop);
+          return <button key={place.stop} className={atlas.shopPin} data-locked={locked || undefined} data-stop={place.stop}
+            style={{left:percentX(place.pin.x),top:percentY(place.pin.y)}}
+            aria-label={locked ? place.name[lang] + ' · ' + place.locked?.[lang] : place.name[lang]} onClick={() => visit(place.stop)}>
+            {locked && <LockIcon />}<Label text={place.name} />
+          </button>;
+        })}
+        {route.soon.map(place => <button key={place.id} className={atlas.shopPin} data-locked style={{left:percentX(place.x),top:percentY(place.y)}}
+          aria-label={place.name[lang] + ' · ' + route.inMist[lang]} onClick={() => { setFogText(route.inMist); setFogHint(true); }}>
+          <LockIcon /><Label text={place.name} />
+        </button>)}
       </div>
     </div>
     <footer className={atlas.hud}>
-      <div className={atlas.hint} role="status"><Label text={fogHint ? vip.mist : arrived ? vip.arrive : vip.mapHelp} /></div>
-      {arrived ? <LocaleLink className={styles.primary} href="/games/vip/smoothie-shop"><Label text={vip.open} /></LocaleLink>
-        : <button className={styles.primary} onClick={()=>move(trailLength)}><Label text={moving ? vip.walking : vip.walk} /></button>}
+      <div className={atlas.hint} role="status"><Label text={fogHint ? fogText : here ? here.arrive : vip.mapHelp} /></div>
+      <div className={atlas.actions}>
+        {!moving && places.filter(p => p.stop !== at && p.stop !== 'shop' && isOpen(p.stop)).map(p =>
+          <button key={p.stop} className={styles.secondary} onClick={()=>move(stops[p.stop])}><Label text={p.walk} /></button>)}
+        {here ? <LocaleLink className={styles.primary} href={here.href}><Label text={here.enter} /></LocaleLink>
+          : <button className={styles.primary} onClick={()=>move(stops.shop)}><Label text={moving ? vip.walking : vip.walk} /></button>}
+        {here && at !== 'shop' && <button className={styles.secondary} onClick={()=>move(stops.shop)}><Label text={vip.walk} /></button>}
+      </div>
     </footer>
   </main></PlayArea>;
+}
+
+function LockIcon() {
+  return <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" style={{ marginRight: 4, verticalAlign: '-2px' }}>
+    <rect x="3.5" y="8.5" width="13" height="9.5" rx="2.4" fill="currentColor" />
+    <path d="M6.5 8.5V6.3a3.5 3.5 0 0 1 7 0v2.2" fill="none" stroke="currentColor" strokeWidth="2.2" />
+  </svg>;
 }

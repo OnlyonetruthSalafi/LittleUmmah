@@ -53,6 +53,10 @@ next-env.d.ts
 /public/games/buttons-zips/*.png
 /public/games/vip/shop/*.png
 /public/games/vip/card/*.png
+/public/games/vip/garden/*.png
+/public/games/vip/garden-bg/*.png
+/public/games/vip/restaurant/*.png
+/public/games/vip/restaurant-bg/*.png
 /public/games/canal-lock/*.png
 /public/games/sand-trails/*.png
 /public/games/sandcastle/*.png

@@ -98,6 +98,12 @@ const JOBS = [
   // ไอเท็มอัปเกรดร้านน้ำปั่น (VIP-2, Codex imagegen) แสดง 64px ในหน้าซื้อของ และ ~130px ในฉากร้าน
   { dir: "public/games/vip/shop", width: 384, quality: 88 },
   { dir: "public/games/vip/card", width: 1600, quality: 84 },
+  // เกมสวนผัก (VIP-5, Codex imagegen): ของในฉากแสดงไม่เกิน ~200px ฉากหลังเต็มจอ
+  { dir: "public/games/vip/garden", width: 384, quality: 88 },
+  { dir: "public/games/vip/garden-bg", width: 1600, quality: 82 },
+  // เกมร้านอาหาร (VIP-6, Codex imagegen): จานอาหารแสดงไม่เกิน ~160px ฉากหลังเต็มจอ
+  { dir: "public/games/vip/restaurant", width: 384, quality: 88 },
+  { dir: "public/games/vip/restaurant-bg", width: 1600, quality: 82 },
   { dir: "public/games/common/backgrounds", width: 1280, quality: 83 },
 ];
 

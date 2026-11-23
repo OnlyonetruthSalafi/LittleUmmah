@@ -1,0 +1,21 @@
+{
+  "requests": {
+    "carrot-1": { "th": "ขอแครอทหนึ่งหัวได้ไหมครับ", "en": "May I have one carrot, please?" },
+    "lettuce-1": { "th": "ขอผักกาดหนึ่งหัวได้ไหมคะ", "en": "May I have one lettuce, please?" },
+    "carrot-2": { "th": "ขอแครอทสองหัวครับ จะเอาไปทำน้ำแครอท", "en": "Two carrots, please. I'm making carrot juice." },
+    "carrot-lettuce": { "th": "ขอแครอทหนึ่งหัว กับผักกาดหนึ่งหัวครับ", "en": "One carrot and one lettuce, please." },
+    "tomato-2": { "th": "ขอมะเขือเทศสองลูกได้ไหมคะ", "en": "May I have two tomatoes, please?" },
+    "salad": { "th": "จะทำสลัดครับ ขอผักกาด มะเขือเทศ แล้วก็แครอท อย่างละหนึ่งครับ", "en": "I'm making a salad. One lettuce, one tomato and one carrot, please." },
+    "corn-1": { "th": "ขอข้าวโพดหนึ่งฝักครับ", "en": "One corn cob, please." },
+    "corn-tomato": { "th": "ขอข้าวโพดหนึ่งฝัก กับมะเขือเทศสองลูกค่ะ", "en": "One corn cob and two tomatoes, please." },
+    "pumpkin-1": { "th": "ขอฟักทองหนึ่งลูกครับ", "en": "One pumpkin, please." },
+    "soup": { "th": "จะทำซุปครับ ขอฟักทองหนึ่งลูก กับแครอทสองหัวครับ", "en": "I'm making soup. One pumpkin and two carrots, please." },
+    "feast": { "th": "วันนี้มีแขกมาบ้านค่ะ ขอข้าวโพดหนึ่งฝัก ผักกาดสองหัว แล้วก็ฟักทองหนึ่งลูกค่ะ", "en": "Guests are coming today. One corn, two lettuces and one pumpkin, please." }
+  },
+  "hints": {
+    "water": { "th": "ต้นไม้ดูเหี่ยวแล้วครับ ช่วยรดน้ำหน่อยนะครับ", "safi": "ต้นไม้ดูเหี่ยวแล้วค่ะ ช่วยรดน้ำหน่อยนะคะ", "en": "The plants look droopy. Please water them." },
+    "weed": { "th": "มีวัชพืชขึ้นในแปลงครับ ดึงออกก่อนนะครับ", "safi": "มีวัชพืชขึ้นในแปลงค่ะ ดึงออกก่อนนะคะ", "en": "A weed is growing in the bed. Pull it out first." },
+    "ready": { "th": "ผักโตแล้วครับ ดึงขึ้นมาได้เลย", "safi": "ผักโตแล้วค่ะ ดึงขึ้นมาได้เลย", "en": "The vegetables are ready. Pull them up!" },
+    "thanks": { "th": "ขอบคุณมากครับ ผักสดน่ากินจังเลย", "safi": "ขอบคุณมากค่ะ ผักสดน่ากินจังเลย", "en": "Thank you so much! The vegetables look so fresh." }
+  }
+}

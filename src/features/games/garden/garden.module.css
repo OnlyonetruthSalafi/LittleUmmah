@@ -1,0 +1,117 @@
+.window { width: 100%; position: relative; isolation: isolate; background: #cdeec0; container-type: inline-size; overflow: hidden; }
+.plane { position: relative; width: 100%; aspect-ratio: 900 / 530; overflow: hidden; touch-action: manipulation; }
+.scene { display: block; width: 100%; height: 100%; }
+/* A closer camera on phones: the edges of the yard are cropped, beds and the gate stay in view. */
+@container (max-width: 580px) {
+  .plane { width: 120%; left: -10%; }
+}
+.targets { position: absolute; inset: 0; pointer-events: none; }
+.targets > button { pointer-events: auto; }
+.bed, .friend, .basket {
+  position: absolute; transform: translate(-50%, -50%); min-width: 64px; min-height: 64px; padding: 0;
+  border: 0; border-radius: 22%; background: transparent; cursor: pointer; touch-action: none; color: #183e46;
+}
+.friend { border-radius: 30%; touch-action: manipulation; }
+.bed:focus-visible, .friend:focus-visible, .basket:focus-visible { outline: 4px solid #143d77; outline-offset: -2px; background: #fff7c440; }
+@media (hover: hover) {
+  .bed:hover, .friend:hover { box-shadow: inset 0 0 0 3px #fff7c5c0; }
+}
+.basket { width: 13%; aspect-ratio: 1; display: grid; place-items: center; cursor: grab; z-index: 2; }
+.basket > span { position: relative; display: block; width: 100%; }
+.basket > span > img { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 4px #2f4a2a55); }
+/* Vegetables inside the basket: cut off along the front rim so they sit in it, not on top of it. */
+.pile { position: absolute; inset: 0; pointer-events: none;
+  clip-path: polygon(12% 0, 88% 0, 88% 56%, 74% 63%, 50% 67%, 26% 63%, 12% 56%); }
+.pile img { position: absolute; width: 38%; height: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 2px 2px #3a2a1466); }
+.basket[data-dragging] { cursor: grabbing; }
+.basket:disabled { cursor: default; }
+.basket[data-ready]::after { content: ''; position: absolute; inset: -6%; border-radius: 50%; border: 4px dashed #e5413a; }
+.basketCount { position: absolute; right: 4%; top: 6%; min-width: 30px; padding: 2px 7px; border-radius: 999px;
+  background: #fff; color: #1d4d3a; border: 2px solid #3c8a5a; font-weight: 800; font-size: clamp(.8rem, 1.8cqw, 1.05rem); }
+.ghost { position: absolute; transform: translate(-50%, -70%); width: 9%; min-width: 48px; pointer-events: none; z-index: 3; }
+.ghost img { width: 100%; height: auto; filter: drop-shadow(0 8px 6px #2f4a2a66); }
+.ghost[data-tool='can'] img { transform: rotate(-24deg); }
+.progress { position: absolute; left: 50%; bottom: -36%; width: 70%; transform: translateX(-50%) rotate(-90deg); fill: #ffffffcc; stroke: #2b7fae; stroke-width: 5; }
+/* Wooden benches at the front of the garden, on the same lawn: the tools are objects lying on them, not buttons. */
+/* Dragging with a mouse must move the tool, not select text or start the browser's own image drag. */
+.bench, .targets { user-select: none; -webkit-user-select: none; }
+.bench img, .targets img { -webkit-user-drag: none; }
+.bench { display: flex; justify-content: center; align-items: flex-end; gap: 5%; padding: 4px 3% 10px;
+  background: linear-gradient(#61a000, #4e8a00 70%, #457a06); }
+.table { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: clamp(2px, 1.2cqw, 16px);
+  padding: 0 clamp(18px, 3cqw, 40px) clamp(22px, 2.6cqw, 34px); min-height: 100px; }
+.table::before { content: ''; position: absolute; inset: auto 0 0; height: clamp(46px, 5.4cqw, 70px); z-index: 0;
+  background: url('/games/vip/garden-bg/bench-top.webp') center / 100% 100% no-repeat; filter: drop-shadow(0 6px 4px #2f4a2a55); }
+@container (max-width: 520px) {
+  .bench { flex-direction: column; align-items: stretch; gap: 0; padding-top: 0; }
+  .table { min-height: 92px; padding-inline: 8px; gap: 0; }
+  .bench { padding-inline: 2%; }
+}
+.item { position: relative; z-index: 1; flex-shrink: 0; display: grid; place-items: end center; width: clamp(64px, 10cqw, 120px); height: clamp(72px, 11cqw, 128px);
+  padding: 0; border: 0; background: transparent; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent;
+  transition: filter 200ms ease-out; }
+.item img { width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 3px #3a2a1466); pointer-events: none; }
+.item .tag { position: absolute; left: 50%; bottom: 6%; width: 46%; transform: translateX(-50%); }
+/* Picked up: lifted off the bench with a gold ring left on the planks. */
+.item::after { content: ''; position: absolute; left: 12%; right: 12%; bottom: -4px; height: 14px; border-radius: 50%; opacity: 0; border: 3px solid #f2c454; }
+.item[aria-pressed='true']::after { opacity: 1; }
+.item[aria-pressed='true'] img { filter: drop-shadow(0 0 6px #fff3b0) drop-shadow(0 14px 6px #3a2a1455); }
+.item[data-held] img { opacity: .35; }
+.item:disabled { cursor: default; }
+.item:disabled img { filter: saturate(.7) drop-shadow(0 5px 3px #3a2a1444); }
+.item:focus-visible { outline: 4px solid #143d77; outline-offset: 2px; border-radius: 16px; }
+@media (prefers-reduced-motion: no-preference) {
+  .item img { transition: transform 200ms ease-out, filter 200ms ease-out; }
+  .item[aria-pressed='true'] img { transform: translateY(-12px); }
+  .item:not(:disabled):active img { transform: scale(.96); transition-duration: 75ms; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .item:not(:disabled):hover img { transform: translateY(-5px); }
+  .item[aria-pressed='true']:not(:disabled):hover img { transform: translateY(-12px); }
+}
+.arriving { animation: walkIn 1500ms ease-out both; }
+@keyframes walkIn { from { transform: translateX(300px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .arriving { animation: settle 1ms 300ms both; }
+}
+@keyframes settle { to { opacity: 1; } }
+/* Rail above the scene: what the friend wants and what is in the basket. */
+.wish { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.wish li { display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border-radius: 14px; background: #fff; border: 2px solid #c9dcc0; font-weight: 800; }
+.wish li[data-done] { border-color: #3c8a5a; background: #e6f6e6; }
+.wish img { width: 36px; height: 36px; object-fit: contain; }
+.wish svg { color: #2e7d4f; }
+
+/* Step numbers on the objects: a gold disc with a dark number, so the order reads without relying on colour. */
+.step { position: absolute; left: 2%; top: 4%; z-index: 2; display: grid; place-items: center; width: clamp(26px, 3.2cqw, 36px); aspect-ratio: 1;
+  border-radius: 50%; background: #ffd75e; color: #3b2a06; border: 3px solid #fff; box-shadow: 0 2px 4px #2f4a2a66;
+  font: 900 clamp(.95rem, 1.9cqw, 1.3rem)/1 var(--font-display); pointer-events: none; }
+.basket .step { left: 4%; top: auto; bottom: 8%; }
+.hintToggle { display: inline-flex; align-items: center; gap: 8px; }
+.hintMark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #ffd75e; color: #3b2a06; border: 2px solid #fff; font-weight: 900; }
+.hintToggle[aria-pressed='false'] .hintMark { background: #e4e0d4; color: #6b6556; text-decoration: line-through; }
+.hintState { padding: 1px 8px; border-radius: 999px; background: #146763; color: #fff; font-size: .8rem; }
+.hintToggle[aria-pressed='false'] .hintState { background: #5f5948; }
+
+/* Digging: clumps of soil fly up from the hoe and fall back; a dust puff when the bed is done. One-shot, never looping. */
+.clod { transform-box: fill-box; transform-origin: center; opacity: 0; }
+.dust { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .clods .clod { animation: clod 600ms cubic-bezier(.2, .7, .4, 1) both; }
+  .puff .clod { animation: clod 850ms cubic-bezier(.2, .7, .4, 1) both; }
+  .puff .dust { animation: dust 850ms ease-out both; transform-box: fill-box; transform-origin: center; }
+}
+@keyframes clod {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  55% { opacity: 1; transform: translate(calc(var(--dx) * 1px), calc(var(--dy) * 1px)) rotate(160deg); }
+  100% { opacity: 0; transform: translate(calc(var(--dx) * 1.35px), calc(var(--dy) * 1px + 70px)) rotate(300deg); }
+}
+@keyframes dust { 0% { opacity: .75; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.5) translateY(-10px); } }
+
+/* A harvested vegetable flying into the basket (animated from script), and the basket dipping as it lands. */
+.flight { position: absolute; width: 8%; min-width: 44px; height: auto; pointer-events: none; z-index: 4; transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 6px #2f4a2a66); }
+@media (prefers-reduced-motion: no-preference) {
+  .bump { animation: bump 380ms ease-out; transform-origin: 50% 90%; }
+}
+@keyframes bump { 0% { transform: none; } 35% { transform: translateY(5%) scale(1.06, .92); } 70% { transform: translateY(-2%) scale(.98, 1.03); } 100% { transform: none; } }

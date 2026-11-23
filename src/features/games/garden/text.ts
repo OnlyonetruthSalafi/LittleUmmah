@@ -1,0 +1,55 @@
+import type { Text } from '@/i18n/config';
+import type { Look } from './model';
+
+export const garden = {
+  title: { th: 'สวนผักบนเกาะ', en: 'Island Garden' },
+  backMap: { th: 'กลับแผนที่', en: 'Island map' },
+  scene: { th: 'สวนผักหลังบ้าน มีแปลงผัก รั้วไม้และประตูรั้วที่เพื่อนมาขอผัก', en: 'A backyard vegetable garden with beds, a fence and a gate where friends come to ask for vegetables.' },
+  arriving: { th: 'มีเพื่อนกำลังเดินมาที่ประตูรั้ว', en: 'A friend is coming to the gate' },
+  talk: { th: 'แตะเพื่อนที่ประตูรั้วเพื่อคุย', en: 'Tap your friend at the gate to talk' },
+  accept: { th: 'รับคำขอ', en: 'Accept' },
+  you: { th: 'หนู', en: 'You' },
+  wish: { th: 'ผักที่เพื่อนขอ', en: 'Vegetables your friend wants' },
+  step: (n: number, name: Text): Text => ({ th: `ขั้นที่ ${n} ${name.th}`, en: `Step ${n}: ${name.en}` }),
+  hintsOn: { th: 'ตัวเลขบอกลำดับ', en: 'Step numbers' },
+  tools: { th: 'โต๊ะเครื่องมือ', en: 'Tool bench' },
+  hoe: { th: 'จอบพรวนดิน', en: 'Hoe' },
+  can: { th: 'บัวรดน้ำ', en: 'Watering can' },
+  fork: { th: 'ส้อมพรวน ถอนวัชพืชและขุดผัก', en: 'Hand fork for weeds and harvesting' },
+  pickFirst: { th: 'หยิบของบนโต๊ะก่อนนะ', en: 'Pick something up from the bench first' },
+  useForkReady: { th: 'ผักโตแล้ว หยิบส้อมพรวนมาขุดขึ้นนะ', en: 'It’s ready. Dig it up with the fork.' },
+  useForkWeed: { th: 'มีวัชพืช หยิบส้อมพรวนมาถอนออกก่อนนะ', en: 'A weed! Pull it out with the fork first.' },
+  seedOf: (name: Text): Text => ({ th: 'เมล็ด' + name.th, en: name.en + ' seeds' }),
+  basket: { th: 'ตะกร้าผัก', en: 'Vegetable basket' },
+  give: { th: 'ลากตะกร้าไปให้เพื่อน', en: 'Drag the basket to your friend' },
+  needMore: { th: 'ผักยังไม่ครบ ดูในกล่องคำขอนะ', en: 'Not enough yet. Check the wish list.' },
+  locked: { th: 'แปลงนี้ยังไม่เปิด ซื้อแปลงเพิ่มได้ที่ร้านเมล็ดพันธุ์', en: 'This bed is closed. Buy more beds at the seed shop.' },
+  shop: { th: 'ร้านเมล็ดพันธุ์', en: 'Seed shop' },
+  back: { th: 'กลับไปที่สวน', en: 'Back to the garden' },
+  delivered: (n: number): Text => ({ th: `ส่งผักให้เพื่อนแล้ว ${n} ครั้ง`, en: `${n} ${n === 1 ? 'delivery' : 'deliveries'} made` }),
+  deliverMore: (n: number): Text => ({ th: `ส่งผักอีก ${n} ครั้งจึงซื้อได้`, en: `Make ${n} more ${n === 1 ? 'delivery' : 'deliveries'} to unlock` }),
+  paid: (n: number): Text => ({ th: `เพื่อนให้ ${n} เหรียญ เก็บเข้าลิ้นชักร้านแล้ว`, en: `Your friend paid ${n} coins` }),
+  pickTool: { th: 'หยิบของบนโต๊ะ แล้วแตะหรือลากไปที่แปลง วัชพืชและผักที่โตแล้วใช้ส้อมพรวนขุดขึ้น', en: 'Pick something up from the bench, then tap or drag it onto a bed. Dig up weeds and ripe vegetables with the fork.' },
+  wait: { th: 'รับคำขอของเพื่อนก่อน แล้วค่อยเริ่มทำสวน', en: 'Accept your friend’s request first' },
+  items: {
+    tomato: { name: { th: 'เมล็ดมะเขือเทศ', en: 'Tomato seeds' }, benefit: { th: 'ปลูกมะเขือเทศได้ เพื่อนจะขอสลัด', en: 'Grow tomatoes for salads' } },
+    beds: { name: { th: 'แปลงผักเพิ่ม 2 แปลง', en: 'Two more beds' }, benefit: { th: 'ปลูกพร้อมกันได้ 6 แปลง', en: 'Grow six crops at once' } },
+    corn: { name: { th: 'เมล็ดข้าวโพด', en: 'Corn seeds' }, benefit: { th: 'โตช้าแต่ได้เหรียญมาก', en: 'Slow to grow, worth more coins' } },
+    sprinkler: { name: { th: 'สปริงเกอร์', en: 'Sprinkler' }, benefit: { th: 'รดน้ำทุกแปลงให้เอง ต้นไม่เหี่ยวอีก', en: 'Waters every bed for you' } },
+    pumpkin: { name: { th: 'เมล็ดฟักทอง', en: 'Pumpkin seeds' }, benefit: { th: 'ผักใหญ่ที่สุด เพื่อนจะทำซุป', en: 'The biggest crop, for soup' } },
+  },
+};
+
+/** What a bed needs next, read out with its number. */
+export const bedState: Record<Look | 'thirsty' | 'weed' | 'closed', Text> = {
+  closed: { th: 'ยังไม่เปิด', en: 'closed' },
+  wild: { th: 'ดินแข็ง ต้องพรวนดินด้วยจอบ', en: 'hard soil, dig it with the hoe' },
+  tilled: { th: 'พรวนแล้ว ใส่เมล็ดได้', en: 'dug, ready for seeds' },
+  seed: { th: 'เพิ่งใส่เมล็ด', en: 'just sown' },
+  sprout: { th: 'ต้นอ่อนกำลังโต', en: 'a young sprout' },
+  leafy: { th: 'ต้นโตแล้วครึ่งทาง', en: 'half grown' },
+  ready: { th: 'พร้อมเก็บ ใช้ส้อมพรวนขุดขึ้น', en: 'ready, dig it up with the fork' },
+  thirsty: { th: 'ขาดน้ำ ต้นเหี่ยว ต้องรดน้ำ', en: 'thirsty, needs water' },
+  weed: { th: 'มีวัชพืช ใช้ส้อมพรวนถอนออก', en: 'a weed is growing, pull it out with the fork' },
+};
+export const bedName = (n: number): Text => ({ th: `แปลงที่ ${n}`, en: `Bed ${n}` });

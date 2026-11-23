@@ -56,10 +56,13 @@ export function BeyondTheMarket() {
   </g>;
 }
 
+const restaurantClearing = "M900 160C905 120 950 100 990 104C1030 108 1050 140 1044 172C1040 204 1010 226 970 228C940 232 914 250 906 236Q896 200 900 160Z";
+const gardenClearing = "M700 250C730 226 790 236 830 224C880 212 940 224 966 256C984 284 968 330 930 346C890 360 830 356 796 336C760 322 720 300 704 284Q692 266 700 250Z";
 const clearing = "M81 354C112 345 147 364 179 350C215 334 258 330 283 306C308 284 330 246 358 241C394 232 414 243 448 260C475 274 502 282 530 260C559 238 555 214 549 195C542 166 548 134 576 118C584 80 611 60 651 65C698 72 705 94 711 130C740 149 749 192 722 225C716 254 688 264 654 266C626 280 606 304 576 323C547 350 526 361 490 359C441 356 412 323 379 321C353 318 338 351 313 367C281 388 241 399 202 407C168 418 136 417 117 437C94 457 63 460 43 443C25 424 35 389 56 377Q64 361 81 354Z";
 
 /** Mist banks are drawn in world coordinates; the revealed area follows the playable route. */
-export function WorldFog() {
+/** `garden` clears the mist over the bridge and the garden islet once that route is open. */
+export function WorldFog({ garden = false, restaurant = false }: { garden?: boolean; restaurant?: boolean }) {
   const prefix = useId();
   const id = (name: string) => `${prefix}-${name}`;
   const paint = (name: string) => `url(#${id(name)})`;
@@ -73,12 +76,14 @@ export function WorldFog() {
   ];
   return <g pointerEvents="none">
     <defs>
-      <filter id={id("soft")} x="0" y="30" width="800" height="470" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+      <filter id={id("soft")} x="0" y="30" width="1100" height="470" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
         <feGaussianBlur stdDeviation="16"/>
       </filter>
       <mask id={id("reveal")} {...world} maskUnits="userSpaceOnUse">
         <rect {...world} fill="white"/>
         <path d={clearing} fill="black" filter={paint("soft")}/>
+        {garden && <path d={gardenClearing} fill="black" filter={paint("soft")}/>}
+        {restaurant && <path d={restaurantClearing} fill="black" filter={paint("soft")}/>}
       </mask>
       <linearGradient id={id("veil")} x2=".62" y2="1">
         <stop stopColor="#a2bbce"/><stop offset=".4" stopColor="#b7c9d2"/><stop offset=".75" stopColor="#a4bec9"/><stop offset="1" stopColor="#88a7bb"/>

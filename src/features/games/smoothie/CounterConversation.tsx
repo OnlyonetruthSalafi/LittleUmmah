@@ -24,13 +24,17 @@ type Props = {
   /** The browser blocked the salam until a tap; offer a big button to hear it. */
   needsTap: boolean;
   onHear: () => void;
+  /** The accept button; the smoothie shop says "take order". */
+  acceptText?: Text;
+  /** Title over the request; the smoothie shop says "order ticket". */
+  ticketTitle?: Text;
   onListen: () => void;
   onReply: (reply: Reply) => void;
   onAccept: () => void;
   onDefer: () => void;
 };
 
-export function CounterConversation({phase, speaker, line, ticket, enabled, greeted, needsTap, onHear, onListen, onReply, onAccept, onDefer}: Props) {
+export function CounterConversation({phase, speaker, line, ticket, enabled, greeted, needsTap, onHear, acceptText = vip.take, ticketTitle = vip.ticket, onListen, onReply, onAccept, onDefer}: Props) {
   const lang = useLocale();
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -41,7 +45,7 @@ export function CounterConversation({phase, speaker, line, ticket, enabled, gree
   }, []);
   useEffect(() => { heading.current?.focus({preventScroll:true}); }, [phase]);
   const answering = phase === 'reply' || phase === 'replyLong';
-  const title = phase === 'greeting' ? vip.returnSalam : answering ? vip.yourReply : vip.ticket;
+  const title = phase === 'greeting' ? vip.returnSalam : answering ? vip.yourReply : ticketTitle;
   return <dialog ref={dialog} className={styles.popup} aria-labelledby="shop-talk-title" aria-describedby="shop-talk-line"
     onCancel={e => { e.preventDefault(); onDefer(); }}>
     <div className={styles.content}>
@@ -58,7 +62,7 @@ export function CounterConversation({phase, speaker, line, ticket, enabled, gree
           <SpeakerIcon on /><Label text={vip.hearSalam} /></button>}
         {phase === 'greeting' && greeted && (['reply','replyLong'] as const).map(option =>
           <button type="button" key={option} onClick={()=>onReply(option)}><Label text={conversation[option]} /></button>)}
-        {phase === 'ordering' && <button type="button" onClick={onAccept}><Label text={vip.take} /></button>}
+        {phase === 'ordering' && <button type="button" onClick={onAccept}><Label text={acceptText} /></button>}
       </div>
       <button type="button" className={styles.later} onClick={onDefer}><Label text={vip.later} /></button>
     </div>

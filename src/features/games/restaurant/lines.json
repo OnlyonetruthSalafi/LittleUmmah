@@ -1,0 +1,29 @@
+{
+  "seats": {
+    "m1-hadi": { "th": "ผมอยากกินอะไรที่มีแครอทครับ", "en": "I'd like something with carrot." },
+    "m2-safi": { "th": "อยากกินอะไรร้อนๆ ค่ะ", "en": "I'd like something hot." },
+    "m3-sabir": { "th": "วันนี้ร้อนจัง ผมอยากกินอะไรเย็นๆ ครับ", "en": "It's so hot today. I'd like something cold." },
+    "m3-hadi": { "th": "ผมอยากกินอะไรที่มีฟักทองครับ", "en": "I'd like something with pumpkin." },
+    "m4-safi": { "th": "หิวมากเลยค่ะ ขอจานใหญ่นะคะ", "en": "I'm very hungry. A big plate, please." },
+    "m4-sabir": { "th": "ผมอยากกินอะไรร้อนๆ แต่ไม่เผ็ดครับ", "en": "Something hot, but not spicy, please." },
+    "m5-hadi": { "th": "ผมอยากกินอะไรที่มีข้าวโพดครับ", "en": "I'd like something with corn." },
+    "m5-safi": { "th": "อยากกินอะไรเย็นๆ ที่ไม่เผ็ดค่ะ", "en": "Something cold and not spicy, please." },
+    "m5-sabir": { "th": "ผมหิวมาก ขอของร้อนจานใหญ่ครับ", "en": "I'm starving. Something hot and big, please." },
+    "m6-sabir": { "th": "ผมชอบกินเผ็ดครับ", "en": "I love spicy food." },
+    "m6-hadi": { "th": "ผมอยากกินอะไรเย็นๆ ที่มีมะเขือเทศครับ", "en": "Something cold with tomato, please." },
+    "m6-safi": { "th": "ขอจานใหญ่ที่มีฟักทองค่ะ", "en": "A big plate with pumpkin, please." },
+    "m7-safi": { "th": "ขอจานใหญ่ แต่ไม่เผ็ดนะคะ", "en": "A big plate, but not spicy, please." },
+    "m7-sabir": { "th": "ผมอยากกินอะไรที่มีผักกาดครับ", "en": "I'd like something with lettuce." },
+    "m7-hadi": { "th": "ผมอยากกินอะไรร้อนๆ ที่มีแครอทครับ", "en": "Something hot with carrot, please." }
+  },
+  "friend": {
+    "yum": { "th": "อร่อยจังเลยครับ ตรงกับที่อยากกินเลย", "safi": "อร่อยจังเลยค่ะ ตรงกับที่อยากกินเลย", "en": "Delicious! Just what I wanted." },
+    "oops": { "th": "ขอโทษนะครับ จานนี้ไม่ตรงกับที่ผมอยากกิน ขอเปลี่ยนได้ไหมครับ", "safi": "ขอโทษนะคะ จานนี้ไม่ตรงกับที่อยากกิน ขอเปลี่ยนได้ไหมคะ", "en": "Sorry, this isn't what I wanted. May I change it?" }
+  },
+  "waiter": {
+    "welcome": { "th": "ยินดีต้อนรับครับ ถามเพื่อนก่อนว่าอยากกินอะไร แล้วเลือกจากเมนูได้เลยครับ", "en": "Welcome! Ask your friends what they'd like, then choose from the menu." },
+    "ok": { "th": "ได้เลยครับ รอสักครู่นะครับ", "en": "Coming right up!" },
+    "broke": { "th": "เงินไม่พอครับ ลองเลือกจานที่ถูกกว่านี้นะครับ", "en": "That's more than your lunch money. Try cheaper dishes." },
+    "swap": { "th": "ไม่เป็นไรครับ เลือกจานใหม่ได้เลยครับ", "en": "No problem. Choose a new dish." }
+  }
+}

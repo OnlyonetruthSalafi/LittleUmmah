@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { trailPath as trail } from "../vip/trail";
 import { BeyondTheMarket, WorldFog } from "./WorldFog";
+import { GardenMapArt, RestaurantMapArt } from "../vip/GardenMapArt";
 
 const island = "M51 314C47 297 64 278 82 269C90 247 72 239 87 221C101 206 118 207 130 192C141 175 143 155 163 151C192 143 214 151 232 140C260 123 279 106 312 108C346 109 357 123 382 116C419 103 439 86 475 95C507 101 519 116 545 110C591 96 608 101 628 116C655 136 673 137 685 158C701 171 710 170 720 182C737 205 724 217 742 236C758 254 747 274 735 283C724 293 739 307 724 320C701 337 687 334 675 356C662 379 641 381 617 382C584 384 583 403 558 412C528 426 492 411 474 419C448 430 423 450 393 448C356 447 353 436 322 441C290 448 267 453 236 442C204 429 195 439 166 425C146 415 149 404 126 400C95 393 98 376 78 367C54 354 62 334 51 314Z";
 const trees = [[143,249,.82],[170,244,.98],[198,241,.78],[224,257,.68],[150,273,.68],[180,271,.78],[203,280,.65],[276,192,.56],[302,196,.68],[737,240,.52],[712,258,.7],[491,357,.58],[533,379,.75],[563,367,.63]];
@@ -10,7 +11,7 @@ const flowers = [[249,273],[237,281],[431,242],[446,245],[361,359],[374,363],[62
 const waves = [[31,90],[85,58],[208,74],[276,30],[429,44],[522,59],[712,82],[761,134],[26,183],[775,327],[683,419],[715,460],[482,476],[359,498],[102,469],[35,406],[97,114],[328,67],[650,56],[63,493],[544,509],[255,491]];
 
 /** The trail and the shop threshold align with the player's world coordinates. */
-export function MarketMapArt() {
+export function MarketMapArt({ garden = false, restaurant = false }: { garden?: boolean; restaurant?: boolean }) {
   const prefix = useId();
   const id = (name: string) => `${prefix}-${name}`;
   const paint = (name: string) => `url(#${id(name)})`;
@@ -139,6 +140,8 @@ export function MarketMapArt() {
     {grasses.map(([x,y]) => <use key={`${x}-${y}`} href={`#${id("grass-blades")}`} x={x} y={y} opacity=".73"/>)}
     {flowers.map(([x,y]) => <use key={x} href={`#${id("flower")}`} x={x} y={y}/>)}
 
+    <GardenMapArt part="islet"/>
+    <RestaurantMapArt/>
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       <path d={trail} stroke="#91af68" strokeWidth="34"/>
       <path d={trail} stroke="#d7b67c" strokeWidth="30"/>
@@ -146,6 +149,8 @@ export function MarketMapArt() {
       <path d={trail} stroke="#fff1c0" strokeWidth="17"/>
       <path d={trail} stroke="#dab777" strokeWidth="2" strokeDasharray="2 13"/>
     </g>
+    <GardenMapArt part="bridge"/>
+    <GardenMapArt part="bridge" bridge="restaurant"/>
     <g transform="translate(148 387) rotate(-21)">
       <path d="M-70-14H11v31H-70Z" fill="#9f704b"/>
       {[-65,-53,-41,-29,-17,-5,7].map(x => <g key={x}>
@@ -203,6 +208,6 @@ export function MarketMapArt() {
       <path d="M1-123q-1-6-4-8" stroke="#996e44" strokeWidth="2.5" strokeLinecap="round"/>
     </g>
     <use href={`#${id("grass-blades")}`} x="697" y="251"/>
-    <WorldFog />
+    <WorldFog garden={garden} restaurant={restaurant} />
   </svg>;
 }

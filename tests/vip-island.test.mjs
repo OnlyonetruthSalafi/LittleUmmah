@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { allRecipes, blocker, collect, customers, emptyShop, menu, needsFruit, readLedger, stocked, ticket, unlock, upgrades } from '../src/features/games/smoothie/model.ts';
-import { nearestTrailPoint, pointOnTrail, trailLength } from '../src/features/games/vip/trail.ts';
+import { nearestTrailPoint, pointOnTrail, stops, trailLength } from '../src/features/games/vip/trail.ts';
 
 test('map taps and keyboard travel can reach both trail ends and intermediate stops', () => {
   for (const [x,y] of [[155,385], [285,345], [365,275], [515,310], [630,230]]) {
@@ -10,7 +10,9 @@ test('map taps and keyboard travel can reach both trail ends and intermediate st
     assert.ok(Math.hypot(p.x - x, p.y - y) < 0.01);
   }
   assert.deepEqual(pointOnTrail(-100), {x:155, y:385});
-  assert.deepEqual(pointOnTrail(trailLength + 50), {x:630, y:230});
+  assert.deepEqual(pointOnTrail(stops.shop), {x:630, y:230});
+  assert.deepEqual(pointOnTrail(stops.garden), {x:852, y:290});
+  assert.deepEqual(pointOnTrail(trailLength + 50), {x:958, y:190});
 });
 test('sale and upgrade are credited once, only affordable items can be bought', () => {
   const order = ticket(emptyShop);
