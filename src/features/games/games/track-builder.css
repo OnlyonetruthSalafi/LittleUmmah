@@ -1,42 +1,91 @@
 .rail-game {
-  --rail-brass: #cc9c4b;
-  width: min(100%, calc((100dvh - 128px) * 2));
-  min-width: 0; border-radius: 24px; overflow: hidden;
-  border: 3px solid #316369; background: #214c51; color: #fff6db;
-  box-shadow: 0 5px 0 #163e42, 0 12px 26px #25494e28;
+  width: 100%;
+  aspect-ratio: 2;
+  max-height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: clamp(14px, 2vw, 28px);
+  box-shadow: 0 3px 0 #315d60;
+  background: #a7d8d6;
 }
-.rail-window { position: relative; width: 100%; aspect-ratio: 2; isolation: isolate; background: #a7d8d6; }
-.rail-window > img, .rail-map { position: absolute; inset: 0; width: 100%; height: 100%; }
-.rail-stop { position: absolute; top: 0; left: 4%; padding: 6px 15px 8px;
-  color: #fff6db; background: #214c51; text-align: center; border: 2px solid var(--rail-brass);
-  border-top: 0; border-radius: 0 0 12px 12px; font-weight: 800; line-height: 1.2; font-size: clamp(14px, 1.4vw, 21px); }
-.rail-game small { display: block; font-size: .76em; line-height: 1.2; font-weight: 550; }
-.rail-console { padding: 10px clamp(8px, 2vw, 25px) 12px; display: flex; align-items: center;
-  gap: clamp(8px, 2vw, 34px); justify-content: space-between; border-top: 3px solid var(--rail-brass); }
-.rail-hint { max-width: 27ch; line-height: 1.35; font-size: clamp(16px, 1.7vw, 23px); }
-.rail-hint small { margin-top: 3px; }
-.rail-parts { display: grid; grid-template-columns: repeat(3, minmax(64px, 1fr)); gap: clamp(6px, 1vw, 14px); }
-.rail-part { min-width: 64px; min-height: 64px; display: flex; align-items: center; justify-content: center;
-  gap: 5px; padding: 5px 12px; border-radius: 13px; background: #fff2d1; color: #253d40;
-  border: 2px solid #ddb478; box-shadow: inset 0 2px 0 white, 0 4px 0 #a9753a;
-  font-size: clamp(14px, 1.45vw, 20px); font-weight: 800; line-height: 1.18; }
-.rail-part svg { width: clamp(40px, 5.6vw, 85px); flex: none; }
-.rail-part[data-retry='true'] { border-style: dashed; border-color: #8b4127; }
-.rail-part:focus-visible { outline: 3px solid white; outline-offset: 3px; }
-@media (hover:hover) {
-  .rail-part:not([aria-disabled='true']):hover { box-shadow: inset 0 2px 0 white, 0 5px 0 #a9753a, 0 8px 14px #102f36; }
+.rail-window { position: relative; width: 100%; height: 100%; container-type: size; isolation: isolate; }
+.rail-window > img, .rail-map { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* A foreground siding grounds the parts cart at the same height as its wheels. */
+.rail-window::after {
+  content: ''; position: absolute; inset: 97% 0 0; pointer-events: none;
+  border-top: 2px solid #d8e5df;
+  background: linear-gradient(#526165 0 26%, transparent 27%), repeating-linear-gradient(105deg, #825a3b 0 2%, #b78858 2% 4%, transparent 4% 8%);
 }
-.rail-part:active { box-shadow: inset 0 2px 3px #9d744f, 0 1px 0 #a9753a; }
-@media (prefers-reduced-motion:no-preference) {
-  .rail-part { transition: transform .18s ease-out, box-shadow .18s ease-out; }
-  .rail-part:not([aria-disabled='true']):active { transform: scale(.98); }
+.rail-game small { display: block; font-size: .76em; line-height: 1.15; font-weight: 550; }
+.rail-stop, .rail-hint { text-align: center; line-height: 1.2; background: #214c51; color: #fff6db; }
+.rail-stop {
+  position: absolute; left: 50%; top: 0; translate: -50% 0;
+  padding: .3em 1em .4em; border: 2px solid #e4bc72; border-top: 0;
+  border-radius: 0 0 13px 13px; font-size: clamp(14px, 1.55cqw, 24px); font-weight: 800;
 }
-@media (max-height: 550px), (max-width: 950px) {
-  .rail-game { width: min(100%, calc((100dvh - 103px) * 2)); border-radius: 15px; }
-  .rail-console { padding: 5px 6px 8px; gap: 6px; }
-  .rail-hint { flex: 1; font-size: 14px; }
-  .rail-parts { gap: 5px; }
-  .rail-part { flex-direction: column; gap: 0; padding: 2px 5px 3px; font-size: 14px; line-height: 1.1; }
-  .rail-part svg { width: 44px; height: 27px; }
-  .rail-stop { padding: 3px 8px; }
+
+/* The loose tracks share a single flatbed in the foreground. */
+.rail-cart {
+  --wheel-radius: clamp(10px, 2.2cqh, 20px);
+  position: absolute; bottom: calc(3% + var(--wheel-radius)); left: 50%; translate: -50% 0;
+  width: min(65%, 108cqh); min-width: 220px;
+  filter: drop-shadow(0 4px 2px #34382e55);
+}
+.rail-cart::before, .rail-cart::after {
+  content: ''; position: absolute; z-index: -1; bottom: calc(-1 * var(--wheel-radius));
+  width: calc(2.5 * var(--wheel-radius)); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #f2c870 0 17%, #84582e 19% 26%, #3e6266 28% 48%, #28454a 50% 66%, #172e33 68%);
+}
+.rail-cart::before { left: 8%; }
+.rail-cart::after { right: 8%; }
+.rail-parts {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 3% 3px;
+  border: 2px solid #92623b; border-radius: 9% 9% 6px 6px / 34% 34% 6px 6px;
+  background: linear-gradient(transparent 91%, #af7c4b 92%), repeating-linear-gradient(0deg, transparent 0 24%, #a575433b 25%, #fff2c766 26%, transparent 27% 49%), linear-gradient(#fff0c8, #eac38d 76%, #d9af7f);
+  box-shadow: inset 0 3px 0 #fff4cc;
+}
+.rail-part {
+  position: relative; display: grid; justify-items: center; align-content: end;
+  padding: 2px 3px; min-width: 64px; min-height: 64px; touch-action: manipulation;
+  cursor: pointer; background: transparent; border-radius: 10px; color: #35291e;
+  font-size: clamp(14px, 1.35cqw, 21px); font-weight: 800; line-height: 1.15;
+}
+.rail-loose-track { width: 94%; height: clamp(33px, 12.5cqh, 100px); filter: drop-shadow(0 3px 1px #62472f69); }
+.rail-hand { position: absolute; width: clamp(22px, 3.2cqw, 46px); top: 30%; right: 4%; rotate: -18deg; pointer-events: none; }
+.rail-hint {
+  padding: .22em 1em; border: 2px solid #203e40; border-radius: 3px 3px 10px 10px;
+  background: radial-gradient(circle at 4% 50%, #f2ce83 0 2px, #926836 2px 3px, transparent 4px),
+    radial-gradient(circle at 96% 50%, #f2ce83 0 2px, #926836 2px 3px, transparent 4px), #214c51;
+  box-shadow: inset 0 2px 0 #478186; font-size: clamp(14px, 1.6cqw, 24px);
+}
+.rail-part[data-retry='true'] { outline: 2px dashed #86512f; outline-offset: -3px; }
+.rail-part:focus-visible { outline: 3px solid #164568; outline-offset: -2px; }
+.rail-part[aria-disabled='true'] { cursor: default; }
+.rail-game[data-moving='true'] .rail-loose-track { opacity: .55; }
+@media (hover: hover) {
+  .rail-part:not([aria-disabled='true']):hover .rail-loose-track { filter: drop-shadow(0 5px 2px #62472f99); }
+}
+.rail-part:not([aria-disabled='true']):active .rail-loose-track { filter: drop-shadow(0 1px 0 #62472f99); }
+@media (prefers-reduced-motion: no-preference) {
+  .rail-loose-track { transition: transform .18s ease-out; }
+  @media (hover: hover) {
+    .rail-part:not([aria-disabled='true']):hover .rail-loose-track { transform: translateY(-3px); }
+  }
+  .rail-part:not([aria-disabled='true']):active .rail-loose-track { transform: scale(.98); }
+}
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-play-container { padding-inline: 0; }
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-instruction > .gc-button { top: 0; left: var(--gc-rail); }
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-bottom-controls .gc-button { top: auto; bottom: 0; left: 0; right: auto; }
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-bottom-controls .gc-button:last-child:not(:first-child) { top: auto; left: auto; right: 0; }
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-progress-row {
+    top: 4px; right: var(--gc-rail); bottom: auto; border-radius: 14px; background: #fff6db; color: #214c51;
+  }
+  /* The cart carries the visible retry hint. Retain the shell announcement for screen readers. */
+  .gc-focus.gc-landscape[data-game='track-builder'][data-status='playing'] .gc-feedback:has(.gc-retry) {
+    width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%);
+  }
+}
+@media (max-height: 550px) {
+  .rail-hint small { display: inline; margin-inline-start: .5em; }
 }

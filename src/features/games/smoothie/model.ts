@@ -29,9 +29,9 @@ export const prices = Object.fromEntries(upgrades.map(u => [u.id, u.price])) as 
 export const decorations: Upgrade[] = ['flowers', 'lantern'];
 
 /** `menuStart` is the cup count when recipes were last added, so the next customer orders the newest recipe. */
-export type Ledger = { served: number; coins: number; menuStart: number } & Record<Upgrade, boolean>;
+export type Ledger = { served: number; coins: number; earnedCoins: number; menuStart: number } & Record<Upgrade, boolean>;
 export const emptyShop: Ledger = {
-  served: 0, coins: 0, menuStart: 0, berry: false, gold: false, flowers: false, mango: false, lantern: false, bigCup: false, melon: false,
+  served: 0, coins: 0, earnedCoins: 0, menuStart: 0, berry: false, gold: false, flowers: false, mango: false, lantern: false, bigCup: false, melon: false,
 };
 export const SAVE_KEY = 'little-ummah:games:smoothie:v1';
 export function readLedger(raw: string | null): Ledger {
@@ -41,7 +41,9 @@ export function readLedger(raw: string | null): Ledger {
     if (v && Number.isSafeInteger(v.served) && v.served >= 0 && Number.isSafeInteger(v.coins) && v.coins >= 0) {
       // Saves from before the item shelf only had berry and gold. New items start unowned.
       const menuStart = Number.isSafeInteger(v.menuStart) && v.menuStart >= 0 ? v.menuStart : 0;
-      const shop: Ledger = { ...emptyShop, served: v.served, coins: v.coins, menuStart };
+      // Earlier saves tracked cups, not lifetime receipts. Every cup paid at least five coins.
+      const earnedCoins = Number.isSafeInteger(v.earnedCoins) && v.earnedCoins >= 0 ? v.earnedCoins : Math.min(Number.MAX_SAFE_INTEGER, v.served * 5);
+      const shop: Ledger = { ...emptyShop, served: v.served, coins: v.coins, earnedCoins, menuStart };
       for (const { id } of upgrades) shop[id] = v[id] === true;
       return shop;
     }
@@ -82,7 +84,7 @@ export function needsFruit(recipe: readonly Fruit[], inJug: readonly Fruit[], fr
 }
 export function collect(shop: Ledger, order: ReturnType<typeof ticket>): Ledger {
   if (shop.served !== order.id) return shop;
-  return { ...shop, served: shop.served + 1, coins: shop.coins + order.value };
+  return { ...shop, served: shop.served + 1, coins: shop.coins + order.value, earnedCoins: shop.earnedCoins + order.value };
 }
 /** Why an item can't be bought yet, checked in the order a child would meet them. */
 export type Blocker = { kind: 'owned' } | { kind: 'needs'; item: Upgrade } | { kind: 'served'; count: number } | { kind: 'coins'; count: number };

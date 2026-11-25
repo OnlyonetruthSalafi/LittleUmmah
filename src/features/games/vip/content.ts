@@ -25,7 +25,6 @@ export const vip = {
   resume: { th: 'แตะลูกค้าเพื่อคุยต่อ', en: 'Tap the customer to keep talking.' },
   later: { th: 'คุยต่อภายหลัง', en: 'Talk later' },
   hearSalam: { th: 'แตะเพื่อฟังลูกค้าให้สลาม', en: 'Tap to hear the greeting' },
-  replayGreeting: { th: 'ฟังคำสลามอีกครั้ง', en: 'Hear the greeting again' },
   replay: { th: 'ฟังคำสั่งซื้ออีกครั้ง', en: 'Hear the order again' },
   walk: { th: 'เดินไปร้านน้ำปั่น', en: 'Walk to the shop' },
   walking: { th: 'นูรีกำลังเดิน', en: 'Nuri is walking' },

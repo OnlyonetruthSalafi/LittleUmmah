@@ -9,6 +9,7 @@ const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasT
 const errors = [];
 page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 await page.addInitScript(() => { localStorage.setItem('little-ummah:sound', 'off'); localStorage.removeItem('little-ummah:games:restaurant:v1');
+  localStorage.setItem('little-ummah:games:garden:v1', JSON.stringify({ delivered: 3 }));
   localStorage.setItem('little-ummah:games:smoothie:v1', JSON.stringify({ served: 5, coins: 0 })); });
 await page.goto(base + '/games/vip/restaurant', { waitUntil: 'networkidle' });
 const stage = () => page.locator('[data-lunch-stage]').getAttribute('data-lunch-stage');

@@ -60,7 +60,7 @@ function Worktop({ shop, message, onMessage, sound }: {
   const greeting = exchange !== 'ordering';
   const spoken = greeting ? conversation.greeting : line;
   const clip = `/audio/th/smoothie/${customer}-${greeting ? 'shop-salam' : recipe}.mp3`;
-  const voice = useOrderVoice(clip, spoken[lang], lang, !lock && (stage === 'prepare' || talking), greeting);
+  const voice = useOrderVoice(clip, spoken[lang], lang, !lock && (stage === 'prepare' || (talking && !answering)), greeting);
   useEffect(() => {
     if (!talking || !answering) return;
     const timer = window.setTimeout(() => setExchange('ordering'), voice.enabled ? 1800 : 1200);

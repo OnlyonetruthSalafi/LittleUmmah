@@ -14,7 +14,7 @@
   },
   "hints": {
     "water": { "th": "ต้นไม้ดูเหี่ยวแล้วครับ ช่วยรดน้ำหน่อยนะครับ", "safi": "ต้นไม้ดูเหี่ยวแล้วค่ะ ช่วยรดน้ำหน่อยนะคะ", "en": "The plants look droopy. Please water them." },
-    "weed": { "th": "มีวัชพืชขึ้นในแปลงครับ ดึงออกก่อนนะครับ", "safi": "มีวัชพืชขึ้นในแปลงค่ะ ดึงออกก่อนนะคะ", "en": "A weed is growing in the bed. Pull it out first." },
+    "weed": { "th": "มีวัชพืชครับ หยิบส้อมพรวน แล้วแตะแปลงที่มีรูปส้อมเพื่อถอนวัชพืชนะครับ", "safi": "มีวัชพืชค่ะ หยิบส้อมพรวน แล้วแตะแปลงที่มีรูปส้อมเพื่อถอนวัชพืชนะคะ", "en": "There's a weed. Pick up the hand fork, then tap the bed with the fork sign to pull the weed." },
     "ready": { "th": "ผักโตแล้วครับ ดึงขึ้นมาได้เลย", "safi": "ผักโตแล้วค่ะ ดึงขึ้นมาได้เลย", "en": "The vegetables are ready. Pull them up!" },
     "thanks": { "th": "ขอบคุณมากครับ ผักสดน่ากินจังเลย", "safi": "ขอบคุณมากค่ะ ผักสดน่ากินจังเลย", "en": "Thank you so much! The vegetables look so fresh." }
   }

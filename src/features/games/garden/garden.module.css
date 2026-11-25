@@ -17,12 +17,9 @@
   .bed:hover, .friend:hover { box-shadow: inset 0 0 0 3px #fff7c5c0; }
 }
 .basket { width: 13%; aspect-ratio: 1; display: grid; place-items: center; cursor: grab; z-index: 2; }
-.basket > span { position: relative; display: block; width: 100%; }
-.basket > span > img { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 4px #2f4a2a55); }
+.basketArt { display: block; width: 100%; aspect-ratio: 1; filter: drop-shadow(0 6px 4px #2f4a2a55); }
 /* Vegetables inside the basket: cut off along the front rim so they sit in it, not on top of it. */
-.pile { position: absolute; inset: 0; pointer-events: none;
-  clip-path: polygon(12% 0, 88% 0, 88% 56%, 74% 63%, 50% 67%, 26% 63%, 12% 56%); }
-.pile img { position: absolute; width: 38%; height: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 2px 2px #3a2a1466); }
+.pile { clip-path: polygon(12% 0, 88% 0, 88% 56%, 74% 63%, 50% 67%, 26% 63%, 12% 56%) view-box; }
 .basket[data-dragging] { cursor: grabbing; }
 .basket:disabled { cursor: default; }
 .basket[data-ready]::after { content: ''; position: absolute; inset: -6%; border-radius: 50%; border: 4px dashed #e5413a; }
@@ -36,7 +33,7 @@
 /* Dragging with a mouse must move the tool, not select text or start the browser's own image drag. */
 .bench, .targets { user-select: none; -webkit-user-select: none; }
 .bench img, .targets img { -webkit-user-drag: none; }
-.bench { display: flex; justify-content: center; align-items: flex-end; gap: 5%; padding: 4px 3% 10px;
+.bench { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 5%; padding: 4px 3% 10px;
   background: linear-gradient(#61a000, #4e8a00 70%, #457a06); }
 .table { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: clamp(2px, 1.2cqw, 16px);
   padding: 0 clamp(18px, 3cqw, 40px) clamp(22px, 2.6cqw, 34px); min-height: 100px; }
@@ -44,14 +41,14 @@
   background: url('/games/vip/garden-bg/bench-top.webp') center / 100% 100% no-repeat; filter: drop-shadow(0 6px 4px #2f4a2a55); }
 @container (max-width: 520px) {
   .bench { flex-direction: column; align-items: stretch; gap: 0; padding-top: 0; }
-  .table { min-height: 92px; padding-inline: 8px; gap: 0; }
-  .bench { padding-inline: 2%; }
+  .table { min-height: 92px; padding-inline: 0; gap: 0; flex-wrap: wrap; }
+  .bench { padding-inline: 1%; }
 }
 .item { position: relative; z-index: 1; flex-shrink: 0; display: grid; place-items: end center; width: clamp(64px, 10cqw, 120px); height: clamp(72px, 11cqw, 128px);
   padding: 0; border: 0; background: transparent; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent;
   transition: filter 200ms ease-out; }
 .item img { width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 3px #3a2a1466); pointer-events: none; }
-.item .tag { position: absolute; left: 50%; bottom: 6%; width: 46%; transform: translateX(-50%); }
+.item .tag { position: absolute; left: 50%; bottom: 6%; width: 46%; translate: -50% 0; }
 /* Picked up: lifted off the bench with a gold ring left on the planks. */
 .item::after { content: ''; position: absolute; left: 12%; right: 12%; bottom: -4px; height: 14px; border-radius: 50%; opacity: 0; border: 3px solid #f2c454; }
 .item[aria-pressed='true']::after { opacity: 1; }
@@ -75,23 +72,45 @@
   .arriving { animation: settle 1ms 300ms both; }
 }
 @keyframes settle { to { opacity: 1; } }
+/* First receive the basket at the gate, then carry it across the lawn. */
+.plane { --hold-basket: 1.1s; --walk-out: 1.4s; }
+.replacement { pointer-events: none; filter: drop-shadow(0 6px 4px #2f4a2a55);
+  animation: emptyBasketIn .32s ease-out calc(var(--hold-basket) + var(--walk-out)) both; }
+@keyframes emptyBasketIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .handoff { animation: receiveBasket .4s ease-out both; }
+  .departing { animation: walkOut var(--walk-out) ease-in-out var(--hold-basket) both; }
+}
+@keyframes receiveBasket { from { transform: translate(var(--from-x), var(--from-y)); } to { transform: none; } }
+@keyframes walkOut {
+  0% { transform: translate(0, 0); }
+  45% { transform: translate(-370px, 14px); }
+  100% { transform: translate(-900px, 18px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .departing { animation: leaveQuietly 1ms calc(var(--hold-basket) + var(--walk-out)) forwards; }
+}
+@keyframes leaveQuietly { to { opacity: 0; } }
 /* Rail above the scene: what the friend wants and what is in the basket. */
 .wish { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
 .wish li { display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border-radius: 14px; background: #fff; border: 2px solid #c9dcc0; font-weight: 800; }
 .wish li[data-done] { border-color: #3c8a5a; background: #e6f6e6; }
 .wish img { width: 36px; height: 36px; object-fit: contain; }
 .wish svg { color: #2e7d4f; }
+.orderRail { justify-content: space-between; }
+.orderTicket, .price { display: flex; align-items: center; gap: 6px; }
+.orderTicket { flex-wrap: wrap; }
+.price { color: #51391a; font-weight: 800; }
+.price svg { width: 25px; height: 25px; }
+.orderRail > [role='status'] { flex: 1 1 170px; }
+.gardenOptions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 4px 8px; }
+.tapHint { position: absolute; z-index: 3; right: 2%; bottom: 3%; width: clamp(24px, 4cqw, 40px); pointer-events: none; }
+.bed .tapHint { right: 28%; bottom: 12%; }
 
-/* Step numbers on the objects: a gold disc with a dark number, so the order reads without relying on colour. */
-.step { position: absolute; left: 2%; top: 4%; z-index: 2; display: grid; place-items: center; width: clamp(26px, 3.2cqw, 36px); aspect-ratio: 1;
-  border-radius: 50%; background: #ffd75e; color: #3b2a06; border: 3px solid #fff; box-shadow: 0 2px 4px #2f4a2a66;
-  font: 900 clamp(.95rem, 1.9cqw, 1.3rem)/1 var(--font-display); pointer-events: none; }
-.basket .step { left: 4%; top: auto; bottom: 8%; }
-.hintToggle { display: inline-flex; align-items: center; gap: 8px; }
-.hintMark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #ffd75e; color: #3b2a06; border: 2px solid #fff; font-weight: 900; }
-.hintToggle[aria-pressed='false'] .hintMark { background: #e4e0d4; color: #6b6556; text-decoration: line-through; }
-.hintState { padding: 1px 8px; border-radius: 999px; background: #146763; color: #fff; font-size: .8rem; }
-.hintToggle[aria-pressed='false'] .hintState { background: #5f5948; }
+.seedShop { display: inline-flex; align-items: center; gap: 9px; min-height: 64px; padding: 3px 16px 3px 8px;
+  border: 2px solid #996a39; border-radius: 14px; background: #fff8df; color: var(--color-ink); font-weight: 750; cursor: pointer; }
+.seedShop:focus-visible { outline: 4px solid #143d77; outline-offset: 2px; }
+.seedShop:disabled { opacity: .6; cursor: default; }
 
 /* Digging: clumps of soil fly up from the hoe and fall back; a dust puff when the bed is done. One-shot, never looping. */
 .clod { transform-box: fill-box; transform-origin: center; opacity: 0; }

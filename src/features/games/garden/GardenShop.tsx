@@ -7,11 +7,10 @@ import { vip, coinText, needCoinsText, needItemText } from '../vip/content';
 import styles from '../vip/vip.module.css';
 import modal from '../smoothie/conversation.module.css';
 import { updateShop, useShop } from '../smoothie/store';
-import { gardenBlocker, gardenItems, type Garden, type GardenBlocker, type GardenItem } from './model';
+import { gardenBlocker, gardenItems, unlockGardenItem, type Garden, type GardenBlocker, type GardenItem } from './model';
+import { Bed, YoungPlant } from './Plants';
 import { updateGarden } from './store';
 import { garden as text } from './text';
-
-const pictures: Record<GardenItem, string> = { tomato: 'tomato', beds: 'hoe', corn: 'corn', sprinkler: 'sprinkler', pumpkin: 'pumpkin' };
 
 function reason(block: GardenBlocker): Text | undefined {
   switch (block.kind) {
@@ -43,7 +42,11 @@ export function GardenShop({ farm, onClose, onBought }: { farm: Garden; onClose:
       return { ...current, coins: current.coins - price };
     });
     if (!paid) return;
-    await updateGarden(g => g[item] ? g : { ...g, [item]: true });
+    const unlocked = await updateGarden(g => unlockGardenItem(g, item));
+    if (!unlocked) {
+      await updateShop(current => ({ ...current, coins: current.coins + price }));
+      return;
+    }
     onBought();
     const { name } = text.items[item];
     setNews({ th: vip.bought.th + ': ' + name.th, en: vip.bought.en + ': ' + name.en });
@@ -61,7 +64,18 @@ export function GardenShop({ farm, onClose, onBought }: { farm: Garden; onClose:
           const owned = block?.kind === 'owned';
           const cost = coinText(price);
           return <li key={id} className={styles.stockItem} data-upgrade={id} data-state={owned ? 'owned' : block ? 'locked' : 'ready'}>
-            <Image src={`/games/vip/garden/${pictures[id]}.webp`} alt="" width={64} height={64} className={styles.stockArt} />
+            {id === 'beds' ? <svg viewBox="-120 -104 244 168" width="64" height="64" className={styles.stockArt} aria-hidden="true" focusable="false">
+              <g transform="translate(16 -49) scale(.83)">
+                <Bed look="tilled" wet={false} closed={false} />
+                <YoungPlant crop="lettuce" look="sprout" droop={false} />
+              </g>
+              <g transform="translate(-6 12)">
+                <Bed look="tilled" wet={false} closed={false} />
+                {[-49, 30].map(x => <g key={x} transform={`translate(${x} 0)`}>
+                  <YoungPlant crop="lettuce" look="leafy" droop={false} />
+                </g>)}
+              </g>
+            </svg> : <Image src={`/games/vip/garden/${id}.webp`} alt="" width={64} height={64} className={styles.stockArt} />}
             <div className={styles.stockCopy}>
               <strong><Label text={name} /></strong>
               <p><Label text={benefit} /></p>

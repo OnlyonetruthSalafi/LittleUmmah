@@ -4,12 +4,13 @@ import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState, type K
 import { useRouter } from 'next/navigation';
 import { LocaleLink, useLocale, useLocalePath } from '@/i18n/LocaleProvider';
 import { PlayArea } from '@/features/learning-stars/components';
+import { ShopCoin } from '@/components/icons/ShopCoin';
 import { MarketMapArt } from '../smoothie/MarketMapArt';
 import { Label } from './Labels';
 import { vip } from './content';
 import { nearestTrailPoint, pointOnTrail, stops, type Stop } from './trail';
 import { useShop } from '../smoothie/store';
-import { openPlaces, places, route } from './route';
+import { islandProgress, places, route } from './route';
 import { useGarden } from '../garden/store';
 import styles from './vip.module.css';
 import atlas from './world.module.css';
@@ -35,10 +36,8 @@ export function MarketWorld() {
   const [overview, setOverview] = useState(false);
   const [fogHint, setFogHint] = useState(false);
   const { shop } = useShop();
-  // The bridge to the garden opens once the child has sold a few smoothies.
   const { garden } = useGarden();
-  // Each place opens the next: smoothies sold open the garden, garden deliveries open the restaurant.
-  const open = openPlaces(shop.served, garden.delivered);
+  const { open, goal } = islandProgress(shop.earnedCoins, garden.earnedCoins);
   const isOpen = (stop: Stop) => open.includes(stop);
   const limit = stops[open[open.length - 1]];
   const [fogText, setFogText] = useState(vip.mist);
@@ -60,11 +59,11 @@ export function MarketWorld() {
 
   useLayoutEffect(() => {
     const hash = location.hash.slice(1);
-    const d = hash in stops ? stops[hash as Stop] : 0;
+    const d = Object.hasOwn(stops, hash) ? Math.min(stops[hash as Stop], limit) : 0;
     distance.current = d;
     const id = requestAnimationFrame(() => { setPosition(d); follow(d,true); });
     return () => { cancelAnimationFrame(id); cancelAnimationFrame(anim.current); };
-  }, [follow]);
+  }, [follow, limit]);
   useLayoutEffect(() => {
     const v = viewport.current;
     if (!v) return;
@@ -109,7 +108,7 @@ export function MarketWorld() {
   }
   function visit(stop: Stop) {
     const place = places.find(p => p.stop === stop)!;
-    if (!isOpen(stop)) { setFogText(place.locked ?? vip.mist); setFogHint(true); return; }
+    if (!isOpen(stop)) { setFogText(goal?.hint ?? vip.mist); setFogHint(true); return; }
     if (at === stop) router.push(path(place.href));
     else move(stops[stop]);
   }
@@ -158,7 +157,7 @@ export function MarketWorld() {
     if (spot) { visit(spot.stop); return; }
     const d = nearestTrailPoint(x,y), nearest = pointOnTrail(d);
     if (Math.hypot(x-nearest.x,y-nearest.y) <= 43 && d <= limit + 1) move(d);
-    else { setFogText(d > limit + 1 ? places.find(p => !isOpen(p.stop))?.locked ?? vip.mist : vip.mist); setFogHint(true); }
+    else { setFogText(d > limit + 1 ? goal?.hint ?? vip.mist : vip.mist); setFogHint(true); }
   }
   useEffect(() => { limitRef.current = limit; }, [limit]);
   const frame = moving ? Math.floor(position / 17) % 4 : 0;
@@ -182,8 +181,9 @@ export function MarketWorld() {
           const locked = !isOpen(place.stop);
           return <button key={place.stop} className={atlas.shopPin} data-locked={locked || undefined} data-stop={place.stop}
             style={{left:percentX(place.pin.x),top:percentY(place.pin.y)}}
-            aria-label={locked ? place.name[lang] + ' · ' + place.locked?.[lang] : place.name[lang]} onClick={() => visit(place.stop)}>
+            aria-label={locked && goal ? place.name[lang] + ' · ' + goal.hint[lang] : place.name[lang]} onClick={() => visit(place.stop)}>
             {locked && <LockIcon />}<Label text={place.name} />
+            {goal?.stop === place.stop && <span className={atlas.pinCoins} aria-hidden="true"><ShopCoin /> {goal.earned}/{goal.target}</span>}
           </button>;
         })}
         {route.soon.map(place => <button key={place.id} className={atlas.shopPin} data-locked style={{left:percentX(place.x),top:percentY(place.y)}}
@@ -193,7 +193,14 @@ export function MarketWorld() {
       </div>
     </div>
     <footer className={atlas.hud}>
-      <div className={atlas.hint} role="status"><Label text={fogHint ? fogText : here ? here.arrive : vip.mapHelp} /></div>
+      <div className={atlas.hint} role="status">
+        {goal && !fogHint ? <div className={atlas.goal} data-next-island={goal.stop}>
+          <div className={atlas.goalCount} aria-hidden="true">{goal.earned}/{goal.target}<ShopCoin /></div>
+          <div><Label text={goal.hint} />
+            <progress value={goal.earned} max={goal.target} aria-label={goal.hint[lang]} />
+          </div>
+        </div> : <Label text={fogHint ? fogText : here ? here.arrive : vip.mapHelp} />}
+      </div>
       <div className={atlas.actions}>
         {!moving && places.filter(p => p.stop !== at && p.stop !== 'shop' && isOpen(p.stop)).map(p =>
           <button key={p.stop} className={styles.secondary} onClick={()=>move(stops[p.stop])}><Label text={p.walk} /></button>)}

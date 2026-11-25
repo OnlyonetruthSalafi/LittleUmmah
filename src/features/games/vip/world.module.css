@@ -10,6 +10,17 @@
 .header h1 small { font-size: .63em; }
 .hud { background: #fffbed; border-top: 3px solid #95c4b5; padding-bottom: max(8px,env(safe-area-inset-bottom)); }
 .hint { font-weight: 650; }
+.goal { display: flex; align-items: center; gap: 10px; }
+.goalCount, .pinCoins { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.goalCount { flex: none; color: #664215; flex-direction: column; }
+.goalCount svg { width: 30px; height: 30px; }
+.goal progress { display: block; margin-top: 4px; width: 100%; max-width: 260px; height: 8px; accent-color: #167267; }
+.shopPin .pinCoins { display: flex; justify-content: center; margin-top: 4px; }
+.pinCoins svg { width: 20px; height: 20px; }
+@media (prefers-reduced-motion: no-preference) {
+  .fogClearing { animation: liftFog 850ms ease-out both; }
+}
+@keyframes liftFog { from { opacity: 0; } to { opacity: 1; } }
 .hud > :last-child { flex-shrink: 0; min-width: 160px; }
 .actions > * { min-width: 150px; }
 .viewport {

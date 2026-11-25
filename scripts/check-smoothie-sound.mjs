@@ -57,6 +57,8 @@ try {
     await page.getByRole('link', { name: /เข้าร้านน้ำปั่น/ }).tap();
     const dialog = page.getByRole('dialog');
     const reply = dialog.getByRole('button', { name: /^วะอะลัยกุมุสสะลาม/ }).first();
+    await reply.waitFor();
+    assert.equal(await dialog.getByRole('button', { name: /ฟัง.*สลาม/ }).count(), 0);
     await reply.tap();
     await dialog.getByRole('button', { name: /รับออเดอร์/ }).tap();
     for (const object of ['orange', 'banana', 'blender', 'cup']) {
@@ -76,7 +78,7 @@ try {
     await reply.tap();
     await dialog.getByRole('button', { name: /รับออเดอร์/ }).waitFor();
     const events = await page.evaluate(() => window.shopSounds);
-    for (const name of ['smoothie-coins.mp3', 'safi-shop-salam.mp3']) {
+    for (const name of ['sabir-shop-salam.mp3', 'smoothie-coins.mp3', 'safi-shop-salam.mp3']) {
       const plays = events.filter(entry => entry.name === name);
       assert.equal(plays.length, muted ? 0 : 1, name);
       if (!muted) {
@@ -85,6 +87,43 @@ try {
       }
     }
     console.log(muted ? 'Muted sale and greeting passed.' : 'Audible payment and complete Safi greeting passed.');
+    await page.close();
+  }
+  // The garden uses the same conversation. Exercise the media-element path, including a direct visit
+  // where a phone requires a gesture, and an unavailable clip that still has a readable caption.
+  for (const rejectedAttempts of [0, 1, 2]) {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
+    await page.addInitScript(rejects => {
+      localStorage.setItem('little-ummah:games:smoothie:v1', JSON.stringify({ served: 3, coins: 0 }));
+      Object.defineProperty(window, 'AudioContext', { value: undefined });
+      window.greeting = { attempts: 0, ended: 0, dialogDuringSpeech: false };
+      const play = HTMLMediaElement.prototype.play;
+      HTMLMediaElement.prototype.play = function () {
+        if (this.src.endsWith('-shop-salam.mp3')) {
+          window.greeting.attempts++;
+          if (window.greeting.attempts <= rejects) return Promise.reject(new DOMException('Gesture required', 'NotAllowedError'));
+          this.addEventListener('playing', () => { window.greeting.dialogDuringSpeech = !!document.querySelector('dialog[open]'); }, { once: true });
+          this.addEventListener('ended', () => window.greeting.ended++, { once: true });
+        }
+        return play.call(this);
+      };
+    }, rejectedAttempts);
+    await page.goto(base + '/games/vip#garden');
+    await page.getByRole('link', { name: /เข้าสวนผัก/ }).tap();
+    const dialog = page.getByRole('dialog');
+    const reply = dialog.getByRole('button', { name: /^วะอะลัยกุมุสสะลาม/ }).first();
+    if (rejectedAttempts) await dialog.getByRole('button', { name: /แตะเพื่อฟังลูกค้าให้สลาม/ }).tap();
+    await reply.waitFor();
+    assert.equal(await dialog.getByRole('button', { name: /ฟัง.*สลาม/ }).count(), 0);
+    assert.deepEqual(await page.evaluate(() => window.greeting), {
+      attempts: rejectedAttempts ? 2 : 1, ended: rejectedAttempts === 2 ? 0 : 1, dialogDuringSpeech: false,
+    });
+    await dialog.getByRole('button', { name: /คุยต่อภายหลัง/ }).tap();
+    await page.locator('[data-object="friend"]').tap();
+    await reply.tap();
+    await dialog.getByRole('button', { name: /รับคำขอ/ }).waitFor();
+    assert.equal(await page.evaluate(() => window.greeting.attempts), rejectedAttempts ? 2 : 1);
+    console.log('Garden greeting passed with', rejectedAttempts, 'blocked attempts.');
     await page.close();
   }
 } finally {

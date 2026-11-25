@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
+import { HandTapIcon } from '@/components/icons/HandTapIcon';
 import type { Locale, Text } from '@/i18n/config';
-import { cropNames, look, thirsty, weedy, type Crop, type Plot } from './model';
-import { Bed, ThirstBadge, Weed, YoungPlant } from './Plants';
+import { cropNames, look, thirsty, weedy, type Basket, type Crop, type Plot, type Tool, type Visitor } from './model';
+import { Bed, Weed, YoungPlant } from './Plants';
 import { bedName, bedState, garden as text } from './text';
 import styles from './garden.module.css';
 
-export type Tool = 'hoe' | 'can' | 'fork' | `seed:${Crop}`;
 export type FriendPose = 'stand' | 'point' | 'wait' | 'cheer';
 
 /** Bed centres and depth scale in the 900 × 530 scene. Beds 1–3 are the front row. */
@@ -18,6 +18,9 @@ export const beds: [x: number, y: number, s: number][] = [
 const FRIEND = { x: 640, y: 96, size: 220 };
 const friendZone = { x: 750, y: 210, w: 200, h: 230 };
 const BASKET = { x: 765, y: 468 };
+// Position of the raised claw on each mirrored thank-you sprite, in scene coordinates.
+const grip: Record<Visitor, [number, number]> = { hadi: [703, 163], safi: [699, 221], sabir: [668, 147] };
+const carrySize = 92;
 const TILL_DISTANCE = 240;
 const WATER_HOLD = 650;
 
@@ -31,6 +34,56 @@ type Flight = { id: number; crop: Crop; x: number; y: number };
 const FLIGHT_MS = 750;
 /** Where each vegetable sits in the basket, back row first (percent of the basket box). */
 const PILE: [x: number, y: number, turn: number][] = [[34, 40, -12], [66, 40, 14], [50, 36, -4], [30, 50, -10], [50, 52, 6], [70, 50, 18], [42, 58, -4], [58, 58, 10]];
+
+type BedAction = 'dig' | 'sow' | 'water' | 'weed' | 'harvest' | 'grow';
+const signArt = { dig: 'hoe', sow: 'seed-sack', water: 'watering-can', weed: 'hand-fork', harvest: 'hand-fork' };
+
+function BedSign({ bed, action, crop }: { bed: number; action: BedAction; crop?: Crop }) {
+  const edge = action === 'weed' ? '#387147' : action === 'water' ? '#25688a' : '#795129';
+  const position = action === 'dig' || action === 'sow' ? 'translate(-50 -35)' : 'translate(68 -70)';
+  return <g transform={position + ' scale(1.25)'} aria-hidden="true" pointerEvents="none" data-bed-sign={action} data-for-bed={bed}>
+    <path d="m-8 21 8 13 8-13" fill="#fff8df" stroke={edge} strokeWidth="3" strokeLinejoin="round" />
+    <circle r="28" fill="#fff8df" stroke={edge} strokeWidth="3" />
+    {action === 'grow' ? <g stroke="#795129" strokeWidth="3" strokeLinejoin="round">
+      <path d="M-11-15h22c0 8-3 11-9 15 6 4 9 7 9 15h-22c0-8 3-11 9-15-6-4-9-7-9-15Z" fill="#e6f5f4" />
+      <path d="m-6-9 6 6 6-6Zm0 21 6-7 6 7Z" fill="#bb7928" stroke="none" />
+    </g> : <image href={art(signArt[action])} x={action === 'harvest' ? -14 : -24} y="-24" width={action === 'harvest' ? 38 : 48} height="48" />}
+    {action === 'sow' && crop && <image href={art(crop)} x="-12" y="-3" width="24" height="24" />}
+    {action === 'harvest' && crop && <image href={art(crop)} x="-25" y="-4" width="29" height="29" />}
+  </g>;
+}
+
+// Top of each pointing sprite's head in scene coordinates (the flying customer sits lower).
+const headTop: Record<Visitor, number> = { hadi: 112, safi: 201, sabir: 138 };
+function CustomerRequestSign({ items, visitor }: { items: Partial<Basket>; visitor: Visitor }) {
+  const vegetables = (Object.entries(items) as [Crop, number][]).flatMap(([crop, count]) => Array<Crop>(count).fill(crop));
+  const width = vegetables.length * 48 + 16;
+  const head = FRIEND.x + FRIEND.size / 2;
+  // Keep a mixed order inside the phone crop, with the pointer still above the customer.
+  const left = Math.min(head - width / 2, 810 - width);
+  const pointer = head - left;
+  return <g transform={`translate(${left} ${headTop[visitor] - 82})`} pointerEvents="none" aria-hidden="true" data-customer-request="">
+    <rect width={width} height="64" rx="32" fill="#fff8df" stroke="#25688a" strokeWidth="3" />
+    <path d={`M${pointer - 9} 62l9 13 9-13`} fill="#fff8df" stroke="#25688a" strokeWidth="3" strokeLinejoin="round" />
+    {vegetables.map((crop, i) => <image key={crop + i} href={art(crop)} data-request-crop={crop} x={8 + 48 * i} y="8" width="48" height="48" />)}
+  </g>;
+}
+
+function BasketArt({ items = {}, flights = [] }: { items?: Partial<Basket>; flights?: Flight[] }) {
+  const pile = (Object.entries(items) as [Crop, number][]).flatMap(([crop, count]) => {
+    const landed = count - flights.filter(f => f.crop === crop).length;
+    return Array<Crop>(Math.min(PILE.length, Math.max(0, landed))).fill(crop);
+  }).slice(0, PILE.length);
+  return <svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true">
+    <image href={art('basket')} width="100" height="100" />
+    <g className={styles.pile}>
+      {pile.map((crop, i) => {
+        const [x, y, turn] = PILE[i];
+        return <image key={i} data-crop={crop} href={art(crop)} x={x - 19} y={y - 19} width="38" height="38" transform={`rotate(${turn} ${x} ${y})`} />;
+      })}
+    </g>
+  </svg>;
+}
 
 function pct(x: number, y: number, w?: number, h?: number): CSSProperties {
   return { left: `${x / 9}%`, top: `${y / 5.3}%`, ...(w ? { width: `max(64px,${w / 9}%)` } : {}), ...(h ? { height: `max(64px,${h / 5.3}%)` } : {}) };
@@ -47,20 +100,18 @@ function bedAt(x: number, y: number, open: number) {
 type Props = {
   lang: Locale; plots: Plot[]; open: number; sprinkler: boolean; working: boolean;
   tool: Tool | null; tools: Tool[]; onTool: (tool: Tool | null) => void;
+  guideTool?: Tool; guideBed: number; sowCrop?: Crop;
   onApply: (bed: number, tool: Tool) => void; onBlocked: (message: Text) => void;
-  visitor: string; pose: FriendPose; arrived: boolean; onArrival: () => void; onFriend: () => void;
-  basket: Record<Crop, number>; canGive: boolean; onGive: () => void; speaking: boolean; hints: boolean; onScrape: () => void; onLand: () => void;
+  visitor: Visitor; pose: FriendPose; arrived: boolean; onArrival: () => void; onFriend: () => void;
+  soldItems?: Partial<Basket>;
+  requestedCrops?: Partial<Basket>;
+  basket: Record<Crop, number>; canGive: boolean; onGive: () => Promise<void>; speaking: boolean; onScrape: () => void; onLand: () => void;
 };
-
-/** The order of the work, shown as numbers on the objects while hints are on: dig, sow, water, dig up with the fork, hand over the basket. */
-const stepOf = (tool: Tool | 'basket') => tool === 'hoe' ? 1 : tool === 'can' ? 3 : tool === 'fork' ? 4 : tool === 'basket' ? 5 : 2;
-function StepBadge({ n }: { n: number }) {
-  return <span className={styles.step} aria-hidden="true">{n}</span>;
-}
 
 export function GardenScene(p: Props) {
   const plane = useRef<HTMLDivElement>(null);
   const drag = useRef<{ tool: Tool; id: number; x: number; y: number; moved: boolean; bed: number; progress: number; scrape: number; last: [number, number]; timer?: number } | null>(null);
+  useEffect(() => () => { window.clearInterval(drag.current?.timer); drag.current = null; }, [p.working]);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const burstId = useRef(0);
   /** Soil flying up from the hoe: a small clump while scrubbing, a big puff when the bed is dug. */
@@ -108,6 +159,8 @@ export function GardenScene(p: Props) {
   const [lift, setLift] = useState<{ bed: number; dy: number } | null>(null);
   const [basketAt, setBasketAt] = useState<[number, number] | null>(null);
   const basketDrag = useRef<{ id: number; x: number; y: number } | null>(null);
+  const basketMoved = useRef(false);
+  const [droppedAt, setDroppedAt] = useState<[number, number] | null>(null);
   const pull = useRef<{ id: number; bed: number; y: number; moved: boolean } | null>(null);
   const wasPulled = useRef(-1);
 
@@ -118,7 +171,7 @@ export function GardenScene(p: Props) {
 
   /* ----- dragging a tool from the shelf onto the beds ----- */
   function toolDown(tool: Tool, e: ReactPointerEvent<HTMLButtonElement>) {
-    if (!p.working) return;
+    if (!p.working || drag.current) return;
     if (e.pointerType === 'mouse') e.preventDefault(); // no text selection or native image drag; focus stays for keyboard users
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* moves still arrive over the button */ }
     drag.current = { tool, id: e.pointerId, x: e.clientX, y: e.clientY, moved: false, bed: -1, progress: 0, scrape: 0, last: scene(e.clientX, e.clientY) };
@@ -130,7 +183,10 @@ export function GardenScene(p: Props) {
     d.moved = true;
     const [x, y] = scene(e.clientX, e.clientY);
     const bed = bedAt(x, y, p.open);
-    if (bed !== d.bed) { d.bed = bed; d.progress = 0; window.clearInterval(d.timer); d.timer = undefined; }
+    if (bed !== d.bed) {
+      d.bed = bed; d.progress = 0; d.scrape = 0; d.last = [x, y];
+      window.clearInterval(d.timer); d.timer = undefined;
+    }
     if (bed >= 0 && d.tool === 'hoe' && p.plots[bed].kind === 'wild') {
       // Scrubbing back and forth digs the bed.
       const step = Math.hypot(x - d.last[0], y - d.last[1]);
@@ -191,7 +247,7 @@ export function GardenScene(p: Props) {
     if (e.detail > 0 && wasPulled.current === i) { wasPulled.current = -1; return; }
     if (!p.working) { p.onBlocked(text.wait); return; }
     if (i >= p.open) { p.onBlocked(text.locked); return; }
-    if (!p.tool) { p.onBlocked(text.pickFirst); return; }
+    if (!p.tool) { p.onBlocked(p.plots[i].kind === 'wild' ? text.dig : text.pickFirst); return; }
     if (p.tool === 'hoe' && p.plots[i].kind === 'wild') { dig(i); return; }
     if (p.tool === 'fork') { fork(i); return; }
     p.onApply(i, p.tool);
@@ -204,17 +260,26 @@ export function GardenScene(p: Props) {
   }
 
   const ready = (plot: Plot) => look(plot);
+  const [handX, handY] = grip[p.visitor];
+  const heldX = handX - carrySize / 2, heldY = handY - carrySize * .07;
   return <div className={styles.window}><div className={styles.plane} ref={plane}>
     <svg className={styles.scene} viewBox="0 0 900 530" role="img" aria-label={text.scene[p.lang]}>
       <rect width="900" height="530" fill="#9fd98a" />
       <image href="/games/vip/garden-bg/bg.webp" width="900" height="530" preserveAspectRatio="xMidYMid slice" />
-      <g className={p.arrived ? undefined : styles.arriving} onAnimationEnd={e => { if (e.target === e.currentTarget) p.onArrival(); }}>
+      <g className={p.soldItems ? styles.departing : p.arrived ? undefined : styles.arriving} onAnimationEnd={e => { if (!p.arrived && e.target === e.currentTarget) p.onArrival(); }}>
         <ellipse cx={FRIEND.x + FRIEND.size / 2} cy={FRIEND.y + FRIEND.size * .95} rx="62" ry="11" fill="#2f5a2c" opacity=".25" />
         {/* The friend art faces right; mirrored, the friend turns toward the beds and points at them. */}
         <image href={`/Character/friends/${p.visitor}${p.pose === 'stand' ? '' : '-' + p.pose}.webp`}
           x={FRIEND.x} y={FRIEND.y} width={FRIEND.size} height={FRIEND.size}
           transform={`translate(${2 * FRIEND.x + FRIEND.size} 0) scale(-1 1)`} />
-        {p.speaking && <g transform={`translate(${FRIEND.x + 40} ${FRIEND.y + 20})`} aria-hidden="true">
+        {p.soldItems && <g className={styles.handoff} data-basket="carried" style={{
+          '--from-x': `${(droppedAt?.[0] ?? BASKET.x) - handX}px`,
+          '--from-y': `${(droppedAt?.[1] ?? BASKET.y) - (heldY + carrySize / 2)}px`,
+        } as CSSProperties}>
+          <svg x={heldX} y={heldY} width={carrySize} height={carrySize}><BasketArt items={p.soldItems} /></svg>
+        </g>}
+        {p.requestedCrops && <CustomerRequestSign items={p.requestedCrops} visitor={p.visitor} />}
+        {p.speaking && !p.requestedCrops && <g transform={`translate(${FRIEND.x + 40} ${FRIEND.y + 20})`} aria-hidden="true">
           <path d="M-34-22h68a12 12 0 0 1 12 12v18a12 12 0 0 1-12 12H8L-2 34-4 20h-30a12 12 0 0 1-12-12v-18a12 12 0 0 1 12-12Z" fill="#fff" stroke="#2c6a68" strokeWidth="3" />
           <g fill="#2c6a68"><circle cx="-14" cy="-1" r="4" /><circle cx="0" cy="-1" r="4" /><circle cx="14" cy="-1" r="4" /></g>
         </g>}
@@ -226,6 +291,8 @@ export function GardenScene(p: Props) {
         const closed = i >= p.open;
         const stage = closed ? 'closed' : ready(plot);
         const droop = thirsty(plot, p.sprinkler);
+        const action = stage === 'wild' ? 'dig' : stage === 'tilled' ? 'sow' : weedy(plot) ? 'weed'
+          : stage === 'ready' ? 'harvest' : droop ? 'water' : 'grow';
         const dy = lift?.bed === i ? lift.dy : 0;
         return <g key={i} transform={`translate(${x} ${y}) scale(${s})`}>
           <Bed look={stage} wet={plot.kind === 'crop' && (p.sprinkler || plot.water > 0)} closed={closed} />
@@ -235,7 +302,8 @@ export function GardenScene(p: Props) {
               : <YoungPlant crop={plot.crop} look={stage as never} droop={droop} />}
           </g>}
           {weedy(plot) && !closed && <g transform={`translate(70 ${2 + dy / s})`}><Weed /></g>}
-          {droop && !closed && <g transform="translate(-74 -64)"><ThirstBadge /></g>}
+          {!closed && p.working && !p.canGive &&
+            <BedSign bed={i} action={action} crop={plot.kind === 'crop' ? plot.crop : p.sowCrop} />}
         </g>;
       })}
       {ghost && ghost.bed >= 0 && ghost.tool === 'hoe' && p.plots[ghost.bed].kind === 'wild' && ghost.progress > 0 && (() => {
@@ -276,41 +344,54 @@ export function GardenScene(p: Props) {
           aria-label={label} title={label} style={pct(x, y - 30 * s, 210 * s, 120 * s)}
           onPointerDown={e => bedDown(i, e)} onPointerMove={bedMove} onPointerUp={e => bedUp(i, e)}
           onPointerCancel={() => { pull.current = null; setLift(null); }}
-          onClick={e => bedClick(i, e)} />;
+          onClick={e => bedClick(i, e)}>
+          {p.working && p.guideBed === i && <HandTapIcon className={styles.tapHint} />}
+        </button>;
       })}
-      <button type="button" className={styles.friend} data-object="friend" aria-label={text.talk[p.lang]} style={pct(friendZone.x, friendZone.y, friendZone.w, friendZone.h)}
+      <button type="button" className={styles.friend} data-object="friend" disabled={!!p.soldItems} aria-label={(p.working ? text.sellToFriend : text.talk)[p.lang]} style={pct(friendZone.x, friendZone.y, friendZone.w, friendZone.h)}
         onClick={p.onFriend} />
-      <button type="button" className={styles.basket} data-drag="basket" disabled={!p.working}
-        aria-label={`${p.hints ? text.step(5, text.basket)[p.lang] : text.basket[p.lang]} · ${text.give[p.lang]}`} title={text.give[p.lang]}
+      {p.soldItems ? <span className={`${styles.basket} ${styles.replacement}`} style={pct(BASKET.x, BASKET.y)} data-basket="replacement" aria-hidden="true"><BasketArt /></span>
+        : <button type="button" className={styles.basket} data-drag="basket" disabled={!p.working}
+        aria-label={`${text.basket[p.lang]} · ${text.give[p.lang]}`} title={text.give[p.lang]}
         style={{ ...pct(BASKET.x, BASKET.y), ...(basketAt ? { translate: `${basketAt[0]}px ${basketAt[1]}px` } : {}) }}
         data-dragging={basketAt ? true : undefined} data-ready={p.canGive || undefined}
         onPointerDown={e => {
           try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* fine */ }
+          basketMoved.current = false;
+          setDroppedAt(null);
           basketDrag.current = { id: e.pointerId, x: e.clientX, y: e.clientY }; setBasketAt([0, 0]);
         }}
-        onPointerMove={e => { const b = basketDrag.current; if (b?.id === e.pointerId) setBasketAt([e.clientX - b.x, e.clientY - b.y]); }}
-        onPointerUp={e => { const b = basketDrag.current; basketDrag.current = null; setBasketAt(null); if (b?.id === e.pointerId && overFriend(e.clientX, e.clientY)) p.onGive(); }}
+        onPointerMove={e => {
+          const b = basketDrag.current;
+          if (b?.id !== e.pointerId) return;
+          const dx = e.clientX - b.x, dy = e.clientY - b.y;
+          if (Math.hypot(dx, dy) > 8) basketMoved.current = true;
+          if (basketMoved.current) setBasketAt([dx, dy]);
+        }}
+        onPointerUp={async e => {
+          const b = basketDrag.current;
+          basketDrag.current = null;
+          if (b?.id === e.pointerId && basketMoved.current && overFriend(e.clientX, e.clientY)) {
+            if (p.canGive) {
+              setDroppedAt(scene(e.clientX, e.clientY));
+              setBasketAt([e.clientX - b.x, e.clientY - b.y]);
+            }
+            try { await p.onGive(); } finally { setBasketAt(null); }
+          } else {
+            setBasketAt(null);
+          }
+        }}
         onPointerCancel={() => { basketDrag.current = null; setBasketAt(null); }}
-        onClick={e => { if (e.detail === 0) p.onGive(); }}>
-        <span key={bump} className={bump ? styles.bump : undefined}>
-          <Image src={art('basket')} alt="" width={96} height={96} draggable={false} />
-          {/* What has been harvested, heaped inside the rim. Vegetables still in the air appear when they land. */}
-          <span className={styles.pile} aria-hidden="true">
-            {(Object.entries(p.basket) as [Crop, number][])
-              .flatMap(([crop, n]) => Array.from({ length: Math.max(0, n - flights.filter(f => f.crop === crop).length) }, () => crop))
-              .slice(0, PILE.length).map((crop, k) => {
-                const [x, y, turn] = PILE[k];
-                return <Image key={k} src={art(crop)} alt="" width={48} height={48} draggable={false}
-                  style={{ left: `${x}%`, top: `${y}%`, rotate: `${turn}deg` }} />;
-              })}
-          </span>
+        onClick={e => { if (e.detail === 0 || !basketMoved.current) p.onGive(); }}>
+        {p.canGive && <HandTapIcon className={styles.tapHint} />}
+        <span key={bump} className={`${styles.basketArt} ${bump ? styles.bump : ''}`}>
+          <BasketArt items={p.basket} flights={flights} />
         </span>
-        {p.hints && <StepBadge n={5} />}
         <span className={styles.basketCount} aria-hidden="true">
           {Object.values(p.basket).reduce((a, b) => a + b, 0)}
         </span>
-      </button>
-      {flights.map(f => <Image key={f.id} ref={el => launch(el, f)} className={styles.flight} src={art(f.crop)} alt="" width={84} height={84}
+      </button>}
+      {!p.soldItems && flights.map(f => <Image key={f.id} ref={el => launch(el, f)} className={styles.flight} src={art(f.crop)} alt="" width={84} height={84}
         draggable={false} aria-hidden="true" style={pct(f.x, f.y)} />)}
       {ghost && <span className={styles.ghost} aria-hidden="true" data-tool={ghost.tool} style={pct(ghost.x, ghost.y)}>
         {toolArt(ghost.tool) && <Image src={toolArt(ghost.tool)!} alt="" width={84} height={84} />}
@@ -320,8 +401,7 @@ export function GardenScene(p: Props) {
   </div>
     {/* The tools lie on wooden benches at the front of the garden: pick one up, then tap or drag it onto a bed. */}
     <div className={styles.bench} role="toolbar" aria-label={text.tools[p.lang]}>
-      {/* In step order: hoe (1) and seeds (2) on the first bench, the can (3) and fork (4) on the second. With more than three
-          kinds of seed the hoe moves to the second bench so a phone-width bench still fits every sack at 64px. */}
+      {/* With more than three seed types, move the hoe to the second bench to keep each sack reachable. */}
       {(p.tools.filter(t => t.startsWith('seed:')).length > 3
         ? [p.tools.filter(t => t.startsWith('seed:')), p.tools.filter(t => !t.startsWith('seed:'))]
         : [p.tools.filter(t => t === 'hoe' || t.startsWith('seed:')), p.tools.filter(t => t === 'can' || t === 'fork')]).map((group, g) =>
@@ -330,14 +410,14 @@ export function GardenScene(p: Props) {
             const crop = tool.startsWith('seed:') ? tool.slice(5) as Crop : null;
             const name = tool === 'hoe' ? text.hoe : tool === 'can' ? text.can : tool === 'fork' ? text.fork : text.seedOf(cropNames[crop!]);
             return <button key={tool} type="button" className={styles.item} aria-pressed={p.tool === tool} disabled={!p.working}
-              aria-label={(p.hints ? text.step(stepOf(tool), name) : name)[p.lang]} title={name[p.lang]} data-tool={tool} data-held={ghost?.tool === tool || undefined}
+              aria-label={name[p.lang]} title={name[p.lang]} data-tool={tool} data-held={ghost?.tool === tool || undefined}
               onPointerDown={e => toolDown(tool, e)} onPointerMove={toolMove} onPointerUp={toolUp} onPointerCancel={toolCancel}
               onClick={e => { if (e.detail === 0) p.onTool(tool); }}>
               {crop ? <>
                 <Image src={art('seed-sack')} alt="" width={96} height={96} className={styles.sack} draggable={false} />
                 <Image src={art(crop)} alt="" width={56} height={56} className={styles.tag} draggable={false} />
               </> : <Image src={toolArt(tool)!} alt="" width={96} height={96} draggable={false} />}
-              {p.hints && <StepBadge n={stepOf(tool)} />}
+              {p.working && p.guideTool === tool && p.tool !== tool && <HandTapIcon className={styles.tapHint} />}
             </button>;
           })}
         </div>)}

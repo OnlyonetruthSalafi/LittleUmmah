@@ -2,13 +2,11 @@ import type { Text } from '@/i18n/config';
 import { vip } from './content';
 import type { Stop } from './trail';
 
-/** Cups of smoothie sold before the bridge to the garden opens. */
-export const GARDEN_AFTER = 3;
-/** Garden deliveries before the bridge to the restaurant opens. */
-export const RESTAURANT_AFTER = 3;
+const gardenTarget = 15;
+const restaurantTarget = 10;
 
 export type Place = {
-  stop: Stop; name: Text; href: string; enter: Text; walk: Text; arrive: Text; locked?: Text;
+  stop: Stop; name: Text; href: string; enter: Text; walk: Text; arrive: Text;
   pin: { x: number; y: number }; hit: [x1: number, y1: number, x2: number, y2: number];
 };
 /** Every place on the trail, in walking order. Coordinates are the world map's. */
@@ -18,19 +16,25 @@ export const places: Place[] = [
   { stop: 'garden', name: { th: 'สวนผัก', en: 'Garden' }, href: '/games/vip/garden',
     enter: { th: 'เข้าสวนผัก', en: 'Enter the garden' }, walk: { th: 'เดินไปสวนผัก', en: 'Walk to the garden' },
     arrive: { th: 'ถึงสวนผักแล้ว', en: 'You’re at the garden' },
-    locked: { th: `ขายน้ำปั่นให้ครบ ${GARDEN_AFTER} แก้ว สะพานไปสวนผักจึงจะเปิด`, en: `Sell ${GARDEN_AFTER} smoothies to open the bridge to the garden` },
     pin: { x: 866, y: 226 }, hit: [790, 225, 955, 345] },
   { stop: 'restaurant', name: { th: 'ร้านอาหาร', en: 'Restaurant' }, href: '/games/vip/restaurant',
     enter: { th: 'เข้าร้านอาหาร', en: 'Enter the restaurant' }, walk: { th: 'เดินไปร้านอาหาร', en: 'Walk to the restaurant' },
     arrive: { th: 'ถึงร้านอาหารแล้ว', en: 'You’re at the restaurant' },
-    locked: { th: `ส่งผักให้เพื่อนครบ ${RESTAURANT_AFTER} ครั้ง สะพานไปร้านอาหารจึงจะเปิด`, en: `Deliver vegetables ${RESTAURANT_AFTER} times to open the bridge to the restaurant` },
     pin: { x: 968, y: 106 }, hit: [915, 115, 1025, 215] },
 ];
-/** Places the child can walk to, given smoothies sold and garden deliveries. Each opens the next. */
-export function openPlaces(served: number, delivered: number): Stop[] {
-  if (served < GARDEN_AFTER) return ['shop'];
-  if (delivered < RESTAURANT_AFTER) return ['shop', 'garden'];
-  return ['shop', 'garden', 'restaurant'];
+export type IslandGoal = { stop: 'garden' | 'restaurant'; earned: number; target: number; hint: Text };
+export function islandProgress(smoothieCoins: number, gardenCoins: number): { open: Stop[]; goal?: IslandGoal } {
+  if (smoothieCoins < gardenTarget) {
+    const left = gardenTarget - smoothieCoins;
+    return { open: ['shop'], goal: { stop: 'garden', earned: smoothieCoins, target: gardenTarget,
+      hint: { th: `ขายน้ำปั่นอีก ${left} เหรียญเพื่อเปิดสวนผัก`, en: `Earn ${left} more ${left === 1 ? 'coin' : 'coins'} selling smoothies to open the garden` } } };
+  }
+  if (gardenCoins < restaurantTarget) {
+    const left = restaurantTarget - gardenCoins;
+    return { open: ['shop', 'garden'], goal: { stop: 'restaurant', earned: gardenCoins, target: restaurantTarget,
+      hint: { th: `ขายผักอีก ${left} เหรียญเพื่อเปิดร้านอาหาร`, en: `Earn ${left} more ${left === 1 ? 'coin' : 'coins'} selling vegetables to open the restaurant` } } };
+  }
+  return { open: ['shop', 'garden', 'restaurant'] };
 }
 
 export const route: { inMist: Text; soon: { id: string; name: Text; x: number; y: number }[] } = {

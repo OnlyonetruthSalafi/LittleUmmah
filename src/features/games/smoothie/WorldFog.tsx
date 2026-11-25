@@ -1,4 +1,5 @@
 import { useId } from "react";
+import atlas from "../vip/world.module.css";
 
 const world = { x: -600, y: -380, width: 2080, height: 1350 };
 
@@ -82,8 +83,8 @@ export function WorldFog({ garden = false, restaurant = false }: { garden?: bool
       <mask id={id("reveal")} {...world} maskUnits="userSpaceOnUse">
         <rect {...world} fill="white"/>
         <path d={clearing} fill="black" filter={paint("soft")}/>
-        {garden && <path d={gardenClearing} fill="black" filter={paint("soft")}/>}
-        {restaurant && <path d={restaurantClearing} fill="black" filter={paint("soft")}/>}
+        {garden && <path data-fog-cleared="garden" className={atlas.fogClearing} d={gardenClearing} fill="black" filter={paint("soft")}/>}
+        {restaurant && <path data-fog-cleared="restaurant" className={atlas.fogClearing} d={restaurantClearing} fill="black" filter={paint("soft")}/>}
       </mask>
       <linearGradient id={id("veil")} x2=".62" y2="1">
         <stop stopColor="#a2bbce"/><stop offset=".4" stopColor="#b7c9d2"/><stop offset=".75" stopColor="#a4bec9"/><stop offset="1" stopColor="#88a7bb"/>

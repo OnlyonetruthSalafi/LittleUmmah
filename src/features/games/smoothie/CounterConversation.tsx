@@ -34,7 +34,12 @@ type Props = {
   onDefer: () => void;
 };
 
-export function CounterConversation({phase, speaker, line, ticket, enabled, greeted, needsTap, onHear, acceptText = vip.take, ticketTitle = vip.ticket, onListen, onReply, onAccept, onDefer}: Props) {
+export function CounterConversation(props: Props) {
+  if (props.phase === 'greeting' && !props.greeted && !props.needsTap) return null;
+  return <ConversationDialog {...props} />;
+}
+
+function ConversationDialog({phase, speaker, line, ticket, enabled, greeted, needsTap, onHear, acceptText = vip.take, ticketTitle = vip.ticket, onListen, onReply, onAccept, onDefer}: Props) {
   const lang = useLocale();
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -53,7 +58,7 @@ export function CounterConversation({phase, speaker, line, ticket, enabled, gree
       <div className={styles.bubble}>
         <strong><Label text={speaker} /></strong>
         <p id="shop-talk-line"><Label text={line} /></p>
-        {!answering && <button className={styles.listen} type="button" aria-label={(phase === 'greeting' ? vip.replayGreeting : vip.replay)[lang]}
+        {phase === 'ordering' && <button className={styles.listen} type="button" aria-label={vip.replay[lang]}
           disabled={!enabled} onClick={onListen}><SpeakerIcon on={enabled}/></button>}
       </div>
       {phase === 'ordering' && ticket}

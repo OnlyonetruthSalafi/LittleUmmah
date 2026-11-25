@@ -62,7 +62,7 @@ export const gamePresentation: Record<GameSlug, GamePresentation> = {
     scenicIntro: true,
     landscapeBoard: true, fullscreen: true,
     world: { th: 'รถไฟข้ามหุบเขา', en: 'Valley Express' },
-    description: { th: 'ดูช่องสีทองบนสะพาน แตะชิ้นรางที่พอดี แล้วพารถไฟไปให้ถึงสถานี', en: 'Look at the golden gap. Pick a track that fits and guide the train to the station.' },
+    description: { th: 'ดูช่องสีทองบนสะพาน แล้วแตะรางบนรถเข็นที่มีรูปพอดีกับช่องนั้น', en: 'Look at the golden gap on the bridge. Tap the matching track on the cart.' },
     levels: [{ th: 'ทุ่งสน', en: 'Pine Valley' }, { th: 'ผาแดง', en: 'Red Canyon' }, { th: 'ยอดหิมะ', en: 'Snow Summit' }],
     destinations: { th: 'สถานีปลายทาง', en: 'Destination station' }, pieces: { th: 'ชิ้นราง', en: 'Track pieces' },
   },

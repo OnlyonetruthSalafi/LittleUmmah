@@ -11,8 +11,8 @@ export function useOrderVoice(clip: string, line: string, lang: Locale, active: 
   const cancel = useRef<(() => void) | undefined>(undefined);
   const needsGesture = useRef(false);
   const prepared = useRef<Promise<AudioBuffer | null> | null>(null);
-  // The greeting clip the child has heard to the end, so the reply buttons wait for the salam.
-  const [heard, setHeard] = useState<string | null>(null);
+  // This visit can proceed after the salam ends, or with its caption if a tapped retry also fails.
+  const [finishedGreeting, setFinishedGreeting] = useState<string | null>(null);
   // A greeting the browser would not play without a tap (a page opened straight to the shop).
   const [blocked, setBlocked] = useState<string | null>(null);
   useEffect(() => {
@@ -33,59 +33,69 @@ export function useOrderVoice(clip: string, line: string, lang: Locale, active: 
     return () => { window.clearTimeout(deadline); request.abort(); prepared.current = null; };
   }, [clip, enabled, greeting]);
 
-  const listen = useCallback(() => {
+  const play = useCallback((retryGreeting: boolean) => {
     if (!active || !enabled) return;
     cancel.current?.();
     needsGesture.current = false;
-    const done = () => { if (greeting) setHeard(clip); };
-    // A clip that never reports its end must not hide the replies for long.
-    const fallback = greeting ? window.setTimeout(done, 4000) : undefined;
+    let stopped = false;
+    let stopPlayback: (() => void) | undefined;
+    let deadline: number | undefined;
+    const cancelAttempt = () => {
+      if (stopped) return;
+      stopped = true;
+      window.clearTimeout(deadline);
+      stopPlayback?.();
+    };
+    cancel.current = cancelAttempt;
+    const done = () => {
+      if (stopped) return;
+      window.clearTimeout(deadline);
+      if (greeting) setFinishedGreeting(clip);
+    };
+    const failed = () => {
+      if (stopped) return;
+      cancelAttempt();
+      needsGesture.current = true;
+      if (greeting) {
+        if (retryGreeting) setFinishedGreeting(clip);
+        else setBlocked(clip);
+      }
+    };
+    // A suspended context or stalled decoder may never dispatch ended.
+    if (greeting) deadline = window.setTimeout(failed, 12000);
     const recorded = () => playNarration(clip, {
-      onEnded: done, onStopped: done,
-      onFail() {
-        needsGesture.current = true;
-        // Keep the replies hidden: the child taps to hear the salam first, then answers it.
-        if (greeting) { window.clearTimeout(fallback); setBlocked(clip); }
-      },
+      onEnded: done, onStopped: greeting ? failed : done, onFail: failed,
     });
     const audio = greeting && getRunAudioContext();
     if (audio && audio.state === 'running' && prepared.current) {
       // This context was unlocked by the child's earlier tap. Some mobile browsers
       // block a new HTMLAudioElement created later by an animation-end callback.
       stopAllSpeech();
-      let stopped = false;
-      let source: AudioBufferSourceNode | undefined;
-      let stopFallback: (() => void) | undefined;
-      cancel.current = () => {
-        window.clearTimeout(fallback);
-        stopped = true;
-        if (source) { source.stop(); source.disconnect(); }
-        stopFallback?.();
-      };
       void prepared.current.then(buffer => {
         if (stopped) return;
-        if (!buffer || audio.state !== 'running') { stopFallback = recorded(); return; }
-        source = audio.createBufferSource();
+        if (!buffer || audio.state !== 'running') { stopPlayback = recorded(); return; }
+        const source = audio.createBufferSource();
         source.buffer = buffer;
         source.onended = done;
         source.connect(audio.destination);
         source.start();
-      });
+        stopPlayback = () => { source.onended = null; source.stop(); source.disconnect(); };
+      }).catch(failed);
     } else if (greeting || lang === 'th') {
-      const stop = recorded();
-      cancel.current = () => { window.clearTimeout(fallback); stop(); };
+      stopPlayback = recorded();
     } else {
       speakWithSynth(line);
-      cancel.current = () => stopSpeechIf('', line);
+      stopPlayback = () => stopSpeechIf('', line);
     }
   }, [active, clip, enabled, greeting, lang, line]);
+  const listen = useCallback(() => play(false), [play]);
   useEffect(() => {
-    if (active && enabled) listen();
+    if (active && enabled && !(greeting && (finishedGreeting === clip || needsGesture.current))) listen();
     return () => { cancel.current?.(); cancel.current = undefined; };
-  }, [active, enabled, listen]);
+  }, [active, enabled, listen, greeting, finishedGreeting, clip]);
   // With the sound off there is nothing to wait for.
-  const greeted = !enabled || heard === clip;
+  const greeted = !enabled || finishedGreeting === clip;
   const needsTap = greeting && enabled && blocked === clip && !greeted;
-  const hearGreeting = () => { setBlocked(null); listen(); };
+  const hearGreeting = () => { setBlocked(null); play(true); };
   return { enabled, greeted, needsTap, hearGreeting, listen, retryOnGesture: () => { if (needsGesture.current) listen(); } };
 }

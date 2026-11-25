@@ -74,11 +74,3 @@ export function Weed() {
     <path d="M-14-30l-6-6M-4-36l-2-8M8-34l4-7M18-24l7-3" stroke="#2f6b3a" strokeWidth="4" strokeLinecap="round" />
   </g>;
 }
-
-/** Shown above a dry bed together with the bed's text label, so thirst is never colour alone. */
-export function ThirstBadge() {
-  return <g>
-    <circle r="17" fill="#fff" stroke="#2b7fae" strokeWidth="3" />
-    <path d="M0-11q9 11 7 16a7 7 0 0 1-14 0q-2-5 7-16Z" fill="#3a9ad0" />
-  </g>;
-}

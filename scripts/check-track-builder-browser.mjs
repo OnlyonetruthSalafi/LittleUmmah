@@ -61,18 +61,32 @@ try {
     if (!i) await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1});
     await page.locator('.gc-countdown').waitFor({state:'detached'});
     if (await page.evaluate(() => !!document.fullscreenElement)) await page.evaluate(() => document.exitFullscreen());
-    for (const [width,height] of [[568,320],[844,390],[1280,720]]) {
+    for (const [width,height] of [[568,320],[844,390],[1024,768],[1280,720]]) {
       await page.setViewportSize({width,height}); await page.evaluate(()=>document.fonts.ready);
       const issues = landscapeProblems({slug:'track-builder', ...await page.evaluate(measureLandscapePage)});
       assert.deepEqual(issues, [], width+'x'+height+' level '+(i+1));
+      const scene = await page.locator('.rail-window').boundingBox();
+      assert.ok(scene.width >= width * .95, 'The landscape railway should span the screen');
+      const tracks = page.locator('.rail-window .rail-cart [data-turn]');
+      assert.equal(await tracks.count(), 3);
+      const cart = await page.locator('.rail-cart').boundingBox();
+      assert.ok(cart.y >= scene.y && cart.y + cart.height <= scene.y + scene.height, 'Cart is inside the scene');
+      if (i === 0 && width === 568) await page.screenshot({path:out+'/phone.png'});
     }
     await page.screenshot({path:out+'/'+route.scene+'.png'});
     const first = route.steps[route.gaps[0]];
+    assert.equal(await page.locator('[data-turn="'+first+'"] .rail-hand').count(), i === 0 ? 1 : 0);
     await page.locator('[data-turn]:not([data-turn="'+first+'"])').first().tap();
     assert.equal(await page.locator('progress').getAttribute('value'),'0');
+    await page.setViewportSize({width:568,height:320});
     for (const [j, span] of route.gaps.entries()) {
+      const gap = await page.locator('.rail-map path[stroke-dasharray]').boundingBox();
+      const cart = await page.locator('.rail-cart').boundingBox();
+      assert.ok(gap.y + gap.height + 3 < cart.y, `Level ${i+1}, gap ${j+1}: gap ${JSON.stringify(gap)} covered by cart ${JSON.stringify(cart)}`);
       const turn = page.locator('[data-turn="'+route.steps[span]+'"]');
-      await turn.focus(); await page.keyboard.press('Enter');
+      if (j % 2 === 0) await turn.locator('.rail-loose-track').tap();
+      else { await turn.focus(); await page.keyboard.press('Enter'); }
+      assert.equal(await page.locator('.rail-hand').count(), 0);
       if (i===0 && j===0) {
         await page.setViewportSize({width:390,height:844});
         await page.locator('.gc-rotate').waitFor();

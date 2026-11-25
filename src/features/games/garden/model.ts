@@ -26,16 +26,17 @@ export type Basket = Record<Crop, number>;
 export type GardenItem = 'tomato' | 'beds' | 'corn' | 'sprinkler' | 'pumpkin';
 export type Garden = {
   delivered: number;
+  earnedCoins: number;
+  activeOrder: string | null;
+  nextOrder: string | null;
   plots: Plot[];
   basket: Basket;
-  /** Step numbers on the hoe, seeds, can and basket. On until the child turns them off. */
-  hints: boolean;
 } & Record<GardenItem, boolean>;
 
 export const BED_COUNT = 6;
 export const emptyBasket: Basket = { carrot: 0, lettuce: 0, tomato: 0, corn: 0, pumpkin: 0 };
 export const emptyGarden: Garden = {
-  delivered: 0, plots: Array.from({ length: BED_COUNT }, () => ({ kind: 'wild' }) as Plot), basket: emptyBasket, hints: true,
+  delivered: 0, earnedCoins: 0, activeOrder: null, nextOrder: null, plots: Array.from({ length: BED_COUNT }, () => ({ kind: 'wild' }) as Plot), basket: emptyBasket,
   tomato: false, beds: false, corn: false, sprinkler: false, pumpkin: false,
 };
 export const GARDEN_KEY = 'little-ummah:games:garden:v1';
@@ -110,11 +111,11 @@ export function pullWeed(garden: Garden, index: number, now: number): Garden {
   if (plot.kind !== 'crop' || plot.weed !== 'growing') return garden;
   return setPlot(garden, index, { ...plot, weed: 'pulled' });
 }
-/** Pulling a ready crop puts it in the basket. The bed stays dug, ready for the next seed. */
+/** Harvest into the basket. Prepare the soil again before planting the next crop. */
 export function harvest(garden: Garden, index: number, now: number): Garden {
   const plot = advance(garden.plots[index] ?? { kind: 'wild' }, now, garden.sprinkler);
-  if (plot.kind !== 'crop' || look(plot) !== 'ready') return garden;
-  const next = setPlot(garden, index, { kind: 'tilled' });
+  if (plot.kind !== 'crop' || weedy(plot) || look(plot) !== 'ready') return garden;
+  const next = setPlot(garden, index, { kind: 'wild' });
   return next === garden ? garden : { ...next, basket: { ...garden.basket, [plot.crop]: garden.basket[plot.crop] + 1 } };
 }
 
@@ -139,12 +140,14 @@ const requestList: Request[] = [
 ];
 export const allRequests = requestList;
 const value: Record<Crop, number> = { carrot: 2, lettuce: 2, tomato: 3, corn: 4, pumpkin: 5 };
-/** Requests the child can fill with the seeds they own, newest first after the opening three. */
-export function request(garden: Garden): Request & { reward: number } {
+function availableRequests(garden: Garden) {
   const owned = seeds(garden);
-  const open = requestList.filter(r => Object.keys(r.items).every(crop => owned.includes(crop as Crop)));
-  // Walk the list in order once; after that, cycle through what is available.
-  const pick = garden.delivered < open.length ? open[garden.delivered] : open[garden.delivered % open.length];
+  return requestList.filter(r => Object.keys(r.items).every(crop => owned.includes(crop as Crop)));
+}
+/** Keep accepted orders stable. A seed purchase moves the next customer to that seed's first recipe. */
+export function request(garden: Garden): Request & { reward: number } {
+  const open = availableRequests(garden);
+  const pick = open.find(r => r.id === (garden.activeOrder ?? garden.nextOrder)) ?? open[garden.delivered % open.length];
   const reward = 1 + Object.entries(pick.items).reduce((sum, [crop, n]) => sum + value[crop as Crop] * (n ?? 0), 0);
   return { ...pick, reward };
 }
@@ -155,12 +158,45 @@ export function missing(garden: Garden, wanted: Partial<Basket>): Partial<Basket
   }
   return out;
 }
-/** Hand over the basket. Extra vegetables stay in the basket for the next friend. */
-export function deliver(garden: Garden, wanted: Request): Garden {
-  if (Object.keys(missing(garden, wanted.items)).length) return garden;
-  const basket = { ...garden.basket };
-  for (const [crop, n] of Object.entries(wanted.items) as [Crop, number][]) basket[crop] -= n;
-  return { ...garden, basket, delivered: garden.delivered + 1 };
+
+export type Tool = 'hoe' | 'can' | 'fork' | `seed:${Crop}`;
+type GardenStep =
+  | { task: 'sow'; bed: number; tool: Tool; crop: Crop }
+  | { task: 'dig' | 'water' | 'weed' | 'harvest' | 'grow' | 'sell'; bed: number; tool?: Tool };
+
+/** Suggest one move for the current order, using the plots as they look right now. */
+export function nextGardenStep(plots: Plot[], lacking: Partial<Basket>, sprinkler: boolean): GardenStep {
+  const needed = crops.filter(crop => lacking[crop]);
+  if (!needed.length) return { task: 'sell', bed: -1 };
+  const weedBed = plots.findIndex(weedy);
+  if (weedBed >= 0) return { task: 'weed', bed: weedBed, tool: 'fork' };
+  const plantBeds = plots.flatMap((plot, bed) => plot.kind === 'crop' ? [{ plot, bed }] : []);
+  const requested = plantBeds.filter(({ plot }) => needed.includes(plot.crop));
+  const seed = needed.find(crop => requested.filter(({ plot }) => plot.crop === crop).length < lacking[crop]!);
+  let empty = plots.findIndex(p => p.kind === 'tilled');
+  if (empty < 0) empty = plots.findIndex(p => p.kind === 'wild');
+  // If every bed holds a different crop, help clear a bed for the requested seed.
+  const tending = seed && empty < 0 && !requested.length ? plantBeds : requested;
+  for (const { plot, bed } of tending) {
+    if (look(plot) === 'ready') return { task: 'harvest', bed, tool: 'fork' };
+    if (thirsty(plot, sprinkler)) return { task: 'water', bed, tool: 'can' };
+  }
+  if (seed && empty >= 0) return plots[empty].kind === 'wild'
+    ? { task: 'dig', bed: empty, tool: 'hoe' }
+    : { task: 'sow', bed: empty, tool: `seed:${seed}`, crop: seed };
+  return { task: 'grow', bed: tending[0].bed };
+}
+export function prepareOrder(garden: Garden, id: string): Garden {
+  return garden.activeOrder === id ? garden : { ...garden, activeOrder: id, nextOrder: null, basket: emptyBasket, plots: emptyGarden.plots };
+}
+
+/** The customer takes the whole basket. The next order starts on unworked soil. */
+export function deliver(garden: Garden, wanted: ReturnType<typeof request>): Garden {
+  if (garden.activeOrder !== wanted.id || Object.keys(missing(garden, wanted.items)).length) return garden;
+  const open = availableRequests(garden);
+  const following = open[(open.findIndex(r => r.id === wanted.id) + 1) % open.length];
+  return { ...garden, activeOrder: null, nextOrder: garden.nextOrder ?? following.id,
+    basket: emptyBasket, plots: emptyGarden.plots, delivered: garden.delivered + 1, earnedCoins: garden.earnedCoins + wanted.reward };
 }
 
 /* ---------- shop items (paid with the smoothie shop's coins) ---------- */
@@ -172,6 +208,14 @@ export const gardenItems: { id: GardenItem; price: number; delivered: number; ne
   { id: 'sprinkler', price: 18, delivered: 6, needs: 'beds' },
   { id: 'pumpkin', price: 20, delivered: 7, needs: 'corn' },
 ];
+function firstRequestFor(crop: Crop) {
+  return requestList.find(r => r.items[crop])!.id;
+}
+export function unlockGardenItem(garden: Garden, item: GardenItem): Garden {
+  if (garden[item]) return garden;
+  const nextOrder = item === 'beds' || item === 'sprinkler' ? garden.nextOrder : firstRequestFor(item);
+  return { ...garden, [item]: true, nextOrder };
+}
 export type GardenBlocker = { kind: 'owned' } | { kind: 'needs'; item: GardenItem } | { kind: 'delivered'; count: number } | { kind: 'coins'; count: number };
 export function gardenBlocker(garden: Garden, coins: number, item: GardenItem): GardenBlocker | undefined {
   const rule = gardenItems.find(i => i.id === item)!;
@@ -208,9 +252,21 @@ export function readGarden(raw: string | null): Garden {
       const n = v.basket?.[crop];
       if (Number.isSafeInteger(n) && n >= 0 && n <= 99) basket[crop] = n;
     }
-    const garden: Garden = { ...emptyGarden, delivered: v.delivered, plots, basket, hints: v.hints !== false };
+    // Credit old deliveries at their minimum payout, including the third customer's two carrots.
+    const earnedCoins = Number.isSafeInteger(v.earnedCoins) && v.earnedCoins >= 0 ? v.earnedCoins
+      : Math.min(Number.MAX_SAFE_INTEGER, v.delivered * 3 + (v.delivered >= 3 ? 2 : 0));
+    const garden: Garden = { ...emptyGarden, delivered: v.delivered, earnedCoins, plots, basket };
     for (const { id } of gardenItems) garden[id] = v[id] === true;
-    return garden;
+    const open = availableRequests(garden);
+    garden.nextOrder = open.find(r => r.id === v.nextOrder)?.id ?? null;
+    if (!('nextOrder' in v)) {
+      const newest = seeds(garden).filter(crop => crop !== 'carrot' && crop !== 'lettuce').at(-1);
+      if (newest && !open.find(r => r.id === v.activeOrder)?.items[newest]) garden.nextOrder = firstRequestFor(newest);
+    }
+    if (open.some(r => r.id === v.activeOrder)) {
+      return { ...garden, activeOrder: v.activeOrder };
+    }
+    return { ...garden, plots: emptyGarden.plots, basket: emptyBasket };
   } catch { /* A damaged save starts a new garden. */ }
   return emptyGarden;
 }

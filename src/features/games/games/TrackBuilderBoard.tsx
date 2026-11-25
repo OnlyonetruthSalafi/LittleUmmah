@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { HandTapIcon } from '@/components/icons/HandTapIcon';
 import { useDict } from '@/i18n/LocaleProvider';
 import { GameImage } from '../components/GameImage';
 import type { PlayProps } from '../components/GameShell';
@@ -17,7 +18,7 @@ const samples = headings.map(turn => {
   const model = { ...routes[0], startY: 0, steps: [turn] };
   const end = railPoint(model, 0, 1);
   const start = railPoint(model, 0, 0);
-  return { art: railArt(model, 0), box: [start.x - 7, (start.y + end.y) / 2 - 43, end.x - start.x + 14, 86].join(' ') };
+  return { art: railArt(model, 0), box: [start.x - 7, (start.y + end.y) / 2 - 37, end.x - start.x + 14, 74].join(' ') };
 });
 
 function Rails({ art }: { art: ReturnType<typeof railArt> }) {
@@ -112,8 +113,8 @@ export default function TrackBuilderBoard({ level, paused, onFeedback, onResetFe
   const active = route.gaps[laid];
   const done = laid === route.gaps.length;
   const hint = moving ? { th: 'รถไฟออกเดินทางแล้ว!', en: 'All aboard!' }
-    : wrong !== null ? { th: 'ลองชิ้นที่ไปทางเดียวกับช่องสีทองนะ', en: 'Look at the bend in the golden guide.' }
-    : { th: 'แตะรางที่พอดีกับช่องสีทอง', en: 'Pick a track that fits the golden gap.' };
+    : wrong !== null ? { th: 'ลองรางชิ้นอื่นนะ', en: 'Try another track.' }
+    : { th: 'แตะรางบนรถเข็น', en: 'Tap a track on the cart.' };
 
   useEffect(() => { onProgress(laid, route.gaps.length); }, [laid, route, onProgress]);
   const arrive = useCallback(() => {
@@ -133,7 +134,7 @@ export default function TrackBuilderBoard({ level, paused, onFeedback, onResetFe
     <div className="rail-window">
       <GameImage alt="" src={'/games/track-builder/' + route.scene + '.webp'} width={1280} height={640}
         loading="eager" fetchPriority="high" unoptimized draggable={false} />
-      <svg className="rail-map" viewBox="0 0 1000 500" aria-hidden="true">
+      <svg className="rail-map" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g transform={'translate(' + (railPoint(route, 0, -.75).x - railPoint(route, 0, 0).x) + ' 0)'}>
           <Rails art={artwork[0]} />
         </g>
@@ -150,17 +151,18 @@ export default function TrackBuilderBoard({ level, paused, onFeedback, onResetFe
         <Train route={route} target={waitPosition(route, laid)} moving={moving} paused={paused} onArrive={arrive} />
       </svg>
       <div className="rail-stop">{pick(name)}{sub && <small lang="en">{name.en}</small>}</div>
-    </div>
-    <div className="rail-console">
-      <div className="rail-hint" role="status"><strong>{pick(hint)}</strong>{sub && <small lang="en">{hint.en}</small>}
-        {!moving && !done && <span className="sr-only">{pick(pieces[route.steps[active]+1])}</span>}
-      </div>
-      <div className="rail-parts" role="group" aria-label={pick({ th:'ชิ้นรางรถไฟ', en:'Track pieces' })}>
-        {choices.map(turn => <button key={turn} type="button" className="rail-part" data-turn={turn}
-          aria-disabled={paused || moving || done} data-retry={wrong === turn} onClick={() => place(turn)}>
-          <svg aria-hidden="true" viewBox={samples[turn+1].box}><Rails art={samples[turn+1].art} /></svg>
-          <span>{pick(pieces[turn+1])}{sub && <small lang="en">{pieces[turn+1].en}</small>}</span>
-        </button>)}
+      <div className="rail-cart">
+        <div className="rail-parts" role="group" aria-label={pick({ th:'ชิ้นรางบนรถเข็น', en:'Tracks on the cart' })}>
+          {choices.map(turn => <button key={turn} type="button" className="rail-part" data-turn={turn}
+            aria-disabled={paused || moving || done} data-retry={wrong === turn} onClick={() => place(turn)}>
+            <svg className="rail-loose-track" aria-hidden="true" viewBox={samples[turn+1].box}><Rails art={samples[turn+1].art} /></svg>
+            <span>{pick(pieces[turn+1])}{sub && <small lang="en">{pieces[turn+1].en}</small>}</span>
+            {level === 1 && laid === 0 && turn === route.steps[active] && <HandTapIcon className="rail-hand" />}
+          </button>)}
+        </div>
+        <div className="rail-hint" role="status"><strong>{pick(hint)}</strong>{sub && <small lang="en">{hint.en}</small>}
+          {!moving && !done && <span className="sr-only">{pick(pieces[route.steps[active]+1])}</span>}
+        </div>
       </div>
     </div>
   </div>;

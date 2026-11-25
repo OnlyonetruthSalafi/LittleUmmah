@@ -21,9 +21,11 @@ test('sale and upgrade are credited once, only affordable items can be bought', 
   assert.equal(unlock(emptyShop,'gold'), emptyShop);
   const paid = collect(emptyShop,order);
   assert.equal(paid.coins,5);
+  assert.equal(paid.earnedCoins,5);
   assert.equal(collect(paid,order),paid);
   const upgraded = unlock(paid,'berry');
   assert.equal(upgraded.coins,0);
+  assert.equal(upgraded.earnedCoins,5);
   assert.equal(unlock(upgraded,'berry'),upgraded);
   assert.ok(ticket({ ...upgraded, served: upgraded.served + 1 }).fruit.includes('berry'));
   assert.deepEqual(readLedger(JSON.stringify(upgraded)),upgraded);
@@ -106,6 +108,8 @@ test('a save from before the item shelf keeps its coins and items', () => {
   assert.equal(old.served, 7); assert.equal(old.coins, 9); assert.equal(old.berry, true);
   for (const id of ['gold','flowers','mango','lantern','bigCup','melon']) assert.equal(old[id], false);
   assert.equal(old.menuStart, 0);
+  assert.equal(readLedger(JSON.stringify({ served: 3, coins: 0 })).earnedCoins, 15);
+  assert.equal(readLedger(JSON.stringify({ served: 1, coins: 90 })).earnedCoins, 5);
   assert.deepEqual(ticket({ ...old, berry: false }).fruit, ticket({ ...emptyShop, served: 7 }).fruit);
 });
 
