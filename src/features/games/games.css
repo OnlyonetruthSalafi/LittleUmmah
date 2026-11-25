@@ -46,7 +46,7 @@
 @media (orientation: landscape) {
   .gc-focus.gc-landscape[data-game][data-status] {
     --gc-rail: 88px;
-    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    padding: 8px;
     height: 100dvh; min-height: 0;
   }
   .gc-focus.gc-landscape[data-game][data-status] .gc-play-container {

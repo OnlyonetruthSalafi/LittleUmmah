@@ -451,7 +451,8 @@ export const en: Dictionary = {
     },
     rotate: {
       title: "Turn your screen sideways to play",
-      fullscreen: "Full screen"
+      fullscreen: "Full screen",
+      exitFullscreen: "Exit full screen"
     },
     voiceIntro: {
       start: "Start",

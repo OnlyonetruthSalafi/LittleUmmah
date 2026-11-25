@@ -100,7 +100,7 @@
 @media (orientation: landscape) and (max-height: 520px) {
   .gc-focus[data-game='light-maze'] { padding: 8px; }
   .gc-focus[data-game='light-maze'][data-status='playing'] .gc-play-container {
-    position: relative; max-width: none; height: calc(100dvh - 16px);
+    position: relative; max-width: none; height: calc(var(--gc-height, 100dvh) - 16px);
   }
   .gc-focus[data-game='light-maze'][data-status='playing'] .gc-game-header {
     position: absolute; inset: 0 0 auto; z-index: 3; margin: 0; pointer-events: none;

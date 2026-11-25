@@ -1,5 +1,6 @@
 'use client';
 
+import { GameFullscreenButton } from '../components/GameViewport';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent as ReactPointerEvent } from 'react';
 import { ShopCoin } from '@/components/icons/ShopCoin';
@@ -294,7 +295,7 @@ export function RestaurantGame() {
   return <main className={styles.page}><div className={styles.frame}>
     <header className={styles.shopTop}><LocaleLink href="/games/vip#restaurant" className={styles.back}><Label text={text.backMap} /></LocaleLink>
       <h1><Label text={text.title} /></h1>
-      <div className={styles.shopTools}><SoundToggle /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
+      <div className={styles.shopTools}><SoundToggle /><GameFullscreenButton /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
     </header>
     <Table key={current} eaten={current} sound={sound} onHold={() => setHeld(eaten)} onDone={() => setHeld(null)} />
   </div></main>;

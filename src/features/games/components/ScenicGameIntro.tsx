@@ -17,8 +17,8 @@ export function ScenicGameIntro({ slug, level, onLevel, onStart, onListen, sound
     <div className="harbor-preview">{slug === 'marble-run' ? <MarblePractice paused={paused}/> :
       <Thumbnail slug={slug} large sizes="(max-height: 520px) 28vw, 42vw"/>}</div>
     <div className="harbor-brief">
-      <h2 id="gc-adventure-title">{pick(world)}{sub && <small lang="en">{world.en}</small>}</h2>
-      <p>{pick(description)}{sub && <small lang="en">{description.en}</small>}</p>
+      <div className="harbor-copy"><h2 id="gc-adventure-title">{pick(world)}{sub && <small lang="en">{world.en}</small>}</h2>
+      <p>{pick(description)}{sub && <small lang="en">{description.en}</small>}</p></div>
       <fieldset className="harbor-levels">
         <legend className="sr-only">{t.games.intro.choose}</legend>
         {levels.map((label, i) => <button type="button" key={i} aria-pressed={level === i + 1}

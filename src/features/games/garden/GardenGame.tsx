@@ -1,5 +1,6 @@
 'use client';
 
+import { GameFullscreenButton } from '../components/GameViewport';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ShopCoin } from '@/components/icons/ShopCoin';
@@ -278,7 +279,7 @@ export function GardenGame() {
   return <main className={styles.page}><div className={styles.frame}>
     <header className={styles.shopTop}><LocaleLink href="/games/vip#garden" className={styles.back}><Label text={text.backMap} /></LocaleLink>
       <h1><Label text={text.title} /></h1>
-      <div className={styles.shopTools}><SoundToggle /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
+      <div className={styles.shopTools}><SoundToggle /><GameFullscreenButton /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
     </header>
     <Visit key={current} farm={farm} sound={sound} onHold={() => setHeld(current)} onDone={() => setHeld(null)} />
   </div></main>;

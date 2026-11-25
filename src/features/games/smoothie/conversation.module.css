@@ -1,6 +1,6 @@
 .popup {
-  position: fixed; inset: auto max(16px, calc((100vw - 1170px)/2)) max(16px, env(safe-area-inset-bottom)) auto;
-  width: min(420px, calc(100vw - 24px)); max-height: calc(100dvh - 28px); margin: 0; padding: 0;
+  position: fixed; inset: auto max(16px, var(--gc-safe-right), calc((100vw - 1170px)/2)) max(16px, env(safe-area-inset-bottom)) auto;
+  width: min(420px, calc(100vw - 24px)); max-height: calc(var(--gc-height) - 28px); margin: 0; padding: 0;
   overflow: auto; overscroll-behavior: contain; border: 3px solid #fff; border-top: 7px solid #df8c4c;
   border-radius: 24px; color: #183e46; background: #fffbed; box-shadow: 0 7px 0 #819c8c, 0 16px 48px #113c484a;
 }
@@ -27,7 +27,7 @@
 .choices button:hover { box-shadow:0 5px 9px #20595448; }
 .later { display:block; color:#315c5a; font-weight:700; margin:4px auto 0; text-decoration:underline; }
 @media (max-width: 650px) {
-  .popup { inset:auto 8px max(8px,env(safe-area-inset-bottom)); margin-inline:auto; width:min(420px,calc(100vw - 16px)); }
+  .popup { inset:auto var(--gc-safe-right) max(8px,env(safe-area-inset-bottom)) var(--gc-safe-left); margin-inline:auto; width:min(420px,calc(100% - var(--gc-safe-left) - var(--gc-safe-right) - 16px)); }
   .content { padding:10px 12px 5px; }
   .content header h2 { font-size:1.15rem; }
 }

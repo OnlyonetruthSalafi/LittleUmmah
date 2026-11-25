@@ -21,6 +21,7 @@
   position: relative; background: radial-gradient(ellipse, #d3f2ee 15%, transparent 69%);
 }
 .harbor-preview .gc-diorama { width: 100%; aspect-ratio: 1; position: relative; }
+.harbor-copy { display: contents; }
 .harbor-brief { display: grid; gap: clamp(10px, 2.2dvh, 26px); }
 .harbor-brief h2 { font-size: clamp(26px, 4vw, 62px); font-weight: 850; line-height: 1.2; }
 .harbor-intro small, .harbor-bay small { display: block; font-size: .76em; font-weight: 550; }

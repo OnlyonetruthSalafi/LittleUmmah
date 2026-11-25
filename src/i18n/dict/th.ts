@@ -455,7 +455,8 @@ export const th = {
     },
     rotate: {
       title: "หมุนจอให้นอนก่อนนะ แล้วมาเล่นกัน",
-      fullscreen: "เปิดเต็มจอ"
+      fullscreen: "เปิดเต็มจอ",
+      exitFullscreen: "ออกจากเต็มจอ"
     },
     voiceIntro: {
       start: "เริ่มเล่น",

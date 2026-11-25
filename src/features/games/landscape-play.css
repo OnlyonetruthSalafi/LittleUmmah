@@ -90,8 +90,8 @@
 
 @media (orientation: landscape) and (max-height: 550px), (orientation: landscape) and (min-height: 551px) and (max-width: 1099px) {
   .gc-focus[data-game='balance-scale'][data-status='playing'] .gc-play-container {
-    height: calc(100dvh - 16px); grid-template-columns: minmax(0,1fr) minmax(0,1.15fr);
-    grid-template-rows: 64px 26px 64px 32px minmax(44px,1fr) 64px; gap: 2px 8px;
+    height: calc(var(--gc-height, 100dvh) - 16px); grid-template-columns: minmax(0,1fr) minmax(0,1.15fr);
+    grid-template-rows: 64px 26px 64px 32px minmax(16px,1fr) 64px; gap: 2px 8px;
   }
   .gc-focus[data-game='balance-scale'] .bs-stage { grid-row: 2 / 6; height: 100%; }
   .gc-focus[data-game='balance-scale'] .bs-diorama { height: calc(100% - 68px); }
@@ -146,4 +146,129 @@
   .gc-focus[data-game='light-maze'][data-status='idle'] .lmt-side { padding: 6px 10px; gap: 4px; }
   .gc-focus[data-game='light-maze'][data-status='idle'] .lmt-text { font-size: 16px; }
   .gc-focus[data-game='light-maze'][data-status='idle'] .lmt-text small { font-size: 12px; }
+}
+
+/* One safe rectangle for the board, its absolute controls and the expanded player. */
+.gc-viewport {
+  --gc-side-clearance: 0px;
+  --gc-safe-left: max(var(--gc-side-clearance), env(safe-area-inset-left, 0px));
+  --gc-safe-right: max(var(--gc-side-clearance), env(safe-area-inset-right, 0px));
+  --gc-safe-top: env(safe-area-inset-top, 0px);
+  --gc-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --gc-height: calc(100dvh - var(--gc-safe-top) - var(--gc-safe-bottom));
+  box-sizing: border-box;
+  padding: var(--gc-safe-top) var(--gc-safe-right) var(--gc-safe-bottom) var(--gc-safe-left);
+  background: var(--color-sky-pale);
+}
+.gc-viewport > main { min-height: calc(100svh - var(--gc-safe-top) - var(--gc-safe-bottom)); }
+.gc-viewport .gc-focus[data-game='bead-lacing'] { height: var(--gc-height); }
+.gc-viewport[data-expanded] {
+  position: fixed; inset: 0; z-index: 1000; width: 100%; height: 100dvh;
+  overflow: auto; overscroll-behavior: contain;
+}
+html:has(.gc-viewport[data-expanded]) { overflow: hidden; }
+.gc-viewport .gc-fullscreen { flex: none; width: 64px; height: 64px; }
+.gc-viewport :is(.gc-rotate, .ls-overlay) {
+  padding: max(12px, var(--gc-safe-top)) max(12px, var(--gc-safe-right))
+    max(12px, var(--gc-safe-bottom)) max(12px, var(--gc-safe-left));
+}
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  /* Some edge-to-edge browsers report zero around a camera hole. */
+  .gc-viewport {
+    --gc-side-clearance: clamp(20px, 4vw, 44px);
+  }
+}
+@media (orientation: landscape) {
+  .gc-focus.gc-landscape[data-game][data-status] {
+    height: var(--gc-height);
+    --gc-control-step: clamp(68px, 21dvh, 88px);
+  }
+  .gc-focus.gc-landscape .gc-game-header .gc-fullscreen {
+    position: absolute; top: var(--gc-control-step); left: 0; z-index: 30;
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-instruction > .gc-button {
+    top: calc(2 * var(--gc-control-step));
+  }
+  .gc-focus.gc-landscape[data-game][data-status] :is(.gc-board-tools, .seq-tools) > .gc-button {
+    top: calc(3 * var(--gc-control-step));
+  }
+  .gc-focus.gc-landscape[data-game][data-status] .gc-feedback:has(.gc-retry),
+  .gc-landscape .gc-select-first {
+    bottom: 0; left: var(--gc-rail); width: auto; max-width: calc(100% - 2 * var(--gc-rail)); pointer-events: none;
+  }
+  .gc-focus.gc-landscape[data-status='idle']:is([data-game='puzzle'], :has(.harbor-intro)) .gc-fullscreen {
+    top: 0; left: auto; right: var(--gc-rail);
+  }
+  .gc-focus.gc-landscape[data-status='idle']:is([data-game='puzzle'], :has(.harbor-intro)) .gc-play-container > .ls-badge {
+    right: calc(2 * var(--gc-rail));
+  }
+  .gc-focus:not(.gc-landscape) .gc-game-header .gc-sound { margin-left: auto; }
+}
+
+@media (orientation: landscape) and (max-height: 540px) {
+  .pz-studio .pz-preview-stage { height: min(40dvh, max(54px, calc(var(--gc-height) - 260px))); }
+}
+@media (orientation: landscape) and (max-height: 380px) {
+  .gc-focus .harbor-intro { grid-template-columns: minmax(96px, .4fr) minmax(0, 1fr); }
+  .gc-focus .harbor-brief { gap: 3px; }
+  .gc-focus .harbor-brief p { font-size: 15px; }
+}
+@media (orientation: landscape) and (max-height: 550px) and (max-width: 800px) {
+  .gc-focus[data-game='block-builders'][data-status='playing'] .gc-game-header h1 {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .bb-guide { display: none; }
+  .bb-tray { padding-block: 2px; }
+  .bb-piece .bb-block { height: 36px; }
+  .bb-piece-label { margin: 0; }
+  .bb-goal .bb-actions .gc-button { padding: 2px; }
+}
+
+@media (orientation: landscape) and (max-height: 550px) {
+  .gc-focus:is([data-game='coin-box'], [data-game='balance-scale']) .gc-voice-scene {
+    width: min(100%, 250px, calc(var(--gc-height) - 182px));
+  }
+  .gc-focus:is([data-game='coin-box'], [data-game='balance-scale']) .gc-voice-actions {
+    flex-wrap: wrap; gap: 6px; margin: 0;
+  }
+  .gc-focus:is([data-game='coin-box'], [data-game='balance-scale']) .gc-start-3d {
+    min-width: 120px; min-height: 64px; padding: 4px 12px;
+  }
+}
+@media (orientation: landscape) {
+  .gc-focus[data-game='bead-lacing'] .gc-voice-actions { position: relative; z-index: 1; }
+  .gc-focus[data-game='balance-scale'] .bs-answers .gc-button { padding: 2px; line-height: 1.1; gap: 0; }
+}
+@media (orientation: landscape) and (max-height: 350px) {
+  .gc-focus .harbor-intro {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-content: stretch; gap: 4px;
+  }
+  .harbor-intro .harbor-brief { display: contents; }
+  .harbor-intro .harbor-preview { grid-area: 1 / 1 / 2 / 4; width: min(100%, 38dvh); }
+  .harbor-intro .harbor-copy {
+    grid-area: 1 / 4 / 2 / -1; display: grid; align-content: safe center; gap: 3px;
+    height: 100%; overflow-y: auto;
+  }
+  .harbor-brief .harbor-levels { grid-area: 2 / 1 / 3 / 8; justify-content: center; gap: 3px; }
+  .harbor-brief .harbor-actions { grid-area: 2 / 8 / 3 / -1; justify-content: center; gap: 4px; }
+  .harbor-brief .harbor-start { padding-inline: 9px; }
+  .harbor-intro .harbor-level { font-size: 14px; line-height: 1.2; }
+  .harbor-intro .harbor-level small { font-size: 11px; }
+  .marble-practice { max-width: min(100%, calc((var(--gc-height) - 215px) * 1.25)); }
+  .gc-focus.gc-landscape[data-status='idle'] .gc-adventure-menu .gc-level-path { margin-block: 3px; }
+  .gc-focus[data-game='block-builders'] .bb-brief h2 { font-size: 14px; }
+  .gc-focus[data-game='block-builders'] .bb-piece .bb-block { height: 30px; }
+  .gc-focus[data-game='block-builders'] .bb-workspace { --bb-stage-width: min(100%, 74dvh); }
+}
+
+@media (orientation: landscape) and (max-height: 550px) {
+  .gc-focus.gc-landscape[data-status='idle']:is([data-game='puzzle'], :has(.harbor-intro)) .gc-play-container > .ls-badge {
+    display: grid; grid-template-columns: auto auto auto; justify-content: center;
+    align-items: center; gap: 1px 5px; padding: 3px; line-height: 1.15;
+  }
+  .gc-focus.gc-landscape[data-status='idle'] .ls-badge svg { width: 24px; height: 24px; }
+  .gc-focus.gc-landscape[data-status='idle'] .ls-badge .ls-copy:last-child { grid-column: 1 / -1; text-align: center; }
+  .gc-focus.gc-landscape[data-status='idle'] .ls-badge small { display: inline; margin-inline-start: 4px; }
 }

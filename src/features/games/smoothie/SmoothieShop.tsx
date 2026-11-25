@@ -1,5 +1,6 @@
 'use client';
 
+import { GameFullscreenButton } from '../components/GameViewport';
 import { useCallback, useEffect, useState } from 'react';
 import { SmoothieFruit } from '@/components/icons/SmoothieFruit';
 import { ShopCoin } from '@/components/icons/ShopCoin';
@@ -170,7 +171,7 @@ export function SmoothieShop() {
   return <main className={styles.page}><div className={styles.frame}>
     <header className={styles.shopTop}><LocaleLink href="/games/vip#shop" className={styles.back}><Label text={vip.backMap} /></LocaleLink>
       <h1><Label text={vip.shop} /></h1>
-      <div className={styles.shopTools}><SoundToggle /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
+      <div className={styles.shopTools}><SoundToggle /><GameFullscreenButton /><div className={styles.wallet}><ShopCoin /><strong>{shop.coins}</strong><Label text={vip.till} /></div></div>
     </header>
     <Worktop key={shop.served} shop={shop} message={message} onMessage={setMessage} sound={sound} />
     {temporary && <p role="status"><Label text={vip.temporary} /></p>}
